@@ -1,0 +1,330 @@
+<section class="chapter" id="ch-11" data-num="11" data-stage="4">
+  <header class="ch-head">
+    <p class="eyebrow">第 11 章 · 第四區 制度</p>
+    <h2>稅：看懂它怎麼算，比背數字有用</h2>
+    <p class="lede">骨架幾十年不太變，數字每年公告，先學骨架。</p>
+    <div class="ch-meta">
+      <div class="meta-block"><h3>這章回答你的三個問題</h3>
+        <ul><li>「加薪跳級距會不會反而變窮？」</li><li>「股利要怎麼報？」</li><li>「海外所得要不要報？」</li></ul></div>
+      <div class="meta-block"><h3>讀完你做得到</h3>
+        <ul class="checks"><li>說出自己家的所得淨額落在哪一級</li><li>列出今年可能用得到的扣除額，以及要留的單據</li><li>說出投資會碰到哪幾種稅與費，各在哪一關被扣</li></ul></div>
+      <div class="meta-block"><h3>這章會用到前面的</h3>
+        <p>第 9 章留下的投資買賣紀錄、第 10 章勞退自提的三個面向。</p></div>
+      <p class="time"><span>🕐 約 20 分鐘</span><span>✍️ 需要：去年的綜合所得稅申報書或繳稅單、第 9 章的投資紀錄</span></p>
+    </div>
+  </header>
+
+  <h3>先記骨架，數字每年再查</h3>
+
+  <p>多數人想記住的是數字：免稅額多少、扣除額多少。這些數字每年公告，記了也會過期。真正幾十年不太變的是骨架。</p>
+
+  <p>骨架這樣走：全年所得總額先減掉免稅額，再減一般扣除額，再減特別扣除額。剩下的才是要拿去課稅的數字（<dfn id="def-所得淨額" data-term="所得淨額">所得淨額</dfn>）。就像結帳前先把折價券一張一張扣掉，最後才刷卡。這個比喻在「結帳金額當場就知道，所得稅要等到隔年五月才結算」不成立。</p>
+
+  <figure class="chart">
+    <svg viewBox="0 0 360 500" role="img" aria-labelledby="fig-11-1-title">
+      <title id="fig-11-1-title">示意・非承諾：綜合所得稅六個步驟，從所得總額減到應納稅額</title>
+      <text x="8" y="20" font-size="13" fill="var(--ink)">綜合所得稅怎麼一步一步算出來（示意・非承諾）</text>
+      <rect x="8" y="32" width="344" height="54" fill="var(--fill)" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="180" y="54" font-size="14" text-anchor="middle" fill="var(--ink)">全年所得總額</text>
+      <text x="180" y="75" font-size="12" text-anchor="middle" fill="var(--muted)">薪資、利息、股利、租金、執行業務……</text>
+      <line x1="180" y1="86" x2="180" y2="118" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+      <polygon points="174,110 186,110 180,118" fill="var(--line)"/>
+      <text x="192" y="106" font-size="12" fill="var(--muted)">減</text>
+      <rect x="8" y="118" width="344" height="44" fill="var(--fill)" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="180" y="145" font-size="14" text-anchor="middle" fill="var(--ink)">免稅額（每人一份，70 歲以上較高）</text>
+      <line x1="180" y1="162" x2="180" y2="194" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+      <polygon points="174,186 186,186 180,194" fill="var(--line)"/>
+      <text x="192" y="182" font-size="12" fill="var(--muted)">減</text>
+      <rect x="8" y="194" width="344" height="44" fill="var(--fill)" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="180" y="221" font-size="14" text-anchor="middle" fill="var(--ink)">一般扣除額（標準或列舉，擇高的用）</text>
+      <line x1="180" y1="238" x2="180" y2="270" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+      <polygon points="174,262 186,262 180,270" fill="var(--line)"/>
+      <text x="192" y="258" font-size="12" fill="var(--muted)">減</text>
+      <rect x="8" y="270" width="344" height="54" fill="var(--fill)" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="180" y="292" font-size="14" text-anchor="middle" fill="var(--ink)">特別扣除額</text>
+      <text x="180" y="313" font-size="12" text-anchor="middle" fill="var(--muted)">薪資、幼兒學前、長期照顧、房屋租金……</text>
+      <line x1="180" y1="324" x2="180" y2="356" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+      <polygon points="174,348 186,348 180,356" fill="var(--line)"/>
+      <text x="192" y="344" font-size="12" fill="var(--muted)">等於</text>
+      <rect x="8" y="356" width="344" height="44" fill="var(--teal)" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="180" y="383" font-size="14" text-anchor="middle" fill="var(--ink)">所得淨額</text>
+      <line x1="180" y1="400" x2="180" y2="432" stroke="var(--line)" stroke-width="1.5" fill="none"/>
+      <polygon points="174,424 186,424 180,432" fill="var(--line)"/>
+      <text x="192" y="420" font-size="12" fill="var(--muted)">套速算公式</text>
+      <rect x="8" y="432" width="344" height="62" fill="var(--fill)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="180" y="456" font-size="14" text-anchor="middle" fill="var(--ink)">所得淨額 × 稅率 − 累進差額</text>
+      <text x="180" y="480" font-size="14" text-anchor="middle" fill="var(--ink)">= 應納稅額</text>
+    </svg>
+    <figcaption>這張圖在說什麼：由上往下六格。第一格是全年所得總額，接著依序減掉免稅額、一般扣除額、特別扣除額，得到所得淨額。最後一格是所得淨額乘稅率再減累進差額，等於應納稅額。</figcaption>
+  </figure>
+
+  <p>數字為什麼每年不一樣？所得稅法定了機制：消費者物價指數比上次調整累計漲達 3% 才調。公告 114 年度金額時只漲 <span class="num">2.29%</span>，沒到門檻，整年沿用 113 年度的金額<sup class="cite"><a href="#src-11-1">1</a></sup>。115 年度達標，所以調了<sup class="cite"><a href="#src-11-3">3</a></sup>。</p>
+
+  <aside class="box fact"><p class="box-label">📌 事實</p>
+    <ul>
+      <li>會隨物價指數調整的只有六項：免稅額、標準扣除額、薪資與身心障礙特別扣除額、課稅級距、退職所得定額免稅金額（退休金領取時的免稅額度）<sup class="cite"><a href="#src-11-7">7</a></sup> <span class="badge">現行條文</span></li>
+      <li>其餘金額直接寫在所得稅法條文裡，不隨物價調整：幼兒學前第 1 名 <span class="num">15</span> 萬、第 2 名起 <span class="num">22.5</span> 萬；長期照顧 <span class="num">18</span> 萬<sup class="cite"><a href="#src-11-8">8</a></sup></li>
+      <li>114 年度每人基本生活費 <span class="num">21.3</span> 萬元，依納稅者權利保護法計算，作用是讓基本生活的費用不被課到稅。這一項申報系統會自動幫你比，不用自己算<sup class="cite"><a href="#src-11-9">9</a></sup> <span class="badge">114 年度</span></li>
+    </ul>
+  </aside>
+
+  <h3>加薪跳到下一級距，不會讓你變窮</h3>
+
+  <p>綜合所得稅是分段課稅（<dfn id="def-累進稅率" data-term="累進稅率">累進稅率</dfn>）：所得淨額切成幾段，每段用自己的稅率。越上面的那一段稅率越高。就像分段收費的停車場，前幾小時一個價，超過的時數才用比較貴的價。這個比喻在「停車超時有些場地整段重算，所得稅只有超過門檻的那一段變貴」不成立。</p>
+
+  <p>你落在的那一級的稅率叫<dfn id="def-邊際稅率" data-term="邊際稅率">邊際稅率</dfn>：再多賺一塊錢，那一塊錢會被課走的比例。它不是你整體被課走的比例，整體會低一些。</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>全年綜合所得淨額</th><th>稅率</th><th>累進差額</th></tr></thead>
+      <tbody>
+        <tr><td>59 萬元以下</td><td>5%</td><td>0</td></tr>
+        <tr><td>超過 59 萬至 133 萬元</td><td>12%</td><td>41,300</td></tr>
+        <tr><td>超過 133 萬至 266 萬元</td><td>20%</td><td>147,700</td></tr>
+        <tr><td>超過 266 萬至 498 萬元</td><td>30%</td><td>413,700</td></tr>
+        <tr><td>超過 498 萬元</td><td>40%</td><td>911,700</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>上表是 114 年度的速算公式，也就是你手上去年那份申報書用的那一版<sup class="cite"><a href="#src-11-1">1</a></sup> <span class="badge">114 年度</span>。四個門檻取自財政部一覽表的「調整前」欄<sup class="cite"><a href="#src-11-4">4</a></sup>，累進差額由本文用門檻回推<sup class="cite"><a href="#src-11-5">5</a></sup>。累進差額是速算用的修正數：整筆乘稅率會多算，減掉它就等於分段算。</p>
+
+  <details>
+    <summary>想看細節再打開：明年 5 月要用的 115 年度速算公式</summary>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>全年綜合所得淨額</th><th>稅率</th><th>累進差額</th></tr></thead>
+        <tbody>
+          <tr><td>61 萬元以下</td><td>5%</td><td>0</td></tr>
+          <tr><td>超過 61 萬至 138 萬元</td><td>12%</td><td>42,700</td></tr>
+          <tr><td>超過 138 萬至 277 萬元</td><td>20%</td><td>153,100</td></tr>
+          <tr><td>超過 277 萬至 519 萬元</td><td>30%</td><td>430,100</td></tr>
+          <tr><td>超過 519 萬元</td><td>40%</td><td>949,100</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>這一版 2027 年 5 月申報時才用<sup class="cite"><a href="#src-11-4">4</a></sup> <span class="badge">115 年度</span>。報稅前請以財政部當年度公告為準。</p>
+  </details>
+
+  <aside class="box formula"><p class="box-label">🧮 算給你看</p>
+    <pre>115 年度，所得淨額 600,000 元
+應納稅額 = 600,000 × 5% = 30,000 元
+
+同一年，所得淨額 620,000 元（多賺 2 萬）
+應納稅額 = 620,000 × 12% − 42,700 = 31,700 元
+
+多繳的稅 = 31,700 − 30,000 = 1,700 元
+拆開看：前 10,000 元課 5% = 500
+        後 10,000 元課 12% = 1,200
+多賺 20,000 元，實際留下 18,300 元</pre>
+    <p class="how">代入示範：把 600,000 換成你的所得淨額，級距與累進差額查當年度公式。</p>
+    <p class="caveat">這只是算術，不是預測。限制：只算綜所稅，沒算健保補充保費，也沒算勞健保費隨薪資調整的部分。級距與累進差額每年公告，換年度就不同<sup class="cite"><a href="#src-11-6">6</a></sup>。</p>
+  </aside>
+
+  <aside class="box myth"><p class="box-label">🔄 誤解</p>
+    <dl>
+      <dt>很多人以為</dt><dd>加薪跳到下一個級距，全部所得都用新稅率課，多賺的不夠補稅，反而變窮。</dd>
+      <dt>實際上</dt><dd>只有超過門檻的那一段用比較高的稅率。以 115 年度為例，多賺的 2 萬元還留下 18,300 元。</dd>
+      <dt>為什麼會這樣誤會</dt><dd>表格上寫的是「稅率 12%」，看起來像整筆乘 12%。有些補助的資格確實是「超過就沒有」的斷崖，那是另一套規則。</dd>
+    </dl>
+  </aside>
+
+  <h3>家裡可能用得到的扣除額，漏了不會有人通知你</h3>
+
+  <p>申報系統會幫你算，不會幫你想起你漏了什麼。五月之前先自己對一次。</p>
+
+  <p>先是三個家庭層面的選擇。第一，一般扣除額是標準與列舉擇一，哪個高用哪個。</p>
+
+  <p>標準扣除額是政府直接給的固定金額，不用單據。列舉是把捐款、保費、醫藥費、房貸利息一筆筆列出來，每筆要單據。免稅額則是每個人一份，跟花多少錢無關。</p>
+
+  <p>第二，夫妻有三種計稅方式：全部合併、薪資分開、各類所得分開。申報軟體通常會把幾種都算給你挑，沒有就照本章骨架各算一次<sup class="cite"><a href="#src-11-10">10</a></sup>。</p>
+
+  <p>第三，列報扶養有條件。已成年子女要在校就學、身心障礙或無謀生能力其中一項，並附證明<sup class="cite"><a href="#src-11-11">11</a></sup>。</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>項目</th><th>114 年度（2026 年 5 月申報）</th><th>115 年度（2027 年 5 月申報）</th></tr></thead>
+      <tbody>
+        <tr><td>免稅額（每人）</td><td>9.7 萬</td><td>10.1 萬</td></tr>
+        <tr><td>免稅額（70 歲以上）</td><td>14.55 萬</td><td>15.15 萬</td></tr>
+        <tr><td>標準扣除額（單身）</td><td>13.1 萬</td><td>13.6 萬</td></tr>
+        <tr><td>標準扣除額（有配偶）</td><td>26.2 萬</td><td>27.2 萬</td></tr>
+        <tr><td>薪資所得特別扣除額</td><td>21.8 萬</td><td>22.7 萬</td></tr>
+        <tr><td>身心障礙特別扣除額</td><td>21.8 萬</td><td>22.7 萬</td></tr>
+        <tr><td>幼兒學前（第 1 名／第 2 名起）</td><td>15 萬／22.5 萬</td><td>15 萬／22.5 萬</td></tr>
+        <tr><td>長期照顧特別扣除額</td><td>18 萬</td><td>18 萬</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>左半是 114 年度<sup class="cite"><a href="#src-11-2">2</a></sup>，右半是 115 年度<sup class="cite"><a href="#src-11-3">3</a></sup>。後兩列兩年相同，因為寫在條文裡、不隨物價調整<sup class="cite"><a href="#src-11-8">8</a></sup>。</p>
+
+  <p>兩個跟住有關的項目容易搞混。購屋借款利息是列舉扣除。儲蓄投資特別扣除額是存款利息 27 萬元以內不課稅的那一項，申報時要先扣掉它，用餘額報。上限每戶每年 30 萬元、以一屋為限，房子要自住並辦妥戶籍登記<sup class="cite"><a href="#src-11-12">12</a></sup>。</p>
+
+  <p>房屋租金支出改成特別扣除額，上限 18 萬元<sup class="cite"><a href="#src-11-7">7</a></sup>。同一年報了購屋借款利息就不能再報房租，兩個只能選一個<sup class="cite"><a href="#src-11-7">7</a></sup>。它另有門檻：適用稅率 20% 以上、或股利分開計稅的家庭不適用<sup class="cite"><a href="#src-11-13">13</a></sup>。</p>
+
+  <p>常漏掉的還有醫藥及生育費。付給公立醫院或健保特約院所的不設上限，但理賠過的金額要自己扣掉<sup class="cite"><a href="#src-11-14">14</a></sup>。人身保險費每人每年上限 2.4 萬元；健保費含補充保險費不受此限，可全額扣除<sup class="cite"><a href="#src-11-14">14</a></sup>。</p>
+
+  <aside class="box action"><p class="box-label">✍️ 動手</p>
+    <p>對照今年家裡發生的事勾一遍，單據放進同一個資料夾。</p>
+    <ul class="checks">
+      <li>家裡有 6 歲以下的小孩（幼兒學前扣除額，出生年要對）</li>
+      <li>有人符合長期照顧失能資格（要衛福部規定的證明）</li>
+      <li>有大專以上在學的子女（教育學費，要繳費收據）</li>
+      <li>今年住院、生產、看牙自費（醫療收據，扣掉理賠）</li>
+      <li>有自住房貸（要年度繳息證明，戶籍要在該址）</li>
+      <li>租屋自住（要租約與付款紀錄）</li>
+      <li>家裡有身心障礙證明的人（要證明影本）</li>
+      <li>有捐款、保費收據（列舉扣除才用得到）</li>
+    </ul>
+  </aside>
+
+  <h3>投資會碰到的稅與費，各在哪一關</h3>
+
+  <p>第 9 章那份買賣紀錄這裡要用到。投資碰到的不是一種稅，被扣的時間點也不同。</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>項目</th><th>怎麼課</th><th>法源與年度</th></tr></thead>
+      <tbody>
+        <tr><td>國內股利</td><td>兩種擇一：併入綜所稅並按股利 8.5% 計算可抵減稅額（每戶上限 8 萬元），或按 28% 分開計稅</td><td>所得稅法第 15 條第 4、5 項<sup class="cite"><a href="#src-11-15">15</a></sup></td></tr>
+        <tr><td>賣出時的證券交易稅</td><td>股票 0.3%、指數型工具這類受益憑證 0.1%，成交當下就扣；現股當沖減半為 0.15%，至 116 年 12 月 31 日止</td><td>證券交易稅條例第 2 條；當沖減半為第 2 條之 2<sup class="cite"><a href="#src-11-17">17</a></sup> <span class="badge">116 年底到期</span></td></tr>
+        <tr><td>追蹤債券的指數型工具</td><td>證券交易稅暫停徵至 115 年 12 月 31 日止，槓桿型與反向型不適用</td><td>同條例第 2 條之 1<sup class="cite"><a href="#src-11-18">18</a></sup> <span class="badge">115 年底到期</span></td></tr>
+        <tr><td>買賣賺到的價差</td><td>證券交易所得停止課徵所得稅，虧損也不能減除</td><td>所得稅法第 4 條之 1<sup class="cite"><a href="#src-11-19">19</a></sup></td></tr>
+        <tr><td>海外所得</td><td>同一申報戶全年合計達 100 萬元，要全數計入基本所得額</td><td>所得基本稅額條例<sup class="cite"><a href="#src-11-20">20</a></sup></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>追蹤債券那一列的到期日就在今年底，當沖減半到明年底，之後看新的公告。證券交易所得停徵寫在所得稅法第 4 條之 1，自民國 79 年起適用。條文改了就會變，這三件事都不是永久制度。</p>
+
+  <aside class="box tradeoff"><p class="box-label">⚖️ 取捨</p>
+    <div class="cols">
+      <div class="col"><h4>做法 A：股利併入綜合所得總額，按 8.5% 抵減稅額</h4>
+        <dl><dt>好處</dt><dd>抵減是直接從應納稅額扣掉的。股利不多、其他所得級距低的家庭，抵減可能大於這筆股利被課到的稅。</dd>
+          <dt>代價</dt><dd>股利會墊高所得總額，可能把所得淨額推進下一級。抵減有每戶 8 萬元的天花板，股利約 94 萬元以上就封頂<sup class="cite"><a href="#src-11-16">16</a></sup>。</dd>
+          <dt>適合誰</dt><dd>股利金額不大、其他所得也不高的家庭。</dd>
+          <dt>不適合誰</dt><dd>邊際稅率已經在最高一級、股利金額又大的人。</dd></dl></div>
+      <div class="col"><h4>做法 B：股利不計入綜合所得總額，按 28% 分開計稅</h4>
+        <dl><dt>好處</dt><dd>稅率固定 28%，不受其他所得高低影響，也不會把所得淨額推進更高級距。</dd>
+          <dt>代價</dt><dd>不論股利多小都是 28%。邊際稅率在 20% 以下的家庭通常比較吃虧，選這個方式也不適用房屋租金支出特別扣除額。</dd>
+          <dt>適合誰</dt><dd>邊際稅率高、股利佔家庭所得比重大的人。</dd>
+          <dt>不適合誰</dt><dd>所得淨額落在前兩級、股利只有幾萬元的人。</dd></dl></div>
+    </div>
+    <p class="bottom">這一題沒有標準答案，只有你知道自己這一戶今年的股利與其他所得有多少。還有要不要用房屋租金扣除額。兩種算法的高下，每年都可能翻過來。</p>
+  </aside>
+
+  <p>作者 2025-04 的紀錄：他寫過，如果另一半的所得級距低，會配息的部位可以放在那一位名下。級距高的那一位，則偏向不配息或海外的標的<sup class="cite"><a href="#src-11-25">25</a></sup>。這是家庭層面還能動的一格，但要選「各類所得分開計稅」才有差<sup class="cite"><a href="#src-11-10">10</a></sup>。代價是名下的錢在法律上就是那個人的，夫妻財產制與贈與在第 13 章。</p>
+
+  <p>作者 2022-09 的紀錄：他也寫過，同一類會配息的部位可以分散在不同家人名下。他的理由是補充保費按每一次給付計收，分開之後每一次比較不容易碰到起扣門檻<sup class="cite"><a href="#src-11-25">25</a></sup>。代價是帳戶與紀錄都變多，級距或稅制一變就要重看。門檻請以健保署當年度公告為準，補充保費下一節會講。</p>
+
+  <p>回到第三個問題：海外所得要不要報。它走另一套平行計算（<dfn id="def-最低稅負制" data-term="最低稅負制">最低稅負制</dfn>）：把綜所稅沒課到的幾種所得加回來，另外算一次稅。</p>
+
+  <p>海外所得有兩道門檻。第一道：全家一年的海外所得合計不到 100 萬元，連算都不用算。第二道：超過 100 萬要算進來，但算進來不等於要繳稅。這套平行計算的總額（基本所得額）不到 750 萬元，一樣不必多繳<sup class="cite"><a href="#src-11-20">20</a></sup>。</p>
+
+  <p>多數家庭在第一道就停了。但「要不要報」跟「會不會被知道」是兩件事。</p>
+
+  <p>台灣目前與澳洲、日本、英國進行金融帳戶資訊自動交換，每年 9 月一次。財政部說明，這些資訊供評估逃漏稅風險與選案參考<sup class="cite"><a href="#src-11-21">21</a></sup>。名單會不會擴大要看新的協定，本文不拿「查不到」當理由。</p>
+
+  <h3>補充保費不是稅，一樣從你的錢裡扣</h3>
+
+  <p>有一筆錢常讓人拿到股利或租金時嚇一跳，它不在所得稅裡。它是健保的第二筆保費（<dfn id="def-補充保費" data-term="補充保費">補充保費</dfn>）：在一般保費之外，對六類所得另外收的錢。就像社區在管理費之外，用到特定設施再收一次使用費。這個比喻在「使用費留在自己社區，補充保費進的是全民健保的大池子」不成立。</p>
+
+  <aside class="box fact"><p class="box-label">📌 事實</p>
+    <ul>
+      <li>補充保險費費率 <span class="num">2.11%</span>，自 110 年 1 月 1 日起由 1.91% 調升<sup class="cite"><a href="#src-11-22">22</a></sup> <span class="badge">2026-09 查</span></li>
+      <li>法源是全民健康保險法，不是所得稅法。它不進綜所稅的算式，在給付當下就被扣走</li>
+      <li>六類所得是股利、利息、租金、執行業務收入、非投保單位給的薪資（兼職），以及獎金<sup class="cite"><a href="#src-11-24">24</a></sup>。獎金算的是全年累計，超過當月投保金額 4 倍的那一部分才收</li>
+      <li>各類的起扣門檻由健保署另訂，本文沒有取得官方逐字條文，請以健保署當年度公告為準</li>
+      <li>被扣掉的補充保險費，報稅時併入健保費全額列舉扣除，不受 2.4 萬元上限限制<sup class="cite"><a href="#src-11-14">14</a></sup></li>
+    </ul>
+  </aside>
+
+  <h3>節稅、逃漏，和「為了省稅買了不需要的東西」</h3>
+
+  <p>界線很清楚：用制度給你的選擇是節稅，做假是逃漏。麻煩的是中間那一塊——為了扣除額買一個本來不需要的東西。</p>
+
+  <p>最常見的是保單。人身保險費列舉扣除每人每年上限 2.4 萬元<sup class="cite"><a href="#src-11-14">14</a></sup>，那是扣除的天花板，不是回饋。扣 2.4 萬少繳的稅是 2.4 萬乘你的邊際稅率，稅率 5% 的家庭是 1,200 元。</p>
+
+  <p>順序反過來，常常就是買了一個本來不需要的東西。先看這張保單值不值得買（第 6 章那幾個問題），再看稅務效果。</p>
+
+  <p>勞退自提也要分兩層看。自提的金額不計入提繳年度的薪資所得課稅<sup class="cite"><a href="#src-11-23">23</a></sup>，省下的稅取決於你的邊際稅率。但那是遞延不是免掉，錢要到請領條件才拿得到，第 10 章已攤開三個面向。</p>
+
+  <aside class="box warning"><p class="box-label">⚠️ 注意</p>
+    <p>兩件事。第一，這章金額分標 114 與 115 年度，每年由財政部公告，看到金額先確認年度。</p>
+    <p>第二，有人跟你說「這樣做完全不用繳稅、也沒有風險」時，先問三句話。法源是哪一條、能不能寫成書面、不談稅的話你還會不會買。稅是結果，不是買東西的理由。</p>
+  </aside>
+
+  <details>
+    <summary>想看細節再打開：不是領薪水的人哪裡不一樣</summary>
+    <p>接案與自營算執行業務所得，可減成本與必要費用，單據要留，沒有薪資所得特別扣除額。軍公教薪資算法相同，退休給付另有免稅額度（第 10 章）。</p>
+  </details>
+
+  <p>有幾種情況超出通用文件能回答的範圍，找會計師或國稅局免費諮詢：</p>
+
+  <ul>
+    <li>今年有房地產買賣、贈與或繼承</li>
+    <li>有海外帳戶、境外公司，或長期在國外工作</li>
+    <li>自己開公司，或接案收入佔大部分</li>
+    <li>收到國稅局的補稅通知或查核函</li>
+  </ul>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>什麼時候</th><th>會遇到什麼</th></tr></thead>
+      <tbody>
+        <tr><td>1 至 2 月</td><td>雇主與金融機構陸續寄出扣繳憑單、年度繳息證明</td></tr>
+        <tr><td>5 月</td><td>綜所稅結算申報；可下載所得與扣除額資料</td></tr>
+        <tr><td>11 至 12 月</td><td>財政部公告下一年度的免稅額、扣除額與級距</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="ch-foot">
+    <div class="gain"><h3>你手上多了什麼</h3>
+      <ul>
+        <li>自己家的所得淨額落在哪一級，以及對應的邊際稅率</li>
+        <li>今年可能用得到的扣除額清單，與每一項要留的單據</li>
+        <li>投資稅費一覽：哪一種稅在哪一關被扣、哪幾項會到期</li>
+      </ul></div>
+    <div class="today"><h3>今天的一件事</h3>
+      <p class="do">翻出去年的申報書或繳稅單，找到「綜合所得淨額」那一欄。沒有紙本就找信箱或 App 裡的「申報完成通知」、「稅額試算通知書」，上面也有。都找不到就寫「待查」，記下要用憑證登入或去國稅局櫃檯查。對照正文那張 114 年度的表，寫下自己的級距。</p>
+      <p class="crit">完成判準：紙上或手機有一個金額（所得淨額）、一個百分比（稅率），並註明年度。去年沒報稅的人寫「0，5%」也算完成。</p>
+      <p class="est">🕐 約 10 分鐘 · 手機可完成</p></div>
+    <div class="later"><h3>還沒解決、後面會處理</h3>
+      <ul>
+        <li>遺產稅與贈與稅、受益人怎麼安排 → 第 14 章</li>
+        <li>每年五月要重查哪些數字、放進年度行事曆 → 第 16 章</li>
+      </ul></div>
+    <div class="sources-wrap"><h3>本章來源</h3>
+      <ol class="sources">
+        <li id="src-11-1"><span class="lvl official" aria-label="官方">●</span> 財政部賦稅署 · 114 年度綜合所得稅免稅額等免予調整公告 · 公告時累計漲幅 2.29%，未達 3% 調整標準，免稅額、標準扣除額、薪資與身心障礙特別扣除額、課稅級距均維持 113 年度金額 · 114 年度（公告日 113-11-28） · <a href="https://www.dot.gov.tw/singlehtml/ch26?cntId=f55dca4144f54f7195a5ddfce4c08fbe" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-2"><span class="lvl official" aria-label="官方">●</span> 財政部 · 113 年度綜合所得稅免稅額、扣除額調整公告 · 免稅額 9.7 萬元（70 歲以上 14.55 萬元）、標準扣除額單身 13.1 萬元／有配偶 26.2 萬元、薪資與身心障礙特別扣除額各 21.8 萬元 · 113 年度（114 年度沿用同一組金額） · <a href="https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=c6ec0e0896864ad79190add7ba232489" rel="noopener">網址</a> · 查證 2026-09-07（轉引，待官方原檔核對）</li>
+        <li id="src-11-3"><span class="lvl official" aria-label="官方">●</span> 財政部 · 115 年度綜合所得稅免稅額、扣除額及課稅級距調整公告 · 免稅額 10.1 萬元（70 歲以上 15.15 萬元）、標準扣除額單身 13.6 萬元／有配偶 27.2 萬元、薪資與身心障礙特別扣除額各 22.7 萬元 · 115 年度（公告日 2025-11-27，116 年 5 月申報適用） · <a href="https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=34b463dc8f1b49f29d440d92a6fd5139" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-4"><span class="lvl official" aria-label="官方">●</span> 財政部 · 115 年度綜合所得稅速算公式（公告附件 PDF） · 級距門檻 61／138／277／519 萬元，稅率 5／12／20／30／40%，累進差額 0／42,700／153,100／430,100／949,100 元 · 115 年度（114-11-27 製表） · <a href="https://www.mof.gov.tw/download/ae68ed6e8bfd4b66b0e7bc0ab515bdd0" rel="noopener">網址</a> · 同公告附件「115 年度綜合所得稅及所得基本稅額相關免稅額、扣除額及課稅級距金額一覽表」調整前欄列 114 年度門檻 59／133／266／498 萬元 <a href="https://www.mof.gov.tw/download/bb34472701e4443c910788e792dae85c" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-5"><span class="lvl inference" aria-label="本文推論">○</span> 本文推論 · 114 年度累進差額回推 · 以官方一覽表調整前門檻 590,000／1,330,000／2,660,000／4,980,000 元套兩式相等：590,000×12%−x＝590,000×5% → x＝41,300；同法得 147,700、413,700、911,700 · 這是本文的整理，不是官方說法</li>
+        <li id="src-11-6"><span class="lvl inference" aria-label="本文推論">○</span> 本文自算 · 跨級距示範（115 年度） · 600,000×5%＝30,000；620,000×12%−42,700＝31,700；31,700−30,000＝1,700；10,000×5%＋10,000×12%＝1,700 · 這是本文的整理，不是官方說法</li>
+        <li id="src-11-7"><span class="lvl official" aria-label="官方">●</span> 全國法規資料庫 · 所得稅法第 5 條、第 5 條之 1、第 17 條 · 隨物價指數調整的僅免稅額、標準扣除額、薪資與身心障礙特別扣除額、課稅級距、退職所得定額免稅金額六項；購屋借款利息 30 萬元、房屋租金 18 萬元、教育學費 2.5 萬元、人身保險費 2.4 萬元、儲蓄投資 27 萬元均為條文明定金額 · 現行條文 · 第 5 條 <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340003&flno=5" rel="noopener">網址</a> · 第 17 條 <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340003&flno=17" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-8"><span class="lvl official" aria-label="官方">●</span> 財政部稅務入口網 · 節稅秘笈：幼兒學前、長期照顧、儲蓄投資特別扣除額 · 幼兒學前第 1 名每年 15 萬元、第 2 名以上每人每年 22.5 萬元；長期照顧每人每年 18 萬元；此二項不在物價指數調整清單內，115 年度沿用 · 114 年度（金額為條文明定） · <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-secret/ZJ1Zn0P" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-9"><span class="lvl official" aria-label="官方">●</span> 財政部 · 114 年度每人基本生活所需之費用公告 · 金額 21.3 萬元，依納稅者權利保護法第 4 條、參照 113 年每人可支配所得中位數 60% 計算，115 年 5 月申報時適用 · 114 年度（公告日 2025-11-27） · <a href="https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=e14d053486394dc6b28c88aba2912f83" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-10"><span class="lvl official" aria-label="官方">●</span> 財政部稅務入口網 · 官方問答：夫妻所得計稅方式 · 三種方式擇優——全部合併計算、就本人或配偶薪資所得分開計算、就各類所得分開計算 · 所得稅法第 15 條，現行 · <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/exemption-scope/rule/7l1bzV7" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-11"><span class="lvl official" aria-label="官方">●</span> 財政部稅務入口網 · 官方問答：列報扶養子女的條件 · 未成年子女可直接列報；已成年子女須符合在校就學、身心障礙或無謀生能力之一，並檢附在校就學證明或身心障礙證明、醫師診斷證明 · 所得稅法第 17 條第 1 項第 1 款第 2 目，現行 · <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/exemption-scope/dependent/832KVoa" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-12"><span class="lvl official" aria-label="官方">●</span> 財政部稅務入口網 · 官方問答：購屋借款利息列舉扣除 · 以當年度實際利息減除儲蓄投資特別扣除額後的餘額申報，上限 30 萬元、每戶以一屋為限，房屋須登記於申報戶名下、已辦竣戶籍登記且自住未出租 · 現行 · <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/exemption-scope/deduction/313OKzw" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-13"><span class="lvl official" aria-label="官方">●</span> 財政部賦稅署 · 房屋租金支出特別扣除額專區 · 已由列舉扣除改列特別扣除額、上限 18 萬元；適用稅率達 20% 以上、股利按 28% 分開計稅或基本所得額超過 750 萬元者不適用 · 所得稅法第 17 條、財政部 113-12-03 台財稅字第 11304656750 號令 · <a href="https://www.dot.gov.tw/singlehtml/ch27?cntId=9d85843fbafe4925a379f5639d5785ef" rel="noopener">網址</a> · 查證 2026-09-07（排富規定為轉引，待官方原檔核對）</li>
+        <li id="src-11-14"><span class="lvl official" aria-label="官方">●</span> 財政部稅務入口網 · 官方問答：醫藥及生育費、人身保險費列舉扣除 · 醫藥及生育費須付給公立醫院或健保特約醫院診所，不設金額上限但須扣除已受保險給付部分；人身保險費每人每年上限 24,000 元，全民健康保險費含補充保險費不受此限、得全數扣除 · 現行 · <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/exemption-scope/deduction/KwQ3Y1j" rel="noopener">醫藥及生育費</a> · <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/exemption-scope/deduction/DJM6N9a" rel="noopener">人身保險費</a> · 查證 2026-09-07</li>
+        <li id="src-11-15"><span class="lvl official" aria-label="官方">●</span> 財政部稅務入口網 · 官方問答：股利所得課稅方式 · 併入綜合所得總額並按全戶股利 8.5% 計算可抵減稅額（每戶上限 8 萬元），或全戶股利按 28% 單一稅率分開計稅 · 所得稅法第 15 條第 4 項（8.5% 抵減）及第 5 項（28% 分開計稅），現行 · <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/YmDoYM2" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-16"><span class="lvl inference" aria-label="本文推論">○</span> 本文換算 · 股利抵減封頂點 · 80,000 ÷ 8.5% ≈ 941,176 元，即全戶股利超過約 94 萬元後，8.5% 抵減額即達每戶 8 萬元上限 · 這是本文的整理，不是官方說法</li>
+        <li id="src-11-17"><span class="lvl official" aria-label="官方">●</span> 全國法規資料庫 · 證券交易稅條例第 2 條、第 2 條之 2 · 股票課千分之三、公司債及其他經政府核准之有價證券課千分之一；現股當沖依第 2 條之 2 課千分之一點五，自 106 年 4 月 28 日起至 116 年 12 月 31 日止 · 現行條文 · 第 2 條 <a href="https://law-out.mof.gov.tw/LawContent.aspx?id=FL006079" rel="noopener">網址</a> · 第 2 條之 2 <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340078&flno=2-2" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-18"><span class="lvl official" aria-label="官方">●</span> 全國法規資料庫 · 證券交易稅條例第 2 條之 1 · 債券為主要投資標的之上市櫃指數股票型基金受益憑證，自 106 年 1 月 1 日至 115 年 12 月 31 日止暫停徵證券交易稅，槓桿型及反向型不適用 · 現行條文（至 115 年底） · <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340078&flno=2-1" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-19"><span class="lvl official" aria-label="官方">●</span> 全國法規資料庫 · 所得稅法第 4 條之 1 · 證券交易所得停止課徵所得稅，證券交易損失亦不得自所得額中減除；條文明定自 79 年 1 月 1 日起適用 · 現行條文 · <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340003&flno=4-1" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-20"><span class="lvl official" aria-label="官方">●</span> 財政部臺北國稅局 · 個人海外所得與所得基本稅額（最低稅負制）說明 · 一申報戶全年海外所得未達 100 萬元免予計入、達 100 萬元應全數計入基本所得額；基本稅額＝（基本所得額－750 萬元）×20%，未達 750 萬元者無庸計算及申報 · 現行 · <a href="https://www.ntbt.gov.tw/multiplehtml/d8a7d1c8487443ce94ff0fc798d176c0" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-21"><span class="lvl official" aria-label="官方">●</span> 財政部 · 114 年度 CRS 申報資料統計新聞稿 · 台灣以雙邊主管機關協定方式，目前僅與澳洲、日本、英國進行稅務用途金融帳戶資訊自動交換，交換作業於每年 9 月進行；交換取得之資訊供稅捐稽徵機關評估逃漏稅風險及選案參考 · 114 年度（2026-07-30 發布） · <a href="https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=ecaef384e078422fac5d1f7a87ac013b" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-22"><span class="lvl official" aria-label="官方">●</span> 衛生福利部 · 全民健康保險補充保險費費率 · 補充保險費費率 2.11%，自 110 年 1 月 1 日起由 1.91% 調升 · 自 110-01-01 起適用 · <a href="https://www.mohw.gov.tw/cp-16-57420-1.html" rel="noopener">網址</a> · 查證 2026-09-07（轉引，待官方原檔核對；各類所得起扣門檻本文未取得官方逐字條文）</li>
+        <li id="src-11-23"><span class="lvl official" aria-label="官方">●</span> 勞動部 · 勞工自願提繳退休金之課稅規定 · 勞工在每月工資 6% 範圍內自願提繳的退休金，不計入提繳年度薪資所得、執行業務收入課稅 · 勞工退休金條例第 14 條，現行 · <a href="https://www.mol.gov.tw/1607/1632/1640/58562/post" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-24"><span class="lvl official" aria-label="官方">●</span> 全國法規資料庫 · 全民健康保險法第 31 條 · 補充保險費計收對象六類：全年累計逾當月投保金額四倍部分之獎金、非所屬投保單位給付之薪資所得、執行業務收入、股利所得、利息所得、租金收入 · 現行條文 · <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=L0060001&flno=31" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-11-25"><span class="lvl inference" aria-label="本文推論">○</span> 作者粉專貼文 · 2025-04-28、2022-09-20 · 2025-04 寫「如果另一半的所得級距為 5%，有配息的部位可以放在另一半的名下」、高所得者盡量選擇海外所得或不配息；2022-09 寫想避免健保補充保費可以分散在不同標的以及不同家庭成員身上 · 網址 <a href="https://www.facebook.com/profile.php?id=100084000897269" rel="noopener">https://www.facebook.com/profile.php?id=100084000897269</a> · 查證 2026-09-07（這是作者一個人的做法，不是研究結論）</li>
+      </ol>
+    </div>
+    <p class="foot-note">這一章是一般說明，不是投資、稅務或法律建議；數字有查證日期，會過期。</p>
+  </footer>
+</section>

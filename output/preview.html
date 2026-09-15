@@ -1,0 +1,1316 @@
+<title>家庭理財白話手冊</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 家庭理財白話手冊 — 外殼樣式
+   顏色只寫在下面三個主題區塊，其餘一律用 var()。
+   順序固定：:root（淺色完整定義）→ @media dark 內 :root:not([data-theme="light"]) → :root[data-theme="dark"]。
+   三者特異度相同，靠來源順序決勝，所以這三塊必須留在檔案最前面且不得改變順序。 */
+
+/* ---------- 主題一：淺色（完整定義） ---------- */
+:root {
+  --paper: #F4F6F8;
+  --surface: #FFFFFF;
+  --ink: #1B2733;
+  --muted: #5C6B78;
+  --line: #CBD3DA;
+  --fill: #E8EDF1;
+  --accent: #B33A2E;
+  --accent-soft: #F6E4E1;
+  --teal: #1E7B6C;
+  --teal-soft: #DDEFEA;
+  --amber: #9A6B12;
+  --amber-soft: #F5EBD3;
+  color-scheme: light;
+}
+
+/* ---------- 主題二：系統深色（除非使用者釘成淺色） ----------
+   加上 screen 是為了讓列印永遠落回淺色，而不必在 @media print 裡再寫一次顏色。 */
+@media screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121820;
+    --surface: #1A222B;
+    --ink: #E6EAEE;
+    --muted: #9AA7B2;
+    --line: #33404B;
+    --fill: #222C36;
+    --accent: #E2685A;
+    --accent-soft: #3A2320;
+    --teal: #4FB8A5;
+    --teal-soft: #173129;
+    --amber: #D9A441;
+    --amber-soft: #3A2E12;
+    color-scheme: dark;
+  }
+}
+
+/* ---------- 主題三：手動釘成深色（同樣只在螢幕上生效） ---------- */
+@media screen {
+  :root[data-theme="dark"] {
+    --paper: #121820;
+    --surface: #1A222B;
+    --ink: #E6EAEE;
+    --muted: #9AA7B2;
+    --line: #33404B;
+    --fill: #222C36;
+    --accent: #E2685A;
+    --accent-soft: #3A2320;
+    --teal: #4FB8A5;
+    --teal-soft: #173129;
+    --amber: #D9A441;
+    --amber-soft: #3A2E12;
+    color-scheme: dark;
+  }
+}
+
+/* ---------- 字型變數（非顏色，可放這裡） ---------- */
+:root {
+  --serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  --nav-w: 260px;
+  --topbar-h: 52px;
+  --measure: 42rem;
+}
+
+/* ---------- 基礎 ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.8;
+  font-weight: 400;
+  overflow-x: hidden;
+  padding-top: var(--topbar-h);
+}
+
+p { margin: 0 0 1.1em; }
+ul, ol { margin: 0 0 1.1em; padding-left: 1.4em; }
+li { margin: 0 0 0.35em; }
+strong { font-weight: 700; }
+
+a { color: var(--teal); text-decoration: underline; text-underline-offset: 2px; }
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+h2, h3, h4 { line-height: 1.4; }
+
+.num {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.badge {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--amber);
+  background: var(--amber-soft);
+  border-radius: 3px;
+  padding: 0.05em 0.4em;
+  white-space: nowrap;
+}
+
+sup.cite { line-height: 0; }
+sup.cite a {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--teal);
+  text-decoration: none;
+}
+
+/* ---------- 版面骨架 ---------- */
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 1rem 5rem;
+}
+
+/* 頂端固定列（<1024px） */
+.topbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--topbar-h);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.75rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar .book-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar .where {
+  flex: 1;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.topbar .toc-btn {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: var(--fill);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.3em 0.7em;
+  cursor: pointer;
+}
+
+/* 導覽：手機是抽屜、桌機是固定側欄（同一份 DOM） */
+.sitenav {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: min(320px, 86vw);
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+  padding: 1rem 1rem 3rem;
+  transform: translateX(-102%);
+  transition: transform 0.22s ease;
+  visibility: hidden;
+}
+
+.sitenav.is-open { transform: translateX(0); visibility: visible; }
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: var(--ink);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s ease;
+}
+.scrim.is-open { opacity: 0.4; visibility: visible; }
+
+.sitenav .nav-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.sitenav .nav-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+}
+.sitenav .nav-close {
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: var(--fill);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.2em 0.6em;
+  cursor: pointer;
+}
+
+.sitenav .nav-stage {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 1.1rem 0 0.3rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--line);
+}
+.sitenav .nav-stage:first-of-type { border-top: 0; padding-top: 0; margin-top: 0.2rem; }
+
+.sitenav ul { list-style: none; margin: 0; padding: 0; }
+.sitenav li { margin: 0; }
+
+.nav-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+.nav-item a {
+  flex: 1;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.nav-item a:hover { text-decoration: underline; }
+.nav-item .nav-num {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  min-width: 1.6em;
+}
+.nav-item.is-current { border-left: 3px solid var(--accent); padding-left: 0.5rem; margin-left: -0.75rem; }
+.nav-item.is-current a { color: var(--accent); font-weight: 700; }
+
+.nav-done { flex: none; margin: 0.35rem 0 0; }
+.nav-done input { accent-color: var(--teal); width: 1rem; height: 1rem; }
+
+/* ≥1024px：側欄固定，頂端列收起 */
+@media (min-width: 1024px) {
+  body { padding-top: 0; padding-left: var(--nav-w); }
+  .topbar { display: none; }
+  .scrim { display: none; }
+  .sitenav {
+    width: var(--nav-w);
+    transform: none;
+    visibility: visible;
+    transition: none;
+    padding-top: 1.5rem;
+  }
+  .sitenav .nav-close { display: none; }
+}
+
+/* ---------- 進度條（每章章首之前） ---------- */
+.progress {
+  display: flex;
+  gap: 4px;
+  margin: 2.5rem 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+.progress .seg { flex: 1; min-width: 0; }
+.progress .bar {
+  display: block;
+  height: 5px;
+  border-radius: 2px;
+  background: var(--line);
+}
+.progress .seg.is-done .bar { background: var(--accent); }
+.progress .seg.is-current .bar { height: 8px; margin-top: -3px; background: var(--accent); }
+.progress .seg-label {
+  display: block;
+  font-size: 0.68rem;
+  line-height: 1.4;
+  color: var(--muted);
+  margin-top: 0.3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.progress .seg.is-current .seg-label { color: var(--accent); }
+/* 手機只顯示目前階段的標籤 */
+@media (max-width: 639px) {
+  .progress .seg:not(.is-current) .seg-label { display: none; }
+  .progress .seg.is-current .seg-label { white-space: normal; }
+}
+
+/* ---------- 區隔頁 ---------- */
+.stage-divider {
+  margin: 3.5rem 0 0;
+  padding: 2rem 1.25rem;
+  background: var(--surface);
+  border-top: 3px solid var(--accent);
+  border-bottom: 1px solid var(--line);
+}
+.stage-divider .stage-kicker {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin: 0 0 0.3rem;
+}
+.stage-divider .stage-name {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.7rem;
+  margin: 0 0 0.6rem;
+}
+.stage-divider .stage-gain {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* ---------- 章 ---------- */
+.chapter { scroll-margin-top: calc(var(--topbar-h) + 8px); }
+.chapter + .chapter { margin-top: 3rem; }
+
+.ch-head { margin: 0 0 2rem; }
+.eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin: 0 0 0.4rem;
+}
+.chapter h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.9rem;
+  margin: 0 0 0.6rem;
+  text-wrap: balance;
+}
+.lede {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+  text-wrap: balance;
+}
+
+.ch-meta {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 1rem 1.1rem 0.4rem;
+}
+.meta-block { margin-bottom: 0.9rem; }
+.meta-block h3 {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 0 0 0.3rem;
+}
+.meta-block ul, .meta-block p { margin: 0; font-size: 0.95rem; }
+.ch-meta .time {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 0.6rem;
+  margin: 0 0 0.8rem;
+}
+
+.chapter h3 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 2.2rem 0 0.7rem;
+}
+.chapter h4 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+/* ---------- 勾選清單 ---------- */
+ul.checks { list-style: none; padding-left: 0; }
+ul.checks > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+ul.checks > li > input[type="checkbox"] {
+  flex: none;
+  margin: 0.45rem 0 0;
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--teal);
+}
+ul.checks > li.is-done > .check-text { color: var(--muted); }
+
+/* ---------- 六種框 ---------- */
+.box { margin: 1.6rem 0; padding: 0.9rem 1.1rem; }
+.box > :last-child { margin-bottom: 0; }
+.box-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.5rem;
+}
+
+.box.fact {
+  background: var(--surface);
+  border-left: 3px solid var(--ink);
+}
+.box.fact ul { margin-bottom: 0; }
+
+.box.formula {
+  background: var(--fill);
+  border: 1px solid var(--line);
+}
+.box.formula pre {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin: 0 0 0.7rem;
+  padding: 0;
+  white-space: pre;
+  overflow-x: auto;
+  font-variant-numeric: tabular-nums;
+}
+.box.formula .how { font-size: 0.9rem; margin-bottom: 0.4rem; }
+.box.formula .caveat { font-size: 0.85rem; color: var(--muted); margin-bottom: 0; }
+
+.box.tradeoff { border: 1px solid var(--line); }
+.box.tradeoff .cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+@media (max-width: 639px) {
+  .box.tradeoff .cols { grid-template-columns: minmax(0, 1fr); }
+}
+.box.tradeoff .col dl { margin: 0; }
+.box.tradeoff .col dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+.box.tradeoff .col dd { margin: 0; font-size: 0.95rem; }
+.box.tradeoff .bottom {
+  font-family: var(--serif);
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 0.7rem;
+  margin: 1rem 0 0;
+}
+
+.box.warning {
+  border: 1.5px solid var(--accent);
+  background: var(--accent-soft);
+}
+.box.warning .box-label { color: var(--accent); }
+
+.box.myth {
+  border-left: 3px solid var(--muted);
+  background: var(--surface);
+}
+.box.myth dl { margin: 0; }
+.box.myth dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-top: 0.6rem;
+}
+.box.myth dt:first-of-type { margin-top: 0; }
+.box.myth dd { margin: 0; }
+
+.box.action {
+  border: 1.5px dashed var(--teal);
+  background: var(--surface);
+}
+.box.action .box-label { color: var(--teal); }
+.box.action .ws-date {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.7rem;
+}
+
+/* 工作表 */
+table.worksheet {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+table.worksheet th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--muted);
+  width: 45%;
+  padding: 0.45rem 0.5rem 0.45rem 0;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+table.worksheet td {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+td.blank {
+  min-height: 1.9em;
+  min-width: 6em;
+  border-bottom: 1px dashed var(--teal);
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+td.blank:empty::before { content: ""; display: inline-block; min-height: 1.4em; }
+td.blank[contenteditable="true"]:focus { background: var(--teal-soft); outline: 2px solid var(--teal); }
+
+/* ---------- 對照卡 ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1.6rem 0;
+  align-items: stretch;
+}
+.card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 0.9rem 1rem;
+  height: 100%;
+}
+.card dl { margin: 0; }
+.card dt {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-top: 0.55rem;
+}
+.card dt:first-of-type { margin-top: 0; }
+.card dd { margin: 0; font-size: 0.95rem; }
+
+/* ---------- 步驟卡 ---------- */
+ol.steps { list-style: decimal; padding-left: 1.5em; }
+ol.steps > li { margin-bottom: 0.6rem; }
+
+/* ---------- 表格 ---------- */
+.table-wrap { overflow-x: auto; margin: 1.6rem 0; -webkit-overflow-scrolling: touch; }
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background: var(--surface);
+}
+.table-wrap th, .table-wrap td {
+  border: 1px solid var(--line);
+  padding: 0.45rem 0.6rem;
+  vertical-align: top;
+  text-align: left;
+}
+.table-wrap th { color: var(--muted); font-weight: 700; font-size: 0.85rem; }
+.table-wrap.wide table { min-width: 44rem; }
+.swipe-hint { font-size: 0.8rem; color: var(--muted); margin: 0 0 0.3rem; }
+
+/* ---------- 名詞、摺疊、圖 ---------- */
+dfn {
+  font-style: normal;
+  border-bottom: 1px dashed var(--teal);
+  cursor: help;
+}
+dfn[data-has-def="1"] { cursor: pointer; }
+
+.term-pop {
+  position: absolute;
+  z-index: 60;
+  max-width: min(24rem, 90vw);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--teal);
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  box-shadow: 0 6px 16px -8px var(--ink);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.term-pop.is-open { opacity: 1; pointer-events: auto; }
+.term-pop .term-word {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.term-pop .term-close {
+  float: right;
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0 0.4em;
+}
+
+details {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 0.6rem 0;
+  margin: 1.4rem 0;
+}
+summary {
+  color: var(--teal);
+  font-size: 0.95rem;
+  cursor: pointer;
+  list-style: none;
+}
+summary::-webkit-details-marker { display: none; }
+summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.4em;
+  transition: transform 0.15s ease;
+}
+details[open] > summary::before { transform: rotate(90deg); }
+details > :last-child { margin-bottom: 0; }
+
+figure.chart { margin: 1.8rem 0; }
+figure.chart svg { width: 100%; height: auto; display: block; color: var(--ink); }
+figure.chart figcaption { font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem; }
+
+/* ---------- 章尾 ---------- */
+.ch-foot {
+  margin-top: 2.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+}
+.ch-foot h3 {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 0 0 0.4rem;
+}
+.ch-foot .today {
+  background: var(--teal-soft);
+  border-left: 3px solid var(--teal);
+  padding: 0.8rem 1rem;
+  margin: 1.2rem 0;
+}
+.ch-foot .today .do { font-weight: 700; margin-bottom: 0.4rem; }
+.ch-foot .today .crit { font-size: 0.9rem; margin-bottom: 0.3rem; }
+.ch-foot .today .est { font-size: 0.85rem; color: var(--muted); margin: 0; }
+.ch-foot .later, .ch-foot .gain { margin-bottom: 1.2rem; }
+.ch-foot .sources { font-size: 0.85rem; line-height: 1.6; color: var(--muted); }
+.ch-foot .sources li { margin-bottom: 0.5rem; }
+.ch-foot .sources .lvl { font-family: var(--mono); margin-right: 0.2em; }
+.ch-foot .sources .official { color: var(--accent); }
+.ch-foot .sources .academic, .ch-foot .sources .industry { color: var(--teal); }
+.ch-foot .sources .inference { color: var(--muted); }
+.ch-foot .foot-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 0.7rem;
+  margin-top: 1.2rem;
+}
+
+/* ---------- 導讀與附錄的額外元素 ---------- */
+table.checkup-table, table.revisions, table.expiry {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  background: var(--surface);
+}
+table.checkup-table th, table.checkup-table td,
+table.revisions th, table.revisions td,
+table.expiry th, table.expiry td {
+  border: 1px solid var(--line);
+  padding: 0.45rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+table.checkup-table th, table.revisions th, table.expiry th {
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+table.checkup-table td.done-cell { text-align: center; }
+table.checkup-table td.done-cell input { accent-color: var(--teal); width: 1rem; height: 1rem; }
+table.expiry td, table.expiry th { font-variant-numeric: tabular-nums; }
+
+ul.q-index {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.2rem 1.2rem;
+}
+ul.q-index li { border-bottom: 1px solid var(--line); padding: 0.35rem 0; margin: 0; }
+ul.q-index a { color: var(--ink); text-decoration: none; font-size: 0.95rem; }
+ul.q-index a:hover { color: var(--teal); text-decoration: underline; }
+
+.triage {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 1rem 1.1rem;
+  margin: 1.6rem 0;
+}
+.triage > :last-child { margin-bottom: 0; }
+
+.routes { margin: 1.6rem 0; }
+
+.manifesto {
+  border: 1px solid var(--accent);
+  padding: 1rem 1.1rem;
+  margin: 1.8rem 0;
+}
+.manifesto > :last-child { margin-bottom: 0; }
+.manifesto h3 { color: var(--accent); margin-top: 0; }
+
+dl.glossary { margin: 1.5rem 0; }
+dl.glossary dt {
+  font-weight: 700;
+  border-top: 1px solid var(--line);
+  padding-top: 0.6rem;
+  margin-top: 0.6rem;
+  scroll-margin-top: calc(var(--topbar-h) + 8px);
+}
+dl.glossary dd { margin: 0.2rem 0 0; color: var(--ink); }
+
+.master-list { margin: 1.8rem 0; }
+.master-list h4 {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.3rem;
+  margin-top: 1.5rem;
+}
+.pair { font-size: 0.85rem; margin-left: 0.3em; }
+
+.version-line {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 0.8rem;
+  margin-top: 2.5rem;
+}
+
+.missing-note {
+  border: 1px dashed var(--line);
+  background: var(--fill);
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 0.6rem 0.9rem;
+  margin: 2rem 0;
+}
+
+/* ---------- 動態偏好 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * , *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- 列印 ---------- */
+@media print {
+  /* 顏色不在這裡定義：深色兩塊都限定 screen，列印自然落回 :root 的淺色。 */
+  body {
+    padding: 0;
+    font-size: 11pt;
+    line-height: 1.6;
+    background: var(--surface);
+  }
+  .topbar, .sitenav, .scrim, .term-pop, .missing-note { display: none !important; }
+  .page { max-width: none; padding: 0; }
+  .progress { display: none; }
+  .chapter { break-before: page; }
+  .stage-divider { break-before: page; break-after: avoid; border-bottom: 0; }
+  .stage-divider + .chapter { break-before: avoid; }
+  .page > :first-child { break-before: avoid; }
+  .ch-head, .box, .card, .stage-divider { break-inside: avoid; }
+  h2, h3, h4 { break-after: avoid; }
+  details { border: 0; }
+  details > summary { font-weight: 700; }
+  a { color: inherit; text-decoration: none; }
+  a[href]::after { content: ""; }
+  td.blank {
+    border-bottom: 1px solid var(--ink);
+    min-width: 10em;
+    min-height: 2.2em;
+  }
+  .box { border-color: var(--ink); }
+}
+</style>
+<header class="topbar"><p class="book-title">家庭理財白話手冊</p><p class="where" aria-live="polite">共 2 章</p><button type="button" class="toc-btn" aria-controls="sitenav" aria-expanded="false">目錄</button></header>
+<div class="scrim"></div>
+<nav class="sitenav" id="sitenav" aria-label="章節導覽">
+<div class="nav-head"><p class="nav-title">家庭理財白話手冊</p><button type="button" class="nav-close">關閉</button></div>
+<p class="nav-stage">第二區 止血與撐住</p>
+<ul>
+<li class="nav-item" data-ch="ch-04"><span class="nav-num">4</span><a href="#ch-04">緊急預備金：家裡的滅火器</a><span class="nav-done"><input type="checkbox" data-ch="ch-04" aria-label="第 4 章 · 第二區 止血與撐住 完成"></span></li>
+</ul>
+<p class="nav-stage">附錄</p>
+<ul>
+<li class="nav-item" data-ch="ch-17"><span class="nav-num">附</span><a href="#ch-17">附錄：名詞表、來源清單、會過期的數字</a><span class="nav-done"><input type="checkbox" data-ch="ch-17" aria-label="附錄 · 查東西的地方 完成"></span></li>
+</ul>
+</nav>
+<main class="page" id="content" data-total-chapters="2">
+<div class="stage-divider" id="stage-2" data-stage="2"><p class="stage-kicker">第二區</p><p class="stage-name">止血與撐住</p><p class="stage-gain">這一區做完，你會知道自己撐得過幾個月、哪筆債先還、哪些保障已經有了、哪些賠不起。</p></div>
+<section class="chapter" id="ch-04" data-num="4" data-stage="2">
+<div class="progress" role="img" aria-label="閱讀進度：止血與撐住（共八區）"><span class="seg is-done"><span class="bar"></span><span class="seg-label">導讀</span></span><span class="seg is-done"><span class="bar"></span><span class="seg-label">看清楚</span></span><span class="seg is-done is-current"><span class="bar"></span><span class="seg-label">止血與撐住</span></span><span class="seg"><span class="bar"></span><span class="seg-label">長大</span></span><span class="seg"><span class="bar"></span><span class="seg-label">制度</span></span><span class="seg"><span class="bar"></span><span class="seg-label">家庭與交棒</span></span><span class="seg"><span class="bar"></span><span class="seg-label">守住</span></span><span class="seg"><span class="bar"></span><span class="seg-label">例行化</span></span></div>
+<header class="ch-head">
+  <p class="eyebrow">第 4 章 · 第二區 止血與撐住</p>
+  <h2>緊急預備金：家裡的滅火器</h2>
+  <p class="lede">先存一筆不動的錢，意外來時不用借。</p>
+  <div class="ch-meta">
+    <div class="meta-block"><h3>這章回答你的三個問題</h3><ul><li>「我要存多少才夠？」</li><li>「放哪裡？」</li><li>「什麼情況可以動用？」</li></ul></div>
+    <div class="meta-block"><h3>讀完你做得到</h3><ul class="checks"><li>算出必要月支出</li></ul></div>
+    <div class="meta-block"><h3>這章會用到前面的</h3><p>第 3 章的必要月支出。</p></div>
+    <p class="time"><span>🕐 約 15 分鐘</span><span>✍️ 需要：第 3 章的現金流表</span></p>
+  </div>
+</header>
+<h3>為什麼要先有這筆錢</h3>
+<p>白話說法（<dfn id="def-緊急預備金" data-term="緊急預備金">緊急預備金</dfn>）：一筆平常不碰、只在收入中斷或突發支出時動用的錢。就像家裡的滅火器。這個比喻在「用完要補」這點不成立，滅火器用一次就換，預備金用了要再存回來。</p>
+<aside class="box fact"><p class="box-label">📌 事實</p><ul><li>一年期定存平均 <span class="num">1.72</span>% <span class="badge">2026-09 查</span><sup class="cite"><a href="#src-04-1">1</a></sup></li></ul></aside>
+<aside class="box formula"><p class="box-label">🧮 算給你看</p><pre>必要月支出 3 萬 × 6 個月 = 18 萬</pre><p class="how">代入示範：換成你的數字。</p><p class="caveat">這只是算術，不是預測。限制：月數沒有標準答案。</p></aside>
+<aside class="box tradeoff"><p class="box-label">⚖️ 取捨</p><div class="cols"><div class="col"><h4>做法 A：三個月</h4><dl><dt>好處</dt><dd>快</dd><dt>代價</dt><dd>薄</dd><dt>適合誰</dt><dd>雙薪</dd><dt>不適合誰</dt><dd>接案</dd></dl></div><div class="col"><h4>做法 B：六個月</h4><dl><dt>好處</dt><dd>厚</dd><dt>代價</dt><dd>慢</dd><dt>適合誰</dt><dd>單薪</dd><dt>不適合誰</dt><dd>有高利債</dd></dl></div></div><p class="bottom">這一題沒有標準答案，只有你知道自己的收入有多穩。</p></aside>
+<div class="cards"><article class="card"><h4>做法 A</h4><dl><dt>怎麼運作</dt><dd>a</dd><dt>最好的情況</dt><dd>b</dd><dt>最差的情況</dt><dd>c</dd><dt>成本</dt><dd>d</dd><dt>適合誰</dt><dd>e</dd><dt>不適合誰</dt><dd>f</dd></dl></article></div>
+<footer class="ch-foot">
+  <div class="gain"><h3>你手上多了什麼</h3><ul><li>緊急金試算表</li></ul></div>
+  <div class="today"><h3>今天的一件事</h3><p class="do">開一個子帳戶。</p><p class="crit">完成判準：帳戶存在。</p><p class="est">🕐 約 10 分鐘 · 手機可完成</p></div>
+  <div class="later"><h3>還沒解決、後面會處理</h3><ul><li>多的錢往哪放 → 第 9 章</li></ul></div>
+  <div class="sources-wrap"><h3>本章來源</h3><ol class="sources"><li id="src-04-1"><span class="lvl official" aria-label="官方">●</span> 中央銀行 · 五大銀行平均存款利率 · 一年期定存 1.72% · 2026-07 · <a href="https://www.cbc.gov.tw/" rel="noopener">網址</a> · 查證 2026-09-07</li></ol></div>
+  <p class="foot-note">這一章是一般說明，不是投資、稅務或法律建議；數字有查證日期，會過期。</p>
+</footer>
+</section>
+
+<section class="chapter" id="ch-17" data-num="17" data-stage="8">
+<div class="progress" role="img" aria-label="閱讀進度：附錄（共八區）"><span class="seg is-done"><span class="bar"></span><span class="seg-label">導讀</span></span><span class="seg is-done"><span class="bar"></span><span class="seg-label">看清楚</span></span><span class="seg is-done"><span class="bar"></span><span class="seg-label">止血與撐住</span></span><span class="seg is-done"><span class="bar"></span><span class="seg-label">長大</span></span><span class="seg is-done"><span class="bar"></span><span class="seg-label">制度</span></span><span class="seg is-done"><span class="bar"></span><span class="seg-label">家庭與交棒</span></span><span class="seg is-done"><span class="bar"></span><span class="seg-label">守住</span></span><span class="seg is-done"><span class="bar"></span><span class="seg-label">例行化</span></span></div>
+<header class="ch-head">
+  <p class="eyebrow">附錄 · 查東西的地方</p>
+  <h2>附錄：名詞表、來源清單、會過期的數字</h2>
+  <p class="lede">前面提過的名詞，這裡各用一句話再說一次。</p>
+  <div class="ch-meta">
+    <div class="meta-block"><h3>這章回答你的三個問題</h3><ul><li>「這個詞是什麼意思？」</li><li>「數字哪來的？」</li><li>「什麼時候要重查？」</li></ul></div>
+    <div class="meta-block"><h3>讀完你做得到</h3><ul class="checks"><li>查到任一名詞的一句話定義</li></ul></div>
+    <div class="meta-block"><h3>這章會用到前面的</h3><p>不需要前面章節。</p></div>
+    <p class="time"><span>🕐 隨時翻</span><span>✍️ 需要：無</span></p>
+  </div>
+</header>
+<h3>名詞表</h3>
+<p>正文第一次出現的名詞都收在這裡，點正文裡的虛線字也會就地展開同一條<sup class="cite"><a href="#src-17-1">1</a></sup>。</p>
+<dl class="glossary">
+  <dt id="term-緊急預備金">緊急預備金</dt>
+  <dd>一筆平常不碰、只在收入中斷或突發支出時動用的錢。多數說法抓必要月支出的三到十二個月，沒有標準答案。</dd>
+  <dt id="term-通膨">通膨</dt>
+  <dd>同樣一筆錢，過一段時間能買到的東西變少。看的是一籃子商品的平均價格變化，不是單一品項。</dd>
+</dl>
+<footer class="ch-foot">
+  <div class="gain"><h3>你手上多了什麼</h3><ul><li>一份可以隨時回查的名詞表</li></ul></div>
+  <div class="today"><h3>今天的一件事</h3><p class="do">挑一個你講不出定義的名詞，讀完那一條。</p><p class="crit">完成判準：你能用一句話跟家人講清楚它。</p><p class="est">🕐 約 3 分鐘 · 手機可完成</p></div>
+  <div class="later"><h3>還沒解決、後面會處理</h3><ul><li>會過期的數字一覽表要逐年重查 → 第 16 章</li></ul></div>
+  <div class="sources-wrap"><h3>本章來源</h3><ol class="sources"><li id="src-17-1"><span class="lvl inference" aria-label="本文推論">○</span> 本文整理 · 名詞定義取自各章正文首次出現處 · 不是官方說法</li></ol></div>
+  <p class="foot-note">這一章是一般說明，不是投資、稅務或法律建議；數字有查證日期，會過期。</p>
+</footer>
+</section>
+
+<p class="missing-note">這一版還缺 16 章：00-how-to-use、01-why-and-order、02-balance-sheet、03-cash-flow、05-debt、06-insurance、07-time-inflation-compounding、08-risk-diversification-cost、09-rules-card、10-retirement、11-tax、12-housing、13-family、14-legacy、15-scams、16-action-list。</p>
+</main>
+<script id="glossary-json" type="application/json">{"緊急預備金": "一筆平常不碰、只在收入中斷或突發支出時動用的錢。多數說法抓必要月支出的三到十二個月，沒有標準答案。", "通膨": "同樣一筆錢，過一段時間能買到的東西變少。看的是一籃子商品的平均價格變化，不是單一品項。"}</script>
+<script>
+/* 家庭理財白話手冊 — 外殼腳本
+   沒有任何外部相依。所有 localStorage 存取都包 try/catch；
+   讀不到值時一律當作「沒填過」，畫面照常顯示。 */
+(function () {
+  "use strict";
+
+  var NS = "ff:";
+  var DESKTOP = "(min-width: 1024px)";
+
+  /* ---------- localStorage（壞掉也不能拖垮頁面） ---------- */
+  function lsGet(key) {
+    try {
+      return window.localStorage.getItem(NS + key);
+    } catch (e) {
+      return null;
+    }
+  }
+  function lsSet(key, value) {
+    try {
+      window.localStorage.setItem(NS + key, value);
+    } catch (e) {
+      /* 無痕模式或配額滿：放棄保存，不影響閱讀 */
+    }
+  }
+  function lsDel(key) {
+    try {
+      window.localStorage.removeItem(NS + key);
+    } catch (e) {
+      /* 同上 */
+    }
+  }
+
+  function each(list, fn) {
+    Array.prototype.forEach.call(list, fn);
+  }
+  function scopeOf(el) {
+    var sec = el.closest ? el.closest("section.chapter") : null;
+    return (sec && sec.id) || "doc";
+  }
+  function isDesktop() {
+    return window.matchMedia && window.matchMedia(DESKTOP).matches;
+  }
+
+  /* ---------- 1. ul.checks：加真正的 checkbox 並記住 ---------- */
+  function initChecks() {
+    var counters = {};
+    each(document.querySelectorAll("ul.checks > li"), function (li) {
+      if (li.querySelector('input[type="checkbox"]')) return;
+      var scope = scopeOf(li);
+      counters[scope] = (counters[scope] || 0) + 1;
+      var key = "chk:" + scope + ":" + counters[scope];
+
+      // 用 span + aria-labelledby，不用 <label>：清單項目裡可能有章節連結，
+      // 包在 label 裡點連結會順手勾掉框。
+      var text = document.createElement("span");
+      text.className = "check-text";
+      text.id = "chk-text-" + scope + "-" + counters[scope];
+      while (li.firstChild) text.appendChild(li.firstChild);
+
+      var box = document.createElement("input");
+      box.type = "checkbox";
+      box.id = "chk-" + scope + "-" + counters[scope];
+      box.setAttribute("aria-labelledby", text.id);
+      box.checked = lsGet(key) === "1";
+      li.classList.toggle("is-done", box.checked);
+
+      box.addEventListener("change", function () {
+        li.classList.toggle("is-done", box.checked);
+        if (box.checked) lsSet(key, "1");
+        else lsDel(key);
+      });
+
+      li.appendChild(box);
+      li.appendChild(text);
+    });
+  }
+
+  /* ---------- 2. td.blank：可填、可記 ---------- */
+  function initBlanks() {
+    var counters = {};
+    each(document.querySelectorAll("td.blank"), function (td) {
+      var scope = scopeOf(td);
+      counters[scope] = (counters[scope] || 0) + 1;
+      var key = "blank:" + scope + ":" + counters[scope];
+
+      td.setAttribute("contenteditable", "true");
+      td.setAttribute("spellcheck", "false");
+      td.setAttribute("role", "textbox");
+      td.setAttribute("aria-label", blankLabel(td));
+
+      var saved = lsGet(key);
+      if (saved) td.textContent = saved;
+
+      var timer = null;
+      function save() {
+        var v = td.textContent.replace(/\s+$/, "");
+        if (v) lsSet(key, v);
+        else lsDel(key);
+      }
+      td.addEventListener("input", function () {
+        if (timer) window.clearTimeout(timer);
+        timer = window.setTimeout(save, 400);
+      });
+      td.addEventListener("blur", function () {
+        if (timer) window.clearTimeout(timer);
+        save();
+      });
+    });
+  }
+
+  function blankLabel(td) {
+    var row = td.closest ? td.closest("tr") : null;
+    var th = row ? row.querySelector("th") : null;
+    return th ? th.textContent.trim() + "：填寫欄" : "填寫欄";
+  }
+
+  /* ---------- 3. 章節完成度：側欄 ↔ 健檢進度表 ---------- */
+  var doneInputs = {}; // chapterId -> [input, ...]
+
+  function registerDone(chId, input) {
+    if (!doneInputs[chId]) doneInputs[chId] = [];
+    doneInputs[chId].push(input);
+    input.checked = lsGet("done:" + chId) === "1";
+    input.addEventListener("change", function () {
+      setDone(chId, input.checked);
+    });
+  }
+
+  function setDone(chId, value) {
+    if (value) lsSet("done:" + chId, "1");
+    else lsDel("done:" + chId);
+    each(doneInputs[chId] || [], function (other) {
+      if (other.checked !== value) other.checked = value;
+    });
+  }
+
+  function initNavDone() {
+    each(document.querySelectorAll(".sitenav input[data-ch]"), function (input) {
+      registerDone(input.getAttribute("data-ch"), input);
+    });
+  }
+
+  function initCheckupTable() {
+    each(document.querySelectorAll("table.checkup-table tbody tr"), function (row, i) {
+      var cells = row.querySelectorAll("td");
+      if (!cells.length) return;
+      var cell = cells[cells.length - 1];
+      if (cell.querySelector('input[type="checkbox"]')) return;
+      var link = row.querySelector('a[href^="#ch-"]');
+      var chId = link ? link.getAttribute("href").slice(1) : "checkup-" + (i + 1);
+      var box = document.createElement("input");
+      box.type = "checkbox";
+      box.setAttribute("data-ch", chId);
+      box.setAttribute("aria-label", rowLabel(row) + " 完成");
+      cell.classList.add("done-cell");
+      cell.appendChild(box);
+      registerDone(chId, box);
+    });
+  }
+
+  function rowLabel(row) {
+    var first = row.querySelector("th, td");
+    return first ? first.textContent.trim() : "本列";
+  }
+
+  /* ---------- 4. 頂端列「第 N 章／共 M」＋ 側欄目前章節 ---------- */
+  function initWhere() {
+    var out = document.querySelector(".topbar .where");
+    var sections = document.querySelectorAll("section.chapter");
+    if (!sections.length) return;
+
+    var root = document.querySelector("[data-total-chapters]");
+    var total = root ? root.getAttribute("data-total-chapters") : String(sections.length);
+    var navItems = document.querySelectorAll(".sitenav .nav-item");
+    var lastId = null;
+
+    function label(sec) {
+      var n = sec.getAttribute("data-num");
+      if (sec.getAttribute("data-stage") === "8") return "附錄";
+      if (n === "0") return "導讀";
+      return "第 " + String(parseInt(n, 10) || "?") + " 章";
+    }
+
+    function update() {
+      var top = 0;
+      try {
+        top = parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue("--topbar-h")
+        ) || 52;
+      } catch (e) {
+        top = 52;
+      }
+      var current = sections[0];
+      each(sections, function (sec) {
+        if (sec.getBoundingClientRect().top <= top + 8) current = sec;
+      });
+      if (current.id === lastId) return;
+      lastId = current.id;
+      if (out) out.textContent = label(current) + "／共 " + total;
+      each(navItems, function (item) {
+        item.classList.toggle("is-current", item.getAttribute("data-ch") === current.id);
+      });
+    }
+
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(update, {
+        rootMargin: "-52px 0px -60% 0px",
+        threshold: [0, 1],
+      });
+      each(sections, function (sec) {
+        io.observe(sec);
+      });
+    } else {
+      window.addEventListener("scroll", update, { passive: true });
+    }
+    window.addEventListener("hashchange", update);
+    update();
+  }
+
+  /* ---------- 5. 抽屜式目錄 ---------- */
+  function initDrawer() {
+    var nav = document.querySelector(".sitenav");
+    var btn = document.querySelector(".toc-btn");
+    var scrim = document.querySelector(".scrim");
+    var closeBtn = document.querySelector(".nav-close");
+    if (!nav || !btn) return;
+
+    function open() {
+      if (isDesktop()) return;
+      nav.classList.add("is-open");
+      if (scrim) scrim.classList.add("is-open");
+      btn.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+      var first = nav.querySelector(".nav-close, a, input");
+      if (first) first.focus();
+    }
+    function close(returnFocus) {
+      nav.classList.remove("is-open");
+      if (scrim) scrim.classList.remove("is-open");
+      btn.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+      if (returnFocus) btn.focus();
+    }
+
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", function () {
+      if (nav.classList.contains("is-open")) close(true);
+      else open();
+    });
+    if (closeBtn) closeBtn.addEventListener("click", function () { close(true); });
+    if (scrim) scrim.addEventListener("click", function () { close(false); });
+    nav.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("a") && !isDesktop()) close(false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (!nav.classList.contains("is-open")) return;
+      if (e.key === "Escape") {
+        close(true);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      // 抽屜開著時把焦點關在抽屜裡
+      var items = nav.querySelectorAll("button, a[href], input");
+      if (!items.length) return;
+      var first = items[0];
+      var last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+    // 手機開著抽屜時轉成桌機寬度：把狀態收乾淨，免得 body 卡住不能捲
+    if (window.matchMedia) {
+      var mq = window.matchMedia(DESKTOP);
+      var onChange = function (ev) { if (ev.matches) close(false); };
+      if (mq.addEventListener) mq.addEventListener("change", onChange);
+      else if (mq.addListener) mq.addListener(onChange);
+    }
+  }
+
+  /* ---------- 6. dfn 名詞浮層 ---------- */
+  function initTerms() {
+    var data = {};
+    var el = document.getElementById("glossary-json");
+    if (!el) return;
+    try {
+      data = JSON.parse(el.textContent || "{}");
+    } catch (e) {
+      return; // 名詞表壞了就完全不加互動
+    }
+
+    var pop = null;
+    var opener = null;
+
+    function build() {
+      pop = document.createElement("div");
+      pop.className = "term-pop";
+      pop.setAttribute("role", "dialog");
+      pop.setAttribute("aria-label", "名詞解釋");
+      pop.setAttribute("tabindex", "-1");
+      var close = document.createElement("button");
+      close.type = "button";
+      close.className = "term-close";
+      close.textContent = "關閉";
+      close.addEventListener("click", function () { hide(true); });
+      var word = document.createElement("span");
+      word.className = "term-word";
+      var def = document.createElement("span");
+      def.className = "term-def";
+      pop.appendChild(close);
+      pop.appendChild(word);
+      pop.appendChild(def);
+      document.body.appendChild(pop);
+      pop._word = word;
+      pop._def = def;
+    }
+
+    function show(dfn, term) {
+      if (!pop) build();
+      pop._word.textContent = term;
+      pop._def.textContent = data[term];
+      pop.style.visibility = "hidden";
+      pop.classList.add("is-open");
+      var r = dfn.getBoundingClientRect();
+      var top = r.bottom + window.pageYOffset + 6;
+      var left = r.left + window.pageXOffset;
+      var maxLeft = document.documentElement.clientWidth - pop.offsetWidth - 12;
+      if (left > maxLeft) left = Math.max(12, maxLeft);
+      pop.style.top = top + "px";
+      pop.style.left = left + "px";
+      pop.style.visibility = "";
+      if (opener) opener.setAttribute("aria-expanded", "false");
+      opener = dfn;
+      dfn.setAttribute("aria-expanded", "true");
+      pop.focus();
+    }
+
+    function hide(returnFocus) {
+      if (!pop) return;
+      pop.classList.remove("is-open");
+      pop.style.top = "-9999px";
+      if (opener) {
+        opener.setAttribute("aria-expanded", "false");
+        if (returnFocus) opener.focus();
+        opener = null;
+      }
+    }
+
+    each(document.querySelectorAll("dfn[data-term]"), function (dfn) {
+      var term = dfn.getAttribute("data-term");
+      if (!Object.prototype.hasOwnProperty.call(data, term)) return; // 名詞表沒有這個詞就不加互動
+      dfn.setAttribute("data-has-def", "1");
+      dfn.setAttribute("tabindex", "0");
+      dfn.setAttribute("role", "button");
+      dfn.setAttribute("aria-expanded", "false");
+      dfn.addEventListener("click", function () {
+        if (opener === dfn) hide(true);
+        else show(dfn, term);
+      });
+      dfn.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (opener === dfn) hide(true);
+          else show(dfn, term);
+        }
+      });
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && opener) hide(true);
+    });
+    document.addEventListener("click", function (e) {
+      if (!opener) return;
+      if (e.target === opener || (e.target.closest && (e.target.closest("dfn") === opener || e.target.closest(".term-pop")))) return;
+      hide(false);
+    });
+    window.addEventListener("resize", function () { if (opener) hide(false); });
+  }
+
+  /* ---------- 起動 ---------- */
+  function boot() {
+    initChecks();
+    initBlanks();
+    initNavDone();
+    initCheckupTable();
+    initWhere();
+    initDrawer();
+    initTerms();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})();
+</script>

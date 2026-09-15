@@ -1,0 +1,682 @@
+#!/usr/bin/env python3
+"""投資專篇／指南的圖表 v2.0：一套設計系統，九張圖同一個框架。
+
+設計規則（對齊作者提供的 J.P. Morgan、Schwab、Vanguard 風格參考圖）：
+  - 每張圖出兩個 SVG：桌面版 viewBox 寬 640、手機版寬 360；CSS 依視窗寬度只顯示一個，
+    所以字級在任何裝置上都是 11–13px，不會被縮小到看不見。
+  - 標題、口徑副標、圖例、註解、圖說全部是 HTML，放在 SVG 外面。
+  - 只有水平的淡色格線；零線用墨色；沒有直向軸線、沒有外框。
+  - 資料標籤：長條上方粗體、圓點下方一般字重；標籤會避開鄰居。
+  - 顏色：主色 teal（股票／主角）、次色 muted 灰（債券／對照）、amber（第三組）、accent 紅（下跌）。
+    全部用 CSS 變數，深色模式自動對應。
+  - 手機版減少標籤密度（隔一個標、只標極端值），不縮字。
+
+對照（作者原圖 → 圖 id）：三圓 three-circles；Chloe 四人 four-people；$1M 里程碑 milestones；
+SPIVA 圓餅 spiva；年內跌幅 intra-year；區間浮動長條 ranges；Schwab 五人 five-people；
+幸運兒／倒楣鬼 dca-high-low；錯過最好的 N 天 missing-days；手冊沿用 smooth-vs-jagged、buckets。
+
+用法：
+  python3 tools/essay_charts.py            # 重畫專篇 essay/sections/*.html 的 11 張
+  python3 tools/essay_charts.py --guide    # 只換指南 guide/index.html 的 6 張（保留指南自己的圖說）
+  python3 tools/essay_charts.py --all      # 兩者都做
+"""
+import csv
+import math
+import re
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+SEC = ROOT / "essay" / "sections"
+DATA = ROOT / "research" / "data"
+GUIDE = ROOT / "guide" / "index.html"
+
+TEAL, MUTED, AMBER, ACCENT, INK, LINE, SURFACE = ("var(--teal)", "var(--muted)", "var(--amber)",
+                                                  "var(--accent)", "var(--ink)", "var(--line)", "var(--surface)")
+BLUE = "var(--blue)"   # 現金長條：--line 太淡看不見，改用已定義的藍
+
+
+def esc(s):
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+# ---------- 版面：桌面 d／手機 m ----------
+class L:
+    def __init__(self, kind):
+        self.kind = kind
+        self.mobile = kind == "m"
+        self.W = 360 if self.mobile else 640
+        self.f = 11 if self.mobile else 12.5      # 一般字（軸標籤）
+        self.fs = 10 if self.mobile else 11       # 小字
+        self.fl = 10.5 if self.mobile else 12     # 資料標籤
+        self.left = 46 if self.mobile else 52
+        self.right = self.W - (12 if self.mobile else 18)
+        self.top = 14 if self.mobile else 18
+        self.line = 2.2 if self.mobile else 2.6
+
+
+def svg_open(lay, h, title):
+    return ('<svg class="%s" viewBox="0 0 %d %d" role="img" aria-label="%s" font-family="var(--sans)">'
+            % (lay.kind, lay.W, h, esc(title)))
+
+
+def text(x, y, s, size, anchor="start", fill=INK, weight=None):
+    w = ' font-weight="%s"' % weight if weight else ""
+    return '<text x="%.1f" y="%.1f" font-size="%s" text-anchor="%s" fill="%s"%s>%s</text>' % (x, y, size, anchor, fill, w, esc(s))
+
+
+def poly(points, stroke, width=2.4, dash=None, opacity=None):
+    d = ' stroke-dasharray="%s"' % dash if dash else ""
+    o = ' stroke-opacity="%s"' % opacity if opacity else ""
+    return ('<polyline points="%s" fill="none" stroke="%s" stroke-width="%s"%s%s stroke-linejoin="round" stroke-linecap="round"/>'
+            % (" ".join("%.1f,%.1f" % p for p in points), stroke, width, d, o))
+
+
+def rect(x, y, w, h, fill, rx=2.5, opacity=None):
+    o = ' fill-opacity="%s"' % opacity if opacity else ""
+    return '<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" rx="%s" fill="%s"%s/>' % (x, y, w, h, rx, fill, o)
+
+
+def dot(x, y, fill, r=4):
+    return '<circle cx="%.1f" cy="%.1f" r="%s" fill="%s" stroke="%s" stroke-width="1.5"/>' % (x, y, r, fill, SURFACE)
+
+
+def hline(x1, x2, y, color=LINE, width=1, dash="3 4"):
+    d = ' stroke-dasharray="%s"' % dash if dash else ""
+    return '<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="%s"%s/>' % (x1, y, x2, y, color, width, d)
+
+
+def grid(lay, py, values, fmt, x1=None, x2=None, zero=INK):
+    """水平格線＋左側刻度；0 用墨色實線。"""
+    out = []
+    x1 = lay.left if x1 is None else x1
+    x2 = lay.right if x2 is None else x2
+    for v in values:
+        if v == 0:
+            out.append(hline(x1, x2, py(v), zero, 1.3, None))
+        else:
+            out.append(hline(x1, x2, py(v)))
+        out.append(text(x1 - 6, py(v) + lay.fs * 0.36, fmt(v), lay.fs, "end", MUTED))
+    return out
+
+
+def legend(items):
+    return '<ul class="legend">' + "".join('<li><span class="swatch" style="background:%s"></span>%s</li>' % (c, esc(t)) for c, t in items) + "</ul>"
+
+
+def note(s):
+    return '<p class="note">%s</p>' % esc(s)
+
+
+ORIG = ROOT / "research" / "orig"
+GTR = "https://am.jpmorgan.com/us/en/asset-management/adv/insights/retirement-insights/guide-to-retirement/"
+GTM = "https://am.jpmorgan.com/us/en/asset-management/adv/insights/market-insights/guide-to-the-markets/"
+# 有官方原圖的圖：檔名、出處說明、連結。原圖有版權，只做教育對照；正文引用的數字以本文為準。
+ORIGINALS = {
+    "ranges": ("jpm-gtr2026-p42-ranges.jpg", "J.P. Morgan Asset Management，Guide to Retirement 2026，第 42 頁「Range of stock, bond and blended total returns」。本文的圖是同一頁的數字重畫。", GTR),
+    "four-people": ("jpm-gtr2026-p15-saving-early.jpg", "J.P. Morgan Asset Management，Guide to Retirement 2026，第 15 頁「Benefit of saving and investing early」。2026 年版的例子是每月 250 美元、7.25%；本文的四個人是每月 5,000 元、6% 的台幣版，形狀相同、數字不同。", GTR),
+    "intra-year": ("jpm-gtm-2026q3-p17-intra-year.jpg", "J.P. Morgan Asset Management，Guide to the Markets U.S.（2026 年 6 月 30 日資料），第 17 頁「S&P 500 intra-year declines vs. calendar year returns」。這是美國版；本文的圖是台股同一種畫法。", GTM),
+    "milestones": ("fourpillarfreedom-1m.jpg", "Four Pillar Freedom，「Money Lessons They Don't Teach You in School」一文「The Concept of Compound Interest」小節裡標題為「Accumulating $1 Million」的圖（每年 1 萬美元、7%）。本文是每年 6 萬元、7% 的台幣版，所以每格年數與原圖相同。", "https://fourpillarfreedom.com/money-lessons-they-dont-teach-you-in-school-2/"),
+    "missing-days": ("jpm-gtr2026-p41-out-of-market.jpg", "J.P. Morgan Asset Management，Guide to Retirement 2026，第 41 頁「Impact of being out of the market」。", GTR),
+    "five-people": ("schwab-five-people.png", "Charles Schwab，「Does Market Timing Work?」，2005–2024 年的五個人。", "https://www.schwab.com/learn/story/does-market-timing-work"),
+}
+
+
+def original_block(cid):
+    if cid not in ORIGINALS:
+        return ""
+    import base64
+    fn, credit, url = ORIGINALS[cid]
+    p = ORIG / fn
+    if not p.exists():
+        raise SystemExit("找不到原圖：%s" % p)
+    mime = "image/png" if fn.endswith(".png") else "image/jpeg"
+    data = base64.b64encode(p.read_bytes()).decode("ascii")
+    return ('<details class="orig"><summary>看官方原圖（英文）</summary>'
+            '<img src="data:%s;base64,%s" alt="%s" loading="lazy">'
+            '<p class="note">來源：%s <a href="%s" target="_blank" rel="noopener">原始頁面</a>。圖片版權屬原機構，這裡只作教育對照，未經修改；本文引用的數字以正文為準。</p></details>\n'
+            % (mime, data, esc(credit.split('。')[0]), esc(credit), url))
+
+
+def figure(cid, title, sub, svgs, caption, extras=""):
+    return ('<figure class="chart" data-chart="%s">\n<div class="chart-head"><span class="chart-title">%s</span><span class="chart-sub">%s</span></div>\n'
+            '<div class="chart-body">\n%s\n</div>\n%s<figcaption>%s</figcaption>\n%s</figure>'
+            % (cid, esc(title), esc(sub), "\n".join(svgs), extras, esc(caption), original_block(cid)))
+
+
+# ======================================================================
+# §1 三圓
+def three_circles():
+    def draw(lay):
+        r = 78 if lay.mobile else 100
+        h = int(r * 3.0) + 16
+        cx0 = lay.W / 2
+        cy0 = r * 1.55 + 8
+        dx = r * 0.62
+        pos = {"top": (cx0, cy0 - r * 0.55), "left": (cx0 - dx, cy0 + r * 0.45), "right": (cx0 + dx, cy0 + r * 0.45)}
+        out = [svg_open(lay, h, "示意：時間短、風險低、報酬高，三個一起要就得先問錢從哪裡來")]
+        for k, fill in (("top", AMBER), ("left", TEAL), ("right", ACCENT)):
+            x, y = pos[k]
+            out.append('<circle cx="%.1f" cy="%.1f" r="%d" fill="%s" fill-opacity="0.22" stroke="%s" stroke-width="1.6"/>' % (x, y, r, fill, fill))
+        big = 13 if lay.mobile else 16
+        small = lay.f
+        out.append(text(pos["top"][0], pos["top"][1] - r * 0.45, "時間短", big, "middle", weight="800"))
+        out.append(text(pos["left"][0] - r * 0.4, pos["left"][1] + r * 0.45, "風險低", big, "middle", weight="800"))
+        out.append(text(pos["right"][0] + r * 0.4, pos["right"][1] + r * 0.45, "報酬高", big, "middle", weight="800"))
+        out.append(text(cx0 - r * 0.58, cy0 - r * 0.22, "低報酬", small, "middle", MUTED, "700"))
+        out.append(text(cx0 + r * 0.58, cy0 - r * 0.22, "高風險", small, "middle", MUTED, "700"))
+        out.append(text(cx0, cy0 + r * 1.0, "長時間", small, "middle", MUTED, "700"))
+        out.append(text(cx0, cy0 + r * 0.22, "先問錢從哪裡來", small, "middle", INK, "800"))
+        out.append("</svg>")
+        return "\n".join(out)
+    return dict(title="「又快、又穩、又賺」不存在", sub="示意圖，不是資料",
+                svgs=[draw(L("d")), draw(L("m"))], extras="",
+                caption="三個圓是時間短、風險低、報酬高。任何兩個同時要，就得付第三個的代價：低報酬、高風險、或長時間。三樣同時答應你的，先問那多出來的報酬是誰在付。")
+
+
+# ======================================================================
+# §2 四個人
+def four_people():
+    def path(start, stop_contrib, r):
+        m = r / 12
+        v = 0.0
+        pts = []
+        for month in range(0, 40 * 12 + 1):
+            age = 25 + month / 12
+            if month:
+                v *= 1 + m
+                if start <= age - 1 / 12 + 1e-9 and age - 1 / 12 < stop_contrib - 1e-9:
+                    v += 5000
+            if age >= start:
+                pts.append((age, v))
+        return pts
+    series = [
+        ("25 到 65 歲，投 40 年", path(25, 65, 0.06), TEAL, 996, 240),
+        ("35 歲才開始，投 30 年", path(35, 65, 0.06), ACCENT, 502, 180),
+        ("25 到 35 歲投 10 年，之後不再投入", path(25, 35, 0.06), AMBER, 493, 60),
+        ("25 到 65 歲都放定存 1.7%", path(25, 65, 0.017), MUTED, 343, 240),
+    ]
+    for _, pts, _, end, _ in series:
+        assert abs(pts[-1][1] / 1e4 - end) < 6
+
+    def draw(lay):
+        h = 250 if lay.mobile else 330
+        left, top, bottom = lay.left, lay.top, h - 30
+        right = lay.right - (52 if lay.mobile else 64)
+        ymax = 1050e4
+        def px(a): return left + (right - left) * (a - 25) / 40
+        def py(v): return bottom - (bottom - top) * v / ymax
+        out = [svg_open(lay, h, "四個人 25 到 65 歲的資產曲線")]
+        out += grid(lay, py, (0, 250e4, 500e4, 750e4, 1000e4), lambda v: ("%d 萬" % (v / 1e4)) if v else "0", x2=right)
+        for a in (25, 35, 45, 55, 65):
+            out.append(text(px(a), bottom + lay.f + 6, "%d 歲" % a, lay.f, "middle", MUTED))
+        # 端點標籤：避免重疊（502 與 493 太近）
+        ends = sorted([(py(s[1][-1][1]), s) for s in series], key=lambda t: t[0])
+        placed = []
+        for y, s in ends:
+            yy = y
+            for p in placed:
+                if abs(yy - p) < lay.fl + 3:
+                    yy = p + lay.fl + 3
+            placed.append(yy)
+            s_label = "%d 萬" % s[3]
+            out.append(text(right + 8, yy + lay.fl * 0.36, s_label, lay.fl, "start", s[2], "800"))
+        for label, pts, color, end, _ in series:
+            out.append(poly([(px(a), py(v)) for a, v in pts], color, lay.line))
+            out.append(dot(px(65), py(pts[-1][1]), color))
+        out.append("</svg>")
+        return "\n".join(out)
+    lg = legend([(c, "%s：投入 %d 萬，65 歲約 %d 萬" % (l, put, e)) for l, _, c, e, put in series])
+    return dict(title="四個人，每月 5,000 元，到 65 歲", sub="一年長 6%，定存 1.7%；固定報酬的算術，不是預測",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg,
+                caption="只投十年就停的那條，最後幾乎追上投了三十年的那條。差別不是他會挑，是他的錢多待了十年。")
+
+
+# ======================================================================
+# §2 里程碑
+def milestones():
+    gaps = [7.84, 5.10, 3.78, 3.01, 2.50, 2.14, 1.87, 1.66, 1.49, 1.35]
+    share = [22, 49, 62, 70, 75, 79, 81, 83, 85, 86]
+    yrs, t = [], 0
+    for g in gaps:
+        t += g
+        yrs.append(t)
+    T = yrs[-1]
+    # 每年年底投入 6 萬、年複利 7%：V(t) = 6 萬 × ((1.07^t − 1) / 0.07)，整數年時等於逐年投入的精確值，
+    # 表裡的 7.84／5.10／…／1.35 年就是用這條式子反推的
+    total, contrib = [], []
+    for m in range(0, int(T * 12) + 2):
+        t = m / 12
+        total.append((t, 6.0 * ((1.07 ** t - 1) / 0.07)))
+        contrib.append((t, 6.0 * t))
+
+    def draw(lay):
+        h = 300 if lay.mobile else 360
+        left, top = lay.left, lay.top + 10
+        right = lay.right - (36 if lay.mobile else 44)
+        bottom = h - (66 if lay.mobile else 84)
+        def px(y): return left + (right - left) * y / T
+        def py(v): return bottom - (bottom - top) * v / 640
+        out = [svg_open(lay, h, "每多累積 60 萬要花幾年：前面慢，後面快")]
+        out += grid(lay, py, (0, 200, 400, 600), lambda v: ("%d 萬" % v) if v else "0", x2=right)
+        area_total = [(px(0), py(0))] + [(px(y), py(v)) for y, v in total if y <= T] + [(px(T), py(0))]
+        area_contrib = [(px(0), py(0))] + [(px(y), py(v)) for y, v in contrib if y <= T] + [(px(T), py(0))]
+        out.append('<polygon points="%s" fill="%s" fill-opacity="0.3"/>' % (" ".join("%.1f,%.1f" % p for p in area_total), TEAL))
+        out.append('<polygon points="%s" fill="%s" fill-opacity="0.35"/>' % (" ".join("%.1f,%.1f" % p for p in area_contrib), MUTED))
+        out.append(poly([(px(y), py(v)) for y, v in total if y <= T], TEAL, lay.line))
+        show = {0, 1, 2, 4, 9} if lay.mobile else {0, 1, 2, 3, 4, 5, 9}
+        prev = 0
+        for i, (y, g) in enumerate(zip(yrs, gaps)):
+            out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%d" stroke="%s" stroke-width="1" stroke-dasharray="3 3"/>' % (px(y), py(60 * (i + 1)), px(y), bottom, INK))
+            if i in show:
+                out.append(text(px(y) + (6 if i == 9 else -4), py(60 * (i + 1)) - 6, "%d 萬" % (60 * (i + 1)), lay.fl, "start" if i == 9 else "end", INK, "700"))
+            mid = (prev + y) / 2
+            row = 0 if lay.mobile else i % 2
+            if (not lay.mobile) or i in show:
+                out.append(text(px(mid), bottom + 16 + row * 13, "%.2f 年" % g, lay.fs, "middle", MUTED))
+                out.append(text(px(mid), bottom + 46 + row * 13, "%d%%" % share[i], lay.fs, "middle", TEAL, "800"))
+            prev = y
+        out.append(text(left - 6, bottom + 16, "花幾年", lay.fs, "end", MUTED))
+        out.append(text(left - 6, bottom + 46, "報酬占", lay.fs, "end", TEAL, "800"))
+        out.append("</svg>")
+        return "\n".join(out)
+    lg = legend([(MUTED, "自己存進去的"), (TEAL, "長出來的報酬")])
+    nt = note("每年年底投入 6 萬元、一年長 7%，每格 60 萬。上排是那一格花幾年，下排是那一格裡有多少是報酬。示意，不是承諾。")
+    return dict(title="每多 60 萬要花幾年", sub="固定報酬的算術：第一格 7.84 年，第十格 1.35 年",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
+                caption="同樣 60 萬一格，第一格要將近八年，第十格只要一年多。前面慢，是因為錢還沒開始幫忙；越後面，格子裡越多是它自己長出來的。")
+
+
+# ======================================================================
+# §2 人力資本與財務資本（示意，只給指南）
+def human_capital():
+    def draw(lay):
+        h = 230 if lay.mobile else 290
+        left, top = lay.left, lay.top + 8
+        right = lay.right - (10 if lay.mobile else 16)
+        bottom = h - 30
+        def px(a): return left + (right - left) * (a - 25) / 60
+        def py(v): return bottom - (bottom - top) * v
+        # 人力資本：25 歲最高，隨年齡下降，65 歲歸零；財務資本：從 0 慢慢上升，越後面越快
+        hc = [(a, max(0.0, (65 - a) / 40) ** 1.15) for a in range(25, 86)]
+        fc = [(a, min(1.0, 0.95 * ((a - 25) / 40) ** 1.8)) for a in range(25, 66)] + [(a, 0.95) for a in range(66, 86)]
+        out = [svg_open(lay, h, "示意：人力資本隨年齡下降，財務資本靠持續投入上升")]
+        out.append(hline(left, right, py(0), INK, 1.3, None))
+        for a in (25, 35, 45, 55, 65, 75, 85):
+            out.append(text(px(a), bottom + lay.f + 5, "%d 歲" % a, lay.f, "middle", MUTED))
+        out.append(poly([(px(a), py(v)) for a, v in hc], AMBER, lay.line))
+        out.append(poly([(px(a), py(v)) for a, v in fc], TEAL, lay.line))
+        # 交叉點
+        cross = min(range(25, 66), key=lambda a: abs(hc[a - 25][1] - fc[a - 25][1]))
+        out.append(dot(px(cross), py(fc[cross - 25][1]), INK, 4.5))
+        out.append(text(px(cross) + 6, py(fc[cross - 25][1]) - 18, "交叉：財務資本可以接手", lay.fl, "start" if lay.mobile else "middle", INK, "800"))
+        out.append(text(px(27), py(hc[2][1]) - 10, "人力資本（還能賺的薪水）", lay.fl, "start", AMBER, "800"))
+        out.append(text(px(84), py(0.95) - 12, "財務資本", lay.fl, "end", TEAL, "800"))
+        out.append("</svg>")
+        return "\n".join(out)
+    lg = legend([(AMBER, "人力資本：未來還能賺的薪水，隨年齡變小"), (TEAL, "財務資本：靠持續投入，越後面長越快")])
+    nt = note("示意圖，不是資料：兩條線的高度和交叉的年齡因人而異；人力資本那條線也可能因為生病、失能、被裁提早歸零。原理出自 Ibbotson、Milevsky、Chen、Zhu 2007。")
+    return dict(title="兩條線：你在把哪一種資本換成哪一種", sub="示意；交叉之後，不工作也有錢進來",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
+                caption="年輕時最大的資產是還能賺的薪水，它每年都在變小，也可能提早消失；投資做的事，是持續把它換成會自己工作的財務資本。越早換，交叉點越早。")
+
+# ======================================================================
+# §3 SPIVA
+def spiva():
+    data = [("10 年", 85.59), ("15 年", 89.93), ("20 年", 92.89)]
+
+    def draw(lay):
+        h = 170 if lay.mobile else 210
+        r = 46 if lay.mobile else 60
+        out = [svg_open(lay, h, "美國大型股主動基金輸給 S&P 500 的比例，截至 2025 年底")]
+        for i, (label, lose) in enumerate(data):
+            cx = lay.W * (i + 0.5) / 3
+            cy = h / 2 + 8
+            a = 2 * math.pi * lose / 100
+            x1, y1 = cx, cy - r
+            x2, y2 = cx + r * math.sin(a), cy - r * math.cos(a)
+            out.append('<circle cx="%.1f" cy="%.1f" r="%d" fill="%s"/>' % (cx, cy, r, TEAL))
+            out.append('<path d="M%.1f,%.1f L%.1f,%.1f A%d,%d 0 1,1 %.1f,%.1f Z" fill="%s"/>' % (cx, cy, x1, y1, r, r, x2, y2, ACCENT))
+            out.append('<circle cx="%.1f" cy="%.1f" r="%d" fill="%s"/>' % (cx, cy, r * 0.6, SURFACE))
+            out.append(text(cx, cy + lay.fl * 0.4, "%.1f%%" % lose, lay.fl + 1, "middle", INK, "800"))
+            out.append(text(cx, cy - r - 8, label, lay.f, "middle", INK, "700"))
+        out.append("</svg>")
+        return "\n".join(out)
+    lg = legend([(ACCENT, "輸給整個市場的平均"), (TEAL, "贏過的")])
+    return dict(title="美國大型股主動基金，輸給大盤的比例", sub="SPIVA U.S. Year-End 2025，扣掉費用之後；中途收掉的基金算輸",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg,
+                caption="時間拉得越長，輸的比例越高。中途收掉的基金也算輸；15 年期只有 50.55% 撐到期末。美國市場、扣掉費用之後的比較，SPIVA 2025 年底報告。")
+
+
+# ======================================================================
+# §5 台股年內最大跌幅 vs 全年報酬
+def intra_year():
+    rows = list(csv.DictReader(open(DATA / "algo_b_yearly.csv", encoding="utf-8")))
+    ys = [(int(r["year"]), float(r["year_return_pct"]), -float(r["max_drawdown_pct"])) for r in rows]
+
+    def draw(lay):
+        h = 270 if lay.mobile else 340
+        left, top, right = lay.left, lay.top + 6, lay.right
+        bottom = h - 26
+        vmax, vmin = 90, -62
+        def py(v): return top + (bottom - top) * (vmax - v) / (vmax - vmin)
+        n = len(ys)
+        slot = (right - left) / n
+        bw = slot * 0.64
+        out = [svg_open(lay, h, "台灣含息指數 2003 到 2025 年：每年的全年報酬（長條）與年內最大跌幅（圓點）")]
+        out += grid(lay, py, (-60, -40, -20, 0, 20, 40, 60, 80), lambda v: "%d%%" % v)
+        last_dd_label_y = {}
+        for i, (yr, ret, dd) in enumerate(ys):
+            x = left + i * slot + (slot - bw) / 2
+            cx = x + bw / 2
+            y0, y1 = py(max(ret, 0)), py(min(ret, 0))
+            out.append(rect(x, y0, bw, max(1.5, y1 - y0), MUTED))
+            show_bar = (not lay.mobile) or abs(ret) >= 25
+            if show_bar:
+                out.append(text(cx, (y0 - 4) if ret >= 0 else (y1 + lay.fl), "%d" % round(ret), lay.fl - (1 if lay.mobile else 0), "middle", INK, "700"))
+            out.append(dot(cx, py(dd), ACCENT, 3.2 if lay.mobile else 4))
+            show_dd = (not lay.mobile) or dd <= -20
+            if show_dd:
+                ly = py(dd) + lay.fl + 3
+                # 和前一個標籤太近就往下錯開
+                if i - 1 in last_dd_label_y and abs(last_dd_label_y[i - 1] - ly) < lay.fl + 1 and not lay.mobile:
+                    ly = last_dd_label_y[i - 1] + lay.fl + 1
+                # 別壓到負的長條標籤
+                if ret < 0 and abs(ly - (y1 + lay.fl)) < lay.fl:
+                    ly = y1 + lay.fl * 2 + 2
+                last_dd_label_y[i] = ly
+                out.append(text(cx, ly, "%d" % round(dd), lay.fl - 1, "middle", ACCENT))
+            if yr % 5 == 0 or yr == 2003:
+                out.append(text(cx, bottom + lay.f + 4, "'%02d" % (yr % 100), lay.f, "middle", MUTED))
+        out.append("</svg>")
+        return "\n".join(out)
+    lg = legend([(MUTED, "全年含息報酬"), (ACCENT, "年內從高點最多跌掉")])
+    nt = note("證交所發行量加權股價報酬指數，逐日收盤自算。平均年內最多跌 17.73%；23 年裡 18 年全年為正。手機版只標較大的數字。")
+    return dict(title="台股每一年：年底的報酬，和年中曾經跌掉多少", sub="2003 到 2025 年，含息，%",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
+                caption="23 年裡有 18 年中途跌過一成以上，但多數年份年底是正的。對一整群公司的指數來說，年內跌一成是常態，不等於資產壞掉；最差的 2008 年整年跌 43.07%。")
+
+
+# ======================================================================
+# §5 區間浮動長條
+def ranges():
+    data = [("連續 1 年", (-37, 52), (-13, 33), (-16, 29), (0, 14)), ("連續 5 年", (-2, 29), (-2, 18), (2, 19), (0, 11)),
+            ("連續 10 年", (-1, 20), (1, 14), (2, 16), (0, 9)), ("連續 20 年", (6, 18), (1, 11), (5, 14), (1, 8))]
+    tones = (AMBER, MUTED, TEAL, BLUE)
+
+    def draw(lay):
+        rows_n = 2 if lay.mobile else 1
+        per = 2 if lay.mobile else 4
+        rh = 210 if lay.mobile else 300
+        h = rh * rows_n
+        left, right = lay.left, lay.right
+        vmax, vmin = 58, -44
+        out = [svg_open(lay, h, "持有越久，最好與最差越靠近；一半債券讓最差那端縮小")]
+        for rI in range(rows_n):
+            top = rI * rh + lay.top + 8
+            bottom = rI * rh + rh - 30
+            def py(v, top=top, bottom=bottom): return top + (bottom - top) * (vmax - v) / (vmax - vmin)
+            out += grid(lay, py, (-40, -20, 0, 20, 40), lambda v: "%d%%" % v)
+            gw = (right - left) / per
+            bw = (gw - 16) / 4 - 4
+            for k in range(per):
+                i = rI * per + k
+                label, *cols = data[i]
+                gx = left + k * gw + 8
+                for j, ((lo, hi), color) in enumerate(zip(cols, tones)):
+                    x = gx + j * (bw + 4)
+                    out.append(rect(x, py(hi), bw, max(2, py(lo) - py(hi)), color))
+                    out.append(text(x + bw / 2, py(hi) - 4, "%+d" % hi, lay.fl - 1.5, "middle", INK, "700"))
+                    out.append(text(x + bw / 2, py(lo) + lay.fl, "%+d" % lo, lay.fl - 1.5, "middle", INK))
+                out.append(text(gx + (gw - 16) / 2, bottom + lay.f + 6, label, lay.f, "middle", INK, "700"))
+        out.append("</svg>")
+        return "\n".join(out)
+    lg = legend([(AMBER, "全放股票"), (MUTED, "全部債券"), (TEAL, "一半股票一半債券"), (BLUE, "現金")])
+    nt = note("美國 1950 到 2025 年，以整年報酬為單位、連續放 1 到 20 年，平均一年的報酬區間（%）；若從年中任一天起算，一年的最差值只會更差，不會更好。J.P. Morgan「Guide to Retirement 2026」第 42 頁。")
+    return dict(title="放 1、5、10、20 年，最好的一段和最差的一段（換算成平均一年）", sub="美國 1950–2025，平均一年報酬區間，%",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
+                caption="往右看，最好和最差越來越近，但最差不是零。比較股票和一半一半，防守那一塊把最差的一年切掉一大半，也切掉一些最好的。這裡的債券是美國整體的投資等級債券（1976 年前用 Strategas/Ibbotson，之後用 Bloomberg Aggregate），2022 年股債同跌那一年已經算在裡面。")
+
+
+# ======================================================================
+# §6 五個人
+def five_people():
+    data = [(("精準買在", "最低點"), 186077), (("一拿到", "就投入"), 170555), (("分 12 個月", "慢慢投"), 166591), (("倒楣買在", "最高點"), 151343), (("一直等", "機會"), 47357)]
+
+    def draw(lay):
+        h = 230 if lay.mobile else 280
+        left, top, right = lay.left, lay.top + 10, lay.right
+        bottom = h - 40
+        vmax = 200000
+        def py(v): return bottom - (bottom - top) * v / vmax
+        out = [svg_open(lay, h, "五個人 20 年後手上的美元")]
+        out += grid(lay, py, (0, 50000, 100000, 150000, 200000), lambda v: ("%d 萬" % (v / 10000)) if v else "0")
+        gw = (right - left) / 5
+        bw = gw * 0.56
+        for i, (label, v) in enumerate(data):
+            x = left + i * gw + (gw - bw) / 2
+            out.append(rect(x, py(v), bw, bottom - py(v), TEAL if i < 4 else MUTED))
+            out.append(text(x + bw / 2, py(v) - 5, format(v, ","), lay.fl, "middle", INK, "800"))
+            out.append(text(x + bw / 2, bottom + lay.f + 4, label[0], lay.fs, "middle", INK))
+            out.append(text(x + bw / 2, bottom + lay.f * 2 + 6, label[1], lay.fs, "middle", INK))
+        out.append("</svg>")
+        return "\n".join(out)
+    nt = note("每年各拿到 2,000 美元、美股 2005 到 2024 年；Schwab 把 80 段不同的 20 年都算過，有 70 段排名相同。")
+    return dict(title="五個人，各 2,000 美元一年，20 年後", sub="Schwab，美股 2005–2024，美元",
+                svgs=[draw(L("d")), draw(L("m"))], extras=nt,
+                caption="最會挑的只比一拿到就投入多約 9%；一直等的連三分之一都不到。差的是錢有沒有在裡面，不是買的時點。")
+
+
+# ======================================================================
+# §7 幸運兒／倒楣鬼
+def dca_high_low():
+    rows = list(csv.DictReader(open(DATA / "algo_a_monthly_stats.csv", encoding="utf-8")))
+    def run(key):
+        units, series = 0.0, []
+        for r in rows:
+            units += 10000 / float(r[key])
+            series.append(units * float(r["last_close"]))
+        return series
+    hi, lo = run("max"), run("min")
+    assert abs(hi[-1] - 14703632.84) < 1 and abs(lo[-1] - 15780597.76) < 1
+    n = len(rows)
+
+    def draw(lay):
+        h = 240 if lay.mobile else 300
+        left, top = lay.left + 6, lay.top
+        right = lay.right - (44 if lay.mobile else 56)
+        bottom = h - 28
+        ymax = 1700e4
+        def px(i): return left + (right - left) * i / (n - 1)
+        def py(v): return bottom - (bottom - top) * v / ymax
+        out = [svg_open(lay, h, "台股每月投 1 萬元，都買在當月最高與都買在當月最低，資產累積走勢")]
+        out += grid(lay, py, (0, 500e4, 1000e4, 1500e4), lambda v: ("%d 萬" % (v / 1e4)) if v else "0", x2=right)
+        for i, r in enumerate(rows):
+            if int(r["month"]) == 1 and int(r["year"]) % 4 == 3:
+                out.append(text(px(i), bottom + lay.f + 4, r["year"], lay.f, "middle", MUTED))
+        out.append(poly([(px(i), py(v)) for i, v in enumerate(lo)], TEAL, 1.8))
+        out.append(poly([(px(i), py(v)) for i, v in enumerate(hi)], ACCENT, 1.8))
+        out.append(dot(px(n - 1), py(lo[-1]), TEAL, 3.5))
+        out.append(dot(px(n - 1), py(hi[-1]), ACCENT, 3.5))
+        out.append(text(right + 8, py(lo[-1]) - 2, "1,578 萬", lay.fl, "start", TEAL, "800"))
+        out.append(text(right + 8, py(hi[-1]) + lay.fl + 2, "1,470 萬", lay.fl, "start", ACCENT, "800"))
+        out.append("</svg>")
+        return "\n".join(out)
+    lg = legend([(TEAL, "幸運兒：都買在當月最低收盤"), (ACCENT, "倒楣鬼：都買在當月最高收盤")])
+    table = """<table class="dca">
+<thead><tr><th></th><th>幸運兒</th><th>平凡人</th><th>倒楣鬼</th></tr></thead>
+<tbody>
+<tr><th>買在</th><td>每月最低收盤</td><td>每月平均收盤</td><td>每月最高收盤</td></tr>
+<tr><th>總投入</th><td>276 萬</td><td>276 萬</td><td>276 萬</td></tr>
+<tr><th>期末資產</th><td>1,578 萬</td><td>1,519 萬</td><td>1,470 萬</td></tr>
+<tr><th>平均一年長</th><td>13.23%</td><td>12.97%</td><td>12.74%</td></tr>
+</tbody></table>"""
+    nt = note("證交所發行量加權股價報酬指數 2003 到 2025 年，每月投入 1 萬元，自算；兩條線幾乎疊在一起。期末精確值：15,780,598、15,189,340、14,703,633 元。")
+    return dict(title="每月 1 萬元：永遠買在最高，對上永遠買在最低", sub="台股含息 2003–2025，自算",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + table + nt,
+                caption="永遠最衰和永遠神準，二十三年下來只差 7.3%。要看的是兩條線的距離，不是高度：這 23 年事後看報酬偏高，換一段期間會不同。")
+
+
+# ======================================================================
+# §8 錯過最好的日子
+def missing_days():
+    data = [("全程持有", 80619), ("錯過最好的 10 天", 35866), ("錯過最好的 30 天", 13826)]
+
+    def draw(lay):
+        h = 220 if lay.mobile else 270
+        left, top, right = lay.left + 8, lay.top + 10, lay.right
+        bottom = h - 30
+        vmax = 90000
+        def py(v): return bottom - (bottom - top) * v / vmax
+        out = [svg_open(lay, h, "標普 500 含息，2006 到 2025 年投入 1 萬美元的結果")]
+        out += grid(lay, py, (0, 20000, 40000, 60000, 80000), lambda v: ("%d 萬" % (v / 10000)) if v else "0")
+        gw = (right - left) / 3
+        bw = gw * 0.5
+        for i, (label, v) in enumerate(data):
+            x = left + i * gw + (gw - bw) / 2
+            out.append(rect(x, py(v), bw, bottom - py(v), TEAL if i == 0 else MUTED))
+            out.append(text(x + bw / 2, py(v) - 6, "$" + format(v, ","), lay.fl, "middle", INK, "800"))
+            out.append(text(x + bw / 2, bottom + lay.f + 4, label, lay.f, "middle", INK))
+        out.append("</svg>")
+        return "\n".join(out)
+    nt = note("10 個最好的日子裡，有 6 天落在最差的 10 天的兩週內。另一份資料算過另一邊：避開最差的 10 天，最後的錢多兩倍。J.P. Morgan Guide to Retirement 2026。")
+    return dict(title="錯過最好的幾天，20 年後剩多少", sub="S&P 500 含息，2006–2025，投入 1 萬美元",
+                svgs=[draw(L("d")), draw(L("m"))], extras=nt,
+                caption="「先出來一下」的代價。最好的日子和最差的日子擠在一起，躲掉一邊就躲掉另一邊。")
+
+
+# ======================================================================
+# 沿用手冊的兩張（維持手冊的 SVG，只套新外框）
+def handbook_figure(chapter_file):
+    s = (ROOT / "chapters" / chapter_file).read_text(encoding="utf-8")
+    m = re.search(r"<figure class=\"chart\">\s*(<svg.*?</svg>)", s, re.S)
+    if not m:
+        raise SystemExit("找不到手冊圖：" + chapter_file)
+    return m.group(1).replace("<svg ", '<svg class="d m" ', 1)
+
+
+def smooth_vs_jagged():
+    """資料取自手冊第 7 章那張圖的兩條折線（x 46–340 ＝ 0–30 年，y 272 ＝ 0、每 72 ＝ 200 萬），套新框架重畫。"""
+    src = (ROOT / "chapters" / "07-time-inflation-compounding.html").read_text(encoding="utf-8")
+    svg = re.search(r"<figure class=\"chart\">\s*(<svg.*?</svg>)", src, re.S).group(1)
+    lines = re.findall(r'<polyline points="([^"]+)"', svg)
+    def parse(pts):
+        out = []
+        for p in pts.split():
+            x, y = map(float, p.split(","))
+            out.append(((x - 46) / (340 - 46) * 30, (272 - y) / 72 * 200))
+        return out
+    smooth, jagged = parse(lines[0]), parse(lines[1])
+
+    def draw(lay):
+        h = 240 if lay.mobile else 300
+        left, top, right = lay.left, lay.top, lay.right
+        bottom = h - 28
+        def px(t): return left + (right - left) * t / 30
+        def py(v): return bottom - (bottom - top) * v / 620
+        out = [svg_open(lay, h, "示意：每月投入 5,000 元、年化同為 6%、30 年，平滑假想線與中途下跌的鋸齒線")]
+        out += grid(lay, py, (0, 200, 400, 600), lambda v: ("%d 萬" % v) if v else "0")
+        for t in (0, 10, 20, 30):
+            out.append(text(px(t), bottom + lay.f + 4, "%d 年" % t, lay.f, "middle", MUTED))
+        out.append(poly([(px(t), py(v)) for t, v in smooth], MUTED, lay.line - 0.4, dash="6 5"))
+        out.append(poly([(px(t), py(v)) for t, v in jagged], ACCENT, lay.line))
+        out.append(dot(px(jagged[-1][0]), py(jagged[-1][1]), ACCENT))
+        out.append("</svg>")
+        return "\n".join(out)
+    lg = legend([(MUTED, "假設每年都剛好 6%（虛線）"), (ACCENT, "年化同樣 6%，中途有漲有跌")])
+    return dict(title="你以為的複利，和你真實經歷的", sub="示意：每月 5,000 元、30 年、年化都是 6%，兩條線終點一樣",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg,
+                caption="兩條線的終點一樣，走的路完全不同。你以為的複利是虛線，你真實經歷的是實線：三十年裡有九年是負的。")
+
+
+def buckets():
+    svg = handbook_figure("09-rules-card.html").replace("看你第 8 章的答案", "由你自己填")
+    return dict(title="按用錢日期分三桶", sub="示意", svgs=[svg], extras="",
+                caption="按「什麼時候要用」分成三桶。越快要用的錢，越不能跌；第三桶留白，由你自己填。")
+
+
+CHARTS = [
+    ("three-circles", "01-where-return-comes-from.html", "順便講「又穩又高」", "aside", three_circles),
+    ("four-people", "02-time.html", "手冊算過四個人", "aside", four_people),
+    ("milestones", "02-time.html", "把資產每滿 60 萬當一格", "aside", milestones),
+    ("spiva", "03-cost.html", "美國大型股、由人幫你挑股票的基金", "aside", spiva),
+    ("smooth-vs-jagged", "05-volatility.html", "前一種要變成真的傷害", "p", smooth_vs_jagged),
+    ("intra-year", "05-volatility.html", "美國大盤 1980 到 2025 年", "aside", intra_year),
+    ("ranges", "05-volatility.html", "另一件事跟比例有關", "aside", ranges),
+    ("five-people", "06-timing.html", "有人用 1920 年起的美股資料試過一件事", "aside", five_people),
+    ("dca-high-low", "07-frequency.html", "台股大盤把股利也算進去", "aside", dca_high_low),
+    ("missing-days", "08-take-profit-dividend.html", "「先出來一下」的代價算得出來", "aside", missing_days),
+    ("buckets", "11-rules.html", "卡上只寫動作，不寫心情", "p", buckets),
+]
+
+FIG_RE = r'\n?\s*<figure class="chart" data-chart="%s">.*?</figure>'
+
+
+def strip_all(s):
+    return re.sub(FIG_RE % '[^"]+', "", s, flags=re.S)
+
+
+def insert(s, cid, anchor, mode, fig):
+    i = s.find(anchor)
+    if i < 0:
+        return s, "找不到錨點：%s" % anchor
+    end_tag = "</aside>" if mode == "aside" else "</p>"
+    j = s.find(end_tag, i)
+    if j < 0:
+        return s, "錨點後找不到 %s" % end_tag
+    j += len(end_tag)
+    return s[:j] + "\n\n    " + fig + s[j:], None
+
+
+def build(cid, fn_chart, caption=None):
+    d = fn_chart()
+    return figure(cid, d["title"], d["sub"], d["svgs"], caption if caption is not None else d["caption"], d["extras"])
+
+
+def do_essay():
+    errors, files = [], {}
+    for fn in sorted(SEC.glob("[0-9]*.html")):
+        files[fn.name] = strip_all(fn.read_text(encoding="utf-8"))
+    for cid, fn, anchor, mode, fn_chart in CHARTS:
+        files[fn], err = insert(files[fn], cid, anchor, mode, build(cid, fn_chart))
+        if err:
+            errors.append("%s：%s" % (cid, err))
+        else:
+            print("專篇 插入 %s → %s" % (cid, fn))
+    for fn, s in files.items():
+        (SEC / fn).write_text(s, encoding="utf-8")
+    for e in errors:
+        print("✗", e)
+    return 1 if errors else 0
+
+
+def do_guide():
+    """指南：只換同 id 的圖，保留指南自己的 figcaption。"""
+    s = GUIDE.read_text(encoding="utf-8")
+    funcs = {cid: f for cid, _, _, _, f in CHARTS}
+    funcs["human-capital"] = human_capital   # 只在指南
+    n = 0
+    def repl(m):
+        nonlocal n
+        cid = m.group(1)
+        cap = re.search(r"<figcaption>(.*?)</figcaption>", m.group(0), re.S)
+        cap = re.sub(r"<[^>]+>", "", cap.group(1)) if cap else None
+        cap = cap.replace("&amp;", "&") if cap else None
+        n += 1
+        return build(cid, funcs[cid], cap)
+    s2 = re.sub(r'<figure class="chart" data-chart="([^"]+)">.*?</figure>', repl, s, flags=re.S)
+    GUIDE.write_text(s2, encoding="utf-8")
+    print("指南 換了 %d 張圖" % n)
+    return 0
+
+
+def main(argv):
+    if "--all" in argv:
+        return do_essay() or do_guide()
+    if "--guide" in argv:
+        return do_guide()
+    return do_essay()
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

@@ -1,0 +1,43 @@
+{
+ "00-how-to-use": [
+  {
+   "ts": "2026-09-07T12:02:18.989Z",
+   "file": "/Users/linyenchu/Cladue Code/family-finance/chapters/00-how-to-use.html",
+   "old": "  <div class=\"keypoints\">\n    <h3>先看重點</h3>\n    <ol>\n      <li>理財是安排錢的進出，投資只是其中一段 <a href=\"#ch-01\">第 1 章</a></li>\n      <li>一張資產負債表加一張現金流表，就是家裡的體檢 <a href=\"#ch-02\">第 2 章</a><a href=\"#ch-03\">第 3 章</a></li>\n      <li>先有一筆隨時拿得到的錢，再談投資 <a href=\"#ch-04\">第 4 章</a></li>\n      <li>債要看年利率和總還款，不是只看月付 <a href=\"#ch-05\">第 5 章</a></li>\n      <li>買商業保險之前，先查你已經有的那一層 <a href=\"#ch-06\">第 6 章</a></li>\n      <li>錢放著不動不是沒有風險，是換了一種風險 <a href=\"#ch-07\">第 7 章</a></li>\n      <li>費用是你唯一事先就能確定的那個數字 <a href=\"#ch-08\">第 8 章</a></li>\n      <li>先決定這筆錢什麼時候要用，再決定買什麼 <a href=\"#ch-09\">第 9 章</a></li>\n      <li>退休金有三層，先查你已經有的 <a href=\"#ch-10\">第 10 章</a></li>\n      <li>稅的骨架幾十年不太變，數字每年公告 <a href=\"#ch-11\">第 11 章</a></li>\n      <li>租和買各有一本帳，兩本都算完才叫比較 <a href=\"#ch-12\">第 12 章</a></li>\n      <li>錢牽到第二個人，題目就從算術變成對話 <a href=\"#ch-13\">第 13 章</a><a href=\"#ch-14\">第 14 章</a></li>\n      <li>話術每季換，結構不變，認得出結構才擋得住 <a href=\"#ch-15\">第 15 章</a></li>\n      <li>重看有固定節奏：每月、每季、每年，寫進行事曆 <a href=\"#ch-16\">第 16 章</a></li>\n    </ol>\n  </div>\n\n  <h3>你要花多少時間</h3>",
+   "new": "  <h3>我現在最想解決哪一題</h3>\n\n  <div class=\"triage\">\n    <p>照順序問自己三題。第一個讓你停頓的地方，就是這個月的題目。</p>\n    <ol class=\"steps\">\n      <li><strong>有沒有年利率高的債</strong>——信用卡帳單沒繳清、餘額在滾利息的（循環信用）、現金卡、高利分期、先買後付逾期。有的話，先看 <a href=\"#ch-05\">第 5 章</a>。</li>\n      <li><strong>有沒有一筆撐得過半年、兩天內就拿得到的現金</strong>——不用解約、不看市場臉色。沒有的話，先看 <a href=\"#ch-04\">第 4 章</a>。</li>\n      <li><strong>有沒有人靠你的收入生活</strong>——小孩、伴侶、父母，任何一個都算。有的話，先看 <a href=\"#ch-06\">第 6 章</a>。</li>\n    </ol>\n    <p>三題都沒有把你攔下來的人，從第 1 章照順序讀。</p>\n  </div>\n\n  <h3>你要花多少時間</h3>",
+   "agent": "agent-a4c3757f9ecb16892.jsonl"
+  },
+  {
+   "ts": "2026-09-07T12:03:07.622Z",
+   "file": "/Users/linyenchu/Cladue Code/family-finance/chapters/00-how-to-use.html",
+   "old": "  <div class=\"author-route\">\n    <h3>如果你想照作者的路走</h3>\n    <p class=\"route-intro\">這是作者自己走的路，不是這份文件的結論。每一條旁邊寫了理由與代價，也連到解釋它的章。</p>\n    <ol>\n      <li><strong>錢放在照市值比重、費用低、分散的指數型工具。</strong>理由：不用挑公司就拿到市場平均。代價：永遠不會是最好的那一檔。<a href=\"#ch-08\">第 8 章</a></li>\n      <li><strong>不擇時，固定週期買進。</strong>理由：進場時點事後才知道，等待通常更貴。代價：可能剛好買在高點。<a href=\"#ch-09\">第 9 章</a></li>\n      <li><strong>能存多少就買多少，把存下來的比例放在前面。</strong>理由：這是你控制得了的部分。代價：現在的生活被壓縮。<a href=\"#ch-01\">第 1 章</a></li>\n      <li><strong>股債比例照自己的情況設定，每年再平衡一次。</strong>理由：控制風險，不是提高報酬。代價：得賣掉漲多的那邊，付手續費。<a href=\"#ch-09\">第 9 章</a></li>\n      <li><strong>持有至少十年，二十年以上更好。</strong>理由：期間拉長，報酬區間會收窄。代價：這段期間會經歷幾次大跌。<a href=\"#ch-08\">第 8 章</a></li>\n      <li><strong>少花時間看盤，省下的時間給家庭或增加收入。</strong>理由：多看盤不會多賺。代價：真的有事發生時，會晚一點知道。<a href=\"#ch-09\">第 9 章</a></li>\n      <li><strong>目標是走到預期報酬等於當年投入的那一年。</strong>理由：那一年之後，資產長得比投入快。代價：7% 假設下約十年，實際可能提早或延後。<a href=\"#ch-07\">第 7 章</a></li>\n    </ol>\n    <p class=\"route-note\">作者持有的幾檔名稱與完整的規則卡在 <a href=\"#ch-09\">第 9 章</a>。</p>\n  </div>\n\n  <footer class=\"ch-foot\">",
+   "new": "  <footer class=\"ch-foot\">",
+   "agent": "agent-a4c3757f9ecb16892.jsonl"
+  }
+ ],
+ "07-time-inflation-compounding": [
+  {
+   "ts": "2026-09-07T12:02:31.661Z",
+   "file": "/Users/linyenchu/Cladue Code/family-finance/chapters/07-time-inflation-compounding.html",
+   "old": "<p>前期慢、後期快，也可以直接量出來。假設每年投入 <span class=\"num\">6</span> 萬元（每月 <span class=\"num\">5,000</span> 元）、年化 7%，看每多累積 60 萬元要花多久。</p>\n\n<div class=\"table-wrap\"><table>\n  <thead><tr><th>累積到（萬元）</th><th>這一段花幾年</th><th>這一段裡有多少是報酬</th></tr></thead>\n  <tbody>\n    <tr><td>60</td><td>7.84</td><td>22%</td></tr>\n    <tr><td>120</td><td>5.10</td><td>49%</td></tr>\n    <tr><td>180</td><td>3.78</td><td>62%</td></tr>\n    <tr><td>240</td><td>3.01</td><td>70%</td></tr>\n    <tr><td>300</td><td>2.50</td><td>75%</td></tr>\n    <tr><td>360</td><td>2.14</td><td>79%</td></tr>\n    <tr><td>420</td><td>1.87</td><td>81%</td></tr>\n    <tr><td>480</td><td>1.66</td><td>83%</td></tr>\n    <tr><td>540</td><td>1.49</td><td>85%</td></tr>\n    <tr><td>600</td><td>1.35</td><td>86%</td></tr>\n  </tbody>\n</table></div>\n\n<p>第一個 60 萬要 7.84 年，其中只有兩成多是報酬；第十個只要 1.35 年，八成多是報酬<sup class=\"cite\"><a href=\"#src-07-13\">13</a></sup>。前面慢，是因為錢還沒開始幫忙。這是算術，不是預測：實際報酬不會每年剛好 7%，抵達的時間會前後好幾年。</p>\n\n<p>投入和報酬打平的那一年（<dfn id=\"def-甜蜜點\" data-term=\"甜蜜點\">甜蜜點</dfn>）：資產一年的預期報酬，等於你那一年投入的錢。這是本文自己的叫法，不是通用術語。下面的算式框算給你看它大約在第幾年。</p>\n\n<aside class=\"box formula\"><p class=\"box-label\">🧮 算給你看</p>\n  <pre>甜蜜點大約在錢翻一倍的那一年：72 ÷ 報酬率\n年化 6%：約 12 年後，那時資產約是一年投入的 17 倍\n年化 5%：約 14 年後，約 20 倍</pre>\n  <p class=\"how\">代入示範：把 6 換成你想試的報酬率；倍數就是 100 ÷ 報酬率<sup class=\"cite\"><a href=\"#src-07-13\">13</a></sup>。</p>\n  <p class=\"caveat\">這只是算術，不是預測。限制：這是預期值，那一年實際的報酬可能是負的；投入的錢逐年增加，年數會拉長。抵達之後也不代表可以不用再投入。</p>\n</aside>\n\n<p>但上面這幾張表都只給你看終點",
+   "new": "<p>前期慢、後期快，還有一個看法。大約在第十幾年，你的錢一年賺到的，會跟你一年投入的一樣多。那之後，資產長得比你存得快。這是 6% 假設下的算術，實際會提早或延後好幾年，不是承諾<sup class=\"cite\"><a href=\"#src-07-13\">13</a></sup>。</p>\n\n<p>但上面這幾張表都只給你看終點",
+   "agent": "agent-aa4572f7e2ca9e469.jsonl"
+  },
+  {
+   "ts": "2026-09-07T12:03:02.663Z",
+   "file": "/Users/linyenchu/Cladue Code/family-finance/chapters/07-time-inflation-compounding.html",
+   "old": "，正文取到萬位；里程碑表以每年投入 1 單位、年化 7%、t＝ln(FV×r÷C＋1)÷ln(1＋r) 反解（原始版本為每年 10,000 美元；正文按年投入 6 萬元、每段 60 萬元等比換算，年數與報酬占比不變），累積到 10 至 100 單位的逐段年數 7.84／5.10／3.78／3.01／2.50／2.14／1.87／1.66／1.49／1.35，合計 30.73 年，每段報酬占比＝(100,000−10,000×該段年數)÷100,000＝22／49／62／70／75／79／81／83／85／86%；甜蜜點由 FV＝S×[(1+r)^n−1]÷r 令 FV×r＝S 得 (1+r)^n＝2，n＝ln2÷ln(1+r)（6% 為 11.9 年、5% 為 14.2 年、7% 為 10.2 年），此時資產＝S÷r（6% 為 16.7 倍、5% 為 20.0 倍、7% 為 14.3 倍），框內取整寫成約 12 年／17 倍與約 14 年／20 倍；圖中鋸齒線的 30 個年度報酬率有 9 個為負",
+   "new": "，正文取到萬位；「一年賺到的等於一年投入的」那一年由 FV＝S×[(1+r)^n−1]÷r 令 FV×r＝S 得 (1+r)^n＝2，n＝ln2÷ln(1+r)，年化 6% 為 11.9 年，正文寫成「第十幾年」；圖中鋸齒線的 30 個年度報酬率有 9 個為負",
+   "agent": "agent-aa4572f7e2ca9e469.jsonl"
+  }
+ ],
+ "09-rules-card": [
+  {
+   "ts": "2026-09-07T12:03:25.349Z",
+   "file": "/Users/linyenchu/Cladue Code/family-finance/chapters/09-rules-card.html",
+   "old": "  <p>另一題是多久買一次。同一段資料、同樣投入 276 萬元，只改投入時點，共算了七種頻率。年化都落在 12.94% 到 12.99% 之間<sup class=\"cite\"><a href=\"#src-09-13\">13</a></sup>。</p>\n\n  <details>\n    <summary>想看細節再打開：七種投入頻率的完整數字</summary>\n    <div class=\"table-wrap\">\n      <table>\n        <thead><tr><th>多久買一次</th><th>期末資產（元）</th><th>年化</th></tr></thead>\n        <tbody>\n          <tr><td>每個交易日</td><td>15,197,845</td><td>12.97%</td></tr>\n          <tr><td>前 10 個交易日</td><td>15,198,678</td><td>12.97%</td></tr>\n          <tr><td>前 3 個交易日</td><td>15,219,088</td><td>12.98%</td></tr>\n          <tr><td>每月第 1 天</td><td>15,234,934</td><td>12.99%</td></tr>\n          <tr><td>每月最後 1 天</td><td>15,138,060</td><td>12.94%</td></tr>\n          <tr><td>每季第 1 天</td><td>15,349,087</td><td>12.97%</td></tr>\n          <tr><td>每年第 1 天</td><td>16,013,014</td><td>12.95%</td></tr>\n        </tbody>\n      </table>\n    </div>\n  </details>\n\n  <p>期末金額最多差 5.8%，差在「錢早一點進場」，不是頻率：每年投一次的錢平均早半年進場。換一段往下走的期間會反過來。買得越頻繁，只是越貼近指數本身。</p>\n\n  <p>還有一種做法是先不投入，等跌下來再說。另一份業者研究以美股 2005 到 2024 年試算，五個人每年各拿到 2,000 美元<sup class=\"cite\"><a href=\"#src-09-14\">14</a></sup>。</p>\n\n  <div class=\"table-wrap\">\n    <table>\n      <thead><tr><th>二十年怎麼做</th><th>期末（美元）</th><th>與立即投入相比</th></tr></thead>\n      <tbody>\n        <tr><td>每年買在當年最低點</td><td>186,077</td><td>多 15,522</td></tr>\n        <tr><td>拿到錢就投入</td><td>170,555</td><td>—</td></tr>\n        <tr><td>分 12 個月投入</td><td>166,591</td><td>少 3,964</td></tr>\n        <tr><td>每年買在當年最高點</td><td>151,343</td><td>少 19,212</td></tr>\n        <tr><td>一直等，錢放國庫券</td><td>47,357</td><td>少 123,198</td></tr>\n      </tbody>\n    </table>\n  </div>\n\n  <p>每年都精準買在最低點，二十年只多約 9%；一直等機會的人，最後不到立即投入的三分之一。這份研究回測 80 個二十年期間，70 個排名相同。</p>\n\n  <p>離開市場還有另一組數字：美股 2006 到 2025 年，1 萬美元全程持有變成 80,619，錯過漲最多的 10 天只剩 35,866<sup class=\"cite\"><a href=\"#src-09-15\">15</a></sup>。旁邊的註記寫著：10 個最好的日子有 6 天落在 10 個最差日子的兩週內。反過來算也有研究：道瓊 1900 到 2006 年，避開跌最重的 10 天，終值多兩倍<sup class=\"cite\"><a href=\"#src-09-16\">16</a></sup>。最好與最差擠在一起，你分不開它們。</p>\n",
+   "new": "  <p>另一題是多久買一次。同一段資料改成每季或每年投一次，年化差不到 0.1 個百分點<sup class=\"cite\"><a href=\"#src-09-13\">13</a></sup>。差的是錢早一點還是晚一點進場。</p>\n",
+   "agent": "agent-ae79e944f9b1b598a.jsonl"
+  }
+ ]
+}

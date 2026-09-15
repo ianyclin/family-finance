@@ -1,0 +1,4 @@
+scenario,n_months,monthly_invest,total_invested,final_index_value,final_value,total_return_pct,annual_irr_pct
+buy_at_monthly_high,276,10000.0,2760000.0,65905.98,14703632.84,432.7403,12.7391
+buy_at_monthly_avg_close,276,10000.0,2760000.0,65905.98,15189340.17,450.3384,12.9654
+buy_at_monthly_low,276,10000.0,2760000.0,65905.98,15780597.76,471.7608,13.2308

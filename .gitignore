@@ -1,0 +1,12 @@
+.DS_Store
+# 備份與匯出（檔案大、可重新產生）
+guide/*.backup.html
+guide/*.snapshot.html
+export/
+# 第三方論文、原始抓取與作者私人原始貼文
+research/pdf/
+research/orig/
+research/fb-raw/
+research/fb-digest/
+research/author-fb-posts*
+research/*-snapshot.html

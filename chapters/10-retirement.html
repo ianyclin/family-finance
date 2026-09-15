@@ -1,0 +1,327 @@
+<section class="chapter" id="ch-10" data-num="10" data-stage="4">
+  <header class="ch-head">
+    <p class="eyebrow">第 10 章 · 第四區 制度</p>
+    <h2>退休：先查出你已經有的，再算差多少</h2>
+    <p class="lede">退休的第一步是查，不是估；先知道自己已經有多少。</p>
+    <div class="ch-meta">
+      <div class="meta-block"><h3>這章回答你的三個問題</h3>
+        <ul><li>「勞保會不會倒？」</li><li>「勞退自提 6% 划算嗎？」</li><li>「退休到底要準備多少錢？」</li></ul></div>
+      <div class="meta-block"><h3>讀完你做得到</h3>
+        <ul class="checks"><li>查出勞保年資、月投保薪資與勞退專戶累計金額</li><li>用官方試算工具算一次，說出兩層各自大約能領多少</li><li>算出退休缺口的量級，並換五組假設看它怎麼變</li></ul></div>
+      <div class="meta-block"><h3>這章會用到前面的</h3>
+        <p>第 3 章的必要月支出、第 6 章查到的投保薪資與勞退餘額、第 9 章的分桶。</p></div>
+      <p class="time"><span>🕐 約 25 分鐘</span><span>✍️ 需要：第 6 章的登入方式、第 3 章的現金流表</span></p>
+    </div>
+  </header>
+
+  <p>影響退休的因素，有些你能決定，有些不能。摩根資產管理把它們分成三欄<sup class="cite"><a href="#src-10-24">24</a></sup>。</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>完全掌控</th><th>部分掌控</th><th>無力掌控</th></tr></thead>
+      <tbody>
+        <tr><td>存多少、花多少</td><td>工作收入與工作年數</td><td>市場報酬</td></tr>
+        <tr><td>資產配置、放勞退專戶還是自己的帳戶</td><td>活多久</td><td>稅與福利制度</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>這一章倒著走：先查制度已經給你的，也就是右欄「稅與福利制度」那一格。勞保和勞退都在這裡。再回到左欄，算你自己要補多少。右欄以後會怎麼變，本文不預測。</p>
+
+  <h3>勞保和勞退不是同一件事</h3>
+
+  <p>退休這一題，很多人一開口就把兩個制度講成同一個。先把它們分開，後面算出來的東西才有意義。</p>
+
+  <p>大家一起繳、由勞保局按公式發的月退金（<dfn id="def-勞保老年年金" data-term="勞保老年年金">勞保老年年金</dfn>）：你上班時每月從薪水扣保費。符合年齡與年資條件後，勞保局按公式按月發錢給你。就像一群人一起養一個水池，符合條件的人依規則取水。這個比喻在「水是你的」這裡不成立——池子裡沒有一格寫你的名字。</p>
+
+  <p>雇主每月存進你名下的退休金（<dfn id="def-個人退休金專戶" data-term="個人退休金專戶">個人退休金專戶</dfn>，下文簡稱勞退專戶）：金額不低於你每月工資的 6%。錢進勞保局為你開的專戶，換工作跟著你走。就像一個貼著你名字的存錢筒。這個比喻在兩件事上不成立——筒子上了鎖，要到年紀才打得開；裡面的錢拿去投資，會漲也會跌。</p>
+
+  <p>勞保局明講，這兩者是不同的制度，既不會互相影響也沒有替代性<sup class="cite"><a href="#src-10-1">1</a></sup>。加上你自己準備的第三層，退休金一共三層。</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>你要問的</th><th>第一層 勞保老年年金</th><th>第二層 勞退專戶</th></tr></thead>
+      <tbody>
+        <tr><th>誰出錢</th><td>你、雇主與政府分擔保險費</td><td>雇主提繳，你可以再自願提繳</td></tr>
+        <tr><th>錢在誰名下</th><td>沒有個人帳戶，是共同的基金</td><td>你名下的專戶，查得到餘額</td></tr>
+        <tr><th>怎麼算</th><td>按公式：平均月投保薪資與年資</td><td>按專戶的本金加上累積收益</td></tr>
+        <tr><th>何時可以領</th><td>115 年起 65 歲、年資滿 15 年</td><td>年滿 60 歲</td></tr>
+        <tr><th>能不能留給家人</th><td>沒有你名下的餘額可以留；遺屬給付另有規定</td><td>請領前死亡，由遺屬或指定請領人領一次退休金</td></tr>
+        <tr><th>風險是什麼</th><td>公式與財務假設會隨修法改變</td><td>投資有賺有賠，法律只訂了收益下限</td></tr>
+        <tr><th>去哪查</th><td colspan="2">勞保局 e 化服務系統或行動服務 App，兩層同一個入口</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>沒有參加勞保的人，第一層換成國民年金。接案、自營作業者也在勞保的涵蓋範圍內，第一層仍是勞保<sup class="cite"><a href="#src-10-1">1</a></sup>。年滿 25 歲、未滿 65 歲、沒有參加勞保等社會保險的人是加保對象<sup class="cite"><a href="#src-10-16">16</a></sup>。</p>
+
+  <p>國民年金的老年年金也是兩式擇優：A 式是月投保金額 × 年資 × 0.65% 再加一筆加計金額，B 式是 × 1.3%<sup class="cite"><a href="#src-10-17">17</a></sup>。115 年 1 月起月投保金額 <span class="num">21,103</span> 元、加計金額 <span class="num">4,049</span> 元 <span class="badge">115 年度</span><sup class="cite"><a href="#src-10-17">17</a></sup>。年資也在勞保局查。</p>
+
+  <p>軍公教有自己的制度，本章不適用：公務人員查銓敘部，教師查教育部。</p>
+
+  <h3>第一步是查，不是估</h3>
+
+  <p>你已經有多少，是查得到的事實，不需要猜。</p>
+
+  <ol class="steps">
+    <li><strong>準備登入工具</strong> 用第 6 章的方式：自然人憑證，或本人月租型門號的行動電話認證。</li>
+    <li><strong>登入勞保局的服務</strong> 用行動服務 App 或 e 化服務系統，查勞保年資、月投保薪資、勞退專戶累計金額，約 5 分鐘。</li>
+    <li><strong>抄進工作表⑨並截圖</strong> 截圖上要看得到查詢日期，第 2 章的資產負債表也用得到。</li>
+    <li><strong>用官方試算工具算一次</strong> 勞保局有整合試算頁，兩層可以一起算<sup class="cite"><a href="#src-10-14">14</a></sup>。勞動部另有勞工個人退休金試算表<sup class="cite"><a href="#src-10-15">15</a></sup>。</li>
+  </ol>
+
+  <p>試算工具會問「勞退基金平均報酬率」與「薪資成長率」，這兩格是你自己填的假設<sup class="cite"><a href="#src-10-15">15</a></sup>。換一組假設，答案就換一個。這是假設，不是承諾。</p>
+
+  <aside class="box action" id="ws-9"><p class="box-label">✍️ 工作表⑨ 退休三層查詢表</p>
+    <p class="ws-date">填寫日期：＿＿＿＿＿＿</p>
+    <table class="worksheet"><tbody>
+      <tr><th>第一層　勞保年資（年／月）</th><td class="blank"></td></tr>
+      <tr><th>第一層　目前月投保薪資</th><td class="blank"></td></tr>
+      <tr><th>第一層　官方試算的月領金額</th><td class="blank"></td></tr>
+      <tr><th>第二層　勞退專戶累計金額</th><td class="blank"></td></tr>
+      <tr><th>第二層　目前月提繳工資</th><td class="blank"></td></tr>
+      <tr><th>第二層　現在有沒有自提、提幾 %</th><td class="blank"></td></tr>
+      <tr><th>第三層　自己準備的錢（第 9 章給退休的那一桶）</th><td class="blank"></td></tr>
+      <tr><th>下次重查的月份</th><td class="blank"></td></tr>
+    </tbody></table>
+  </aside>
+
+  <h3>勞保那一層：幾歲能領、能領多少</h3>
+
+  <aside class="box fact"><p class="box-label">📌 事實</p>
+    <ul>
+      <li>老年年金法定請領年齡逐年延後：107 年 61 歲、109 年 62 歲、111 年 63 歲、113 年 64 歲，115 年以後為 65 歲 <span class="badge">115 年度</span><sup class="cite"><a href="#src-10-2">2</a></sup></li>
+      <li>要年資合計滿 15 年，而且已經離職、退出勞保。年資不夠的，可以把國民年金的年資加進來算，滿 15 年就能在 65 歲請領<sup class="cite"><a href="#src-10-2">2</a></sup></li>
+      <li>年金的平均月投保薪資，按加保期間最高 60 個月之月投保薪資平均計算（勞工保險條例第 19 條）<sup class="cite"><a href="#src-10-5">5</a></sup></li>
+      <li>投保薪資分級表共 11 級，最高一級 <span class="num">45,800</span> 元、最低一級 <span class="num">29,500</span> 元 <span class="badge">115-01-01 施行</span><sup class="cite"><a href="#src-10-4">4</a></sup></li>
+    </ul>
+  </aside>
+
+  <p>金額有兩個公式，勞保局按兩式擇優發給。每延後 1 年請領增給 4%、最多增給 20%<sup class="cite"><a href="#src-10-3">3</a></sup>。</p>
+
+  <aside class="box formula"><p class="box-label">🧮 算給你看</p>
+    <pre>第一式：平均月投保薪資 × 年資 × 0.775% ＋ 3,000 元
+第二式：平均月投保薪資 × 年資 × 1.55%
+兩式擇優，領比較高的那一式
+
+代入：平均月投保薪資 40,000 元、年資 30 年
+第一式　40,000 × 30 × 0.775% ＋ 3,000 ＝ 12,300 元
+第二式　40,000 × 30 × 1.55% ＝ 18,600 元　← 擇優
+延後 3 年請領（增給 12%）：18,600 × 1.12 ＝ 20,832 元</pre>
+    <p class="how">代入示範：把 40,000 換成你查到的月投保薪資，把 30 換成你預估到退休時的年資。</p>
+    <p class="caveat">這只是算術，不是預測。限制：年資與投保薪資到退休前都會變。減額請領、展延請領、併計國民年金年資另有規定，以官方試算為準。</p>
+  </aside>
+
+  <p>投保薪資有上限，所以這一層有天花板。以最高一級 45,800 元、年資 30 年代入第二式，月領約 <span class="num">21,297</span> 元<sup class="cite"><a href="#src-10-22">22</a></sup>。薪水再往上，這一層也不會再多。</p>
+
+  <h3>「勞保會不會倒」這題怎麼看</h3>
+
+  <p>這一題本文不預測，只把已經公布的事實與假設攤開。要不要在規劃時打折，由你決定。</p>
+
+  <p>勞動部 114 年 1 月公布最新的精算報告，假設投資報酬率 4.5%，並納入截至 114 年止的政府撥補 <span class="badge">2025-01-21 公布</span><sup class="cite"><a href="#src-10-6">6</a></sup>。在這組假設下，基金餘額出現負值的年度比前次報告晚 3 年<sup class="cite"><a href="#src-10-6">6</a></sup>。前次推估是 2028 年<sup class="cite"><a href="#src-10-7">7</a></sup>，往後推約 2031 年——這是推算，不是官方寫下的結論。政府已連續 6 年撥補，累計 <span class="num">3,870</span> 億元<sup class="cite"><a href="#src-10-6">6</a></sup><sup class="cite"><a href="#src-10-7">7</a></sup>。</p>
+
+  <p>常被轉貼的「117 年度用罄」，就是上一段的 2028 年。那是用 109 年數字當起點算出來的舊報告，立法院同一份資料自己就註明了起點<sup class="cite"><a href="#src-10-7">7</a></sup>。報酬率、撥補、費率、給付規則，其中一項變，年份就跟著移動。那個 4.5% 也是精算用的假設，不是承諾。</p>
+
+  <aside class="box myth"><p class="box-label">🔄 誤解</p>
+    <dl>
+      <dt>很多人以為</dt><dd>勞保基金有一天見底，我繳的錢就白繳了。</dd>
+      <dt>實際上</dt><dd>會見底的是基金餘額。見底之後給付怎麼付，要看撥補與修法，本文不預測。推估年份會移動，常被並列的兩個年份起點不同<sup class="cite"><a href="#src-10-6">6</a></sup><sup class="cite"><a href="#src-10-7">7</a></sup>。</dd>
+      <dt>為什麼會這樣誤會</dt><dd>「破產」兩個字被拿來形容基金的收支缺口，聽起來像公司倒閉、錢全部消失。</dd>
+    </dl>
+    <dl>
+      <dt>很多人以為</dt><dd>勞退自提是把錢交給公司，公司拿去用。</dd>
+      <dt>實際上</dt><dd>自提的錢和雇主提繳的錢一樣，進的是勞保局為你開的個人專戶<sup class="cite"><a href="#src-10-8">8</a></sup>。</dd>
+      <dt>為什麼會這樣誤會</dt><dd>錢從薪資單上扣，動手扣的是公司，看起來像交給公司。</dd>
+    </dl>
+    <dl>
+      <dt>很多人以為</dt><dd>換工作，勞退就重新算或不見了。</dd>
+      <dt>實際上</dt><dd>專戶跟著人走；年資以實際提繳的年資採計，中斷的前後年資合併計算<sup class="cite"><a href="#src-10-10">10</a></sup>。</dd>
+      <dt>為什麼會這樣誤會</dt><dd>在很多制度裡，「年資」確實跟同一個雇主綁在一起。</dd>
+    </dl>
+  </aside>
+
+  <h3>勞退那一層：自提 6% 划算嗎</h3>
+
+  <p>雇主按月提繳不低於你每月工資 6% 到你的專戶。你可以在每月工資 6% 範圍內自願提繳，這筆錢不計入提繳年度薪資所得課稅<sup class="cite"><a href="#src-10-8">8</a></sup>。月提繳工資分級表最高一級 <span class="num">150,000</span> 元 <span class="badge">115-01-01 生效</span><sup class="cite"><a href="#src-10-12">12</a></sup>，換算下來，每月最多有 <span class="num">9,000</span> 元可以先不計入當年所得<sup class="cite"><a href="#src-10-23">23</a></sup>。</p>
+
+  <p>年滿 60 歲得請領；年資滿 15 年可選月退或一次退，未滿 15 年只能一次退<sup class="cite"><a href="#src-10-10">10</a></sup>。月退休金是把專戶的錢，依官方估的平均還能活幾年與利率，分成每月發<sup class="cite"><a href="#src-10-9">9</a></sup>。</p>
+
+  <p>請領前過世的，由遺屬或遺囑指定的人領一次退休金；遺屬第一順位是配偶及子女<sup class="cite"><a href="#src-10-11">11</a></sup>。</p>
+
+  <p>接下來是這一章最容易講錯的一句。自提不是免稅，是先不課、等領的那年再課（<dfn id="def-課稅遞延" data-term="課稅遞延">課稅遞延</dfn>）：這筆錢當年不計入薪資所得<sup class="cite"><a href="#src-10-8">8</a></sup>。領出來那年，再按退職所得（退休金在稅法上的名字）的規則計算。就像把今年的一張帳單押後到領錢那年再結。</p>
+
+  <p>這個比喻在兩件事上不成立。一是押後的金額會隨投資結果變大或變小。二是那一年的免稅額度與稅率規則，也可能和今天不同。</p>
+
+  <details><summary>想看細節再打開：領出來那年怎麼算</summary>
+    <p>一次領取的退職所得分三段 <span class="badge">115 年度</span><sup class="cite"><a href="#src-10-21">21</a></sup>。206,000 元乘以退職服務年資以內的部分免稅。超過這個金額、未達 414,000 元乘以年資的部分，半數計入所得。超過 414,000 元乘以年資的部分，全數計入。</p>
+    <p>分期領取的，全年領取總額超過 894,000 元的部分才計入<sup class="cite"><a href="#src-10-21">21</a></sup>。這些金額每年公告，領的時候要重查當年度的數字。</p>
+  </details>
+
+  <p>稅的效果有多大，取決於你的級距——你最後一塊所得落在哪一個稅率（第 11 章細講）。綜合所得稅稅率分 5%、12%、20%、30%、40% 五級，門檻每年公告 <span class="badge">115 年度</span><sup class="cite"><a href="#src-10-20">20</a></sup>。</p>
+
+  <p>以每月自提 3,000 元為例，一年 36,000 元。所得落在 5% 那一級的人當年少繳 1,800 元，落在 20% 那一級是 <span class="num">7,200</span> 元<sup class="cite"><a href="#src-10-23">23</a></sup>。</p>
+
+  <p>這一層的錢是拿去投資的。法律訂了一個下限<sup class="cite"><a href="#src-10-9">9</a></sup>。運用收益不得低於以當地銀行二年定期存款利率計算的收益，不足由國庫補足。這個下限只到二年期定存那個水準，不是你在新聞上看到的收益率。</p>
+
+  <p>收益率要看清楚是哪一個基金、哪一段期間。勞動基金運用局公布：整體勞動基金近 10 年（105 至 114 年 12 月）平均收益率 <span class="num">8.58%</span><sup class="cite"><a href="#src-10-13">13</a></sup>。新制勞退基金 114 年單一年度收益率 <span class="num">15.60%</span> <span class="badge">114 年度</span><sup class="cite"><a href="#src-10-13">13</a></sup>。</p>
+
+  <p>前者是整體勞動基金，不是新制勞退專戶自己的十年平均。過去不代表未來，這是假設，不是承諾。</p>
+
+  <aside class="box tradeoff"><p class="box-label">⚖️ 取捨</p>
+    <div class="cols">
+      <div class="col"><h4>做法 A：在 6% 範圍內自提</h4>
+        <dl>
+          <dt>好處</dt><dd>當年這筆錢不計入薪資所得課稅，級距越高效果越大；錢自動進專戶，不必靠自己記得。</dd>
+          <dt>代價</dt><dd>錢進了專戶，要到 60 歲才拿得到。怎麼投資不由你決定。領出來那年仍要按退職所得規則計算。</dd>
+          <dt>適合誰</dt><dd>級距較高、現金流有餘裕、到 60 歲前不必動這筆錢的人。</dd>
+          <dt>不適合誰</dt><dd>級距 5% 或本來就免稅、緊急金還沒到位、近期要用錢的人。</dd>
+        </dl>
+      </div>
+      <div class="col"><h4>做法 B：不自提，錢留在自己手上</h4>
+        <dl>
+          <dt>好處</dt><dd>錢隨時能動；放哪裡、承擔多少波動由你決定。</dd>
+          <dt>代價</dt><dd>當年少了一段不計入課稅的額度，級距越高放棄得越多；能不能存下來全靠自己的紀律。</dd>
+          <dt>適合誰</dt><dd>級距低、現金流很緊，或已經有自己的長期投資制度（第 9 章）的人。</dd>
+          <dt>不適合誰</dt><dd>知道自己留不住錢、又不需要隨時動用這筆錢的人。</dd>
+        </dl>
+      </div>
+    </div>
+    <p class="bottom">這一題沒有標準答案，只有你知道到 60 歲前會不會動到這筆錢，每月少掉工資 6% 行不行。</p>
+  </aside>
+
+  <aside class="box warning"><p class="box-label">⚠️ 注意</p>
+    <p>收益率不是下限。法律訂的下限只到二年期定期存款利率的水準<sup class="cite"><a href="#src-10-9">9</a></sup>。新聞上看到的 8.58% 或 15.60%，是過去某一段期間、某一個基金的結果<sup class="cite"><a href="#src-10-13">13</a></sup>。把它當成未來每年都會有的數字去推退休金，會高估。</p>
+    <p>另外，本章寫的是 2026 年 9 月查到的制度，年齡、金額、公式與稅的規則都可能修法改變。</p>
+  </aside>
+
+  <h3>缺口：算出量級，不是精算</h3>
+
+  <p>前面兩層查完，第三層才估得出來。算法只有一行，難的是每一格都要你自己填。</p>
+
+  <aside class="box formula"><p class="box-label">🧮 算給你看</p>
+    <pre>缺口 ＝（退休後每月支出 － 每月可領）× 12 × 退休後年數
+
+代入：每月支出 40,000 元
+　　　每月可領（第一層＋第二層）25,000 元
+　　　退休後年數 25 年
+（40,000 － 25,000）× 12 × 25 ＝ 450 萬元</pre>
+    <p class="how">代入示範：每月支出用第 3 章的必要月支出。每月可領用工作表⑨裡官方試算出來的金額。</p>
+    <p class="caveat">這只是算術，不是預測。限制：沒有算通膨，也沒有算這筆錢退休後會不會繼續有報酬。「提早 3 年退休」那一列只多算年數，沒算年資變少會讓每月可領也變小。它給的是量級，不該被讀成「退休要準備 450 萬」。</p>
+  </aside>
+
+  <p>最容易隨手填的是「退休後年數」。內政部每年公布簡易生命表，算出各年齡的人平均還能活幾年、活到某個年紀的機率。113 年這一版可以給它一個底 <span class="badge">113 年版</span><sup class="cite"><a href="#src-10-25">25</a></sup>。</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>65 歲的人活到</th><th>男性</th><th>女性</th></tr></thead>
+      <tbody>
+        <tr><th>75 歲</th><td>80.0%</td><td>89.9%</td></tr>
+        <tr><th>80 歲</th><td>65.4%</td><td>80.2%</td></tr>
+        <tr><th>85 歲</th><td>48.4%</td><td>66.1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>這三列是用官方表裡「活到各年齡的人數」相除算出來的<sup class="cite"><a href="#src-10-26">26</a></sup>。一對都 65 歲的男女伴侶，至少一人活到 85 歲的機率約 <span class="num">83%</span>。這個數字假設兩人的壽命互不影響，實際可能低一點。</p>
+
+  <p>65 歲的男性平均還能活 <span class="num">18.35</span> 年，女性 <span class="num">22.41</span> 年<sup class="cite"><a href="#src-10-25">25</a></sup>。要準備的年數不是平均，是活得比平均久的那一半人也夠用的年數。官方表只算到 85 歲。下面那張表用的 90、95、100 歲，是你自己選的假設，不是查得到的機率。</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>換一個假設</th><th>缺口</th><th>和基準差多少</th></tr></thead>
+      <tbody>
+        <tr><th>基準：支出 40,000、可領 25,000、25 年（到 90 歲）</th><td>450 萬</td><td>—</td></tr>
+        <tr><th>多活 5 年（到 95 歲）</th><td>540 萬</td><td>＋90 萬</td></tr>
+        <tr><th>多活 10 年（到 100 歲）</th><td>630 萬</td><td>＋180 萬</td></tr>
+        <tr><th>提早 3 年退休（28 年）</th><td>504 萬</td><td>＋54 萬</td></tr>
+        <tr><th>每月支出多 5,000 元（例如通膨墊高）</th><td>600 萬</td><td>＋150 萬</td></tr>
+        <tr><th>每月可領少 5,000 元</th><td>600 萬</td><td>＋150 萬</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>這張表是同一條算式換數字算出來的<sup class="cite"><a href="#src-10-23">23</a></sup>。要看的不是哪一格最大，而是哪一格你最沒把握。最常填不出來的那一格是「每月支出」。它來自第 3 章；那張表還沒填，這裡的數字只是好看。</p>
+
+  <h3>錢存到了，還有一題：怎麼領</h3>
+
+  <p>退休不是存到一筆錢就結束。一次領還是月領、先花哪一桶、市場不好的那幾年怎麼辦，是另一組題目。</p>
+
+  <p>每年從退休本金裡拿多少比例來花（<dfn id="def-提領率" data-term="提領率">提領率</dfn>）：退休第一年提走的錢，占當時本金的百分之幾。就像決定水塔的水龍頭開多大。這個比喻在「水塔會自己補水」這裡不成立——本金一邊被提走，一邊還在市場裡漲跌。</p>
+
+  <p>退休後每年從本金裡提多少，美國有兩類常被引用的說法。一是固定比例，約 4%，來自 1994 年的歷史回測<sup class="cite"><a href="#src-10-18">18</a></sup>。二是每年依市場重估一次，2025 年的報告給 3.9%<sup class="cite"><a href="#src-10-19">19</a></sup>。</p>
+
+  <p>兩者用的都是美國市場與 30 年期間。數字搬不到台灣，只是讓你知道有這一題。這些比例也都建立在報酬率上：這是假設，不是承諾。</p>
+
+  <p>提領率還有另一個用途：倒過來訂目標金額。把預計的年支出用通膨往前推，再除以一個自己選的提領率<sup class="cite"><a href="#src-10-28">28</a></sup>。同一筆年支出，分母選得越小，算出來的目標就越大。</p>
+
+  <p>作者 2024-11 的紀錄：他把自家用的提領率從 3% 改成 2.5%<sup class="cite"><a href="#src-10-28">28</a></sup>。同樣的年支出除以 2.5%，得到的數字比除以 3% 大兩成<sup class="cite"><a href="#src-10-23">23</a></sup>。作者 2023-01 也寫過，一直改目標就距離退休遙遙無期<sup class="cite"><a href="#src-10-28">28</a></sup>。代價是這條算式每一格都是假設，而提領率的研究都是美國資料。</p>
+
+  <p>報酬來的順序也算數。同樣一組報酬，換一個順序，結果就不一樣。壞年份排在退休前幾年，錢撐到最後的機率（存活率）會差很多<sup class="cite"><a href="#src-10-27">27</a></sup>。這叫報酬順序風險。</p>
+
+  <p>作者 2026-09 的紀錄：他把這個取捨做成一個示意工具（蒙地卡羅模擬，不是投資建議）<sup class="cite"><a href="#src-10-27">27</a></sup>。工具沒算稅、健保與勞保勞退，股債比固定。他認為真正的問題不是破產與否的是非題。而是你願意用多少生活品質的波動，換多高的存活率。</p>
+
+  <details><summary>想看細節再打開：作者的退休提領示意工具</summary>
+    <p>工具用同一筆本金，跑四種提領方式。四種是傳統 4%、上下限動態提領、雙護欄、平滑法。每一種看三個數字：存活率、生活品質、提領穩定度。傳統 4% 的生活品質幾乎不降，代價寫在存活率那一欄。</p>
+    <p>這是示意，不是預測。工具在這裡：<a href="https://ianyclin.github.io/Retirement-Drawdown-Simulator/index.html" rel="noopener">連結</a></p>
+  </details>
+
+  <p>你現在能先做的是第 9 章的分桶：前幾年要花的錢放波動小的桶子，長期才用得到的錢才承擔波動。</p>
+
+  <footer class="ch-foot">
+    <div class="gain"><h3>你手上多了什麼</h3>
+      <ul>
+        <li>退休三層查詢表（工作表⑨）與三個查得到的數字</li>
+        <li>官方試算工具算出來的月領金額</li>
+        <li>退休缺口的量級，以及五組假設下它怎麼變</li>
+        <li>從 65 歲算起的存活機率，用來決定要準備幾年</li>
+        <li>自提 6% 這一題的取捨，攤在紙上</li>
+      </ul>
+    </div>
+    <div class="today"><h3>今天的一件事</h3>
+      <p class="do">打開勞保局的整合試算頁，把第 6 章抄下的年資與投保薪資填進去。算一次勞保老年年金的月領金額，截圖存進手機。</p>
+      <p class="crit">完成判準：截圖上有一個月領金額。工作表⑨「第一層　官方試算的月領金額」那一格填了數字。</p>
+      <p class="est">🕐 約 10 分鐘 · 手機可完成</p>
+    </div>
+    <div class="later"><h3>還沒解決、後面會處理</h3>
+      <ul>
+        <li>自提的稅務效果要看你自己的級距 → 第 11 章</li>
+        <li>退職所得領出來那一年怎麼課 → 第 11 章</li>
+        <li>第三層的錢放哪裡、怎麼投入 → 第 9 章</li>
+        <li>這些數字什麼時候該重查一次 → 第 16 章</li>
+      </ul>
+    </div>
+    <div class="sources-wrap"><h3>本章來源</h3>
+      <ol class="sources">
+        <li id="src-10-1"><span class="lvl official" aria-label="官方">●</span> 勞動部勞工保險局 · 「勞工退休金與勞保老年給付有什麼不同」 · 兩者是不同制度，既不會互相影響也沒有替代性 · 現行制度 · <a href="https://www.bli.gov.tw/0017387.html" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-2"><span class="lvl official" aria-label="官方">●</span> 勞動部勞工保險局 · 老年年金給付請領資格 · 107 年 61 歲至 115 年以後 65 歲之逐年時程；年資合計滿 15 年並離職退保；得併計國民年金年資 · 現行規定 · <a href="https://www.bli.gov.tw/0017461.html" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-3"><span class="lvl official" aria-label="官方">●</span> 勞動部勞工保險局 · 老年年金給付計算方式 · 平均月投保薪資 × 年資 × 0.775% ＋ 3,000 元與 × 1.55% 兩式擇優；展延每延後 1 年增給 4%、最多 20% · 現行規定 · <a href="https://www.bli.gov.tw/0019825.html" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-4"><span class="lvl official" aria-label="官方">●</span> 勞動部勞工保險局 · 勞工保險投保薪資分級表（官方 PDF） · 共 11 級，第 1 級 29,500 元、第 11 級 45,800 元 · 114-11-21 勞動保 2 字第 1140091863 號令修正發布，115-01-01 施行 · <a href="https://www.bli.gov.tw/Files/25661" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-5"><span class="lvl official" aria-label="官方">●</span> 法務部全國法規資料庫 · 勞工保險條例第 19 條 · 年金給付之平均月投保薪資，按加保期間最高 60 個月之月投保薪資平均計算 · 現行條文 · <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0050001&amp;flno=19" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-6"><span class="lvl official" aria-label="官方">●</span> 勞動部 · 「最新勞保精算報告已完成」新聞稿 · 在投資報酬率 4.5% 並納入截至 114 年止政府撥補之假設下，基金餘額出現負值年度較前次報告延後 3 年；政府已連續 6 年撥補勞保基金總計 3,870 億元 · 2025-01-21 發布之最新精算（前次為 110 年報告） · <a href="https://www.mol.gov.tw/1607/1632/1633/77917/" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-7"><span class="lvl official" aria-label="官方">●</span> 立法院 · 勞保基金撥補相關資料頁 · 截至 114 年度中央政府累積撥補 3,870 億元；同頁「117 年度用罄」係以 109 年為基期之舊精算結果 · 114 年度 · <a href="https://www.ly.gov.tw/Pages/Detail.aspx?nodeid=55648&amp;pid=243300" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-8"><span class="lvl official" aria-label="官方">●</span> 法務部全國法規資料庫 · 勞工退休金條例第 14 條 · 雇主負擔提繳之退休金不得低於勞工每月工資 6%；勞工得在每月工資 6% 範圍內自願提繳，其自願提繳之退休金不計入提繳年度薪資所得課稅 · 現行條文 · <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0030020&amp;flno=14" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-9"><span class="lvl official" aria-label="官方">●</span> 法務部全國法規資料庫 · 勞工退休金條例第 23 條 · 月退休金依年金生命表以平均餘命及利率等基礎計算；運用收益不得低於以當地銀行二年定期存款利率計算之收益，有不足者由國庫補足 · 現行條文 · <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0030020&amp;flno=23" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-10"><span class="lvl official" aria-label="官方">●</span> 法務部全國法規資料庫 · 勞工退休金條例第 24 條 · 勞工年滿 60 歲得請領退休金；年資滿 15 年以上選擇月退或一次退，未滿 15 年請領一次退；年資中斷者前後提繳年資合併計算 · 現行條文 · <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0030020&amp;flno=24" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-11"><span class="lvl official" aria-label="官方">●</span> 法務部全國法規資料庫 · 勞工退休金條例第 26、27 條 · 請領退休金前死亡者由遺屬或指定請領人請領一次退休金；遺屬順位第一為配偶及子女，生前預立遺囑指定請領人者從其遺囑 · 現行條文 · <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0030020&amp;flno=26" rel="noopener">網址</a>、<a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0030020&amp;flno=27" rel="noopener">第 27 條</a> · 查證 2026-09-07</li>
+        <li id="src-10-12"><span class="lvl official" aria-label="官方">●</span> 勞動部勞工保險局 · 勞工退休金月提繳工資分級表（官方 PDF） · 最高一級（第 62 級，月薪 147,901 元以上）月提繳工資 150,000 元 · 114-11-24 勞動部勞動福 3 字第 1140153598 號令修正發布，115-01-01 生效 · <a href="https://www.bli.gov.tw/Files/25709" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-13"><span class="lvl official" aria-label="官方">●</span> 勞動部勞動基金運用局 · 「勞動基金 114 年度投資收益為歷年新高」 · 整體勞動基金近 10 年（105～114.12）平均收益率 8.58%；新制勞退基金 114 年度收益率 15.60% · 114 年度（截至 114 年 12 月） · <a href="https://www.blf.gov.tw/49200/49245/49247/198678/post" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-14"><span class="lvl official" aria-label="官方">●</span> 勞動部勞工保險局 · 「簡易試算：勞保老年給付及勞退試算整合」 · 可同時試算勞保老年給付與勞退月退休金之官方線上工具 · 頁面現況 · <a href="https://www.bli.gov.tw/0109187.html" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-15"><span class="lvl official" aria-label="官方">●</span> 勞動部 · 「勞工個人退休金試算表（勞退新制）」 · 頁面明載「本試算表僅提供預估退休金之用」，報酬率與薪資成長率由使用者自行輸入 · 頁面現況 · <a href="https://calcr2.mol.gov.tw/trial" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-16"><span class="lvl official" aria-label="官方">●</span> 勞動部勞工保險局 · 國民年金保險加保對象 · 年滿 25 歲、未滿 65 歲、在國內設有戶籍且未參加勞保等社會保險者應參加 · 現行規定 · <a href="https://www.bli.gov.tw/0013590.html" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-17"><span class="lvl official" aria-label="官方">●</span> 勞動部勞工保險局 · 國民年金老年年金給付 · A 式（月投保金額 × 年資 × 0.65% ＋ 加計金額）與 B 式（× 1.3%）擇優；115 年 1 月起月投保金額 21,103 元、加計金額 4,049 元 · 115 年 1 月起 · <a href="https://www.bli.gov.tw/0100410.html" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-18"><span class="lvl industry" aria-label="業界資料">◑</span> McLean Asset Management · 轉述 Bengen（1994）〈Determining Withdrawal Rates Using Historical Data〉 · 股債各半、1926 年起歷史回測，最壞起始年 1966 年之最高安全提領率為 4.15%，通稱 4% 法則 · 1994 年原始研究 · <a href="https://www.mcleanam.com/william-bengens-safemax/" rel="noopener">網址</a> · 查證 2026-09-07（轉引，待官方原檔核對）</li>
+        <li id="src-10-19"><span class="lvl industry" aria-label="業界資料">◑</span> Morningstar · 「State of Retirement Income」研究 · 2025 年報告之起始安全提領率 3.9%，高於前一年報告的 3.7%；前提為 30 年期、特定股債配置之基準情境 · 2025 年報告 · <a href="https://www.morningstar.com/retirement/whats-safe-retirement-withdrawal-rate-2026" rel="noopener">網址</a> · 查證 2026-09-07（原頁對查證工具回傳 403，數字為搜尋摘要轉引，待官方原檔核對）</li>
+        <li id="src-10-20"><span class="lvl official" aria-label="官方">●</span> 財政部 · 115 年度綜合所得稅速算公式（官方 PDF） · 稅率分 5％／12％／20％／30％／40％ 五級，門檻 61／138／277／519 萬元，累進差額 0／42,700／153,100／430,100／949,100 元 · 115 年度（116 年 5 月申報） · <a href="https://www.mof.gov.tw/download/ae68ed6e8bfd4b66b0e7bc0ab515bdd0" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-21"><span class="lvl official" aria-label="官方">●</span> 財政部 · 115 年度綜合所得稅及所得基本稅額相關免稅額、扣除額及課稅級距金額一覽表（官方 PDF） · 一次領取退職所得 206,000 元 × 年資以內免稅、至 414,000 元 × 年資部分半數計入、超過部分全數計入；分期領取全年 894,000 元以上部分計入 · 115 年度 · <a href="https://www.mof.gov.tw/download/bb34472701e4443c910788e792dae85c" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-22"><span class="lvl inference" aria-label="本文推論">○</span> 本文自算 · 投保薪資上限造成的年金天花板 · 45,800 × 30 × 1.55% ＝ 21,297 元 · 不是官方說法</li>
+        <li id="src-10-23"><span class="lvl inference" aria-label="本文推論">○</span> 本文自算 · 自提不計入當年所得之上限換算、節稅效果與退休缺口敏感度 · 150,000 × 6% ＝ 9,000 元／月；50,000 × 6% ＝ 3,000 元／月；36,000 × 5% ＝ 1,800 元、36,000 × 20% ＝ 7,200 元；（每月支出 － 每月可領）× 12 × 年數，基準 450 萬元，五組替代假設得 540／630／504／600／600 萬元；退休後年數換算年齡＝65 ＋ 年數；同一筆年支出除以 2.5% 與除以 3% 之比＝（1 ÷ 0.025）÷（1 ÷ 0.03）＝ 1.2，即大兩成 · 不是官方說法</li>
+        <li id="src-10-24"><span class="lvl industry" aria-label="業界資料">◑</span> J.P. Morgan Asset Management · 《Guide to Retirement》第 3 頁「The retirement equation」 · 影響退休的六個因素分三欄：完全掌控（儲蓄與花費、資產配置與帳戶位置）、部分掌控（工作收入與工作年數、長壽）、無力掌控（市場報酬、稅賦與福利政策） · 2019 與 2023 兩版逐字相同，原始出處為該公司 2013 年《The Importance of Being Earnest》 · <a href="https://www.amgchico.com/pdf/2019%20guide%20to%20retirement.pdf" rel="noopener">網址</a> · 查證 2026-09-07（第三方網站代管之官方 PDF）</li>
+        <li id="src-10-25"><span class="lvl official" aria-label="官方">●</span> 內政部統計處 · 113 年全國簡易生命表（官方 PDF） · 65 歲生存數男 81,698 人、女 91,898 人，85 歲男 39,521 人、女 60,736 人；65 歲平均餘命男 18.35 年、女 22.41 年 · 113 年版，114-08-23 發布（114 年版已於 2026-08 發布，換版數字會小幅移動） · <a href="https://www.moi.gov.tw/cl.aspx?n=2953" rel="noopener">網址</a> · 查證 2026-09-07</li>
+        <li id="src-10-26"><span class="lvl inference" aria-label="本文推論">○</span> 本文自算 · 65 歲活到各年齡的機率 · 各年齡生存數 ÷ 65 歲生存數：男 65,355 ÷ 81,698 ＝ 80.0%、53,399 ÷ 81,698 ＝ 65.4%、39,521 ÷ 81,698 ＝ 48.4%；女 82,626 ÷ 91,898 ＝ 89.9%、73,671 ÷ 91,898 ＝ 80.2%、60,736 ÷ 91,898 ＝ 66.1%；兩人至少一人活到 85 歲 1 －（1 － 0.484）×（1 － 0.661）＝ 82.5%，假設兩人的壽命互不影響；腳本 tools/moi_lifetable_compute.py · 不是官方說法</li>
+        <li id="src-10-27"><span class="lvl inference" aria-label="本文推論">○</span> 作者自製示意工具 · 退休提領模擬器 · 蒙地卡羅示意，不是投資建議，未納入稅、健保與勞保勞退 · 2026-09 · <a href="https://ianyclin.github.io/Retirement-Drawdown-Simulator/index.html" rel="noopener">網址</a> · 查證 2026-09-07 · 作者自製，不是官方說法</li>
+        <li id="src-10-28"><span class="lvl inference" aria-label="本文推論">○</span> 作者粉專貼文 · 2024-11-08、2023-05-22、2023-01-06 · 2023-05 寫可以用通膨修正後的支出除以提領率去預估目標；2024-11 把自家目標用的提領率從 3% 改成 2.5%；2023-01 寫「一直改就距離退休遙遙無期」 · <a href="https://www.facebook.com/profile.php?id=100084000897269" rel="noopener">網址</a> · 查證 2026-09-07（這是作者一個人的做法，不是研究結論）</li>
+      </ol>
+    </div>
+    <p class="foot-note">這一章是一般說明，不是投資、稅務或法律建議；數字有查證日期，會過期。</p>
+  </footer>
+</section>
