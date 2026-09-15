@@ -4,24 +4,36 @@
       "item": "核心放全球市值型",
       "keywords": [
         "全球市值型"
+      ],
+      "starts": [
+        "核心放全球市值型"
       ]
     },
     {
       "item": "台股放多少",
       "keywords": [
         "台股大盤"
+      ],
+      "starts": [
+        "台股大盤那一塊"
       ]
     },
     {
       "item": "註冊地",
       "keywords": [
         "註冊地"
+      ],
+      "starts": [
+        "註冊地只比較"
       ]
     },
     {
       "item": "防守先用台幣定存",
       "keywords": [
         "台幣定存"
+      ],
+      "starts": [
+        "防守那一塊先用台幣定存"
       ]
     },
     {
@@ -29,6 +41,9 @@
       "keywords": [
         "冷靜期",
         "先等 30 天"
+      ],
+      "starts": [
+        "因為短期漲跌想賣"
       ]
     },
     {
@@ -36,6 +51,9 @@
       "keywords": [
         "5/25",
         "跑掉一點點"
+      ],
+      "starts": [
+        "跑掉一點點不用管"
       ]
     },
     {
@@ -43,9 +61,13 @@
       "keywords": [
         "跌幅從",
         "最近的高點"
+      ],
+      "starts": [
+        "跌幅從整個投資圈最近的高點算"
       ]
     }
   ],
+  "practice_max_per_item": 1,
   "principle_max_per_chapter": 1,
   "ignore": [
     "header.cover",

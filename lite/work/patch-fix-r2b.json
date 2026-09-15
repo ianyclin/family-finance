@@ -1,0 +1,32 @@
+[
+ {
+  "section": "s11",
+  "old": "年數在兩格中間，取年數少的那一格：錢算少一點，往保守取。",
+  "new": "年數在兩格中間，都往保守那邊取：錢算少一點（表二取年數少的那格）、目標算多一點（表三取年數多的那格）。",
+  "why": "主線決定②：表二、表三年數規則統一一句（findings actionable 8）"
+ },
+ {
+  "section": "s11",
+  "old": "年數在兩格中間，取年數多的那一格：目標算多一點，也是往保守取。",
+  "new": "年數在兩格中間，都往保守那邊取：錢算少一點（表二取年數少的那格）、目標算多一點（表三取年數多的那格）。",
+  "why": "主線決定②：表二、表三年數規則統一一句（findings actionable 8）"
+ },
+ {
+  "section": "s11",
+  "old": "<thead><tr><th>左半頁</th><th>右半頁</th></tr></thead>",
+  "new": "",
+  "why": "notes 6/17：空白版表頭「左半頁／右半頁」是版面草圖用語，對讀者沒有意義"
+ },
+ {
+  "section": "s11",
+  "old": "數字是固定報酬的算術（每月月底投入、按月複利），不是預測。",
+  "new": "數字是固定報酬的算術（每月月底投入、按月複利），不是預測。投入金額中途有變，是用試算表算的；查表頁只能算每月固定的金額。",
+  "why": "notes 2：小安分段投入查表算不出 169 萬，讀者驗算會對不上"
+ },
+ {
+  "section": "style",
+  "old": "section.part{break-before:page;page-break-before:always}",
+  "new": "section.part{break-before:page;page-break-before:always}details[data-print=\"page\"]{break-before:page;break-after:page;break-inside:avoid}details[data-print=\"page\"] table{font-size:9.5pt}",
+  "why": "findings actionable 15：完整版一頁空白版列印時自成一頁（fix-r2 已加 data-print 屬性，這裡補樣式）"
+ }
+]

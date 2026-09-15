@@ -497,13 +497,15 @@ LITE_CSS = r'''
 .lite-toc{list-style:none;margin:.6em 0;padding:0}.lite-toc li{margin:0;padding:.18em 0;border-bottom:1px dotted var(--line)}
 .lite-toc a{display:flex;justify-content:space-between;gap:12px;color:var(--ink);text-decoration:none}
 .lite-toc-pg{font-variant-numeric:tabular-nums;color:var(--muted);display:none}
+.lite-blank-page{display:none}
 .lite-blank{display:inline-block;min-width:3em;height:1.2em;border-bottom:1px solid currentColor;margin:0 .2em;vertical-align:-.2em}
 .lite-line{display:flex;flex-wrap:wrap;align-items:flex-end;gap:0}
 .lite-line>.lite-fill{flex:1 1 4em}
-table.lite-plan td{vertical-align:top;width:50%}
+table.lite-plan{table-layout:fixed;width:100%}table.lite-plan td{vertical-align:top;width:50%}
 table.lite-plan td>strong{display:block;margin-top:.5em}
 table.lite-plan-h{width:100%;margin-top:.2em}table.lite-plan-h td{height:2.2em;border-bottom:1px solid currentColor;width:auto}
-table.lite-plan-stress{width:100%;margin:.1em 0 .2em;line-height:1.5}table.lite-plan-stress th{font-weight:400;white-space:nowrap}
+table.lite-plan-stress{width:100%;min-width:0;table-layout:fixed;border-collapse:separate;border-spacing:6px 0;margin:.1em 0 .2em;line-height:1.5}table.lite-plan-stress th{font-weight:400;white-space:nowrap}
+table.lite-plan-stress th:first-child,table.lite-plan-stress td:first-child{width:46%}
 table.lite-plan-stress td{width:auto;height:2em;vertical-align:bottom;border-bottom:1px solid currentColor}table.lite-plan-stress td:first-child{border-bottom:0;white-space:nowrap}
 table.lite-annual td:nth-child(2){font-size:.84rem}table.lite-annual th:nth-child(3){white-space:nowrap}table.lite-annual th:nth-child(4),table.lite-annual td:nth-child(4){width:40%}
 @media print{
@@ -523,6 +525,7 @@ table.lite-annual td:nth-child(2){font-size:.84rem}table.lite-annual th:nth-chil
   .lite-break{break-before:page}
   .lite-onepage{break-before:page;break-after:page;break-inside:avoid}
   .lite-page-break{break-before:page;height:0}
+  .lite-blank-page{display:block;break-before:page;padding-top:110mm;text-align:center;color:#888;font-size:9pt}
   .lede{font-size:10.5pt;margin:0 0 .6em}
   p,ul,ol,dl{margin:.35em 0}
   h3{font-size:11pt;margin:.7em 0 .3em}h4{margin:.5em 0 .2em}
@@ -538,7 +541,9 @@ table.lite-annual td:nth-child(2){font-size:.84rem}table.lite-annual th:nth-chil
 '''
 
 LITE_PRINT_CSS = '\n.lite-toc-pg{display:inline}\n'
-FULL_PRINT_CSS = '\n.toc-pg{margin-left:.5em;color:var(--muted);font-variant-numeric:tabular-nums}@media screen{.toc-pg{display:none}}\n'
+FULL_PRINT_CSS = ('\n.toc-pg{margin-left:.5em;color:var(--muted);font-variant-numeric:tabular-nums}@media screen{.toc-pg{display:none}}\n'
+                  # fix-r3：s2「資產每增加 60 萬需要多久」十列小表不切成兩頁（cases 的小表試過，會讓陳大哥表尾那頁空一半，不加）
+                  '@media print{#s2 .table-wrap{break-inside:avoid}}\n')
 
 
 def section_names(dom):
@@ -671,6 +676,9 @@ def build(m, alt_cache=None):
                 lis = ''.join('<li><a href="#%s"><span>%s</span><span class="lite-toc-pg" data-for="%s">00</span></a></li>'
                               % (esc(c['id']), esc(chapter_heading(c)), esc(c['id'])) for c in toc_items)
                 parts.append('<ol class="lite-toc">%s</ol>' % lis)
+            elif b.get('blank_page'):
+                # 列印時自成一頁的「本頁刻意留白」（讓計畫表落在奇數頁、查表頁在它背面）；網頁上不顯示
+                parts.append('<div class="lite-blank-page"><p>本頁刻意留白</p></div>')
             elif b.get('notice') == 'fiction':
                 parts.append('<p class="lite-fiction">%s</p>' % FICTION_NOTICE)
             elif 'action' in b:
@@ -727,7 +735,8 @@ def build(m, alt_cache=None):
             cls = ['lite-ch']
             if ch.get('one_page'): cls.append('lite-onepage')
             elif ch.get('page_break'): cls.append('lite-break')
-            lab = ('<span class="lite-label">%s</span> ' % esc(ch['label'])) if ch.get('label') else ''
+            # label 後面用全形空白放在 span 裡：Chrome 產生書籤時會吃掉 span 外的半形空白（review r2 notes 16）
+            lab = ('<span class="lite-label">%s　</span>' % esc(ch['label'])) if ch.get('label') else ''
             gain = ('<p class="lede">%s</p>\n' % esc(ch['gain'])) if ch.get('gain') else ''
             html_ch = '<section class="%s" id="%s">\n<h2>%s%s</h2>\n%s%s\n</section>' % (
                 ' '.join(cls), esc(ch['id']), lab, esc(ch['title']), gain, body)
@@ -758,7 +767,9 @@ def build(m, alt_cache=None):
     for sid, labs in used_sections.items():
         sec = dom.by_id.get(sid)
         lede = next((c for c in sec.children if c.tag == 'p' and 'lede' in c.classes()), None) if sec else None
-        line = '\n<p class="small" data-lite-link="1">新手實作版%s是這一節的做法版。</p>' % '、'.join(labs)
+        joined = '、'.join(labs)
+        line = '\n<p class="small" data-lite-link="1">新手實作版%s%s是這一節的做法版。</p>' % (
+            joined, ' ' if re.search(r'[A-Za-z0-9]$', joined) else '')
         if lede is None:
             h2 = next((c for c in sec.children if c.tag == 'h2'), None)
             if h2 is None:
@@ -820,6 +831,39 @@ def print_with_toc(html, html_path, pdf_path, span_re, width):
     raise BuildError('目錄頁碼印了四次還在變：%s' % pdf_path)
 
 
+NEAR_EMPTY_CHARS = 250  # 完整版 PDF：非空白字元少於這個數的頁算「近乎空白」（哨兵也用）
+
+
+def page_chars(pdf_path):
+    import fitz
+    d = fitz.open(pdf_path)
+    out = [len(re.sub(r'\s', '', p.get_text())) for p in d]
+    d.close()
+    return out
+
+
+def tail_flows(pdf_path, pages, order, flows):
+    """完整版每節從新的一頁開始。節尾只剩本節行動、黃框或一兩行掉到新頁、那一頁近乎空白時，
+    讓下一節接在那一頁排（不另起新頁）。回傳這一輪要新增的節 id。"""
+    chars = page_chars(pdf_path)
+    starts = [(sid, pages[sid]) for sid in order if sid in pages]
+    new = set()
+    for (a, pa), (b, pb) in zip(starts, starts[1:]):
+        tail = pb - 1
+        if b in flows or tail <= pa or tail < 1:
+            continue
+        if chars[tail - 1] < NEAR_EMPTY_CHARS:
+            new.add(b)
+    return new
+
+
+def flow_css(flows):
+    if not flows:
+        return ''
+    sel = ','.join('section.part#%s' % s for s in sorted(flows))
+    return '\n@media print{%s{break-before:auto!important;page-break-before:auto!important}}\n' % sel
+
+
 def set_meta(pdf_path, title, author, subject):
     import fitz
     d = fitz.open(pdf_path)
@@ -829,6 +873,32 @@ def set_meta(pdf_path, title, author, subject):
     tmp = pdf_path + '.tmp'
     d.save(tmp, garbage=1, deflate=True); d.close()
     os.replace(tmp, pdf_path)
+
+
+def fix_full_outline(pdf_path, full_html):
+    """完整版書籤：Chrome 把 h2 的節號 span 和節名黏在一起（「1投資賺的是誰的錢？」），改成「1 投資賺的是誰的錢？」。
+    只改和原文 h2（span.num＋節名）完全對得上的書籤。回傳改了幾條。"""
+    import fitz
+    want = {}
+    for num, rest in re.findall(r'<h2\b[^>]*>\s*<span\b[^>]*class="num"[^>]*>(.*?)</span>(.*?)</h2>', full_html, flags=re.S):
+        n = html_text(num).strip(); t = html_text(rest).strip()
+        if n and t:
+            want[n + t] = n + ' ' + t
+    d = fitz.open(pdf_path)
+    toc = d.get_toc(simple=False); changed = 0
+    for e in toc:
+        key = re.sub(r'\s+', '', e[1])
+        for k, v in want.items():
+            if re.sub(r'\s+', '', k) == key and e[1] != v:
+                e[1] = v; changed += 1; break
+    if changed:
+        d.set_toc(toc)
+        tmp = pdf_path + '.tmp'
+        d.save(tmp, garbage=1, deflate=True); d.close()
+        os.replace(tmp, pdf_path)
+    else:
+        d.close()
+    return changed
 
 
 def make_pdfs(m, lite, full):
@@ -852,15 +922,26 @@ def make_pdfs(m, lite, full):
     if toc:
         t2 = re.sub(r'(<a href="#([\w-]+)">.*?)(</a>)', r'\1<span class="toc-pg" data-for="\2">000</span>\3', toc.group(0), flags=re.S)
         fp = fp[:toc.start()] + t2 + fp[toc.end():]
-    fpages, fn_pages, fpasses = print_with_toc(fp, os.path.join(pdir, 'print-full.html'), full_pdf,
+    toc_order = re.findall(r'<a href="#([\w-]+)">', toc.group(0)) if toc else []
+    # 近乎空白的節尾頁：讓下一節接著排，再印一次，直到沒有新的（最多四輪）
+    flows = set(); fpasses = 0
+    for _round in range(4):
+        fpx = fp.replace('</style>', flow_css(flows) + '</style>', 1)
+        fpages, fn_pages, np_ = print_with_toc(fpx, os.path.join(pdir, 'print-full.html'), full_pdf,
                                                r'(<span class="toc-pg" data-for="([^"]+)">)[^<]*(</span>)', 1)
+        fpasses += np_
+        new = tail_flows(full_pdf, fpages, toc_order, flows)
+        if not new:
+            break
+        flows |= new
+    fix_full_outline(full_pdf, full)  # fix-r3：書籤節號後補空格
     ftitle = re.search(r'<title>(.*?)</title>', full, flags=re.S)
     set_meta(full_pdf, '%s %s' % (html_text(ftitle.group(1)) if ftitle else m['book_title'], m['version']), m['author'], '%s／%s' % (m['version'], m['date']))
 
     shutil.copyfile(rp(P['lite_html']), os.path.join(edir, ln + '.html'))
     shutil.copyfile(rp(P['full_html']), os.path.join(edir, fn + '.html'))
     return {'lite_pdf': lite_pdf, 'full_pdf': full_pdf, 'lite_pages': ln_pages, 'full_pages': fn_pages,
-            'lite_passes': lpasses, 'full_passes': fpasses,
+            'lite_passes': lpasses, 'full_passes': fpasses, 'full_flows': sorted(flows),
             'lite_html_export': os.path.join(edir, ln + '.html'), 'full_html_export': os.path.join(edir, fn + '.html'),
             'lite_print_html': os.path.join(pdir, 'print-lite.html'), 'full_print_html': os.path.join(pdir, 'print-full.html')}
 
@@ -902,6 +983,8 @@ def main(argv):
             print('PDF FAILED'); print(e); return 1
         print('wrote', os.path.relpath(pdf['lite_pdf'], ROOT), '(%d 頁，印 %d 次)' % (pdf['lite_pages'], pdf['lite_passes']))
         print('wrote', os.path.relpath(pdf['full_pdf'], ROOT), '(%d 頁，印 %d 次)' % (pdf['full_pages'], pdf['full_passes']))
+        if pdf['full_flows']:
+            print('  完整版節尾近乎空白、下一節接著排：%s' % '、'.join(pdf['full_flows']))
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import lite_sentinels
     return lite_sentinels.run(m, pdf_info=pdf, build_report=report)

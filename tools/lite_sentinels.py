@@ -49,6 +49,17 @@ def text_outside(dom, allowed_selectors):
     return B.html_text(body)
 
 
+def page_last_text_pct(pdf_path):
+    """每頁最後一段文字（不含只有頁碼的那段）的下緣，占頁高的百分比。"""
+    import fitz
+    d = fitz.open(pdf_path); out = []
+    for p in d:
+        ys = [b[3] for b in p.get_text('blocks') if b[4].strip() and not re.fullmatch(r'\s*\d+\s*', b[4])]
+        out.append(int(round(max(ys, default=0) / p.rect.height * 100)))
+    d.close()
+    return out
+
+
 def json_path(d, path):
     cur = d
     for part in path.split('.'):
@@ -278,7 +289,8 @@ def run(m, pdf_info=None, build_report=None):
         ignore = []
         for sel in lb.get('ignore', []): ignore += B.select(dom, sel)
         secs = B.select(dom, sec_sel)
-        nb = 0; npr = 0; nprin = 0
+        nb = 0; npr = 0; nprin = 0; per_item = {}
+        max_item = lb.get('practice_max_per_item')
         for n in dom.nodes:
             if n.tag != 'span': continue
             cl = n.classes()
@@ -290,10 +302,27 @@ def run(m, pdf_info=None, build_report=None):
                 after = B.html_text(dom.s[n.end:parent.inner_end])
                 sentence = re.split(r'[。！？]', after, 1)[0]
                 cs = B.compact(sentence)
-                if not any(B.compact(k) in cs for item in lb['practice'] for k in item['keywords']):
-                    R.fail('labels', '%s「本指南的做法」貼在清單以外的句子：%s' % (label, sentence[:60])); nb += 1
+                # 句首比對：先去掉開頭的括號小註（例如「（不是唯一答案）」），句子要以 starts 其中一個開頭；
+                # 沒寫 starts 的項目才退回關鍵詞子字串比對（review r2：子字串比對貼錯句子也會過）
+                head = re.sub(r'^[（(][^）)]*[）)]', '', cs)
+                hit = None
+                for item in lb['practice']:
+                    if item.get('starts'):
+                        ok = any(head.startswith(B.compact(k)) for k in item['starts'])
+                    else:
+                        ok = any(B.compact(k) in cs for k in item['keywords'])
+                    if ok:
+                        hit = item['item']; break
+                if hit is None:
+                    R.fail('labels', '%s「本指南的做法」貼在清單以外的句子（要以七件事的標準句開頭）：%s' % (label, sentence[:60])); nb += 1
+                else:
+                    per_item[hit] = per_item.get(hit, 0) + 1
             else:
                 nprin += 1
+        if max_item:
+            for it, k in sorted(per_item.items()):
+                if k > int(max_item):
+                    R.fail('labels', '%s「本指南的做法」貼在「%s」%d 次（每份最多 %s 次）' % (label, it, k, max_item)); nb += 1
         for s in secs:
             k = len([x for x in dom.nodes if x.tag == 'span' and 'label-principle' in x.classes() and s.start < x.start < s.end
                      and not any(y.start <= x.start and x.end <= y.end for y in ignore)])
@@ -335,6 +364,13 @@ def run(m, pdf_info=None, build_report=None):
                     R.fail('pages', '%s「%s」要剛好一頁，實際 %s–%s（開頭在頁首：%s；下一章另起一頁：%s）' % (ch['id'], ch['title'], s, e, top, nxt_top))
                 else:
                     R.ok('pages', '%s「%s」剛好一頁（第 %d 頁）' % (ch['id'], ch['title'], s))
+        # 計畫表和查表頁要是同一張紙的正反面：整本雙面印時計畫表在奇數頁（正面），查表頁緊接在下一頁（主線決定①）
+        st = dict((ch['id'], s) for ch, s, e, n, top in rows)
+        if st.get('plan') and st.get('lookup'):
+            if st['plan'] % 2 == 1 and st['lookup'] == st['plan'] + 1:
+                R.ok('pages', '計畫表第 %d 頁、查表頁第 %d 頁：整本雙面印剛好是同一張紙的正反面' % (st['plan'], st['lookup']))
+            else:
+                R.fail('pages', '計畫表要在奇數頁、查表頁緊接在下一頁（現在計畫表第 %s 頁、查表頁第 %s 頁）' % (st['plan'], st['lookup']))
         if pi['page_count'] > limit:
             R.fail('pages', '實作版 PDF %d 頁，超過上限 %d 頁' % (pi['page_count'], limit))
         else:
@@ -371,6 +407,18 @@ def run(m, pdf_info=None, build_report=None):
         else:
             R.ok('toc', '完整版 PDF %d 頁、書籤 %d 條；目錄 %d 條印出的頁碼＝連結目標頁' % (fcount, fout, len(entries)))
         R.info('完整版 PDF metadata：title=%r author=%r' % (fmeta.get('title'), fmeta.get('author')))
+        # 近乎空白的頁（主線決定④）：列出來，超過 3 頁 WARN
+        pc = B.page_chars(full_pdf)
+        low = [(i + 1, c) for i, c in enumerate(pc) if c < B.NEAR_EMPTY_CHARS]
+        msg = '完整版 PDF 文字少於 %d 字的頁 %d 頁：%s' % (B.NEAR_EMPTY_CHARS, len(low), '、'.join('第 %d 頁（%d 字）' % x for x in low) or '無')
+        if len(low) > 3:
+            R.warn('blank_pages', msg)
+        else:
+            R.ok('blank_pages', msg)
+        # fix-r3：字數被來源卡網址墊高、實際下半頁空白的頁，另外列出給人看（只列，不 WARN）
+        half = [(i + 1, pct) for i, pct in enumerate(page_last_text_pct(full_pdf)) if pct < 50]
+        R.info('完整版 PDF 最後一行文字在頁面上半（< 50%%）的頁 %d 頁：%s' % (
+            len(half), '、'.join('第 %d 頁（%d%%）' % x for x in half) or '無'))
     if os.path.exists(lite_pdf):
         import fitz
         d = fitz.open(lite_pdf); lm = d.metadata; lo = len(d.get_toc()); d.close()
