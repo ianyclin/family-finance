@@ -1,0 +1,32 @@
+[
+ {
+  "section": "steps",
+  "old": "<div class=\"data-card\"><h3>成交不等於交割完成</h3>",
+  "new": "<div class=\"data-card\" data-lite=\"ch7\"><h3>成交不等於交割完成</h3>",
+  "why": "實作版第 7 章整段搬「成交不等於交割完成」（含違約後果小字）"
+ },
+ {
+  "section": "s11",
+  "old": "<p><span class=\"label-practice\">本指南的做法</span>跑掉一點點不用管。",
+  "new": "<p data-lite=\"ch8\"><span class=\"label-practice\">本指南的做法</span>跑掉一點點不用管。",
+  "why": "實作版第 8 章照搬 5/25 門檻那一段"
+ },
+ {
+  "section": "cases",
+  "old": "<div class=\"data-card\"><h3>四位示範人物一起比</h3>",
+  "new": "<div class=\"data-card\" data-lite=\"ch9\"><h3>四位示範人物一起比</h3>",
+  "why": "實作版第 9 章最後半頁照搬四人對照表"
+ },
+ {
+  "section": "annual",
+  "old": "<div class=\"data-card\"><h3>遇到這六件事，先讀對應的節</h3>",
+  "new": "<div class=\"data-card\" data-lite=\"ch12 app-a\"><h3 data-lite=\"skip\">遇到這六件事，先讀對應的節</h3>",
+  "why": "實作版第 12 章與附 A 照搬六件事；h3 在實作版改用接合文字「遇到這六件事，一定翻完整版」"
+ },
+ {
+  "section": "s13",
+  "old": "再回查相關章節。</p><a class=\"back\" href=\"#toc\">回目錄</a></section>",
+  "new": "再回查相關章節。</p>\n<script>\n(function () {\n  var sec = document.getElementById('s13');\n  if (!sec || !sec.querySelectorAll || !Array.prototype.forEach) return;\n  var names = ['怕晚', '怕錯過', '怕賠', '怕輸人', '無聊', '想控制'];\n  var buttons = ['怕晚', '怕賠', '想控制'];\n  var groups = {};\n  Array.prototype.forEach.call(sec.querySelectorAll('h3'), function (h) {\n    var t = (h.textContent || '').replace(/\\s+/g, '');\n    names.forEach(function (n) {\n      var ol = h.nextElementSibling;\n      if (t.indexOf(n + '（') === 0 && ol && ol.tagName === 'OL') groups[n] = [h, ol];\n    });\n  });\n  if (names.some(function (n) { return !groups[n]; })) return;\n  var st = document.createElement('style');\n  st.textContent = '[data-s13-filter]{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 .2rem}' +\n    '[data-s13-filter] button{font:inherit;font-size:.84rem;line-height:1.4;padding:.25rem .9rem;border-radius:16px;' +\n    'border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}' +\n    '[data-s13-filter] button[aria-pressed=\"true\"]{font-weight:700;background:rgba(127,127,127,.18)}' +\n    '@media screen{[data-s13-hidden]{display:none!important}}' +\n    '@media print{[data-s13-filter]{display:none!important}}';\n  document.head.appendChild(st);\n  var bar = document.createElement('div');\n  bar.setAttribute('data-s13-filter', '1');\n  bar.setAttribute('role', 'group');\n  bar.setAttribute('aria-label', '只看某一種感受的題目');\n  var all = [];\n  function show(which) {\n    names.forEach(function (n) {\n      groups[n].forEach(function (el) {\n        if (which === '全部' || which === n) el.removeAttribute('data-s13-hidden');\n        else el.setAttribute('data-s13-hidden', '1');\n      });\n    });\n    all.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-which') === which ? 'true' : 'false'); });\n  }\n  buttons.concat(['全部']).forEach(function (w) {\n    var b = document.createElement('button');\n    b.type = 'button';\n    b.textContent = w;\n    b.setAttribute('data-which', w);\n    b.addEventListener('click', function () { show(w); });\n    all.push(b);\n    bar.appendChild(b);\n  });\n  groups['怕晚'][0].parentNode.insertBefore(bar, groups['怕晚'][0]);\n  show('全部');\n})();\n</script><a class=\"back\" href=\"#toc\">回目錄</a></section>",
+  "why": "完整版小項：s13 網頁篩選（怕晚、怕賠、想控制、全部）。按鈕由內嵌 script 產生，沒有 JS 時不出現、31 題全部顯示；@media print 隱藏按鈕，被篩掉的題目在列印時照樣印出；不改分組、不加 class、無外部資源"
+ }
+]

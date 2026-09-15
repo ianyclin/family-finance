@@ -1,0 +1,48 @@
+{
+  "format": "lite-manifest/1",
+  "version": "v6.0",
+  "date": "2026-09-15",
+  "book_title": "隔離人性",
+  "edition": "新手實作版",
+  "eyebrow": "給第一次投資的人：照著做的那一本",
+  "author": "指數三寶飯・家庭理財陪跑",
+  "page_limit": 25,
+  "paths": {
+    "alt_dir": "lite/work/sample/alt",
+    "facts": "lite/work/sample/facts.txt",
+    "case_checks": null,
+    "lite_html": "lite/work/sample/index.html",
+    "full_html": "lite/work/sample/full-out.html",
+    "print_dir": "lite/work/sample/print",
+    "export_dir": "lite/work/sample/export"
+  },
+  "sentinel_skip": ["version", "cases", "unused_marks"],
+  "chapters": [
+    {
+      "id": "cover",
+      "kind": "cover",
+      "title": "隔離人性：新手實作版",
+      "blocks": [
+        {"glue": "<p>這一本只寫怎麼做：照順序讀，每章做完一件事，把答案填進我的投資計畫。</p><p>理由、數字的出處和例外，都在《理財新手完整指南》；每章最後的「想查證」告訴你翻哪一節。</p><p>兩本是同一個版本，數字一樣；對不上時，以完整版為準。</p>"},
+        {"glue": "<p class=\"small\"><span class=\"label-principle\">原則</span>幾乎所有指數化研究都同意　<span class=\"label-practice\">本指南的做法</span>不是唯一答案，換別的也合理</p>"},
+        {"toc": true}
+      ]
+    },
+    {
+      "id": "ch1",
+      "label": "第 1 章",
+      "page_break": true,
+      "title": "十分鐘版：先記住四個立即停止",
+      "gain": "讀完你會知道哪四種情況一出現就停手，以及新手最該記住的幾件事。",
+      "pages_target": 1,
+      "char_limit": 450,
+      "blocks": [
+        {"glue": "<p>下面四種情況，不管對方說得多好聽，都先停下來，再慢慢查。</p>"},
+        {"src": "#ten div.warning"},
+        {"alt": "sample-ch1-seven"},
+        {"action": "把四個立即停止拍照，存在手機裡。"},
+        {"verify": ["ten", "costs"]}
+      ]
+    }
+  ]
+}

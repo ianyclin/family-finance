@@ -1,0 +1,257 @@
+{
+  "format": "lite-manifest/1",
+  "version": "v6.0",
+  "date": "2026-09-15",
+  "book_title": "隔離人性",
+  "edition": "新手實作版",
+  "eyebrow": "給第一次投資的人：照著做的那一本",
+  "author": "指數三寶飯・家庭理財陪跑",
+  "page_limit": 25,
+  "chapters": [
+    {
+      "id": "cover",
+      "kind": "cover",
+      "title": "隔離人性：新手實作版",
+      "char_limit": 300,
+      "blocks": [
+        {
+          "glue": "<p>這一本只寫怎麼做：照順序讀，每章做完一件事，把答案填進下一頁的「我的投資計畫」。</p><p>理由、數字的出處和例外，都在《理財新手完整指南》；每章最後的「想查證」告訴你翻哪一節。兩本是同一個版本，數字一樣；對不上時，以完整版為準。</p>"
+        },
+        {
+          "glue": "<p class=\"small\"><span class=\"label-principle\">原則</span>幾乎所有指數化研究都同意　<span class=\"label-practice\">本指南的做法</span>不是唯一答案，換別的也合理　<span style=\"background:var(--amber2);border-left:5px solid var(--amber);padding:0 .4em\">黃框</span>＝作者的做法紀錄，不是教學。淡色小字是出處和補充，第一遍可以跳過。</p>"
+        },
+        {
+          "glue": "<p><strong>先把下一頁印出來</strong>，背面印查表頁。</p>"
+        },
+        {
+          "toc": true
+        }
+      ]
+    },
+    {
+      "id": "plan",
+      "title": "先印這頁：我的投資計畫",
+      "one_page": true,
+      "blocks": [
+        {
+          "alt": "plan-blank"
+        }
+      ]
+    },
+    {
+      "id": "lookup",
+      "title": "計畫表背面：查表頁",
+      "one_page": true,
+      "blocks": [
+        {
+          "alt": "lookup-tables"
+        }
+      ]
+    },
+    {
+      "id": "ch1",
+      "label": "第 1 章",
+      "title": "十分鐘版：先記住四個立即停止和六個最貴的錯",
+      "gain": "讀完你會知道哪四種情況一出現就停手、哪六個錯最貴，以及新手要記住的七件事。",
+      "pages_target": 1,
+      "char_limit": 450,
+      "blocks": [
+        {
+          "src": "ch1"
+        },
+        {
+          "alt": "ch1-six"
+        },
+        {
+          "alt": "ch1-seven"
+        },
+        {
+          "action": "把四個立即停止拍照，存在手機裡。"
+        },
+        {
+          "verify": [
+            "ten",
+            "costs"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ch2",
+      "label": "第 2 章",
+      "title": "這筆錢現在可以投嗎？",
+      "gain": "這章做完，你會算出預備金目標和還差多少，並列出該先還的債。",
+      "pages_target": 1,
+      "char_limit": 500,
+      "blocks": [
+        {
+          "glue": "<p>大錢投進來之前，先照順序確認下面五項。</p>"
+        },
+        {
+          "alt": "ch2-start"
+        },
+        {
+          "action": "填計畫表 B 區：算出預備金目標和還差多少，列出利率高過低情境報酬率的債，勾選已經有的保障。"
+        },
+        {
+          "verify": [
+            "start",
+            "s13",
+            "steps"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ch3",
+      "label": "第 3 章",
+      "title": "這筆錢哪一年要用、要多少？",
+      "gain": "這章做完，你會寫下目標、換成到時候的錢，用查表算出照保守的數字夠不夠。",
+      "pages_target": 1.5,
+      "char_limit": 600,
+      "blocks": [
+        {
+          "alt": "ch3-target"
+        },
+        {
+          "action": "填計畫表 A 區、C 區的每月投入，和 D 區的查表與「低」那一列；不夠時，照順序寫下補法。"
+        },
+        {
+          "verify": [
+            "steps",
+            "s1",
+            "s2",
+            "s11",
+            "lifecycle"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ch4",
+      "label": "第 4 章",
+      "title": "跌的時候實際少多少錢？股票放幾成？",
+      "gain": "這章做完，你會用自己的金額算出大跌那天少幾萬，答完三問，寫下暫定的股票比例。",
+      "pages_target": 2,
+      "char_limit": 700,
+      "blocks": [
+        {
+          "alt": "ch4-why"
+        },
+        {
+          "alt": "ch4-steps"
+        },
+        {
+          "alt": "ch4-stress"
+        },
+        {
+          "alt": "ch4-3q"
+        },
+        {
+          "src": "#s11 div.data-card:contains(大跌演練：挑一個平靜的晚上)"
+        },
+        {
+          "action": "填計畫表 E 區：股債比、壓力測試兩列、三問的答案、下次重做的金額。"
+        },
+        {
+          "verify": [
+            "s5",
+            "s11",
+            "products"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ch5",
+      "label": "第 5 章",
+      "title": "開戶之前：怎麼確定不是詐騙？",
+      "gain": "這章做完，你會知道哪一種出事會讓錢真的不見，並確認券商合法、打開多因素驗證。",
+      "pages_target": 1,
+      "char_limit": 450,
+      "blocks": [
+        {
+          "src": "ch5"
+        },
+        {
+          "alt": "ch5-risk"
+        },
+        {
+          "src": "ch5b"
+        },
+        {
+          "action": "到金管會網站確認券商是合法業者，再打開證券帳戶的多因素驗證。"
+        },
+        {
+          "verify": [
+            "costs",
+            "sidepaths",
+            "toolbox"
+          ]
+        },
+        {
+          "urls": [
+            {
+              "label": "金管會",
+              "href": "https://www.fsc.gov.tw/"
+            },
+            {
+              "label": "臺灣證券交易所：ETF 商品資訊",
+              "href": "https://www.twse.com.tw/zh/products/securities/etf/products/list.html"
+            },
+            {
+              "label": "集保結算所",
+              "href": "https://www.tdcc.com.tw/"
+            },
+            {
+              "label": "165 全民防騙網",
+              "href": "https://165.npa.gov.tw/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ch6",
+      "label": "第 6 章",
+      "title": "去哪裡買？三條新手路徑",
+      "gain": "這章做完，你會選好走哪一條路、知道各要付哪些費用，也認得台灣常見的兩個坑。",
+      "pages_target": 2,
+      "char_limit": 750,
+      "blocks": [
+        {
+          "alt": "ch6-why"
+        },
+        {
+          "alt": "ch6-paths"
+        },
+        {
+          "alt": "ch6-core"
+        },
+        {
+          "alt": "ch6-pick"
+        },
+        {
+          "alt": "ch6-traps"
+        },
+        {
+          "src": "ch6"
+        },
+        {
+          "action": "在計畫表 C 區圈選路徑，寫下總費用率；要另外加台股大盤的，寫下加幾成。"
+        },
+        {
+          "verify": [
+            "why",
+            "s3",
+            "s4",
+            "s12",
+            "products",
+            "sidepaths",
+            "lifecycle"
+          ]
+        }
+      ]
+    }
+  ]
+}

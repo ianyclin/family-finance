@@ -1,0 +1,236 @@
+[
+ {
+  "section": "s11",
+  "old": "<details><summary>展開一頁空白版",
+  "new": "<details data-lite-alt=\"plan-blank\"><summary>展開一頁空白版",
+  "why": "實作版「先印這頁」空白計畫表的來源"
+ },
+ {
+  "section": "s11",
+  "old": "<details><summary>展開計畫表背面：查表頁",
+  "new": "<details data-lite-alt=\"lookup-tables\"><summary>展開計畫表背面：查表頁",
+  "why": "實作版查表頁的來源"
+ },
+ {
+  "section": "ten",
+  "old": "<div class=\"warning\"><strong>四個立即停止</strong>",
+  "new": "<div class=\"warning\" data-lite=\"ch1\"><strong>四個立即停止</strong>",
+  "why": "第 1 章原封搬四個立即停止"
+ },
+ {
+  "section": "ten",
+  "old": "<ol class=\"checklist\"><li><strong>買低成本、分散",
+  "new": "<ol class=\"checklist\" data-lite-alt=\"ch1-seven\"><li><strong>買低成本、分散",
+  "why": "第 1 章七件事壓成一行一件"
+ },
+ {
+  "section": "ten",
+  "old": "<details><summary>展開：六個最貴的錯",
+  "new": "<details data-lite-alt=\"ch1-six\"><summary>展開：六個最貴的錯",
+  "why": "第 1 章六個錯短稿"
+ },
+ {
+  "section": "start",
+  "old": "<ol class=\"checklist\"><li><strong>看懂每月現金流。",
+  "new": "<ol class=\"checklist\" data-lite-alt=\"ch2-start\"><li><strong>看懂每月現金流。",
+  "why": "第 2 章安全順序精簡"
+ },
+ {
+  "section": "start",
+  "old": "<div class=\"warning\"><strong>借錢投資會把賺的和賠的一起放大。",
+  "new": "<div class=\"warning\" data-lite-alt=\"ch2-start\"><strong>借錢投資會把賺的和賠的一起放大。",
+  "why": "第 2 章借錢一句"
+ },
+ {
+  "section": "start",
+  "old": "<p class=\"decision\">完成現金流、債務",
+  "new": "<p class=\"decision\" data-lite-alt=\"ch2-start\">完成現金流、債務",
+  "why": "第 2 章預備金沒存滿怎麼辦"
+ },
+ {
+  "section": "s1",
+  "old": "<p>規劃時，股票報酬率用三個情境",
+  "new": "<p data-lite-alt=\"ch3-target\">規劃時，股票報酬率用三個情境",
+  "why": "第 3 章低中高使用規則"
+ },
+ {
+  "section": "s2",
+  "old": "<p>通膨也要算。",
+  "new": "<p data-lite-alt=\"ch3-target\">通膨也要算。",
+  "why": "第 3 章物價換算"
+ },
+ {
+  "section": "lifecycle",
+  "old": "<p class=\"decision\">先把今天每月要花的錢乘上",
+  "new": "<p class=\"decision\" data-lite-alt=\"ch3-target\">先把今天每月要花的錢乘上",
+  "why": "第 3 章退休目標一句"
+ },
+ {
+  "section": "s5",
+  "old": "<ul class=\"checklist\"><li><strong>波動：價格上上下下。",
+  "new": "<ul class=\"checklist\" data-lite-alt=\"ch4-why\"><li><strong>波動：價格上上下下。",
+  "why": "第 4 章波動和永久損失"
+ },
+ {
+  "section": "s5",
+  "old": "<p><mark class=\"key\">波動會在兩種情況變成真的傷害",
+  "new": "<p data-lite-alt=\"ch4-why\"><mark class=\"key\">波動會在兩種情況變成真的傷害",
+  "why": "第 4 章兩種真的傷害"
+ },
+ {
+  "section": "s5",
+  "old": "<div class=\"data-card\"><h3>跌下去以後，要漲多少才回得來",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch4-why\"><h3>跌下去以後，要漲多少才回得來",
+  "why": "第 4 章跌 50% 要漲 100%"
+ },
+ {
+  "section": "s5",
+  "old": "<p>表上每一格都是「平均一年」",
+  "new": "<p data-lite-alt=\"ch4-why\">表上每一格都是「平均一年」",
+  "why": "第 4 章 2022 股債一起跌"
+ },
+ {
+  "section": "s11",
+  "old": "<div class=\"data-card\"><h3>股債比例怎麼定：兩把尺",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch4-steps\"><h3>股債比例怎麼定：兩把尺",
+  "why": "第 4 章決定流程"
+ },
+ {
+  "section": "s11",
+  "old": "<div class=\"data-card\"><h3>壓力測試：大跌那天",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch4-stress\"><h3>壓力測試：大跌那天",
+  "why": "第 4 章壓力測試短稿"
+ },
+ {
+  "section": "s11",
+  "old": "<div class=\"data-card\"><h3>三問，和答不過時怎麼辦",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch4-3q\"><h3>三問，和答不過時怎麼辦",
+  "why": "第 4 章三問表（短稿只把表格改成靠左排列，文字不動）"
+ },
+ {
+  "section": "costs",
+  "old": "<div class=\"warning\"><strong>四個立即停止：遇到任何一個",
+  "new": "<div class=\"warning\" data-lite=\"ch5\"><strong>四個立即停止：遇到任何一個",
+  "why": "第 5 章四個立即停止展開版"
+ },
+ {
+  "section": "costs",
+  "old": "<div class=\"data-card\"><h3>四種出事，哪一種會讓錢真的不見",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch5-risk\"><h3>四種出事，哪一種會讓錢真的不見",
+  "why": "第 5 章風險差異表短稿"
+ },
+ {
+  "section": "costs",
+  "old": "<div class=\"data-card\"><h3>帳戶安全三件事",
+  "new": "<div class=\"data-card\" data-lite=\"ch5b\"><h3>帳戶安全三件事",
+  "why": "第 5 章原封搬帳戶安全"
+ },
+ {
+  "section": "sidepaths",
+  "old": "<li><strong>虛擬資產：</strong>",
+  "new": "<li data-lite-alt=\"ch5-risk\"><strong>虛擬資產：</strong>",
+  "why": "第 5 章虛擬資產一句"
+ },
+ {
+  "section": "why",
+  "old": "<li><strong>挑選很難贏，而且這是算術算得出來的。",
+  "new": "<li data-lite-alt=\"ch6-why\"><strong>挑選很難贏，而且這是算術算得出來的。",
+  "why": "第 6 章為什麼買整個市場"
+ },
+ {
+  "section": "s3",
+  "old": "<div class=\"data-card\"><h3>省事的選項，把兩層費用加起來看",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch6-why\"><h3>省事的選項，把兩層費用加起來看",
+  "why": "第 6 章兩層費用與 86 萬"
+ },
+ {
+  "section": "s12",
+  "old": "<div class=\"data-card\"><h3>三條新手路徑：去哪裡買",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch6-paths\"><h3>三條新手路徑：去哪裡買",
+  "why": "第 6 章三條路徑表"
+ },
+ {
+  "section": "s4",
+  "old": "<p>分散是分散「市場」，不是分散「代號」。",
+  "new": "<p data-lite-alt=\"ch6-core\">分散是分散「市場」，不是分散「代號」。",
+  "why": "第 6 章核心全球市值型"
+ },
+ {
+  "section": "s4",
+  "old": "<p>舉例來說，股票裡台股大盤另外多放",
+  "new": "<p data-lite-alt=\"ch6-core\">舉例來說，股票裡台股大盤另外多放",
+  "why": "第 6 章本國比例舉例"
+ },
+ {
+  "section": "s12",
+  "old": "<div class=\"data-card\"><h3>挑產品前先知道三件事",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch6-core ch6-pick\"><h3>挑產品前先知道三件事",
+  "why": "第 6 章最大五十家、註冊地"
+ },
+ {
+  "section": "s12",
+  "old": "<div class=\"data-card\"><h3>挑產品前三題",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch6-pick\"><h3>挑產品前三題",
+  "why": "第 6 章挑產品前三題"
+ },
+ {
+  "section": "products",
+  "old": "<div class=\"data-card\"><h3>選 ETF 時逐項查看",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch6-pick\"><h3>選 ETF 時逐項查看",
+  "why": "第 6 章費用、追蹤、規模"
+ },
+ {
+  "section": "s8",
+  "old": "<li><strong>配息率不是報酬率。</strong>",
+  "new": "<li data-lite-alt=\"ch6-pick\"><strong>配息率不是報酬率。</strong>",
+  "why": "第 6 章配息率不是報酬率"
+ },
+ {
+  "section": "sidepaths",
+  "old": "<div class=\"data-card\"><h3>台灣常見的兩個坑",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch6-traps\"><h3>台灣常見的兩個坑",
+  "why": "第 6 章台灣兩個坑"
+ },
+ {
+  "section": "lifecycle",
+  "old": "<div class=\"data-card\"><h3>台灣三種常見的借法",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch6-traps\"><h3>台灣三種常見的借法",
+  "why": "第 6 章信貸 6.69%、融資 1.3 倍"
+ },
+ {
+  "section": "s12",
+  "old": "<div class=\"story\"><p>我給朋友的七條",
+  "new": "<div class=\"story\" data-lite=\"ch6\"><p>我給朋友的七條",
+  "why": "第 6 章作者黃框（代號只在黃框）"
+ },
+ {
+  "section": "cover",
+  "old": "<div class=\"eyebrow\">給理財新手的長期投資指南</div>",
+  "new": "<div class=\"eyebrow\">給理財新手的長期投資指南・v6.0／2026-09-15</div>",
+  "why": "規格第 7 點：兩份封面寫 v6.0／2026-09-15（哨兵 version 比對 header.cover）"
+ },
+ {
+  "section": "cover",
+  "old": "<div class=\"promise\"><strong>閱讀方式：</strong>",
+  "new": "<p class=\"subtitle\">第一次投資，先讀《新手實作版》；這一份是查證手冊，遇到問題再翻。</p>\n<div class=\"promise\"><strong>閱讀方式：</strong>",
+  "why": "規格第 7 點：封面加一句"
+ },
+ {
+  "section": "methods",
+  "old": "<li>台股試算使用 TWSE 發行量加權股價報酬指數每日收盤資料，涵蓋 2003-01-02 至 2025-12-31，共 5,665 個交易日；2003 年沒有前一年底資料。</li>",
+  "new": "<li>台股試算使用臺灣證券交易所「發行量加權股價報酬指數」（配股配息再投入的台股大盤指數）的每日收盤值，資料集在政府資料開放平臺，同名、編號 11871，涵蓋 2003-01-02 至 2025-12-31，共 5,665 個交易日；2003 年沒有前一年底資料。這份開放資料依政府資料開放授權條款第 1 版釋出，顯名聲明：臺灣證券交易所 2026 發行量加權股價報酬指數，此開放資料依政府資料開放授權條款（Open Government Data License）進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。</li>",
+  "why": "規格第 7 點：資料來源改指政府資料開放平臺資料集並顯名"
+ },
+ {
+  "section": "methods",
+  "old": "<li>台股試算原始檔 SHA-256（檔案的指紋）為 <code>ebf9cb8f…ff783c4b</code>；腳本與逐月資料保存在作者的工作資料夾，本文沒有附檔。</li>",
+  "new": "<li>計算方法：全年報酬＝前一年最後一個收盤值到當年最後一個收盤值的漲幅；年內最大跌幅＝當年高點到其後最低點的跌幅。定期定額是每月投入 1 萬元，分別用當月收盤值的最高、平均、最低買進；比較投入頻率時，總投入固定，只改買進的日子。期末用 2025-12-31 收盤值把持有的單位算成金額，年化是資金加權的 IRR（按月計）。只用收盤值，沒有盤中價。</li><li>本文不另外附 CSV：證交所網站的使用條款不允許未經同意散布網站上的資料。要重算，請到上面的資料集下載原始資料。本文用的原始檔 SHA-256（檔案的指紋）為 <code>ebf9cb8f…ff783c4b</code>，腳本與逐月資料保存在作者的工作資料夾。</li>",
+  "why": "規格第 7 點：說明計算方法、不附 CSV 的理由"
+ },
+ {
+  "section": "methods",
+  "old": "<a class=\"source-link\" href=\"https://www.twse.com.tw/zh/indices/taiex/mfi94u.html\" target=\"_blank\" rel=\"noopener\"><span>TWSE 發行量加權股價報酬指數</span><span class=\"source-note\">台股含息資料</span></a>",
+  "new": "<a class=\"source-link\" href=\"https://www.twse.com.tw/zh/indices/taiex/mfi94u.html\" target=\"_blank\" rel=\"noopener\"><span>TWSE 發行量加權股價報酬指數</span><span class=\"source-note\">台股含息資料</span></a><a class=\"source-link\" href=\"https://data.gov.tw/dataset/11871\" target=\"_blank\" rel=\"noopener\"><span>政府資料開放平臺：發行量加權股價報酬指數</span><span class=\"source-note\">臺灣證券交易所提供；政府資料開放授權條款第 1 版，利用時要顯名</span></a><a class=\"source-link\" href=\"https://data.gov.tw/license\" target=\"_blank\" rel=\"noopener\"><span>政府資料開放授權條款－第 1 版</span><span class=\"source-note\">第三點：利用開放資料要附顯名聲明</span></a>",
+  "why": "規格第 7 點：資料集與授權條款連結放來源卡"
+ }
+]

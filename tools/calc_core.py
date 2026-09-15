@@ -105,7 +105,14 @@ R['multiplier_tables'] = {
 }
 ex = fv(0, 3.6, 240, 1000) / 10000
 R['multiplier_tables']['usage_example'] = {'text': '每月 5,000 元、20 年、3.6%', 'table_value': wan1(fv(0, 3.6, 240, 1000)),
-                                            'times5_wan': r1(wan1(fv(0, 3.6, 240, 1000)) * 5), 'exact_wan': wan1(fv(0, 3.6, 240, 5000))}
+                                            'times5_wan': r1(wan1(fv(0, 3.6, 240, 1000)) * 5), 'exact_wan': wan1(fv(0, 3.6, 240, 5000)),
+                                            'times5_printed_int_step0': r0(r1(wan1(fv(0, 3.6, 240, 1000)) * 5))}
+# fix-r2：查表頁「已經有一筆錢」用法算例：已有 30 萬＋每月 5,000 元、20 年、3.6% → 20.5 × 3 ＋ 35.1 × 5
+R['multiplier_tables']['usage_example_lump'] = {
+    'text': '已經有 30 萬、每月 5,000 元、20 年、3.6%',
+    'table_sum_wan': r1(wan1(fv(100000, 3.6, 240, 0)) * 3 + wan1(fv(0, 3.6, 240, 1000)) * 5),
+    'printed_int_wan': r0(r1(wan1(fv(100000, 3.6, 240, 0)) * 3 + wan1(fv(0, 3.6, 240, 1000)) * 5)),
+    'exact_wan': wan1(fv(300000, 3.6, 240, 5000))}
 
 # ---------- 100 萬壓力表 ----------
 def loss(amount, stock_pct, drop, bond_drop=0):
@@ -214,6 +221,19 @@ ak['drill_2046_low'] = {str(s): {'rate': lookup[s]['low'], 'amount_wan': wan(fv(
                                  'loss_wan': {str(d): r0(wan(fv(300000, lookup[s]['low'], 240, 10000)) * s / 100 * d / 100) for d in (40, 50, 60)}}
                         for s in (80, 70, 60)}
 ak['drill_2046_low']['story'] = '八成「先賣一些」沒通過 → 七成「想停扣」沒通過 → 六成「照常投入」通過（虛構的回答，不是算出來的）'
+# step0-1（spec-v60-stage2 第 0 步）：C 區改投收入的 24%；壓力測試、大跌演練三列改用補完缺口後（每月平均 1.2 萬）的 2046 年低情境金額；
+# 月數照第 16 格規則：少的錢（印出來的整數萬）÷ 物價倍數 → 今天的錢（整數萬）÷ 月收入 5 萬。drill_2046_low（每月 1 萬）作廢
+_ag = {'pct': 24, 'monthly_avg': 50000 * 24 // 100, 'monthly_30k': 30000 * 24 // 100, 'monthly_80k': 80000 * 24 // 100,
+       'first_version_pct': 20, 'drill_2046_low': {}}
+for s in (80, 70, 60):
+    a_ = wan(fv(300000, lookup[s]['low'], 240, _ag['monthly_avg']))
+    ls_ = {str(d): r0(a_ * s / 100 * d / 100) for d in (40, 50, 60)}
+    t_ = r0(ls_['50'] / cpi(20))
+    _ag['drill_2046_low'][str(s)] = {'rate': lookup[s]['low'], 'amount_wan': a_, 'loss_wan': ls_,
+                                     'loss50_today_wan': t_, 'loss50_months_income_50k': r1(t_ * 10000 / 50000),
+                                     'loss50_months_income_50k_int': r0(t_ * 10000 / 50000)}
+_ag['superseded'] = ['drill_2046_low', 'stress.y2046_64_low']
+ak['after_gap_24pct'] = _ag
 R['akai'] = ak
 
 # ---------- 小芸與阿哲 ----------
@@ -411,6 +431,7 @@ p('倍數表 每月1000:', R['multiplier_tables']['monthly_1000_wan'])
 p('倍數表 10萬:', R['multiplier_tables']['lump_100000_wan'])
 p('小安 base:', xa['base_plan'], '6500:', xa['plan_6500'], '選項:', xa['save_more_from_month27']['options'], '不多存延後（fix-r5 重查倍數）:', xa['delay_rescaled_fix_r5'])
 p('小安 stress:', xa['stress'])
+p('阿凱 24% 後演練:', ak['after_gap_24pct'])
 p('阿凱:', ak['fv_10k'], ak['save_more_64'], ak['delay_rescaled_fix_r5'],ak['lower_target_64'], ak['stress']['y2046_64_low'], '八二低到450?', ak['check_82_low_reaches_target'])
 p('小芸阿哲:', xy)
 p('陳大哥:', json.dumps(ch, ensure_ascii=False))

@@ -10,3 +10,13 @@ research/fb-raw/
 research/fb-digest/
 research/author-fb-posts*
 research/*-snapshot.html
+
+# lite work temp
+lite/work/backup-*/
+lite/work/tmp-*
+lite/work/test*
+lite/work/sample/
+lite/work/print/
+lite/work/**/print/
+lite/work/*.pre-*.html
+lite/work/build.log

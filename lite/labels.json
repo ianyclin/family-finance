@@ -1,0 +1,54 @@
+{
+  "practice": [
+    {
+      "item": "核心放全球市值型",
+      "keywords": [
+        "全球市值型"
+      ]
+    },
+    {
+      "item": "台股放多少",
+      "keywords": [
+        "台股大盤"
+      ]
+    },
+    {
+      "item": "註冊地",
+      "keywords": [
+        "註冊地"
+      ]
+    },
+    {
+      "item": "防守先用台幣定存",
+      "keywords": [
+        "台幣定存"
+      ]
+    },
+    {
+      "item": "冷靜期天數",
+      "keywords": [
+        "冷靜期",
+        "先等 30 天"
+      ]
+    },
+    {
+      "item": "5/25 門檻",
+      "keywords": [
+        "5/25",
+        "跑掉一點點"
+      ]
+    },
+    {
+      "item": "跌幅基準",
+      "keywords": [
+        "跌幅從",
+        "最近的高點"
+      ]
+    }
+  ],
+  "principle_max_per_chapter": 1,
+  "ignore": [
+    "header.cover",
+    "header.lite-cover"
+  ]
+}

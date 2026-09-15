@@ -1,0 +1,86 @@
+[
+ {
+  "section": "s11",
+  "old": "<tr><td>2.0%</td><td>6.3</td><td>9.0</td><td>13.3</td><td>21.0</td><td>29.5</td><td>38.9</td><td>49.3</td></tr><tr><td>2.4%</td><td>6.4</td><td>9.1</td><td>13.5</td><td>21.6</td><td>30.8</td><td>41.1</td><td>52.6</td></tr><tr><td>2.8%</td><td>6.4</td><td>9.3</td><td>13.8</td><td>22.3</td><td>32.1</td><td>43.4</td><td>56.3</td></tr><tr><td>3.2%</td><td>6.5</td><td>9.4</td><td>14.1</td><td>23.1</td><td>33.6</td><td>45.9</td><td>60.3</td></tr><tr><td>3.6%</td><td>6.6</td><td>9.5</td><td>14.4</td><td>23.8</td><td>35.1</td><td>48.5</td><td>64.7</td></tr><tr><td>4.0%</td><td>6.6</td><td>9.7</td><td>14.7</td><td>24.6</td><td>36.7</td><td>51.4</td><td>69.4</td></tr>",
+  "new": "<tr><td>2.0%</td><td>6.3</td><td>9.0</td><td>13.3</td><td>21.0</td><td>29.5</td><td>38.9</td><td>49.3</td></tr><tr><td>2.2%</td><td>6.3</td><td>9.1</td><td>13.4</td><td>21.3</td><td>30.1</td><td>39.9</td><td>50.9</td></tr><tr><td>2.4%</td><td>6.4</td><td>9.1</td><td>13.5</td><td>21.6</td><td>30.8</td><td>41.1</td><td>52.6</td></tr><tr><td>2.6%</td><td>6.4</td><td>9.2</td><td>13.7</td><td>22.0</td><td>31.4</td><td>42.2</td><td>54.4</td></tr><tr><td>2.8%</td><td>6.4</td><td>9.3</td><td>13.8</td><td>22.3</td><td>32.1</td><td>43.4</td><td>56.3</td></tr><tr><td>3.0%</td><td>6.5</td><td>9.3</td><td>14.0</td><td>22.7</td><td>32.8</td><td>44.6</td><td>58.3</td></tr><tr><td>3.2%</td><td>6.5</td><td>9.4</td><td>14.1</td><td>23.1</td><td>33.6</td><td>45.9</td><td>60.3</td></tr><tr><td>3.4%</td><td>6.5</td><td>9.5</td><td>14.3</td><td>23.4</td><td>34.3</td><td>47.2</td><td>62.4</td></tr><tr><td>3.6%</td><td>6.6</td><td>9.5</td><td>14.4</td><td>23.8</td><td>35.1</td><td>48.5</td><td>64.7</td></tr><tr><td>3.8%</td><td>6.6</td><td>9.6</td><td>14.6</td><td>24.2</td><td>35.9</td><td>50.0</td><td>67.0</td></tr><tr><td>4.0%</td><td>6.6</td><td>9.7</td><td>14.7</td><td>24.6</td><td>36.7</td><td>51.4</td><td>69.4</td></tr>",
+  "why": "reader should：表二補齊 11 列（股票每一成都查得到，演練一次降一成時用得到）"
+ },
+ {
+  "section": "s11",
+  "old": "<tr><td>2.0%</td><td>11.1</td><td>11.5</td><td>12.2</td><td>13.5</td><td>14.9</td><td>16.5</td><td>18.2</td></tr><tr><td>2.4%</td><td>11.3</td><td>11.8</td><td>12.7</td><td>14.3</td><td>16.2</td><td>18.2</td><td>20.5</td></tr><tr><td>2.8%</td><td>11.5</td><td>12.2</td><td>13.2</td><td>15.2</td><td>17.5</td><td>20.1</td><td>23.1</td></tr><tr><td>3.2%</td><td>11.7</td><td>12.5</td><td>13.8</td><td>16.2</td><td>18.9</td><td>22.2</td><td>26.1</td></tr><tr><td>3.6%</td><td>12.0</td><td>12.9</td><td>14.3</td><td>17.1</td><td>20.5</td><td>24.6</td><td>29.4</td></tr><tr><td>4.0%</td><td>12.2</td><td>13.2</td><td>14.9</td><td>18.2</td><td>22.2</td><td>27.1</td><td>33.1</td></tr>",
+  "new": "<tr><td>2.0%</td><td>11.1</td><td>11.5</td><td>12.2</td><td>13.5</td><td>14.9</td><td>16.5</td><td>18.2</td></tr><tr><td>2.2%</td><td>11.2</td><td>11.7</td><td>12.5</td><td>13.9</td><td>15.5</td><td>17.3</td><td>19.3</td></tr><tr><td>2.4%</td><td>11.3</td><td>11.8</td><td>12.7</td><td>14.3</td><td>16.2</td><td>18.2</td><td>20.5</td></tr><tr><td>2.6%</td><td>11.4</td><td>12.0</td><td>13.0</td><td>14.8</td><td>16.8</td><td>19.1</td><td>21.8</td></tr><tr><td>2.8%</td><td>11.5</td><td>12.2</td><td>13.2</td><td>15.2</td><td>17.5</td><td>20.1</td><td>23.1</td></tr><tr><td>3.0%</td><td>11.6</td><td>12.3</td><td>13.5</td><td>15.7</td><td>18.2</td><td>21.2</td><td>24.6</td></tr><tr><td>3.2%</td><td>11.7</td><td>12.5</td><td>13.8</td><td>16.2</td><td>18.9</td><td>22.2</td><td>26.1</td></tr><tr><td>3.4%</td><td>11.9</td><td>12.7</td><td>14.0</td><td>16.6</td><td>19.7</td><td>23.4</td><td>27.7</td></tr><tr><td>3.6%</td><td>12.0</td><td>12.9</td><td>14.3</td><td>17.1</td><td>20.5</td><td>24.6</td><td>29.4</td></tr><tr><td>3.8%</td><td>12.1</td><td>13.0</td><td>14.6</td><td>17.7</td><td>21.4</td><td>25.8</td><td>31.2</td></tr><tr><td>4.0%</td><td>12.2</td><td>13.2</td><td>14.9</td><td>18.2</td><td>22.2</td><td>27.1</td><td>33.1</td></tr>",
+  "why": "reader should：表二補齊 11 列（股票每一成都查得到，演練一次降一成時用得到）"
+ },
+ {
+  "section": "s11",
+  "old": "<p>用法：每月投 5,000 元、20 年、3.6%（股票八成）→ 35.1 × 5 ＝約 176 萬。中、高兩列，或表上沒有的報酬率（例如股票九成的 3.8%），用手機搜「複利計算機」。年數在兩格中間，取年數少的那一格，寧可算少。</p>",
+  "new": "<p>用法：每月投 5,000 元、20 年、3.6%（股票八成）→ 35.1 × 5 ＝約 176 萬。已經有一筆錢：下面那張的數字 × 你的金額 ÷ 10 萬，再加上每月投入那一段；例如已經有 30 萬、每月投 5,000 元、20 年、3.6% → 20.5 × 3 ＋ 35.1 × 5 ＝約 237 萬。中、高兩列是選填，不拿來做決定，要用手機搜「複利計算機」算。年數在兩格中間，取年數少的那一格：錢算少一點，往保守取。</p>",
+  "why": "reader should：已經有的錢怎麼查表（兩張相加）；中高兩列選填；表上報酬率已補齊；年數規則寫出往保守取"
+ },
+ {
+  "section": "s11",
+  "old": "年數在兩格中間，取年數多的那一格。</p></details>",
+  "new": "年數在兩格中間，取年數多的那一格：目標算多一點，也是往保守取。</p></details>",
+  "why": "reader should：表二取少、表三取多，寫明兩個都往保守取"
+ },
+ {
+  "section": "s11",
+  "old": "<br>中　到期＿萬，缺口＿萬<br>高（樂觀）到期＿萬，缺口＿萬<br>",
+  "new": "<br>中（選填）到期＿萬，缺口＿萬<br>高（選填、樂觀）到期＿萬，缺口＿萬<br>",
+  "why": "reader should：中高兩列選填"
+ },
+ {
+  "section": "s11",
+  "old": "<br>跌 50%＝＿個月收入<br>",
+  "new": "<br>跌 50%：少＿萬 ÷ 物價倍數＿ ÷ 月收入＿萬 ＝ ＿個月<br>",
+  "why": "reader should：換成幾個月收入前先除物價倍數"
+ },
+ {
+  "section": "s11",
+  "old": "<td>低、中、高各一列；只有「低」那一列拿來做決定</td>",
+  "new": "<td>低、中、高各一列；只有「低」那一列拿來做決定（中、高選填，要用複利計算機）</td>",
+  "why": "reader should：欄位表第 13 格同步選填"
+ },
+ {
+  "section": "s11",
+  "old": "<details data-lite-alt=\"plan-blank\"><summary>",
+  "new": "<details data-lite-alt=\"plan-blank\" data-print=\"page\"><summary>",
+  "why": "layout should：列印時空白版自成一頁"
+ },
+ {
+  "section": "s11",
+  "old": "<p class=\"decision\">今天就把「我的投資計畫」印出來（網頁版先點開「一頁空白版」再列印），",
+  "new": "<p class=\"decision\">今天就把「我的投資計畫」印出來（網頁版先點開「一頁空白版」再列印；要大一點的手寫空格，印《新手實作版》的計畫表那一頁），",
+  "why": "layout should：完整版空格窄，指到實作版可手寫的那一頁"
+ },
+ {
+  "section": "s11",
+  "old": "<li>第 2、3 步一樣，演練通過。不一樣：不要把 F 區改成你想做的事；回三問第 2 題，把 E 區的股票比例降一成再演練，降到做得到照常投入為止（降到兩成還是做不到：比例先寫暫定、改用小金額，不直接降到零），再照 H 區記下來（要不要過冷卻期，看第 <a class=\"xref\" href=\"#s10\">10</a> 節）。比例改了，D 區要重查表一，E 區目標那年的金額也跟著重算。平靜時就改。</li>",
+  "new": "<li>第 2、3 步一樣：演練通過。<br>不一樣：不要把 F 區改成你想做的事。回三問第 2 題，把 E 區的股票比例降一成，再演練一次，降到做得到照常投入為止。<br>降到兩成還是做不到：比例先寫暫定、改用小金額，不直接降到零。<br>比例改了：照 H 區記下來；D 區重查表一，E 區目標那年的金額也跟著重算。平靜時就改<span data-lite=\"skip\">（要不要過冷卻期，看第 <a class=\"xref\" href=\"#s10\">10</a> 節）</span>。</li>",
+  "why": "reader should：第 4 步拆成四行；冷卻期括號實作版不搬（第 8 章已有冷卻期分法）"
+ },
+ {
+  "section": "steps",
+  "old": "算要存多少時再乘第 <a class=\"xref\" href=\"#s2\">2</a> 節的物價倍數。</li>",
+  "new": "算要存多少時再乘第 <a class=\"xref\" href=\"#s2\">2</a> 節的物價倍數。還說不出要多少的人，先訂一個三十年內的里程碑：每月能投的錢，照第 <a class=\"xref\" href=\"#s11\">11</a> 節查表頁表二「低」那一格算出到時候大約有多少，當第一版目標，以後再調。</li>",
+  "why": "reader should／source should：沒有具體用途的人怎麼定里程碑，先寫進完整版（年數對齊表二的 30 年）"
+ },
+ {
+  "section": "annual",
+  "old": "訂一個日期（例如每年一月的發薪日）",
+  "new": "訂一個日期（例如每年 12 月的發薪日）",
+  "why": "source should：年檢在年底，和實作版、時間表、小安 F 區一致"
+ },
+ {
+  "section": "s3",
+  "old": "<div class=\"data-card\" data-lite-alt=\"ch6-why\"><h3>省事的選項，把兩層費用加起來看</h3>",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch6-why ch6-paths\"><h3>省事的選項，把兩層費用加起來看</h3>",
+  "why": "principles should：ch6-paths 逐字取自 s3 那句，登記指紋"
+ },
+ {
+  "section": "steps",
+  "old": "<li><strong>用小金額完成第一次。</strong>先核對商品全名、代號、交易所、幣別、買賣方向、數量與價格。",
+  "new": "<li><strong>用小金額完成第一次。</strong>先核對商品全名、代號、交易所、幣別、買賣方向、數量與價格；交割日過後，打開券商 app 和銀行帳戶，核對成交價、扣款金額、股數和手續費。",
+  "why": "principles should：實作版第 7 章對帳清單改由完整版 steps 第 5 步當來源"
+ }
+]

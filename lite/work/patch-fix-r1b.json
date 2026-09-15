@@ -1,0 +1,3 @@
+[
+ {"section":"steps","old":"<p class=\"small\">正式說法：台灣集中市場普通交易採 T+2 交割","new":"<p class=\"small\" data-lite-alt=\"ch7-settle\">正式說法：台灣集中市場普通交易採 T+2 交割","why":"source/reader should：實作版沒有來源卡，「規定在下方來源」要改寫；只加 data-lite-alt 屬性"}
+]

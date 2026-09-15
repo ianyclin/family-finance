@@ -160,6 +160,13 @@ PDF metadata 用 PyMuPDF `set_metadata`（author「指數三寶飯・家庭理�
 - 安全順序補學生／與家人同住的預備金與保險算法；s12 起點表寫明哪幾格抄到規則卡第 3、4、6 格。
 - lifecycle 融資名詞連結移回正文結論句；十分鐘版甜蜜點「保守 5% 約 14 年、4% 約 18 年」；s3 管理費統一「經理費」。
 
+## 新手實作版 v6.0（2026-09-15 起，作者「做到最後，完成所有階段都不用問」）
+
+- 規格都在 `docs/core-edition/specs/`：stage1（新內容先寫進完整版）、stage1b（作者拍板：陳大哥生活費 4.5 萬、三問第 3 題只問「要調高股票比例才到得了目標嗎」、教學段代號全改類別名稱）、stage1c（一級一級降、物價倍數規則一致）、stage2（實作版工具與內容，含第 0 步）。`tickers-v60.md` 是代號清單，`calc-v60-report.md` 是重算報告。
+- 完整版候選：`lite/work/full-v60-candidate.html`（第一階段完成品，還沒進正式檔）。重算：`tools/calc_core.py` → `lite/calc-results.json`（防守 2%、名目、勞保不乘倍數）。工具：`tools/guidetools.py` 已容許 data-* 屬性（測試 `tools/test_guidetools.py`）。
+- 完整版新增：第 11 節「我的投資計畫」（A–H 區、欄位表、一頁空白版、查表頁、壓力測試、三問、大跌演練、小安全表）；s12 起點表併入、三條新手路徑；新節 `id="cases"`「另外三個人」；ten 四個立即停止＋六個錯（摺疊）；costs 風險差異表與 165；s3 兩層費用；s4 本國比例舉例；s2 無感期；s13 他幫我打工；sidepaths 台灣兩個坑；annual XIRR 三行＋六件事；標籤 CSS（label-principle／label-practice）與封面圖例；@page A4。
+- 第二階段（進行中）：data-lite 標記、`lite/manifest.json`、`lite/alt/`、`tools/build_lite.py`、`tools/lite_sentinels.py`、兩份 A4 PDF（書籤、頁碼、目錄頁碼）。
+
 ## v5.6（2026-09-15，作者「交給你處理。我偏向全文一致。盡可能簡單好理解。」）
 
 - **全文所有報酬率都是名目（沒扣物價）**，連歷史數字也是；「扣掉物價／實質」只剩詞彙表定義。物價只在通膨步驟出現（第 2 節購買力、物價倍數表、定存輸給物價、退休花費與投入跟物價調高）。

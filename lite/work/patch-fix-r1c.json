@@ -1,0 +1,20 @@
+[
+ {
+  "section": "style",
+  "old": "@media print{table.compact:not(.text):not(.prose) td{white-space:nowrap}}</style>",
+  "new": "</style>",
+  "why": "撤回 fix-r1 的全域 nowrap：陳大哥 7 欄表列印時超出頁寬被切掉"
+ },
+ {
+  "section": "cases",
+  "old": "<table class=\"compact\"><thead><tr><th>投資圈</th><th>股債比</th><th>防守放</th><th>股票跌 40%</th><th>跌 50%</th><th>跌 60%</th><th>跌 50% ＝ 幾年的缺口</th></tr></thead><tbody>\n<tr><td>現在 800 萬</td><td>七三（原本）</td><td>定存</td><td>少 224 萬</td><td>少 280 萬</td><td>少 336 萬</td><td>—</td></tr>\n<tr><td>現在 800 萬</td><td>四六</td><td>定存</td><td>少 128 萬</td><td>少 160 萬</td><td>少 192 萬</td><td>—</td></tr>\n<tr><td>現在 800 萬</td><td>四六</td><td>債券 ETF 跌 10%</td><td>少 176 萬</td><td>少 208 萬</td><td>少 240 萬</td><td>—</td></tr>\n<tr><td>2031 年約 1,144 萬</td><td>七三（原本）</td><td>定存</td><td>少 320 萬</td><td>少 400 萬</td><td>少 480 萬</td><td>15.9 年</td></tr>\n<tr><td>2031 年約 1,134 萬</td><td>六四</td><td>定存</td><td>少 272 萬</td><td>少 340 萬</td><td>少 408 萬</td><td>13.5 年</td></tr>\n<tr><td>2031 年約 1,123 萬</td><td>五五</td><td>定存</td><td>少 225 萬</td><td>少 281 萬</td><td>少 337 萬</td><td>11.2 年</td></tr>\n<tr><td>2031 年約 1,113 萬</td><td>四六</td><td>定存</td><td>少 178 萬</td><td>少 223 萬</td><td>少 267 萬</td><td>8.8 年</td></tr>\n</tbody></table>",
+  "new": "<table class=\"compact\"><thead><tr><th>投資圈</th><th>股債比</th><th>防守放</th><th>股票跌 40%</th><th>跌 50%</th><th>跌 60%</th><th>跌 50% ＝ 幾年的缺口</th></tr></thead><tbody>\n<tr><td>現在 800 萬</td><td>七三（原本）</td><td>定存</td><td>少&nbsp;224&nbsp;萬</td><td>少&nbsp;280&nbsp;萬</td><td>少&nbsp;336&nbsp;萬</td><td>—</td></tr>\n<tr><td>現在 800 萬</td><td>四六</td><td>定存</td><td>少&nbsp;128&nbsp;萬</td><td>少&nbsp;160&nbsp;萬</td><td>少&nbsp;192&nbsp;萬</td><td>—</td></tr>\n<tr><td>現在 800 萬</td><td>四六</td><td>債券 ETF 跌 10%</td><td>少&nbsp;176&nbsp;萬</td><td>少&nbsp;208&nbsp;萬</td><td>少&nbsp;240&nbsp;萬</td><td>—</td></tr>\n<tr><td>2031 年約 1,144 萬</td><td>七三（原本）</td><td>定存</td><td>少&nbsp;320&nbsp;萬</td><td>少&nbsp;400&nbsp;萬</td><td>少&nbsp;480&nbsp;萬</td><td>15.9 年</td></tr>\n<tr><td>2031 年約 1,134 萬</td><td>六四</td><td>定存</td><td>少&nbsp;272&nbsp;萬</td><td>少&nbsp;340&nbsp;萬</td><td>少&nbsp;408&nbsp;萬</td><td>13.5 年</td></tr>\n<tr><td>2031 年約 1,123 萬</td><td>五五</td><td>定存</td><td>少&nbsp;225&nbsp;萬</td><td>少&nbsp;281&nbsp;萬</td><td>少&nbsp;337&nbsp;萬</td><td>11.2 年</td></tr>\n<tr><td>2031 年約 1,113 萬</td><td>四六</td><td>定存</td><td>少&nbsp;178&nbsp;萬</td><td>少&nbsp;223&nbsp;萬</td><td>少&nbsp;267&nbsp;萬</td><td>8.8 年</td></tr>\n</tbody></table>",
+  "why": "layout should：「少／280／萬」被拆三行；改不斷行空格，文字不變"
+ },
+ {
+  "section": "cases",
+  "old": "<table class=\"compact\"><thead><tr><th>投資圈</th><th>股票比例</th><th>股票跌 40%</th><th>跌 50%</th><th>跌 60%</th></tr></thead><tbody>\n<tr><td>現在 30 萬</td><td>80%</td><td>少 9.6 萬</td><td>少 12 萬</td><td>少 14.4 萬</td></tr>\n<tr><td>現在 30 萬</td><td>60%</td><td>少 7.2 萬</td><td>少 9 萬</td><td>少 10.8 萬</td></tr>\n<tr><td>2046 年約 482 萬（投 24%）</td><td>80%</td><td>少 154 萬</td><td>少 193 萬</td><td>少 231 萬</td></tr>\n<tr><td>2046 年約 471 萬（投 24%）</td><td>70%</td><td>少 132 萬</td><td>少 165 萬</td><td>少 198 萬</td></tr>\n<tr><td>2046 年約 460 萬（投 24%）</td><td>60%</td><td>少 110 萬</td><td>少 138 萬</td><td>少 166 萬</td></tr>\n</tbody></table>",
+  "new": "<table class=\"compact\"><thead><tr><th>投資圈</th><th>股票比例</th><th>股票跌 40%</th><th>跌 50%</th><th>跌 60%</th></tr></thead><tbody>\n<tr><td>現在 30 萬</td><td>80%</td><td>少&nbsp;9.6&nbsp;萬</td><td>少&nbsp;12&nbsp;萬</td><td>少&nbsp;14.4&nbsp;萬</td></tr>\n<tr><td>現在 30 萬</td><td>60%</td><td>少&nbsp;7.2&nbsp;萬</td><td>少&nbsp;9&nbsp;萬</td><td>少&nbsp;10.8&nbsp;萬</td></tr>\n<tr><td>2046 年約 482 萬（投 24%）</td><td>80%</td><td>少&nbsp;154&nbsp;萬</td><td>少&nbsp;193&nbsp;萬</td><td>少&nbsp;231&nbsp;萬</td></tr>\n<tr><td>2046 年約 471 萬（投 24%）</td><td>70%</td><td>少&nbsp;132&nbsp;萬</td><td>少&nbsp;165&nbsp;萬</td><td>少&nbsp;198&nbsp;萬</td></tr>\n<tr><td>2046 年約 460 萬（投 24%）</td><td>60%</td><td>少&nbsp;110&nbsp;萬</td><td>少&nbsp;138&nbsp;萬</td><td>少&nbsp;166&nbsp;萬</td></tr>\n</tbody></table>",
+  "why": "layout should：「少／280／萬」被拆三行；改不斷行空格，文字不變"
+ }
+]

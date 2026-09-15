@@ -1,0 +1,10 @@
+[
+ {"section":"s11","old":"用手機搜「複利計算機」。</p><p><strong>表三","new":"用手機搜「複利計算機」。年數在兩格中間，取年數少的那一格，寧可算少。</p><p><strong>表三","why":"reader must：表二年數卡在兩格中間時沒有規則，照表三「取多的」會高估"},
+ {"section":"s11","old":"要不要過冷卻期，看第 <a class=\"xref\" href=\"#s10\">10</a> 節）。平靜時就改。","new":"要不要過冷卻期，看第 <a class=\"xref\" href=\"#s10\">10</a> 節）。比例改了，D 區要重查表一，E 區目標那年的金額也跟著重算。平靜時就改。","why":"reader must：降比例後沒提醒回頭重算 D、E 區"},
+ {"section":"s11","old":"<div class=\"table-wrap\"><table class=\"compact\"><thead><tr><th>區</th><th>格</th>","new":"<div class=\"table-wrap\"><table class=\"compact prose\"><thead><tr><th>區</th><th>格</th>","why":"layout must：欄位表文字靠右、區欄一字一行"},
+ {"section":"s11","old":"<div class=\"table-wrap\"><table class=\"compact\"><thead><tr><th>左半頁</th>","new":"<div class=\"table-wrap\"><table class=\"compact text\"><thead><tr><th>左半頁</th>","why":"layout must：一頁空白版右半頁整欄靠右"},
+ {"section":"s11","old":"<div class=\"table-wrap\"><table class=\"compact\"><thead><tr><th>問題</th><th>答不過時怎麼辦</th>","new":"<div class=\"table-wrap\"><table class=\"compact text\"><thead><tr><th>問題</th><th>答不過時怎麼辦</th>","why":"layout must：三問表文字靠右"},
+ {"section":"costs","old":"<table class=\"compact\"><thead><tr><th>項目</th><th>發生時間</th>","new":"<table class=\"compact text\"><thead><tr><th>項目</th><th>發生時間</th>","why":"layout must：文字表靠右"},
+ {"section":"lifecycle","old":"<table class=\"compact\"><thead><tr><th>來源</th><th>第一年提領率</th>","new":"<table class=\"compact text\"><thead><tr><th>來源</th><th>第一年提領率</th>","why":"layout must：文字表靠右"},
+ {"section":"style","old":".label-practice{border-color:#666;color:#333}}</style>","new":".label-practice{border-color:#666;color:#333}}@media print{table.compact:not(.text):not(.prose) td{white-space:nowrap}}</style>","why":"layout should：數字表列印時「少／280／萬」被拆成三行"}
+]

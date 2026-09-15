@@ -1,0 +1,5 @@
+{
+  "codes": ["0050", "006208", "0056", "00878", "009826", "00692", "VT", "VWRA", "VWRD", "VALU", "IWDA", "TLT", "BND", "CBU0"],
+  "allow_lite": ["div.story"],
+  "allow_full": ["div.story", "div.source-card", "#toolbox li:contains(《)"]
+}
