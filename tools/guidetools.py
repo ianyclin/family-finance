@@ -15,6 +15,23 @@ TAGS = ['div','p','li','ul','ol','a','strong','h3','h4','section','figure','deta
 
 def read(p): return open(p, encoding='utf-8').read()
 
+# Opening-tag patterns that tolerate extra attributes (e.g. data-lite="ch4") before or after class.
+# The class value itself must match exactly (class="story", not class="story x").
+def open_tag(tag, cls=None):
+    if cls is None: return r'<%s\b[^>]*>' % tag
+    return r'<%s\b(?=[^>]*?(?<![\w-])class="%s")[^>]*>' % (tag, re.escape(cls))
+
+def count_open(h, tag, cls=None): return len(re.findall(open_tag(tag, cls), h))
+
+def div_blocks(h, cls):
+    """Yield (start, end) of each <div class="cls" ...>...</div>, matching nested divs."""
+    for m in re.finditer(open_tag('div', cls), h):
+        depth = 0; j = m.start(); k = len(h)
+        for t in re.finditer(r'<div\b[^>]*>|</div>', h[j:]):
+            depth += -1 if t.group(0) == '</div>' else 1
+            if depth == 0: k = j + t.end(); break
+        yield j, k
+
 def apply(base, out, patches):
     h = read(base); P = []
     for f in patches: P += json.load(open(f, encoding='utf-8'))
@@ -39,7 +56,7 @@ def check(path):
     for t in TAGS:
         o = len(re.findall(r'<%s\b[^>]*>' % t, h)); c = len(re.findall(r'</%s>' % t, h))
         if o != c: errs.append('tag %s open=%d close=%d' % (t, o, c))
-    ids = re.findall(r'id="([^"]+)"', h)
+    ids = re.findall(r'(?<![\w-])id="([^"]+)"', h)
     dup = [k for k, v in Counter(ids).items() if v > 1]
     if dup: errs.append('duplicate ids %s' % dup)
     bad = [x for x in re.findall(r'href="#([^"]+)"', h) if x not in set(ids)]
@@ -49,26 +66,23 @@ def check(path):
         d += -1 if t.group(0) == '</a>' else 1
         if d < 0 or d > 1: errs.append('nested or unbalanced <a>'); break
     H = re.sub(r'data:[^"\')]+', 'DATA', h)
-    story_terms = sum(len(re.findall(r'<a class="term"', m.group(0))) for m in re.finditer(r'<div class="story">.*?</div>', H, flags=re.S))
+    term = open_tag('a', 'term')
+    story_terms = sum(len(re.findall(term, H[a:b])) for a, b in div_blocks(H, 'story'))
     if story_terms: errs.append('term links inside story boxes: %d' % story_terms)
-    strong_terms = len(re.findall(r'<strong>[^<]*<a class="term"', H))
+    strong_terms = len(re.findall(r'<strong\b[^>]*>[^<]*' + term, H))
     if strong_terms: errs.append('term links inside strong: %d' % strong_terms)
-    print('marks', h.count('<mark class="key">'), 'later', h.count('class="later"'),
-          'details', h.count('<details'), 'data-chart', h.count('data-chart='), 'story', h.count('<div class="story">'))
+    print('marks', count_open(h, 'mark', 'key'), 'later', len(re.findall(r'<[a-z]+\b(?=[^>]*?(?<![\w-])class="later")[^>]*>', h)),
+          'details', count_open(h, 'details'), 'data-chart', len(re.findall(r'(?<![\w-])data-chart=', h)), 'story', count_open(h, 'div', 'story'))
     if errs:
         print('CHECK FAILED'); [print(' -', e) for e in errs]; sys.exit(1)
     print('CHECK OK')
 
 def strip_div(h, cls):
     out = []; i = 0
-    while True:
-        j = h.find('<div class="%s"' % cls, i)
-        if j < 0: out.append(h[i:]); break
-        out.append(h[i:j]); depth = 0; k = j
-        for m in re.finditer(r'<div\b|</div>', h[j:]):
-            depth += 1 if m.group(0) == '<div' else -1
-            if depth == 0: k = j + m.end(); break
-        i = k
+    for j, k in div_blocks(h, cls):
+        if j < i: continue  # nested inside a block already stripped
+        out.append(h[i:j]); i = k
+    out.append(h[i:])
     return ''.join(out)
 
 def to_text(path, keep_sources=False):
@@ -76,12 +90,12 @@ def to_text(path, keep_sources=False):
     h = re.sub(r'<style.*?</style>', '', h, flags=re.S)
     if not keep_sources: h = strip_div(h, 'source-card')
     h = re.sub(r'<svg.*?</svg>', '', h, flags=re.S)
-    h = re.sub(r'<details class="orig">.*?</details>', '', h, flags=re.S)
+    h = re.sub(open_tag('details', 'orig') + r'.*?</details>', '', h, flags=re.S)
     h = re.sub(r'<img[^>]*alt="([^"]*)"[^>]*>', r'〔圖：\1〕', h); h = re.sub(r'<img[^>]*>', '', h)
-    h = h.replace('<div class="story">', '\n【黃框】'); h = h.replace('<summary>', '\n【摺疊】')
-    h = re.sub(r'<p class="small">', '\n〈小字〉', h); h = re.sub(r'<span class="small">', '〈小字〉', h)
-    h = re.sub(r'<a class="term"[^>]*>(.*?)</a>', r'〔\1〕', h); h = re.sub(r'<mark class="key">(.*?)</mark>', r'★\1★', h)
-    h = re.sub(r'<span class="later">(.*?)</span>', r'［\1］', h); h = h.replace('<br>', '\n')
+    h = re.sub(open_tag('div', 'story'), '\n【黃框】', h); h = re.sub(open_tag('summary'), '\n【摺疊】', h)
+    h = re.sub(open_tag('p', 'small'), '\n〈小字〉', h); h = re.sub(open_tag('span', 'small'), '〈小字〉', h)
+    h = re.sub(open_tag('a', 'term') + r'(.*?)</a>', r'〔\1〕', h); h = re.sub(open_tag('mark', 'key') + r'(.*?)</mark>', r'★\1★', h)
+    h = re.sub(open_tag('span', 'later') + r'(.*?)</span>', r'［\1］', h); h = h.replace('<br>', '\n')
     h = re.sub(r'<h2[^>]*>', '\n\n## ', h); h = re.sub(r'<h3[^>]*>', '\n### ', h)
     h = re.sub(r'</(p|li|h2|h3|h4|dd|dt|tr|figcaption|div|summary)>', '\n', h); h = re.sub(r'<t[dh][^>]*>', ' | ', h)
     h = re.sub(r'<[^>]+>', '', h); h = h.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>')
