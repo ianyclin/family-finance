@@ -1,0 +1,116 @@
+[
+ {
+  "section": "s11",
+  "old": "35 年 ×2.00、40 年 ×2.21；年數在兩格中間，都往保守那邊取：錢算少一點（表二取年數少的那格）、目標算多一點（表三取年數多的那格）。</p></details>",
+  "new": "35 年 ×2.00、40 年 ×2.21。年數在兩格中間，都往保守那邊取：目標（乘）取年數多的那格；大跌少的錢換回今天（除）取年數少的那格。</p></details>",
+  "why": "主線決定1：表三是乘也是除，除的時候取年數少的那格才保守；表二的取法已在上一段用法裡"
+ },
+ {
+  "section": "s11",
+  "old": "<span class=\"small\">換算成幾個月收入時，目標那年少的錢先除以物價倍數換成今天的錢，再除以現在的月收入</span>",
+  "new": "<span class=\"small\">換算成幾個月收入時，目標那年少的錢先除以物價倍數換成今天的錢（用除的，年數在兩格中間取年數少的那格），再除以現在的月收入</span>",
+  "why": "主線決定1：第16格（第4章來源）同步除法取格"
+ },
+ {
+  "section": "s2",
+  "old": "<p class=\"small\">倍數照物價每年漲約 2% 算；年數在兩格中間，取年數多的那一格。",
+  "new": "<p class=\"small\">倍數照物價每年漲約 2% 算；年數在兩格中間，取年數多的那一格（大跌少的錢要換回今天的錢時是用除的，取年數少的那一格）。",
+  "why": "主線決定1：物價倍數表本身的取格規則同步，避免和表三矛盾"
+ },
+ {
+  "section": "s11",
+  "old": "<div class=\"data-card\"><h3>大跌演練：挑一個平靜的晚上，花十分鐘</h3><ol class=\"checklist\"><li>從計畫表 E 區抄下：「目標那一年」的金額，股票跌 50% 時少＿萬。</li>",
+  "new": "<div class=\"data-card\" data-lite-alt=\"ch4-drill\"><h3>大跌演練：挑一個平靜的晚上，花十分鐘</h3><ol class=\"checklist\"><li>從計畫表 E 區抄下：「目標那一年」的金額，股票跌 50% 時少＿萬，等於＿個月的收入。把這兩個數字念出來。</li>",
+  "why": "主線決定2：E 區算出的月數在演練第1步用上；卡片標 data-lite-alt 讓實作版補回冷卻期括號"
+ },
+ {
+  "section": "start",
+  "old": "還和家人住的學生，必要支出算自己每月一定要付的（交通、手機、餐費）；保險先問家人家裡保了什麼。",
+  "new": "還和家人住的學生或上班族，必要支出算自己每月一定要付的（交通、手機、餐費，每月固定拿給家裡的錢也算）；保險先問家人家裡保了什麼。",
+  "why": "主線決定3：住家裡的上班族必要支出怎麼算"
+ },
+ {
+  "section": "start",
+  "old": "<span class=\"small\">收入不穩、只有一份收入、扶養責任較重或工作難替代，通常需要更多。",
+  "new": "<span class=\"small\">收入不穩、家裡只靠一份收入、扶養責任較重或工作難替代，通常需要更多。",
+  "why": "主線決定3：單身上班族不會誤讀成要存更多"
+ },
+ {
+  "section": "products",
+  "old": "<li><strong>總成本：</strong>經理費、保管費及其他內扣，加上交易手續費、買賣價差、換匯與稅。</li>",
+  "new": "<li><strong>總成本：</strong>經理費、保管費及其他內扣，加上交易手續費、買賣價差、換匯與稅。台灣掛牌的，公開說明書和費用率在基金資訊觀測站查得到；海外掛牌的，看發行公司官網的產品頁（網址在「<a class=\"xref\" href=\"#toolbox\">去哪查</a>」和本節來源）。</li>",
+  "why": "主線決定6：計畫表 C 區要填總費用率，正文補一句去哪查（原本只在去哪查的來源卡）"
+ },
+ {
+  "section": "s1",
+  "old": "表上數字還沒扣費用，股票報酬率先減掉基金的內扣費用（第 <a class=\"xref\" href=\"#s3\">3</a> 節）再算。",
+  "new": "表上數字還沒扣費用：總費用率高的，先把股票報酬率減掉費用再查表（或用複利計算機）；費用怎麼看在第 <a class=\"xref\" href=\"#s3\">3</a> 節，查表頁在第 <a class=\"xref\" href=\"#s11\">11</a> 節。",
+  "why": "主線決定7：和 s11 查表頁同一句"
+ },
+ {
+  "section": "s11",
+  "old": "這是固定報酬的算術，不是預測；試算時直接用表上印出來的數字。</p>",
+  "new": "這是固定報酬的算術，不是預測。表上數字還沒扣費用：總費用率高的，先把股票報酬率減掉費用再查表（或用複利計算機）。</p>",
+  "why": "主線決定7：原句「直接用表上印出來的數字」和 s1「先減費用」矛盾，統一"
+ },
+ {
+  "section": "s12",
+  "old": "</p></div><p class=\"small\">7% 是第 <a class=\"xref\" href=\"#s1\">1</a> 節的高情境；照低 4% 估，全部股票約 18 年，有放債券或每年調高投入會更晚（第 <a class=\"xref\" href=\"#s2\">2</a> 節）。</p>",
+  "new": "</p></div><p class=\"small\" data-lite=\"ch6\">7% 是第 <a class=\"xref\" href=\"#s1\">1</a> 節的高情境；照低 4% 估，全部股票約 18 年，有放債券或每年調高投入會更晚（第 <a class=\"xref\" href=\"#s2\">2</a> 節）。</p>",
+  "why": "主線決定8：黃框後的但書小字跟著黃框進實作版第6章（只加 data-lite）"
+ },
+ {
+  "section": "s11",
+  "old": "<td>12 查表</td><td>股票＿成 → 低＿%／中＿%／高＿%（樂觀）</td>",
+  "new": "<td>12 查表</td><td>股票＿成 → 低＿%／中＿%／高＿%（樂觀）<br><span class=\"small\">股票比例要等 E 區做完三問才定：先挑一個打算放的比例試算，寫「暫定」；E 區比例改了，回來重查表一，重算 D 區和 E 區目標那年的金額</span></td>",
+  "why": "主線決定9：實作版第3章的「D 區寫暫定」先寫進完整版"
+ },
+ {
+  "section": "s5",
+  "old": "不能直接比高低。</p>\n<div class=\"source-card\"><h3>直接來源</h3><a class=\"source-link\" href=\"https://www.twse.com.tw/zh/indices/taiex/mfi94u.html\"",
+  "new": "不能直接比高低。</p>\n<div class=\"data-card\"><h3>跌的時候、很久沒漲的時候，記得這幾句</h3><ul class=\"checklist\"><li><strong>跌的那天，先問這筆錢要放多久。</strong>美國 1950 到 2025 年，全股票連續放十年，運氣最差的那一段是平均一年約 −1%；放二十年，最差的那一段平均一年還有 6%（上面那張區間表）。這是歷史，不是保證。</li><li><strong>年中跌一段很平常。</strong>台股 2003 到 2025 年，23 年裡有 18 年整年是賺的，也有 18 年中途跌過一成以上（本節台股那張表）。</li><li><strong>很久沒漲，先看是不是押在一個國家。</strong>單押一個國家，價格指數曾經 25 到 34 年才回到高點（第 <a class=\"xref\" href=\"#s4\">4</a> 節；不含股利，含股利會早很多年），所以核心放全球。</li><li><strong>前幾年看的是有沒有照規則投入，</strong>不是帳戶長了多少（第 <a class=\"xref\" href=\"#s2\">2</a> 節）。</li><li><strong>想打開 app 的時候，先打開計畫表 F 區。</strong>上面寫的，是平靜時的你替今天做好的決定（第 <a class=\"xref\" href=\"#s11\">11</a> 節）。</li></ul></div>\n<div class=\"source-card\"><h3>直接來源</h3><a class=\"source-link\" href=\"https://www.twse.com.tw/zh/indices/taiex/mfi94u.html\"",
+  "why": "規格 B1：心態卡，只用書裡已有出處的事實（s5 區間表、台股表，s4 等很久表，s2 前幾年）"
+ },
+ {
+  "section": "s10",
+  "old": "對策：卡上寫「我不知道未來」。</li>",
+  "new": "對策：卡上寫「我不知道未來」。</li>\n<li><strong>第一年賺很多，以為自己很會挑。</strong>剛開始那一兩年碰上大漲，帳戶數字很好看；這多半是整個市場在漲，不是自己挑得好。人卻很容易把賺到的算成自己的本事，接著越買越勤。美國一份研究看了 1,607 位從電話下單改成網路下單的投資人：改之前每年贏市場 2% 以上，改了以後交易變多，每年反而落後市場 3% 以上。對策：第一年賺了錢，照計畫表做，不因為手氣好就加碼或換做法。<br><span class=\"small\">那是 1991 到 1996 年、美國一家券商的資料；改網路下單是自己選的，這些人可能本來就比較有自信。Gervais 與 Odean（2001）的理論模型也推出同一個方向：交易者剛開始交易時並不過度自信，贏過幾次以後才越來越自信，經驗多了才回落。</span></li>",
+  "why": "規格 B2：新手運；實證用 Barber & Odean 2002，Gervais & Odean 2001 只當理論模型"
+ },
+ {
+  "section": "s10",
+  "old": "對策：比較自己的目標，不比較別人的片段。</li>",
+  "new": "對策：比較自己的目標，不比較別人的片段。</li>\n<li><strong>群組裡好像大家都在賺。</strong>群組和社群裡的截圖，是別人挑出來貼的片段，賺錢的人比較想講。研究者用模型推過這件事：賺得越多的人，越常跟別人講自己的做法，所以聽的人看到的成績是往上偏的。對策：關掉群組和社群的通知；不在群組裡做決定；計畫表以外的動作，不臨時改。有人拉你進投資群組，照「<a class=\"xref\" href=\"#ten\">十分鐘看完</a>」的四個立即停止；朋友集中一檔賺很多，看第 <a class=\"xref\" href=\"#s13\">13</a> 節那一題。<br><span class=\"small\">模型出自 Han、Hirshleifer 與 Walden（2022）。美國證券業自律組織 FINRA 的投資人教育基金會 2026 年問卷：會看社群做投資決定的人，被詐騙找上時有 68–69% 真的賠了錢，不看的人是 26–29%。問卷只看得出兩件事一起出現，看不出是社群造成的。</span></li>",
+  "why": "規格 B3：看到的是挑過的片段；模型用 Han et al. 2022，FINRA 基金會問卷只寫相關"
+ },
+ {
+  "section": "s10",
+  "old": "<span>Kahneman &amp; Riepe (1998)</span><span class=\"source-note\">過度自信（期刊頁需訂閱）</span></a>",
+  "new": "<span>Kahneman &amp; Riepe (1998)</span><span class=\"source-note\">過度自信（期刊頁需訂閱）</span></a><a class=\"source-link\" href=\"https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/online%20rfs.pdf\" target=\"_blank\" rel=\"noopener\"><span>Barber &amp; Odean (2002), Online Investors: Do the Slow Die First?</span><span class=\"source-note\">改網路下單前每年贏市場 2% 以上，改了以後落後 3% 以上（1,607 人）</span></a><a class=\"source-link\" href=\"http://faculty.haas.berkeley.edu/odean/papers%20current%20versions/learningrfs.pdf\" target=\"_blank\" rel=\"noopener\"><span>Gervais &amp; Odean (2001), Learning to Be Overconfident</span><span class=\"source-note\">理論模型：交易生涯早期過度自信上升</span></a><a class=\"source-link\" href=\"https://www.nber.org/papers/w24281\" target=\"_blank\" rel=\"noopener\"><span>Han, Hirshleifer &amp; Walden (2022；連結為 NBER 工作論文頁)</span><span class=\"source-note\">社群傳播偏誤：報酬越高越會講自己的做法（模型）</span></a><a class=\"source-link\" href=\"https://www.finrafoundation.org/sites/finrafoundation/files/2026-03/FINRA_Foundation_Research_Brief_Social_Media_Finfluencers.pdf\" target=\"_blank\" rel=\"noopener\"><span>FINRA Foundation (2026), Finfluencer Followers and Social Media Scrollers</span><span class=\"source-note\">問卷；被詐騙找上時 68–69% 對 26–29% 賠錢，只看得出相關</span></a>",
+  "why": "規格 B2、B3 的出處放本節來源卡"
+ },
+ {
+  "section": "annual",
+  "old": "<li><strong>儲蓄率：</strong>今年投入的錢除以收入，和去年比。薪水漲了，投入有沒有跟著漲？薪水沒漲，投入有沒有至少跟著物價調高（第 <a class=\"xref\" href=\"#s2\">2</a> 節）？</li>",
+  "new": "<li><strong>儲蓄率：</strong>今年投入的錢除以收入，和去年比。薪水漲了，投入有沒有跟著漲？薪水沒漲，投入有沒有至少跟著物價調高（第 <a class=\"xref\" href=\"#s2\">2</a> 節）？加薪那天，先決定多存的那一塊，再決定多花的。<br><span class=\"small\">錢變多帶來的開心，通常不會一直留著：研究訪問 22 位樂透大獎得主，他們並沒有比沒中獎的對照組快樂（Brickman 等，1978，人數很少）。先存的做法有人試過：美國一家公司讓員工事先答應「以後加薪，撥一部分去存退休金」，參加的人平均儲蓄率 40 個月內從 3.5% 升到 13.6%（Thaler 與 Benartzi，2004，美國公司的退休金制度）。</span></li>",
+  "why": "規格 B4：加薪先存；享樂適應用 Brickman 1978（只寫快樂，不寫支出），做法用 Save More Tomorrow"
+ },
+ {
+  "section": "annual",
+  "old": "」。</li></ol></div>\n<div class=\"story\"><p>我每個月投入時補落後的那一邊",
+  "new": "」。</li></ol></div>\n<div class=\"source-card\"><h3>直接來源</h3><a class=\"source-link\" href=\"https://pubmed.ncbi.nlm.nih.gov/690806/\" target=\"_blank\" rel=\"noopener\"><span>Brickman, Coates &amp; Janoff-Bulman (1978), Lottery winners and accident victims</span><span class=\"source-note\">22 位樂透得主沒有比對照組快樂（PubMed 摘要）</span></a><a class=\"source-link\" href=\"https://www.journals.uchicago.edu/doi/abs/10.1086/380085\" target=\"_blank\" rel=\"noopener\"><span>Thaler &amp; Benartzi (2004), Save More Tomorrow</span><span class=\"source-note\">事先承諾把未來加薪的一部分撥去存；儲蓄率 40 個月從 3.5% 到 13.6%</span></a></div>\n<div class=\"story\"><p>我每個月投入時補落後的那一邊",
+  "why": "規格 B4 的出處（本節原本沒有來源卡，照節內順序放在黃框前）"
+ },
+ {
+  "section": "firstmonth",
+  "old": "降下來以後不因為漲回來又升回去（第 <a class=\"xref\" href=\"#s10\">10</a> 節）。</li>\n</ol></div>",
+  "new": "降下來以後不因為漲回來又升回去（第 <a class=\"xref\" href=\"#s10\">10</a> 節）。</li>\n</ol><p>一年要花多少時間：每月扣款後看一次比例、對一次帳，幾分鐘；每年年底年檢，約一小時；其他時間不用看。</p></div>",
+  "why": "規格 B5：時間只取自書裡既有規則（F 區每月看比例、每月核對、年底年檢一小時）"
+ },
+ {
+  "section": "s11",
+  "old": "<p><span class=\"label-principle\">原則</span>平靜時寫下來，下跌時照著做。這張紙叫「我的投資計畫」，分成 A 到 H 八區；F 到 H 區是規則，",
+  "new": "<p><span class=\"label-principle\">原則</span>平靜時寫下來，下跌時照著做。平靜時的自己，替慌張時的自己先做好決定。這張紙叫「我的投資計畫」，分成 A 到 H 八區；F 到 H 區是規則，",
+  "why": "規格 B6：計畫表是預先承諾"
+ }
+]

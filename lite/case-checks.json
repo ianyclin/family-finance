@@ -164,7 +164,7 @@
  {
   "id": "陳大哥 五年缺口",
   "path": "chen.five_year_gap_wan.value",
-  "pattern": "地板要的(\\d+)萬",
+  "pattern": "生活費缺口約(\\d+)萬",
   "scope": "ch9"
  },
  {

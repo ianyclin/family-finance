@@ -4,12 +4,15 @@
 
 ## 現況
 
-- 正式檔：`family-finance/guide/index.html`（v5.6，約 1.3 MB，含 base64 原圖）。
+- **v6.0 起是兩本書，一個來源**：原文正式檔只有一個，`family-finance/guide/index.html`（v6.0，約 1.4 MB，含 base64 原圖）；實作版 `family-finance/lite/index.html` 由 `tools/build_lite.py` 從正式檔產生，**不要手改**。
 - `family-finance/` 是**獨立本機 git repo**（2026-09-15 起，無遠端、無 hook）；根目錄 life-journal 是公開 GitHub 倉庫，已 gitignore 本資料夾，**不可把本資料夾加進 life-journal**。改前改後都在本 repo commit。
-- 發布：https://claude.ai/code/artifact/19dbae25-66c1-404d-8219-8f9e19d586a4 （同一網址一路更新，發布時一定帶 `url`）。
-- 發布用的副本：`family-finance/output/guide.html`（由 index.html 去掉 doctype/html/head/body 產生，每次改完要重做）。
-- 匯出：`family-finance/export/隔離人性-理財新手完整指南-v5.6.html / .pdf`。
-- 最近備份：`guide/index.v5.5.backup.html`（v5.6 之前）、`v5.4`、`v5.3`、`v5.2`、`v5.1`、`v5.0`、`v4.15.1`、`v4.15`、`v4.14`、`v4.13`、`v4.12.3`、`v4.12.2`、`v4.12.1`、`v4.12`、`v4.11`、`v4.10.1`、`v4.10`、`v4.9.3`、`v4.9.2`、`v4.9.1`、`v4.9`、`v4.8`、`v4.7`、`v4.6`……每次改前先 `cp` 一份。
+- 發布（完整版）：https://claude.ai/code/artifact/19dbae25-66c1-404d-8219-8f9e19d586a4 （同一網址一路更新，發布時一定帶 `url`）。
+- 發布（新手實作版）：網址待補（第一次發布時由主線填在這裡，之後同一網址更新）。
+- 發布用的副本：`output/guide.html`（由完整版發布版 `output/full-v60-out.html` 去掉 doctype/html/head/body 產生）、`output/lite.html`（由 `lite/index.html` 同法產生）。每次改完要重做，做法見下面「改完後的固定流程」。
+- 匯出（export 只留最新版）：
+  - `export/隔離人性-理財新手完整指南-v6.0.html / .pdf`（A4 137 頁、書籤 148 條、目錄含頁碼）
+  - `export/隔離人性-新手實作版-v6.0.html / .pdf`（A4 22 頁、書籤 41 條、上限 25 頁）
+- 最近備份：`guide/index.v5.6.backup.html`（v6.0 之前）、`v5.5`、`v5.4`、`v5.3`、`v5.2`、`v5.1`、`v5.0`、`v4.15.1`、`v4.15`、`v4.14`、`v4.13`、`v4.12.3`、`v4.12.2`、`v4.12.1`、`v4.12`、`v4.11`、`v4.10.1`、`v4.10`、`v4.9.3`、`v4.9.2`、`v4.9.1`、`v4.9`、`v4.8`、`v4.7`、`v4.6`……每次改前先 `cp` 一份。
 
 ## 作者的原則（不能違反）
 
@@ -36,36 +39,53 @@
 
 ### 目前 14 句重點（mark.key）
 
-why 它是一套寫得下來的步驟，不是一種本事。／s1 上面的歷史數字是過去，不是預測。／s3 簡單不是妥協，是把所有會扣分的動作拿掉以後剩下的東西。／s4 核心放全球市值型，台股大盤可以是裡面的一塊。／s5 波動會在兩種情況變成真的傷害…／s6 有錢可投、計畫也允許的時候，就照規則投進去。／s7 挑一個固定的日子就好。／s9 熱門時加碼、下跌時退出…／s11 最不用臨場判斷的答案是三格都寫「照常投入，新錢照規則補落後的那一邊」。／s13 照卡做，不用說服對方。／steps 買進前先讓交割帳戶有足夠資金，避免違約交割／withdraw 市值型配置加一張規則卡，是最容易交接的組合／lifecycle 借的錢有固定利息，投資報酬沒有。／annual 自己的年化和指數差很多時，先找原因，不先換商品。
+why 它是一套寫得下來的步驟，不是一種本事。／s1 上面的歷史數字是過去，不是預測。／s3 簡單不是妥協，是把所有會扣分的動作拿掉以後剩下的東西。／s4 核心放全球市值型，台股大盤可以是裡面的一塊。／s5 波動會在兩種情況變成真的傷害…／s6 有錢可投、計畫也允許的時候，就照規則投進去。／s7 挑一個固定的日子就好。／s9 熱門時加碼、下跌時退出…／s11 最不用臨場判斷的答案是三種跌幅都寫「照常投入，新錢照規則補落後的那一邊」。（v6.0 起，計畫表 F 區改成投資圈跌 10%、20%、30% 以上三種跌幅）／s13 照卡做，不用說服對方。／steps 買進前先讓交割帳戶有足夠資金，避免違約交割／withdraw 市值型配置加一張規則卡，是最容易交接的組合／lifecycle 借的錢有固定利息，投資報酬沒有。／annual 自己的年化和指數差很多時，先找原因，不先換商品。
 
 作者下一步要自己改文字與增減重點句。改法：直接在 `guide/index.html` 找到句子，包上或拿掉 `<mark class="key">…</mark>`；改文字時如果句子裡有 `<a class="term">` 或 `<a class="xref">`，連結要一起保留。
 
 ## 改完後的固定流程
 
+**只改 `guide/index.html`（唯一原文來源），其餘一律由程式產生。** 實作版的內容要跟著改時，改的是 `lite/manifest.json`（接合文字、章順序）或 `lite/alt/*.html`（短稿），規則見 `docs/core-edition/specs/lite-format.md`。
+
 ```bash
 cd "/Users/linyenchu/Cladue Code/family-finance"
-cp guide/index.html guide/index.vX.backup.html      # 先備份
+cp guide/index.html guide/index.vX.backup.html      # 1. 先備份（*.backup.html 已 gitignore）
+# 2. 改 guide/index.html（大檔只用 Edit 或 tools/guidetools.py apply，不要整檔覆寫）
+python3 tools/build_lite.py                          # 3. 產生兩份 HTML + 兩份 PDF + 跑哨兵；exit 0 才算過
+```
+
+`build_lite.py` 會產生：`lite/index.html`（實作版）、`output/full-v60-out.html`（完整版發布版，比正式檔多了 lede 下那行「新手實作版第 N 章是這一節的做法版」）、`export/` 兩份 HTML＋兩份 A4 PDF（書籤、頁碼、目錄頁碼、metadata 都在裡面，不必再手動印），最後跑 `tools/lite_sentinels.py` 全套哨兵。哨兵紅了不要繞過，照 `lite-format.md` 第 9 節那一欄處理。
+
+```bash
+# 4. 產生兩份發布用片段（去掉 doctype/html/head/body）
 python3 - <<'EOF'
 import re
-h=open('guide/index.html',encoding='utf-8').read()
-for t in ['div','p','li','ul','ol','a','strong','h3','h4','section','figure','details','table','span','dt','dd','dl','mark']:
-    o=len(re.findall(r'<%s\b[^>]*>'%t,h)); c=len(re.findall(r'</%s>'%t,h)); assert o==c,(t,o,c)
-ids=set(re.findall(r'id="([^"]+)"',h)); bad=[x for x in re.findall(r'href="#([^"]+)"',h) if x not in ids]; assert not bad,bad
-d=0
-for t in re.finditer(r'<a\b[^>]*>|</a>',h): d+= -1 if t.group(0)=='</a>' else 1; assert 0<=d<=1
-s=re.sub(r'<!doctype html>\s*','',h,flags=re.I); s=re.sub(r"</?(html|head|body)\b[^>]*>\s*","",s)
-assert s.count('<header class="cover"')==1
-open('output/guide.html','w',encoding='utf-8').write(s); print('ok')
+def frag(src, dst, check):
+    h=open(src,encoding='utf-8').read()
+    for t in ['div','p','li','ul','ol','a','strong','h3','h4','section','figure','details','table','span','dt','dd','dl','mark']:
+        o=len(re.findall(r'<%s\b[^>]*>'%t,h)); c=len(re.findall(r'</%s>'%t,h)); assert o==c,(src,t,o,c)
+    ids=set(re.findall(r'id="([^"]+)"',h)); bad=[x for x in re.findall(r'href="#([^"]+)"',h) if x not in ids]; assert not bad,(src,bad)
+    d=0
+    for t in re.finditer(r'<a\b[^>]*>|</a>',h): d+= -1 if t.group(0)=='</a>' else 1; assert 0<=d<=1
+    s=re.sub(r'<!doctype html>\s*','',h,flags=re.I); s=re.sub(r"</?(html|head|body)\b[^>]*>\s*","",s)
+    check(s); open(dst,'w',encoding='utf-8').write(s); print('wrote', dst)
+def full(s): assert s.count('<header class="cover"')==1
+def lite(s):
+    m=re.findall(r'<header[^>]*class="[^"]*\blite-cover\b[^"]*"',s); assert len(m)==1,m
+    assert '隔離人性：新手實作版' in re.sub(r'<[^>]+>','',s[s.find(m[0]):s.find(m[0])+800])
+frag('output/full-v60-out.html','output/guide.html',full)
+frag('lite/index.html','output/lite.html',lite)
 EOF
 ```
 
-然後：Artifact 工具發布 `output/guide.html` 並帶 `url`（上面那個網址）；匯出 PDF：
+然後：Artifact 工具發布 `output/guide.html`（完整版，帶上面那個 `url`）與 `output/lite.html`（新手實作版，第一次發布後把網址補回「現況」）。最後：
 
 ```bash
-cd "/Users/linyenchu/Cladue Code/family-finance" && cp guide/index.html "export/隔離人性-理財新手完整指南-vX.html" && （PDF 前先產生 details 全展開的 export/_print.html，列印它）"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu --no-pdf-header-footer --virtual-time-budget=8000 --print-to-pdf="$PWD/export/隔離人性-理財新手完整指南-vX.pdf" "file://$PWD/export/隔離人性-理財新手完整指南-vX.html"
+python3 tools/guidetools.py check guide/index.html   # 5. 結構檢查（build 只檢查兩份產出）
+python3 tools/test_guidetools.py tools guide/index.html
 ```
 
-PDF metadata 用 PyMuPDF `set_metadata`（author「指數三寶飯・家庭理財陪跑」）。舊版匯出檔可刪，只留最新。
+PDF 由 `build_lite.py` 用 Chrome headless＋PyMuPDF 印（metadata author「指數三寶飯・家庭理財陪跑」）；不再需要舊的手動列印指令。舊版匯出檔可刪，只留最新。
 
 ## 工具與腳本
 
@@ -162,10 +182,55 @@ PDF metadata 用 PyMuPDF `set_metadata`（author「指數三寶飯・家庭理�
 
 ## 新手實作版 v6.0（2026-09-15 起，作者「做到最後，完成所有階段都不用問」）
 
-- 規格都在 `docs/core-edition/specs/`：stage1（新內容先寫進完整版）、stage1b（作者拍板：陳大哥生活費 4.5 萬、三問第 3 題只問「要調高股票比例才到得了目標嗎」、教學段代號全改類別名稱）、stage1c（一級一級降、物價倍數規則一致）、stage2（實作版工具與內容，含第 0 步）。`tickers-v60.md` 是代號清單，`calc-v60-report.md` 是重算報告。
-- 完整版候選：`lite/work/full-v60-candidate.html`（第一階段完成品，還沒進正式檔）。重算：`tools/calc_core.py` → `lite/calc-results.json`（防守 2%、名目、勞保不乘倍數）。工具：`tools/guidetools.py` 已容許 data-* 屬性（測試 `tools/test_guidetools.py`）。
-- 完整版新增：第 11 節「我的投資計畫」（A–H 區、欄位表、一頁空白版、查表頁、壓力測試、三問、大跌演練、小安全表）；s12 起點表併入、三條新手路徑；新節 `id="cases"`「另外三個人」；ten 四個立即停止＋六個錯（摺疊）；costs 風險差異表與 165；s3 兩層費用；s4 本國比例舉例；s2 無感期；s13 他幫我打工；sidepaths 台灣兩個坑；annual XIRR 三行＋六件事；標籤 CSS（label-principle／label-practice）與封面圖例；@page A4。
-- 第二階段（進行中）：data-lite 標記、`lite/manifest.json`、`lite/alt/`、`tools/build_lite.py`、`tools/lite_sentinels.py`、兩份 A4 PDF（書籤、頁碼、目錄頁碼）。
+- 規格都在 `docs/core-edition/specs/`：stage1（新內容先寫進完整版）、stage1b（作者拍板：陳大哥生活費 4.5 萬、三問第 3 題只問「要調高股票比例才到得了目標嗎」、教學段代號全改類別名稱）、stage1c（一級一級降、物價倍數規則一致）、stage2（實作版工具與內容，含第 0 步）、stage3（心態與行為學、ELI5 全面檢查、定稿）、`lite-format.md`（實作版格式與哨兵，改實作版前先讀）、`eli5-rules.md`（改寫寫法）。`tickers-v60.md` 是代號清單，`calc-v60-report.md` 是重算報告。
+- 重算：`tools/calc_core.py` → `lite/calc-results.json`（防守 2%、名目、勞保不乘倍數）。工具：`tools/guidetools.py` 已容許 data-* 屬性（測試 `tools/test_guidetools.py`）。
+- 完整版新增：第 11 節「我的投資計畫」（A–H 區、欄位表、一頁空白版、查表頁、壓力測試、三問、大跌演練、小安全表）；s12 起點表併入、三條新手路徑；新節 `id="cases"`「另外三個人」；ten 四個立即停止＋六個錯（摺疊）；costs 風險差異表與 165；s3 兩層費用；s4 本國比例舉例；s2 無感期；s13 他幫我打工；sidepaths 台灣兩個坑；annual XIRR 三行＋六件事；第三階段再加心態卡、新手運、群組與截圖、「夠了」、一年要花多少時間、計畫表是預先承諾；標籤 CSS（label-principle／label-practice）與封面圖例；@page A4。
+
+### 完成狀態（2026-09-16 定稿）
+
+- 三個階段都做完，`python3 tools/build_lite.py` 全綠（exit 0，`SENTINELS OK`）。
+- **第一階段完成品 `lite/work/full-v60-candidate.html` 已成為正式檔**：內容原封不動複製成 `guide/index.html`（舊版備份成 `guide/index.v5.6.backup.html`），候選檔只留作定稿當時的存檔，`build_lite.py` 不再讀它。
+- 來源與輸出：`lite/manifest.json` 的 `paths` 寫明 `source: guide/index.html`、`full_html: output/full-v60-out.html`（`tools/build_lite.py` 的 `DEFAULT_PATHS` 也改成同一組，兩邊一致）。
+- 頁數：完整版 A4 137 頁；實作版 A4 22 頁（上限 25）。
+
+### 實作版每章頁數（哨兵 `pages` 印的，括號是字數／上限）
+
+| 章 | 頁 | 字數／上限 |
+|---|---|---|
+| 封面＋目錄 | 1–2 | 506／300 |
+| 先印這頁：我的投資計畫 | 3（剛好一頁） | 521／- |
+| 計畫表背面：查表頁 | 4（剛好一頁） | 1549／- |
+| 第 1 章 十分鐘版 | 5 | 668／450 |
+| 第 2 章 這筆錢現在可以投嗎 | 5–6 | 1044／500 |
+| 第 3 章 哪一年要用、要多少 | 6–7 | 1251／600 |
+| 第 4 章 跌的時候少多少、股票放幾成 | 7–9 | 2019／700 |
+| 第 5 章 開戶之前防詐騙 | 9–10 | 819／450 |
+| 第 6 章 三條新手路徑 | 10–11 | 1852／750 |
+| 第 7 章 第一筆小金額 | 11–12 | 745／500 |
+| 第 8 章 我的投資計畫 | 12–13 | 2087／1250 |
+| 第 9 章 另外三個人 | 14–17 | 3200／1600 |
+| 第 10 章 設定自動投入然後少看 | 17–18 | 586／300 |
+| 第 11 章 第一年最難熬的兩段 | 18–19 | 1222／750 |
+| 第 12 章 每年年底的一小時 | 19–20 | 1524／700 |
+| 附 A 每年一次的檢查表 | 21（剛好一頁） | 670／- |
+| 附 B 想查證總表 | 22（剛好一頁） | 898／- |
+
+相鄰兩章接著排時範圍會重疊一頁（哨兵的算法，不是錯）。計畫表在第 3 頁（奇數）、查表頁在第 4 頁，雙面印剛好是同一張紙的正反面。
+
+### 工具與哨兵
+
+- `tools/build_lite.py`：依 `lite/manifest.json` 從 `guide/index.html` 抽區塊、套短稿、改寫連結、排版、印兩份 PDF，最後自動跑哨兵。常用參數：`--fingerprint "選擇器"`（看選擇器對到哪塊）、`--stamp <短稿id>`（重看過短稿後更新指紋）、`--manifest`（換 manifest 做實驗）。
+- `tools/lite_sentinels.py`：24 類檢查（短稿指紋與數字、接合文字無數字、共同事實、案例數字對 calc、代號位置、標籤、頁數與奇偶頁、目錄頁碼、黃框逐字、虛構聲明、附 B、章號、stale、兩份 `guidetools check` 等）。每一類失敗怎麼辦寫在 `docs/core-edition/specs/lite-format.md` 第 9 節。
+- 手改的只有四種檔：`guide/index.html`（原文與 `data-lite*` 標記）、`lite/manifest.json`、`lite/alt/*.html`（短稿）、`lite/facts.txt`／`lite/case-checks.json`／`lite/tickers.json`／`lite/labels.json`（檢查用清單）。`lite/index.html`、`output/full-v60-out.html`、`export/` 都是產生的。
+
+### 已知取捨與沒做的
+
+- **字數上限全面超標（只 WARN）**：13 章都超過 manifest 的 `char_limit`，但總頁數 22 ≤ 25，所以留著沒砍。要縮就改 `char_limit` 或照提案 1-3 的砍法順序砍內容，別只是把上限調高。
+- **完整版有 4 頁近乎空白**（PDF 第 24、41、47、93 頁，各 154–241 字，哨兵 WARN），多半是圖表或表格尾巴造成，沒有調版面。
+- **哨兵擋不住的三條路**（`lite-format.md` 第 9 節末）：國字寫的新事實、短稿換用來源裡另一個數字、沒有數字的新規則。每輪審查仍要人工把 manifest 的 glue／action 和改過的短稿逐段對回完整版原文。
+- **`stories` 哨兵的完整版那一半現在是恆真**（來源和 `story_reference` 都是 `guide/index.html`），真正在把關的是實作版那一半；黃框原文照舊不准改。
+- `lite/manifest.partA.json`、`lite/manifest.partB.json` 是第二階段分段測試用、沒有寫 `paths`，現在會吃新的預設值（寫到 `output/full-v60-out.html`）；要用它們實驗前先加 `paths` 或改輸出位置。
+- 新手實作版的發布網址還沒有（第一次發布時補進「現況」）。實作版 PDF 沒有做 A5／雙欄版本；完整版與實作版的紙本裝訂沒試過。
 
 ## v5.6（2026-09-15，作者「交給你處理。我偏向全文一致。盡可能簡單好理解。」）
 

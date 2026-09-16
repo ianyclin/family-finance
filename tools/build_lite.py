@@ -22,7 +22,7 @@ FICTION_NOTICE = '虛構人物，示範怎麼填，不是建議。不要抄比�
 AUTOGEN_COMMENT = '<!-- 自動產生，不要手改：由 tools/build_lite.py 依 %s 產生 -->\n'
 
 DEFAULT_PATHS = {
-    'source': 'lite/work/full-v60-candidate.html',
+    'source': 'guide/index.html',
     'alt_dir': 'lite/alt',
     'facts': 'lite/facts.txt',
     'case_checks': 'lite/case-checks.json',
@@ -30,7 +30,7 @@ DEFAULT_PATHS = {
     'labels': 'lite/labels.json',
     'calc_results': 'lite/calc-results.json',
     'lite_html': 'lite/index.html',
-    'full_html': 'lite/work/full-v60-out.html',
+    'full_html': 'output/full-v60-out.html',
     'print_dir': 'lite/work/print',
     'export_dir': 'export',
     'lite_export_name': '隔離人性-新手實作版-{version}',

@@ -7,6 +7,10 @@
   "eyebrow": "給第一次投資的人：照著做的那一本",
   "author": "指數三寶飯・家庭理財陪跑",
   "page_limit": 25,
+  "paths": {
+    "source": "guide/index.html",
+    "full_html": "output/full-v60-out.html"
+  },
   "chapters": [
     {
       "id": "cover",
@@ -69,6 +73,9 @@
       "char_limit": 450,
       "blocks": [
         {
+          "glue": "<p>看不懂的詞（例如 ETF、股債比、複委託），先翻「<a class=\"xref\" href=\"#glossary\">先認識這些詞</a>」。</p>"
+        },
+        {
           "src": "ch1"
         },
         {
@@ -83,7 +90,8 @@
         {
           "verify": [
             "ten",
-            "costs"
+            "costs",
+            "glossary"
           ]
         }
       ]
@@ -377,6 +385,9 @@
           "notice": "fiction"
         },
         {
+          "glue": "<p class=\"small\">下面那張表的「八二」是股票八成、防守兩成的簡寫；「六四」「四六」「七三」照同樣的讀法，前面那個數字是股票。</p>"
+        },
+        {
           "src": "ch9"
         },
         {
@@ -411,6 +422,7 @@
         {
           "verify": [
             "steps",
+            "firstmonth",
             "s6",
             "s7",
             "s2",
@@ -437,6 +449,12 @@
           "alt": "ch11-drop"
         },
         {
+          "alt": "ch11-mind"
+        },
+        {
+          "alt": "ch11-crowd"
+        },
+        {
           "alt": "ch11-tsmc"
         },
         {
@@ -448,8 +466,10 @@
         {
           "verify": [
             "s2",
+            "s5",
             "s11",
             "s9",
+            "s10",
             "s13"
           ]
         }

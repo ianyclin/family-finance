@@ -9,7 +9,7 @@
 
 | 檔案 | 誰寫 | 用途 |
 |---|---|---|
-| `lite/work/full-v60-candidate.html` | 內容建造者（只加 `data-lite*` 屬性） | 唯一來源 |
+| `guide/index.html` | 內容建造者（改內容；`data-lite*` 屬性也加在這裡） | 唯一來源（v6.0 定稿後改指正式檔；舊的 `lite/work/full-v60-candidate.html` 只留作定稿當時的存檔，build 不再讀） |
 | `lite/manifest.json` | 內容建造者 | 章、區塊順序、接合文字、想查證、網址 |
 | `lite/alt/<id>.html` | 內容建造者 | 短稿（改寫過的原文區塊） |
 | `lite/facts.txt` | 內容建造者 | 兩份都必須出現的共同事實 |
@@ -17,7 +17,7 @@
 | `lite/tickers.json` | 主線核可（已放初版） | 代號清單與允許出現的位置 |
 | `lite/labels.json` | 主線核可（已放初版） | 「本指南的做法」七件事的關鍵詞 |
 | `lite/index.html` | **程式產生，不要手改** | 實作版網頁 |
-| `lite/work/full-v60-out.html` | **程式產生，不要手改** | 完整版發布版（多了 lede 下那一行） |
+| `output/full-v60-out.html` | **程式產生，不要手改** | 完整版發布版（多了 lede 下那一行） |
 | `export/隔離人性-新手實作版-v6.0.pdf/.html`、`export/隔離人性-理財新手完整指南-v6.0.pdf/.html` | **程式產生** | 匯出 |
 | `lite/work/print/print-lite.html`、`print-full.html` | 程式產生 | 列印用暫存（details 全開、目錄已填頁碼），除錯用 |
 
@@ -138,7 +138,7 @@ JSON（UTF-8，不能有註解）。頂層：
 
 ```json
 {
-  "source": "lite/work/full-v60-candidate.html",
+  "source": "guide/index.html",
   "alt_dir": "lite/alt",
   "facts": "lite/facts.txt",
   "case_checks": "lite/case-checks.json",
@@ -146,7 +146,7 @@ JSON（UTF-8，不能有註解）。頂層：
   "labels": "lite/labels.json",
   "calc_results": "lite/calc-results.json",
   "lite_html": "lite/index.html",
-  "full_html": "lite/work/full-v60-out.html",
+  "full_html": "output/full-v60-out.html",
   "print_dir": "lite/work/print",
   "export_dir": "export",
   "lite_export_name": "隔離人性-新手實作版-{version}",
@@ -195,7 +195,7 @@ JSON（UTF-8，不能有註解）。頂層：
 
 短稿和接合文字也會經過 2–5。
 
-完整版發布版（`lite/work/full-v60-out.html`）＝候選原檔，只在「被有 label 的章抽用過的節」（`src` 對到的元素、短稿檔頭 `src` 對到的元素所在的 `section.part`）的 `p.lede` 後面插入
+完整版發布版（`output/full-v60-out.html`）＝原文正式檔，只在「被有 label 的章抽用過的節」（`src` 對到的元素、短稿檔頭 `src` 對到的元素所在的 `section.part`）的 `p.lede` 後面插入
 `<p class="small" data-lite-link="1">新手實作版第 4 章、第 8 章是這一節的做法版。</p>`；節沒有 lede 就插在 h2 後面。`<script>`、`data-lite*` 屬性原樣保留。
 
 ---
@@ -324,10 +324,10 @@ JSON 陣列，每一條：
 | `unused_marks` | 完整版的每個 `data-lite` 值（skip 除外）都被 manifest 以值抽用；每個 `data-lite-alt` 都有短稿檔 | 補 manifest 或拿掉標記 |
 | `appendix_b` | 附 B 表格＝各章想查證框＋verify_index；接合文字不得手寫〈節名〉 | 改 manifest 的 verify |
 | `chapter_refs` | 內文「第X章」（國字或數字）指到的章存在；列出所有引用給人對（內容對不對程式判斷不了） | 改短稿 |
-| `stories` | 完整版每個黃框純文字＝`guide/index.html`（paths 的 `story_reference`）逐字相同；實作版黃框＝完整版黃框只經過連結改寫 | 黃框原文不准改 |
+| `stories` | 完整版每個黃框純文字＝`guide/index.html`（paths 的 `story_reference`）逐字相同；實作版黃框＝完整版黃框只經過連結改寫 | 黃框原文不准改。注意：v6.0 定稿後 `source` 也是 `guide/index.html`，所以完整版那一半變成恆真，實質把關的是實作版那一半 |
 | `fiction` | 實作版每位人物（小安、阿凱、小芸與阿哲、陳大哥）的標題前面緊接著虛構聲明 | manifest 補 `{"notice": "fiction"}` |
 | `s13_filter` | 完整版 script 有 `@media print` 隱藏篩選列；靜態 HTML 沒有 `data-s13-hidden` | — |
-| `stale` | 單獨跑哨兵時先在記憶體重建，和 `lite/index.html`、`full-v60-out.html` 比對 | 重跑 build_lite.py |
+| `stale` | 單獨跑哨兵時先在記憶體重建，和 `lite/index.html`、`output/full-v60-out.html` 比對 | 重跑 build_lite.py |
 | `check` | 兩份輸出各跑 `guidetools.py check` | — |
 | `manifest` | 正式 manifest 不准有 `sentinel_skip` | — |
 
