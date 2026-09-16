@@ -595,7 +595,25 @@ def run(m, pdf_info=None, build_report=None):
             if lite_now == lite and full_now == full:
                 R.ok('stale', '兩份 HTML 和現在的原文重建結果相同')
 
-    # 17. guidetools check
+    # 17. 發布用片段：和兩份輸出去掉外殼後的內容逐字相同
+    fragbad = 0; fragdone = []
+    for label, srck, dstk in (('完整版', 'full_html', 'full_fragment'), ('實作版', 'lite_html', 'lite_fragment')):
+        dst = P.get(dstk)
+        if not dst:
+            R.fail('fragments', '%s：manifest paths 沒有 %s' % (label, dstk)); fragbad += 1; continue
+        try:
+            want = B.fragment_of(B.read(P[srck]), 'full' if srck == 'full_html' else 'lite', P[srck])
+        except B.BuildError as e:
+            R.fail('fragments', '%s 產不出發布用片段：%s' % (label, e)); fragbad += 1; continue
+        if not os.path.exists(B.rp(dst)):
+            R.fail('fragments', '找不到 %s：重跑 build_lite.py（或交班文件「改完後的固定流程」第 4 步）' % dst); fragbad += 1; continue
+        if B.read(dst) != want:
+            R.fail('fragments', '%s 不等於 %s 去掉外殼後的內容：重跑 build_lite.py（或交班文件「改完後的固定流程」第 4 步）再發布' % (dst, P[srck])); fragbad += 1; continue
+        fragdone.append(dst)
+    if not fragbad:
+        R.ok('fragments', '發布用片段和兩份輸出一致：%s' % '、'.join(fragdone))
+
+    # 18. guidetools check
     gt = os.path.join(B.ROOT, 'tools', 'guidetools.py')
     for label, p in (('實作版', P['lite_html']), ('完整版發布版', P['full_html'])):
         r = subprocess.run([sys.executable, gt, 'check', B.rp(p)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)

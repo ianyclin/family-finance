@@ -329,6 +329,7 @@ JSON 陣列，每一條：
 | `fiction` | 實作版每位人物（小安、阿凱、小芸與阿哲、陳大哥）的標題前面緊接著虛構聲明 | manifest 補 `{"notice": "fiction"}` |
 | `s13_filter` | 完整版 script 有 `@media print` 隱藏篩選列；靜態 HTML 沒有 `data-s13-hidden` | — |
 | `stale` | 單獨跑哨兵時先在記憶體重建，和 `lite/index.html`、`output/full-v60-out.html` 比對 | 重跑 build_lite.py |
+| `fragments` | 發布用片段：`output/guide.html` ＝ `output/full-v60-out.html`、`output/lite.html` ＝ `lite/index.html`，各自去掉 doctype／html／head／body 外殼後逐字相同（兩份片段由 `build_lite.py` 在產生兩份 HTML 之後自動重產，不要手改） | 重跑 `build_lite.py`（或交班文件「改完後的固定流程」第 4 步）再發布 |
 | `check` | 兩份輸出各跑 `guidetools.py check` | — |
 | `manifest` | 正式 manifest 不准有 `sentinel_skip` | — |
 

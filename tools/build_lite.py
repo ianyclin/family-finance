@@ -34,6 +34,8 @@ DEFAULT_PATHS = {
     'print_dir': 'lite/work/print',
     'lite_text': 'lite/work/lite-v60.txt',
     'full_text': 'lite/work/full-v60.txt',
+    'lite_fragment': 'output/lite.html',
+    'full_fragment': 'output/guide.html',
     'export_dir': 'export',
     'lite_export_name': '隔離人性-新手實作版-{version}',
     'full_export_name': '隔離人性-理財新手完整指南-{version}',
@@ -948,6 +950,55 @@ def make_pdfs(m, lite, full):
             'lite_print_html': os.path.join(pdir, 'print-lite.html'), 'full_print_html': os.path.join(pdir, 'print-full.html')}
 
 
+FRAGMENT_TAGS = ['div', 'p', 'li', 'ul', 'ol', 'a', 'strong', 'h3', 'h4', 'section', 'figure',
+                 'details', 'table', 'span', 'dt', 'dd', 'dl', 'mark']
+
+
+def fragment_of(h, kind, label):
+    """發布用片段：去掉 doctype／html／head／body 外殼（和交班文件「改完後的固定流程」第 4 步同一套做法）。
+    先做和那段一樣的結構檢查：標籤開關成對、站內連結都有 id、<a> 不巢狀、封面只有一個。"""
+    for t in FRAGMENT_TAGS:
+        o = len(re.findall(r'<%s\b[^>]*>' % t, h)); c = len(re.findall(r'</%s>' % t, h))
+        if o != c:
+            raise BuildError('%s 的 <%s> 開關不成對（%d 開、%d 關）' % (label, t, o, c))
+    ids = set(re.findall(r'id="([^"]+)"', h))
+    bad = [x for x in re.findall(r'href="#([^"]+)"', h) if x not in ids]
+    if bad:
+        raise BuildError('%s 有指不到的站內連結：%s' % (label, '、'.join(sorted(set(bad))[:10])))
+    d = 0
+    for t in re.finditer(r'<a\b[^>]*>|</a>', h):
+        d += -1 if t.group(0) == '</a>' else 1
+        if d < 0 or d > 1:
+            raise BuildError('%s 的 <a> 巢狀或多了結束標籤' % label)
+    s = re.sub(r'<!doctype html>\s*', '', h, flags=re.I)
+    s = re.sub(r'</?(html|head|body)\b[^>]*>\s*', '', s)
+    if kind == 'full':
+        n = s.count('<header class="cover"')
+        if n != 1:
+            raise BuildError('%s 的完整版封面有 %d 個（要剛好 1 個）' % (label, n))
+    else:
+        mm = re.findall(r'<header[^>]*class="[^"]*\blite-cover\b[^"]*"', s)
+        if len(mm) != 1:
+            raise BuildError('%s 的實作版封面有 %d 個（要剛好 1 個）' % (label, len(mm)))
+        head = re.sub(r'<[^>]+>', '', s[s.find(mm[0]):s.find(mm[0]) + 800])
+        if '隔離人性：新手實作版' not in head:
+            raise BuildError('%s 的實作版封面找不到書名' % label)
+    return s
+
+
+def write_fragments(m):
+    """兩份發布用片段（output/guide.html、output/lite.html），每次 build 都重產。"""
+    P = m['_paths']
+    done = []
+    for kind, srck, dstk in (('full', 'full_html', 'full_fragment'), ('lite', 'lite_html', 'lite_fragment')):
+        dst = P.get(dstk)
+        if not dst:
+            continue
+        write(dst, fragment_of(read(P[srck]), kind, P[srck]))
+        done.append(dst)
+    return done
+
+
 def dump_texts(m, pdf):
     """審查用的純文字檔（lite/work/*.txt）：每次 build 都重產，避免審查代理讀到過期的檔。
     完整版從 output/full-v60-out.html 抽（guidetools.to_text）；實作版從剛印好的 PDF 逐頁抽。
@@ -1001,6 +1052,11 @@ def main(argv):
     print('wrote', P['full_html'], '(%d bytes)' % len(full.encode('utf-8')))
     for sid, labs in report['lede_links'].items():
         print('  lede link: #%s ← 新手實作版%s' % (sid, '、'.join(labs)))
+    try:
+        for p in write_fragments(m):
+            print('wrote', p)
+    except BuildError as e:
+        print('FRAGMENT FAILED'); print(e); return 1
     pdf = None
     if not a.no_pdf:
         try:
