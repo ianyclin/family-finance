@@ -1,0 +1,585 @@
+{
+ "source": "research/data/taiex_tr_monthly_raw.csv（TWSE 發行量加權股價報酬指數，含息、名目、逐日、未扣費用稅）",
+ "data_from": "2003-01-02",
+ "data_to": "2025-12-31",
+ "trading_days": 5665,
+ "definition": "新高日＝收盤嚴格高於資料起點以來此前所有收盤；視窗＝滿 N 年同一天，當天沒開盤取之前最後一個交易日；年化＝(終/起)^(1/N)−1",
+ "ath_days_total": 481,
+ "ath_days_by_year": {
+  "2003": 41,
+  "2004": 18,
+  "2005": 1,
+  "2006": 37,
+  "2007": 39,
+  "2010": 9,
+  "2011": 4,
+  "2013": 12,
+  "2014": 38,
+  "2015": 10,
+  "2016": 8,
+  "2017": 50,
+  "2018": 15,
+  "2019": 31,
+  "2020": 37,
+  "2021": 38,
+  "2022": 3,
+  "2023": 16,
+  "2024": 42,
+  "2025": 32
+ },
+ "windows": {
+  "1年": {
+   "all": {
+    "n": 5422,
+    "positive": 4159,
+    "pos_pct": 76.7,
+    "pos_pct_int": 77,
+    "min_pct": -52.6,
+    "p10_pct": -11.0,
+    "p25_pct": 1.1,
+    "median_pct": 13.2,
+    "p75_pct": 23.0,
+    "p90_pct": 37.3,
+    "max_pct": 99.2,
+    "mean_pct": 13.1
+   },
+   "ath": {
+    "n": 449,
+    "positive": 324,
+    "pos_pct": 72.2,
+    "pos_pct_int": 72,
+    "min_pct": -52.6,
+    "p10_pct": -14.2,
+    "p25_pct": -2.0,
+    "median_pct": 10.2,
+    "p75_pct": 19.8,
+    "p90_pct": 31.0,
+    "max_pct": 51.8,
+    "mean_pct": 9.3
+   },
+   "non_ath": {
+    "n": 4973,
+    "positive": 3835,
+    "pos_pct": 77.1,
+    "pos_pct_int": 77,
+    "min_pct": -50.3,
+    "p10_pct": -10.9,
+    "p25_pct": 1.3,
+    "median_pct": 13.4,
+    "p75_pct": 23.2,
+    "p90_pct": 38.0,
+    "max_pct": 99.2,
+    "mean_pct": 13.4
+   },
+   "start_range_all": [
+    "2003-01-02",
+    "2024-12-31"
+   ],
+   "start_range_ath": [
+    "2003-01-03",
+    "2024-07-11"
+   ],
+   "ath_start_years": [
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2010,
+    2011,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+   ],
+   "ath_nonpositive_by_start_year": {
+    "2003": 7,
+    "2004": 17,
+    "2007": 24,
+    "2010": 9,
+    "2011": 4,
+    "2014": 7,
+    "2015": 10,
+    "2017": 8,
+    "2018": 11,
+    "2021": 16,
+    "2022": 3,
+    "2024": 9
+   }
+  },
+  "3年": {
+   "all": {
+    "n": 4941,
+    "positive": 4708,
+    "pos_pct": 95.3,
+    "pos_pct_int": 95,
+    "min_pct": -9.7,
+    "p10_pct": 3.2,
+    "p25_pct": 6.3,
+    "median_pct": 10.2,
+    "p75_pct": 14.3,
+    "p90_pct": 20.4,
+    "max_pct": 33.8,
+    "mean_pct": 10.7
+   },
+   "ath": {
+    "n": 391,
+    "positive": 340,
+    "pos_pct": 87.0,
+    "pos_pct_int": 87,
+    "min_pct": -8.8,
+    "p10_pct": -0.8,
+    "p25_pct": 6.2,
+    "median_pct": 9.1,
+    "p75_pct": 11.2,
+    "p90_pct": 14.2,
+    "max_pct": 21.0,
+    "mean_pct": 8.1
+   },
+   "non_ath": {
+    "n": 4550,
+    "positive": 4368,
+    "pos_pct": 96.0,
+    "pos_pct_int": 96,
+    "min_pct": -9.7,
+    "p10_pct": 3.3,
+    "p25_pct": 6.3,
+    "median_pct": 10.3,
+    "p75_pct": 14.7,
+    "p90_pct": 20.7,
+    "max_pct": 33.8,
+    "mean_pct": 10.9
+   },
+   "start_range_all": [
+    "2003-01-02",
+    "2022-12-30"
+   ],
+   "start_range_ath": [
+    "2003-01-03",
+    "2022-01-17"
+   ],
+   "ath_start_years": [
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2010,
+    2011,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+   ],
+   "ath_nonpositive_by_start_year": {
+    "2005": 1,
+    "2006": 18,
+    "2007": 32
+   }
+  },
+  "5年": {
+   "all": {
+    "n": 4451,
+    "positive": 4266,
+    "pos_pct": 95.8,
+    "pos_pct_int": 96,
+    "min_pct": -5.0,
+    "p10_pct": 2.4,
+    "p25_pct": 6.8,
+    "median_pct": 9.8,
+    "p75_pct": 14.5,
+    "p90_pct": 18.4,
+    "max_pct": 24.6,
+    "mean_pct": 10.2
+   },
+   "ath": {
+    "n": 350,
+    "positive": 308,
+    "pos_pct": 88.0,
+    "pos_pct_int": 88,
+    "min_pct": -5.0,
+    "p10_pct": -0.3,
+    "p25_pct": 2.7,
+    "median_pct": 8.6,
+    "p75_pct": 16.2,
+    "p90_pct": 18.4,
+    "max_pct": 21.4,
+    "mean_pct": 9.0
+   },
+   "non_ath": {
+    "n": 4101,
+    "positive": 3958,
+    "pos_pct": 96.5,
+    "pos_pct_int": 97,
+    "min_pct": -4.8,
+    "p10_pct": 2.8,
+    "p25_pct": 6.9,
+    "median_pct": 9.9,
+    "p75_pct": 14.3,
+    "p90_pct": 18.4,
+    "max_pct": 24.6,
+    "mean_pct": 10.3
+   },
+   "start_range_all": [
+    "2003-01-02",
+    "2020-12-31"
+   ],
+   "start_range_ath": [
+    "2003-01-03",
+    "2020-12-31"
+   ],
+   "ath_start_years": [
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2010,
+    2011,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+   ],
+   "ath_nonpositive_by_start_year": {
+    "2003": 5,
+    "2004": 18,
+    "2007": 19
+   }
+  },
+  "10年": {
+   "all": {
+    "n": 3227,
+    "positive": 3227,
+    "pos_pct": 100.0,
+    "pos_pct_int": 100,
+    "min_pct": 4.6,
+    "p10_pct": 6.0,
+    "p25_pct": 7.3,
+    "median_pct": 9.0,
+    "p75_pct": 11.8,
+    "p90_pct": 13.3,
+    "max_pct": 17.6,
+    "mean_pct": 9.6
+   },
+   "ath": {
+    "n": 209,
+    "positive": 209,
+    "pos_pct": 100.0,
+    "pos_pct_int": 100,
+    "min_pct": 4.6,
+    "p10_pct": 5.3,
+    "p25_pct": 5.8,
+    "median_pct": 7.2,
+    "p75_pct": 11.1,
+    "p90_pct": 13.3,
+    "max_pct": 13.9,
+    "mean_pct": 8.3
+   },
+   "non_ath": {
+    "n": 3018,
+    "positive": 3018,
+    "pos_pct": 100.0,
+    "pos_pct_int": 100,
+    "min_pct": 4.6,
+    "p10_pct": 6.2,
+    "p25_pct": 7.5,
+    "median_pct": 9.0,
+    "p75_pct": 11.8,
+    "p90_pct": 13.4,
+    "max_pct": 17.6,
+    "mean_pct": 9.7
+   },
+   "start_range_all": [
+    "2003-01-02",
+    "2015-12-31"
+   ],
+   "start_range_ath": [
+    "2003-01-03",
+    "2015-04-27"
+   ],
+   "ath_start_years": [
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2010,
+    2011,
+    2013,
+    2014,
+    2015
+   ],
+   "ath_nonpositive_by_start_year": {}
+  }
+ },
+ "windows_from_2006": {
+  "1年": {
+   "all": {
+    "n": 4676,
+    "positive": 3502,
+    "pos_pct": 74.9,
+    "pos_pct_int": 75,
+    "min_pct": -52.6,
+    "p10_pct": -12.3,
+    "p25_pct": -0.1,
+    "median_pct": 13.5,
+    "p75_pct": 22.9,
+    "p90_pct": 37.3,
+    "max_pct": 99.2,
+    "mean_pct": 12.8
+   },
+   "ath": {
+    "n": 389,
+    "positive": 288,
+    "pos_pct": 74.0,
+    "pos_pct_int": 74,
+    "min_pct": -52.6,
+    "p10_pct": -14.9,
+    "p25_pct": -1.4,
+    "median_pct": 11.3,
+    "p75_pct": 20.3,
+    "p90_pct": 31.9,
+    "max_pct": 51.8,
+    "mean_pct": 9.8
+   }
+  },
+  "3年": {
+   "all": {
+    "n": 4195,
+    "positive": 4020,
+    "pos_pct": 95.8,
+    "pos_pct_int": 96,
+    "min_pct": -9.7,
+    "p10_pct": 3.1,
+    "p25_pct": 5.9,
+    "median_pct": 9.5,
+    "p75_pct": 13.5,
+    "p90_pct": 20.3,
+    "max_pct": 33.8,
+    "mean_pct": 10.3
+   },
+   "ath": {
+    "n": 331,
+    "positive": 281,
+    "pos_pct": 84.9,
+    "pos_pct_int": 85,
+    "min_pct": -8.8,
+    "p10_pct": -1.3,
+    "p25_pct": 5.2,
+    "median_pct": 8.1,
+    "p75_pct": 11.2,
+    "p90_pct": 14.2,
+    "max_pct": 21.0,
+    "mean_pct": 7.7
+   }
+  },
+  "5年": {
+   "all": {
+    "n": 3705,
+    "positive": 3627,
+    "pos_pct": 97.9,
+    "pos_pct_int": 98,
+    "min_pct": -2.7,
+    "p10_pct": 2.8,
+    "p25_pct": 6.8,
+    "median_pct": 10.0,
+    "p75_pct": 15.9,
+    "p90_pct": 18.6,
+    "max_pct": 24.6,
+    "mean_pct": 10.6
+   },
+   "ath": {
+    "n": 290,
+    "positive": 271,
+    "pos_pct": 93.4,
+    "pos_pct_int": 93,
+    "min_pct": -2.7,
+    "p10_pct": 0.6,
+    "p25_pct": 5.1,
+    "median_pct": 9.2,
+    "p75_pct": 17.1,
+    "p90_pct": 18.7,
+    "max_pct": 21.4,
+    "mean_pct": 10.0
+   }
+  },
+  "10年": {
+   "all": {
+    "n": 2481,
+    "positive": 2481,
+    "pos_pct": 100.0,
+    "pos_pct_int": 100,
+    "min_pct": 4.6,
+    "p10_pct": 5.8,
+    "p25_pct": 7.2,
+    "median_pct": 10.6,
+    "p75_pct": 12.3,
+    "p90_pct": 13.7,
+    "max_pct": 17.6,
+    "mean_pct": 10.0
+   },
+   "ath": {
+    "n": 149,
+    "positive": 149,
+    "pos_pct": 100.0,
+    "pos_pct_int": 100,
+    "min_pct": 4.6,
+    "p10_pct": 5.0,
+    "p25_pct": 5.7,
+    "median_pct": 6.2,
+    "p75_pct": 12.7,
+    "p90_pct": 13.4,
+    "max_pct": 13.9,
+    "mean_pct": 8.7
+   }
+  }
+ },
+ "near_high_5pct": {
+  "1年": {
+   "near": {
+    "n": 2603,
+    "positive": 1789,
+    "pos_pct": 68.7,
+    "pos_pct_int": 69,
+    "min_pct": -52.6,
+    "p10_pct": -12.3,
+    "p25_pct": -3.6,
+    "median_pct": 10.1,
+    "p75_pct": 20.9,
+    "p90_pct": 34.0,
+    "max_pct": 57.6,
+    "mean_pct": 9.5
+   },
+   "not_near": {
+    "n": 2819,
+    "positive": 2370,
+    "pos_pct": 84.1,
+    "pos_pct_int": 84,
+    "min_pct": -50.3,
+    "p10_pct": -5.4,
+    "p25_pct": 6.2,
+    "median_pct": 15.1,
+    "p75_pct": 24.4,
+    "p90_pct": 44.5,
+    "max_pct": 99.2,
+    "mean_pct": 16.4
+   }
+  },
+  "3年": {
+   "near": {
+    "n": 2306,
+    "positive": 2135,
+    "pos_pct": 92.6,
+    "pos_pct_int": 93,
+    "min_pct": -9.7,
+    "p10_pct": 2.2,
+    "p25_pct": 6.7,
+    "median_pct": 9.5,
+    "p75_pct": 12.9,
+    "p90_pct": 17.0,
+    "max_pct": 23.5,
+    "mean_pct": 9.3
+   },
+   "not_near": {
+    "n": 2635,
+    "positive": 2573,
+    "pos_pct": 97.6,
+    "pos_pct_int": 98,
+    "min_pct": -8.9,
+    "p10_pct": 3.7,
+    "p25_pct": 6.0,
+    "median_pct": 10.9,
+    "p75_pct": 17.4,
+    "p90_pct": 22.9,
+    "max_pct": 33.8,
+    "mean_pct": 12.0
+   }
+  },
+  "5年": {
+   "near": {
+    "n": 2052,
+    "positive": 1909,
+    "pos_pct": 93.0,
+    "pos_pct_int": 93,
+    "min_pct": -5.0,
+    "p10_pct": 1.5,
+    "p25_pct": 5.3,
+    "median_pct": 9.8,
+    "p75_pct": 16.2,
+    "p90_pct": 18.6,
+    "max_pct": 22.0,
+    "mean_pct": 9.9
+   },
+   "not_near": {
+    "n": 2399,
+    "positive": 2357,
+    "pos_pct": 98.2,
+    "pos_pct_int": 98,
+    "min_pct": -3.1,
+    "p10_pct": 3.8,
+    "p25_pct": 7.4,
+    "median_pct": 9.9,
+    "p75_pct": 13.4,
+    "p90_pct": 18.1,
+    "max_pct": 24.6,
+    "mean_pct": 10.4
+   }
+  },
+  "10年": {
+   "near": {
+    "n": 1178,
+    "positive": 1178,
+    "pos_pct": 100.0,
+    "pos_pct_int": 100,
+    "min_pct": 4.6,
+    "p10_pct": 5.7,
+    "p25_pct": 6.4,
+    "median_pct": 9.0,
+    "p75_pct": 11.8,
+    "p90_pct": 13.2,
+    "max_pct": 14.2,
+    "mean_pct": 9.3
+   },
+   "not_near": {
+    "n": 2049,
+    "positive": 2049,
+    "pos_pct": 100.0,
+    "pos_pct_int": 100,
+    "min_pct": 4.8,
+    "p10_pct": 6.6,
+    "p25_pct": 7.9,
+    "median_pct": 9.0,
+    "p75_pct": 11.7,
+    "p90_pct": 13.6,
+    "max_pct": 17.6,
+    "mean_pct": 9.8
+   }
+  }
+ },
+ "worst_ath_entry": {
+  "date": "2007-10-29",
+  "max_drawdown_after_pct": -56.0,
+  "trough_date": "2008-11-20",
+  "back_to_entry_date": "2010-12-09",
+  "days_to_recover_calendar": 1137
+ }
+}

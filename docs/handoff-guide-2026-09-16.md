@@ -169,3 +169,23 @@ python3 tools/test_guidetools.py tools guide/index.html
 ## 給下一個 session 的第一句話
 
 > 接手《隔離人性》理財指南，先讀 `docs/handoff-guide-2026-09-16.md`，再讀 `docs/core-edition/specs/v61-decisions.md` 裡還沒做的 D、L、G、S 四組，然後問我要先做哪一組。
+
+---
+
+## 進行中斷點（2026-09-17，作者關電腦時中斷）
+
+作者：「你繼續做下去吧。」選項已寫進 `docs/core-edition/specs/spec-v61-remaining.md`（D、L、S、G 四組各採哪個選項、分四批）。
+
+**第一批（文字刪重複與回填）**：起草代理按節產出補丁，關機時還沒全部跑完。已完成的補丁搬到 `wip/v61-2026-09-17/w1/patch-*.json`（24 份）。**還沒套用到 guide/index.html。** 接手做法：
+1. 讀工作流腳本 `wip/v61-2026-09-17/v61-w1-dedup-draft-*.js`，對照 `w1/` 裡已有的 patch 檔，找出還沒產出的節（例如 withdraw+lifecycle、s11），只補跑那幾節。
+2. 全部補丁一起 `python3 tools/guidetools.py apply guide/index.html <out> wip/.../w1/patch-*.json`（會報重疊），沒問題再覆蓋正式檔、跑 `build_lite.py`，再派裁判驗「刪掉的事實在正典找得到、數字沒少、連結節號對」。
+
+**第三批（三張新圖）**：程式已建好並接上，**未經裁判驗證**（Fable 額度用完，三個驗證代理都失敗）。
+- 新模組：`tools/v61_g8_recovery_by_mix.py`、`tools/v61_g9_country_recovery.py`、`tools/v61_g10_rebalance_drift.py`；`tools/calc_core.py` 與 `tools/essay_charts.py` 已註冊（未 commit）。`lite/calc-results.json` 已含新 key。
+- 預覽圖與自測在 `wip/v61-2026-09-17/w3/`；每張圖的建議位置、引導句、圖說草稿、關鍵數字、限制在 `wip/v61-2026-09-17/w3-workflow-result.json`。
+- **G8 的發現要注意**：「股票越多跌越深」成立；「爬回來越久」只在 2000–02、2008 明顯，最久那次四種比例只差 7 到 8 年，2022 年反而全股票最早回到前高。圖說已照實寫，不要改成「股票越多爬越久」。
+- 還沒做：裁判獨立重算三張圖（換 opus 跑也可以）、在指南放空殼與圖說、`essay_charts.py --guide`。
+
+**第四批（G11 在歷史高點買進）**：三路研究（網路、美國自算、台灣自算）完成，產出在 `wip/v61-2026-09-17/w3/`（g11_us.*、g11_tw.*）與 `tools/v61_g11_ath_returns.py`；**綜整與查證那一步失敗（額度）**，`docs/core-edition/specs/g11-brief.md` 還沒寫。
+
+**第二批（結構：S5 移節、S7 目錄、D10＋S6 列印、withdraw 改節名）**：還沒開始，要等第一批套用之後。

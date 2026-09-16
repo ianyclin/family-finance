@@ -1,0 +1,2278 @@
+{
+ "_meta": {
+  "script": "tools/calc_core.py",
+  "spec": "spec-v60-stage1.md（覆蓋 proposal-core-edition.md）",
+  "conventions": {
+   "returns": "名目；股票 低4/中6/高7%；防守 2%；定存 1.7% 不進試算",
+   "lookup": "股票比例×4/6/7%＋防守比例×2%，四捨五入一位；案例用印出來的數字",
+   "compounding": "年率/12 按月複利、每月月底投入",
+   "month_1": "2026-10",
+   "amounts": "元；*_wan 為萬",
+   "cpi": "完整版第 2 節物價倍數表，中間年數取年數多的那格",
+   "retirement": "今天花費×物價倍數；勞保不乘倍數；勞退試算為退休那年金額直接相減；缺口×12×25/33/40",
+   "stress": "少的錢＝金額×股票比例×跌幅（防守放債券 ETF 時再加 金額×防守比例×10%）",
+   "rounding_fix_r4": "到期金額印整數萬時，從原值直接四捨五入（wan），不用 wan1 再捨入",
+   "months_fix_r4": "目標那年少的錢換成幾個月收入：先除以物價倍數換成今天的錢，再除以現在的月收入"
+  }
+ },
+ "lookup_table": [
+  {
+   "stock_pct": 100,
+   "low": 4.0,
+   "mid": 6.0,
+   "high": 7.0
+  },
+  {
+   "stock_pct": 90,
+   "low": 3.8,
+   "mid": 5.6,
+   "high": 6.5
+  },
+  {
+   "stock_pct": 80,
+   "low": 3.6,
+   "mid": 5.2,
+   "high": 6.0
+  },
+  {
+   "stock_pct": 70,
+   "low": 3.4,
+   "mid": 4.8,
+   "high": 5.5
+  },
+  {
+   "stock_pct": 60,
+   "low": 3.2,
+   "mid": 4.4,
+   "high": 5.0
+  },
+  {
+   "stock_pct": 50,
+   "low": 3.0,
+   "mid": 4.0,
+   "high": 4.5
+  },
+  {
+   "stock_pct": 40,
+   "low": 2.8,
+   "mid": 3.6,
+   "high": 4.0
+  },
+  {
+   "stock_pct": 30,
+   "low": 2.6,
+   "mid": 3.2,
+   "high": 3.5
+  },
+  {
+   "stock_pct": 20,
+   "low": 2.4,
+   "mid": 2.8,
+   "high": 3.0
+  },
+  {
+   "stock_pct": 10,
+   "low": 2.2,
+   "mid": 2.4,
+   "high": 2.5
+  },
+  {
+   "stock_pct": 0,
+   "low": 2.0,
+   "mid": 2.0,
+   "high": 2.0
+  }
+ ],
+ "cpi_multiplier": {
+  "table_guide_s2": {
+   "5": 1.1,
+   "10": 1.22,
+   "15": 1.35,
+   "20": 1.49,
+   "25": 1.64,
+   "30": 1.81,
+   "35": 2.0,
+   "40": 2.21
+  },
+  "exact_1.02^n": {
+   "5": 1.104,
+   "7": 1.149,
+   "10": 1.219,
+   "15": 1.346,
+   "20": 1.486,
+   "25": 1.641,
+   "30": 1.811,
+   "35": 2.0,
+   "40": 2.208
+  },
+  "table_matches_round2": true,
+  "note": "7 年照表規則取 10 年那格 1.22；精確 1.02^7＝1.149（提案的 ×1.15 不另外印）"
+ },
+ "multiplier_tables": {
+  "years": [
+   5,
+   7,
+   10,
+   15,
+   20,
+   25,
+   30
+  ],
+  "rates_all_low_column": [
+   2.0,
+   2.2,
+   2.4,
+   2.6,
+   2.8,
+   3.0,
+   3.2,
+   3.4,
+   3.6,
+   3.8,
+   4.0
+  ],
+  "rates_suggested_print": [
+   2.0,
+   2.4,
+   2.8,
+   3.2,
+   3.6,
+   4.0
+  ],
+  "monthly_1000_wan": {
+   "2.0": [
+    6.3,
+    9.0,
+    13.3,
+    21.0,
+    29.5,
+    38.9,
+    49.3
+   ],
+   "2.2": [
+    6.3,
+    9.1,
+    13.4,
+    21.3,
+    30.1,
+    39.9,
+    50.9
+   ],
+   "2.4": [
+    6.4,
+    9.1,
+    13.5,
+    21.6,
+    30.8,
+    41.1,
+    52.6
+   ],
+   "2.6": [
+    6.4,
+    9.2,
+    13.7,
+    22.0,
+    31.4,
+    42.2,
+    54.4
+   ],
+   "2.8": [
+    6.4,
+    9.3,
+    13.8,
+    22.3,
+    32.1,
+    43.4,
+    56.3
+   ],
+   "3.0": [
+    6.5,
+    9.3,
+    14.0,
+    22.7,
+    32.8,
+    44.6,
+    58.3
+   ],
+   "3.2": [
+    6.5,
+    9.4,
+    14.1,
+    23.1,
+    33.6,
+    45.9,
+    60.3
+   ],
+   "3.4": [
+    6.5,
+    9.5,
+    14.3,
+    23.4,
+    34.3,
+    47.2,
+    62.4
+   ],
+   "3.6": [
+    6.6,
+    9.5,
+    14.4,
+    23.8,
+    35.1,
+    48.5,
+    64.7
+   ],
+   "3.8": [
+    6.6,
+    9.6,
+    14.6,
+    24.2,
+    35.9,
+    50.0,
+    67.0
+   ],
+   "4.0": [
+    6.6,
+    9.7,
+    14.7,
+    24.6,
+    36.7,
+    51.4,
+    69.4
+   ]
+  },
+  "lump_100000_wan": {
+   "2.0": [
+    11.1,
+    11.5,
+    12.2,
+    13.5,
+    14.9,
+    16.5,
+    18.2
+   ],
+   "2.2": [
+    11.2,
+    11.7,
+    12.5,
+    13.9,
+    15.5,
+    17.3,
+    19.3
+   ],
+   "2.4": [
+    11.3,
+    11.8,
+    12.7,
+    14.3,
+    16.2,
+    18.2,
+    20.5
+   ],
+   "2.6": [
+    11.4,
+    12.0,
+    13.0,
+    14.8,
+    16.8,
+    19.1,
+    21.8
+   ],
+   "2.8": [
+    11.5,
+    12.2,
+    13.2,
+    15.2,
+    17.5,
+    20.1,
+    23.1
+   ],
+   "3.0": [
+    11.6,
+    12.3,
+    13.5,
+    15.7,
+    18.2,
+    21.2,
+    24.6
+   ],
+   "3.2": [
+    11.7,
+    12.5,
+    13.8,
+    16.2,
+    18.9,
+    22.2,
+    26.1
+   ],
+   "3.4": [
+    11.9,
+    12.7,
+    14.0,
+    16.6,
+    19.7,
+    23.4,
+    27.7
+   ],
+   "3.6": [
+    12.0,
+    12.9,
+    14.3,
+    17.1,
+    20.5,
+    24.6,
+    29.4
+   ],
+   "3.8": [
+    12.1,
+    13.0,
+    14.6,
+    17.7,
+    21.4,
+    25.8,
+    31.2
+   ],
+   "4.0": [
+    12.2,
+    13.2,
+    14.9,
+    18.2,
+    22.2,
+    27.1,
+    33.1
+   ]
+  },
+  "usage_example": {
+   "text": "每月 5,000 元、20 年、3.6%",
+   "table_value": 35.1,
+   "times5_wan": 175.5,
+   "exact_wan": 175.4,
+   "times5_printed_int_step0": 176
+  },
+  "usage_example_after_fee": {
+   "text": "每月 5,000 元、20 年、股票八成（表一 3.6%）、總費用率 0.2%",
+   "lookup_rate": 3.6,
+   "total_fee_pct": 0.2,
+   "rate_after_fee": 3.4,
+   "rate_after_fee_in_table": true,
+   "table_value": 34.3,
+   "times5_wan": 171.5,
+   "printed_int_wan": 172,
+   "no_fee_printed_int_wan": 176,
+   "exact_wan": 171.5
+  },
+  "usage_example_lump": {
+   "text": "已經有 30 萬、每月 5,000 元、20 年、3.6%",
+   "table_sum_wan": 237.0,
+   "printed_int_wan": 237,
+   "exact_wan": 236.9
+  }
+ },
+ "stress_100wan": [
+  {
+   "stock_pct": 100,
+   "defense_drop_pct": 0,
+   "loss_wan": {
+    "40": 40,
+    "50": 50,
+    "60": 60
+   }
+  },
+  {
+   "stock_pct": 80,
+   "defense_drop_pct": 0,
+   "loss_wan": {
+    "40": 32,
+    "50": 40,
+    "60": 48
+   }
+  },
+  {
+   "stock_pct": 80,
+   "defense_drop_pct": 10,
+   "loss_wan": {
+    "40": 34,
+    "50": 42,
+    "60": 50
+   }
+  },
+  {
+   "stock_pct": 60,
+   "defense_drop_pct": 0,
+   "loss_wan": {
+    "40": 24,
+    "50": 30,
+    "60": 36
+   }
+  },
+  {
+   "stock_pct": 60,
+   "defense_drop_pct": 10,
+   "loss_wan": {
+    "40": 28,
+    "50": 34,
+    "60": 40
+   }
+  },
+  {
+   "stock_pct": 40,
+   "defense_drop_pct": 0,
+   "loss_wan": {
+    "40": 16,
+    "50": 20,
+    "60": 24
+   }
+  },
+  {
+   "stock_pct": 40,
+   "defense_drop_pct": 10,
+   "loss_wan": {
+    "40": 22,
+    "50": 26,
+    "60": 30
+   }
+  },
+  {
+   "stock_pct": 20,
+   "defense_drop_pct": 0,
+   "loss_wan": {
+    "40": 8,
+    "50": 10,
+    "60": 12
+   }
+  },
+  {
+   "stock_pct": 20,
+   "defense_drop_pct": 10,
+   "loss_wan": {
+    "40": 16,
+    "50": 18,
+    "60": 20
+   }
+  }
+ ],
+ "xiaoan": {
+  "rates": {
+   "low": 3.6,
+   "mid": 5.2,
+   "high": 6.0
+  },
+  "target_wan": 200,
+  "target_today_wan": {
+   "cpi_20y": 1.49,
+   "value": 134,
+   "exact": 134.2,
+   "proposal": 135
+  },
+  "base_plan": {
+   "low": {
+    "fv_wan": 169,
+    "fv_wan1": 169.3,
+    "vs_target_wan1": -30.7
+   },
+   "mid": {
+    "fv_wan": 202,
+    "fv_wan1": 202.1,
+    "vs_target_wan1": 2.1
+   },
+   "high": {
+    "fv_wan": 221,
+    "fv_wan1": 221.4,
+    "vs_target_wan1": 21.4
+   }
+  },
+  "base_principal_wan": 117.0,
+  "save_more_from_month27": {
+   "month27": "2028-12",
+   "options": {
+    "5500": {
+     "low_fv_wan1": 184.3,
+     "mid_fv_wan1": 219.6,
+     "high_fv_wan1": 240.4,
+     "principal_wan": 127.7,
+     "enough_low": false
+    },
+    "6000": {
+     "low_fv_wan1": 199.3,
+     "mid_fv_wan1": 237.2,
+     "high_fv_wan1": 259.5,
+     "principal_wan": 138.4,
+     "enough_low": false
+    },
+    "6500": {
+     "low_fv_wan1": 214.2,
+     "mid_fv_wan1": 254.8,
+     "high_fv_wan1": 278.6,
+     "principal_wan": 149.1,
+     "enough_low": true
+    },
+    "7000": {
+     "low_fv_wan1": 229.2,
+     "mid_fv_wan1": 272.3,
+     "high_fv_wan1": 297.7,
+     "principal_wan": 159.8,
+     "enough_low": true
+    }
+   },
+   "min_enough_step500": 6500
+  },
+  "plan_6500": {
+   "low_fv_wan1": 214.2,
+   "low_fv_wan": 214,
+   "month60_wan1": 34.6,
+   "month60_wan": 35,
+   "reach_50wan": {
+    "month": 80,
+    "ym": "2033-05"
+   },
+   "reach_100wan": {
+    "month": 138,
+    "ym": "2038-03"
+   },
+   "month240": "2046-09"
+  },
+  "delay_without_saving_more": {
+   "month": 270,
+   "ym": "2049-03",
+   "extra_months": 30
+  },
+  "stress": {
+   "year5": {
+    "amount_wan": 35,
+    "loss_wan": {
+     "40": 11,
+     "50": 14,
+     "60": 17
+    },
+    "loss50_months_salary_38k": 3.6,
+    "loss50_months_salary_38k_from_printed": 3.7,
+    "loss_wan_unrounded_amount": {
+     "40": 11,
+     "50": 14,
+     "60": 17
+    },
+    "loss50_today_money": {
+     "cpi": 1.1,
+     "years": 5,
+     "today_wan": 13,
+     "months_salary_38k": 3.4,
+     "months_salary_38k_unrounded": 3.3
+    }
+   },
+   "y2046": {
+    "amount_wan": 214,
+    "loss_wan": {
+     "40": 68,
+     "50": 86,
+     "60": 103
+    },
+    "loss50_months_salary_38k": 22.6,
+    "loss50_months_salary_38k_from_printed": 22.6,
+    "loss_wan_unrounded_amount": {
+     "40": 69,
+     "50": 86,
+     "60": 103
+    },
+    "loss50_today_money": {
+     "cpi": 1.49,
+     "years": 20,
+     "today_wan": 58,
+     "months_salary_38k": 15.3,
+     "months_salary_38k_unrounded": 15.2
+    }
+   }
+  },
+  "delay_rescaled_fix_r5": {
+   "month": 287,
+   "years": 23.92,
+   "cpi": 1.64,
+   "target_wan": 220,
+   "target_wan1": 219.8,
+   "ym": "2050-08",
+   "extra_months": 47,
+   "extra_years": 3.9,
+   "max_delay_years": 5,
+   "within_max": true,
+   "superseded": "delay_without_saving_more（目標沒重算，仍用 200 萬）"
+  },
+  "section5_2_example": {
+   "now_3wan_80pct_loss50_wan": 1.2,
+   "y2046_loss50_wan": 86
+  }
+ },
+ "akai": {
+  "rates": {
+   "64": {
+    "low": 3.2,
+    "mid": 4.4,
+    "high": 5.0
+   },
+   "82": {
+    "low": 3.6,
+    "mid": 5.2,
+    "high": 6.0
+   }
+  },
+  "target_wan": 450,
+  "target_today_wan": {
+   "cpi_20y": 1.49,
+   "value": 302,
+   "exact": 302.0,
+   "proposal": 303
+  },
+  "fv_10k": {
+   "64": {
+    "low": {
+     "fv_wan1": 392.4,
+     "fv_wan": 392,
+     "vs_target_wan": -58
+    },
+    "mid": {
+     "fv_wan1": 455.9,
+     "fv_wan": 456,
+     "vs_target_wan": 6
+    },
+    "high": {
+     "fv_wan1": 492.4,
+     "fv_wan": 492,
+     "vs_target_wan": 42
+    }
+   },
+   "82": {
+    "low": {
+     "fv_wan1": 412.3,
+     "fv_wan": 412,
+     "vs_target_wan": -38
+    },
+    "mid": {
+     "fv_wan1": 505.3,
+     "fv_wan": 505,
+     "vs_target_wan": 55
+    },
+    "high": {
+     "fv_wan1": 561.3,
+     "fv_wan": 561,
+     "vs_target_wan": 111
+    }
+   }
+  },
+  "save_more_64": {
+   "options": {
+    "11000": {
+     "pct_of_50k": 22.0,
+     "low_fv_wan1": 426.0,
+     "enough": false
+    },
+    "11500": {
+     "pct_of_50k": 23.0,
+     "low_fv_wan1": 442.8,
+     "enough": false
+    },
+    "12000": {
+     "pct_of_50k": 24.0,
+     "low_fv_wan1": 459.5,
+     "enough": true
+    },
+    "12500": {
+     "pct_of_50k": 25.0,
+     "low_fv_wan1": 476.3,
+     "enough": true
+    }
+   },
+   "min_enough_step500": 12000,
+   "min_integer_pct": {
+    "pct": 24,
+    "monthly": 12000.0,
+    "low_fv_wan1": 459.5
+   }
+  },
+  "delay_64_10k": {
+   "month": 268,
+   "ym": "2049-01",
+   "extra_months": 28,
+   "extra_years": 2.3
+  },
+  "delay_rescaled_fix_r5": {
+   "month": 288,
+   "years": 24.0,
+   "cpi": 1.64,
+   "target_wan": 495,
+   "target_wan1": 495.3,
+   "ym": "2050-09",
+   "extra_months": 48,
+   "extra_years": 4.0,
+   "max_delay_years": 3,
+   "within_max": false,
+   "fv_at_max_delay_wan": 470,
+   "target_at_max_delay_wan": 495,
+   "exact_1.02^n_check": {
+    "month": 281,
+    "ym": "2050-02"
+   },
+   "superseded": "delay_64_10k（目標沒重算，仍用 450 萬）"
+  },
+  "lower_target_64": {
+   "low_fv_wan1": 392.4,
+   "suggest_floor10_wan": 390
+  },
+  "stress": {
+   "now_30wan": {
+    "80": {
+     "40": 9.6,
+     "50": 12.0,
+     "60": 14.4
+    },
+    "60": {
+     "40": 7.2,
+     "50": 9.0,
+     "60": 10.8
+    }
+   },
+   "y2046_64_low": {
+    "amount_wan": 392,
+    "loss_wan": {
+     "40": 94,
+     "50": 118,
+     "60": 141
+    },
+    "loss50_months_income_50k": 23.5,
+    "loss50_today_money": {
+     "cpi": 1.49,
+     "today_wan": 79,
+     "months_income_50k": 15.8,
+     "months_income_50k_unrounded": 15.8
+    }
+   }
+  },
+  "check_82_low_reaches_target": false,
+  "drill_2046_low": {
+   "80": {
+    "rate": 3.6,
+    "amount_wan": 412,
+    "loss_wan": {
+     "40": 132,
+     "50": 165,
+     "60": 198
+    }
+   },
+   "70": {
+    "rate": 3.4,
+    "amount_wan": 402,
+    "loss_wan": {
+     "40": 113,
+     "50": 141,
+     "60": 169
+    }
+   },
+   "60": {
+    "rate": 3.2,
+    "amount_wan": 392,
+    "loss_wan": {
+     "40": 94,
+     "50": 118,
+     "60": 141
+    }
+   },
+   "story": "八成「先賣一些」沒通過 → 七成「想停扣」沒通過 → 六成「照常投入」通過（虛構的回答，不是算出來的）"
+  },
+  "after_gap_24pct": {
+   "pct": 24,
+   "monthly_avg": 12000,
+   "monthly_30k": 7200,
+   "monthly_80k": 19200,
+   "first_version_pct": 20,
+   "drill_2046_low": {
+    "80": {
+     "rate": 3.6,
+     "amount_wan": 482,
+     "loss_wan": {
+      "40": 154,
+      "50": 193,
+      "60": 231
+     },
+     "loss50_today_wan": 130,
+     "loss50_months_income_50k": 26.0,
+     "loss50_months_income_50k_int": 26
+    },
+    "70": {
+     "rate": 3.4,
+     "amount_wan": 471,
+     "loss_wan": {
+      "40": 132,
+      "50": 165,
+      "60": 198
+     },
+     "loss50_today_wan": 111,
+     "loss50_months_income_50k": 22.2,
+     "loss50_months_income_50k_int": 22
+    },
+    "60": {
+     "rate": 3.2,
+     "amount_wan": 460,
+     "loss_wan": {
+      "40": 110,
+      "50": 138,
+      "60": 166
+     },
+     "loss50_today_wan": 93,
+     "loss50_months_income_50k": 18.6,
+     "loss50_months_income_50k_int": 19
+    }
+   },
+   "superseded": [
+    "drill_2046_low",
+    "stress.y2046_64_low"
+   ]
+  }
+ },
+ "xiaoyun_azhe": {
+  "down_payment": {
+   "rate": 2.0,
+   "target_wan": 400,
+   "months": 84,
+   "target_ym": "2033-09",
+   "fv_25k_wan1": 363.2,
+   "gap_wan": 37,
+   "save_more": {
+    "27500": {
+     "fv_wan1": 385.7,
+     "enough": false
+    },
+    "28000": {
+     "fv_wan1": 390.3,
+     "enough": false
+    },
+    "28500": {
+     "fv_wan1": 394.8,
+     "enough": false
+    },
+    "29000": {
+     "fv_wan1": 399.3,
+     "enough": false
+    },
+    "30000": {
+     "fv_wan1": 408.3,
+     "enough": true
+    }
+   },
+   "save_more_min_step500": 30000,
+   "delay_25k": {
+    "month": 96,
+    "ym": "2034-09",
+    "extra_months": 12
+   },
+   "counter_example_month72_30k": {
+    "ym": "2032-09",
+    "amount_wan1": 364.6,
+    "amount_wan": 365,
+    "loss_60pct_stock_drop50_wan": 109,
+    "note": "舊算法（fix-r2 起指南不用）：用 0% 股票（2%）滾出的金額，假設其中六成是股票"
+   },
+   "counter_example_month72_25k_60pct": {
+    "ym": "2032-09",
+    "rate": 3.2,
+    "amount_wan1": 343.5,
+    "amount_wan": 344,
+    "loss_drop50_wan1": 103.1,
+    "loss_drop50_wan": 103,
+    "note": "照地板規則本來就不能這樣放，只示範會少多少"
+   },
+   "floor_5y_from": "2028-09",
+   "target_today_wan": {
+    "years": 7,
+    "exact_1.02^7": 1.149,
+    "value_1dp": 348.2,
+    "print_wan": 350,
+    "old_table_cell_1.22": {
+     "value": 328
+    },
+    "value_int": 348,
+    "printed_mult": 1.15,
+    "forward_check_wan1": 400.2,
+    "forward_check_exact_wan1": 399.7,
+    "fix_r4_table_rule": {
+     "years": 7,
+     "table_mult": 1.22,
+     "today_wan": 328,
+     "forward_check_wan": 400,
+     "forward_check_exact": 400.16,
+     "printed": "今天看的頭期款約 328 萬 × 1.22（7 年取 10 年那格）＝ 到時候約 400 萬"
+    },
+    "superseded_by_fix_r4": [
+     "exact_1.02^7",
+     "value_1dp",
+     "print_wan",
+     "value_int",
+     "printed_mult",
+     "forward_check_wan1",
+     "forward_check_exact_wan1"
+    ]
+   }
+  },
+  "long_term": {
+   "rates": {
+    "low": 3.6,
+    "mid": 5.2,
+    "high": 6.0
+   },
+   "target_wan": 700,
+   "target_ym": "2056-09",
+   "target_today_wan": {
+    "cpi_30y": 1.81,
+    "value": 387,
+    "exact": 386.7,
+    "proposal": 387
+   },
+   "fv_wan": {
+    "low": {
+     "wan1": 764.2,
+     "wan": 764
+    },
+    "mid": {
+     "wan1": 1053.4,
+     "wan": 1053
+    },
+    "high": {
+     "wan1": 1245.4,
+     "wan": 1245
+    }
+   },
+   "enough_low": true,
+   "stress": {
+    "now_40wan": {
+     "40": 12.8,
+     "50": 16.0,
+     "60": 19.2
+    },
+    "y2056_low": {
+     "amount_wan": 764,
+     "loss_wan": {
+      "40": 245,
+      "50": 306,
+      "60": 367
+     }
+    }
+   },
+   "q3_lower_ratio_check_low": {
+    "70": {
+     "rate": 3.4,
+     "fv_wan1": 735.2,
+     "reaches_700": true
+    },
+    "60": {
+     "rate": 3.2,
+     "fv_wan1": 707.5,
+     "reaches_700": true
+    },
+    "50": {
+     "rate": 3.0,
+     "fv_wan1": 681.0,
+     "reaches_700": false
+    },
+    "40": {
+     "rate": 2.8,
+     "fv_wan1": 655.8,
+     "reaches_700": false
+    }
+   }
+  },
+  "household_stock_share_pct": 20.0
+ },
+ "chen": {
+  "retirement_need": {
+   "spend_today": 45000,
+   "cpi_5y": 1.1,
+   "spend_2031": 49500,
+   "labor_insurance_monthly": 21297,
+   "labor_insurance_note": "45,800×30×1.55%，不乘物價倍數",
+   "labor_pension_monthly_illustrative": 7000,
+   "gap_monthly_exact": 21203,
+   "gap_monthly_rounded_1000": 21000,
+   "gap_yearly": 252000,
+   "targets_wan_2031": {
+    "25": 630.0,
+    "33": 831.6,
+    "40": 1008.0
+   },
+   "targets_wan_2031_if_exact_gap": {
+    "25": 636.1,
+    "33": 839.6,
+    "40": 1017.7
+   },
+   "targets_today_money_wan_for_reference": {
+    "25": 572.7,
+    "33": 756.0,
+    "40": 916.4
+   },
+   "proposal": {
+    "gap_monthly": 22000,
+    "gap_yearly": 264000,
+    "targets_today": {
+     "25": 660,
+     "33": 871,
+     "40": 1056
+    },
+    "target_2031_33x": 962,
+    "target_2031_40x": 1166
+   }
+  },
+  "fv_2031_wan1": {
+   "46": {
+    "low": 1113.0,
+    "mid": 1154.4,
+    "high": 1175.7,
+    "rates": {
+     "low": 2.8,
+     "mid": 3.6,
+     "high": 4.0
+    }
+   },
+   "73": {
+    "low": 1143.9,
+    "mid": 1219.5,
+    "high": 1259.2,
+    "rates": {
+     "low": 3.4,
+     "mid": 4.8,
+     "high": 5.5
+    }
+   },
+   "28": {
+    "low": 1092.9,
+    "mid": 1113.0,
+    "high": 1123.2,
+    "rates": {
+     "low": 2.4,
+     "mid": 2.8,
+     "high": 3.0
+    }
+   },
+   "0": {
+    "low": 1073.2,
+    "mid": 1073.2,
+    "high": 1073.2,
+    "rates": {
+     "low": 2.0,
+     "mid": 2.0,
+     "high": 2.0
+    }
+   }
+  },
+  "comparison": {
+   "target33_wan": 831.6,
+   "46_low_over_target_wan": 281,
+   "73_low_over_target_wan": 312,
+   "73_minus_46_low_wan": 31,
+   "extra_loss_at_drop50_wan": 120,
+   "all_deposit_2pct_enough_33x": true,
+   "all_deposit_over_target_wan": 242,
+   "40x_target_wan": 1008.0,
+   "46_low_reaches_40x": true,
+   "73_low_reaches_40x": true,
+   "73_high_reaches_40x": true,
+   "46_low_over_40x_wan": 105,
+   "73_low_over_40x_wan": 136,
+   "28_low_over_40x_wan": 85,
+   "all_deposit_over_40x_wan": 65,
+   "28_low_reaches_40x": true,
+   "all_deposit_reaches_40x": true,
+   "loss50_2031_low_wan": {
+    "73": 400,
+    "46": 223,
+    "28": 109
+   },
+   "extra_loss50_2031_low_73_vs_46_wan": 178,
+   "extra_loss50_2031_low_73_vs_46_wan_from_rounded": 178,
+   "extra_loss50_2031_low_73_vs_46_wan_from_printed_losses": 177
+  },
+  "first_year_withdrawal": {
+   "amount_wan": 25.2,
+   "pct_of_46_low": 2.26,
+   "pct_of_46_low_1dp": 2.3,
+   "within_2.5_to_3pct": false,
+   "proposal": {
+    "amount_wan": 29.1,
+    "pct": 2.6
+   }
+  },
+  "five_year_gap_wan": {
+   "value": 126.0,
+   "proposal_today": 132,
+   "proposal_2031": 146,
+   "note": "缺口已是 2031 年的錢，不再乘倍數"
+  },
+  "stress_800wan": {
+   "73_deposit": {
+    "loss_wan": {
+     "40": 224,
+     "50": 280,
+     "60": 336
+    },
+    "loss50_years_of_gap": 11.1
+   },
+   "46_deposit": {
+    "loss_wan": {
+     "40": 128,
+     "50": 160,
+     "60": 192
+    },
+    "loss50_years_of_gap": 6.3
+   },
+   "46_bond10": {
+    "loss_wan": {
+     "40": 176,
+     "50": 208,
+     "60": 240
+    },
+    "loss50_years_of_gap": 8.3
+   },
+   "_note": "fix-r4：現在 800 萬是今天的錢、缺口是 2031 年的錢，時間點不同，指南不再印年數"
+  },
+  "stress_2031_46_low": {
+   "amount_wan": 1113,
+   "loss_wan": {
+    "40": 178,
+    "50": 223,
+    "60": 267
+   },
+   "loss50_years_of_gap": 8.8,
+   "loss50_years_of_gap_unrounded_loss": 8.8
+  },
+  "stress_2031_73_low": {
+   "amount_wan": 1144,
+   "loss_wan": {
+    "40": 320,
+    "50": 400,
+    "60": 480
+   },
+   "loss50_years_of_gap": 15.9
+  },
+  "fv_2031_wan": {
+   "46": {
+    "low": 1113,
+    "mid": 1154,
+    "high": 1176
+   },
+   "73": {
+    "low": 1144,
+    "mid": 1219,
+    "high": 1259
+   },
+   "28": {
+    "low": 1093,
+    "mid": 1113,
+    "high": 1123
+   },
+   "0": {
+    "low": 1073,
+    "mid": 1073,
+    "high": 1073
+   }
+  },
+  "drill_2031_low": {
+   "70": {
+    "rate": 3.4,
+    "amount_wan": 1144,
+    "loss_wan": {
+     "40": 320,
+     "50": 400,
+     "60": 480
+    },
+    "loss50_years_of_gap": 15.9
+   },
+   "60": {
+    "rate": 3.2,
+    "amount_wan": 1134,
+    "loss_wan": {
+     "40": 272,
+     "50": 340,
+     "60": 408
+    },
+    "loss50_years_of_gap": 13.5
+   },
+   "50": {
+    "rate": 3.0,
+    "amount_wan": 1123,
+    "loss_wan": {
+     "40": 225,
+     "50": 281,
+     "60": 337
+    },
+    "loss50_years_of_gap": 11.2
+   },
+   "40": {
+    "rate": 2.8,
+    "amount_wan": 1113,
+    "loss_wan": {
+     "40": 178,
+     "50": 223,
+     "60": 267
+    },
+    "loss50_years_of_gap": 8.8
+   },
+   "story": "七、六、五成「想賣」→ 四成「照常、不賣，生活費從定存拿」通過（虛構的回答，不是算出來的）",
+   "q1_floor_covered": {
+    "floor_wan": 126.0,
+    "existing_deposit_wan": 240,
+    "covered": true
+   }
+  },
+  "switch_cost": {
+   "stock_sale_200wan_tax_0.3pct": 6000.0,
+   "etf_sale_280wan_tax_0.1pct": 2800.0
+  },
+  "allocation_46": {
+   "stock_wan": 320,
+   "global_wan": 240,
+   "tw_etf_kept_wan": 80,
+   "defense_wan": 480,
+   "deposit_add_wan": 240,
+   "min_deposit_for_5y_gap_wan": 126.0
+  },
+  "retire_ym": "2031-09"
+ },
+ "xirr_demo": {
+  "flows": [
+   [
+    "2027-01-01",
+    -100000
+   ],
+   [
+    "2027-07-01",
+    -20000
+   ],
+   [
+    "2027-12-31",
+    128000
+   ]
+  ],
+  "xirr": 0.073014,
+  "xirr_pct_1dp": 7.3,
+  "simple_pct": 6.67,
+  "simple_pct_1dp": 6.7,
+  "note": "與完整版報酬口徑無關，數字不變"
+ },
+ "quiet_period": {
+  "guide_basis": "第 2 節：每年年底投入 6 萬、一年 7%（第 1 節高情境，樂觀）",
+  "years_first_60wan_7pct": 7.84,
+  "return_share_7pct_pct": 22,
+  "for_reference_low_4pct": {
+   "years": 8.58,
+   "return_share_pct": 14,
+   "note": "完整版沒有這組數字；只供作者決定要不要改用低情境"
+  }
+ },
+ "fee_gap": {
+  "monthly": 5000,
+  "months": 360,
+  "fv_6pct_wan": 502,
+  "fv_5pct_wan": 416,
+  "gap_wan": 86,
+  "gap_share_pct": 17.1,
+  "gap_share_20y_pct": 11.0,
+  "note": "每年多付 1 個百分點：30 年少 gap_share_pct%、20 年少 gap_share_20y_pct%，兩個都超過一成（完整版第 7 步「寫下目標」與第 3 節的 86 萬用的是同一組）"
+ },
+ "sweet_spot_guide": {
+  "rule": "70÷整體報酬率",
+  "years": {
+   "7": 10.0,
+   "6": 11.7,
+   "4": 17.5,
+   "3.6": 19.4,
+   "2.8": 25.0
+  }
+ },
+ "sweet_satisfy": {
+  "formula": "n = ln(1÷儲蓄率) ÷ ln(1＋報酬率)；年複利、每年投入固定、不扣物價費用稅",
+  "sweet_spot_note": "甜蜜點＝資產一年長出來的錢追上一年存進去的錢，等於儲蓄率 50% 那一欄（ln2÷ln(1+r)）",
+  "save_rates": {
+   "50%": 0.5,
+   "33%": 0.333333,
+   "25%": 0.25
+  },
+  "note_33pct": "33% 以 1/3 計算（0.33 會得 28.3 年）",
+  "years": {
+   "4": {
+    "50%": 17.7,
+    "33%": 28.0,
+    "25%": 35.3
+   },
+   "6": {
+    "50%": 11.9,
+    "33%": 18.9,
+    "25%": 23.8
+   },
+   "7": {
+    "50%": 10.2,
+    "33%": 16.2,
+    "25%": 20.5
+   }
+  },
+  "sweet_spot_years": {
+   "4": 17.7,
+   "6": 11.9,
+   "7": 10.2
+  },
+  "ratio_vs_sweet": {
+   "50%": 1.0,
+   "33%": 1.585,
+   "25%": 2.0
+  },
+  "guide_rounding": "完整版第 2 節寫的高 7% 約 10 年、中 6% 約 12 年、低 4% 約 18 年，就是這一組四捨五入",
+  "asset_over_living_multiple": {
+   "4": 25.0,
+   "6": 16.7,
+   "7": 14.3
+  },
+  "withdrawal_multiple_for_retirement": {
+   "倍數": "25 到 40",
+   "對應提領率": "4% 到 2.5%",
+   "note": "完整版「年齡、槓桿與退休」第三題；25 倍對台灣讀者偏樂觀，只當最低參考"
+  },
+  "after_inflation_subtract_2pct": {
+   "method": "報酬率直接減 2 個百分點（書上採用的寫法）",
+   "years_save_half": {
+    "4": 35.0,
+    "6": 17.7,
+    "7": 14.2
+   }
+  },
+  "after_inflation_exact_real": {
+   "method": "精算實質報酬 (1+r)/(1+2%)−1（只供查證，書上不寫）",
+   "years_save_half": {
+    "4": 35.7,
+    "6": 18.0,
+    "7": 14.5
+   }
+  },
+  "after_inflation_and_fee_0_5pct": {
+   "method": "報酬率減 2 個百分點（物價）再減 0.5 個百分點（暫估總費用率）",
+   "fee_pct": 0.5,
+   "years_save_half": {
+    "4": 46.6,
+    "6": 20.1,
+    "7": 15.7
+   },
+   "note": "完整版第 2 節滿足點小字：低 4% 只減物價約 35 年；再減 0.5% 費用約 47 年"
+  }
+ },
+ "rolling": {
+  "window_rule": "日曆視窗：從任一個交易日算到滿 N 年（月）的同一天；那天沒開盤就取前一個交易日。視窗每天重疊，不是互相獨立的樣本。",
+  "caveats": [
+   "視窗重疊，不是獨立樣本",
+   "都沒扣物價、費用和稅",
+   "台股只有 23 年，起點又在 2000–2002 大跌之後，10 年 100% 只代表這段期間",
+   "美股是 S&P 500 含息、名目"
+  ],
+  "taiex": {
+   "source": "證交所發行量加權股價報酬指數（含息）",
+   "file": "research/data/taiex_tr_monthly_raw.csv",
+   "from": "2003-01-02",
+   "to": "2025-12-31",
+   "trading_days": 5665,
+   "positive_share": {
+    "1天": {
+     "n": 5664,
+     "positive": 3099,
+     "pct": 54.71,
+     "pct_int": 55
+    },
+    "1個月": {
+     "n": 5643,
+     "positive": 3478,
+     "pct": 61.63,
+     "pct_int": 62
+    },
+    "1年": {
+     "n": 5422,
+     "positive": 4159,
+     "pct": 76.71,
+     "pct_int": 77
+    },
+    "3年": {
+     "n": 4941,
+     "positive": 4708,
+     "pct": 95.28,
+     "pct_int": 95
+    },
+    "5年": {
+     "n": 4451,
+     "positive": 4266,
+     "pct": 95.84,
+     "pct_int": 96
+    },
+    "10年": {
+     "n": 3227,
+     "positive": 3227,
+     "pct": 100.0,
+     "pct_int": 100
+    }
+   },
+   "annual_range": {
+    "1年": {
+     "n": 5422,
+     "min_pct": -52.6,
+     "max_pct": 99.2
+    },
+    "5年": {
+     "n": 4451,
+     "min_pct": -5.0,
+     "max_pct": 24.6
+    },
+    "10年": {
+     "n": 3227,
+     "min_pct": 4.6,
+     "max_pct": 17.6
+    },
+    "20年": {
+     "n": 746,
+     "min_pct": 9.0,
+     "max_pct": 12.4
+    }
+   },
+   "cross_check_252_trading_days": {
+    "1年": {
+     "positive": {
+      "n": 5413,
+      "positive": 4150,
+      "pct": 76.67,
+      "pct_int": 77
+     },
+     "range": {
+      "n": 5413,
+      "min_pct": -51.6,
+      "max_pct": 98.4
+     }
+    },
+    "5年": {
+     "positive": {
+      "n": 4405,
+      "positive": 4238,
+      "pct": 96.21,
+      "pct_int": 96
+     },
+     "range": {
+      "n": 4405,
+      "min_pct": -3.5,
+      "max_pct": 24.1
+     }
+    },
+    "10年": {
+     "positive": {
+      "n": 3145,
+      "positive": 3145,
+      "pct": 100.0,
+      "pct_int": 100
+     },
+     "range": {
+      "n": 3145,
+      "min_pct": 4.5,
+      "max_pct": 18.3
+     }
+    },
+    "20年": {
+     "positive": {
+      "n": 625,
+      "positive": 625,
+      "pct": 100.0,
+      "pct_int": 100
+     },
+     "range": {
+      "n": 625,
+      "min_pct": 9.5,
+      "max_pct": 12.4
+     }
+    }
+   }
+  },
+  "us": {
+   "source": "Robert Shiller 公開月資料，S&P 500 含息、名目",
+   "file": "research/data/shiller_sp_monthly.csv",
+   "from": "1871-01",
+   "to": "2023-06",
+   "months": 1830,
+   "end_note": "股利欄只到 2023-06，之後留白，所以序列在這裡截止",
+   "positive_share": {
+    "1年": {
+     "n": 1818,
+     "positive": 1312,
+     "pct": 72.17,
+     "pct_int": 72
+    },
+    "5年": {
+     "n": 1770,
+     "positive": 1585,
+     "pct": 89.55,
+     "pct_int": 90
+    },
+    "10年": {
+     "n": 1710,
+     "positive": 1659,
+     "pct": 97.02,
+     "pct_int": 97
+    },
+    "20年": {
+     "n": 1590,
+     "positive": 1590,
+     "pct": 100.0,
+     "pct_int": 100
+    },
+    "30年": {
+     "n": 1470,
+     "positive": 1470,
+     "pct": 100.0,
+     "pct_int": 100
+    }
+   }
+  }
+ },
+ "taiex_drawdowns": {
+  "source": "證交所發行量加權股價報酬指數（含息）",
+  "file": "research/data/taiex_tr_monthly_raw.csv",
+  "from": "2003-01-02",
+  "to": "2025-12-31",
+  "threshold_pct": 20,
+  "rule": "從「到當天為止的最高收盤」跌 20% 以上算一段；再創新高的那一天算回到前高。年數＝高點到回到前高，÷365.25。",
+  "n": 7,
+  "all_recovered": true,
+  "years_min": 0.48,
+  "years_max": 3.11,
+  "episodes": [
+   {
+    "peak_date": "2004-03-04",
+    "peak_value": 7190.47,
+    "trough_date": "2004-07-20",
+    "trough_value": 5531.04,
+    "drawdown_pct": -23.1,
+    "recovered": true,
+    "recover_date": "2005-12-29",
+    "years_peak_to_recover": 1.82,
+    "years_peak_to_trough": 0.38,
+    "years_trough_to_recover": 1.44
+   },
+   {
+    "peak_date": "2007-10-29",
+    "peak_value": 11603.63,
+    "trough_date": "2008-11-20",
+    "trough_value": 5103.05,
+    "drawdown_pct": -56.0,
+    "recovered": true,
+    "recover_date": "2010-12-09",
+    "years_peak_to_recover": 3.11,
+    "years_peak_to_trough": 1.06,
+    "years_trough_to_recover": 2.05
+   },
+   {
+    "peak_date": "2011-01-28",
+    "peak_value": 12158.36,
+    "trough_date": "2011-12-19",
+    "trough_value": 9176.95,
+    "drawdown_pct": -24.5,
+    "recovered": true,
+    "recover_date": "2013-09-16",
+    "years_peak_to_recover": 2.63,
+    "years_peak_to_trough": 0.89,
+    "years_trough_to_recover": 1.74
+   },
+   {
+    "peak_date": "2015-04-27",
+    "peak_value": 15186.32,
+    "trough_date": "2015-08-24",
+    "trough_value": 11666.06,
+    "drawdown_pct": -23.2,
+    "recovered": true,
+    "recover_date": "2016-09-07",
+    "years_peak_to_recover": 1.37,
+    "years_peak_to_trough": 0.33,
+    "years_trough_to_recover": 1.04
+   },
+   {
+    "peak_date": "2020-01-14",
+    "peak_value": 22714.03,
+    "trough_date": "2020-03-19",
+    "trough_value": 16228.6,
+    "drawdown_pct": -28.6,
+    "recovered": true,
+    "recover_date": "2020-07-06",
+    "years_peak_to_recover": 0.48,
+    "years_peak_to_trough": 0.18,
+    "years_trough_to_recover": 0.3
+   },
+   {
+    "peak_date": "2022-01-17",
+    "peak_value": 36749.36,
+    "trough_date": "2022-10-25",
+    "trough_value": 26286.65,
+    "drawdown_pct": -28.5,
+    "recovered": true,
+    "recover_date": "2023-07-14",
+    "years_peak_to_recover": 1.49,
+    "years_peak_to_trough": 0.77,
+    "years_trough_to_recover": 0.72
+   },
+   {
+    "peak_date": "2024-07-11",
+    "peak_value": 53330.65,
+    "trough_date": "2025-04-09",
+    "trough_value": 38547.9,
+    "drawdown_pct": -27.7,
+    "recovered": true,
+    "recover_date": "2025-08-05",
+    "years_peak_to_recover": 1.07,
+    "years_peak_to_trough": 0.74,
+    "years_trough_to_recover": 0.32
+   }
+  ],
+  "caveats": [
+   "只有 2003 年以後的含息資料，起點剛好在 2000–2002 年那波大跌之後",
+   "七段全部回到前高，是這 23 年的結果，不是規律；第 4 節那張價格指數的表有 25 到 34 年才回本的例子",
+   "含息、名目，沒有扣物價、費用和稅；只用收盤值"
+  ]
+ },
+ "asset_rotation": {
+  "from": 2004,
+  "to": 2025,
+  "years": 22,
+  "assets": {
+   "us_stock": "S&P 500 含息（美元）",
+   "us_bond10": "美國 10 年期公債（美元）",
+   "us_bill3m": "美國 3 個月國庫券（美元，本文當「現金」）",
+   "tw_stock": "證交所發行量加權股價報酬指數（含息，台幣）"
+  },
+  "sources": {
+   "us": "Damodaran（紐約大學 Stern）Historical Returns on Stocks, Bonds and Bills，檔案 research/data/damodaran_histret.xls",
+   "us_url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html",
+   "tw": "research/data/taiex_tr_monthly_raw.csv"
+  },
+  "note": "名目、含息、不扣物價費用稅；台股以台幣計、美國三類以美元計，沒有換成同一種貨幣，所以這張表只比「各自市場那一年漲多少」，不是台灣人換回台幣實際拿到的報酬。",
+  "winner_counts": {
+   "美股": 9,
+   "台股": 9,
+   "公債": 2,
+   "現金": 2
+  },
+  "rows": [
+   {
+    "year": 2004,
+    "ranking": [
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 10.7
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 7.6
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 4.5
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 1.4
+     }
+    ]
+   },
+   {
+    "year": 2005,
+    "ranking": [
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 10.9
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 4.8
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 3.2
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 2.9
+     }
+    ]
+   },
+   {
+    "year": 2006,
+    "ranking": [
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 24.4
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 15.6
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 4.9
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 2.0
+     }
+    ]
+   },
+   {
+    "year": 2007,
+    "ranking": [
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 12.5
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 10.2
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 5.5
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 4.5
+     }
+    ]
+   },
+   {
+    "year": 2008,
+    "ranking": [
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 20.1
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 1.4
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": -36.6
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": -43.1
+     }
+    ]
+   },
+   {
+    "year": 2009,
+    "ranking": [
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 83.3
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 25.9
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 0.2
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": -11.1
+     }
+    ]
+   },
+   {
+    "year": 2010,
+    "ranking": [
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 14.8
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 13.6
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 8.5
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 0.1
+     }
+    ]
+   },
+   {
+    "year": 2011,
+    "ranking": [
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 16.0
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 2.1
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 0.1
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": -18.0
+     }
+    ]
+   },
+   {
+    "year": 2012,
+    "ranking": [
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 15.9
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 12.9
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 3.0
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 0.1
+     }
+    ]
+   },
+   {
+    "year": 2013,
+    "ranking": [
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 32.1
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 15.1
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 0.1
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": -9.1
+     }
+    ]
+   },
+   {
+    "year": 2014,
+    "ranking": [
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 13.5
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 11.4
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 10.7
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 0.0
+     }
+    ]
+   },
+   {
+    "year": 2015,
+    "ranking": [
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 1.4
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 1.3
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 0.1
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": -6.9
+     }
+    ]
+   },
+   {
+    "year": 2016,
+    "ranking": [
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 15.6
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 11.8
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 0.7
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 0.3
+     }
+    ]
+   },
+   {
+    "year": 2017,
+    "ranking": [
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 21.6
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 19.5
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 2.8
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 1.0
+     }
+    ]
+   },
+   {
+    "year": 2018,
+    "ranking": [
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 2.0
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": -0.0
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": -4.2
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": -4.8
+     }
+    ]
+   },
+   {
+    "year": 2019,
+    "ranking": [
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 31.2
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 28.9
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 9.6
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 2.1
+     }
+    ]
+   },
+   {
+    "year": 2020,
+    "ranking": [
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 27.1
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 18.0
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 11.3
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 0.4
+     }
+    ]
+   },
+   {
+    "year": 2021,
+    "ranking": [
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 28.5
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 27.1
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 0.0
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": -4.4
+     }
+    ]
+   },
+   {
+    "year": 2022,
+    "ranking": [
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 2.1
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": -17.8
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": -18.0
+     },
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": -18.7
+     }
+    ]
+   },
+   {
+    "year": 2023,
+    "ranking": [
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 31.5
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 26.1
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 5.3
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 3.9
+     }
+    ]
+   },
+   {
+    "year": 2024,
+    "ranking": [
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 31.7
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 24.9
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 5.2
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": -1.6
+     }
+    ]
+   },
+   {
+    "year": 2025,
+    "ranking": [
+     {
+      "key": "tw_stock",
+      "label": "台股",
+      "return_pct": 29.5
+     },
+     {
+      "key": "us_stock",
+      "label": "美股",
+      "return_pct": 17.7
+     },
+     {
+      "key": "us_bond10",
+      "label": "公債",
+      "return_pct": 7.8
+     },
+     {
+      "key": "us_bill3m",
+      "label": "現金",
+      "return_pct": 4.2
+     }
+    ]
+   }
+  ]
+ },
+ "guide_citations": {
+  "guide": "guide/index.html",
+  "line_numbers_in_guidetools_text": {
+   "第一格 7.84 年": [
+    484
+   ],
+   "| 60 萬 | 7.84 年 | 22%": [
+    495
+   ],
+   "三十年後差約 86 萬": [
+    582
+   ],
+   "2008 年跌了 53.59%": [
+    739
+   ],
+   "1.7% 是 2026 年 9 月五大銀行一年期定存牌告利率": [
+    522
+   ],
+   "用 3% 到 2.5%（33 到 40 倍）算會保守一些": [
+    2146
+   ],
+   "都落在股票三成到七成五之間": [
+    2146
+   ],
+   "2026 年最高一級 45,800 元": [
+    2162
+   ],
+   "平均月投保薪資 × 年資 × 1.55%": [
+    2161
+   ],
+   "2026 年起請領年齡 65 歲": [
+    2161
+   ],
+   "提前領每年減 4%、最多減 20%": [
+    1547,
+    2161
+   ],
+   "2022 年 2.95%、2023 年 2.49%、2024 年 2.18%": [
+    531
+   ],
+   "〔投資等級〕債 −13.0%": [
+    821
+   ],
+   "高 7% 約 10 年、中 6% 約 12 年、低 4% 約 18 年": [
+    535,
+    553
+   ],
+   "低情境下股票八成約 20 年、四成約 25 年": [
+    535
+   ],
+   "低 4% 約 21 年": [
+    536
+   ],
+   "| 80% | 3.6% | 5.2% | 6%": [
+    438
+   ],
+   "| 40% | 2.8% | 3.6% | 4%": [
+    440
+   ],
+   "| 物價倍數 | 1.10 | 1.22 | 1.35 | 1.49 | 1.64 | 1.81 | 2.00 | 2.21": [
+    526
+   ],
+   "勞保那一層保守起見用今天的投保薪資試算、不乘物價倍數": [
+    2171
+   ],
+   "真實年成本 6.69%": [
+    2123,
+    2206
+   ]
+  },
+  "missing": []
+ }
+}
