@@ -1,0 +1,236 @@
+[
+ {
+  "id": "小安 低情境原計畫",
+  "path": "xiaoan.base_plan.low.fv_wan",
+  "pattern": "低3\\.6%\\(做決定用\\)(\\d+)萬",
+  "scope": "ch8"
+ },
+ {
+  "id": "小安 多存後低情境",
+  "path": "xiaoan.plan_6500.low_fv_wan",
+  "pattern": "每月改投6,500元→低情境約(\\d+)萬",
+  "scope": "ch8"
+ },
+ {
+  "id": "小安 2046 跌 50%",
+  "path": "xiaoan.stress.y2046.loss_wan.50",
+  "pattern": "2046年約214萬少68萬少(\\d+)萬",
+  "scope": "ch8"
+ },
+ {
+  "id": "小安 2046 金額",
+  "path": "xiaoan.stress.y2046.amount_wan",
+  "pattern": "2046年約(\\d+)萬少68萬",
+  "scope": "ch8"
+ },
+ {
+  "id": "小安 第 5 年跌 50%",
+  "path": "xiaoan.stress.year5.loss_wan.50",
+  "pattern": "第5年約35萬少11萬少(\\d+)萬",
+  "scope": "ch8"
+ },
+ {
+  "id": "小安 幾個月薪水",
+  "path": "xiaoan.stress.y2046.loss50_today_money.today_wan",
+  "pattern": "少86萬÷1\\.49≈(\\d+)萬",
+  "scope": "ch8"
+ },
+ {
+  "id": "阿凱 投 20% 低情境",
+  "path": "akai.fv_10k.64.low.fv_wan",
+  "pattern": "低情境約(\\d+)萬,差58萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "阿凱 八二低情境",
+  "path": "akai.fv_10k.82.low.fv_wan",
+  "pattern": "調高到八成也只有(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "阿凱 投 24% 八成金額",
+  "path": "akai.after_gap_24pct.drill_2046_low.80.amount_wan",
+  "pattern": "八成約(\\d+)萬,少193萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "阿凱 八成跌 50%",
+  "path": "akai.after_gap_24pct.drill_2046_low.80.loss_wan.50",
+  "pattern": "八成約482萬,少(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "阿凱 七成金額",
+  "path": "akai.after_gap_24pct.drill_2046_low.70.amount_wan",
+  "pattern": "七成約(\\d+)萬,少165萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "阿凱 七成跌 50%",
+  "path": "akai.after_gap_24pct.drill_2046_low.70.loss_wan.50",
+  "pattern": "七成約471萬,少(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "阿凱 六成金額",
+  "path": "akai.after_gap_24pct.drill_2046_low.60.amount_wan",
+  "pattern": "六成約(\\d+)萬,少138萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "阿凱 六成跌 50%",
+  "path": "akai.after_gap_24pct.drill_2046_low.60.loss_wan.50",
+  "pattern": "六成約460萬,少(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "頭期款 目前存法",
+  "path": "xiaoyun_azhe.down_payment.fv_25k_wan1",
+  "pattern": "2\\.0%。約(\\d+)萬,差37萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "頭期款 多存 3 萬",
+  "path": "xiaoyun_azhe.down_payment.save_more.30000.fv_wan1",
+  "pattern": "每月3萬,約(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "長期桶 低情境",
+  "path": "xiaoyun_azhe.long_term.fv_wan.low.wan",
+  "pattern": "低情境約(\\d+)萬,夠。",
+  "scope": "ch9"
+ },
+ {
+  "id": "長期桶 2056 跌 50%",
+  "path": "xiaoyun_azhe.long_term.stress.y2056_low.loss_wan.50",
+  "pattern": "2056年約764萬跌50%少(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "長期桶 現在跌 50%",
+  "path": "xiaoyun_azhe.long_term.stress.now_40wan.50",
+  "pattern": "現在40萬跌50%少(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "陳大哥 33 倍",
+  "path": "chen.retirement_need.targets_wan_2031.33",
+  "pattern": "照33倍,2031年9月約(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "陳大哥 40 倍",
+  "path": "chen.retirement_need.targets_wan_2031.40",
+  "pattern": "40倍約(\\d+(?:,\\d+)?)萬當保守",
+  "scope": "ch9"
+ },
+ {
+  "id": "陳大哥 四成低情境",
+  "path": "chen.fv_2031_wan.46.low",
+  "pattern": "低2\\.8%、中3\\.6%、高4\\.0%。低情境約(\\d+(?:,\\d+)?)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "陳大哥 七成金額",
+  "path": "chen.drill_2031_low.70.amount_wan",
+  "pattern": "七成約(\\d+(?:,\\d+)?)萬少400萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "陳大哥 七成跌 50%",
+  "path": "chen.drill_2031_low.70.loss_wan.50",
+  "pattern": "七成約1,144萬少(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "陳大哥 六成跌 50%",
+  "path": "chen.drill_2031_low.60.loss_wan.50",
+  "pattern": "六成約1,134萬少(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "陳大哥 五成跌 50%",
+  "path": "chen.drill_2031_low.50.loss_wan.50",
+  "pattern": "五成約1,123萬少(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "陳大哥 四成跌 50%",
+  "path": "chen.drill_2031_low.40.loss_wan.50",
+  "pattern": "四成約1,113萬少(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "陳大哥 五年缺口",
+  "path": "chen.five_year_gap_wan.value",
+  "pattern": "生活費缺口約(\\d+)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "陳大哥 一年缺口",
+  "path": "chen.first_year_withdrawal.amount_wan",
+  "pattern": "第一年提領約(\\d+(?:\\.\\d+)?)萬",
+  "scope": "ch9"
+ },
+ {
+  "id": "台股 1 年為正比例",
+  "path": "rolling.taiex.positive_share.1年.pct_int",
+  "pattern": "1年(\\d+)%72%",
+  "scope": "ch11"
+ },
+ {
+  "id": "美股 1 年為正比例",
+  "path": "rolling.us.positive_share.1年.pct_int",
+  "pattern": "1年77%(\\d+)%",
+  "scope": "ch11"
+ },
+ {
+  "id": "台股 5 年為正比例",
+  "path": "rolling.taiex.positive_share.5年.pct_int",
+  "pattern": "5年(\\d+)%90%",
+  "scope": "ch11"
+ },
+ {
+  "id": "美股 10 年為正比例",
+  "path": "rolling.us.positive_share.10年.pct_int",
+  "pattern": "10年100%(\\d+)%",
+  "scope": "ch11"
+ },
+ {
+  "id": "台股 1 年區間上緣",
+  "path": "rolling.taiex.annual_range.1年.max_pct",
+  "pattern": "換算成平均一年是−52\\.6%到\\+(\\d+\\.\\d)%",
+  "scope": "ch11"
+ },
+ {
+  "id": "台股 20 年區間下緣",
+  "path": "rolling.taiex.annual_range.20年.min_pct",
+  "pattern": "抱滿20年是\\+(\\d+\\.\\d)%到",
+  "scope": "ch11"
+ },
+ {
+  "id": "台股 20 年區間上緣",
+  "path": "rolling.taiex.annual_range.20年.max_pct",
+  "pattern": "抱滿20年是\\+9\\.0%到\\+(\\d+\\.\\d)%",
+  "scope": "ch11"
+ },
+ {
+  "id": "滿足點 低 4% 存四分之一",
+  "path": "sweet_satisfy.years.4.25%",
+  "pattern": "4%\\(低\\)17\\.7年28\\.0年(\\d+\\.\\d)年",
+  "scope": "ch11"
+ },
+ {
+  "id": "滿足點 高 7% 存三分之一",
+  "path": "sweet_satisfy.years.7.33%",
+  "pattern": "7%\\(高\\)10\\.2年(\\d+\\.\\d)年",
+  "scope": "ch11"
+ },
+ {
+  "id": "甜蜜點 中 6%",
+  "path": "sweet_satisfy.sweet_spot_years.6",
+  "pattern": "6%\\(中\\)(\\d+\\.\\d)年",
+  "scope": "ch11"
+ }
+]

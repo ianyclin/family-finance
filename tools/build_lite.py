@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""新手實作版產生程式（單一來源、兩個輸出）。格式規格：docs/core-edition/specs/lite-format.md
+"""可列印工作表產生程式（單一來源、兩個輸出；v6.0 時產的是十二章的新手實作版）。格式規格：docs/core-edition/specs/lite-format.md
 
 用法：
   python3 tools/build_lite.py                                  # 用 lite/manifest.json，產生兩份 HTML、兩份 PDF，最後跑哨兵
@@ -37,7 +37,7 @@ DEFAULT_PATHS = {
     'lite_fragment': 'output/lite.html',
     'full_fragment': 'output/guide.html',
     'export_dir': 'export',
-    'lite_export_name': '隔離人性-新手實作版-{version}',
+    'lite_export_name': '隔離人性-可列印工作表-{version}',
     'full_export_name': '隔離人性-理財新手完整指南-{version}',
 }
 
@@ -485,7 +485,7 @@ def transform(s, ctx):
 # ---------------------------------------------------------------- 產生實作版
 
 LITE_CSS = r'''
-/* ---- 新手實作版（build_lite.py 附加） ---- */
+/* ---- 可列印工作表（build_lite.py 附加） ---- */
 .lite-cover{padding:48px 0 12px}.lite-cover h1{font-size:clamp(2rem,6vw,3.6rem);line-height:1.1;margin:.1em 0}
 .lite-version{color:var(--muted);font-size:.9rem;font-weight:700}
 .lite-ch{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin:20px 0;padding:clamp(18px,4vw,36px)}
@@ -516,14 +516,20 @@ table.lite-annual td:nth-child(2){font-size:.84rem}table.lite-annual th:nth-chil
   .lite-ch h3,.lite-ch h4,.lite-ch>.lede{break-after:avoid}
   .lite-ch>h2{break-inside:avoid}
   .lite-ch .data-card{break-inside:avoid}
-  table.lite-plan{font-size:10.5pt;line-height:2.05}
+  table.lite-plan{font-size:10.5pt;line-height:1.9}   /* v6.1：頁首多了窄橫幅，行距從 2.05 收到 1.9，讓整張計畫表（含 H 區）留在第一頁 */
   table.lite-annual{font-size:10pt}table.lite-annual td{padding:9px 5px}
   table.lite-plan-stress{font-size:10pt;line-height:1.5}table.lite-plan-stress th,table.lite-plan-stress td{padding:1px 4px}
   table.lite-lookup th,table.lite-lookup td{padding:1px 5px;line-height:1.25}
   @page{size:A4;margin:13mm 13mm 15mm;@bottom-center{content:counter(page);font-size:9pt;color:#666}}
   body{font-size:10pt;line-height:1.4;background:white;color:black}
   header,main,footer{width:100%}
-  .lite-cover{padding:0 0 6px}.lite-cover h1{font-size:26pt}
+  /* 封面：可列印工作表把它壓成第一頁頁首的一條窄橫幅（副標／書名＋版本日期／一句指路），
+     讓計畫表和它同一頁（spec-v61-worksheet.md）。有目錄、有章的實作版沒有再用這一支 CSS。 */
+  .lite-cover{padding:0 0 4px;margin:0 0 6px;border-bottom:1px solid #999}
+  .lite-cover .eyebrow{font-size:8.5pt;margin:0}
+  .lite-cover h1{font-size:13pt;display:inline;margin:0}
+  .lite-cover .lite-version{display:inline;margin-left:.6em;font-size:8.5pt;font-weight:400}
+  .lite-cover p.small{margin:.15em 0 0}
   .lite-ch{border:0;border-radius:0;padding:0;margin:0 0 12px;box-shadow:none;background:white}
   .lite-ch>h2{font-size:15pt;margin:0 0 .25em;break-after:avoid}
   .lite-break{break-before:page}
@@ -954,9 +960,10 @@ FRAGMENT_TAGS = ['div', 'p', 'li', 'ul', 'ol', 'a', 'strong', 'h3', 'h4', 'secti
                  'details', 'table', 'span', 'dt', 'dd', 'dl', 'mark']
 
 
-def fragment_of(h, kind, label):
+def fragment_of(h, kind, label, cover_title=None):
     """發布用片段：去掉 doctype／html／head／body 外殼（和交班文件「改完後的固定流程」第 4 步同一套做法）。
-    先做和那段一樣的結構檢查：標籤開關成對、站內連結都有 id、<a> 不巢狀、封面只有一個。"""
+    先做和那段一樣的結構檢查：標籤開關成對、站內連結都有 id、<a> 不巢狀、封面只有一個。
+    `cover_title`＝實作版／工作表封面應該印的書名（manifest 第一章的 title），不給就不檢查書名。"""
     for t in FRAGMENT_TAGS:
         o = len(re.findall(r'<%s\b[^>]*>' % t, h)); c = len(re.findall(r'</%s>' % t, h))
         if o != c:
@@ -981,9 +988,17 @@ def fragment_of(h, kind, label):
         if len(mm) != 1:
             raise BuildError('%s 的實作版封面有 %d 個（要剛好 1 個）' % (label, len(mm)))
         head = re.sub(r'<[^>]+>', '', s[s.find(mm[0]):s.find(mm[0]) + 800])
-        if '隔離人性：新手實作版' not in head:
-            raise BuildError('%s 的實作版封面找不到書名' % label)
+        if cover_title and cover_title not in head:
+            raise BuildError('%s 的封面找不到書名「%s」' % (label, cover_title))
     return s
+
+
+def lite_cover_title(m):
+    """實作版／工作表封面應該印的書名＝manifest 裡 kind=cover 那一章的 title。"""
+    for c in m['chapters']:
+        if c.get('kind') == 'cover':
+            return c.get('title')
+    return None
 
 
 def write_fragments(m):
@@ -994,7 +1009,7 @@ def write_fragments(m):
         dst = P.get(dstk)
         if not dst:
             continue
-        write(dst, fragment_of(read(P[srck]), kind, P[srck]))
+        write(dst, fragment_of(read(P[srck]), kind, P[srck], lite_cover_title(m)))
         done.append(dst)
     return done
 

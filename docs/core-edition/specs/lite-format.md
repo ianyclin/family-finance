@@ -1,4 +1,8 @@
-# 新手實作版格式規格（lite-format v1）
+# 實作版／工作表格式規格（lite-format v1）
+
+> **2026-09-16（拍板 L8＝A）起，這一套程式產的是《隔離人性｜可列印工作表》四頁，不是十二章的《新手實作版》。**
+> 規格見 `spec-v61-worksheet.md`，工作表模式下哪幾支哨兵改成 SKIP、退場的短稿放哪裡，見本文件第 11 節。
+> 下面第 1–10 節的機制沒有變（只是目前的 `lite/manifest.json` 沒有用到章、目錄、附 B 那幾種寫法）。
 
 給寫 `lite/manifest.json`、`lite/alt/*.html`、`lite/facts.txt`、`lite/case-checks.json`，以及在完整版候選上加 `data-lite` 標記的人。照這份寫就能跑，不必看程式。
 程式：`tools/build_lite.py`（產生）、`tools/lite_sentinels.py`（哨兵）。依據：`spec-v60-stage2.md` 第 1–5 點、提案第 8-3、8-4 節。
@@ -12,13 +16,15 @@
 | `guide/index.html` | 內容建造者（改內容；`data-lite*` 屬性也加在這裡） | 唯一來源（v6.0 定稿後改指正式檔；舊的 `lite/work/full-v60-candidate.html` 只留作定稿當時的存檔，build 不再讀） |
 | `lite/manifest.json` | 內容建造者 | 章、區塊順序、接合文字、想查證、網址 |
 | `lite/alt/<id>.html` | 內容建造者 | 短稿（改寫過的原文區塊） |
-| `lite/facts.txt` | 內容建造者 | 兩份都必須出現的共同事實 |
-| `lite/case-checks.json` | 內容建造者 | 實作版四個人的數字 ↔ `lite/calc-results.json` |
+| `lite/alt/retired/<id>.html` | 內容建造者 | 退場的短稿（v6.1 十二章退場時搬進來的 36 份）。不再檢查指紋，也不能被 manifest 用；原文的 `data-lite-alt` 標記指到這裡不算錯（第 11 節） |
+| `lite/facts.txt` | 內容建造者 | 共同事實；`full-only:` 開頭的行只檢查完整版（第 6 節） |
+| `lite/case-checks.json` | 內容建造者 | 產出裡的數字 ↔ `lite/calc-results.json` |
+| `lite/case-checks.retired-v60.json` | 內容建造者 | v6.1 隨十二章退場的 39 條案例檢查（人物、滾動視窗那些內容已不在輸出裡；將來回復實作版時搬回來） |
 | `lite/tickers.json` | 主線核可（已放初版） | 代號清單與允許出現的位置 |
 | `lite/labels.json` | 主線核可（已放初版） | 「本指南的做法」七件事的關鍵詞 |
 | `lite/index.html` | **程式產生，不要手改** | 實作版網頁 |
 | `output/full-v60-out.html` | **程式產生，不要手改** | 完整版發布版（多了 lede 下那一行） |
-| `export/隔離人性-新手實作版-v6.0.pdf/.html`、`export/隔離人性-理財新手完整指南-v6.0.pdf/.html` | **程式產生** | 匯出 |
+| `export/隔離人性-可列印工作表-v6.1.pdf/.html`、`export/隔離人性-理財新手完整指南-v6.1.pdf/.html` | **程式產生** | 匯出（只留最新版） |
 | `lite/work/print/print-lite.html`、`print-full.html` | 程式產生 | 列印用暫存（details 全開、目錄已填頁碼），除錯用 |
 | `lite/work/lite-v60.txt`、`lite/work/full-v60.txt` | **程式產生** | 審查用純文字：每次 `build_lite.py` 成功後自動重產（實作版逐頁抽自剛印好的 PDF，完整版用 `guidetools.to_text` 抽自 `output/full-v60-out.html`），檔頭記抽取時間與來源；`--no-pdf` 時實作版那一份不重產，會印警告 |
 
@@ -83,13 +89,13 @@ JSON（UTF-8，不能有註解）。頂層：
 | 欄位 | 必填 | 型別 | 說明 |
 |---|---|---|---|
 | `format` | 是 | 字串 | 固定 `"lite-manifest/1"` |
-| `version` | 是 | 字串 | `"v6.0"`。實作版封面自動印「version／date」；完整版封面（`header.cover`）文字裡必須有同一串，否則哨兵 `version` 失敗 |
-| `date` | 是 | 字串 | `"2026-09-15"` |
+| `version` | 是 | 字串 | `"v6.1"`。實作版封面自動印「version／date」；完整版封面（`header.cover`）文字裡必須有同一串，否則哨兵 `version` 失敗 |
+| `date` | 是 | 字串 | `"2026-09-16"` |
 | `book_title` | 是 | 字串 | `"隔離人性"`（PDF title 用） |
-| `edition` | 是 | 字串 | `"新手實作版"` |
+| `edition` | 是 | 字串 | `"可列印工作表"`（v6.0 是「新手實作版」） |
 | `eyebrow` | 否 | 字串 | 封面最上面那行小字 |
 | `author` | 是 | 字串 | `"指數三寶飯・家庭理財陪跑"`（兩份 PDF 的 author） |
-| `page_limit` | 是 | 整數 | `25`；實作版 PDF 超過就失敗 |
+| `page_limit` | 是 | 整數 | `5`（工作表；十二章的實作版是 `25`）；PDF 超過就失敗 |
 | `paths` | 否 | 物件 | 覆寫預設路徑（第 3-3 節）。正式 manifest 通常不寫 |
 | `sentinel_skip` | 否 | 字串陣列 | **只准出現在示範或實驗用 manifest**；檔名是 `manifest.json` 時有這欄就失敗。可跳過：`version`、`cases`、`facts`、`pages`、`unused_marks` |
 | `chapters` | 是 | 陣列 | 依印出順序排的章（第 3-1 節） |
@@ -152,7 +158,7 @@ JSON（UTF-8，不能有註解）。頂層：
   "full_html": "output/full-v60-out.html",
   "print_dir": "lite/work/print",
   "export_dir": "export",
-  "lite_export_name": "隔離人性-新手實作版-{version}",
+  "lite_export_name": "隔離人性-可列印工作表-{version}",
   "full_export_name": "隔離人性-理財新手完整指南-{version}"
 }
 ```
@@ -237,7 +243,8 @@ note: 壓力測試表壓成兩列；三問表照抄第 3 題用語
 ## 6. `lite/facts.txt`（共同事實）
 
 - UTF-8 純文字，一行一條；空行和 `#` 開頭的行略過。
-- 每一條都必須同時出現在實作版 `lite/index.html` 和完整版發布版的純文字裡。
+- 每一條都必須同時出現在實作版／工作表 `lite/index.html` 和完整版發布版的純文字裡。
+- **`full-only:` 開頭的行只檢查完整版**（例：`full-only: 6.69%`）。只給「這段內容已經不在工作表裡」用：v6.1 十二章退場後，借錢、詐騙、再平衡門檻、冷卻期、人物數字那幾條在工作表沒有，但在完整版仍然必須逐字存在。**不要拿它來繞過實作版漏抽區塊**——漏抽的時候該修 manifest，不是加 `full-only:`。
 - 比對方式：兩邊都「去標籤 → 解實體 → NFKC → 刪掉所有空白」後做子字串比對。所以跨標籤、跨表格格子也能比；不用管空格。
   例：查表 80% 那一列寫 `80% 3.6% 5.2% 6.0%`，實際比對 `80%3.6%5.2%6.0%`（表格那一列連續四格就會對上）。
 - 不支援正規表示式。要檢查一整張表，就每列一行。
@@ -334,6 +341,7 @@ JSON 陣列，每一條：
 | `stale` | 單獨跑哨兵時先在記憶體重建，和 `lite/index.html`、`output/full-v60-out.html` 比對 | 重跑 build_lite.py |
 | `fragments` | 發布用片段：`output/guide.html` ＝ `output/full-v60-out.html`、`output/lite.html` ＝ `lite/index.html`，各自去掉 doctype／html／head／body 外殼後逐字相同（兩份片段由 `build_lite.py` 在產生兩份 HTML 之後自動重產，不要手改） | 重跑 `build_lite.py`（或交班文件「改完後的固定流程」第 4 步）再發布 |
 | `check` | 兩份輸出各跑 `guidetools.py check` | — |
+| `worksheet` | **工作表模式才跑**：四塊各一頁、四塊都印得出來、PDF 剛好四頁、每一塊都有 `src`／`alt` 來源、全文沒有「第 N 章」與「附錄 X」 | 內容超出一頁就縮排版或砍內容；出現章號就把短稿裡的指路改回完整版的節號（xref） |
 | `manifest` | 正式 manifest 不准有 `sentinel_skip` | — |
 
 **哨兵擋不住的路（fix-r3，每輪由人工逐段對原文）**：「實作版不得有完整版沒有的事實」（主線決定③）機械上只靠 `alt` 的數字規則和 `glue` 的無數字規則。下面三種不在哨兵範圍：
@@ -353,3 +361,34 @@ JSON 陣列，每一條：
   - 只有 `page_break`、`one_page` 的章與 `{"page_break": true}` 會換頁，其他章接著排。
   - 動作框 `.lite-action`（綠色實線框，標「動作」）；想查證框 `.lite-verify`（灰色虛線框、小字）；虛構聲明 `.lite-fiction`（灰框膠囊）；章名上方的 label `.lite-label`。
 - PDF：Chrome headless `--no-pdf-header-footer --generate-pdf-document-outline`，列印用 HTML 把所有 `details` 加上 `open`；書籤照 h1–h3 自動產生。目錄頁碼：先印一次，用 PyMuPDF 讀目錄連結指向的頁，填進目錄再印；頁碼沒變就停（最多四次）。完整版也照同一流程（在列印用 HTML 的目錄每一項後面加頁碼；網頁版不加）。metadata：title、author、subject（版本／日期）。
+- v6.1 工作表改了兩條列印樣式（只影響這一份輸出）：`header.lite-cover` 壓成頁首窄橫幅（副標 8.5pt／書名 13pt 與版本日期同一行／指路小字），`table.lite-plan` 行距 2.05 → 1.9，這樣計畫表連 H 區都放得進第一頁。
+
+---
+
+## 11. 可列印工作表模式（v6.1，拍板 L8＝A）
+
+作者 2026-09-16：「我認為新手實作版反而複雜，我偏好以完整指南為主。」十二章與附錄 B 退場，`lite/` 這一套只產四頁可列印工作表；規格是 `spec-v61-worksheet.md`。
+
+**怎麼判斷是工作表模式**：`lite_sentinels.worksheet_mode()`——manifest 裡**沒有任何一章有 `label`，也沒有 `{"toc": true}`**。不用另外寫開關。
+
+**四頁**：`plan`（封面橫幅＋計畫表空白版）、`lookup`（查表頁）、`app-a`（年檢勾選表）、`cards`（先停下來的四種情況＋大跌演練卡）。每一塊都 `one_page`，內容一律來自 `src`（完整版區塊）或既有短稿。
+
+**工作表模式下改掉的哨兵**（都印 SKIP 與理由，不是通過）：
+
+| 哨兵 | 工作表模式做什麼 | 為什麼不是假綠燈 |
+|---|---|---|
+| `toc` | 實作版那一半 SKIP；完整版目錄照查 | 工作表沒有目錄可查（四頁各一張表），完整版那一半仍在把關 |
+| `appendix_b` | 沒有 `verify_table` 時 SKIP，但「接合文字不得手寫〈節名〉」仍然有效 | 沒有附 B 可以比對；手寫節名那條照擋 |
+| `chapter_refs` | SKIP，並印出掃到幾處章號 | 工作表**一處章號都不該有**，這件事由 `worksheet` 用更嚴的規則（出現就 FAIL）接手 |
+| `unused_marks` | 完整版 `data-lite` 值沒被用到時 SKIP，並列出留著的值；`data-lite-alt` 是否有短稿檔照查（`lite/alt` 或 `lite/alt/retired`） | 標記留著是為了將來回復實作版；短稿檔存在與否仍然會 FAIL |
+| `fiction` | 工作表沒有人物標題時 SKIP；有人物標題照樣要有虛構聲明 | 四個人整批退場，沒有東西要聲明；一旦有人物回來，檢查自動恢復 |
+| `facts` | `full-only:` 的行只查完整版 | 其餘 16 條仍然兩份逐字比對；`full-only` 的行在完整版照樣逐字比對 |
+| `cases` | 只留查表頁那一條（其餘 39 條搬到 `lite/case-checks.retired-v60.json`） | 人物、滾動視窗的內容已經不在輸出裡，留著只會是對不到的假檢查；容許差沒有放寬 |
+| `worksheet`（新增） | 四塊各一頁、PDF 剛好四頁、每塊都有來源、沒有章號與附錄 | 這是工作表的正規則 |
+
+**退場的東西放哪裡**（都沒有刪，將來要回復十二章時搬回來）：
+
+- 短稿 36 份：`lite/alt/` → `lite/alt/retired/`。退場後不再檢查指紋，所以**回復時必須先對原文重看一次再 `--stamp`**，不可以直接搬回去。
+- 案例數字檢查 39 條：`lite/case-checks.json` → `lite/case-checks.retired-v60.json`。
+- 共同事實 11 條：改成 `full-only:`（行還在 `lite/facts.txt`，只是不再查工作表）。
+- 完整版的 `data-lite="ch1"`…`data-lite-alt="ch4-why"` 這些標記**留在 `guide/index.html` 沒有拿掉**（它們不影響指紋，也不影響閱讀）。

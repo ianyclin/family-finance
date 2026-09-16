@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""新手實作版哨兵。build_lite.py 每次結束都會呼叫；也可以單獨跑（讀已經產生的 HTML／PDF）。
+"""可列印工作表（v6.0 時是新手實作版）哨兵。build_lite.py 每次結束都會呼叫；也可以單獨跑（讀已經產生的 HTML／PDF）。
 
 用法：
   python3 tools/lite_sentinels.py                                   # lite/manifest.json
@@ -14,22 +14,35 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import build_lite as B
 
 SKIPPABLE = {'version', 'unused_marks', 'facts', 'cases', 'pages'}
+WORKSHEET_PAGES = 4  # 可列印工作表固定四頁：計畫表、查表頁、年檢勾選表、兩張卡（spec-v61-worksheet.md）
+
+
+def worksheet_mode(m):
+    """工作表模式：manifest 裡沒有任何一章有章號（label），也沒有目錄（toc）。
+    這種 manifest 產的是《可列印工作表》，不是十二章的書；和「章」「目錄」「附 B」綁在一起的哨兵
+    在這種模式下沒有東西可查，改印 SKIP（不是通過），另外由 worksheet 那一支把關。"""
+    chs = m.get('chapters') or []
+    has_label = any(c.get('label') for c in chs)
+    has_toc = any(b.get('toc') for c in chs for b in c.get('blocks', []))
+    return not has_label and not has_toc
 
 
 class Report(object):
     def __init__(self, skip):
-        self.lines = []; self.fails = 0; self.skip = set(skip)
+        self.lines = []; self.fails = 0; self.skip_cats = set(skip)
 
     def ok(self, cat, msg): self.lines.append('OK   [%s] %s' % (cat, msg)); print(self.lines[-1])
 
     def fail(self, cat, msg):
-        if cat in self.skip:
+        if cat in self.skip_cats:
             self.lines.append('SKIP [%s] （manifest sentinel_skip）%s' % (cat, msg))
         else:
             self.fails += 1; self.lines.append('FAIL [%s] %s' % (cat, msg))
         print(self.lines[-1])
 
     def warn(self, cat, msg): self.lines.append('WARN [%s] %s' % (cat, msg)); print(self.lines[-1])
+
+    def skip(self, cat, msg): self.lines.append('SKIP [%s] %s' % (cat, msg)); print(self.lines[-1])
 
     def info(self, msg): self.lines.append('     ' + msg); print(self.lines[-1])
 
@@ -167,7 +180,8 @@ def run(m, pdf_info=None, build_report=None):
     P = m['_paths']
     skip = m.get('sentinel_skip') or []
     R = Report(skip if not m['_is_main'] else [])
-    print('== 哨兵：%s ==' % m['_path'])
+    ws = worksheet_mode(m)
+    print('== 哨兵：%s%s ==' % (m['_path'], '（工作表模式）' if ws else ''))
     if m['_is_main'] and skip:
         R.fail('manifest', 'lite/manifest.json 不准有 sentinel_skip（只給示範或實驗用的 manifest）：%s' % skip)
     for k in skip:
@@ -187,10 +201,12 @@ def run(m, pdf_info=None, build_report=None):
     alt_ids = set(os.path.basename(f)[:-5] for f in glob.glob(os.path.join(alt_dir, '*.html')))
     alt_ids |= set(a for _, a in manifest_alts(m))
     alt_ids |= set(re.findall(r'data-lite-alt-out="([^"]+)"', lite))
+    # 退場短稿（lite/alt/retired/）：檔案還在，只是這一版沒有用；原文的標記指到這裡不算錯（v6.1 工作表）
+    retired_ids = set(os.path.basename(f)[:-5] for f in glob.glob(os.path.join(alt_dir, 'retired', '*.html')))
     for n in sdom.nodes:
         for a in n.tokens('data-lite-alt'):
-            if a not in alt_ids:
-                R.fail('unused_marks', '原文標了 data-lite-alt="%s"，但 %s 沒有這份短稿' % (a, P['alt_dir']))
+            if a not in alt_ids and a not in retired_ids:
+                R.fail('unused_marks', '原文標了 data-lite-alt="%s"，但 %s（含 retired/）沒有這份短稿' % (a, P['alt_dir']))
     for aid in sorted(alt_ids):
         try:
             info = B.load_alt(m, aid)
@@ -233,14 +249,25 @@ def run(m, pdf_info=None, build_report=None):
         R.fail('facts', '找不到共同事實清單：%s' % fp)
     else:
         lines = [l.rstrip('\n') for l in open(B.rp(fp), encoding='utf-8')]
-        facts = [l.strip() for l in lines if l.strip() and not l.strip().startswith('#')]
+        facts = []  # (只查完整版?, 事實)
+        for l in lines:
+            s = l.strip()
+            if not s or s.startswith('#'):
+                continue
+            if s.startswith('full-only:'):
+                facts.append((True, s.split(':', 1)[1].strip()))   # 這條內容已經不在實作版／工作表裡，只查完整版
+            else:
+                facts.append((False, s))
         lt = B.compact(B.html_text(lite)); ft = B.compact(B.html_text(full)); miss = 0
-        for f in facts:
-            for label, t in (('實作版', lt), ('完整版', ft)):
+        for full_only, f in facts:
+            targets = (('完整版', ft),) if full_only else (('實作版', lt), ('完整版', ft))
+            for label, t in targets:
                 if B.compact(f) not in t:
                     R.fail('facts', '%s 找不到共同事實：%s' % (label, f)); miss += 1
         if not miss:
-            R.ok('facts', '%d 條共同事實兩份都找得到' % len(facts))
+            nb = len([1 for fo, _ in facts if not fo])
+            R.ok('facts', '%d 條共同事實兩份都找得到；另外 %d 條標了 full-only，只查完整版（工作表沒有這些內容）'
+                 % (nb, len(facts) - nb))
 
     # 4. 案例數字
     cp = P.get('case_checks')
@@ -333,6 +360,7 @@ def run(m, pdf_info=None, build_report=None):
 
     # 7. 頁數與目錄頁碼
     edir = B.rp(P['export_dir'])
+    lite_pdf_pages = None
     lite_pdf = pdf_info['lite_pdf'] if pdf_info else os.path.join(edir, P['lite_export_name'].format(version=m['version']) + '.pdf')
     full_pdf = pdf_info['full_pdf'] if pdf_info else os.path.join(edir, P['full_export_name'].format(version=m['version']) + '.pdf')
     if not os.path.exists(lite_pdf):
@@ -341,6 +369,7 @@ def run(m, pdf_info=None, build_report=None):
         if pdf_info is None and os.path.getmtime(lite_pdf) < os.path.getmtime(B.rp(P['lite_html'])):
             R.warn('pages', '實作版 PDF 比 HTML 舊，頁數可能不是最新的')
         pi = pdf_chapter_pages(lite_pdf, m)
+        lite_pdf_pages = pi['page_count']
         limit = int(m.get('page_limit', 25))
         print('     實作版每章頁數（PDF 共 %d 頁）：' % pi['page_count'])
         print('     %-10s %-6s %-9s %-5s %-6s %-11s %s' % ('id', '起頁', '範圍', '頁數', '目標', '字數/上限', '章名'))
@@ -376,10 +405,12 @@ def run(m, pdf_info=None, build_report=None):
         else:
             R.ok('pages', '實作版 PDF %d 頁（上限 %d）' % (pi['page_count'], limit))
         targets = dict((c['id'], B.chapter_heading(c)) for c in m['chapters'] if c.get('kind') != 'cover')
-        entries = toc_printed_numbers(lite_pdf, targets)
+        entries = toc_printed_numbers(lite_pdf, targets) if not ws else []
         bad = [(nd, dest, pr, pi['outline_starts'].get(nd)) for nd, dest, pr in entries if not (dest == pr == pi['outline_starts'].get(nd))]
         seen = set(nd for nd, _, _ in entries)
-        if bad or (set(targets) - seen and any(b.get('toc') for c in m['chapters'] for b in c.get('blocks', []))):
+        if ws:
+            R.skip('toc', '工作表模式：工作表沒有目錄（四頁各是一張表，翻頁就看得到），這一支只檢查完整版目錄')
+        elif bad or (set(targets) - seen and any(b.get('toc') for c in m['chapters'] for b in c.get('blocks', []))):
             for nd, dest, pr, ol in bad:
                 R.fail('toc', '實作版目錄 %s：印的是 %s，連結目標第 %s 頁，書籤第 %s 頁' % (nd, pr, dest, ol))
             for nd in sorted(set(targets) - seen):
@@ -455,7 +486,12 @@ def run(m, pdf_info=None, build_report=None):
     used_vals = set(s for _, s in manifest_srcs(m) if B.is_mark_value(s))
     marks = set(t for n in sdom.nodes for t in n.tokens('data-lite') if t != 'skip')
     unused = sorted(marks - used_vals)
-    if unused:
+    if ws:
+        # 工作表只抽四塊，完整版那些 data-lite="chN" 是給十二章版留著的；留著不等於錯，所以不判通過也不判失敗
+        R.skip('unused_marks', '工作表模式：完整版還留著 %d 種 data-lite 值（%s），工作表沒有章、不以值抽用；'
+                               '標記留著是為了將來回復實作版（短稿在 %s/retired，%d 份）'
+               % (len(marks), '、'.join(sorted(marks)), P['alt_dir'], len(retired_ids)))
+    elif unused:
         R.fail('unused_marks', '完整版標了 data-lite 但 manifest 沒用這些值：%s' % '、'.join(unused))
     else:
         R.ok('unused_marks', '完整版的 data-lite 值（%d 種）manifest 都有用到' % len(marks))
@@ -465,8 +501,12 @@ def run(m, pdf_info=None, build_report=None):
     appb_glue = [c for c in m['chapters'] for b in c.get('blocks', []) if 'glue' in b and '〈' in B.html_text(b['glue'])]
     want = [(lab, [names.get(s, s) for s in sids]) for _, lab, sids in B.verify_rows(m)]
     if appb_glue:
-        R.fail('appendix_b', 'manifest 的接合文字裡有手寫的節名（〈…〉），附 B 要用 {"verify_table": true} 產生：%s' % '、'.join(c['id'] for c in appb_glue))
-    if len(tables) != 1:
+        R.fail('appendix_b', 'manifest 的接合文字裡有手寫的節名（〈…〉），節名要由 verify／verify_table 產生：%s' % '、'.join(c['id'] for c in appb_glue))
+    if ws and not any(b.get('verify_table') for c in m['chapters'] for b in c.get('blocks', [])):
+        R.skip('appendix_b', '工作表模式：沒有章、沒有附 B 想查證總表（工作表 %d 張想查證框、%d 張總表），'
+                             '只保留「接合文字不得手寫節名」那一條' % (len(
+            [1 for c in m['chapters'] for b in c.get('blocks', []) if b.get('verify')]), len(tables)))
+    elif len(tables) != 1:
         R.fail('appendix_b', '實作版要剛好一張由 verify_table 產生的想查證總表，現在 %d 張' % len(tables))
     else:
         t = tables[0]
@@ -520,9 +560,12 @@ def run(m, pdf_info=None, build_report=None):
                 for x in mm.group(1).split('、'):
                     k = cn_num(x.strip())
                     refs.append('%s→%d' % (c['id'], k))
-                    if k not in ch_text:
+                    if k not in ch_text and not ws:
                         R.fail('chapter_refs', '%s 提到第 %d 章，實作版沒有這一章：%s' % (c['id'], k, txt[:50])); ref_bad += 1
-    if not ref_bad:
+    if ws:
+        # 工作表沒有章，所以「指到的章存在嗎」沒有東西可查；「不准出現章號」由 worksheet 那一支管（比這裡嚴）
+        R.skip('chapter_refs', '工作表模式：沒有章可以指（掃到 %d 處章號，工作表一處都不該有，由 worksheet 哨兵判）' % len(refs))
+    elif not ref_bad:
         R.ok('chapter_refs', '內文提到章號 %d 處，章都存在（內容對不對要人看：%s）' % (len(refs), '、'.join(refs)))
 
     # 13. 黃框原文：完整版的黃框純文字＝正式檔（story_reference）逐字相同；實作版的黃框＝完整版黃框經過連結改寫後的樣子
@@ -562,10 +605,49 @@ def run(m, pdf_info=None, build_report=None):
             R.fail('fiction', '人物標題「%s」前面沒有緊接著虛構聲明' % ldom.text(h)[:20]); fbad += 1
         elif ldom.text(prev[-1]) != B.FICTION_NOTICE:
             R.fail('fiction', '人物標題「%s」前的虛構聲明文字不對' % ldom.text(h)[:20]); fbad += 1
-    if len(heads) < len(PEOPLE):
+    if ws and not heads:
+        # 工作表沒有人物頁（四個人退場到完整版），所以沒有要聲明的東西；有人物標題時照樣要有聲明（上面那段仍在跑）
+        R.skip('fiction', '工作表模式：工作表裡沒有人物頁（%s），沒有虛構聲明要檢查；'
+                          '四個人仍在完整版第十二節與案例節裡' % '、'.join(PEOPLE))
+    elif len(heads) < len(PEOPLE):
         R.fail('fiction', '實作版只找到 %d 位人物的標題（應有 %d 位）' % (len(heads), len(PEOPLE))); fbad += 1
-    if not fbad:
+    if not fbad and heads:
         R.ok('fiction', '%d 個人物標題前面都緊接著虛構聲明' % len(heads))
+
+    # 14b. 工作表（spec-v61-worksheet.md）：四塊各一頁、四塊都印得出來、每一塊都有完整版來源、沒有章與附錄
+    if not ws:
+        R.skip('worksheet', '不是工作表模式（manifest 還有章號或目錄），這一支不適用')
+    else:
+        wbad = 0
+        chs = m['chapters']
+        if len(chs) != WORKSHEET_PAGES:
+            R.fail('worksheet', '工作表要剛好 %d 塊（各一頁），manifest 有 %d 塊：%s'
+                   % (WORKSHEET_PAGES, len(chs), '、'.join(c['id'] for c in chs))); wbad += 1
+        srcs = []
+        for c in chs:
+            if not (c.get('one_page') or c.get('kind') == 'cover'):
+                R.fail('worksheet', '%s 沒有 one_page：工作表每一塊都要剛好一頁' % c['id']); wbad += 1
+            if ldom.by_id.get(c['id']) is None:
+                R.fail('worksheet', '工作表輸出裡找不到 %s 這一塊' % c['id']); wbad += 1
+            got = [('src', b['src']) if 'src' in b else ('alt', b['alt'])
+                   for b in c.get('blocks', []) if 'src' in b or 'alt' in b]
+            if not got:
+                R.fail('worksheet', '%s 只有接合文字，沒有任何 src／alt 來源（工作表不得自己寫內容）' % c['id']); wbad += 1
+            srcs.append('%s＝%s' % (c['id'], '＋'.join('%s:%s' % g for g in got)))
+        if lite_pdf_pages is None:
+            R.fail('worksheet', '沒有工作表 PDF，量不到頁數'); wbad += 1
+        elif lite_pdf_pages != WORKSHEET_PAGES:
+            R.fail('worksheet', '工作表 PDF %d 頁，要剛好 %d 頁' % (lite_pdf_pages, WORKSHEET_PAGES)); wbad += 1
+        ltext = B.html_text(lite)
+        chap = re.findall(r'第\s*(?:[一二三四五六七八九十]+|\d+)\s*章', ltext)
+        appx = re.findall(r'附錄\s*[0-9A-Za-z一二三四五六七八九十]|附\s*[A-Z](?![a-z])', ltext)
+        if chap:
+            R.fail('worksheet', '工作表出現章號（十二章已退場）：%s' % '、'.join(sorted(set(chap)))); wbad += 1
+        if appx:
+            R.fail('worksheet', '工作表出現附錄（附 A／附 B 已退場）：%s' % '、'.join(sorted(set(appx)))); wbad += 1
+        if not wbad:
+            R.ok('worksheet', '工作表 %d 塊各一頁、PDF %d 頁、沒有章號與附錄；每一塊的來源：%s'
+                 % (len(chs), lite_pdf_pages, '　'.join(srcs)))
 
     # 15. 完整版 s13 篩選：只在網頁顯示、靜態 HTML 不預先隱藏
     scripts = ''.join(fdom.s[n.open_end:n.inner_end] for n in fdom.nodes if n.tag == 'script')
@@ -602,7 +684,7 @@ def run(m, pdf_info=None, build_report=None):
         if not dst:
             R.fail('fragments', '%s：manifest paths 沒有 %s' % (label, dstk)); fragbad += 1; continue
         try:
-            want = B.fragment_of(B.read(P[srck]), 'full' if srck == 'full_html' else 'lite', P[srck])
+            want = B.fragment_of(B.read(P[srck]), 'full' if srck == 'full_html' else 'lite', P[srck], B.lite_cover_title(m))
         except B.BuildError as e:
             R.fail('fragments', '%s 產不出發布用片段：%s' % (label, e)); fragbad += 1; continue
         if not os.path.exists(B.rp(dst)):
