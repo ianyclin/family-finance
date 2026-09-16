@@ -107,6 +107,17 @@ ex = fv(0, 3.6, 240, 1000) / 10000
 R['multiplier_tables']['usage_example'] = {'text': '每月 5,000 元、20 年、3.6%', 'table_value': wan1(fv(0, 3.6, 240, 1000)),
                                             'times5_wan': r1(wan1(fv(0, 3.6, 240, 1000)) * 5), 'exact_wan': wan1(fv(0, 3.6, 240, 5000)),
                                             'times5_printed_int_step0': r0(r1(wan1(fv(0, 3.6, 240, 1000)) * 5))}
+# r5：查表頁「扣費用」用法算例（整體報酬率＝表一的數字 − 總費用率，一步做完）：
+# 每月 5,000 元、20 年、股票八成 → 表一 3.6%；總費用率 0.2% → 3.4%，表二 34.3 × 5
+R['multiplier_tables']['usage_example_after_fee'] = {
+    'text': '每月 5,000 元、20 年、股票八成（表一 3.6%）、總費用率 0.2%',
+    'lookup_rate': 3.6, 'total_fee_pct': 0.2, 'rate_after_fee': r1(3.6 - 0.2),
+    'rate_after_fee_in_table': r1(3.6 - 0.2) in low_rates,
+    'table_value': wan1(fv(0, r1(3.6 - 0.2), 240, 1000)),
+    'times5_wan': r1(wan1(fv(0, r1(3.6 - 0.2), 240, 1000)) * 5),
+    'printed_int_wan': r0(r1(wan1(fv(0, r1(3.6 - 0.2), 240, 1000)) * 5)),
+    'no_fee_printed_int_wan': r0(r1(wan1(fv(0, 3.6, 240, 1000)) * 5)),
+    'exact_wan': wan1(fv(0, r1(3.6 - 0.2), 240, 5000))}
 # fix-r2：查表頁「已經有一筆錢」用法算例：已有 30 萬＋每月 5,000 元、20 年、3.6% → 20.5 × 3 ＋ 35.1 × 5
 R['multiplier_tables']['usage_example_lump'] = {
     'text': '已經有 30 萬、每月 5,000 元、20 年、3.6%',

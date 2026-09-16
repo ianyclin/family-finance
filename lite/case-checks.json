@@ -1,5 +1,12 @@
 [
  {
+  "id": "查表頁 扣費用算例",
+  "path": "multiplier_tables.usage_example_after_fee.printed_int_wan",
+  "pattern": "34\\.3×5=約(\\d+)萬",
+  "scope": "lite",
+  "min_count": 2
+ },
+ {
   "id": "小安 低情境原計畫",
   "path": "xiaoan.base_plan.low.fv_wan",
   "pattern": "低3\\.6%\\(做決定用\\)(\\d+)萬",
