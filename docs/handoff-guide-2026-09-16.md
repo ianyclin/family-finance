@@ -159,6 +159,13 @@ python3 tools/test_guidetools.py tools guide/index.html
 - 專篇 `essay/sections/*.html` 與小朋友版沒跟這幾輪改（共用 `essay_charts.py` 的圖，文字不同步）。專篇裡仍嵌著第三方原圖 base64。
 - 早先未決：藍字密度（第 8 節 9 處、費用節 8 處）等作者看過；「自己的報酬」減重方案（作者選擇先不做）。
 
+## 這一輪結束時的狀態
+
+- 最後一個 commit：`bee843d`（2026-09-16）。之前四個：`d745da2` 工作表、`1958c67` 交班文件、`bb1191e` 第四批複審修正、`f166f7b` 第四批。
+- `python3 tools/build_lite.py` 全綠（FAIL 0；WARN 1＝完整版 5 頁近乎空白；SKIP 5＝工作表模式，各有理由）。
+- 兩份 artifact 都已用 v6.1 重新發布。
+- 沒有未提交的改動；本 repo 無遠端，沒有 push 這件事。
+
 ## 給下一個 session 的第一句話
 
 > 接手《隔離人性》理財指南，先讀 `docs/handoff-guide-2026-09-16.md`，再讀 `docs/core-edition/specs/v61-decisions.md` 裡還沒做的 D、L、G、S 四組，然後問我要先做哪一組。
