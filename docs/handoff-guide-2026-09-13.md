@@ -10,7 +10,7 @@
 - 發布（新手實作版）：網址待補（第一次發布時由主線填在這裡，之後同一網址更新）。
 - 發布用的副本：`output/guide.html`（由完整版發布版 `output/full-v60-out.html` 去掉 doctype/html/head/body 產生）、`output/lite.html`（由 `lite/index.html` 同法產生）。每次改完要重做，做法見下面「改完後的固定流程」。
 - 匯出（export 只留最新版）：
-  - `export/隔離人性-理財新手完整指南-v6.0.html / .pdf`（A4 141 頁、書籤 151 條、目錄含頁碼）
+  - `export/隔離人性-理財新手完整指南-v6.0.html / .pdf`（A4 143 頁、書籤 151 條、目錄含頁碼）
   - `export/隔離人性-新手實作版-v6.0.html / .pdf`（A4 24 頁、書籤 43 條、上限 25 頁）
 - 兩份都已經是 v6.0、`python3 tools/build_lite.py` 全綠（exit 0，`SENTINELS OK`）；**還沒發布**（完整版 artifact 仍是 v5.6，實作版還沒有網址）。2026-09-16 的最後一輪（暫估費用率分路徑、總費用率口徑統一、小安卡但書、滿足點費用例子、實作版愛爾蘭那句）已套入兩份。
 - 最近備份：`guide/index.v60-r7.backup.html`（2026-09-16 最後一輪之前）、`guide/index.v5.6.backup.html`（v6.0 之前）、`v5.5`、`v5.4`、`v5.3`、`v5.2`、`v5.1`、`v5.0`、`v4.15.1`、`v4.15`、`v4.14`、`v4.13`、`v4.12.3`、`v4.12.2`、`v4.12.1`、`v4.12`、`v4.11`、`v4.10.1`、`v4.10`、`v4.9.3`、`v4.9.2`、`v4.9.1`、`v4.9`、`v4.8`、`v4.7`、`v4.6`……每次改前先 `cp` 一份。
@@ -57,27 +57,9 @@ python3 tools/build_lite.py                          # 3. 產生兩份 HTML + �
 
 `build_lite.py` 會產生：`lite/index.html`（實作版）、`output/full-v60-out.html`（完整版發布版，比正式檔多了 lede 下那行「新手實作版第 N 章是這一節的做法版」）、`export/` 兩份 HTML＋兩份 A4 PDF（書籤、頁碼、目錄頁碼、metadata 都在裡面，不必再手動印），最後跑 `tools/lite_sentinels.py` 全套哨兵。哨兵紅了不要繞過，照 `lite-format.md` 第 9 節那一欄處理。
 
-```bash
-# 4. 產生兩份發布用片段（去掉 doctype/html/head/body）
-python3 - <<'EOF'
-import re
-def frag(src, dst, check):
-    h=open(src,encoding='utf-8').read()
-    for t in ['div','p','li','ul','ol','a','strong','h3','h4','section','figure','details','table','span','dt','dd','dl','mark']:
-        o=len(re.findall(r'<%s\b[^>]*>'%t,h)); c=len(re.findall(r'</%s>'%t,h)); assert o==c,(src,t,o,c)
-    ids=set(re.findall(r'id="([^"]+)"',h)); bad=[x for x in re.findall(r'href="#([^"]+)"',h) if x not in ids]; assert not bad,(src,bad)
-    d=0
-    for t in re.finditer(r'<a\b[^>]*>|</a>',h): d+= -1 if t.group(0)=='</a>' else 1; assert 0<=d<=1
-    s=re.sub(r'<!doctype html>\s*','',h,flags=re.I); s=re.sub(r"</?(html|head|body)\b[^>]*>\s*","",s)
-    check(s); open(dst,'w',encoding='utf-8').write(s); print('wrote', dst)
-def full(s): assert s.count('<header class="cover"')==1
-def lite(s):
-    m=re.findall(r'<header[^>]*class="[^"]*\blite-cover\b[^"]*"',s); assert len(m)==1,m
-    assert '隔離人性：新手實作版' in re.sub(r'<[^>]+>','',s[s.find(m[0]):s.find(m[0])+800])
-frag('output/full-v60-out.html','output/guide.html',full)
-frag('lite/index.html','output/lite.html',lite)
-EOF
-```
+`build_lite.py` 也會自動產生兩份發布用片段 `output/guide.html`、`output/lite.html`（去掉 doctype/html/head/body），並由 `fragments` 哨兵檢查它們和來源一致；不要再手動產生。
+
+
 
 然後：Artifact 工具發布 `output/guide.html`（完整版，帶上面那個 `url`）與 `output/lite.html`（新手實作版，第一次發布後把網址補回「現況」）。最後：
 
@@ -192,7 +174,7 @@ PDF 由 `build_lite.py` 用 Chrome headless＋PyMuPDF 印（metadata author「�
 - 三個階段都做完，`python3 tools/build_lite.py` 全綠（exit 0，`SENTINELS OK`）。
 - **第一階段完成品 `lite/work/full-v60-candidate.html` 已成為正式檔**：內容原封不動複製成 `guide/index.html`（舊版備份成 `guide/index.v5.6.backup.html`），候選檔只留作定稿當時的存檔，`build_lite.py` 不再讀它。
 - 來源與輸出：`lite/manifest.json` 的 `paths` 寫明 `source: guide/index.html`、`full_html: output/full-v60-out.html`（`tools/build_lite.py` 的 `DEFAULT_PATHS` 也改成同一組，兩邊一致）。
-- 頁數：完整版 A4 141 頁；實作版 A4 24 頁（上限 25）（2026-09-16 r8 後）。
+- 頁數：完整版 A4 143 頁；實作版 A4 24 頁（上限 25）（2026-09-16 定稿後）。
 
 ### 實作版每章頁數（哨兵 `pages` 印的，括號是字數／上限）
 
