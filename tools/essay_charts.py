@@ -701,7 +701,7 @@ def control_map():
         return "\n".join(out)
     return dict(title="三層：控制得了、部分控制、控制不了", sub="示意圖，不是資料；每一項在哪一節，看圖下那三條清單",
                 svgs=[draw(L("d")), draw(L("m"))], extras="",
-                caption="左邊那一欄是你今天就做得了決定的事，右邊那一欄不管想多久都不會改變。中間那一欄部分由你決定、部分由環境決定。")
+                caption="第一層是你今天就做得了決定的事；最後一層不管想多久，都不會因為你想而改變。中間那一層，一半由你決定、一半由環境決定。")
 
 
 # ======================================================================
@@ -722,7 +722,7 @@ def taiex_recovery():
         for i, e in enumerate(eps):
             y = 6 + i * rh
             yr = e["peak_date"][:4]
-            drop = "%d%%" % round(abs(e["drawdown_pct"]))
+            drop = "%d%%" % int(abs(e["drawdown_pct"]) + 0.5)   # 四捨五入取整（不用 round，避免 banker's rounding）
             lab = ("%s 跌 %s" % (yr, drop)) if lay.mobile else ("%s 年的高點，跌 %s" % (yr, drop))
             out.append(text(4, y + bh, lab, lay.f, "start", INK))
             w = (x1 - x0) * e["years_peak_to_recover"] / top
@@ -739,7 +739,7 @@ def taiex_recovery():
     return dict(title="跌下去要多久才回得來：台股 2003 年以來的七次",
                 sub="含息報酬指數，2003-01-02 到 2025-12-31，跌兩成以上的每一段",
                 svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
-                caption="七次跌兩成以上，各花多久才回到跌之前的那個高點。這是台股這 23 年的紀錄，起點剛好在 2000 到 2002 年那波大跌之後；不是「後來都會回復」。")
+                caption="七次跌兩成以上，各花多久才回到跌之前的那個高點。這七次都回來了，是台股這 23 年的紀錄；第 4 節那張表裡，也有等 25 到 34 年的例子。")
 
 
 # ======================================================================
@@ -758,8 +758,8 @@ def asset_rotation():
     rows = d["rows"]
 
     def draw(lay):
-        rh = 22 if lay.mobile else 24
-        th = 18 if lay.mobile else 20
+        rh = 21 if lay.mobile else 22
+        th = 17 if lay.mobile else 18
         lw = 34 if lay.mobile else 44
         gap = 3 if lay.mobile else 4
         x0 = lw + 4
@@ -789,7 +789,7 @@ def asset_rotation():
     return dict(title="每一年的第一名是誰：%d 到 %d 年" % (d["from"], d["to"]),
                 sub="美股、台股、美國 10 年期公債、現金，四類各自市場的當年報酬排名",
                 svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
-                caption="十五年裡，四類都當過第一名。第一名一直在換，而換的順序事先看不出來。")
+                caption="由上往下看第一欄：四種都當過第一名，也會連著好幾年是同一個（美股 2012 到 2015、台股 2023 到 2025）。連這四種最基本的東西都排不出固定順序；哪一年會換人，前一年看不出來。")
 
 
 CHARTS = [
