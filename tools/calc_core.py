@@ -442,6 +442,11 @@ R['sweet_satisfy'] = {
                                       'years_save_half': {str(r): r1(years_to_point(r - 2, 0.5)) for r in (4, 6, 7)}},
     'after_inflation_exact_real': {'method': '精算實質報酬 (1+r)/(1+2%)−1（只供查證，書上不寫）',
                                    'years_save_half': {str(r): r1(math.log(2) / math.log((1 + r / 100) / 1.02)) for r in (4, 6, 7)}},
+    # 再減掉費用：物價 2 個百分點之外，再減暫估總費用率 0.5 個百分點（自己買指數 ETF 的暫估上限）
+    'after_inflation_and_fee_0_5pct': {'method': '報酬率減 2 個百分點（物價）再減 0.5 個百分點（暫估總費用率）',
+                                       'fee_pct': 0.5,
+                                       'years_save_half': {str(r): r1(years_to_point(r - 2 - 0.5, 0.5)) for r in (4, 6, 7)},
+                                       'note': '完整版第 2 節滿足點小字：低 4% 只減物價約 35 年；再減 0.5% 費用約 47 年'},
 }
 
 # ---------- 滾動視窗：抱多久、賺錢的機率（含息） ----------

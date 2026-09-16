@@ -20,6 +20,7 @@
 | `output/full-v60-out.html` | **程式產生，不要手改** | 完整版發布版（多了 lede 下那一行） |
 | `export/隔離人性-新手實作版-v6.0.pdf/.html`、`export/隔離人性-理財新手完整指南-v6.0.pdf/.html` | **程式產生** | 匯出 |
 | `lite/work/print/print-lite.html`、`print-full.html` | 程式產生 | 列印用暫存（details 全開、目錄已填頁碼），除錯用 |
+| `lite/work/lite-v60.txt`、`lite/work/full-v60.txt` | **程式產生** | 審查用純文字：每次 `build_lite.py` 成功後自動重產（實作版逐頁抽自剛印好的 PDF，完整版用 `guidetools.to_text` 抽自 `output/full-v60-out.html`），檔頭記抽取時間與來源；`--no-pdf` 時實作版那一份不重產，會印警告 |
 
 ```bash
 cd "/Users/linyenchu/Cladue Code/family-finance"

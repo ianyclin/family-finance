@@ -10,7 +10,7 @@
 
 exit code：0＝全部通過；1＝建置錯誤或任何哨兵失敗。
 """
-import sys, os, re, json, hashlib, unicodedata, subprocess, shutil, argparse
+import sys, os, re, json, hashlib, unicodedata, subprocess, shutil, argparse, time
 import html as htmlmod
 from html.parser import HTMLParser
 
@@ -32,6 +32,8 @@ DEFAULT_PATHS = {
     'lite_html': 'lite/index.html',
     'full_html': 'output/full-v60-out.html',
     'print_dir': 'lite/work/print',
+    'lite_text': 'lite/work/lite-v60.txt',
+    'full_text': 'lite/work/full-v60.txt',
     'export_dir': 'export',
     'lite_export_name': '隔離人性-新手實作版-{version}',
     'full_export_name': '隔離人性-理財新手完整指南-{version}',
@@ -946,6 +948,30 @@ def make_pdfs(m, lite, full):
             'lite_print_html': os.path.join(pdir, 'print-lite.html'), 'full_print_html': os.path.join(pdir, 'print-full.html')}
 
 
+def dump_texts(m, pdf):
+    """審查用的純文字檔（lite/work/*.txt）：每次 build 都重產，避免審查代理讀到過期的檔。
+    完整版從 output/full-v60-out.html 抽（guidetools.to_text）；實作版從剛印好的 PDF 逐頁抽。
+    檔頭記抽取時間與來源。--no-pdf 時實作版那一份不動（會印警告）。"""
+    P = m['_paths']
+    ts = time.strftime('%Y-%m-%d %H:%M')
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import guidetools
+    done = []
+    head = '（抽取時間 %s；來源 %s，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）\n\n' % (ts, P['full_html'])
+    write(P['full_text'], head + guidetools.to_text(rp(P['full_html'])) + '\n')
+    done.append(P['full_text'])
+    if pdf:
+        import fitz
+        rel = os.path.relpath(pdf['lite_pdf'], ROOT)
+        d = fitz.open(pdf['lite_pdf'])
+        n = d.page_count
+        parts = ['===== 第 %d 頁 / 共 %d 頁 =====\n%s' % (i, n, p.get_text()) for i, p in enumerate(d, 1)]
+        d.close()
+        write(P['lite_text'], '（抽取時間 %s；來源 %s，共 %d 頁）\n' % (ts, rel, n) + '\n'.join(parts))
+        done.append(P['lite_text'])
+    return done
+
+
 # ---------------------------------------------------------------- main
 
 def main(argv):
@@ -985,6 +1011,13 @@ def main(argv):
         print('wrote', os.path.relpath(pdf['full_pdf'], ROOT), '(%d 頁，印 %d 次)' % (pdf['full_pages'], pdf['full_passes']))
         if pdf['full_flows']:
             print('  完整版節尾近乎空白、下一節接著排：%s' % '、'.join(pdf['full_flows']))
+    try:
+        for p in dump_texts(m, pdf):
+            print('wrote', p)
+    except Exception as e:
+        print('TEXT DUMP FAILED'); print(e); return 1
+    if not pdf:
+        print('  --no-pdf：%s 沒有重產，可能是舊的' % P['lite_text'])
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import lite_sentinels
     return lite_sentinels.run(m, pdf_info=pdf, build_report=report)
