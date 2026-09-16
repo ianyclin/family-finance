@@ -533,6 +533,101 @@ R['rolling'] = {
     },
 }
 
+# ---------- 台股跌 20% 以上的每一段，以及回到前高花多久（含息、逐日） ----------
+# 走法：逐日更新「到今天為止的最高點」；從那個高點跌掉門檻以上就開一段，之後只要再創新高，
+# 這一段就結束（那天就是回到前高的日子）。年數用 365.25 天一年。
+def taiex_drawdowns(threshold=0.20):
+    dates, vals = taiex_series()
+    eps, peak, cur = [], 0, None
+    for i in range(1, len(vals)):
+        if vals[i] >= vals[peak]:
+            if cur:
+                cur['rec'] = i; eps.append(cur); cur = None
+            peak = i
+        elif cur is None:
+            if vals[i] / vals[peak] - 1 <= -threshold:
+                cur = {'peak': peak, 'trough': i}
+        elif vals[i] < vals[cur['trough']]:
+            cur['trough'] = i
+    if cur:
+        cur['rec'] = None; eps.append(cur)
+    out = []
+    for e in eps:
+        p, t, rc = e['peak'], e['trough'], e['rec']
+        row = {'peak_date': dates[p].isoformat(), 'peak_value': round(vals[p], 2),
+               'trough_date': dates[t].isoformat(), 'trough_value': round(vals[t], 2),
+               'drawdown_pct': r1((vals[t] / vals[p] - 1) * 100),
+               'recovered': rc is not None,
+               'recover_date': dates[rc].isoformat() if rc else None,
+               'years_peak_to_recover': round((dates[rc] - dates[p]).days / 365.25, 2) if rc else None,
+               'years_peak_to_trough': round((dates[t] - dates[p]).days / 365.25, 2),
+               'years_trough_to_recover': round((dates[rc] - dates[t]).days / 365.25, 2) if rc else None}
+        out.append(row)
+    return out
+
+_dd = taiex_drawdowns()
+_dd_years = [e['years_peak_to_recover'] for e in _dd if e['recovered']]
+R['taiex_drawdowns'] = {
+    'source': '證交所發行量加權股價報酬指數（含息）', 'file': os.path.relpath(TAIEX_CSV, ROOT),
+    'from': _td[0].isoformat(), 'to': _td[-1].isoformat(), 'threshold_pct': 20,
+    'rule': '從「到當天為止的最高收盤」跌 20% 以上算一段；再創新高的那一天算回到前高。年數＝高點到回到前高，÷365.25。',
+    'n': len(_dd), 'all_recovered': all(e['recovered'] for e in _dd),
+    'years_min': min(_dd_years), 'years_max': max(_dd_years),
+    'episodes': _dd,
+    'caveats': ['只有 2003 年以後的含息資料，起點剛好在 2000–2002 年那波大跌之後',
+                '七段全部回到前高，是這 23 年的結果，不是規律；第 4 節那張價格指數的表有 25 到 34 年才回本的例子',
+                '含息、名目，沒有扣物價、費用和稅；只用收盤值'],
+}
+
+# ---------- 四類資產逐年輪換（美股、10 年期公債、3 個月國庫券、台股） ----------
+# 美國三類取 Damodaran（紐約大學）公開資料集；台股用本文自己的含息報酬指數。
+# 台股是台幣、美國三類是美元，沒有換成同一種貨幣，所以名次只比「各自市場那一年漲跌多少」。
+DAMODARAN_XLS = os.path.join(ROOT, 'research', 'data', 'damodaran_histret.xls')
+ROT_FROM, ROT_TO = 2011, 2025          # 兩邊都有完整年度資料的最近 15 年（台股含息從 2004 年才有完整年度）
+ROT_LABEL = {'us_stock': '美股', 'us_bond10': '公債', 'us_bill3m': '現金', 'tw_stock': '台股'}
+
+def damodaran_annual():
+    import xlrd
+    sh = xlrd.open_workbook(DAMODARAN_XLS).sheet_by_name('Returns by year')
+    hdr = next(r for r in range(sh.nrows) if str(sh.cell_value(r, 0)).strip() == 'Year')
+    names = [str(sh.cell_value(hdr, c)).strip() for c in range(sh.ncols)]
+    col = lambda key: next(c for c, n in enumerate(names) if n.startswith(key))
+    c_st, c_bd, c_bl = col('S&P 500 (includes dividends)'), col('US T. Bond'), col('3-month T.Bill')
+    out = {}
+    for r in range(hdr + 1, sh.nrows):
+        y = sh.cell_value(r, 0)
+        if isinstance(y, float) and 1900 < y < 2100:
+            out[int(y)] = {'us_stock': sh.cell_value(r, c_st), 'us_bond10': sh.cell_value(r, c_bd),
+                           'us_bill3m': sh.cell_value(r, c_bl)}
+    return out
+
+def taiex_calendar_returns():
+    dates, vals = taiex_series()
+    last = {}
+    for d_, v_ in zip(dates, vals):
+        last[d_.year] = v_
+    return {y: last[y] / last[y - 1] - 1 for y in sorted(last) if y - 1 in last}
+
+_us_yr, _tw_yr = damodaran_annual(), taiex_calendar_returns()
+_rot, _wins = [], {}
+for _y in range(ROT_FROM, ROT_TO + 1):
+    _items = sorted(list(_us_yr[_y].items()) + [('tw_stock', _tw_yr[_y])], key=lambda t: -t[1])
+    _wins[ROT_LABEL[_items[0][0]]] = _wins.get(ROT_LABEL[_items[0][0]], 0) + 1
+    _rot.append({'year': _y, 'ranking': [{'key': k, 'label': ROT_LABEL[k], 'return_pct': r1(v * 100)} for k, v in _items]})
+R['asset_rotation'] = {
+    'from': ROT_FROM, 'to': ROT_TO, 'years': ROT_TO - ROT_FROM + 1,
+    'assets': {'us_stock': 'S&P 500 含息（美元）', 'us_bond10': '美國 10 年期公債（美元）',
+               'us_bill3m': '美國 3 個月國庫券（美元，本文當「現金」）', 'tw_stock': '證交所發行量加權股價報酬指數（含息，台幣）'},
+    'sources': {'us': 'Damodaran（紐約大學 Stern）Historical Returns on Stocks, Bonds and Bills，檔案 %s'
+                      % os.path.relpath(DAMODARAN_XLS, ROOT),
+                'us_url': 'https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html',
+                'tw': os.path.relpath(TAIEX_CSV, ROOT)},
+    'note': '名目、含息、不扣物價費用稅；台股以台幣計、美國三類以美元計，沒有換成同一種貨幣，'
+            '所以這張表只比「各自市場那一年漲多少」，不是台灣人換回台幣實際拿到的報酬。',
+    'winner_counts': _wins,
+    'rows': _rot,
+}
+
 # grep 正式檔：引用數字所在行（guidetools text 行號）
 quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%', '一家是台積電（1.80%）', '2,458 家公司', '2026 年 8 月底的權重',
           '三十年後差約 86 萬', '2008 年跌了 53.59%', '1.7% 是 2026 年 9 月五大銀行一年期定存牌告利率',
@@ -578,5 +673,11 @@ p('台股 252 日交叉檢查:', {k: (v['positive']['pct'], v['range']['min_pct'
                           for k, v in R['rolling']['taiex']['cross_check_252_trading_days'].items()})
 p('美股為正比例:', R['rolling']['us']['from'], '→', R['rolling']['us']['to'],
   {k: v['pct'] for k, v in R['rolling']['us']['positive_share'].items()})
+p('台股 ≥20% 回檔:', R['taiex_drawdowns']['n'], '段；回本年數', R['taiex_drawdowns']['years_min'], '到', R['taiex_drawdowns']['years_max'])
+for _e in R['taiex_drawdowns']['episodes']:
+    p('   %s %.2f → %s %.2f（%s%%）→ %s，%s 年' % (_e['peak_date'], _e['peak_value'], _e['trough_date'],
+                                                  _e['trough_value'], _e['drawdown_pct'], _e['recover_date'],
+                                                  _e['years_peak_to_recover']))
+p('四類資產輪換 %d–%d 第一名次數:' % (ROT_FROM, ROT_TO), R['asset_rotation']['winner_counts'])
 p('引用缺漏:', R['guide_citations']['missing'])
 p('wrote', OUT)

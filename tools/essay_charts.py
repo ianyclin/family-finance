@@ -17,10 +17,13 @@ SPIVA 圓餅 spiva；年內跌幅 intra-year；區間浮動長條 ranges；Schwa
 
 用法：
   python3 tools/essay_charts.py            # 重畫專篇 essay/sections/*.html 的 11 張
-  python3 tools/essay_charts.py --guide    # 只換指南 guide/index.html 的 6 張（保留指南自己的圖說）
+  python3 tools/essay_charts.py --guide    # 只換指南 guide/index.html 裡的圖（保留指南自己的 figcaption）
+                                           # 只在指南、專篇沒有的：human-capital、control-map、
+                                           # taiex-recovery、asset-rotation（後兩張讀 lite/calc-results.json）
   python3 tools/essay_charts.py --all      # 兩者都做
 """
 import csv
+import json
 import math
 import re
 import sys
@@ -31,6 +34,13 @@ ROOT = Path(__file__).resolve().parent.parent
 SEC = ROOT / "essay" / "sections"
 DATA = ROOT / "research" / "data"
 GUIDE = ROOT / "guide" / "index.html"
+CALC = ROOT / "lite" / "calc-results.json"
+
+
+def calc():
+    """指南新增的兩張資料圖，數字一律取自 tools/calc_core.py 產生的 lite/calc-results.json，
+    不在這支腳本裡重算，確保圖上與正文同一個來源。改資料要先跑 calc_core.py。"""
+    return json.loads(CALC.read_text(encoding="utf-8"))
 
 TEAL, MUTED, AMBER, ACCENT, INK, LINE, SURFACE = ("var(--teal)", "var(--muted)", "var(--amber)",
                                                   "var(--accent)", "var(--ink)", "var(--line)", "var(--surface)")
@@ -130,13 +140,20 @@ ORIGINALS = {
 }
 
 
+# 只有這三張是把原圖上的數字重畫一次；four-people、milestones 是台幣版、intra-year 是台股自算，
+# 圖上的數字本來就不是原圖的數字，所以出處那句要分成兩種寫法。
+REDRAWN = {"ranges", "missing-days", "five-people"}
+
+
 def original_block(cid):
     if cid not in ORIGINALS:
         return ""
     credit, url = ORIGINALS[cid]
-    return ('<p class="note">官方原圖（英文）：%s本文只重畫數字、不轉載原圖，原圖請看 '
+    claim = ("本文只重畫數字、不轉載原圖" if cid in REDRAWN
+             else "本文的數字是自己算的，不是原圖上的數字，也不轉載原圖")
+    return ('<p class="note">官方原圖（英文）：%s%s，原圖請看 '
             '<a href="%s" target="_blank" rel="noopener">原始頁面</a>；圖片版權屬原機構，本文引用的數字以正文為準。</p>\n'
-            % (esc(credit), url))
+            % (esc(credit), claim, url))
 
 
 def figure(cid, title, sub, svgs, caption, extras=""):
@@ -597,10 +614,10 @@ def smooth_vs_jagged():
 def buckets():
     """三桶：橫式版（桌面 640、手機 360）。SVG 裡不放標題，外層 chart-head 是唯一標題。
     橫條長度＝這一桶容得下的波動，比例沿用手冊那張直式圖（21.5/280、118.5/280）；
-    第三桶是虛線外框加問號，要讀者自己填。"""
-    rows = [("一年內要用", "緊急金、保費、近期要繳的錢", 0.077, "隨時拿得到，幾乎不能跌"),
-            ("一到五年要用", "頭期款、換車、三年後的學費", 0.423, "只容得下小幅波動"),
-            ("五年以上不動", "退休、日期不固定的長期目標", None, "由你自己填")]
+    三桶用同一個灰底槽，第三桶不畫長度、由讀者自己填（虛線全寬框會被讀成「可以跌 100%」）。"""
+    rows = [("一年內要用", "緊急金、保費、近期要繳的錢", 0.077, "隨時拿得到、幾乎不能跌：放活存、定存"),
+            ("一到五年要用", "頭期款、換車、三年後的學費", 0.423, "只容得下小幅波動：放定存或短天期的工具"),
+            ("五年以上不動", "退休、日期不固定的長期目標", None, "這一桶才討論股票要放幾成")]
 
     def draw(lay):
         rh = 92 if lay.mobile else 64
@@ -608,7 +625,7 @@ def buckets():
         bx0 = 4 if lay.mobile else 186
         bx1 = lay.W - (8 if lay.mobile else 20)
         bh = 14 if lay.mobile else 16
-        out = [svg_open(lay, h, "示意：按什麼時候要用分成三桶；橫條越長代表越容得下上上下下，第三桶留白由讀者自己填")]
+        out = [svg_open(lay, h, "示意：按什麼時候要用分成三桶；前兩桶的橫條表示相對大小，第三桶由讀者自己填")]
         for i, (name, eg, frac, cond) in enumerate(rows):
             y0 = (6 if lay.mobile else 8) + i * rh
             if i:
@@ -616,20 +633,163 @@ def buckets():
             out.append(text(4, y0 + lay.f + 3, name, lay.f, "start", INK, "800"))
             out.append(text(4, y0 + lay.f * 2 + 7, eg, lay.fs, "start", MUTED))
             by = y0 + (40 if lay.mobile else 6)
+            out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%d" rx="3" fill="none" stroke="%s" stroke-width="1.5"/>'
+                       % (bx0, by, bx1 - bx0, bh, LINE))
             if frac is None:
-                out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%d" rx="3" fill="none" stroke="%s" stroke-width="1.5" stroke-dasharray="5 4"/>'
-                           % (bx0, by, bx1 - bx0, bh, MUTED))
-                out.append(text(bx0 + (bx1 - bx0) / 2, by + bh - 2.5, "？", lay.f, "middle", MUTED, "800"))
+                out.append(text(bx0 + 7, by + bh - 3.5, "？", lay.fs, "start", MUTED, "800"))
+                out.append(text(bx0 + 21, by + bh - 4, "你自己填：股票＿%", lay.fs, "start", MUTED))
             else:
-                out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%d" rx="3" fill="none" stroke="%s" stroke-width="1.5"/>'
-                           % (bx0, by, bx1 - bx0, bh, LINE))
                 out.append(rect(bx0, by, (bx1 - bx0) * frac, bh, TEAL, 3))
             out.append(text(bx0, by + bh + lay.fs + 6, cond, lay.fs, "start", INK))
         out.append("</svg>")
         return "\n".join(out)
-    return dict(title="按用錢日期分三桶", sub="示意：橫條越長，容得下的上上下下越大",
+    return dict(title="按用錢日期分三桶", sub="示意：長度只表示三桶之間的相對大小，不是可以跌幾 %",
                 svgs=[draw(L("d")), draw(L("m"))], extras="",
                 caption="按「什麼時候要用」分成三桶。橫條越長，代表這一桶的錢越容得下上上下下；第三桶留白，是要你自己填。")
+
+
+# ======================================================================
+# §12 控制地圖（只在指南）：三層——控制得了、部分控制、控制不了。
+# 自己的畫法：三個並排（手機改成上下三塊）的欄，欄頭一條淡色底，底下條列。
+# 不模仿任何機構的原圖，文字也是本文自己的。
+CONTROL_MAP = [
+    ("控制得了", TEAL, ["存多少", "付多少費用", "股債比與規則卡", "照不照計畫做", "多久看一次"]),
+    ("部分控制", AMBER, ["什麼時候開始", "什麼時候退休", "收入穩不穩定、能不能替代", "保障買不買"]),
+    ("控制不了", MUTED, ["市場報酬", "匯率", "物價", "政策與稅制", "活多久"]),
+]
+
+
+def control_map():
+    def head_box(x, y, w, h, color, label, fsize):
+        return ['<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" rx="8" fill="%s" fill-opacity="0.22" stroke="%s" stroke-width="1.4"/>'
+                % (x, y, w, h, color, color),
+                text(x + w / 2, y + h / 2 + fsize * 0.36, label, fsize, "middle", INK, "800")]
+
+    def bullet(x, y, color):
+        return '<rect x="%.1f" y="%.1f" width="5" height="5" rx="1.5" fill="%s"/>' % (x, y, color)
+
+    def draw(lay):
+        title = "示意：把和投資有關的事分成三層——控制得了、部分控制、控制不了"
+        if lay.mobile:
+            pad, step, hh = 6, 20, 26
+            h = int(sum(hh + len(it) * step + 12 for _, _, it in CONTROL_MAP)) + 6
+            out = [svg_open(lay, h, title)]
+            y = 4
+            for label, color, items in CONTROL_MAP:
+                out += head_box(pad, y, lay.W - pad * 2, hh, color, label, lay.f)
+                y += hh + 8
+                for it in items:
+                    out.append(bullet(pad + 6, y + lay.fs * 0.30, color))
+                    out.append(text(pad + 18, y + lay.fs * 0.85, it, lay.fs, "start", INK))
+                    y += step
+                y += 4
+            out.append("</svg>")
+            return "\n".join(out)
+        pad, gap, step, hh = 8, 10, 24, 30
+        cw = (lay.W - pad * 2 - gap * 2) / 3
+        h = int(6 + hh + 12 + (max(len(it) for _, _, it in CONTROL_MAP) - 1) * step) + 10
+        out = [svg_open(lay, h, title)]
+        for i, (label, color, items) in enumerate(CONTROL_MAP):
+            x = pad + i * (cw + gap)
+            out += head_box(x, 6, cw, hh, color, label, 13)
+            y = 6 + hh + 12
+            for it in items:
+                out.append(bullet(x + 8, y - lay.fs * 0.62, color))
+                out.append(text(x + 20, y, it, lay.fs, "start", INK))
+                y += step
+        out.append("</svg>")
+        return "\n".join(out)
+    return dict(title="三層：控制得了、部分控制、控制不了", sub="示意圖，不是資料；每一項在哪一節，看圖下那三條清單",
+                svgs=[draw(L("d")), draw(L("m"))], extras="",
+                caption="左邊那一欄是你今天就做得了決定的事，右邊那一欄不管想多久都不會改變。中間那一欄部分由你決定、部分由環境決定。")
+
+
+# ======================================================================
+# §13 台股跌 20% 以上的七次，各花多久回到前高（只在指南）
+def taiex_recovery():
+    d = calc()["taiex_drawdowns"]
+    eps = d["episodes"]
+    top = max(e["years_peak_to_recover"] for e in eps)
+
+    def draw(lay):
+        rh = 30 if not lay.mobile else 34
+        lw = 92 if lay.mobile else 150
+        x0 = lw + (6 if lay.mobile else 6)
+        x1 = lay.W - (58 if lay.mobile else 62)
+        bh = 13 if lay.mobile else 15
+        h = int(6 + len(eps) * rh) + 4
+        out = [svg_open(lay, h, "台股含息指數 2003 年以來跌兩成以上的七次，各花多久回到前一個高點")]
+        for i, e in enumerate(eps):
+            y = 6 + i * rh
+            yr = e["peak_date"][:4]
+            drop = "%d%%" % round(abs(e["drawdown_pct"]))
+            lab = ("%s 跌 %s" % (yr, drop)) if lay.mobile else ("%s 年的高點，跌 %s" % (yr, drop))
+            out.append(text(4, y + bh, lab, lay.f, "start", INK))
+            w = (x1 - x0) * e["years_peak_to_recover"] / top
+            wd = (x1 - x0) * e["years_peak_to_trough"] / top
+            out.append(rect(x0, y + bh - bh + 2, w, bh, TEAL, 3))
+            out.append(rect(x0, y + 2, wd, bh, ACCENT, 3))
+            out.append(text(x0 + w + 6, y + bh, "%.1f 年" % e["years_peak_to_recover"], lay.fl, "start", INK, "800"))
+        out.append("</svg>")
+        return "\n".join(out)
+    lg = legend([(ACCENT, "從高點跌到最低點"), (TEAL, "整段：高點跌下去，到回到同一個高點")])
+    nt = note("證交所發行量加權股價報酬指數（含息）逐日收盤自算，2003-01-02 到 2025-12-31。"
+              "跌幅從「到當天為止的最高收盤」起算，回到同一個收盤值那天算回本；年數是高點到回本，一年算 365.25 天。"
+              "這七段都回到了前高，最快 %.1f 年、最慢 %.1f 年。" % (d["years_min"], d["years_max"]))
+    return dict(title="跌下去要多久才回得來：台股 2003 年以來的七次",
+                sub="含息報酬指數，2003-01-02 到 2025-12-31，跌兩成以上的每一段",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
+                caption="七次跌兩成以上，各花多久才回到跌之前的那個高點。這是台股這 23 年的紀錄，起點剛好在 2000 到 2002 年那波大跌之後；不是「後來都會回復」。")
+
+
+# ======================================================================
+# §14 四類資產逐年輪換（只在指南）
+ROT_COLOR = {"美股": TEAL, "台股": AMBER, "公債": MUTED, "現金": BLUE}
+
+
+def rot_pct(v):
+    if abs(v) < 0.05:
+        return "0.0%"
+    return ("+%.1f%%" if v > 0 else "−%.1f%%") % abs(v)
+
+
+def asset_rotation():
+    d = calc()["asset_rotation"]
+    rows = d["rows"]
+
+    def draw(lay):
+        rh = 22 if lay.mobile else 24
+        th = 18 if lay.mobile else 20
+        lw = 34 if lay.mobile else 44
+        gap = 3 if lay.mobile else 4
+        x0 = lw + 4
+        x1 = lay.W - (8 if lay.mobile else 18)
+        tw = (x1 - x0 - gap * 3) / 4
+        top = 18
+        h = int(top + len(rows) * rh) + 4
+        out = [svg_open(lay, h, "美股、台股、公債、現金四類資產，%d 到 %d 年每一年的名次" % (d["from"], d["to"]))]
+        for k in range(4):
+            out.append(text(x0 + k * (tw + gap) + tw / 2, 11, "第 %d 名" % (k + 1), lay.fs, "middle", MUTED, "700"))
+        for i, r in enumerate(rows):
+            y = top + i * rh
+            out.append(text(4, y + th * 0.72, str(r["year"]), lay.fs, "start", MUTED))
+            for k, item in enumerate(r["ranking"]):
+                x = x0 + k * (tw + gap)
+                c = ROT_COLOR[item["label"]]
+                out.append(rect(x, y, tw, th, c, 3, opacity="0.28"))
+                out.append(text(x + 5, y + th * 0.72, item["label"], lay.fs, "start", INK, "700"))
+                out.append(text(x + tw - 5, y + th * 0.72, rot_pct(item["return_pct"]), lay.fs, "end", INK))
+        out.append("</svg>")
+        return "\n".join(out)
+    lg = legend([(TEAL, "美股（S&P 500 含息，美元）"), (AMBER, "台股（含息報酬指數，台幣）"),
+                 (MUTED, "美國 10 年期公債（美元）"), (BLUE, "現金（美國 3 個月國庫券，美元）")])
+    nt = note("美國三類出自 Damodaran（紐約大學 Stern）公開的年度報酬資料集，台股是證交所含息報酬指數自算；"
+              "都是名目、含息，沒有扣物價、費用和稅。台股以台幣計、其餘三類以美元計，沒有換成同一種貨幣，"
+              "所以這張表比的是「各自市場那一年漲跌多少」，不是台灣人換回台幣實際拿到的報酬。")
+    return dict(title="每一年的第一名是誰：%d 到 %d 年" % (d["from"], d["to"]),
+                sub="美股、台股、美國 10 年期公債、現金，四類各自市場的當年報酬排名",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
+                caption="十五年裡，四類都當過第一名。第一名一直在換，而換的順序事先看不出來。")
 
 
 CHARTS = [
@@ -698,6 +858,9 @@ def do_guide():
     s = GUIDE.read_text(encoding="utf-8")
     funcs = {cid: f for cid, _, _, _, f in CHARTS}
     funcs["human-capital"] = human_capital   # 只在指南
+    funcs["control-map"] = control_map       # 只在指南
+    funcs["taiex-recovery"] = taiex_recovery  # 只在指南
+    funcs["asset-rotation"] = asset_rotation  # 只在指南
     n = 0
     diffs = []
     def repl(m):
