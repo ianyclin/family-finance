@@ -7,7 +7,7 @@
 - **v6.0 起是兩本書，一個來源**：原文正式檔只有一個，`family-finance/guide/index.html`（v6.0，約 1.4 MB，含 base64 原圖）；實作版 `family-finance/lite/index.html` 由 `tools/build_lite.py` 從正式檔產生，**不要手改**。
 - `family-finance/` 是**獨立本機 git repo**（2026-09-15 起，無遠端、無 hook）；根目錄 life-journal 是公開 GitHub 倉庫，已 gitignore 本資料夾，**不可把本資料夾加進 life-journal**。改前改後都在本 repo commit。
 - 發布（完整版）：https://claude.ai/code/artifact/19dbae25-66c1-404d-8219-8f9e19d586a4 （同一網址一路更新，發布時一定帶 `url`）。
-- 發布（新手實作版）：網址待補（第一次發布時由主線填在這裡，之後同一網址更新）。
+- 發布（新手實作版）：https://claude.ai/artifact/492iv4AuQeSHVPRN2XEC1E （2026-09-16 第一次發布；之後同一網址更新，發布時一定帶 `url`）。
 - 發布用的副本：`output/guide.html`（由完整版發布版 `output/full-v60-out.html` 去掉 doctype/html/head/body 產生）、`output/lite.html`（由 `lite/index.html` 同法產生）。每次改完要重做，做法見下面「改完後的固定流程」。
 - 匯出（export 只留最新版）：
   - `export/隔離人性-理財新手完整指南-v6.0.html / .pdf`（A4 143 頁、書籤 151 條、目錄含頁碼）
