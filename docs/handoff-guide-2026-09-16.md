@@ -176,8 +176,8 @@ python3 tools/test_guidetools.py tools guide/index.html
 
 作者：「你繼續做下去吧。」選項已寫進 `docs/core-edition/specs/spec-v61-remaining.md`（D、L、S、G 四組各採哪個選項、分四批）。
 
-**第一批（文字刪重複與回填）**：起草代理按節產出補丁，關機時還沒全部跑完。已完成的補丁搬到 `wip/v61-2026-09-17/w1/patch-*.json`（24 份）。**還沒套用到 guide/index.html。** 接手做法：
-1. 讀工作流腳本 `wip/v61-2026-09-17/v61-w1-dedup-draft-*.js`，對照 `w1/` 裡已有的 patch 檔，找出還沒產出的節（例如 withdraw+lifecycle、s11），只補跑那幾節。
+**第一批（文字刪重複與回填）**：起草**全部完成**（34 個代理、0 失敗），補丁在 `wip/v61-2026-09-17/w1/patch-*.json`；每節的摘要（做了哪些題、跳過哪些與理由、刪掉的事實現在在哪、碰到的受保護區塊、要跨節處理的事）在 `wip/v61-2026-09-17/w1-workflow-result.json`。**還沒套用到 guide/index.html。** 接手做法：
+1. 先讀 `w1-workflow-result.json` 的 drafts：`protected_touched`（L5 會動 app-a-checklist，要重新 stamp）、`cross_section_followups`（留給第二批）、`copy_check_ok` 是否都為 true。
 2. 全部補丁一起 `python3 tools/guidetools.py apply guide/index.html <out> wip/.../w1/patch-*.json`（會報重疊），沒問題再覆蓋正式檔、跑 `build_lite.py`，再派裁判驗「刪掉的事實在正典找得到、數字沒少、連結節號對」。
 
 **第三批（三張新圖）**：程式已建好並接上，**未經裁判驗證**（Fable 額度用完，三個驗證代理都失敗）。
