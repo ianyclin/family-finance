@@ -72,6 +72,8 @@ python3 tools/build_lite.py --manifest lite/manifest.sample.json        # 示範
 
 先用 `python3 tools/build_lite.py --fingerprint "選擇器"` 確認對到的區塊（會印 sha256、標籤、所在節、前 40 字）。
 
+> **陷阱（v6.1 起）：完整版的節 id 和讀者看到的節號不一樣。** 「另外三個人」（id `cases`）在 v6.1 移到第 11 節後面、編成**第 12 節**，所以 `#s12` 是讀者看到的**第 13 節**（新手的起點）、`#s13` 是**第 14 節**（三十一種情境）。選擇器、manifest、短稿檔頭一律用 id，不要照節號去猜 id；短稿或接合文字要寫節號時，先用 `--fingerprint` 對一次是哪一節。另外 `group-core`、`group-howto` 是兩個沒有節號、也不在目錄裡的分組標題 section。
+
 ---
 
 ## 3. `lite/manifest.json`
@@ -183,6 +185,7 @@ JSON（UTF-8，不能有註解）。頂層：
 
 依序：
 1. **整個拿掉**：`p.explain`（白話版）、`div.source-card`、`div.sources-grid`、所有 `figure`（圖表與照片）、`svg`、`img`、`details.orig`（看官方原圖）、`script`、`style`、`a.back`（回目錄）、任何帶 `data-lite="skip"` 的元素。
+   完整版目前有 12 張 `data-chart` 圖（v6.1 第二批起，原本 7 張）加 1 張 `figure.chart.photo`，**一張都不會進實作版**；所以挑區塊時要注意：如果那一段的資訊只寫在圖上（例如第 3 節 SPIVA 的三個比例、第 6 節五個人的金額），實作版就看不到，短稿要自己把數字寫出來，或改挑有數字的小字。
    **保留**：`p.small`／`span.small` 淡色小字、`div.story` 黃框、`div.warning`、`p.decision`（完整版的「本節行動」也會照搬；不要就用 skip 或改挑子區塊）、`details`（網頁收合，PDF 全展開）、`span.later`、`mark.key`、標籤膠囊、表格。
 2. **節號連結**（`a.xref`）改純文字：
    - `第 <a xref>4</a> 節` → `完整版〈為什麼不只買最會漲的？〉`
