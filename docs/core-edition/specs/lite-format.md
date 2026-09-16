@@ -184,7 +184,7 @@ JSON（UTF-8，不能有註解）。頂層：
 ## 4. 產生時會對抽出的區塊做什麼（寫短稿和挑區塊前要知道）
 
 依序：
-1. **整個拿掉**：`p.explain`（白話版）、`div.source-card`、`div.sources-grid`、所有 `figure`（圖表與照片）、`svg`、`img`、`details.orig`（看官方原圖）、`script`、`style`、`a.back`（回目錄）、任何帶 `data-lite="skip"` 的元素。
+1. **整個拿掉**：`p.explain`（白話版）、`div.source-card`、`div.sources-grid`、所有 `figure`（圖表與照片）、`svg`、`img`、`details.orig`（看官方原圖；v6.1 第三批起完整版已經沒有這種元素，原圖改成 figure 裡的出處 `p.note`，跟著 figure 一起被拿掉，規則留著以防再加）、`script`、`style`、`a.back`（回目錄）、任何帶 `data-lite="skip"` 的元素。
    完整版目前有 12 張 `data-chart` 圖（v6.1 第二批起，原本 7 張）加 1 張 `figure.chart.photo`，**一張都不會進實作版**；所以挑區塊時要注意：如果那一段的資訊只寫在圖上（例如第 3 節 SPIVA 的三個比例、第 6 節五個人的金額），實作版就看不到，短稿要自己把數字寫出來，或改挑有數字的小字。
    **保留**：`p.small`／`span.small` 淡色小字、`div.story` 黃框、`div.warning`、`p.decision`（完整版的「本節行動」也會照搬；不要就用 skip 或改挑子區塊）、`details`（網頁收合，PDF 全展開）、`span.later`、`mark.key`、標籤膠囊、表格。
 2. **節號連結**（`a.xref`）改純文字：

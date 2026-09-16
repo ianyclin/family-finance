@@ -24,6 +24,7 @@ import csv
 import math
 import re
 import sys
+from html import unescape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -108,34 +109,34 @@ def note(s):
     return '<p class="note">%s</p>' % esc(s)
 
 
-ORIG = ROOT / "research" / "orig"
+def usd_tick(v, first):
+    """美元金額的 y 軸刻度：只有第一格（最低的那一格）帶幣別，其餘只寫「萬」。"""
+    if not v:
+        return "0"
+    return ("%d 萬美元" if v == first else "%d 萬") % (v / 10000)
+
+
 GTR = "https://am.jpmorgan.com/us/en/asset-management/adv/insights/retirement-insights/guide-to-retirement/"
 GTM = "https://am.jpmorgan.com/us/en/asset-management/adv/insights/market-insights/guide-to-the-markets/"
-# 有官方原圖的圖：檔名、出處說明、連結。原圖有版權，只做教育對照；正文引用的數字以本文為準。
+# 有官方原圖的圖：出處說明、連結。原圖有版權，本文不轉載（2026-09-16 起不再嵌入圖檔），
+# 只寫出處並連到原始頁面；正文引用的數字以本文為準。
 ORIGINALS = {
-    "ranges": ("jpm-gtr2026-p42-ranges.jpg", "J.P. Morgan Asset Management，Guide to Retirement 2026，第 42 頁「Range of stock, bond and blended total returns」。本文的圖是同一頁的數字重畫。", GTR),
-    "four-people": ("jpm-gtr2026-p15-saving-early.jpg", "J.P. Morgan Asset Management，Guide to Retirement 2026，第 15 頁「Benefit of saving and investing early」。2026 年版的例子是每月 250 美元、7.25%；本文的四個人是每月 5,000 元、6% 的台幣版，形狀相同、數字不同。", GTR),
-    "intra-year": ("jpm-gtm-2026q3-p17-intra-year.jpg", "J.P. Morgan Asset Management，Guide to the Markets U.S.（2026 年 6 月 30 日資料），第 17 頁「S&P 500 intra-year declines vs. calendar year returns」。這是美國版；本文的圖是台股同一種畫法。", GTM),
-    "milestones": ("fourpillarfreedom-1m.jpg", "Four Pillar Freedom，「Money Lessons They Don't Teach You in School」一文「The Concept of Compound Interest」小節裡標題為「Accumulating $1 Million」的圖（每年 1 萬美元、7%）。本文是每年 6 萬元、7% 的台幣版，所以每格年數與原圖相同。", "https://fourpillarfreedom.com/money-lessons-they-dont-teach-you-in-school-2/"),
-    "missing-days": ("jpm-gtr2026-p41-out-of-market.jpg", "J.P. Morgan Asset Management，Guide to Retirement 2026，第 41 頁「Impact of being out of the market」。", GTR),
-    "five-people": ("schwab-five-people.png", "Charles Schwab，「Does Market Timing Work?」，2005–2024 年的五個人。", "https://www.schwab.com/learn/story/does-market-timing-work"),
+    "ranges": ("J.P. Morgan Asset Management，Guide to Retirement 2026，第 42 頁「Range of stock, bond and blended total returns」。本文的圖是同一頁的數字重畫。", GTR),
+    "four-people": ("J.P. Morgan Asset Management，Guide to Retirement 2026，第 15 頁「Benefit of saving and investing early」。2026 年版的例子是每月 250 美元、7.25%；本文的四個人是每月 5,000 元、6% 的台幣版，形狀相同、數字不同。", GTR),
+    "intra-year": ("J.P. Morgan Asset Management，Guide to the Markets U.S.（2026 年 6 月 30 日資料），第 17 頁「S&P 500 intra-year declines vs. calendar year returns」。這是美國版；本文的圖是台股同一種畫法。", GTM),
+    "milestones": ("Four Pillar Freedom，「Money Lessons They Don't Teach You in School」一文「The Concept of Compound Interest」小節裡標題為「Accumulating $1 Million」的圖（每年 1 萬美元、7%）。本文是每年 6 萬元、7% 的台幣版，所以每格年數與原圖相同。", "https://fourpillarfreedom.com/money-lessons-they-dont-teach-you-in-school-2/"),
+    "missing-days": ("J.P. Morgan Asset Management，Guide to Retirement 2026，第 41 頁「Impact of being out of the market」。", GTR),
+    "five-people": ("Charles Schwab，「Does Market Timing Work?」，2005–2024 年的五個人。", "https://www.schwab.com/learn/story/does-market-timing-work"),
 }
 
 
 def original_block(cid):
     if cid not in ORIGINALS:
         return ""
-    import base64
-    fn, credit, url = ORIGINALS[cid]
-    p = ORIG / fn
-    if not p.exists():
-        raise SystemExit("找不到原圖：%s" % p)
-    mime = "image/png" if fn.endswith(".png") else "image/jpeg"
-    data = base64.b64encode(p.read_bytes()).decode("ascii")
-    return ('<details class="orig"><summary>看官方原圖（英文）</summary>'
-            '<img src="data:%s;base64,%s" alt="%s" loading="lazy">'
-            '<p class="note">來源：%s <a href="%s" target="_blank" rel="noopener">原始頁面</a>。圖片版權屬原機構，這裡只作教育對照，未經修改；本文引用的數字以正文為準。</p></details>\n'
-            % (mime, data, esc(credit.split('。')[0]), esc(credit), url))
+    credit, url = ORIGINALS[cid]
+    return ('<p class="note">官方原圖（英文）：%s本文只重畫數字、不轉載原圖，原圖請看 '
+            '<a href="%s" target="_blank" rel="noopener">原始頁面</a>；圖片版權屬原機構，本文引用的數字以正文為準。</p>\n'
+            % (esc(credit), url))
 
 
 def figure(cid, title, sub, svgs, caption, extras=""):
@@ -343,9 +344,9 @@ def spiva():
         out.append("</svg>")
         return "\n".join(out)
     lg = legend([(ACCENT, "輸給整個市場的平均"), (TEAL, "贏過的")])
-    return dict(title="美國大型股主動基金，輸給大盤的比例", sub="SPIVA U.S. Year-End 2025，扣掉費用之後；中途收掉的基金算輸",
+    return dict(title="輸給大盤的比例", sub="扣掉費用之後；中途收掉的基金算輸",
                 svgs=[draw(L("d")), draw(L("m"))], extras=lg,
-                caption="時間拉得越長，輸的比例越高。中途收掉的基金也算輸；15 年期只有 50.55% 撐到期末。美國市場、扣掉費用之後的比較，SPIVA 2025 年底報告。")
+                caption="10、15、20 年三個長度，輸的比例都在八成五以上。所以呢：想靠挑基金贏，要先從不到一成五的贏家裡挑中一檔，還要挑得對二十年。")
 
 
 # ======================================================================
@@ -432,7 +433,8 @@ def ranges():
         out.append("</svg>")
         return "\n".join(out)
     lg = legend([(AMBER, "全放股票"), (MUTED, "全部債券"), (TEAL, "一半股票一半債券"), (BLUE, "現金")])
-    nt = note("美國 1950 到 2025 年，以整年報酬為單位、連續放 1 到 20 年，平均一年的報酬區間（%）；若從年中任一天起算，一年的最差值只會更差，不會更好。J.P. Morgan「Guide to Retirement 2026」第 42 頁。")
+    # 這一段是指南裡手改過的長版，2026-09-16 起以腳本為正本（兩邊同源；do_guide 會比對）
+    nt = note("美國 1950 到 2025 年，以整年報酬為單位、連續放 1 到 20 年，平均一年的報酬區間（%）；這張表每一段都是從 1 月 1 日算到 12 月 31 日；如果從某個高點那一天起算，一年後會比表上最差的那格更差，所以表上的最差值是偏好看的。J.P. Morgan「Guide to Retirement 2026」第 42 頁。")
     return dict(title="放 1、5、10、20 年，最好的一段和最差的一段（換算成平均一年）", sub="美國 1950–2025，平均一年報酬區間，%",
                 svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
                 caption="往右看，最好和最差越來越近，但最差不是零。比較股票和一半一半，防守那一塊把最差的一年切掉一大半，也切掉一些最好的。這裡的債券是美國整體的投資等級債券（1976 年前用 Strategas/Ibbotson，之後用 Bloomberg Aggregate），2022 年股債同跌那一年已經算在裡面。")
@@ -445,12 +447,13 @@ def five_people():
 
     def draw(lay):
         h = 230 if lay.mobile else 280
+        lay.left += 12          # 第一格刻度要標「萬美元」，左邊留寬一點
         left, top, right = lay.left, lay.top + 10, lay.right
         bottom = h - 40
         vmax = 200000
         def py(v): return bottom - (bottom - top) * v / vmax
         out = [svg_open(lay, h, "五個人 20 年後手上的美元")]
-        out += grid(lay, py, (0, 50000, 100000, 150000, 200000), lambda v: ("%d 萬" % (v / 10000)) if v else "0")
+        out += grid(lay, py, (0, 50000, 100000, 150000, 200000), lambda v: usd_tick(v, 50000))
         gw = (right - left) / 5
         bw = gw * 0.56
         for i, (label, v) in enumerate(data):
@@ -462,9 +465,9 @@ def five_people():
         out.append("</svg>")
         return "\n".join(out)
     nt = note("每年各拿到 2,000 美元、美股 2005 到 2024 年；Schwab 把 80 段不同的 20 年都算過，有 70 段排名相同。")
-    return dict(title="五個人，各 2,000 美元一年，20 年後", sub="Schwab，美股 2005–2024，美元",
+    return dict(title="20 年後，五個人手上各有多少", sub="Schwab 試算，美元",
                 svgs=[draw(L("d")), draw(L("m"))], extras=nt,
-                caption="最會挑的只比一拿到就投入多約 9%；一直等的連三分之一都不到。差的是錢有沒有在裡面，不是買的時點。")
+                caption="最大的差距不在買在哪一天（最準和最倒楣差兩成三），而在錢有沒有進去（一直等的比一拿到就投入少了七成）。")
 
 
 # ======================================================================
@@ -524,23 +527,25 @@ def missing_days():
 
     def draw(lay):
         h = 220 if lay.mobile else 270
+        lay.left += 12          # 第一格刻度要標「萬美元」，左邊留寬一點
         left, top, right = lay.left + 8, lay.top + 10, lay.right
         bottom = h - 30
         vmax = 90000
         def py(v): return bottom - (bottom - top) * v / vmax
         out = [svg_open(lay, h, "標普 500 含息，2006 到 2025 年投入 1 萬美元的結果")]
-        out += grid(lay, py, (0, 20000, 40000, 60000, 80000), lambda v: ("%d 萬" % (v / 10000)) if v else "0")
+        out += grid(lay, py, (0, 20000, 40000, 60000, 80000), lambda v: usd_tick(v, 20000))
         gw = (right - left) / 3
         bw = gw * 0.5
         for i, (label, v) in enumerate(data):
             x = left + i * gw + (gw - bw) / 2
             out.append(rect(x, py(v), bw, bottom - py(v), TEAL if i == 0 else MUTED))
-            out.append(text(x + bw / 2, py(v) - 6, "$" + format(v, ","), lay.fl, "middle", INK, "800"))
+            out.append(text(x + bw / 2, py(v) - 6, format(v, ","), lay.fl, "middle", INK, "800"))
             out.append(text(x + bw / 2, bottom + lay.f + 4, label, lay.f, "middle", INK))
         out.append("</svg>")
         return "\n".join(out)
-    nt = note("10 個最好的日子裡，有 6 天落在最差的 10 天的兩週內。另一份資料算過另一邊：避開最差的 10 天，最後的錢多兩倍。J.P. Morgan Guide to Retirement 2026。")
-    return dict(title="錯過最好的幾天，20 年後剩多少", sub="S&P 500 含息，2006–2025，投入 1 萬美元",
+    # 只留 J.P. Morgan 自己那一句；反方向（Estrada、道瓊 1900–2006）留在正文，那裡有期間、口徑與但書
+    nt = note("10 個最好的日子裡，有 6 天落在最差的 10 天的兩週內（J.P. Morgan Guide to Retirement 2026）。")
+    return dict(title="全程待著，和少了最好的那幾天", sub="S&P 500 含息，投入 1 萬美元，20 年後",
                 svgs=[draw(L("d")), draw(L("m"))], extras=nt,
                 caption="「先出來一下」的代價。最好的日子和最差的日子擠在一起，躲掉一邊就躲掉另一邊。")
 
@@ -590,9 +595,41 @@ def smooth_vs_jagged():
 
 
 def buckets():
-    svg = handbook_figure("09-rules-card.html").replace("看你第 8 章的答案", "由你自己填")
-    return dict(title="按用錢日期分三桶", sub="示意", svgs=[svg], extras="",
-                caption="按「什麼時候要用」分成三桶。越快要用的錢，越不能跌；第三桶留白，由你自己填。")
+    """三桶：橫式版（桌面 640、手機 360）。SVG 裡不放標題，外層 chart-head 是唯一標題。
+    橫條長度＝這一桶容得下的波動，比例沿用手冊那張直式圖（21.5/280、118.5/280）；
+    第三桶是虛線外框加問號，要讀者自己填。"""
+    rows = [("一年內要用", "緊急金、保費、近期要繳的錢", 0.077, "隨時拿得到，幾乎不能跌"),
+            ("一到五年要用", "頭期款、換車、三年後的學費", 0.423, "只容得下小幅波動"),
+            ("五年以上不動", "退休、日期不固定的長期目標", None, "由你自己填")]
+
+    def draw(lay):
+        rh = 92 if lay.mobile else 64
+        h = (6 if lay.mobile else 8) + rh * 3
+        bx0 = 4 if lay.mobile else 186
+        bx1 = lay.W - (8 if lay.mobile else 20)
+        bh = 14 if lay.mobile else 16
+        out = [svg_open(lay, h, "示意：按什麼時候要用分成三桶；橫條越長代表越容得下上上下下，第三桶留白由讀者自己填")]
+        for i, (name, eg, frac, cond) in enumerate(rows):
+            y0 = (6 if lay.mobile else 8) + i * rh
+            if i:
+                out.append(hline(0, bx1, y0 - (16 if lay.mobile else 8), LINE, 1, None))
+            out.append(text(4, y0 + lay.f + 3, name, lay.f, "start", INK, "800"))
+            out.append(text(4, y0 + lay.f * 2 + 7, eg, lay.fs, "start", MUTED))
+            by = y0 + (40 if lay.mobile else 6)
+            if frac is None:
+                out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%d" rx="3" fill="none" stroke="%s" stroke-width="1.5" stroke-dasharray="5 4"/>'
+                           % (bx0, by, bx1 - bx0, bh, MUTED))
+                out.append(text(bx0 + (bx1 - bx0) / 2, by + bh - 2.5, "？", lay.f, "middle", MUTED, "800"))
+            else:
+                out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%d" rx="3" fill="none" stroke="%s" stroke-width="1.5"/>'
+                           % (bx0, by, bx1 - bx0, bh, LINE))
+                out.append(rect(bx0, by, (bx1 - bx0) * frac, bh, TEAL, 3))
+            out.append(text(bx0, by + bh + lay.fs + 6, cond, lay.fs, "start", INK))
+        out.append("</svg>")
+        return "\n".join(out)
+    return dict(title="按用錢日期分三桶", sub="示意：橫條越長，容得下的上上下下越大",
+                svgs=[draw(L("d")), draw(L("m"))], extras="",
+                caption="按「什麼時候要用」分成三桶。橫條越長，代表這一桶的錢越容得下上上下下；第三桶留白，是要你自己填。")
 
 
 CHARTS = [
@@ -650,12 +687,19 @@ def do_essay():
     return 1 if errors else 0
 
 
+def fig_note(fig_html):
+    """圖下說明（figure 裡 figcaption 之前那條 p.note；figcaption 後面那條是原圖出處，不算）。"""
+    m = re.search(r'<p class="note">(.*?)</p>', fig_html.split("<figcaption", 1)[0], re.S)
+    return unescape(re.sub(r"<[^>]+>", "", m.group(1))).strip() if m else None
+
+
 def do_guide():
     """指南：只換同 id 的圖，保留指南自己的 figcaption。"""
     s = GUIDE.read_text(encoding="utf-8")
     funcs = {cid: f for cid, _, _, _, f in CHARTS}
     funcs["human-capital"] = human_capital   # 只在指南
     n = 0
+    diffs = []
     def repl(m):
         nonlocal n
         cid = m.group(1)
@@ -663,10 +707,21 @@ def do_guide():
         cap = re.sub(r"<[^>]+>", "", cap.group(1)) if cap else None
         cap = cap.replace("&amp;", "&") if cap else None
         n += 1
-        return build(cid, funcs[cid], cap)
+        fig = build(cid, funcs[cid], cap)
+        before, after = fig_note(m.group(0)), fig_note(fig)
+        if before != after:
+            diffs.append((cid, before, after))
+        return fig
     s2 = re.sub(r'<figure class="chart" data-chart="([^"]+)">.*?</figure>', repl, s, flags=re.S)
     GUIDE.write_text(s2, encoding="utf-8")
     print("指南 換了 %d 張圖" % n)
+    # 指南裡手改過的 p.note 會被腳本蓋掉，所以蓋之前先比一次，不同就吵
+    for cid, before, after in diffs:
+        print("⚠ %s 的圖下說明和指南原本的不一樣，指南那份已被蓋掉：" % cid)
+        print("   指南原本：%s" % (before if before is not None else "（沒有）"))
+        print("   腳本寫回：%s" % (after if after is not None else "（沒有）"))
+    if diffs:
+        print("⚠ 共 %d 張圖的 p.note 被蓋掉。要留指南那版，就把它寫回 tools/essay_charts.py。" % len(diffs))
     return 0
 
 

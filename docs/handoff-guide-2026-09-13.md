@@ -4,13 +4,13 @@
 
 ## 現況
 
-- **v6.0 起是兩本書，一個來源**：原文正式檔只有一個，`family-finance/guide/index.html`（v6.0，約 1.4 MB，含 base64 原圖）；實作版 `family-finance/lite/index.html` 由 `tools/build_lite.py` 從正式檔產生，**不要手改**。
+- **v6.0 起是兩本書，一個來源**：原文正式檔只有一個，`family-finance/guide/index.html`（v6.0，約 0.87 MB；2026-09-16 第三批把六張第三方官方原圖的 base64 拿掉之後，檔案裡只剩作者自己拍的史萊姆村圖一張 base64）；實作版 `family-finance/lite/index.html` 由 `tools/build_lite.py` 從正式檔產生，**不要手改**。
 - `family-finance/` 是**獨立本機 git repo**（2026-09-15 起，無遠端、無 hook）；根目錄 life-journal 是公開 GitHub 倉庫，已 gitignore 本資料夾，**不可把本資料夾加進 life-journal**。改前改後都在本 repo commit。
 - 發布（完整版）：https://claude.ai/code/artifact/19dbae25-66c1-404d-8219-8f9e19d586a4 （同一網址一路更新，發布時一定帶 `url`）。
 - 發布（新手實作版）：https://claude.ai/artifact/492iv4AuQeSHVPRN2XEC1E （2026-09-16 第一次發布；之後同一網址更新，發布時一定帶 `url`）。
 - 發布用的副本：`output/guide.html`（由完整版發布版 `output/full-v60-out.html` 去掉 doctype/html/head/body 產生）、`output/lite.html`（由 `lite/index.html` 同法產生）。每次改完要重做，做法見下面「改完後的固定流程」。
 - 匯出（export 只留最新版）：
-  - `export/隔離人性-理財新手完整指南-v6.0.html / .pdf`（A4 150 頁、書籤 153 條、目錄含頁碼；v6.1 第二批之後）
+  - `export/隔離人性-理財新手完整指南-v6.0.html / .pdf`（A4 149 頁、書籤 153 條、目錄含頁碼；v6.1 第三批之後）
   - `export/隔離人性-新手實作版-v6.0.html / .pdf`（A4 24 頁、書籤 43 條、上限 25 頁）
 - 兩份都已經是 v6.0、`python3 tools/build_lite.py` 全綠（exit 0，`SENTINELS OK`）；**還沒發布**（完整版 artifact 仍是 v5.6，實作版還沒有網址）。2026-09-16 的最後一輪（暫估費用率分路徑、總費用率口徑統一、小安卡但書、滿足點費用例子、實作版愛爾蘭那句）已套入兩份。
 - 最近備份：`guide/index.v60-r7.backup.html`（2026-09-16 最後一輪之前）、`guide/index.v5.6.backup.html`（v6.0 之前）、`v5.5`、`v5.4`、`v5.3`、`v5.2`、`v5.1`、`v5.0`、`v4.15.1`、`v4.15`、`v4.14`、`v4.13`、`v4.12.3`、`v4.12.2`、`v4.12.1`、`v4.12`、`v4.11`、`v4.10.1`、`v4.10`、`v4.9.3`、`v4.9.2`、`v4.9.1`、`v4.9`、`v4.8`、`v4.7`、`v4.6`……每次改前先 `cp` 一份。
@@ -85,7 +85,7 @@ PDF 由 `build_lite.py` 用 Chrome headless＋PyMuPDF 印（metadata author「�
 - `tools/guidetools.py`：v5.x 起改稿都用它。apply 套補丁 JSON（每筆 old 必須唯一、不重疊），check 結構檢查，text 抽純文字，diff 比差異，numbers 列每節數字增減。
 - `tools/essay_charts.py --guide`：重畫指南十二張圖（三圓、人力資本、里程碑、四個人、台股逐年、區間、買高買低，加 v6.1 第二批的 SPIVA、五個人、錯過最好的幾天、三桶、平滑對鋸齒）。不要手改 SVG。
   - **它會用腳本裡的 title／sub／legend／note 整塊重建每一張 `figure.chart`，只保留指南自己的 `<figcaption>`**（而且 figcaption 會被去掉標籤，所以裡面不能放連結）。要加新圖，就在指南放一個空殼 `<figure class="chart" data-chart="圖id"><figcaption>圖說</figcaption></figure>`，再跑一次 `--guide`。
-  - **警告：指南裡任何手改過的 `p.note`（圖下說明）會被這支腳本蓋回腳本版。** 2026-09-16 已踩過一次：`ranges` 的 note 在指南是手改的長版、腳本是短版，跑完被蓋掉，已手動還原。動 `--guide` 之前先記下這一條，跑完要比對七張舊圖有沒有被改到（比對方法：和備份檔逐張 diff）。
+  - **警告：指南裡任何手改過的 `p.note`（圖下說明）會被這支腳本蓋回腳本版。** 2026-09-16 已踩過一次：`ranges` 的 note 在指南是手改的長版、腳本是短版，跑完被蓋掉。**第三批修好了兩件事**：`ranges` 的長版已經寫回腳本（兩邊同源），而且 `--guide` 每次跑完會逐張比對「蓋掉之前的 note」和「腳本寫回的 note」，不一樣就印 `⚠` 警告並把兩版都印出來。看到警告時要自己判斷：如果是指南那版比較對，就把它寫回 `tools/essay_charts.py`，不要只在指南改。
 - 用讀者代理審稿的抽字方法在 `guide_v491.py` 之前那段 Bash（把 source-card、svg、原圖去掉，黃框標【黃框】，名詞連結標〔〕，重點標★）。純文字裡表格與第 13 節題目會黏在一起，代理回報這類問題是假的。
 
 ## 派代理的分流（CLAUDE.md）
@@ -206,7 +206,33 @@ PDF 由 `build_lite.py` 用 Chrome headless＋PyMuPDF 印（metadata author「�
 - **被圖吃掉的數字都移到小字，沒有消失**：SPIVA 的 85.59%／89.93%／92.89%（圖只畫到小數一位）移到該卡小字；錯過最好幾天的年化 11.0%／6.6%／1.6% 移到該卡小字；五個人那張「錢放美國短期公債」移到該卡小字。五個人與錯過最好幾天的金額本來就印在圖上。
 - `data-chart` 從 7 變 12；`details` 從 22 變 24（`five-people`、`missing-days` 各多一個「看官方原圖」摺疊，列印時 `details.orig` 是 `display:none`，不占紙）。
 - 頁數 146 → 150。近乎空白的頁從 6 頁變 8 頁（第 17、25、45、51、54、78、112、150 頁）：新增的是第 51 頁（第 6 節開頭，五個人那張卡整塊推到下一頁）和第 78 頁（`buckets` 一張圖占滿一頁）。這兩件都是版面問題，屬於拍板清單 S6／D10 的範圍，沒有自己動列印規則。
-- 沒做（留給作者或下一輪）：G6–G11；`buckets` 的 SVG 是手冊那張直式三格（比例 360×524），在 A4 會占滿一整頁，要縮就得改腳本的畫法（等於改設計，沒動）。
+- 沒做（留給作者或下一輪）：G6–G11；`buckets` 的 SVG 是手冊那張直式三格（比例 360×524），在 A4 會占滿一整頁，要縮就得改腳本的畫法（等於改設計，沒動）。**（第三批已改成橫式，見下一節。）**
+
+## v6.1 第三批（2026-09-16）：五張圖的審查修正 ＋ 拿掉嵌入的第三方原圖
+
+第二批那五張圖被審過一輪，這一批照審查逐條修；另外主線拍板把嵌入的第三方原圖全部拿掉。動到的檔案只有 `tools/essay_charts.py` 與 `guide/index.html`（圖說、一句圖前引導）。
+
+**圖說與圖標題（10 條裡的 1–9）**
+
+- 第 8 節 `missing-days` 的圖下說明本來把 Estrada 那句（避開最差 10 天多兩倍）掛在 J.P. Morgan 名下。現在 note 只留「10 個最好的日子裡，有 6 天落在最差的 10 天的兩週內（J.P. Morgan Guide to Retirement 2026）。」Estrada 那句只留在正文（正文有道瓊 1900–2006 的期間、價格口徑與「不能放在同一根尺上」的但書）。
+- 第 3 節 `spiva` 圖說原本寫「時間拉得越長，輸的比例越高」，但 SPIVA 1 年 78.78、3 年 66.84、5 年 88.96 不是單調遞增，不能這樣講。改成只描述圖上有的三個長度：「10、15、20 年三個長度，輸的比例都在八成五以上」，並補「所以呢」。
+- 第 11 節 `buckets` 改成橫式（桌面 640、手機 360）：拿掉 SVG 內那行自帶標題（外層 chart-head 是唯一標題），三桶各一列、橫條長度＝容得下的波動（比例沿用手冊那張直式圖的 21.5/280、118.5/280），第三桶改成虛線外框加「？」。判讀鑰匙寫進 figcaption：「橫條越長，代表這一桶的錢越容得下上上下下；第三桶留白，是要你自己填」。
+- 被圖吃掉的必要條件補回：第一桶的「隨時拿得到」回到圖上（第一列的條件文字寫「隨時拿得到，幾乎不能跌」）。
+- 第 6 節 `five-people` 圖說改成有邊界的說法：「最大的差距不在買在哪一天（最準和最倒楣差兩成三），而在錢有沒有進去（一直等的比一拿到就投入少了七成）。」
+- 第 5 節 `smooth-vs-jagged` 圖說拿掉「必經」：改成「同一個年化，中間怎麼走沒有人保證；這條實線只是其中一種走法……」；圖前補一句引導（「下面這張圖把同一個年化畫成兩條線……」），第一句也不再和副標一字不差。
+- 兩張美元圖統一幣別與標籤：y 軸第一格（最低的那一格）標「萬美元」、其餘只寫「萬」（`usd_tick()`）；條上標籤兩張都不加 `$`（`missing-days` 原本有）。
+- 卡片 h3 和圖標題重複（第 3、6、8 節）：h3 在 `eli5-rules.md` 的不能動清單，所以改的是 chart-head／chart-sub，讓它不再重複 h3 的期間與金額。`spiva`→「輸給大盤的比例」／「扣掉費用之後；中途收掉的基金算輸」；`five-people`→「20 年後，五個人手上各有多少」／「Schwab 試算，美元」；`missing-days`→「全程待著，和少了最好的那幾天」／「S&P 500 含息，投入 1 萬美元，20 年後」。被挪掉的期間仍在 h3 或該卡小字裡。
+- `ranges` 的長版圖下說明寫回腳本（兩邊同源），而且 `--guide` 現在會比對 note、不同就印警告（見「工具與腳本」）。
+
+**拿掉嵌入的第三方原圖（第 10 條，主線拍板）**
+
+- 六個「看官方原圖」`details.orig`（`ranges`、`four-people`、`intra-year`、`milestones`、`missing-days`、`five-people`）全部拿掉，改成 figure 最後一行 `p.note`：出處文字 ＋ 連到原始頁面的連結 ＋「本文只重畫數字、不轉載原圖」。
+- 理由（主線）：既然因為條款把 MSCI 數字改成粗略說法，同一份文件卻嵌著 J.P. Morgan、Schwab 的原圖，標準不一致；嵌入的暴露也比引用數字大。
+- 影響：`details` 24 → **18**；`data-chart` 仍是 12；`guide/index.html` 1.72 MB → **0.87 MB**（`output/full-v60-out.html`、`output/guide.html` 同幅縮小）；base64 圖從 7 張剩 1 張（作者自己拍的史萊姆村圖 `figure.chart.photo`，不受影響）。原圖檔還留在 `research/orig/`，只是不再嵌進書裡。
+- 要注意：原本 `details.orig` 在列印時是 `display:none`，換成 `p.note` 之後，這六行出處會印進 PDF（每張圖多一行小字）。`figure.chart details.orig` 那幾條 CSS 現在沒有東西套用，沒有刪。
+- **專篇（`essay/sections/*.html`）還沒重跑**，那邊仍然嵌著原圖 base64。要一起清掉就跑 `python3 tools/essay_charts.py`（不帶 `--guide`），但那會順便把專篇的圖說換成腳本版，屬於另一份文件的決定，這一批沒做。
+
+**結果**：完整版 A4 150 → **149 頁**（`buckets` 不再占滿一整頁），近乎空白頁 8 → 7；實作版 24 頁、內容完全沒變（圖與 `details.orig` 本來就不進實作版）。`python3 tools/build_lite.py` exit 0、`SENTINELS OK`、0 個 FAIL。
 
 ## 新手實作版 v6.0（2026-09-15 起，作者「做到最後，完成所有階段都不用問」）
 
@@ -219,7 +245,7 @@ PDF 由 `build_lite.py` 用 Chrome headless＋PyMuPDF 印（metadata author「�
 - 三個階段都做完，`python3 tools/build_lite.py` 全綠（exit 0，`SENTINELS OK`）。
 - **第一階段完成品 `lite/work/full-v60-candidate.html` 已成為正式檔**：內容原封不動複製成 `guide/index.html`（舊版備份成 `guide/index.v5.6.backup.html`），候選檔只留作定稿當時的存檔，`build_lite.py` 不再讀它。
 - 來源與輸出：`lite/manifest.json` 的 `paths` 寫明 `source: guide/index.html`、`full_html: output/full-v60-out.html`（`tools/build_lite.py` 的 `DEFAULT_PATHS` 也改成同一組，兩邊一致）。
-- 頁數：完整版 A4 150 頁；實作版 A4 24 頁（上限 25）（2026-09-16 v6.1 第二批之後；第一批之後是 146 頁、v6.0 定稿時是 143 頁）。
+- 頁數：完整版 A4 149 頁；實作版 A4 24 頁（上限 25）（2026-09-16 v6.1 第三批之後；第二批之後是 150 頁、第一批之後是 146 頁、v6.0 定稿時是 143 頁）。
 
 ### 實作版每章頁數（哨兵 `pages` 印的，括號是字數／上限）
 
@@ -256,7 +282,7 @@ PDF 由 `build_lite.py` 用 Chrome headless＋PyMuPDF 印（metadata author「�
 ### 已知取捨與沒做的
 
 - **字數上限全面超標（只 WARN）**：13 章都超過 manifest 的 `char_limit`，但總頁數 24 ≤ 25，所以留著沒砍。要縮就改 `char_limit` 或照提案 1-3 的砍法順序砍內容，別只是把上限調高。
-- **完整版有 8 頁近乎空白**（2026-09-16 v6.1 第二批之後：PDF 第 17、25、45、51、54、78、112、150 頁，各 88–267 字，哨兵 WARN），多半是圖表或表格尾巴造成，沒有調版面；第 112 頁是新加的「實作附錄」分組標題那一頁，第 51、78 頁是第二批五張圖造成的（見「v6.1 第二批」）。
+- **完整版有 7 頁近乎空白**（2026-09-16 v6.1 第三批之後：PDF 第 17、25、45、51、54、111、149 頁，各 88–240 字，哨兵 WARN），多半是圖表或表格尾巴造成，沒有調版面；第 111 頁是新加的「實作附錄」分組標題那一頁，第 51 頁是第二批五張圖造成的。第二批那個「`buckets` 一張圖占滿一整頁」的第 78 頁，第三批把圖改成橫式之後已經消失，全書也因此少一頁。
 - **哨兵擋不住的三條路**（`lite-format.md` 第 9 節末）：國字寫的新事實、短稿換用來源裡另一個數字、沒有數字的新規則。每輪審查仍要人工把 manifest 的 glue／action 和改過的短稿逐段對回完整版原文。
 - **`stories` 哨兵的完整版那一半現在是恆真**（來源和 `story_reference` 都是 `guide/index.html`），真正在把關的是實作版那一半；黃框原文照舊不准改。
 - `lite/manifest.partA.json`、`lite/manifest.partB.json` 是第二階段分段測試用、沒有寫 `paths`，現在會吃新的預設值（寫到 `output/full-v60-out.html`）；要用它們實驗前先加 `paths` 或改輸出位置。
