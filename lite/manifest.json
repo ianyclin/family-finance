@@ -443,10 +443,16 @@
           "alt": "ch11-quiet"
         },
         {
+          "alt": "ch11-sweet"
+        },
+        {
           "glue": "<h3>第一次大跌：先比，不動手</h3>"
         },
         {
           "alt": "ch11-drop"
+        },
+        {
+          "alt": "ch11-howlong"
         },
         {
           "alt": "ch11-mind"

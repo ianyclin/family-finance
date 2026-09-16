@@ -407,8 +407,126 @@ R['quiet_period'] = {
     'for_reference_low_4pct': {'years': round(yrs60_low, 2), 'return_share_pct': r0((1 - 60000 * yrs60_low / 600000) * 100),
                                'note': '完整版沒有這組數字；只供作者決定要不要改用低情境'}}
 R['fee_gap'] = {'monthly': 5000, 'months': 360, 'fv_6pct_wan': wan(fv(0, 6, 360, 5000)), 'fv_5pct_wan': wan(fv(0, 5, 360, 5000)),
-                'gap_wan': wan(fv(0, 6, 360, 5000) - fv(0, 5, 360, 5000))}
+                'gap_wan': wan(fv(0, 6, 360, 5000) - fv(0, 5, 360, 5000)),
+                'gap_share_pct': r1(100 * (1 - fv(0, 5, 360, 5000) / fv(0, 6, 360, 5000))),
+                'gap_share_20y_pct': r1(100 * (1 - fv(0, 5, 240, 5000) / fv(0, 6, 240, 5000))),
+                'note': '每年多付 1 個百分點：30 年少 gap_share_pct%、20 年少 gap_share_20y_pct%，兩個都超過一成'
+                        '（完整版第 7 步「寫下目標」與第 3 節的 86 萬用的是同一組）'}
 R['sweet_spot_guide'] = {'rule': '70÷整體報酬率', 'years': {str(k): r1(70 / k) for k in (7, 6, 4, 3.6, 2.8)}}
+
+# ---------- 甜蜜點與滿足點（年複利、投入固定、不扣物價費用稅） ----------
+# 每年年底投入 C、年報酬 r，n 年後資產＝C×((1+r)^n−1)/r，一年長出來的錢＝資產×r＝C×((1+r)^n−1)
+# 甜蜜點：長出來的錢＝C            → (1+r)^n = 2       → n = ln 2 ÷ ln(1+r)
+# 滿足點：長出來的錢＝一年生活費   → (1+r)^n = 1÷s     → n = ln(1÷s) ÷ ln(1+r)
+#   （儲蓄率 s＝存下來÷收入；生活費＝收入−存下來＝C×(1÷s−1)）
+# 所以 s＝50% 時滿足點＝甜蜜點；s＝1/3 是 ln3÷ln2≈1.585 倍，s＝1/4 是 ln4÷ln2＝2 倍（和報酬率無關）
+SAVE_RATES = [('50%', 0.5), ('33%', 1 / 3), ('25%', 0.25)]
+def years_to_point(rate_pct, s):
+    return math.log(1 / s) / math.log(1 + rate_pct / 100)
+R['sweet_satisfy'] = {
+    'formula': 'n = ln(1÷儲蓄率) ÷ ln(1＋報酬率)；年複利、每年投入固定、不扣物價費用稅',
+    'sweet_spot_note': '甜蜜點＝資產一年長出來的錢追上一年存進去的錢，等於儲蓄率 50% 那一欄（ln2÷ln(1+r)）',
+    'save_rates': {k: round(v, 6) for k, v in SAVE_RATES},
+    'note_33pct': '33% 以 1/3 計算（0.33 會得 28.3 年）',
+    'years': {str(r): {k: r1(years_to_point(r, s)) for k, s in SAVE_RATES} for r in (4, 6, 7)},
+    'sweet_spot_years': {str(r): r1(years_to_point(r, 0.5)) for r in (4, 6, 7)},
+    'ratio_vs_sweet': {k: round(math.log(1 / s) / math.log(2), 3) for k, s in SAVE_RATES},
+    'guide_rounding': '完整版第 2 節寫的高 7% 約 10 年、中 6% 約 12 年、低 4% 約 18 年，就是這一組四捨五入',
+    # 滿足點那一年的資產÷年生活費：資產×r＝生活費 → 資產÷生活費＝1÷r，和儲蓄率無關。
+    # 也就是這張表隱含「每年把資產的 r 拿出來花」；本書退休目標用的是 25 到 40 倍（一年拿 4% 到 2.5%）。
+    'asset_over_living_multiple': {str(r): r1(100 / r) for r in (4, 6, 7)},
+    'withdrawal_multiple_for_retirement': {'倍數': '25 到 40', '對應提領率': '4% 到 2.5%',
+                                           'note': '完整版「年齡、槓桿與退休」第三題；25 倍對台灣讀者偏樂觀，只當最低參考'},
+    # 生活費會跟著物價漲：把報酬率先減掉物價再算一次（減法，和書上「整體報酬率－總費用率」同一套寫法）
+    'after_inflation_subtract_2pct': {'method': '報酬率直接減 2 個百分點（書上採用的寫法）',
+                                      'years_save_half': {str(r): r1(years_to_point(r - 2, 0.5)) for r in (4, 6, 7)}},
+    'after_inflation_exact_real': {'method': '精算實質報酬 (1+r)/(1+2%)−1（只供查證，書上不寫）',
+                                   'years_save_half': {str(r): r1(math.log(2) / math.log((1 + r / 100) / 1.02)) for r in (4, 6, 7)}},
+}
+
+# ---------- 滾動視窗：抱多久、賺錢的機率（含息） ----------
+import csv as _csv, bisect as _bisect
+from datetime import date as _date
+TAIEX_CSV = os.path.join(ROOT, 'research', 'data', 'taiex_tr_monthly_raw.csv')
+SHILLER_CSV = os.path.join(ROOT, 'research', 'data', 'shiller_sp_monthly.csv')
+
+def _add_months(d, months):
+    y = d.year + (d.month - 1 + months) // 12
+    m = (d.month - 1 + months) % 12 + 1
+    dd = d.day
+    while True:
+        try: return _date(y, m, dd)
+        except ValueError: dd -= 1
+
+def taiex_series():
+    rows = list(_csv.reader(open(TAIEX_CSV, encoding='utf-8')))[1:]
+    return [_date.fromisoformat(r[0]) for r in rows], [float(r[1]) for r in rows]
+
+def taiex_windows(months):
+    """日資料的日曆視窗：起點每一個交易日，終點取「滿 N 個月的同一天」當天或之前最後一個交易日。"""
+    dates, vals = taiex_series(); out = []
+    for i, d in enumerate(dates):
+        tgt = _add_months(d, months)
+        if tgt > dates[-1]: break
+        j = _bisect.bisect_right(dates, tgt) - 1
+        if j <= i: continue
+        out.append((vals[i], vals[j]))
+    return out
+
+def _pos_share(pairs):
+    c = sum(1 for a, b in pairs if b > a)
+    return {'n': len(pairs), 'positive': c, 'pct': round(100 * c / len(pairs), 2), 'pct_int': r0(100 * c / len(pairs))}
+
+def _ann_range(pairs, years):
+    xs = sorted(((b / a) ** (1 / years) - 1) * 100 for a, b in pairs)
+    return {'n': len(xs), 'min_pct': r1(xs[0]), 'max_pct': r1(xs[-1])}
+
+_td, _tv = taiex_series()
+_tw_pos = {'1天': _pos_share(list(zip(_tv, _tv[1:])))}
+for _lbl, _m in [('1個月', 1), ('1年', 12), ('3年', 36), ('5年', 60), ('10年', 120)]:
+    _tw_pos[_lbl] = _pos_share(taiex_windows(_m))
+_tw_rng = {str(_y) + '年': _ann_range(taiex_windows(_y * 12), _y) for _y in (1, 5, 10, 20)}
+
+# 交叉檢查：另一種常見寫法（把一年當 252 個交易日），只放進 json 備查，書上不用
+def _fixed_step(k, years):
+    pairs = [(_tv[i], _tv[i + k]) for i in range(len(_tv) - k)]
+    return {'positive': _pos_share(pairs), 'range': _ann_range(pairs, years)}
+
+def shiller_tr():
+    """名目含息月指數：月報酬＝(P_t＋D_t/12)÷P_{t−1}。只取有股利資料的月份。"""
+    rows = list(_csv.DictReader(open(SHILLER_CSV, encoding='utf-8')))
+    end = next(i for i, r in enumerate(rows) if float(r['Dividend'] or 0) == 0)
+    rows = rows[:end]
+    tr = [1.0]
+    for k in range(1, len(rows)):
+        p0 = float(rows[k - 1]['SP500']); p1 = float(rows[k]['SP500']); d = float(rows[k]['Dividend'])
+        tr.append(tr[-1] * ((p1 + d / 12) / p0))
+    return rows[0]['Date'][:7], rows[-1]['Date'][:7], tr
+
+_s_from, _s_to, _str = shiller_tr()
+_us_pos = {}
+for _y in (1, 5, 10, 20, 30):
+    _k = _y * 12
+    _us_pos[str(_y) + '年'] = _pos_share([(_str[i], _str[i + _k]) for i in range(len(_str) - _k)])
+
+R['rolling'] = {
+    'window_rule': '日曆視窗：從任一個交易日算到滿 N 年（月）的同一天；那天沒開盤就取前一個交易日。視窗每天重疊，不是互相獨立的樣本。',
+    'caveats': ['視窗重疊，不是獨立樣本', '都沒扣物價、費用和稅', '台股只有 23 年，起點又在 2000–2002 大跌之後，10 年 100% 只代表這段期間',
+                '美股是 S&P 500 含息、名目'],
+    'taiex': {
+        'source': '證交所發行量加權股價報酬指數（含息）', 'file': os.path.relpath(TAIEX_CSV, ROOT),
+        'from': _td[0].isoformat(), 'to': _td[-1].isoformat(), 'trading_days': len(_td),
+        'positive_share': _tw_pos,
+        'annual_range': _tw_rng,
+        'cross_check_252_trading_days': {str(_y) + '年': _fixed_step(252 * _y, _y) for _y in (1, 5, 10, 20)},
+    },
+    'us': {
+        'source': 'Robert Shiller 公開月資料，S&P 500 含息、名目', 'file': os.path.relpath(SHILLER_CSV, ROOT),
+        'from': _s_from, 'to': _s_to, 'months': len(_str),
+        'end_note': '股利欄只到 %s，之後留白，所以序列在這裡截止' % _s_to,
+        'positive_share': _us_pos,
+    },
+}
 
 # grep 正式檔：引用數字所在行（guidetools text 行號）
 quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%', '一家是台積電（1.80%）', '2,458 家公司', '2026 年 8 月底的權重',
@@ -448,5 +566,12 @@ p('小芸阿哲:', xy)
 p('陳大哥:', json.dumps(ch, ensure_ascii=False))
 p('XIRR:', R['xirr_demo'])
 p('無感期:', R['quiet_period'], '費用差:', R['fee_gap'])
+p('甜蜜點/滿足點:', json.dumps(R['sweet_satisfy']['years'], ensure_ascii=False), '倍數:', R['sweet_satisfy']['ratio_vs_sweet'])
+p('台股為正比例:', {k: v['pct'] for k, v in R['rolling']['taiex']['positive_share'].items()})
+p('台股區間:', {k: (v['min_pct'], v['max_pct']) for k, v in R['rolling']['taiex']['annual_range'].items()})
+p('台股 252 日交叉檢查:', {k: (v['positive']['pct'], v['range']['min_pct'], v['range']['max_pct'])
+                          for k, v in R['rolling']['taiex']['cross_check_252_trading_days'].items()})
+p('美股為正比例:', R['rolling']['us']['from'], '→', R['rolling']['us']['to'],
+  {k: v['pct'] for k, v in R['rolling']['us']['positive_share'].items()})
 p('引用缺漏:', R['guide_citations']['missing'])
 p('wrote', OUT)

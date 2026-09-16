@@ -179,5 +179,65 @@
   "path": "chen.first_year_withdrawal.amount_wan",
   "pattern": "第一年提領約(\\d+(?:\\.\\d+)?)萬",
   "scope": "ch9"
+ },
+ {
+  "id": "台股 1 年為正比例",
+  "path": "rolling.taiex.positive_share.1年.pct_int",
+  "pattern": "1年(\\d+)%72%",
+  "scope": "ch11"
+ },
+ {
+  "id": "美股 1 年為正比例",
+  "path": "rolling.us.positive_share.1年.pct_int",
+  "pattern": "1年77%(\\d+)%",
+  "scope": "ch11"
+ },
+ {
+  "id": "台股 5 年為正比例",
+  "path": "rolling.taiex.positive_share.5年.pct_int",
+  "pattern": "5年(\\d+)%90%",
+  "scope": "ch11"
+ },
+ {
+  "id": "美股 10 年為正比例",
+  "path": "rolling.us.positive_share.10年.pct_int",
+  "pattern": "10年100%(\\d+)%",
+  "scope": "ch11"
+ },
+ {
+  "id": "台股 1 年區間上緣",
+  "path": "rolling.taiex.annual_range.1年.max_pct",
+  "pattern": "換算成平均一年是−52\\.6%到\\+(\\d+\\.\\d)%",
+  "scope": "ch11"
+ },
+ {
+  "id": "台股 20 年區間下緣",
+  "path": "rolling.taiex.annual_range.20年.min_pct",
+  "pattern": "抱滿20年是\\+(\\d+\\.\\d)%到",
+  "scope": "ch11"
+ },
+ {
+  "id": "台股 20 年區間上緣",
+  "path": "rolling.taiex.annual_range.20年.max_pct",
+  "pattern": "抱滿20年是\\+9\\.0%到\\+(\\d+\\.\\d)%",
+  "scope": "ch11"
+ },
+ {
+  "id": "滿足點 低 4% 存四分之一",
+  "path": "sweet_satisfy.years.4.25%",
+  "pattern": "4%\\(低\\)17\\.7年28\\.0年(\\d+\\.\\d)年",
+  "scope": "ch11"
+ },
+ {
+  "id": "滿足點 高 7% 存三分之一",
+  "path": "sweet_satisfy.years.7.33%",
+  "pattern": "7%\\(高\\)10\\.2年(\\d+\\.\\d)年",
+  "scope": "ch11"
+ },
+ {
+  "id": "甜蜜點 中 6%",
+  "path": "sweet_satisfy.sweet_spot_years.6",
+  "pattern": "6%\\(中\\)(\\d+\\.\\d)年",
+  "scope": "ch11"
  }
 ]
