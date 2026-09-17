@@ -1,0 +1,84 @@
+=== #1 replace (tok 18)
+CTX: </title>⏎<style>
+-: ⏎:root{--teal:#176c5a;--accent:#a4483f;--fill:#eef2ef;--sans:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;--paper:#f6f2e9;--surface:#fffdf8;--ink:#17211d;--muted:#5d6a64;--line:#d8d4ca;--green:#176c5a;--green2:#dceee7;--amber:#b66d18;--amber2:#f6e7cf;--red:#a4483f;--blue:#345f88;--shadow:0 12px 32px rgba(23,33,29,.08);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}⏎*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-size:18px;line-height:1.78}a{color:var(--green);text-underline-offset:.18em}header,main,footer{width:min(100% - 32px,860px);margin-inline:auto}.cover{padding:72px 0 28px}.eyebrow{color:var(--green);font-weight:800;letter-spacing:.08em}.cover h1{font-size:clamp(2.4rem,7vw,4.8rem);line-height:1.08;margin:.2em 0}.subtitle{font-size:1.25rem;color:var(--muted);max-width:42em}.promise{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--green);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow)}.audit-stamp{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}.chip{border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--surface);font-size:.84rem}.toc{scroll-margin-top:16px;margin:32px 0;padding:22px 28px 18px;background:var(--surface);border:1px solid var(--line);border-radius:18px}.toc h2{margin:0 0 .2em}.toc li{break-inside:avoid;margin:0;padding:.3em 0;line-height:1.45}.toc ul,.toc ol{list-style:none;margin:0;padding:0;columns:2;column-gap:36px}.toc ol{counter-reset:toc}.toc ol li{counter-increment:toc}.toc ol li::before{content:counter(toc,decimal-leading-zero);display:inline-block;min-width:1.9em;color:var(--muted);font-size:.82em;font-variant-numeric:tabular-nums;letter-spacing:.02em}.toc h3{font-size:.78rem;letter-spacing:.1em;color:var(--muted);margin:1.2em 0 .5em;padding-bottom:.35em;border-bottom:1px solid var(--line)}.toc h3+p.small{margin:0 0 .5em}.toc h4{font-size:.84rem;margin:.8em 0 .1em}.part{background:var(--surface);border:1px solid var(--line);border-radius:24px;margin:24px 0;padding:clamp(22px,5vw,48px);box-shadow:var(--shadow);scroll-margin-top:16px}.part h2{font-size:clamp(1.55rem,4vw,2.25rem);line-height:1.28;margin:0 0 .65em}.num{display:inline-grid;place-items:center;width:2.05em;height:2.05em;margin-right:.35em;border-radius:50%;background:var(--green);color:white;font-size:.66em;vertical-align:.18em}.lede{font-size:1.2rem;font-weight:800;color:var(--green);margin:0 0 1.4em}.explain{padding:14px 16px;background:var(--green2);border-radius:16px}.explain strong{color:var(--green)}.plain-title{font-size:.84rem;font-weight:900;letter-spacing:.08em;color:var(--green);text-transform:uppercase}.data-card,.source-card,.story,.decision,.warning{margin:22px 0;border-radius:16px;padding:18px 20px}.data-card{background:#f3f6f4;border:1px solid #cfdad5}.source-card{background:#f8f3e9;border:1px soli
++: ⏎:root{--teal:#176c5a;--accent:#a4483f;--fill:#eef2ef;--sans:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;--paper:#f6f2e9;--surface:#fffdf8;--ink:#17211d;--muted:#5d6a64;--line:#d8d4ca;--green:#176c5a;--green2:#dceee7;--amber:#b66d18;--amber2:#f6e7cf;--red:#a4483f;--blue:#345f88;--shadow:0 12px 32px rgba(23,33,29,.08);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}⏎*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-size:18px;line-height:1.78}a{color:var(--green);text-underline-offset:.18em}header,main,footer{width:min(100% - 32px,860px);margin-inline:auto}.cover{padding:72px 0 28px}.eyebrow{color:var(--green);font-weight:800;letter-spacing:.08em}.cover h1{font-size:clamp(2.4rem,7vw,4.8rem);line-height:1.08;margin:.2em 0}.subtitle{font-size:1.25rem;color:var(--muted);max-width:42em}.promise{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--green);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow)}.audit-stamp{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}.chip{border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--surface);font-size:.84rem}.toc{scroll-margin-top:16px;margin:32px 0;padding:22px 28px 18px;background:var(--surface);border:1px solid var(--line);border-radius:18px}.toc h2{margin:0 0 .2em}.toc li{break-inside:avoid;margin:0;padding:.3em 0;line-height:1.45}.toc ul,.toc ol{list-style:none;margin:0;padding:0;columns:2;column-gap:36px}.toc ol{counter-reset:toc}.toc ol li{counter-increment:toc}.toc ol li::before{content:counter(toc,decimal-leading-zero);display:inline-block;min-width:1.9em;color:var(--muted);font-size:.82em;font-variant-numeric:tabular-nums;letter-spacing:.02em}.toc h3{font-size:.78rem;letter-spacing:.1em;color:var(--muted);margin:1.2em 0 .5em;padding-bottom:.35em;border-bottom:1px solid var(--line)}.toc h3+p.small{margin:0 0 .5em}.toc h4{font-size:.84rem;margin:.8em 0 .1em}.part{background:var(--surface);border:1px solid var(--line);border-radius:24px;margin:24px 0;padding:clamp(22px,5vw,48px);box-shadow:var(--shadow);scroll-margin-top:16px}.part h2{font-size:clamp(1.55rem,4vw,2.25rem);line-height:1.28;margin:0 0 .65em}.num{display:inline-grid;place-items:center;width:2.05em;height:2.05em;margin-right:.35em;border-radius:50%;background:var(--green);color:white;font-size:.66em;vertical-align:.18em}.lede{font-size:1.2rem;font-weight:800;color:var(--green);margin:0 0 1.4em}.explain{padding:14px 16px;background:var(--green2);border-radius:16px}.explain strong{color:var(--green)}.plain-title{font-size:.84rem;font-weight:900;letter-spacing:.08em;color:var(--green);text-transform:uppercase}.data-card,.source-card,.story,.decision,.warning{margin:22px 0;border-radius:16px;padding:18px 20px}.data-card{background:#f3f6f4;border:1px solid #cfdad5}.source-card{background:#f8f3e9;border:1px soli
+=== #2 replace (tok 28)
+CTX: <header class="cover" id="top">⏎<div class="eyebrow">
+-: 給理財新手的長期投資指南・v6.1／2026-09-16
++: 給理財新手的長期投資指南・v6.2／2026-09-17
+=== #3 replace (tok 44)
+CTX: </p>⏎<p class="subtitle">
+-: 這一份是主體：為什麼這樣做、怎麼做、數字從哪裡來，都寫在這裡。想直接動手、要可以印出來手寫的表格，另有《可列印工作表》。
++: 這一份是主體：為什麼這樣做、怎麼做、數字從哪裡來，都寫在這裡。想直接動手、要可以印出來手寫的表格，另有《<a href="https://claude.ai/artifact/492iv4AuQeSHVPRN2XEC1E" target="_blank" rel="noopener">可列印工作表</a>》。
+=== #4 replace (tok 475)
+CTX: </nav>⏎<script>
+-: ⏎(function(){if(!window.matchMedia||!window.matchMedia('(min-width: 760px)').matches)return;⏎document.querySelectorAll('#toc details.toc-part, details.read-how').forEach(function(d){d.open=true;});})();⏎
++: ⏎(function(){if(!window.matchMedia||!window.matchMedia('(min-width: 760px)').matches)return;⏎document.querySelectorAll('#toc details.toc-part, details.read-how').forEach(function(d){d.open=true;});})();⏎(function(){var opened=[];window.addEventListener('beforeprint',function(){opened=[];Array.prototype.forEach.call(document.querySelectorAll('details[data-print]'),function(d){if(!d.open){d.open=true;opened.push(d);}});});window.addEventListener('afterprint',function(){opened.forEach(function(d){d.open=false;});opened=[];});})();⏎
+=== #5 replace (tok 6984)
+CTX: 廣泛分散能降低單一公司出事的影響。但它不保證整個市場會回到某個價位，也不保證在你要用錢以前回來。</p>⏎
+-: <p>
++: <p id="s5-fx">
+=== #6 replace (tok 11235)
+CTX: <a class="xref" href="#s10">10</a>
+-:  節（改計畫前的冷卻期）。要印出來手寫，另有《可列印工作表》。
++:  節（改計畫前的冷卻期）。要印出來手寫，另有《<a href="https://claude.ai/artifact/492iv4AuQeSHVPRN2XEC1E" target="_blank" rel="noopener">可列印工作表</a>》。
+=== #7 replace (tok 11734)
+CTX: 21 只有這些情況可以賣</td><td>
+-: □要用這筆錢　□比例超過自己寫下的門檻（本指南用 5/25，怎麼算見本節後面「再平衡」），而且新錢補不回來　□換成同類、費用更低的（先算換的成本；換商品也是改計畫，照冷卻期等過才換）　□人生狀況改變或已經影響睡眠：可以立即把股票比例長期調低（打算之後買回來的不算），寫日期和理由
++: □要用這筆錢　□比例超過自己寫下的門檻（本指南用 5/25，怎麼算見本節後面「再平衡」；寫在一頁空白版 F 區「超過門檻」後面的空格），而且新錢補不回來　□換成同類、費用更低的（先算換的成本；換商品也是改計畫，照冷卻期等過才換）　□人生狀況改變或已經影響睡眠：可以立即把股票比例長期調低（打算之後買回來的不算），寫日期和理由
+=== #8 replace (tok 11899)
+CTX: <br>跌 10%＿＿　跌 20%＿＿　跌 30% 以上＿＿<br>
+-: 可以賣：□用錢　□超過門檻且新錢補不回　□換更便宜的同類（等冷卻期）　□人生改變／睡不著→立即降
++: 可以賣：□用錢　□超過門檻＿＿（例：5/25）且新錢補不回　□換更便宜的同類（等冷卻期）　□人生改變／睡不著→立即降
+=== #9 replace (tok 14025)
+CTX: </p></div><p class="decision">
+-: 今天就把「我的投資計畫」印出來（網頁版先點開「一頁空白版」再列印；要大一點的手寫空格，印《可列印工作表》的計畫表那一頁），寫得出來的格子先寫；寫不出來的那一格，就是你最該先想的。
++: 今天就把「我的投資計畫」印出來（網頁版先點開「一頁空白版」再列印；要大一點的手寫空格，印《<a href="https://claude.ai/artifact/492iv4AuQeSHVPRN2XEC1E" target="_blank" rel="noopener">可列印工作表</a>》的計畫表那一頁），寫得出來的格子先寫；寫不出來的那一格，就是你最該先想的。
+=== #10 replace (tok 16109)
+CTX: <a class="xref" href="#s13-loss">14</a>
+-:  節「怕賠」
++:  節「怕賠」裡的「<a class="xref" href="#s13-drop20">市場下跌 20%</a>」和「<a class="xref" href="#s13-crash">新聞預測市場崩盤</a>」兩題。<br><span class="small">還沒寫計畫表的人：照這兩題，先分辨是上下波動還是回不來的永久損失，再檢查這筆錢的用途和期限有沒有變；之後回第 <a class="xref" href="#plan-table">11</a> 節，把跌了做什麼寫進 F 區。</span>
+=== #11 insert (tok 16178)
+CTX: </td><td>第 
+-: 
++: <a class="xref" href="#s5-fx">5</a> 節「換回台幣的波動」、第 <a class="xref" href="#s13-loss">14</a> 節「怕賠」最後一題；想等匯率再換，看第 
+=== #12 replace (tok 16181)
+CTX: <a class="xref" href="#s6-fx">6</a>
+-:  節「等匯率，和等股價是同一個問題」、第 <a class="xref" href="#s13-loss">14</a> 節「怕賠」最後一題
++:  節「等匯率，和等股價是同一個問題」
+=== #13 replace (tok 16542)
+CTX: </span></li>⏎
+-: <li>
++: <li id="s13-drop20">
+=== #14 replace (tok 16561)
+CTX: </span></li>⏎
+-: <li>
++: <li id="s13-crash">
+=== #15 replace (tok 16963)
+CTX: </span></li>⏎
+-: <li>
++: <li id="s13-switch">
+=== #16 replace (tok 17066)
+CTX: </p>⏎<script>
+-: ⏎(function () {⏎  var sec = document.getElementById('s13');⏎  if (!sec || !sec.querySelectorAll || !Array.prototype.forEach) return;⏎  var names = ['怕晚', '怕錯過', '怕賠', '怕輸人', '無聊', '想控制'];⏎  var buttons = ['怕晚', '怕賠', '想控制'];⏎  var groups = {};⏎  Array.prototype.forEach.call(sec.querySelectorAll('h3'), function (h) {⏎    var t = (h.textContent || '').replace(/\s+/g, '');⏎    names.forEach(function (n) {⏎      var ol = h.nextElementSibling;⏎      if (t.indexOf(n + '（') === 0 && ol && ol.tagName === 'OL') groups[n] = [h, ol];⏎    });⏎  });⏎  if (names.some(function (n) { return !groups[n]; })) return;⏎  var st = document.createElement('style');⏎  st.textContent = '[data-s13-filter]{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 .2rem}' +⏎    '[data-s13-filter] button{font:inherit;font-size:.84rem;line-height:1.4;padding:.25rem .9rem;border-radius:16px;' +⏎    'border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}' +⏎    '[data-s13-filter] button[aria-pressed="true"]{font-weight:700;background:rgba(127,127,127,.18)}' +⏎    '@media screen{[data-s13-hidden]{display:none!important}}' +⏎    '@media print{[data-s13-filter]{display:none!important}}';⏎  document.head.appendChild(st);⏎  var bar = document.createElement('div');⏎  bar.setAttribute('data-s13-filter', '1');⏎  bar.setAttribute('role', 'group');⏎  bar.setAttribute('aria-label', '只看某一種感受的題目');⏎  var all = [];⏎  function show(which) {⏎    names.forEach(function (n) {⏎      groups[n].forEach(function (el) {⏎        if (which === '全部' || which === n) el.removeAttribute('data-s13-hidden');⏎        else el.setAttribute('data-s13-hidden', '1');⏎      });⏎    });⏎    all.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-which') === which ? 'true' : 'false'); });⏎  }⏎  buttons.concat(['全部']).forEach(function (w) {⏎    var b = document.createElement('button');⏎    b.type = 'button';⏎    b.textContent = w;⏎    b.setAttribute('data-which', w);⏎    b.addEventListener('click', function () { show(w); });⏎    all.push(b);⏎    bar.appendChild(b);⏎  });⏎  groups['怕晚'][0].parentNode.insertBefore(bar, groups['怕晚'][0]);⏎  show('全部');⏎})();⏎
++: ⏎(function () {⏎  var sec = document.getElementById('s13');⏎  if (!sec || !sec.querySelectorAll || !Array.prototype.forEach) return;⏎  var names = ['怕晚', '怕錯過', '怕賠', '怕輸人', '無聊', '想控制'];⏎  var buttons = ['怕晚', '怕賠', '想控制'];⏎  var groups = {};⏎  Array.prototype.forEach.call(sec.querySelectorAll('h3'), function (h) {⏎    var t = (h.textContent || '').replace(/\s+/g, '');⏎    names.forEach(function (n) {⏎      var ol = h.nextElementSibling;⏎      if (t.indexOf(n + '（') === 0 && ol && ol.tagName === 'OL') groups[n] = [h, ol];⏎    });⏎  });⏎  if (names.some(function (n) { return !groups[n]; })) return;⏎  var st = document.createElement('style');⏎  st.textContent = '[data-s13-filter]{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 .2rem}' +⏎    '[data-s13-filter] button{font:inherit;font-size:.84rem;line-height:1.4;padding:.25rem .9rem;border-radius:16px;' +⏎    'border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}' +⏎    '[data-s13-filter] button[aria-pressed="true"]{font-weight:700;background:rgba(127,127,127,.18)}' +⏎    '@media screen{[data-s13-hidden]{display:none!important}}' +⏎    '@media print{[data-s13-filter]{display:none!important}}';⏎  document.head.appendChild(st);⏎  var bar = document.createElement('div');⏎  bar.setAttribute('data-s13-filter', '1');⏎  bar.setAttribute('role', 'group');⏎  bar.setAttribute('aria-label', '只看某一種感受的題目');⏎  var all = [];⏎  function show(which) {⏎    names.forEach(function (n) {⏎      groups[n].forEach(function (el) {⏎        if (which === '全部' || which === n) el.removeAttribute('data-s13-hidden');⏎        else el.setAttribute('data-s13-hidden', '1');⏎      });⏎    });⏎    all.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-which') === which ? 'true' : 'false'); });⏎  }⏎  buttons.concat(['全部']).forEach(function (w) {⏎    var b = document.createElement('button');⏎    b.type = 'button';⏎    b.textContent = w;⏎    b.setAttribute('data-which', w);⏎    b.addEventListener('click', function () { show(w); });⏎    all.push(b);⏎    bar.appendChild(b);⏎  });⏎  groups['怕晚'][0].parentNode.insertBefore(bar, groups['怕晚'][0]);⏎  function reveal(id) {⏎    var t = id && document.getElementById(id);⏎    if (t && sec.contains(t) && t.closest && t.closest('[data-s13-hidden]')) { show('全部'); return t; }⏎    return null;⏎  }⏎  document.addEventListener('click', function (e) {⏎    var a = e.target && e.target.closest && e.target.closest('a[href^="#"]');⏎    if (a) reveal(decodeURIComponent(a.getAttribute('href').slice(1)));⏎  }, true);⏎  window.addEventListener('hashchange', function () {⏎    var t = reveal(decodeURIComponent(location.hash.slice(1)));⏎    if (t) t.scrollIntoView();⏎  });⏎  show('全部');⏎})();⏎
+=== #17 replace (tok 18702)
+CTX: <a class="xref" href="#case-chen">12</a>
+-:  節的陳大哥（五年後退休，附填好的全表）。
++:  節的陳大哥（五年後退休，附填好的全表）。替爸媽想的人，「<a class="xref" href="#case-chen">陳大哥：五年後退休</a>」的例子和「<a class="xref" href="#family-sheet">家庭一頁表</a>」都可以拿來和爸媽一起看。
+=== #18 replace (tok 18766)
+CTX: 費用：</strong>持有的每一檔，今年的總費用率是多少？有沒有同一個指數、更便宜的選擇？要換，先算換的成本（第 
+-: <a class="xref" href="#s13">
++: <a class="xref" href="#s13-switch">
+=== #19 replace (tok 19404)
+CTX: </p>⏎<div class="data-card">
+-: <h3>
++: <h3 id="lifecycle-sequence">
+=== #20 replace (tok 19715)
+CTX: <a class="xref" href="#lifecycle-q3">年齡、槓桿與退休</a>
+-: 」第三題，往下找「為什麼提領期怕一開始就跌」和「勞保和勞退先算，再算第三層」兩張卡：兩個人各 100 萬的例子、Vanguard 1973、1974 年退休的真實數字、勞保和勞退怎麼算（包括雇主提撥多少、自己能再自提多少），還有「每年能領多少」的研究起點。這一節只講兩件要自己動手準備的事：接近用錢日要先準備什麼，和讓家人接得下去的家庭一頁表。
++: 」第三題，往下找「<a class="xref" href="#lifecycle-sequence">為什麼提領期怕一開始就跌</a>」和「<a class="xref" href="#pension">勞保和勞退先算，再算第三層</a>」兩張卡：兩個人各 100 萬的例子、Vanguard 1973、1974 年退休的真實數字、勞保和勞退怎麼算（包括雇主提撥多少、自己能再自提多少），還有「每年能領多少」的研究起點。這一節只講兩件要自己動手準備的事：接近用錢日要先準備什麼，和讓家人接得下去的家庭一頁表。
+=== #21 replace (tok 19747)
+CTX: </div>⏎<div class="data-card">
+-: <h3>
++: <h3 id="family-sheet">

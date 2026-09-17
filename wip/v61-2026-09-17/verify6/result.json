@@ -1,0 +1,235 @@
+{
+  "summary": "隔離人性 v6.2：修 12 條手機查找與列印建議、門檻填空、版本字串 → 新手走查與裁判複驗",
+  "agentCount": 3,
+  "logs": [],
+  "result": {
+    "polish": "polish 階段 12 條加版本字串都做完了。最後一次 build 結果：`python3 tools/build_lite.py` exit 0、SENTINELS OK（完整版 147 頁，和改前一樣；工作表 4 頁，第 1 頁仍是一頁；`version`、`order`、`xref_num` 335 個、`part_maps` 都綠）。`guidetools check` OK，`test_guidetools` ALL PASS，`essay/` 沒有被改，沒有 commit。有三處和主線寫法不同，放在第 4、5、11 條。\n\n**逐條**\n1. **列印展開**：在目錄那段 script 加了 beforeprint／afterprint，把帶 data-print 的 details 展開再還原。CSS 那句改成 `details.read-how[open]>summary{display:none}`，另加 `details[data-print]:not([open])::details-content{content-visibility:visible;display:block}` 當後備。直接印 `output/full-v60-out.html`（400 寬）：\n   - 只留 JS、只留 CSS、兩個都留：前兩頁都有「閱讀方式：」和各組節名。\n   - 兩個都拿掉：沒有，舊問題重現。\n2. **第 14 節篩選**：在篩選腳本裡加了 capture 階段的 click 監聽和 hashchange 監聽，目標被藏時先切回「全部」。先按「怕晚」再點狀況索引和年檢的 11 個 s13 連結，全部捲到位（其中 10 個原本是藏著的）。\n3. **台幣升值那列**：第 5 節「對台灣人來說還有第三種」那段加 `id=\"s5-fx\"`。這一列改成：第 5 節「換回台幣的波動」、第 14 節「怕賠」最後一題；想等匯率再換，看第 6 節（`#s6-fx`）。\n4. **門檻空格**：\n   - 完整版空白版：「□超過門檻＿＿（例：5/25）且新錢補不回」。\n   - 欄位表第 21 格括號補「寫在一頁空白版 F 區『超過門檻』後面的空格」。\n   - **和主線不同**：工作表短稿原位加字會讓第 1 頁掉到第 2 頁，所以把這一行和「□換更便宜的同類（等冷卻期）」上下對調，行數不變。PDF 看過仍是一頁，已 `--stamp plan-blank`，短稿裡加了一行 note 說明。\n5. **節號點擊範圍**：**和主線不同，沒有用 inline-block＋min-width**。截圖發現長的節名連結（例如「現在是歷史新高，會不會太高了？」）會整塊跳行、置中，引號被留在上一行，排版被撐亂。改成在 `@media (pointer:coarse)` 下 `a.xref{padding:.4em .8em;margin:0 -.8em}`，底線改用 text-decoration。這樣版面完全不動，點擊範圍變大：「5」從 9×18 變 32×29 px，「14」變 41×29 px。沒改 HTML 和錨文字。\n6. **大跌那列直連兩題**：「市場下跌 20%」加 `id=\"s13-drop20\"`，「新聞預測市場崩盤」加 `id=\"s13-crash\"`。第 1 列的兩個題名直接連過去。\n7. **給還沒寫計畫表的人**：同一格加一行小字：「還沒寫計畫表的人：照這兩題，先分辨是上下波動還是回不來的永久損失，再檢查這筆錢的用途和期限有沒有變；之後回第 11 節，把跌了做什麼寫進 F 區。」內容取自那兩題的回答，沒有新事實，也沒寫「先不賣」。\n8. **爸媽**：group-life 收尾加一句：「替爸媽想的人，「陳大哥：五年後退休」的例子和「家庭一頁表」都可以拿來和爸媽一起看。」家庭一頁表的 h3 新加 `id=\"family-sheet\"`。\n9. **用錢前的準備**：「為什麼提領期怕一開始就跌」h3 加 `id=\"lifecycle-sequence\"`。開頭那句的兩個卡名直接連過去；勞保那張卡本來就有 `#pension`，沿用。\n10. **工作表連結**：三處《可列印工作表》都把書名包成連結（target=_blank rel=noopener），句子沒改。\n11. **手機空白版與滑動提示**：只加螢幕、窄於 660px 的 CSS，列印規則沒動。\n    - 工作表的 `table.lite-plan`：td 改 display:block，由上往下排。\n    - **和主線不同**：完整版的空白版不是 `lite-plan` 表，而且原本的欄位排法是「A+B｜E」「C+D｜F+G+H」，光改 block 會排成 A、B、E、C、D。所以用 `[data-lite-alt~=\"plan-blank\"]` 選擇器，tbody 改 flex、tr 改 contents，再用 order 排成 A→H。\n    - 空白版、`lite-plan`、狀況索引表都不再顯示「← 表格可左右滑動 →」。\n    - 400px 截圖看過，完整版和工作表都是 A→H 單欄。\n12. **年檢費用那格**：「改換費用較低的產品」加 `id=\"s13-switch\"`，年檢連結改指過去。這格在工作表的年檢區塊裡，只改了 href；短稿沒有引用這個連結、內容不動，看過後 `--stamp app-a-checklist`，也加了 note。\n\n**版本字串**：完整版封面和 `lite/manifest.json` 都改成 v6.2／2026-09-17。export 已刪掉 v6.1 的四個檔，只剩 v6.2 的四個。\n\n**截圖**（400px 版面，用 CDP 設定寬度並模擬觸控，都自己看過），在 `/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/`：\n- polish-cover.png\n- polish-toc.png\n- polish-situations.png、polish-situations2.png\n- polish-plan-blank.png、polish-plan-blank2.png、polish-plan-blank3.png\n- polish-dajie-landing.png（封面點「大跌」後落到狀況索引）\n- polish-dajie-drop20.png（再點「市場下跌 20%」的落地處）\n- polish-worksheet-plan.png\n\n**順帶發現，沒修**：手機 400px 時整頁可以左右滑，頁面寬 525px。原因是資料口徑與來源那一節一段不會斷行的 `<code>https://www.twse.com.tw/rwd/zh…</code>`（`guide/index.html` 約第 2670 行）。改前的 polish-before.html 也一樣，不是這一輪造成的。\n\n**改動的檔**：\n- 手改：`guide/index.html`、`lite/alt/plan-blank.html`、`lite/alt/app-a-checklist.html`、`lite/manifest.json`\n- 重新產生：`lite/index.html`、`lite/work/*.txt`、`output/*.html`、`export/*v6.2.*`\n- 備份：`guide/index.v62-polish.backup.html`、`wip/v61-2026-09-17/stages/polish-before.html`\n\n新增錨點 7 個：s5-fx、s13-drop20、s13-crash、s13-switch、lifecycle-sequence、family-sheet（新）；pension 是沿用。",
+    "verify": [
+      {
+        "scope": "裁判複驗 polish 階段 12 條加版本字串，只讀不改。我自己寫的檔都用 j_ 開頭，放在 wip/v61-2026-09-17/verify6/。同一個資料夾裡的 walk-*.png 是別的代理放的，不是我的。\n\n**怎麼驗的**\n- **重建**：把專案複製到 scratchpad，在那裡跑 build_lite.py。exit 0，SENTINELS OK：完整版 147 頁、工作表 4 頁且每塊各一頁，order、xref_num 335、part_maps、stories 25、version、fragments、s13_filter 都綠。產出的 lite/index.html、output 三個 html 和 repo 裡的逐位元相同；export 兩個 html 也等於 output。guidetools check OK。test_guidetools 需要兩個參數才能跑，我沒有另外補跑。\n- **git**：HEAD f0a29ac 就是 polish-before.html。改動只在 builder 列的 10 個檔。essay/ 35 個檔和 HEAD 相同，polish 開始後沒有被動過。沒有新的 commit。\n- **比對方法**：用標籤切詞比改前改後，一共 21 處改動，全部對得上 12 條，沒有多出來的改動。\n\n**逐條結果**\n1. **列印**：用 Chrome headless 加 --print-to-pdf 直接印。\n   - 預設寬度和 400 寬（JS＋CSS）：第 1–2 頁有「閱讀方式：」和七組節名。\n   - 只留 JS、只留 CSS（拿掉 script）：兩種也都有。\n   - 兩個都拿掉、改前版：重現空框，目錄只有組名。\n   - 截圖：j-print-after-w400-p1-3.png、j-print-nojs-css-w400-p1-3.png、j-print-before-w400-p1-3.png。\n2. **第 14 節篩選**：400px 分別按「怕晚」「怕賠」「想控制」，把 21 個指到 s13 的連結各點兩次，共 126 次，其中 46 次目標是藏著的，全部落到頂端。hashchange 的路徑也測過 9 個錨點，都正常（j_filter_result.json）。\n3. **台幣升值那列**：s5-fx 那段開頭就是「換回台幣的波動」。「怕賠」第 14 題確實是台幣升值。第 6 節移到分號後面。\n4. **門檻空格**：\n   - 工作表 PDF 第 1 頁仍是一頁，「□超過門檻＿＿（例：5/25）且新錢補不回」一行印得完整，空格看得到（j-lite-pdf-p1.png、j-lite-pdf-p1-F.png）。\n   - 完整版 PDF 第 72 頁也有（j-full-pdf-planblank-F.png）。\n   - 欄位表第 21 格的補字正確。\n5. **點擊範圍**：「5」32×29、「14」41×29 px。文字中央被隔壁連結搶走的點，改前 307、改後 302，沒有變多。\n6. **大跌兩題**：s13-drop20、s13-crash 的題名和連結文字一字不差。\n7. **給還沒寫計畫表的人**：新句子的內容都能在那兩題的回答裡找到，沒有新數字。\n8. **爸媽**：「陳大哥：五年後退休」「家庭一頁表」和目標 h3 一致。\n9. **用錢前的準備**：lifecycle-sequence、pension 落點正確。\n10. **工作表連結**：三處都連到交班文件記錄的工作表網址。\n11. **手機空白版**：\n    - 完整版和工作表在 400px 都是 A→H 單欄，表格不必左右捲。\n    - 空白版、lite-plan、狀況索引的滑動提示都不見了，其他表不受影響。\n12. **年檢費用**：s13-switch 就是「改換費用較低的產品」。\n\n**共通檢查**\n- 改後 107 個 id 沒有重複，新加 6 個（pension 沿用）。所有 #連結都找得到目標，新錨點各有 1 個連結指過來。\n- div.story 25 個、div.warning 9 個、mark.key 14 個、lede 34 個，改前改後逐字相同。decision 只差第 11 節那句的工作表連結。\n- 新加文字裡的數字，改前原文裡都有。\n- guide 和 output 都已沒有 v6.1 字樣，只剩工作表 CSS 裡一行舊註解。\n\n**結論**：12 條都修好了，沒有必須修的問題。有 2 條建議修，都不大；其中 5px 那條是這一輪造成的。",
+        "verdict": "fix_needed",
+        "findings": [
+          {
+            "severity": "should",
+            "section": "第 5 條 節號點擊範圍（連帶影響第 11 條）",
+            "location": "guide/index.html 的 <style>：@media (pointer:coarse){a.xref{padding:.4em .8em;margin:0 -.8em;...}}；狀況索引表第 5 列（台幣升值）的「14」連結",
+            "problem": "手機（觸控、400px）上，連結的左右 padding 會超出表格右緣。狀況索引表外框的 scrollWidth−clientWidth 從改前的 0 變成 5px，實際設 scrollLeft 也能捲 5px（j_overflow.py、j_taps_result.json）。拿掉這條規則就回到 0，所以原因確定。s12 那張表也從 5 變 7。第 11 條才剛因為「這張表其實不能橫向滑動」把提示拿掉，現在它又能左右晃 5px。builder 說的「版面完全不動」也不完全成立。",
+            "fix": "在同一個 media 區塊加 .table-wrap:has(>table.situations){overflow-x:hidden}，這張表本來就不比畫面寬。實測寫 clip 會被算成 hidden，手指就不能再左右滑，點擊範圍仍是 32×29。或者只把表格裡最後一欄連結的右 padding 拿掉。改完用 verify6/j_overflow.py 重測，應該是 0。"
+          },
+          {
+            "severity": "should",
+            "section": "第 4 條 門檻空格（工作表）",
+            "location": "lite/alt/plan-blank.html F 區「□超過門檻＿＿（例：5/25）且新錢補不回」；export 工作表 PDF 第 1 頁",
+            "problem": "整份工作表只有這裡出現 5/25，其他地方找不到 75%、85% 或「再平衡」的解釋（PDF 四頁全文搜過）。只拿工作表的人不知道 5/25 是什麼意思。同一頁上下還有「填寫日」「年月」這類日期欄，「5/25」很容易被看成 5 月 25 日。另外空格只有 2.5em，寫得下「5/25」，寫不下「75–85%」這種寫法。",
+            "fix": "拍板題，白話列選項。\n- A：例子改成不會被看成日期的寫法，例如「（例：股票 75–85%）」。字數差不多，但要重看一頁限制並重新 stamp。\n- B：保留 5/25，在第 2 頁查表頁或第 4 頁加一行「5/25＝股票目標八成時，低於 75% 或高於 85% 才動」。要重看那一頁是否還是一頁。\n- C：不動。只拿工作表的人仍然看不懂。\n我建議 A，改動最小，也不會誤讀。"
+          },
+          {
+            "severity": "note",
+            "section": "第 1 條 列印展開（範圍）",
+            "location": "guide/index.html </nav> 後面的 beforeprint 腳本 querySelectorAll('details[data-print]')，以及 CSS 後備 details[data-print]:not([open])::details-content",
+            "problem": "範圍和 verify5 的建議不同，builder 也沒有列進「和主線不同」。verify5 建議只展開 8 個摺疊（目錄 7 組加閱讀方式框）。實作展開全部 17 個帶 data-print 的摺疊，包含一頁空白版（data-print=page，會自成一頁）、查表頁、ch1-six 等。結果是從瀏覽器直接印，400 寬從改前 145 頁變 157 頁，其實和匯出 PDF 的 open_details(only_marked) 行為一致。第 11 節段末「網頁版先點開『一頁空白版』再列印」沒有錯，但已經不需要先點開。",
+            "fix": "主線確認這是刻意的。如果是（和匯出 PDF 一致），就不用改，交班時寫一句；要不要順便把第 11 節那句改短，交作者決定。如果不是，把選擇器縮成 '#toc details.toc-part, details.read-how'。"
+          },
+          {
+            "severity": "note",
+            "section": "第 5 條 節號點擊範圍（列印）",
+            "location": "@media (pointer:coarse){a.xref{...text-decoration:underline dotted 1px...}}",
+            "problem": "這個 media 沒有限定 screen。用手機或平板直接列印時，觸控判斷仍然成立，a.xref 的權重也比列印規則裡的 a{text-decoration:none} 和 .xref{border-bottom:0} 高，所以全書 335 個以上的節號連結都會印出點狀底線，也帶著 padding 和負 margin。模擬觸控加列印媒體實測：underline dotted，padding 11.52px。桌機和 headless 匯出不受影響。",
+            "fix": "改成 @media screen and (pointer:coarse){...}。"
+          },
+          {
+            "severity": "note",
+            "section": "第 1 條 列印展開（只有 CSS 後備的路徑）",
+            "location": "details[data-print]:not([open])::details-content{content-visibility:visible;display:block}",
+            "problem": "拿掉全部 script、只靠 CSS 後備、400 寬列印時，閱讀方式框和目錄都有內容，但第 3 頁變成只有頁碼的空白頁，全書 158 頁；JS 路徑是 157 頁，沒有空白頁（j-print-nojs-css-w400.pdf）。這條路徑很少見（要關掉 JS，而且是支援 ::details-content 的 Chromium），也比改前的空框好。",
+            "fix": "可以不修；交班時記一句就好。想修的話，可以讓 CSS 後備只作用在 read-how 和 toc-part，減少版面差異，再重印確認。"
+          },
+          {
+            "severity": "note",
+            "section": "第 4 條 門檻空格（兩份順序不同）",
+            "location": "lite/alt/plan-blank.html F 區；guide 一頁空白版與欄位表第 21 格",
+            "problem": "工作表「可以賣」的順序是：用錢、換更便宜、超過門檻、人生改變。完整版空白版和第 21 格是：用錢、超過門檻、換更便宜、人生改變。builder 已說明原因（這樣行數不變才能維持一頁），短稿 note 也有寫。四個選項是並列的，意思不受影響。",
+            "fix": "不用改；交班時提一句兩份順序不同的原因。"
+          },
+          {
+            "severity": "note",
+            "section": "第 11 條 手機空白版與滑動提示",
+            "location": ".table-wrap:has(>table.lite-plan)::before,.table-wrap:has(>table.situations)::before,details[data-lite-alt~=\"plan-blank\"] .table-wrap::before{content:none}",
+            "problem": "這三個選擇器寫在同一條規則裡。不支援 :has() 的瀏覽器（Firefox 121 以前、Safari 15.4 以前）會丟掉整條規則，連不需要 :has 的 plan-blank 那一個也失效，舊的滑動提示會再出現。只是提示多出來，不影響內容。",
+            "fix": "可以不修；想修就把 details[data-lite-alt~=\"plan-blank\"] .table-wrap::before 拆成獨立一條規則。"
+          },
+          {
+            "severity": "note",
+            "section": "順帶發現（不是這一輪造成）",
+            "location": "guide/index.html #methods 裡未斷行的 <code>https://www.twse.com.tw/rwd/zh/TAIEX/MFI94U?date=YYYYMM01&re…</code>",
+            "problem": "複驗了 builder 的順帶發現：400px 時頁面寬 525px，唯一超出的元素就是這個 code。改前 polish-before.html 也是 525，這一輪沒有變化。",
+            "fix": "留到下一輪：給這個 code 加 overflow-wrap:anywhere（或 word-break:break-all）。"
+          }
+        ]
+      },
+      {
+        "scope": "新手走查（國中程度、第一次投資、手機 400px）：output/full-v60-out.html（v6.2／2026-09-17）。用無頭 Chrome 透過 CDP 模擬手機：寬 400、mobile、觸控、pointer:coarse 為真。點擊的計算方式是：先確認手指落點上的元素，再觸發 click。錨點跳轉後等平滑捲動停下來才截圖，截圖都自己看過。截圖放在 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify6/walk-*.png，共 36 張。五個任務的點擊數與猶豫處：(1) 要不要開始投資：封面點「先確認能不能開始投資」，1 下到 #start；結尾「本節行動」寫了五項檢查，還能連到七個步驟（walk-1a、1b、1c），全程順利。(2) 填計畫表：封面點「寫下自己的比例和規則」，接著點「11 把答案寫成一張紙」，往下捲過 A–H 說明，再點「展開一頁空白版」，共 3 下（walk-2a～2c）。400px 下空白版確實是 A→H 單欄，沒有左右滑動提示，也沒有溢出。F 區「超過門檻＿＿（例：5/25）」要再找欄位表第 21 格才看得懂，另外欄位表在手機上很窄（walk-2d）。(3) 大跌想賣：封面點「大跌很慌」，1 下到狀況索引，第 1 列直接列出兩題與「還沒寫計畫表的人」那行小字（walk-3a）。依指定路線：到第 14 節先按「怕晚」（此時 s13-drop20 被藏起來、高度 0），瀏覽器返回狀況索引，再點「市場下跌 20%」，篩選自動切回「全部」並捲到第 11 題（walk-3c、3d、3e）。另試了「想控制」→「14」（#s13-loss）、「怕晚」→「新聞預測市場崩盤」，兩條都正確落地（walk-3f、3g）。(4) 年度檢查：封面點「年底了」，1 下到 #annual，七項清單＋XIRR 例子；「費用」那項的「14」落在第 30 題「改換費用較低的產品」（walk-4a、4b）。XIRR 例子驗算：-100,000（1/1）、-20,000（7/1）、+128,000（12/31）得約 7.3%；8,000÷120,000＝6.7%，兩個數字都對。(5) 爸媽快退休：封面點「自己或爸媽快退休」，1 下到 group-life，收尾那句的「陳大哥：五年後退休」和「家庭一頁表」（#family-sheet）都正確落地（walk-5a、5b、5c）。「用錢前的準備」開頭兩張卡的連結 #lifecycle-sequence、#pension 也都正確落地（walk-5d、5e、5f）。勞保例子驗算：40,000×30×1.55%＝18,600；Vanguard 例子 2.5 萬÷50 萬＝5%，都對。builder 這一輪新增的 7 個錨點（s5-fx、s13-drop20、s13-crash、s13-switch、lifecycle-sequence、family-sheet、pension）都實際點過或檢查過，全部有效，沒有找不到或走錯的地方。",
+        "verdict": "pass",
+        "findings": [
+          {
+            "severity": "should",
+            "section": "第 11 節 計畫表：欄位表（24 格怎麼填）",
+            "location": "#s11 第一個 details「展開 24 格怎麼填」的表格；walk-2d-field21.png",
+            "problem": "400px 下這張表仍是 4 欄，第 1 欄（區名）大多是空的，卻佔了約四分之一寬；說明欄只剩約 120px，第 21 格被擠成一長條（手機上約 1000px 高），左右兩欄還得對照著看。新手想弄懂空白版 F 區「超過門檻＿＿（例：5/25）」就得來這一格，讀起來很吃力。這一輪第 11 條只把空白版和 lite-plan 改成單欄，這張表沒有處理。",
+            "fix": "比照空白版，只加螢幕、窄於 660px 的 CSS：td 改 display:block，或把區名欄收成每組的小標題，讓「格名」和「怎麼填」上下排。列印規則不動。"
+          },
+          {
+            "severity": "should",
+            "section": "第 11 節 計畫表：門檻 5/25 的解釋路徑",
+            "location": "欄位表第 21 格「怎麼算見本節後面「再平衡」」；再平衡只出現在 summary「展開六四配置的教學例子（再平衡怎麼算、賣出的稅）」",
+            "problem": "空白版寫「（例：5/25）」，欄位表說去看「本節後面「再平衡」」，可是這幾個字是純文字、不是連結，本節也沒有叫「再平衡」的標題，要自己往下找到一個還沒展開的 details，才看得到 5/25 是什麼意思。新手要找一下才知道 5/25 在說什麼。",
+            "fix": "給六四配置那個 details 一個 id（例如 s11-rebalance），把第 21 格的「再平衡」包成 xref 連結。已有 data-print 或 hashchange 展開邏輯的話就沿用，確保點過去時 details 會自動打開。"
+          },
+          {
+            "severity": "should",
+            "section": "第 11 節 計畫表：空白版的入口文字",
+            "location": "#s11 summary「展開一頁空白版（網頁版要列印時，先點開這一格）」",
+            "problem": "新手在手機上只是想先看看空白版長怎樣，但這個入口寫的是列印用途，會讓人以為手機上不必點。我走查時有停一下才決定點開。點開後單欄版面本身沒有問題。",
+            "fix": "把括號改成兩種用途都講，例如「（先看要填哪些格；網頁版要列印時也先點開）」。只改文案，句意不變。"
+          },
+          {
+            "severity": "should",
+            "section": "全頁版面（手機）",
+            "location": "guide/index.html 約第 2670 行 資料口徑與來源 的長 <code>https://www.twse.com.tw/rwd/zh…</code>",
+            "problem": "再次確認：mobile 模擬下 innerWidth 和 scrollWidth 都是 525，layout viewport 比 400 寬，整頁可以左右滑。builder 已經回報過，改前的版本也一樣，不是這一輪造成的；但每個任務都受影響，一不小心就會把畫面往旁邊推。",
+            "fix": "給 code 加 overflow-wrap:anywhere（或 word-break:break-all），或只在窄螢幕下這樣設。改完用 400px 確認 scrollWidth 等於 400。"
+          },
+          {
+            "severity": "should",
+            "section": "第 14 節 篩選按鈕",
+            "location": "#s13 [data-s13-filter] 只有 怕晚／怕賠／想控制／全部",
+            "problem": "正文寫「六種常見心魔」，底下也有六組標題，按鈕卻只有三種感受加「全部」。遇到「朋友賺很多，覺得自己輸了」（怕輸人，4 題）的人找不到按鈕，會猶豫要不要按「全部」。改前的版本也一樣，腳本是刻意只做這三顆，不是這一輪的回歸。",
+            "fix": "維持現狀也可以，但建議在按鈕列前加一句小字，例如「題數多的三種有篩選；其他感受按『全部』往下找」；或者六種都做成按鈕。請作者拍板。"
+          },
+          {
+            "severity": "note",
+            "section": "第 14 節 篩選自動切回",
+            "location": "狀況索引所有指向 #s13-* 的連結",
+            "problem": "實測先按「怕晚」或「想控制」，再從狀況索引點「市場下跌 20%」「新聞預測市場崩盤」「14（怕賠）」，篩選都會自動切回「全部」並正確捲到位（walk-3c～3g）。用瀏覽器返回鍵回到狀況索引也沒問題。唯一的小事：篩選被切回時沒有任何提示，回到第 14 節上方會發現按鈕狀態變了。",
+            "fix": "不必修；想更清楚，可以在切回時給按鈕列一個短暫的高亮。"
+          },
+          {
+            "severity": "note",
+            "section": "狀況索引 第 1 列（大跌想賣）",
+            "location": "#group-situations 第 1 列；walk-3a-situations.png",
+            "problem": "順利。兩個題名直接連到 #s13-drop20、#s13-crash；「還沒寫計畫表的人」那行小字在 400px 下看得到、讀得懂，沒有新事實，也沒寫「先不賣」。從封面點 1 下到這裡，再點 1 下到答案，共 2 下。",
+            "fix": "無。"
+          },
+          {
+            "severity": "note",
+            "section": "投資前的安全順序（要不要開始）",
+            "location": "#start；walk-1a、1b",
+            "problem": "順利。1 下就到，結尾「本節行動」寫了「完成五項檢查再決定投入金額」，還能連到七個步驟，和 ol 的 5 個 li 數得上。落地時標題在畫面約 1/3 處，上一節的結尾還露在上方，但不影響閱讀。",
+            "fix": "無。"
+          },
+          {
+            "severity": "note",
+            "section": "每年一次的檢查表",
+            "location": "#annual 第 4 項「費用」的「14」、第 6 項「家庭一頁表」",
+            "problem": "「14」正確落到第 30 題「改換費用較低的產品」（walk-4b）。可以順手補的地方：第 6 項「計畫表和家庭一頁表」的家庭一頁表連到的是 #withdraw，不是這一輪新增的 #family-sheet；第 14 節第 31 題的〈家庭一頁表〉也是純文字。XIRR 的 7.3% 和 6.7% 驗算都正確。",
+            "fix": "可選：把這兩處的「家庭一頁表」指到 #family-sheet，句子不變。"
+          },
+          {
+            "severity": "note",
+            "section": "隨人生調整（爸媽快退休）",
+            "location": "#group-life 收尾兩句；walk-5a",
+            "problem": "順利。「替爸媽想的人」那句的兩個連結都正確落地。小瑕疵：前一句「第 12 節的陳大哥」和這一句「陳大哥：五年後退休」連到同一個 #case-chen，相鄰兩句重複指向同一處，讀起來有點囉嗦；不影響找路。",
+            "fix": "可選：合併成一句，例如「離退休只剩幾年的人，或替爸媽想的人，可以對照第 12 節的陳大哥（五年後退休，附填好的全表）和「家庭一頁表」，和爸媽一起看。」內容不變，要作者拍板。"
+          },
+          {
+            "severity": "note",
+            "section": "一頁空白版 無障礙順序",
+            "location": "#s11 [data-lite-alt~=plan-blank]",
+            "problem": "畫面上是 A→H，但 innerText 和 DOM 順序仍是 A、B、E、C、D、F、G、H，螢幕閱讀器會照 DOM 順序念。這是 flex order 本來就有的限制，和新手目測走查無關，只是記下來。",
+            "fix": "不必修；如果之後要做無障礙，再考慮讓 DOM 順序改成 A→H，改用 grid-area 排出列印版的兩欄。"
+          }
+        ]
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Polish"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Verify"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "polish",
+      "phaseIndex": 1,
+      "phaseTitle": "Polish",
+      "agentId": "a18d1971f79bd2cb0",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789611763947,
+      "queuedAt": 1789611762002,
+      "attempt": 1,
+      "lastToolName": "Bash",
+      "lastToolSummary": "cd \"/Users/linyenchu/Cladue Code/family-finance\" && grep -n…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。必讀：docs/handoff-guide-2026-09-16.md（標記系統、節 id ≠ 顯示節號）、docs/core-edition/specs/spec-v61-remaining.md（含目錄重排拍板）、wip/v61-2026-09-17/restructure/migration-plan.md（目錄與分組節結構、新哨兵 order／xref_num／part_maps）、docs/core-edition/specs/eli5-rules.md。\n硬規則：大檔只用 Edit 或 guidetools apply；黃框一字不改；mark.key 文字不改；lite/facts.txt 句子逐字；工作表區塊內容只在主線明說的地方動（改完確認工作表 PDF 仍 4 頁、第 1 頁仍一…",
+      "promptFramed": false,
+      "lastProgressAt": 1789612655187,
+      "tokens": 195840,
+      "toolCalls": 61,
+      "durationMs": 891238,
+      "resultPreview": "polish 階段 12 條加版本字串都做完了。最後一次 build 結果：`python3 tools/build_lite.py` exit 0、SENTINELS OK（完整版 147 頁，和改前一樣；工作表 4 頁，第 1 頁仍是一頁；`version`、`order`、`xref_num` 335 個、`part_maps` 都綠）。`guidetools check` OK，`test_guidetools` ALL PASS，`essay/` 沒有被改，沒有 commit。有三處和主線寫法不同，放在第 4、5、11 條。\n\n**逐條**\n1. **列印展開**：在目錄那段 script 加了 beforeprint／afterprint，把帶 data-print 的 details 展開再還原。CSS 那句改成 `details.read-how[open]>summary…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "verify:polish",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a86ad73fe403208be",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789612661929,
+      "queuedAt": 1789612657184,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "裁判複驗 polish 階段 12 條加版本字串，只讀不改。我自己寫的…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檔案寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify6/）。改前：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/polish-before.html；改後：guide/index.html、output/full-v60-out.html、export/。builder 回報：polish 階段 12 條加版本字串都做完了。最後一次 build 結果：`python3 tools/build_lite.py` exit 0、SENTINELS OK（完整版 147 頁，和改前一樣；工作表 4 頁，第 …",
+      "promptFramed": false,
+      "lastProgressAt": 1789614253798,
+      "tokens": 210932,
+      "toolCalls": 71,
+      "durationMs": 1591868,
+      "resultPreview": "{\"scope\":\"裁判複驗 polish 階段 12 條加版本字串，只讀不改。我自己寫的檔都用 j_ 開頭，放在 wip/v61-2026-09-17/verify6/。同一個資料夾裡的 walk-*.png 是別的代理放的，不是我的。\\n\\n**怎麼驗的**\\n- **重建**：把專案複製到 scratchpad，在那裡跑 build_lite.py。exit 0，SENTINELS OK：完整版 147 頁、工作表 4 頁且每塊各一頁，order、xref_num 335、part_maps、stories 25、version、fragments、s13_filter 都綠。產出的 lite/index.html、output 三個 html 和 repo 裡的逐位元相同；export 兩個 html 也等於 output。guidetools check OK。test_guid…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "walkthrough",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "adc4cb13c2372ce68",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789612664173,
+      "queuedAt": 1789612657185,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "新手走查（國中程度、第一次投資、手機 400px）：output/full-v…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檔案寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify6/）。改前：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/polish-before.html；改後：guide/index.html、output/full-v60-out.html、export/。builder 回報：polish 階段 12 條加版本字串都做完了。最後一次 build 結果：`python3 tools/build_lite.py` exit 0、SENTINELS OK（完整版 147 頁，和改前一樣；工作表 4 頁，第 …",
+      "promptFramed": false,
+      "lastProgressAt": 1789613229040,
+      "tokens": 141357,
+      "toolCalls": 53,
+      "durationMs": 564867,
+      "resultPreview": "{\"scope\":\"新手走查（國中程度、第一次投資、手機 400px）：output/full-v60-out.html（v6.2／2026-09-17）。用無頭 Chrome 透過 CDP 模擬手機：寬 400、mobile、觸控、pointer:coarse 為真。點擊的計算方式是：先確認手指落點上的元素，再觸發 click。錨點跳轉後等平滑捲動停下來才截圖，截圖都自己看過。截圖放在 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify6/walk-*.png，共 36 張。五個任務的點擊數與猶豫處：(1) 要不要開始投資：封面點「先確認能不能開始投資」，1 下到 #start；結尾「本節行動」寫了五項檢查，還能連到七個步驟（walk-1a、1b、1c），全程順利。(2) 填計畫表：封面點「寫下自己的…"
+    }
+  ],
+  "totalTokens": 548129,
+  "totalToolCalls": 185
+}

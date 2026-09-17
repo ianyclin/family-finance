@@ -1,0 +1,1947 @@
+{
+ "layout_before": {
+  "coarse": true,
+  "innerWidth": 525,
+  "scrollWidth": 525,
+  "tableWraps": [
+   {
+    "i": 0,
+    "cls": "compact",
+    "sec": "s1",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 1,
+    "cls": "compact",
+    "sec": "s2",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 2,
+    "cls": "compact",
+    "sec": "s2",
+    "over": 41,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 3,
+    "cls": "compact",
+    "sec": "s2",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 4,
+    "cls": "compact text",
+    "sec": "s4",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 5,
+    "cls": "compact",
+    "sec": "s5",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 6,
+    "cls": "compact",
+    "sec": "s5",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 7,
+    "cls": "wide",
+    "sec": "s5",
+    "over": 234,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 8,
+    "cls": "compact",
+    "sec": "s5",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 9,
+    "cls": "compact",
+    "sec": "s5",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 10,
+    "cls": "compact",
+    "sec": "s5",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 11,
+    "cls": "compact",
+    "sec": "s6",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 12,
+    "cls": "compact",
+    "sec": "s7",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 13,
+    "cls": "compact prose",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 14,
+    "cls": "compact text",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 15,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 16,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 1,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 17,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 18,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 18,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 19,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 20,
+    "cls": "compact text",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 21,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 22,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 23,
+    "cls": "compact",
+    "sec": "cases",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 24,
+    "cls": "compact",
+    "sec": "cases",
+    "over": 44,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 25,
+    "cls": "compact prose",
+    "sec": "cases",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 26,
+    "cls": "compact",
+    "sec": "cases",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 27,
+    "cls": "compact",
+    "sec": "cases",
+    "over": 121,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 28,
+    "cls": "compact prose",
+    "sec": "cases",
+    "over": 31,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 29,
+    "cls": "compact prose",
+    "sec": "s12",
+    "over": 5,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 30,
+    "cls": "compact prose",
+    "sec": "s12",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 31,
+    "cls": "compact text situations",
+    "sec": "group-situations",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 32,
+    "cls": "compact text",
+    "sec": "costs",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 33,
+    "cls": "compact text",
+    "sec": "costs",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 34,
+    "cls": "compact text",
+    "sec": "annual",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 35,
+    "cls": "compact text",
+    "sec": "lifecycle",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   }
+  ],
+  "sitLinks": [
+   [
+    "計畫表",
+    43,
+    18
+   ],
+   [
+    "5",
+    9,
+    18
+   ],
+   [
+    "11",
+    18,
+    18
+   ],
+   [
+    "14",
+    18,
+    18
+   ],
+   [
+    "2",
+    9,
+    18
+   ],
+   [
+    "5",
+    9,
+    18
+   ],
+   [
+    "14",
+    18,
+    18
+   ],
+   [
+    "8",
+    9,
+    18
+   ],
+   [
+    "14",
+    18,
+    18
+   ],
+   [
+    "6",
+    9,
+    18
+   ],
+   [
+    "現在是歷史新高，會不會太",
+    175,
+    44
+   ],
+   [
+    "14",
+    18,
+    18
+   ],
+   [
+    "6",
+    9,
+    18
+   ],
+   [
+    "14",
+    18,
+    18
+   ],
+   [
+    "10",
+    18,
+    18
+   ],
+   [
+    "14",
+    18,
+    18
+   ],
+   [
+    "14",
+    18,
+    18
+   ],
+   [
+    "常見的岔路",
+    72,
+    18
+   ],
+   [
+    "8",
+    9,
+    18
+   ],
+   [
+    "14",
+    18,
+    18
+   ],
+   [
+    "年齡、槓桿與退休",
+    115,
+    18
+   ],
+   [
+    "常見的岔路",
+    72,
+    18
+   ],
+   [
+    "十分鐘看完",
+    72,
+    18
+   ],
+   [
+    "費用、稅務與帳戶安全",
+    175,
+    44
+   ]
+  ],
+  "overlapCount": 21,
+  "overlapSample": [
+   [
+    "十分鐘看完：新手先記",
+    "從第一週到第一年",
+    136,
+    20
+   ],
+   [
+    "12",
+    "投資前的安全順序",
+    14,
+    18
+   ],
+   [
+    "隨人生調整",
+    "投資賺的是誰的錢？",
+    85,
+    8
+   ],
+   [
+    "帳面跌了兩成，是出事",
+    "把答案寫成一張紙：我",
+    221,
+    13
+   ],
+   [
+    "要不要等跌下來再買？",
+    "另外三個人：同樣做指",
+    170,
+    13
+   ],
+   [
+    "另外三個人：同樣做指",
+    "買在幾號、多久買一次",
+    127,
+    17
+   ],
+   [
+    "把前面組起來：新手的",
+    "漲了要不要先賣一些？",
+    170,
+    17
+   ],
+   [
+    "三十一種常見情境：我",
+    "明明知道，為什麼還是",
+    238,
+    5
+   ],
+   [
+    "從第一週到第一年",
+    "年齡、槓桿與退休",
+    65,
+    9
+   ],
+   [
+    "11",
+    "第一次投資的七個步驟",
+    15,
+    16
+   ],
+   [
+    "A Wealth o",
+    "掛牌",
+    34,
+    21
+   ],
+   [
+    "Jaconetti,",
+    "費用、稅務與帳戶安全",
+    134,
+    17
+   ],
+   [
+    "年齡、槓桿與退休",
+    "勞保局：老年年金給付",
+    136,
+    16
+   ],
+   [
+    "勞保局：老年給付請領",
+    "提領率",
+    51,
+    21
+   ],
+   [
+    "Vanguard (",
+    "複委託",
+    43,
+    18
+   ]
+  ]
+ },
+ "layout_after": {
+  "coarse": true,
+  "innerWidth": 525,
+  "scrollWidth": 525,
+  "tableWraps": [
+   {
+    "i": 0,
+    "cls": "compact",
+    "sec": "s1",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 1,
+    "cls": "compact",
+    "sec": "s2",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 2,
+    "cls": "compact",
+    "sec": "s2",
+    "over": 41,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 3,
+    "cls": "compact",
+    "sec": "s2",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 4,
+    "cls": "compact text",
+    "sec": "s4",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 5,
+    "cls": "compact",
+    "sec": "s5",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 6,
+    "cls": "compact",
+    "sec": "s5",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 7,
+    "cls": "wide",
+    "sec": "s5",
+    "over": 234,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 8,
+    "cls": "compact",
+    "sec": "s5",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 9,
+    "cls": "compact",
+    "sec": "s5",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 10,
+    "cls": "compact",
+    "sec": "s5",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 11,
+    "cls": "compact",
+    "sec": "s6",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 12,
+    "cls": "compact",
+    "sec": "s7",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 13,
+    "cls": "compact prose",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 14,
+    "cls": "compact text",
+    "sec": "s11",
+    "over": 0,
+    "hint": "none",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 15,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 16,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 1,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 17,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 18,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 18,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 19,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 20,
+    "cls": "compact text",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 21,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 22,
+    "cls": "compact",
+    "sec": "s11",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 23,
+    "cls": "compact",
+    "sec": "cases",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 24,
+    "cls": "compact",
+    "sec": "cases",
+    "over": 44,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 25,
+    "cls": "compact prose",
+    "sec": "cases",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 26,
+    "cls": "compact",
+    "sec": "cases",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 27,
+    "cls": "compact",
+    "sec": "cases",
+    "over": 121,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 28,
+    "cls": "compact prose",
+    "sec": "cases",
+    "over": 31,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 29,
+    "cls": "compact prose",
+    "sec": "s12",
+    "over": 7,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 30,
+    "cls": "compact prose",
+    "sec": "s12",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": true
+   },
+   {
+    "i": 31,
+    "cls": "compact text situations",
+    "sec": "group-situations",
+    "over": 5,
+    "hint": "none",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 32,
+    "cls": "compact text",
+    "sec": "costs",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 33,
+    "cls": "compact text",
+    "sec": "costs",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 34,
+    "cls": "compact text",
+    "sec": "annual",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 35,
+    "cls": "compact text",
+    "sec": "lifecycle",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   }
+  ],
+  "sitLinks": [
+   [
+    "計畫表",
+    66,
+    29
+   ],
+   [
+    "5",
+    32,
+    29
+   ],
+   [
+    "11",
+    41,
+    29
+   ],
+   [
+    "14",
+    41,
+    29
+   ],
+   [
+    "市場下跌 20%",
+    115,
+    29
+   ],
+   [
+    "新聞預測市場崩盤",
+    208,
+    54
+   ],
+   [
+    "11",
+    38,
+    27
+   ],
+   [
+    "2",
+    32,
+    29
+   ],
+   [
+    "5",
+    32,
+    29
+   ],
+   [
+    "14",
+    41,
+    29
+   ],
+   [
+    "8",
+    32,
+    29
+   ],
+   [
+    "14",
+    41,
+    29
+   ],
+   [
+    "6",
+    32,
+    29
+   ],
+   [
+    "現在是歷史新高，會不會太",
+    218,
+    54
+   ],
+   [
+    "14",
+    41,
+    29
+   ],
+   [
+    "5",
+    32,
+    29
+   ],
+   [
+    "14",
+    41,
+    29
+   ],
+   [
+    "6",
+    32,
+    29
+   ],
+   [
+    "10",
+    41,
+    29
+   ],
+   [
+    "14",
+    41,
+    29
+   ],
+   [
+    "14",
+    41,
+    29
+   ],
+   [
+    "常見的岔路",
+    95,
+    29
+   ],
+   [
+    "8",
+    32,
+    29
+   ],
+   [
+    "14",
+    41,
+    29
+   ],
+   [
+    "年齡、槓桿與退休",
+    138,
+    29
+   ],
+   [
+    "常見的岔路",
+    95,
+    29
+   ],
+   [
+    "十分鐘看完",
+    95,
+    29
+   ],
+   [
+    "費用、稅務與帳戶安全",
+    218,
+    54
+   ]
+  ],
+  "overlapCount": 110,
+  "overlapSample": [
+   [
+    "先認識這些詞",
+    "十分鐘看完",
+    112,
+    3
+   ],
+   [
+    "投資前的安全順序",
+    "一眼看懂",
+    95,
+    3
+   ],
+   [
+    "投資前的安全順序",
+    "11",
+    42,
+    3
+   ],
+   [
+    "13",
+    "從第一週到第一年",
+    45,
+    3
+   ],
+   [
+    "從第一週到第一年",
+    "十分鐘看完：新手先記",
+    163,
+    20
+   ],
+   [
+    "12",
+    "投資前的安全順序",
+    28,
+    20
+   ],
+   [
+    "先認識這些詞",
+    "10",
+    45,
+    4
+   ],
+   [
+    "遇到狀況時翻",
+    "動手做",
+    5,
+    3
+   ],
+   [
+    "遇到狀況時翻",
+    "動手做",
+    31,
+    3
+   ],
+   [
+    "隨人生調整",
+    "投資賺的是誰的錢？",
+    111,
+    14
+   ],
+   [
+    "帳面跌了兩成，是出事",
+    "把答案寫成一張紙：我",
+    221,
+    13
+   ],
+   [
+    "要不要等跌下來再買？",
+    "另外三個人：同樣做指",
+    170,
+    13
+   ],
+   [
+    "另外三個人：同樣做指",
+    "買在幾號、多久買一次",
+    127,
+    17
+   ],
+   [
+    "把前面組起來：新手的",
+    "漲了要不要先賣一些？",
+    170,
+    17
+   ],
+   [
+    "三十一種常見情境：我",
+    "明明知道，為什麼還是",
+    238,
+    5
+   ]
+  ]
+ },
+ "filter": {
+  "nLinks": 21,
+  "fails": [
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "text": "三十一種常見情境：我在怕什麼？",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-loss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-loss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-drop20",
+    "text": "市場下跌 20%",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-drop20",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-crash",
+    "text": "新聞預測市場崩盤",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-crash",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-bored",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-bored",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-miss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-miss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-loss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-loss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-loss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-loss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-control",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-control",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-envy",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-envy",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-family",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13-family",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "text": "三十一種常見情境：我在怕什麼？",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕晚",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-loss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-loss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-drop20",
+    "text": "市場下跌 20%",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-drop20",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-crash",
+    "text": "新聞預測市場崩盤",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-crash",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-bored",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-bored",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-miss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-miss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-loss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-loss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-loss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-loss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-control",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-control",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-envy",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-envy",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-family",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13-family",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "text": "三十一種常見情境：我在怕什麼？",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "怕賠",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-loss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-loss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-drop20",
+    "text": "市場下跌 20%",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-drop20",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-crash",
+    "text": "新聞預測市場崩盤",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-crash",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-bored",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-bored",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-miss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-miss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-loss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-loss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-loss",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-loss",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-control",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-control",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-envy",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-envy",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-family",
+    "text": "14",
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13-family",
+    "second": true,
+    "top": 250,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "text": "三十一種常見情境：我在怕什麼？",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "text": "14",
+    "top": 266,
+    "shown": true
+   },
+   {
+    "state": "想控制",
+    "href": "s13",
+    "second": true,
+    "top": 266,
+    "shown": true
+   }
+  ],
+  "checked": 0,
+  "hiddenBefore": 0,
+  "states": {
+   "怕晚": {
+    "clicked": 21,
+    "targetsHiddenAtClick": 10,
+    "fails": 34
+   },
+   "怕賠": {
+    "clicked": 21,
+    "targetsHiddenAtClick": 5,
+    "fails": 32
+   },
+   "想控制": {
+    "clicked": 21,
+    "targetsHiddenAtClick": 8,
+    "fails": 32
+   }
+  },
+  "hashchange": [
+   [
+    "s13-miss",
+    true,
+    250
+   ],
+   [
+    "s13-bored",
+    true,
+    250
+   ],
+   [
+    "s13-control",
+    true,
+    250
+   ],
+   [
+    "s13-envy",
+    true,
+    250
+   ],
+   [
+    "s13-drop20",
+    true,
+    250
+   ],
+   [
+    "s13-crash",
+    true,
+    250
+   ],
+   [
+    "s13-switch",
+    true,
+    250
+   ],
+   [
+    "s13-family",
+    true,
+    250
+   ]
+  ],
+  "pressedAfter": "怕晚"
+ },
+ "planblank_full": {
+  "items": [
+   [
+    "A 這筆錢",
+    99022,
+    42,
+    328
+   ],
+   [
+    "B 先顧好的",
+    99176,
+    42,
+    328
+   ],
+   [
+    "C 現在",
+    99321,
+    42,
+    328
+   ],
+   [
+    "D 試算",
+    99449,
+    42,
+    328
+   ],
+   [
+    "E 風險",
+    99646,
+    42,
+    328
+   ],
+   [
+    "F 規則",
+    100050,
+    42,
+    328
+   ],
+   [
+    "G 家人",
+    100255,
+    42,
+    328
+   ],
+   [
+    "H 改計畫紀",
+    100306,
+    42,
+    328
+   ]
+  ],
+  "wrapOver": 0,
+  "hint": "none",
+  "tableW": 328,
+  "vw": 525
+ },
+ "layout_lite": {
+  "coarse": true,
+  "innerWidth": 400,
+  "scrollWidth": 400,
+  "tableWraps": [
+   {
+    "i": 0,
+    "cls": "compact text lite-plan",
+    "over": 0,
+    "hint": "none",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 1,
+    "cls": "compact lite-lookup",
+    "sec": "lookup",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 2,
+    "cls": "compact lite-lookup",
+    "sec": "lookup",
+    "over": 1,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 3,
+    "cls": "compact lite-lookup",
+    "sec": "lookup",
+    "over": 18,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   },
+   {
+    "i": 4,
+    "cls": "compact prose lite-annual",
+    "sec": "app-a",
+    "over": 0,
+    "hint": "\"← 表格可左右滑動 →\"",
+    "inDetailsClosed": false
+   }
+  ],
+  "overlapCount": 0,
+  "overlapSample": []
+ },
+ "planblank_lite": {
+  "items": [
+   [
+    "A 這筆錢",
+    356,
+    26
+   ],
+   [
+    "B 先顧好的",
+    542,
+    26
+   ],
+   [
+    "C 現在",
+    703,
+    26
+   ],
+   [
+    "D 試算",
+    839,
+    26
+   ],
+   [
+    "E 風險",
+    1143,
+    26
+   ],
+   [
+    "F 規則",
+    1674,
+    26
+   ],
+   [
+    "G 家人",
+    1937,
+    26
+   ],
+   [
+    "H 改計畫紀",
+    2038,
+    26
+   ]
+  ],
+  "wrapOver": 0,
+  "hint": "none",
+  "vw": 400,
+  "sw": 400
+ }
+}
