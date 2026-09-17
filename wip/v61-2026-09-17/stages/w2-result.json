@@ -1,0 +1,543 @@
+{
+  "summary": "隔離人性 v61：依序做結構（移節、目錄、列印、節名）→ 放進 G9 G10 兩張圖 → 寫 G11 在歷史高點買進 → 平行驗收",
+  "agentCount": 8,
+  "logs": [],
+  "result": {
+    "structure": "structure 階段：五件事都做完了。build 的結束碼是 0，印出 SENTINELS OK（FAIL 0、WARN 0）；`guidetools check` 回 CHECK OK，`test_guidetools` 全部 PASS。沒有 git commit。\n\n我把 39 條補丁一次用 `guidetools apply` 套進 `guide/index.html`，另外用 Edit 加了一行目錄 CSS。補丁檔是 `wip/v61-2026-09-17/stages/structure-patch.json`，產生它的腳本是同資料夾的 `structure_make_patch.py`，差異在 `structure-diff.txt`，改之前的原檔是 `structure-before.html`。用 `guidetools numbers` 比對前後，沒有數字遺失，只有兩個改了名的標題底下，同一批數字換到新節名名下。黃框、mark.key、`facts.txt` 列的句子都沒動。\n\n**1. S5 移節（`guide/index.html`，6 處）**\n- 「從第一週到第一年」整節搬到七個步驟後面。它的 lede 裡「動作散在後面各節」改成「全書各節」，因為搬到後面以後，「後面」這個方位詞就不對了。節裡其他方位詞都指本節內的東西，不用改。\n- 目錄：從「開始前」拿掉，放進實作附錄。\n- 封面：「其他四節（…）」改成「其他三節（一眼看懂、投資前的安全順序、先認識這些詞）」；「翻後面的實作附錄」後面補一句「（從第一週到第一年的時間表也在那裡）」。\n- group-howto：說明句裡補上「第一週到第一年的時間表」。\n- 連到時間表的那句加在「十分鐘看完」的本節行動：「第一週、第一個月、第一年各做什麼，排在「從第一週到第一年」那一頁」。\n\n**2. S7 目錄**\n- 三組小標改成「開始前」「先看懂，再決定」「實作附錄」，每組底下一行 `p.small` 說明。\n- group-core 的 h2 改成「本書的主體：先看懂，再決定」，lede 裡的「這十四節」也拿掉了。group-howto 的 lede「這九節」改成「這幾節」。\n- 實作附錄分成四小群，小群標題用 h4，不是連結：\n  - **開始做**：七個步驟、第一週到第一年、ETF 與債券檢查表、費用稅務與帳戶安全。都是開戶、買進、顧好帳戶時要翻的。\n  - **人生階段**：用錢前的準備與家庭交接、年齡槓桿與退休。\n  - **維護**：常見的岔路、每年一次的檢查表。「常見的岔路」歸在這裡，是因為讀者通常在想換做法、想借錢的時候才翻它，用途是守住計畫。\n  - **查證**：去哪查、資料口徑與來源。\n- 分群沒有改變節的前後順序。原因是 `tail_flows` 靠目錄順序判斷「相鄰的節」，順序一亂，節尾空白頁的接排會判斷錯。\n- 目錄加了一條最小 CSS：`.toc h3+p.small{margin:0 0 .5em}.toc h4{font-size:.84rem;margin:.8em 0 .1em}`。我看過 PDF 第 2 頁的截圖，排得整齊。目錄頁碼哨兵是綠的，28 條頁碼都對得上。\n\n**3. D10＋S6 列印（`tools/build_lite.py`）**\n- `open_details()` 加了 `only_marked` 參數：完整版只展開帶 `data-print` 的摺疊區，工作表照舊全部展開。\n- 「展開 24 格怎麼填」和 lookup-tables 兩個 details 加了 `data-print=\"open\"`。\n- `FULL_PRINT_CSS` 加了兩條：\n  - 沒展開的 summary 後面用 `::after` 印「（紙本未印，網頁版可展開）」。年檢那一格的標題本來就寫了「網頁版可以展開」，所以只補「（紙本未印）」。\n  - 空白頁的最小調整：group-core 和 group-howto 兩個分組標題不在目錄裡，接排程式管不到它們，所以讓它們接在上一節的節尾頁排，不另起新頁。\n- `lite-format.md` 兩處描述跟著更新。\n\n| | 改之前 | 改之後 |\n|---|---|---|\n| 完整版頁數 | 152 頁 | 134 頁 |\n| 近乎空白頁 | 6 頁，WARN | 2 頁，OK |\n\n剩下的兩頁：\n- **第 50 頁**：是字數算法的誤報。第 7 節從那一頁開始，頁面其實不空。\n- **第 69 頁**：是 24 格欄位表的最後三列，下一頁的空白版必須從新的一頁開始，排不掉。\n\n**4. D6 改節名：「用錢前的準備與家庭交接」**\n- **理由**：這一節現在剩下的是開始用錢前的四項準備，和家庭一頁表，名字直接寫出這兩件事。\n- 舊節名全部換掉，共 9 處：目錄、h2、group-howto，以及 s11 G 列、s13 兩處、lifecycle 第三題末句、年檢兩處。`lite/`、`tools/`、`lite-format.md` 裡沒有寫死的節名要改；只有 `lite/work`、`retired` 這些舊檔還留著舊名，我沒動。\n- 年檢「遇到這六件事」第 2 條、陳大哥的指路句：講提領的連結改指第三題，並寫出去那裡會看到什麼（「要存多少、為什麼一退休就跌最傷」＋「四項準備」）。陳大哥 E 列那一條，前一輪已經改指 lifecycle，這次只把錨點換成第三題。\n- withdraw 的 lede 改成「開始拿錢出來花以前，先把近幾年要用的錢備好；再留一張表，讓家人接得下去。」\n- 白話版拿掉原本直接講答案的那句，換成「先另外裝一壺夠喝幾天的水，桶子在漏的那幾天，先喝壺裡的」，對應四項準備裡「大跌時先用預留現金」那一條。\n- 「這一節講另外兩件事」改成「這一節只講兩件要自己動手準備的事」。\n- **沒改**：withdraw 來源卡的兩筆 Vanguard 註記。這次要求不動來源卡，驗收時提的「刪掉或改寫」還沒處理。\n\n**5. lifecycle 三題錨點**\n- 三個 h3 加了 `id=\"lifecycle-q1/q2/q3\"`，標題文字沒改。\n- 全書「「年齡、槓桿與退休」第 N 題」的連結都改指到對應的題目：本來就有的 13 處，加上前面 withdraw、陳大哥、年檢那 3 處，錨文字不變。\n- 依裁判意見改了兩句：\n  - 第 11 節：「其他三種人怎麼想、陳大哥填好的全表，看「另外三個人」」。\n  - group-core：「第 12 節是另外三個人照同一套步驟想出不同的比例（陳大哥附填好的全表）」。\n\n**重新 stamp 了兩份**\n- **lookup-tables**：只多了 `data-print` 屬性，表格內容沒變。\n- **app-a-checklist**：只換了連結上的節名，工作表那一頁本來就不引這個連結，內容沒變。\n\n其他改到的檔：`lite/alt/` 兩份（stamp）、`docs/core-edition/specs/lite-format.md`，以及 build 自動重產的 `output/*`、`lite/index.html`、`lite/work/*.txt`。build 的紀錄在 `wip/v61-2026-09-17/stages/` 的 `structure-build-before.log` 和 `structure-build-after2.log`。",
+    "charts": "charts 階段做完了。build 結束碼 0，印出 SENTINELS OK。`guidetools check` 回 CHECK OK，`test_guidetools` 全部 PASS。沒有 git commit。兩張圖用 Chrome headless 截了桌面版，我看過，沒有重疊或被裁切。\n\n**1. `tools/v61_g10_rebalance_drift.py`（三條 should）**\n- **(a) 出處掛錯**：note 刪掉「和本指南規則卡『年底偏離超過 5/25 門檻就再平衡』看的時間點一樣」，現在只寫「每年年底看一次股票占多少」。docstring 和 `basis.check_timing` 同步改成：年底只是年度資料的取樣點；檢查頻率由讀者在 F 區第 22 格自己填；年底檢查是作者規則卡（第 11 節黃框）的做法。\n- **(b) 22 年擦邊**：note 不再寫「最慢 22 年」，改成「94 個起點裡，第一次超出門檻最快 1 年；一半以上 4 年內就跑出門檻，超過九成在 10 年內。」\n  - 我重算的計數：嚴格判法 4 年內 60 個、10 年內 90 個；先四捨五入到一位的判法是 61、91 個。最快 1 年在兩種判法下都成立。\n  - `compute()` 新增 `robust_counts`（兩種判法各一份，並 assert 三個說法都成立）、`robust_thresholds_years`、`edge_cases`。\n  - 邊界檢查擴大到全部 94 個起點（每個起點算到第一次超出那年為止）。記下 6 筆擦邊：1951、1958、1964（1974 年 75.0017%）、1980、1998、2018。\n  - `wip/.../fix/charts/test_G10.py` 裡原本斷言 (1, 22) 的那行改成新的計數，重跑通過，圖上每個數字都在 `compute()` 的結果裡找得到。\n- `calc_core.py` 跑完印「引用缺漏: []」。\n\n**2. 兩張圖放進指南**\n四條補丁用 `guidetools apply` 套上。補丁檔和產生它的腳本是 `stages/charts-patch.json`、`charts_make_patch.py`，差異在 `charts-diff.txt`，改之前的原檔是 `charts-before.html`。\n- **country-recovery（#s4）**：放在「單一市場可能等很久」那張卡裡面，接在表和它下面的小字之後（表保留）。\n  - 引導句（照模組作者建議，沒改）：把上面那張表的三段期間畫在同一條年份軸上，更容易看出「等很久」是幾十年。\n  - 圖說：每一條是一個市場的價格指數，從當時最高的收盤，到第一次收盤超過它為止：美國約 25 年、日本 34 年 2 個月、台灣約 30 年。這是三個挑出來的例子，不是每次下跌都這麼久，也不代表下跌一定回得來。\n- **rebalance-drift（#s11）**：放在 5/25 那段之後、「資產還小的時候…」之前。\n  - 引導句（取自 `printed.lead_sentence`，防守寫的是國庫券，和現在一致）：比例不去管它，會跑多遠？下面這張圖用美國的歷史資料，從 1990 年初放股票八成、現金兩成（美國 3 個月國庫券，接近定存）開始，之後都不買不賣，看每年年底股票占多少，淡色帶就是八二配置的 5/25 門檻。\n  - 圖說：1990 年初放股票八成、現金兩成，之後都不動：第 6 年（1995 年底）股票占比第一次超過 85%，之後到 2025 年底沒有一年回到門檻裡，2008 年底是 87.7%，2025 年底變成 98.3%；往哪邊跑、多快跑出去，換個起點就不一樣（圖下說明有 2000 年起點先往下跑的例子）。中間虛線是設定的八成；線跑出淡色帶，就是 5/25 說該動手的時候。\n\n**3. 來源**\n- **第 11 節來源卡**：加了 Damodaran（紐約大學 Stern）Historical Returns on Stocks, Bonds and Bills，連到 histretSP.html，source-note 照你給的寫。\n- **methods**：第 4 節輪換圖那條後面加了兩條 `li`。\n  - G9：三條都是價格指數、名目、各自幣別，日期是收盤日；出處是聯準會歷史頁、日經官方、證交所逐日收盤。小字寫不能直接比快慢、是挑出來的例子、之後可能再跌回舊高點以下。\n  - G10：同一份資料集的 S&P 500 含息與 3 個月國庫券兩欄（10 年期公債只在圖下說明對照），名目美元，國庫券代表定存。小字寫只看年底、兩個年底之間看不出來、沒扣物價費用稅、只用美國一個市場。\n\n**4. `essay_charts --guide`**\n- 第一次跑印了 2 個 ⚠，因為兩張圖是新放的空殼，指南裡原本沒有 note。腳本那版就是對的，沒有東西要寫回。第二次跑沒有 ⚠，指南現在 17 張圖。\n- `guidetools numbers` 前後比對：只有 s4、s11、methods 三處多了數字，都是圖說、引導句和口徑說明帶進來的，沒有數字遺失。\n\n**頁數與 build**\n- 完整版 PDF 從 134 頁變成 136 頁，工作表 4 頁。\n- 近乎空白頁還是 2 頁，狀態 OK：第 51、70 頁，就是上一輪的第 50、69 頁因為加了兩頁往後推一頁。\n- 目錄 28 條頁碼對得上。紀錄在 `wip/v61-2026-09-17/stages/charts-build.log`。\n\n截圖：\n- /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/charts-country-recovery-desktop.png\n- /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/charts-rebalance-drift-desktop.png",
+    "g11": "G11 is in place. `build_lite` exits 0 and prints SENTINELS OK, `guidetools check` is OK, `test_guidetools` passes, and calc_core ends with `引用缺漏: []`. The one thing not met is length: section 6 grew well past the 20% limit (details under 篇幅).\n\n**1. calc_core wiring (brief section 9)**\n\nI fixed `tools/v61_g11_ath_returns.py` in place and call it from `calc_core.py` as `R['ath_returns']`, the same way G9 and G10 are wired.\n- **Item 1:** windows now start at index 0. The \"all\" n now matches `rolling` (Taiwan 5422/4941/4451/3227, US 1818/1770/1710/1590). calc_core asserts that n and the rounded percentage agree with `rolling`, so a second n will fail the run. The \"only new-high days\" group did not change at all.\n- **Item 2:** `us_case` now checks that the next month is lower before counting a recovery; if it isn't, it sets `no_drop_next_month` and leaves the recovery fields empty. The five cases are unaffected.\n- **Item 3:** the 1937 label now says it is not a new high, and the case carries a `note`.\n- **Item 4:** `grouped` takes the series as a parameter; the global `V` is gone.\n- **Item 5:** new `taiex_daily.sensitivity` outputs:\n  - losing new-high starts counted by start year;\n  - starts from 2006 onward only;\n  - starts from 2006-07 to 2007-12 removed;\n  - the five worst 1-year starts;\n  - a note that 2003–2005 \"new highs\" only count from 2003.\n- **Also added:**\n  - `us_monthly_shiller.split_1950` (brief finding 1);\n  - `book_table`, which pulls the \"any day\" column from `rolling`;\n  - `book_facts`;\n  - five new quote strings.\n\n**2. New section 6 text** (after the lump-sum-vs-split paragraph, before 等匯率)\n\n現在是歷史新高，會不會太高了？\n「創歷史新高」聽起來像站在山頂，但美股 1871 到 2023 年，大約每十個月就有三個月收在新高。把第 5 節那張「打開來是賺的」表，改成只在新高那天買進：\n\n| 抱多久 | 任選一天 | 只挑創新高那天 |\n|---|---|---|\n| 台股 1 年 | 77% | 72% |\n| 台股 3 年 | 95% | 87% |\n| 台股 5 年 | 96% | 88% |\n| 台股 10 年 | 100% | 100% |\n| 美股 1 年 | 72% | 73% |\n| 美股 5 年 | 90% | 85% |\n| 美股 10 年 | 97% | 95% |\n\n差得不多，但方向不一致。台股這 23 年是新高那天買的比較差，可是放三年還在虧的新高買點，全部是 2005 到 2007 年買進、接著遇上 2008 年的人；美股換一段年代，哪一組平均賺得多也會翻過來。所以新高證明不了「別買」，也證明不了「照買沒差」。\n\n讓人受傷的是買進之後那幾年，不是那天剛好是新高：1929 年新高時買進美股的人，放十年還是虧的；台股 2007 年那次，新高前後幾天、沒創新高的日子買進，一年後也跌掉約一半；一個國家還可能幾十年回不到高點（第 4 節那張表）。擋得住這種運氣的是用錢期限和股票比例，不是挑日子：五年內要用的錢不放股票（「投資前的安全順序」）；五年以上不用、比例又睡得著的錢，才照計畫投入，不必等新高過去。每月固定投入的人本來就會買到新高日，第 5 節那張表已經算進去了。\n\n〈p.small〉「新高」是含息指數不低於資料起點以來的最高值。台股是證交所含息報酬指數逐日收盤（2003–2025），只和 2003 年以後比，不是和 1990、2000 年的高點比；美股是 Shiller 月資料（1871–2023），表上是「任選一個月」和「新高的月份」，價格是當月平均，只能看大方向。每天都當一次買進日，相鄰的日子結果幾乎一樣，新高又成群出現，真正能互相比較的例子比表上少很多。名目、含息，沒扣物價、費用和稅。美股起點在 1950 年以前，新高月份放五年平均一年 4.5%、其他月份 9.0%；1950 年以後變成 12.0% 對 10.6%（賺錢的比例兩段都是新高略低）。\n\nEvery section reference is linked. Section 4 is linked for the recovery years, which are not restated.\n\n**Where each number comes from** (all under `lite/calc-results.json` → `ath_returns`, unless noted)\n\n| Number | Path |\n|---|---|\n| 1871–2023 | `rolling.us.from` / `to` |\n| About 3 in 10 months | `us_monthly_shiller.share_months_at_high_pct` = 30.3 |\n| Table, \"any day\" column | `rolling.taiex.positive_share.{1年,3年,5年,10年}.pct_int` and `rolling.us.positive_share.{1年,5年,10年}.pct_int`, copied into `book_table` |\n| Table, \"new-high day\" column | `taiex_daily.horizons.{1y,3y,5y,10y}.at_high.positive_share_int` and `us_monthly_shiller.horizons.{1y,5y,10y}.at_high.positive_share_int` |\n| 23 years | `rolling.taiex.from` / `to` (2003–2025) |\n| 2005 to 2007 | `sensitivity.at_high_nonpositive_by_start_year.3y` = {2005:1, 2006:18, 2007:32}; `book_facts.taiex_3y_losing_at_high_start_years` |\n| 1929, still losing after ten years | `book_facts.us_1929_record_10y_ann_pct` = −3.4 (number not printed in the book) |\n| About half lost after a year (2007) | `sensitivity.worst5_starts_1y` (2007-10-29 is a new high at −52.6%; four neighbouring non-high days) and `worst5_starts_1y_not_at_high_range_pct` = [−50.3, −49.4] |\n| 4.5 / 9.0 / 12.0 / 10.6 | `us_monthly_shiller.split_1950.5y.{starts_before_1950,starts_1950_on}.{at_high,not_at_high}.mean_ann_pct` |\n\nThe patch script asserts the direction of each sentence against these values (the flip really flips, the \"positive\" share is lower for new highs in both eras, and so on).\n\n**3. Section 14 question** (still 32 `li strong` in that section, same as before; no question added)\n- **Before:** 沒有人事先知道高點與回檔日期；等待的期間錢不在市場裡，也可能錯過上漲。\n- **After:** 創新高本身不是訊號：歷史上新高很常見，新高那天買和其他日子買差得不多，而且不同國家、不同年代，哪邊比較好並不一致。沒有人事先知道回檔什麼時候來、跌到哪裡；先確認這筆錢五年內不用，再照計畫投入。\n- The tag 「也有怕錯過的成分・第 6 節」 is unchanged.\n\n**4. Sources and methods**\n- I used no external sources, so section 6's source card is unchanged. J.P. Morgan 2025 and Of Dollars And Data were in an earlier draft; I cut them to save about 200 characters.\n- `methods` has one new item covering the definition of a new high, the Taiwan daily data (2003-01-02 to 2025-12-31) with the same windows as section 5, and the Shiller monthly-average prices with dividends ending 2023-06. It also says the \"any day\" column is section 5's number, the windows overlap, and figures are nominal with dividends and no fees.\n\n**5. Length (over the limit)**\nCounted as section 6 text without spaces, leaving out the figure, source card and author box:\n\n| | Before | After | Change |\n|---|---|---|---|\n| Without p.small | 823 | 1241 | +418 (+51%) |\n| With p.small | 1003 | 1697 | +694 (+69%) |\n\n- The new block is about 870 characters, including an 88-character table.\n- I offset about 95 characters by removing repeated sentences in the 等匯率 part of section 6:\n  - 「兩個都沒有人能可靠地預測（第 5 節）」: section 5 already says 匯率沒有人能可靠地預測.\n  - 「上面那張五個人的圖…就是真的沒有參與」: the same point is at the start of section 6 and in the five-people chart caption.\n  - The list of currency-exchange costs: section 5 lists the same three items. I rewrote that paragraph as a pointer to section 5 and 費用、稅務與帳戶安全.\n- I couldn't find any other repeated sentence in section 6. The table and caveats the brief requires don't fit in 20%. You need to decide whether to accept this, fold the table and small print into a `<details>`, or cut caveats.\n\n**Build and checks**\n- `python3 tools/build_lite.py`: exit 0, SENTINELS OK. The full PDF is 137 pages and the worksheet 4.\n- `python3 tools/guidetools.py check guide/index.html`: CHECK OK.\n- `test_guidetools`: ALL PASS.\n- `guidetools numbers` shows no numbers lost from any section.\n- Nothing committed. `lite/calc-results.json` differs from HEAD only in `ath_returns`, `guide_citations`, and `rebalance_drift` (the last from the earlier stage).\n\nFiles (all in `/Users/linyenchu/Cladue Code/family-finance/`):\n- wip/v61-2026-09-17/stages/g11-before.html\n- wip/v61-2026-09-17/stages/g11-calc_core-before.py\n- wip/v61-2026-09-17/stages/g11-module-before.py\n- wip/v61-2026-09-17/stages/g11_make_patch.py\n- wip/v61-2026-09-17/stages/g11-patch.json\n- wip/v61-2026-09-17/stages/g11-patch2.json\n- wip/v61-2026-09-17/stages/g11-applied.html\n- wip/v61-2026-09-17/stages/g11-diff.txt\n- wip/v61-2026-09-17/stages/g11-build.log\n- tools/calc_core.py\n- tools/v61_g11_ath_returns.py\n- guide/index.html",
+    "verify": [
+      {
+        "scope": "結構裁判，只讀。看的是三階段做完後的現況：guide/index.html、tools/build_lite.py、docs/core-edition/specs/lite-format.md、lite/、export/ 兩份 PDF，拿 wip/v61-2026-09-17/stages/structure-before.html（和 HEAD 相同）當改前基準。檢查程式放在 wip/v61-2026-09-17/verify3/，有 pdf_dump.py、toc_check2.py、toc_links.py、page_fill2.py、hard_rules.py、facts_in_pdf.py，另外有抽頁截圖 p0xx.png。\n\n已經驗過、沒問題的部分：\n(1) 目錄 28 條連結的目標都存在，順序和正文一致。PDF 目錄印的頁碼、連結實際跳到的頁、各節標題所在的頁，28 條三方都對得上。三組的名稱和說明、實作附錄底下四個小群，都照 S7-A 做了。\n(2) firstmonth 搬走以後，封面、group-howto、十分鐘版本節行動、目錄這幾處都跟著改了。全書沒有殘留「其他四節」「這九節」「十四節」。時間表裡的「兩把尺」「投資圈」「壓力測試」「三問」「挑產品前三題」「新手路徑」現在都在前面定義過。\n(3) 全書已沒有舊節名「用錢、退休與家庭交接」，guide、lite 現行檔、tools 現行程式、lite-format.md、output、export 都查過。lifecycle-q1/q2/q3 各有 1 個 id，連結分別 1、5、10 處，沒有斷鏈。guidetools check 重跑結果是 OK。\n(4) 完整版 PDF 裡展開的摺疊只有三個：24 格欄位表、一頁空白版、查表頁。其餘 15 個摺疊的標題後面都印了「（紙本未印…）」，年檢那一格只印「（紙本未印）」。頁數從 152 降到 137。字數少於 250 的頁從 6 頁降到 2 頁；最後一行落在頁面上半的頁從 10 頁降到 7 頁。工作表 PDF 仍是 4 頁，lite/index.html 和 HEAD 比只多了目錄那兩條 CSS。\n(5) 黃框 25 個逐字相同；重點句 14 句，文字和順序都相同；facts.txt 27 條都找得到。plan-blank、ch4-drill、#ten div.warning 一字未動；lookup-tables 只多了 data-print 屬性。",
+        "verdict": "fix_needed",
+        "findings": [
+          {
+            "severity": "must",
+            "section": "(1) 目錄分組說明／group-core",
+            "location": "guide/index.html 第 242 行 section#group-core 內文（PDF 第 16 頁）",
+            "problem": "這一段這一輪改過（第 12 節那句、h2、lede），但同段有兩處沒改到。第一，「前面十一節從「投資賺的是誰的錢」一路問到「那我平常要做什麼」」引號裡的是第 11 節的舊標題。S4 已經把它改名成「把答案寫成一張紙：我的投資計畫」，全書現在找不到這個標題，讀者會對不上。第二，這一段排在第 1 節之前，「前面十一節」的「前面」方向相反，實際是「接下來的前十一節」。",
+            "fix": "改成「接下來前十一節從「投資賺的是誰的錢」一路問到「把答案寫成一張紙」，讀完會有一張你自己的投資計畫。」或同義寫法。這是字面修正，不牽動數字和連結。"
+          },
+          {
+            "severity": "should",
+            "section": "(4) 列印／空白頁（S6）",
+            "location": "export/隔離人性-理財新手完整指南-v6.1.pdf 第 52 頁（#s7 開頭）；tools/build_lite.py tail_flows／FULL_PRINT_CSS",
+            "problem": "第 52 頁只印了第 7 節的標題、lede 和白話版，只有 118 字，最後一行在頁高 31% 處，下面大約七成是空的。原因是緊接的圖表卡（每月 1 萬元，永遠買在最高對上最低）不能拆開，整張被推到第 53 頁。S6 要處理的正是「第 6、7 節之間的空白頁」，現在又出現了。結構階段把當時的第 50 頁判為字數誤報，那時也許成立。但 G11 讓第 6 節變長以後，這裡變成真的空白頁。哨兵的上限容許 2 頁，所以顯示 OK，把它蓋過去了。另外，第 102 頁（七個步驟的節尾，約 35%）和第 9 頁（一眼看懂的節尾，27%）也比改前更空。",
+            "fix": "最小的修法是讓 #s7 第一張圖表卡在列印時可以跨頁，或把白話版和圖表卡的順序調成不留大片空白。另一個做法是把 s7 加進 tail_flows 的接排名單，讓第 7 節接在第 6 節尾頁後面排。改完重跑 build，確認第 52 頁的空白消失、目錄頁碼仍然 28 條都對。"
+          },
+          {
+            "severity": "should",
+            "section": "(4) 列印／D10 的後果（要作者拍板）",
+            "location": "guide/index.html 第 2141、2169、2186 行 #cases 三個 details；PDF 第 82–86 頁",
+            "problem": "照 D10-A 的字面，只展開要動筆的三格，這一點沒有做錯。但第 12 節三個人的推理（地板→壓力測試→三問→缺口怎麼補）全都在摺疊裡，所以紙本上沒印。這是 D7-B 特別留下來的教學內容，不是長表。結果紙本第 12 節只剩結論和比較表，而同一節寫著「不要抄比例，抄推理步驟」，本節行動也要讀者「照他的順序用你自己的數字算一次：地板、壓力測試、三問」，紙本讀者做不到。第 11 節和 group-core 新加的指路句（陳大哥填好的全表）也指向紙本沒印的內容。另外 facts.txt 有 4 條 full-only 共同事實不在紙本 PDF 裡：45,800 元那條算式、「表上的 100% 只是說…」、「存一半的人，滿足點和甜蜜點同一天」、n＝ln(…) 公式。十分鐘版那張 6 條的「六個最貴的錯」，紙本上也沒印。",
+            "fix": "請作者二選一。A：替 #cases 的三個推理摺疊（至少阿凱和兩桶）加 data-print=\"open\"，紙本大約多 4–5 頁。十分鐘版的 ch1-six 很短，建議一起加。B：接受現狀，但把第 12 節本節行動改成紙本也做得到的說法，並在 lite-format.md 記下紙本不印推理。我建議選 A，因為這一節在紙本上的教學價值就在推理。"
+          },
+          {
+            "severity": "should",
+            "section": "(3) withdraw／講提領的連結要指 lifecycle 對應的題",
+            "location": "guide/index.html 第 2197 行（#cases 陳大哥摺疊）與第 2529 行（#methods）",
+            "problem": "有兩處講的是第三題的提領內容，連結卻只指到 #lifecycle 整節開頭。一處是「「年齡、槓桿與退休」引用的三份提領研究，退休後股票都落在三成到七成五之間」，另一處是「「年齡、槓桿與退休」引用的提領率研究都以 30 年退休期為前提」。原文「三成到七成五」和提領率研究都在 lifecycle-q3 底下。這次只改了錨文字寫著「第 N 題」的連結，這兩處被漏掉了。",
+            "fix": "這兩個 href 改成 #lifecycle-q3。錨文字可以維持原樣，或補上「第三題」，和全書其他 10 處一致。"
+          },
+          {
+            "severity": "note",
+            "section": "(3) lifecycle 其他未分題的連結",
+            "location": "guide/index.html 第 186 行 #start 第 2 項",
+            "problem": "「房貸…要不要提前還，「年齡、槓桿與退休」那一節有討論」講的是第二題（借錢）底下的內容，但連到整節開頭。這一處不是講提領，不在這次的要求範圍內。",
+            "fix": "可以順手改成 #lifecycle-q2，並把「那一節有討論」改成「第二題有討論」。"
+          },
+          {
+            "severity": "note",
+            "section": "(2) 時間表的前向引用",
+            "location": "guide/index.html #firstmonth 第一個月、第一年兩張卡",
+            "problem": "時間表搬走以後，還剩兩個說法要到後面才解釋。一是「查一下勞退要不要自提（「勞保和勞退先算」）」：「自提」在全書第一次出現就在這裡，解釋在後面的 lifecycle 第三題（#pension，有連結）。二是「第一年比累積報酬（第 9 節）」：第 9 節裡沒有「累積報酬」這個詞，解釋在後面的年檢。兩處都是改前就有的句子，也都有指路，不算錯。",
+            "fix": "可以不改。想更順的話：自提那句補半句白話，例如「自己再多存進勞退專戶」；累積報酬那句的指路改成「每年一次的檢查表」。"
+          },
+          {
+            "severity": "note",
+            "section": "(1) 目錄視覺層級",
+            "location": "guide/index.html head CSS：.toc h3（.78rem、muted）和 .toc h4（.84rem、預設粗體墨色）；PDF 第 1–2 頁",
+            "problem": "小群標題（開始做／人生階段／維護／查證）比上一層的組名（開始前／先看懂，再決定／實作附錄）字更大、顏色更深，上下層看起來顛倒了。另外兩點。一是「開始前」的組名、說明和第一條排在第 1 頁底，其餘三條排到第 2 頁。二是 Chrome 把四個 h4 也做成 PDF 書籤，放在「目錄」底下，而且都指向第 2 頁。",
+            "fix": ".toc h4 改成字比 h3 小、或用 muted 顏色，例如 font-size:.78rem;font-weight:600;color:var(--muted)。書籤那點可以不處理。"
+          },
+          {
+            "severity": "note",
+            "section": "(1) 實作附錄四小群的歸類",
+            "location": "guide/index.html nav.toc 的「維護」「人生階段」",
+            "problem": "「常見的岔路」放在「維護」有它的理由，但讀者多半是在挑商品、想買儲蓄險或槓桿 ETF 的時候翻它，也就是「開始做」的時點。「年齡、槓桿與退休」第二題講年輕人借錢投資，放在「人生階段」也只對了一半。受 tail_flows 綁住，節的順序不能動，所以目前的分法可以接受。group-howto 內文寫的是「年齡與槓桿」，D6 已把提領併進這一節，漏掉了「退休」。",
+            "fix": "可以不改。想更清楚的話：「維護」改名「守住計畫」；group-howto 那句改成「年齡、槓桿與退休」。"
+          },
+          {
+            "severity": "note",
+            "section": "(3) 殘留舊名的檔案",
+            "location": "lite/manifest.partB.json",
+            "problem": "結構階段的回報說舊名只留在 lite/work 和 retired 裡，其實 lite/manifest.partB.json 還有兩處「用錢、退休與家庭交接」，也還留著第 11 節的舊標題「那我平常要做什麼？」。這是 v6.0 的分段 manifest，tools/ 沒有程式讀它，所以不影響輸出。",
+            "fix": "不用改內容。交班時更正那句回報就好；也可以在檔頭或 lite-format.md 標明這是已退場的檔。"
+          },
+          {
+            "severity": "note",
+            "section": "(5) 硬規則",
+            "location": "lite/alt/app-a-checklist.html（重新 stamp）",
+            "problem": "規格寫「app-a-checklist 只在 L5 動」，這一輪為了 D6 改節名，改了年檢清單裡的連結文字，也重新 stamp 了。不過 D6 本來就要求節名留到這一輪一起改，而且 lite/index.html 和 HEAD 比只多了目錄 CSS，工作表內容一字沒變，實際沒有違反。",
+            "fix": "不用改。提交訊息裡註明是 D6 改名連帶的重新 stamp，工作表內容不變。"
+          }
+        ]
+      },
+      {
+        "scope": "我是圖表這一階段的裁判，只看兩張圖：第 4 節的 country-recovery 和第 11 節的 rebalance-drift，沒有改任何專案檔。檢查程式放在 wip/v61-2026-09-17/verify3/：charts_judge_g10.py、charts_judge_g9.py、charts_judge_script_vs_guide.py、charts_judge_render.py、charts_judge_render_mobile.py、charts_judge_mobile_fontsize.py；結果檔與截圖在 verify3/ 和 verify3/render/。跑完前後比對 git status，沒有變化。\n\n1. 數字獨立重算，全部對上。\n- G10：直接讀 damodaran_histret.xls 的 S&P 500 含息、3-month T.Bill、US T. Bond 三欄，四捨五入用 half-up。\n  - 1990 年起點：第 6 年（1995 年底）86.1% 第一次超出門檻；之後到 2025 年沒有一年回到門檻裡。\n  - 2008 年底 87.7%，2025 年底 98.3%。\n  - 防守換成公債：2002 年底 82.0%、2008 年底 78.3%，都回到門檻裡；這兩年公債報酬 +15.1%、+20.1%。\n  - 2000 年起點：2001 年底 74.5%，往下超出。\n  - 1928–2021 共 94 個起點，全部都有超出，最快 1 年。4 年內超出的：嚴格判法 60 個、先四捨五入的判法 61 個，都過半。10 年內：90 個、91 個，都超過九成。\n  - 國庫券沒有一年是負報酬。上面這些值都不在四捨五入的邊界上。\n  - 我把兩版 SVG 的折線、門檻帶、虛線座標反推回百分比，逐年和重算結果相同。\n- G9：日期對過一手出處。\n  - 美國：聯準會歷史頁原文寫 9/3/1929 收 381.17，1954-11-23 才回到 1929 高點。\n  - 日本：日經新聞報導 2024-02-22 收 39,098.68，寫明是「34年2カ月ぶり」刷新 1989-12-29 的最高值。含息版 2021 年 2 月先過高點，出自 Nikkei Inc. 頁面。\n  - 台灣：證交所 FMTQIK 逐日資料。1990-02-10 收 12,495.34，是 1990 年 1–3 月的最高收盤；2020-07-22 收 12,473.27 還沒超過，07-27 收 12,588.30 是第一次超過。\n  - 經過時間：美國 25.22 年，標「約 25 年」；日本 34 年 1 個月 24 天，標「34 年 2 個月」；台灣 30.46 年，標「約 30 年」。\n  - 長條起訖座標反推回來的日期也對得上。\n\n2. 圖說、note、圖例、SVG 都和腳本產出逐字相同（essay_charts 在記憶體裡重產比對）。指南和 output/full-v60-out.html 兩處的 SVG 與純文字也相同。\n\n3. G10 的 note 已不再把作者規則卡說成指南規則。兩張圖的圖說都寫了「挑出來的例子／換起點就不一樣／過去不代表以後」這類限制，口徑交代齊全，沒有替讀者下結論。\n\n4. 第 11 節來源卡和 methods 的 G10 條目都正確。G9 日本那一條的出處問題見發現第 2 條。\n\n5. 用 headless Chrome 實際排版量了 1280、700、390、360 四種寬度；390 和 360 用 iframe 做出真正的窄視窗。沒有文字互相重疊，也沒有文字壓到長條、點或折線，沒有超出 viewBox。整頁在 390、360 寬時圖也沒有超出畫面。文字和點最近的距離 2–2.6 個 SVG 單位。截圖看過：淺色與深色（桌面）、390 寬（淺色，3 倍解析度），都正常。\n\n6. 周圍文字：第 5 節與開頭「一眼看懂」那節寫的「25 到 34 年」和圖一致。第 11 節前文的「八成五左右」和 5/25 的判法也不衝突。",
+        "verdict": "fix_needed",
+        "findings": [
+          {
+            "severity": "should",
+            "section": "s11",
+            "location": "guide/index.html 第 11 節圖前引導句「淡色帶就是八二配置的 5/25 門檻」；tools/v61_g10_rebalance_drift.py chart() 的 lead 字串",
+            "problem": "這句引導句讓「八二」在第 11 節第一次出現，但沒有名詞連結。g-ratio 的連結還掛在圖後面「資產還小的時候…（八二配置…）」那個第二次出現的地方。改之前（charts-before.html）連結掛在第一次出現的地方，所以是這次插入引導句造成的，違反規格硬規則「名詞連結每節只標第一次出現」。讀者也會先讀到「八二配置」，後面才看到小字「八二是八成股票、兩成防守」的解釋。",
+            "fix": "最小改法：引導句改成「淡色帶就是這個比例的 5/25 門檻」，前半句已經寫了股票八成、現金兩成；模組裡 printed.lead_sentence 的字串同步改。另一種改法：把 g-ratio 的 term 連結移到引導句的「八二」，拿掉後面那一處的連結。"
+          },
+          {
+            "severity": "should",
+            "section": "s4／methods",
+            "location": "圖下 note「日本：日經 225 指數，日經官方」；methods 新增條目「日本是日經 225 指數，出自日經官方」；第 4 節來源卡",
+            "problem": "新 note 和 methods 都說日本的日期（1989-12-29 → 2024-02-22）出自日經官方，但全書沒有任何連結能查到這組價格指數日期。第 4 節來源卡裡唯一的 Nikkei 連結是 2021 年寫的含息版頁面，不可能證明 2024-02-22；研究紀錄當初核對這組日期用的是 nippon.com。另外，美國那張來源卡的 source-note 還寫「美國歷史背景」，現在其實已經拿來當精確日期的出處。",
+            "fix": "第 4 節來源卡加一條日本價格版的來源。我今天核對過：日本經濟新聞 2024-02-22〈日経平均、終値3万9098円 34年ぶり最高値更新〉https://www.nikkei.com/article/DGXZQOFL220S70S4A220C2000000/，原文有「3万9098円68銭」「1989年12月29日に付けた史上最高値（3万8915円）」「34年2カ月ぶりに更新」。source-note 照原文寫，例如「價格版 2024-02-22 收 39,098.68，34 年 2 個月後首度超越 1989-12-29 的最高值」。Federal Reserve History 的 source-note 改成「道瓊 1929-09-03 收 381.17 高點；1954-11-23 才回到 1929 高點」。加連結以後，工具箱那句「全文 98 條都測過」的條數和檢查日期要跟著更新。"
+          },
+          {
+            "severity": "should",
+            "section": "s4",
+            "location": "「單一市場可能等很久」表格，美國列「約多久」欄寫「25 年」",
+            "problem": "要判斷的問題：表格「25 年」和圖上「約 25 年」要不要統一。判斷：要統一。實際是 1929-09-03 → 1954-11-23，25.22 年。同一張卡片裡，圖、圖說都寫「約 25 年」，表格同一欄的台灣列也寫「約 30 年」，只有美國列少了「約」，是這張表自己寫法不一致。日本「34 年 2 個月」是算到月的，不用加「約」。",
+            "fix": "表格美國列改成「約 25 年」，不動數字。G9 模組的 read_table() 只比對數字 [25]，改完比對照樣通過。"
+          },
+          {
+            "severity": "note",
+            "section": "s4",
+            "location": "country-recovery 手機版 SVG（放在 data-card 裡）",
+            "problem": "實際量到的手機寬度：390 寬的畫面上這張 SVG 只有 244px，縮放 0.68，最小字（font-size 10）約 6.8px；360 寬時 214px、約 5.9px。這不是這次才有的：全書放在 data-card 裡的 11 張圖都是一樣的縮放，例如 spiva、ranges、taiex-recovery。放在卡片外的 rebalance-drift 是 286px，字約 7.9px。",
+            "fix": "這一輪可以不動，留給之後統一處理全書手機圖的字級。如果想先救這張，可以把 figure 移到卡片外，寬度會和 rebalance-drift 一樣。"
+          },
+          {
+            "severity": "note",
+            "section": "s4",
+            "location": "表格標題「把股利算進去會早很多年回本」vs 圖下 note「含息版會比較早回到高點…美國、台灣本文沒有含息版的日期」",
+            "problem": "這是之前就有的表格標題，不是圖表階段寫的；但新 note 放在同一張卡片裡，兩句互相對照更明顯。本文唯一有資料的日本，含息版只早約 3 年（2021 對 2024），美國、台灣自己也說沒有含息日期，「早很多年」沒有證據支持。",
+            "fix": "這不屬於圖表階段的範圍，交給文字那一輪決定。比較穩的寫法是標題改成「把股利算進去會比較早回本」，和 note 的說法一致，也不新增數字。"
+          },
+          {
+            "severity": "note",
+            "section": "s4／s11／methods",
+            "location": "兩張圖的 sub、圖例、note、圖說，以及 methods 新增的兩條",
+            "problem": "口徑重複講了好幾次，和規格「檢視重複、降低閱讀疲累」的方向相反。G10 的「3 個月國庫券代表定存（不跌價、利息低）」在引導句、圖例第一項、note、methods 各講一次；圖例第一項在手機上要折三行。G9 的「畫到第一次收盤超過舊高點」在 sub、note、圖說、methods 都有，methods 那一條的正文和小字裡還各講一次。",
+            "fix": "可以做但不急：圖例第一項縮成「每年年底的股票占比（1990 年初股票八成，之後不動）」，國庫券怎麼代表定存留在 note 講；methods G9 條目的小字刪掉重複的「長條畫到第一次收盤超過舊高點」。避免在圖例裡再寫「八二」，不然又會碰到名詞連結的問題。"
+          },
+          {
+            "severity": "note",
+            "section": "s11",
+            "location": "rebalance-drift 桌面版標籤「1995 年第一次超過 85%：86.1%」",
+            "problem": "同一張圖另一個標籤寫「2008 年底 87.7%」，圖說也寫「1995 年底」，這個標籤少了「底」；這張圖畫的都是年底的值。",
+            "fix": "標籤改成「1995 年底第一次超過 85%：86.1%」。我量過排版：標籤右端大約從 326 移到 338，那一段折線的 y 值都 ≥79，文字底部約 48.6，不會撞到。手機版的短標籤不用改。"
+          },
+          {
+            "severity": "note",
+            "section": "s11",
+            "location": "rebalance-drift 的 note「示意：只用美國一個市場、一個起點。」",
+            "problem": "這句後面緊接著講 94 個起點都算過，讀起來會以為前後矛盾。其實「一個起點」指的是圖上畫的那條線。",
+            "fix": "改成「圖上只畫美國一個市場、一個起點。」"
+          }
+        ]
+      },
+      {
+        "scope": "G11 financial-numbers judge. Checked the new section 6 block \"現在是歷史新高，會不會太高了？\" (guide/index.html L1794-1797), the edited 等匯率 part (L1798-1801), the rewritten section 14 question (id s13, L2283), and the new methods item (L2526), against lite/calc-results.json → ath_returns/rolling and g11-brief.md. My own script, written without importing calc_core or the G11 module: /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify3/g11_judge_indep.py; output in g11_judge_indep.out.json in the same folder. It finds window ends by walking a pointer instead of bisect, builds the Shiller series by summing log returns, and tests both strict > and >= for a new high.\n\n(1) Numbers: every figure in the table matches, recomputed from raw data: TW 1y 77/72 (n 5422/449), 3y 95/87, 5y 96/88 (n 4451/350), 10y 100/100; US 1y 72/73 (n 1818/555), 5y 90/85 (n 1770/531), 10y 97/95. Also confirmed: 555/1830 months = 30.3%; 3-year losing new-high starts by year 2005:1, 2006:18, 2007:32 (first 2005-12-29, last 2007-10-29, no zero-return windows); 1950 split means 4.49/8.96/11.96/10.65, which round to 4.5/9.0/12.0/10.6; days next to 2007-10-29 that were not new highs lost 49.4-50.3% over 1 year; every 1929 new-high month lost money over 10 years.\n(2) No sentence falls into the brief's 「不能說」 list.\n(3) One required caveat is missing: 2000 (see findings).\n(4) No outside source numbers are used, and the section 6 source card is unchanged.\n(5) The 「任選一天」 column equals the section 5 table with the same n. calc_core asserts this, and my recount agrees.\n(6) Section 14 still has 31 top-level questions, numbered 1/5/6/20/24/25; group counts 4+1+14+4+1+7; no question added or removed.",
+        "verdict": "fix_needed",
+        "findings": [
+          {
+            "severity": "must",
+            "section": "第 6 節 p.small（1950 年前後）",
+            "location": "guide/index.html L1797，p.small 最後一句「（賺錢的比例兩段都是新高略低）」",
+            "problem": "「略低」不對。1950 年以前起點、放 5 年，賺錢比例是新高月 75.5%、其他月份 90.8%，差 15 個百分點（split_1950.5y.starts_before_1950；我重算 75.47 對 90.76）。只有 1950 年以後才是略低（91.2 對 92.6）。這樣寫把高點買進的風險說小了，偏向「新高照買沒差」。錯誤是從簡報第 1-4 節發現 1 照抄過來的。",
+            "fix": "改成「（賺錢的比例兩段都是新高那組比較低：1950 年以前低很多，1950 年以後只低一點）」。如果要寫數字，就寫 75% 對 91%、91% 對 93%，並把引用字串加進 calc_core 的 quotes。"
+          },
+          {
+            "severity": "must",
+            "section": "第 6 節正文（必寫但書：2000）",
+            "location": "guide/index.html L1797「1929 年新高時買進美股的人，放十年還是虧的」",
+            "problem": "簡報第 6 節第 2 條要求的 2000 年反例沒有寫。第 4 節的表只有美國 1929、日本 1989、台灣 1990，所以連到第 4 節也補不到 2000。正文唯一的美股慘例是 1929，讀者容易當成古早的事；可是 1950 年以後的平均報酬正好是新高那組比較好，所以一個近代的例子有實際作用。",
+            "fix": "改成「1929 年、2000 年新高時買進美股的人，放十年都還是虧的」。我驗過：2000 年 5 個新高月份（03、04、06、07、08）放 10 年，平均一年 −0.18% 到 −1.27%；1929 年 8 個新高月份是 −1.45% 到 −4.02%，全部是負的（含息、月平均）。目前 calc_core 的 book_facts 只有 1929-09 一個個案，建議加一個 assert，檢查這兩年所有新高月份的 10 年報酬都小於 0，這句書上的話才有程式擔保。"
+          },
+          {
+            "severity": "should",
+            "section": "第 6 節正文第一句",
+            "location": "guide/index.html L1795「大約每十個月就有三個月收在新高」；另見 tools/calc_core.py quotes",
+            "problem": "「收在新高」讀起來是收盤價創新高，但 Shiller 的價格是當月平均。同一段的 p.small 自己寫「價格是當月平均」，來源卡也說明了這一點，這一句和它們打架。",
+            "fix": "改成「大約每十個月就有三個月是新高」，或寫「月平均創新高」。calc_core quotes 裡的 '大約每十個月就有三個月收在新高' 要跟著改。"
+          },
+          {
+            "severity": "should",
+            "section": "第 6 節正文（必寫但書：單筆 vs 定期定額）",
+            "location": "guide/index.html L1797「每月固定投入的人本來就會買到新高日，第 5 節那張表已經算進去了」",
+            "problem": "少了簡報第 6 節第 7 條的前半句：這張表算的是一整筆錢在某一天投進去。現在的寫法會讓人以為第 5 節那張表算的是每月定期定額。其實那張表是把每一天都當成一次單筆買進日，新高日只是包含在這些起點裡。",
+            "fix": "改成「這張表算的是一整筆錢在某一天投進去；每月固定投入的人本來就會買到新高日，第 5 節那張表把每一天都當買進日，這些日子已經在裡面。」"
+          },
+          {
+            "severity": "should",
+            "section": "第 6 節「等匯率」刪重複",
+            "location": "guide/index.html L1800（刪掉的「上面那張五個人的圖算的是等股價，不是等匯率」）",
+            "problem": "這句是在說明 Schwab 那張圖只適用於等股價，全書找不到別的地方有這句（grep「不是等匯率」「等股價」只剩 h3 標題）。硬規則是刪掉的事實要在正典位置找得到。拿掉以後，h3「等匯率，和等股價是同一個問題」緊接在五個人的圖下面，讀者容易把「少七成」套到等匯率上。",
+            "fix": "在「等匯率的代價…整筆錢晚了好幾個月才開始。」後面補回一個短子句：「（上面五個人的圖算的是等股價，不是等匯率。）」，大約 20 字。"
+          },
+          {
+            "severity": "should",
+            "section": "第 5 節 ↔ 第 6 節指路",
+            "location": "guide/index.html L1242（第 5 節「換之前先比（第 6 節、「費用、稅務與帳戶安全」）」）對上 L1801",
+            "problem": "第 6 節刪掉換匯成本的列舉後，改寫成「都寫在第 5 節與「費用、稅務與帳戶安全」」。第 5 節那句卻還寫「看第 6 節」，兩邊互相指，而第 6 節已經沒有細節。這違反「指路句要讓讀者知道去那裡會看到什麼」。",
+            "fix": "把第 5 節括號改成只指「費用、稅務與帳戶安全」，拿掉「第 6 節、」。細節本來就在第 5 節這一句和 costs 的「換匯成本」那一列。"
+          },
+          {
+            "severity": "note",
+            "section": "第 6 節正文（方向會翻）",
+            "location": "guide/index.html L1797「美股換一段年代，哪一組平均賺得多也會翻過來」",
+            "problem": "平均報酬在 1950 年前後翻轉，只有放 1 年、3 年、5 年成立。放 10 年時，兩段都是新高那組比較低：1950 年以前 6.6 對 8.8，1950 年以後 10.5 對 10.7。表上有美股 10 年那一列，句子卻沒限定期間。p.small 舉的是 5 年，所以不算錯，但說得太滿。",
+            "fix": "改成「放一年、五年，換一段年代…也會翻過來」，或維持原句，靠 p.small 的 5 年例子撐住。"
+          },
+          {
+            "severity": "note",
+            "section": "第 6 節正文、第 14 節那一題",
+            "location": "guide/index.html L1797「差得不多，但方向不一致」；L2283「新高那天買和其他日子買差得不多」",
+            "problem": "簡報有允許這種說法，但台股 3 年、5 年差了 8 個百分點（沒賺的比例從約 5% 變成約 13%）。第 14 節只寫「差得不多」，沒有反例也沒有台股的差距，比較容易被讀成「什麼時候買都一樣」。",
+            "fix": "建議第 6 節改成「美股差幾個百分點，台股差到八個百分點」。第 14 節可以維持簡報的示範句，或把連結直接指到新的 h3（見下一條）。"
+          },
+          {
+            "severity": "note",
+            "section": "第 14 節指路／methods／口徑",
+            "location": "guide/index.html L2283 tag；L1794 h3；L2526 methods；L1797 p.small",
+            "problem": "(a) 第 14 節那題的 tag 連到 #s6 整節，不是新的 h3（h3 沒有 id）。(b) methods 寫「兩欄用同一批起點」不精確：新高那一欄是同一批起點裡的子集合（449／5422）。(c) p.small 沒寫台股台幣、美股美元（簡報第 6 節第 8 條）。(d) 第 6 節來源卡沒有列 TWSE 和 Shiller，這兩個在第 5 節的來源卡。",
+            "fix": "(a) 給 h3 加 id（例如 s6-ath），第 14 節那題補一個連到它的連結；(b) 改成「新高那一欄是從同一批起點裡挑出新高那天」；(c) 在「名目、含息」後補「台股台幣、美股美元」；(d) 可以不動，或在 p.small 寫「資料來源見第 5 節」。"
+          },
+          {
+            "severity": "note",
+            "section": "篇幅",
+            "location": "第 6 節整體（+51%／含 p.small +69%，超過 eli5-rules 第 8 條的 20%）",
+            "problem": "這不是數字錯誤，是作者還沒拍板的事。如果要縮，p.small 裡 1950 年前後那句（約 90 字）是最適合搬走的一塊。",
+            "fix": "建議把 1950 年分期那句連同第 1 條的修正一起搬進 methods 的 G11 那條；正文「換一段年代…翻過來」保留，後面加「（計算方法說明）」。"
+          }
+        ]
+      },
+      {
+        "scope": "讀者代理（國三，家裡剛拿到一筆錢、看到「股市又創歷史新高」在猶豫）：讀了 /Users/linyenchu/Cladue Code/family-finance/guide/index.html 第 6 節整節（#s6，第 1719–1806 行，含新加的「現在是歷史新高，會不會太高了？」）和第 14 節（#s13）「覺得價格太高而等待回檔」那一題（第 2283 行）；為了看懂小表，也對照了第 5 節摺起來的「打開來是賺的」表。只讀，沒改任何檔。讀完我會這樣做：先問爸媽這筆錢五年內會不會用到；會用到就不放股票；不會用到，就照第 6 節前面講的一次投入或分三個月投，不等新高過去。結論是對的，但中間有幾處數字和寫法會讓人一度以為「新高買比較危險，還是等一下好了」。沒有哪一句會讓我以為「隨時買都沒差」，因為第 14 節和第 6 節都先要我確認五年內不用。",
+        "verdict": "fix_needed",
+        "findings": [
+          {
+            "severity": "should",
+            "section": "第 6 節新段落／小表下的第一段",
+            "location": "「差得不多，但方向不一致。」配上表格「台股 3 年 95% vs 87%、5 年 96% vs 88%」",
+            "problem": "我看到的是 95 對 87，虧的機會從 5% 變成 13%，多了一倍多，一點都不像「差得不多」。後面雖然寫「全部是 2005 到 2007 年買進、接著遇上 2008 年的人」，但我看不出這句是在說「那幾格差出來的，幾乎都是同一次大跌」。而且這句只解釋了 3 年，5 年那格 88% 沒有交代。讀到這裡，我的第一個感覺是「新高買果然比較差，先等等」。",
+            "fix": "把「差得不多」換成讀者看得到數字就能同意的說法，例如「台股有幾格差了八個百分點，但那幾格幾乎都是同一件事：2005 到 2007 年買、剛好碰上 2008 年大跌（放 5 年那格也是）」。用白話直接說出「差距集中在一次事件，不是新高本身的問題」。"
+          },
+          {
+            "severity": "should",
+            "section": "第 6 節新段落／第二段",
+            "location": "「讓人受傷的是買進之後那幾年，不是那天剛好是新高：1929 年新高時買進美股的人，放十年還是虧的；」",
+            "problem": "這句剛說完「不是那天剛好是新高」，第一個例子卻正好是「新高那天買、十年還虧」，等於在替「新高不要買」背書。第二個例子才是反證，但「新高前後幾天、沒創新高的日子買進」很拗口，我讀了兩次才懂原來是「沒創新高的日子買，也一樣慘」。把台股差八個百分點和 1929 年兩件事合起來看，最容易留下「新高＝危險」的印象。",
+            "fix": "把兩個例子對調：先講反證，例如「2007 年台股那次，就算挑沒創新高的日子買，一年後也跌掉約一半」，再講 1929。或者乾脆拿掉 1929，改用第 4 節那張表當「幾十年回不來」的例子。另外把「新高前後幾天、沒創新高的日子」改成「就算挑不是新高的日子」。"
+          },
+          {
+            "severity": "should",
+            "section": "第 6 節新段落／小表",
+            "location": "表頭「抱多久｜任選一天｜只挑創新高那天」",
+            "problem": "表頭沒寫百分比是什麼的比例。第 5 節那張「打開來是賺的」表是摺起來的，我沒展開過，所以一開始以為 77% 是報酬率。美股那幾列其實是「任選一個月」，這件事只寫在小字裡。表本身不難，看懂表頭就沒問題。",
+            "fix": "表頭改成「抱滿後是賺的比例：任選一天／只挑創新高那天」，或在表上方加一句「數字是：抱滿這麼久打開來，是賺錢的機率」。美股列可以標成「美股（月資料）1 年」。"
+          },
+          {
+            "severity": "should",
+            "section": "第 6 節新段落／第一段",
+            "location": "「美股換一段年代，哪一組平均賺得多也會翻過來。所以新高證明不了「別買」，也證明不了「照買沒差」。」",
+            "problem": "表上比的是「賺錢的比例」，這句突然換成「平均賺得多」，而且沒有數字（數字藏在小字的 4.5% 對 9.0%），我不知道「哪一組」指哪兩組。接著那句兩個「證明不了」連在一起，讀完我反而不確定作者到底要我怎麼做，要讀到下一段最後才知道。",
+            "fix": "把「哪一組」改成「新高那天買和其他日子買」，並明說這裡看的是平均報酬、不是上面表格的比例。「證明不了」那句可以改成正面講、直接接到行動：「所以看新高決定不了要不要買，要看的是下面兩件事。」"
+          },
+          {
+            "severity": "should",
+            "section": "第 14 節「覺得價格太高而等待回檔」",
+            "location": "「新高那天買和其他日子買差得不多」",
+            "problem": "這句和第 6 節的表對不上：從這題點進第 6 節，第一眼就看到 95 對 87。我會覺得作者在打圓場，連帶也不太相信後面「不必等」的建議。",
+            "fix": "改成「新高那天買和其他日子買，多數情況只差幾個百分點；差比較多的幾格，集中在 2008 年那一次大跌」，或者只寫「不同國家、不同年代，哪邊比較好並不一致」，不下「差不多」的判斷。"
+          },
+          {
+            "severity": "note",
+            "section": "第 6 節新段落／第二段",
+            "location": "「五年以上不用、比例又睡得著的錢，才照計畫投入」",
+            "problem": "我不知道「比例」是什麼的比例（股票占多少），也不知道「計畫」是哪一份。第 6 節前面雖然講了一次投入和分批，但沒有把兩件事連起來。",
+            "fix": "改成「股票占多少也睡得著」，並補一句「照計畫投入：一次投或分幾個月投，見本節前面」，或連到「七個步驟」。"
+          },
+          {
+            "severity": "note",
+            "section": "第 6 節新段落／小字",
+            "location": "p.small 整段（約 450 字）",
+            "problem": "太長，我跳過沒讀。真讀了反而更容易被嚇到：「新高月份放五年平均一年 4.5%、其他月份 9.0%」只看前半句，會以為新高買只賺一半。「含息指數」「名目」「資料起點以來的最高值」「相鄰的日子結果幾乎一樣，新高又成群出現」這幾個說法國中生都看不懂。整個新段落（表＋三段＋小字）比第 6 節原本的主題還長，讀到「等匯率」時已經累了。",
+            "fix": "小字收進 <details>（例如「資料怎麼算的」），1950 年前後的數字放進 methods 就好；如果要留在正文，前後兩段要並排寫在同一句裡，不要讓「4.5% 對 9.0%」單獨出現。"
+          },
+          {
+            "severity": "note",
+            "section": "第 6 節新段落／開頭",
+            "location": "「大約每十個月就有三個月收在新高」",
+            "problem": "意思懂，也有安撫的效果。但美股用的是月平均價，說「收在」不太精確；另外只講了美股，我會想知道台股是不是也這麼常見。",
+            "fix": "可改成「大約每十個月就有三個月是新高」。如果有台股的數字，可以補半句。"
+          },
+          {
+            "severity": "note",
+            "section": "第 6 節新段落／第二段末",
+            "location": "「每月固定投入的人本來就會買到新高日，第 5 節那張表已經算進去了。」",
+            "problem": "「算進去了」有點抽象，我要想一下才懂意思是「任選一天那一欄本來就包含新高日」。",
+            "fix": "改成「第 5 節『任選一天』那一欄，本來就包含這些新高日」。"
+          }
+        ]
+      },
+      {
+        "scope": "以第一次讀、想開始動手的上班族讀者角度，讀了 guide/index.html 的封面、目錄、#ten、#start、#group-core、#group-howto、#steps、#firstmonth、#withdraw，也核對了各節在正文裡的順序和錨點（lifecycle-q1/q2/q3、pension 都存在）。抽文字的腳本放在 wip/v61-2026-09-17/verify3/reader_extract.py，沒有改動任何書稿檔。整體結論：沒有找不到或會走錯的地方。目錄三組的名稱、說明句和正文分組標題彼此對得上。時間表可以從三處找到：封面一句話、十分鐘看完的最後一句，以及目錄「實作附錄 → 開始做」底下第二條。",
+        "verdict": "pass",
+        "findings": [
+          {
+            "severity": "should",
+            "section": "#ten 結尾／#firstmonth／#steps",
+            "location": "十分鐘看完最後一句「讀完這一頁，照「第一次投資的七個步驟」用小金額開始；第一週、第一個月、第一年各做什麼，排在「從第一週到第一年」那一頁」；目錄「開始做」小群前兩條",
+            "problem": "想動手的讀者一次拿到兩個起點，但書上沒說兩者是什麼關係。七個步驟的順序是：寫目標、分桶、算大跌、開戶、小額下單。時間表的順序是：第一週看錢、看保單、開戶；第一個月定比例、寫計畫、挑產品，最後才小額下單。兩份順序不完全一樣，讀者會想一下：到底照哪一份做？要先寫完計畫 A 到 H 區才能下第一單嗎？時間表裡有一行「三件事不用等」，但放在頁尾，讀到那裡之前就可能先卡住。",
+            "fix": "在 #ten 那句或 #firstmonth 的 lede 補一句關係說明，例如「整體順序照時間表；時間表裡開戶、下單那幾格的細節，翻七個步驟」。目錄「開始做」的說明也可以寫成「先看時間表排順序，做到哪一步再翻該節」。另一個做法是讓時間表排在七個步驟前面，但這會動到 tail_flows 的相鄰節判斷，要另外評估。"
+          },
+          {
+            "severity": "should",
+            "section": "#withdraw 節名",
+            "location": "目錄「人生階段」第一條、h2「用錢前的準備與家庭交接」",
+            "problem": "這本書裡「用錢」指把錢拿出來花（提領）。可是剛入門的讀者只看目錄，很容易把「用錢前的準備」讀成「投資或花錢以前要準備什麼」，和「投資前的安全順序」混在一起。要點進去讀到 lede「開始拿錢出來花以前」才會懂。這一節放在「人生階段」小群底下，多少有幫忙，但光看節名還是要想一下。「家庭交接」一看就懂。",
+            "fix": "節名裡直接寫出是從投資裡拿錢出來，例如「開始提領前的準備與家庭交接」或「要拿錢出來用之前：準備與家庭交接」。如果要保留現在的節名，可以在目錄「人生階段」小群底下加一行 p.small：「退休或大筆提領之前」。"
+          },
+          {
+            "severity": "note",
+            "section": "封面閱讀方式",
+            "location": "「只有十分鐘的人…四十分鐘之後，接著讀這個順序…要開戶、下單、對帳、每年檢查的時候，翻後面的實作附錄」",
+            "problem": "封面的主線是一路讀到第 1 到 10 節，實作附錄排在最後。想馬上動手的讀者可能以為要先讀完四十分鐘以上才能開始。其實 #ten 的結尾已經叫人讀完就照七個步驟開始，這條路線在封面上看不出來。",
+            "fix": "把「只有十分鐘的人，先讀十分鐘看完」這句延長，接上「讀完想先動手，直接翻實作附錄的時間表」。"
+          },
+          {
+            "severity": "note",
+            "section": "#group-core",
+            "location": "「前面十一節從「投資賺的是誰的錢」一路問到「那我平常要做什麼」」",
+            "problem": "第 11 節在目錄上的標題是「把答案寫成一張紙：我的投資計畫」，不是「那我平常要做什麼」。讀者拿這句去對目錄會對不上。這不是這一輪改的地方。",
+            "fix": "把引號裡的字改成第 11 節目錄上的標題，或拿掉引號，改成一般敘述。"
+          },
+          {
+            "severity": "note",
+            "section": "#withdraw lede 之後的說明段",
+            "location": "「這兩件事的細節都在「年齡、槓桿與退休」第三題，往下找…兩張卡：兩個人各 100 萬的例子、Vanguard…還有「每年能領多少」的研究起點。」",
+            "problem": "這一段一句話裡列了五樣東西，國中程度的讀者讀起來偏長。「這兩件事」要往回找兩段才知道指什麼。連結已經改指第三題，讀者走得到，不會走錯。",
+            "fix": "把「這兩件事」改成具體名稱（例如「一退休就跌為什麼傷、勞保勞退怎麼算」），清單可以拆成兩句。"
+          },
+          {
+            "severity": "note",
+            "section": "目錄 實作附錄",
+            "location": "目錄 h3「實作附錄」、h4 四個小群",
+            "problem": "小群標題不是連結，所以從目錄點不到正文 #group-howto 那頁「不必從頭讀」的導讀。不過目錄那行 p.small 已經寫了同樣的意思，影響很小。",
+            "fix": "可以不改。如果要改，把 h3「實作附錄」包成指向 #group-howto 的連結；#group-core 也照同樣做法處理。"
+          }
+        ]
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Structure"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Charts"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 3,
+      "title": "G11"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 4,
+      "title": "Verify"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "structure",
+      "phaseIndex": 1,
+      "phaseTitle": "Structure",
+      "agentId": "a94d7dcd9144990fa",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789606015858,
+      "queuedAt": 1789606014038,
+      "attempt": 1,
+      "lastToolName": "Bash",
+      "lastToolSummary": "cd \"/Users/linyenchu/Cladue Code/family-finance\" && python3…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance（獨立本機 git repo）。\n必讀：/Users/linyenchu/Cladue Code/family-finance/docs/handoff-guide-2026-09-16.md（標記系統、節 id ≠ 顯示節號：#cases＝第 12 節、#s12＝第 13 節、#s13＝第 14 節；工具規矩；essay_charts 只保留 figcaption）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（本輪選項與硬規則）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/…",
+      "promptFramed": false,
+      "lastProgressAt": 1789606496866,
+      "tokens": 194564,
+      "toolCalls": 57,
+      "durationMs": 481008,
+      "resultPreview": "structure 階段：五件事都做完了。build 的結束碼是 0，印出 SENTINELS OK（FAIL 0、WARN 0）；`guidetools check` 回 CHECK OK，`test_guidetools` 全部 PASS。沒有 git commit。\n\n我把 39 條補丁一次用 `guidetools apply` 套進 `guide/index.html`，另外用 Edit 加了一行目錄 CSS。補丁檔是 `wip/v61-2026-09-17/stages/structure-patch.json`，產生它的腳本是同資料夾的 `structure_make_patch.py`，差異在 `structure-diff.txt`，改之前的原檔是 `structure-before.html`。用 `guidetools numbers` 比對前後，沒有數字遺失，只有兩…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "charts",
+      "phaseIndex": 2,
+      "phaseTitle": "Charts",
+      "agentId": "ad5a6299574107e4a",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789606502646,
+      "queuedAt": 1789606499277,
+      "attempt": 1,
+      "lastToolName": "Bash",
+      "lastToolSummary": "cd \"/Users/linyenchu/Cladue Code/family-finance\" && S=wip/v…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance（獨立本機 git repo）。\n必讀：/Users/linyenchu/Cladue Code/family-finance/docs/handoff-guide-2026-09-16.md（標記系統、節 id ≠ 顯示節號：#cases＝第 12 節、#s12＝第 13 節、#s13＝第 14 節；工具規矩；essay_charts 只保留 figcaption）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（本輪選項與硬規則）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/…",
+      "promptFramed": false,
+      "lastProgressAt": 1789606771816,
+      "tokens": 145700,
+      "toolCalls": 27,
+      "durationMs": 269170,
+      "resultPreview": "charts 階段做完了。build 結束碼 0，印出 SENTINELS OK。`guidetools check` 回 CHECK OK，`test_guidetools` 全部 PASS。沒有 git commit。兩張圖用 Chrome headless 截了桌面版，我看過，沒有重疊或被裁切。\n\n**1. `tools/v61_g10_rebalance_drift.py`（三條 should）**\n- **(a) 出處掛錯**：note 刪掉「和本指南規則卡『年底偏離超過 5/25 門檻就再平衡』看的時間點一樣」，現在只寫「每年年底看一次股票占多少」。docstring 和 `basis.check_timing` 同步改成：年底只是年度資料的取樣點；檢查頻率由讀者在 F 區第 22 格自己填；年底檢查是作者規則卡（第 11 節黃框）的做法。\n- **(b) 22 年擦邊**：n…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "g11",
+      "phaseIndex": 3,
+      "phaseTitle": "G11",
+      "agentId": "a82c3bddf49d920bd",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789606778125,
+      "queuedAt": 1789606773741,
+      "attempt": 1,
+      "lastToolName": "Bash",
+      "lastToolSummary": "cd \"/Users/linyenchu/Cladue Code/family-finance\" && grep -c…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance（獨立本機 git repo）。\n必讀：/Users/linyenchu/Cladue Code/family-finance/docs/handoff-guide-2026-09-16.md（標記系統、節 id ≠ 顯示節號：#cases＝第 12 節、#s12＝第 13 節、#s13＝第 14 節；工具規矩；essay_charts 只保留 figcaption）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（本輪選項與硬規則）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/…",
+      "promptFramed": false,
+      "lastProgressAt": 1789607275650,
+      "tokens": 207880,
+      "toolCalls": 46,
+      "durationMs": 497525,
+      "resultPreview": "G11 is in place. `build_lite` exits 0 and prints SENTINELS OK, `guidetools check` is OK, `test_guidetools` passes, and calc_core ends with `引用缺漏: []`. The one thing not met is length: section 6 grew well past the 20% limit (details under 篇幅).\n\n**1. calc_core wiring (brief section 9)**\n\nI fixed `tools/v61_g11_ath_returns.py` in place and call it from `calc_core.py` as `R['ath_returns']`, the same w…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "verify:structure",
+      "phaseIndex": 4,
+      "phaseTitle": "Verify",
+      "agentId": "a490ada12a5734db9",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789607281601,
+      "queuedAt": 1789607277885,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "結構裁判，只讀。看的是三階段做完後的現況：guide/index.html…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檢查程式寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify3/）。這一輪依序做了三階段，改前的指南在 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/structure-before.html；各階段回報：\n【結構】structure 階段：五件事都做完了。build 的結束碼是 0，印出 SENTINELS OK（FAIL 0、WARN 0）；`guidetools check` 回 CHECK OK，`test_guidetools` 全部 PASS。沒有 git commit。\n\n我把 39 條補丁…",
+      "promptFramed": false,
+      "lastProgressAt": 1789608060120,
+      "tokens": 218646,
+      "toolCalls": 73,
+      "durationMs": 778518,
+      "resultPreview": "{\"scope\":\"結構裁判，只讀。看的是三階段做完後的現況：guide/index.html、tools/build_lite.py、docs/core-edition/specs/lite-format.md、lite/、export/ 兩份 PDF，拿 wip/v61-2026-09-17/stages/structure-before.html（和 HEAD 相同）當改前基準。檢查程式放在 wip/v61-2026-09-17/verify3/，有 pdf_dump.py、toc_check2.py、toc_links.py、page_fill2.py、hard_rules.py、facts_in_pdf.py，另外有抽頁截圖 p0xx.png。\\n\\n已經驗過、沒問題的部分：\\n(1) 目錄 28 條連結的目標都存在，順序和正文一致。PDF 目錄印的頁碼、連結實際跳到的頁、各節標…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "verify:charts",
+      "phaseIndex": 4,
+      "phaseTitle": "Verify",
+      "agentId": "a4a760b873c744d2f",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789607283754,
+      "queuedAt": 1789607277886,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "我是圖表這一階段的裁判，只看兩張圖：第 4 節的 country-recov…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檢查程式寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify3/）。這一輪依序做了三階段，改前的指南在 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/structure-before.html；各階段回報：\n【結構】structure 階段：五件事都做完了。build 的結束碼是 0，印出 SENTINELS OK（FAIL 0、WARN 0）；`guidetools check` 回 CHECK OK，`test_guidetools` 全部 PASS。沒有 git commit。\n\n我把 39 條補丁…",
+      "promptFramed": false,
+      "lastProgressAt": 1789608022759,
+      "tokens": 224262,
+      "toolCalls": 59,
+      "durationMs": 739005,
+      "resultPreview": "{\"scope\":\"我是圖表這一階段的裁判，只看兩張圖：第 4 節的 country-recovery 和第 11 節的 rebalance-drift，沒有改任何專案檔。檢查程式放在 wip/v61-2026-09-17/verify3/：charts_judge_g10.py、charts_judge_g9.py、charts_judge_script_vs_guide.py、charts_judge_render.py、charts_judge_render_mobile.py、charts_judge_mobile_fontsize.py；結果檔與截圖在 verify3/ 和 verify3/render/。跑完前後比對 git status，沒有變化。\\n\\n1. 數字獨立重算，全部對上。\\n- G10：直接讀 damodaran_histret.xls 的 S&P 500 含息…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "verify:g11",
+      "phaseIndex": 4,
+      "phaseTitle": "Verify",
+      "agentId": "a73a4e99361583801",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789607286281,
+      "queuedAt": 1789607277886,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "G11 financial-numbers judge. Checked the new section 6 bloc…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檢查程式寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify3/）。這一輪依序做了三階段，改前的指南在 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/structure-before.html；各階段回報：\n【結構】structure 階段：五件事都做完了。build 的結束碼是 0，印出 SENTINELS OK（FAIL 0、WARN 0）；`guidetools check` 回 CHECK OK，`test_guidetools` 全部 PASS。沒有 git commit。\n\n我把 39 條補丁…",
+      "promptFramed": false,
+      "lastProgressAt": 1789607644752,
+      "tokens": 177517,
+      "toolCalls": 26,
+      "durationMs": 358471,
+      "resultPreview": "{\"scope\":\"G11 financial-numbers judge. Checked the new section 6 block \\\"現在是歷史新高，會不會太高了？\\\" (guide/index.html L1794-1797), the edited 等匯率 part (L1798-1801), the rewritten section 14 question (id s13, L2283), and the new methods item (L2526), against lite/calc-results.json → ath_returns/rolling and g11-brief.md. My own script, written without importing calc_core or the G11 module: /Users/linyenchu/C…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "reader:g11",
+      "phaseIndex": 4,
+      "phaseTitle": "Verify",
+      "agentId": "a3439450f66bcf078",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789607282725,
+      "queuedAt": 1789607277886,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "讀者代理（國三，家裡剛拿到一筆錢、看到「股市又創歷史新高」…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檢查程式寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify3/）。這一輪依序做了三階段，改前的指南在 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/structure-before.html；各階段回報：\n【結構】structure 階段：五件事都做完了。build 的結束碼是 0，印出 SENTINELS OK（FAIL 0、WARN 0）；`guidetools check` 回 CHECK OK，`test_guidetools` 全部 PASS。沒有 git commit。\n\n我把 39 條補丁…",
+      "promptFramed": false,
+      "lastProgressAt": 1789607343378,
+      "tokens": 75008,
+      "toolCalls": 4,
+      "durationMs": 60652,
+      "resultPreview": "{\"scope\":\"讀者代理（國三，家裡剛拿到一筆錢、看到「股市又創歷史新高」在猶豫）：讀了 /Users/linyenchu/Cladue Code/family-finance/guide/index.html 第 6 節整節（#s6，第 1719–1806 行，含新加的「現在是歷史新高，會不會太高了？」）和第 14 節（#s13）「覺得價格太高而等待回檔」那一題（第 2283 行）；為了看懂小表，也對照了第 5 節摺起來的「打開來是賺的」表。只讀，沒改任何檔。讀完我會這樣做：先問爸媽這筆錢五年內會不會用到；會用到就不放股票；不會用到，就照第 6 節前面講的一次投入或分三個月投，不等新高過去。結論是對的，但中間有幾處數字和寫法會讓人一度以為「新高買比較危險，還是等一下好了」。沒有哪一句會讓我以為「隨時買都沒差」，因為第 14 節和第 6 節都先要我確認五年內不用。\",\"verdict\"…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "reader:nav",
+      "phaseIndex": 4,
+      "phaseTitle": "Verify",
+      "agentId": "a6707926c9366361a",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789607285004,
+      "queuedAt": 1789607277886,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "以第一次讀、想開始動手的上班族讀者角度，讀了 guide/index.ht…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檢查程式寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify3/）。這一輪依序做了三階段，改前的指南在 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/structure-before.html；各階段回報：\n【結構】structure 階段：五件事都做完了。build 的結束碼是 0，印出 SENTINELS OK（FAIL 0、WARN 0）；`guidetools check` 回 CHECK OK，`test_guidetools` 全部 PASS。沒有 git commit。\n\n我把 39 條補丁…",
+      "promptFramed": false,
+      "lastProgressAt": 1789607349979,
+      "tokens": 80292,
+      "toolCalls": 5,
+      "durationMs": 64974,
+      "resultPreview": "{\"scope\":\"以第一次讀、想開始動手的上班族讀者角度，讀了 guide/index.html 的封面、目錄、#ten、#start、#group-core、#group-howto、#steps、#firstmonth、#withdraw，也核對了各節在正文裡的順序和錨點（lifecycle-q1/q2/q3、pension 都存在）。抽文字的腳本放在 wip/v61-2026-09-17/verify3/reader_extract.py，沒有改動任何書稿檔。整體結論：沒有找不到或會走錯的地方。目錄三組的名稱、說明句和正文分組標題彼此對得上。時間表可以從三處找到：封面一句話、十分鐘看完的最後一句，以及目錄「實作附錄 → 開始做」底下第二條。\",\"verdict\":\"pass\",\"findings\":[{\"severity\":\"should\",\"section\":\"#ten 結尾／#…"
+    }
+  ],
+  "totalTokens": 1323869,
+  "totalToolCalls": 297
+}

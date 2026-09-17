@@ -635,6 +635,30 @@ import v61_g10_rebalance_drift as _g10
 R['country_recovery'] = _g9.compute()
 R['rebalance_drift'] = _g10.compute()
 
+# G11：在歷史新高買進（第 6 節「現在是歷史新高，會不會太高了？」）
+import v61_g11_ath_returns as _g11
+_ath = _g11.compute()
+# 「任選一天」一律用上面 rolling 的數字；模組的 all 組起點已對齊，這裡確認 n 與整數比例和 rolling 完全一樣，不准出現兩個 n
+for _mk, _rk, _hs in (('taiex_daily', 'taiex', (('1y', '1年'), ('3y', '3年'), ('5y', '5年'), ('10y', '10年'))),
+                      ('us_monthly_shiller', 'us', (('1y', '1年'), ('5y', '5年'), ('10y', '10年'), ('20y', '20年')))):
+    for _hk, _rl in _hs:
+        _a, _r = _ath[_mk]['horizons'][_hk]['all'], R['rolling'][_rk]['positive_share'][_rl]
+        assert (_a['n'], _a['positive_share_int']) == (_r['n'], _r['pct_int']), ('ath_returns 與 rolling 不一致', _mk, _hk, _a, _r)
+_ath['book_table'] = {
+    'note': '第 6 節那張小表：「任選一天」取 rolling.*.positive_share.pct_int（第 5 節同一個數），「只挑創新高那天」取本 key 的 at_high.positive_share_int',
+    'taiex': [{'years': _y, 'any_day': R['rolling']['taiex']['positive_share']['%d年' % _y]['pct_int'],
+               'at_high': _ath['taiex_daily']['horizons']['%dy' % _y]['at_high']['positive_share_int']} for _y in (1, 3, 5, 10)],
+    'us': [{'years': _y, 'any_month': R['rolling']['us']['positive_share']['%d年' % _y]['pct_int'],
+            'at_high': _ath['us_monthly_shiller']['horizons']['%dy' % _y]['at_high']['positive_share_int']} for _y in (1, 5, 10)],
+}
+_nb3 = sorted(_ath['taiex_daily']['sensitivity']['at_high_nonpositive_by_start_year']['3y'])
+_ath['book_facts'] = {
+    'taiex_3y_losing_at_high_start_years': [int(_nb3[0]), int(_nb3[-1])] if _nb3 else None,
+    'us_1929_record_10y_ann_pct': next(c['10y_ann_pct'] for c in _ath['us_monthly_shiller']['cases'] if c['label'] == '1929'),
+    'us_1929_record_5y_ann_pct': next(c['5y_ann_pct'] for c in _ath['us_monthly_shiller']['cases'] if c['label'] == '1929'),
+}
+R['ath_returns'] = _ath
+
 # grep 正式檔：引用數字所在行（guidetools text 行號）
 quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '三十年後差約 86 萬', '2008 年跌了 53.59%', '1.7% 是 2026 年 9 月五大銀行一年期定存牌告利率',
@@ -643,7 +667,10 @@ quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '2022 年 2.95%、2023 年 2.49%、2024 年 2.18%', '〔投資等級〕債 −13.0%', '高 7% 約 10 年、中 6% 約 12 年、低 4% 約 18 年',
           '低情境下股票八成約 20 年、四成約 25 年', '低 4% 約 21 年', '| 80% | 3.6% | 5.2% | 6%', '| 40% | 2.8% | 3.6% | 4%',
           '| 物價倍數 | 1.10 | 1.22 | 1.35 | 1.49 | 1.64 | 1.81 | 2.00 | 2.21', '勞保那一層保守起見用今天的投保薪資試算、不乘物價倍數',
-          '真實年成本 6.69%']
+          '真實年成本 6.69%',
+          # G11（第 6 節「現在是歷史新高」）：數字來自 ath_returns
+          '大約每十個月就有三個月收在新高', '| 台股 3 年 | 95% | 87%', '| 美股 5 年 | 90% | 85%',
+          '全部是 2005 到 2007 年買進', '新高月份放五年平均一年 4.5%、其他月份 9.0%；1950 年以後變成 12.0% 對 10.6%']
 found = {}
 try:
     sys.path.insert(0, HERE)

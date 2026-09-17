@@ -30,7 +30,7 @@ assert (m['first_breach_year'], m['first_breach_years_after_start'], m['first_br
 assert m['mark_year'] == {'year': 2008, 'stock_pct': 87.7, 'outside_band': True}
 assert m['end_stock_pct'] == 98.3 and m['years_outside_band'] == 31 and m['years_back_inside_band_after_breach'] == []
 assert (res['alt_starts']['2000']['first_breach_year'], res['alt_starts']['2000']['first_breach_stock_pct']) == (2001, 74.5)
-sc = res['all_starts_scan']; assert (sc['years_to_breach_min'], sc['years_to_breach_max']) == (1, 22)
+sc = res['all_starts_scan']; assert sc['years_to_breach_min'] == 1 and sc['count'] == 94 and sc['robust_counts']['years_to_breach']['within_4'] == 60 and sc['robust_counts']['years_to_breach']['within_10'] == 90 and '最慢' not in d['extras'] and '規則卡' not in d['extras']
 assert res['bond_sensitivity']['mark_year']['stock_pct'] == 78.3
 assert '78.3%' not in ''.join(d['svgs']) and '96.6' not in alltext and '85.3' not in alltext
 assert '防守用美國 3 個月國庫券代表定存（不跌價、利息低）' in d['extras']

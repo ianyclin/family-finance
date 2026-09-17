@@ -25,12 +25,17 @@
        防守 20% → min(5, 5)＝5。兩邊都是股票占比 75%–85%。
        「超出」＝年底占比與 80% 的差「嚴格大於」5 個百分點（剛好 85.0% 不算）；
        另記錄有沒有落在邊界 ±0.05 個百分點內的年份（edge_cases），方便裁判確認沒有被四捨五入影響。
-       年底看一次，對應指南規則卡「年底偏離超過 5/25 門檻就再平衡」。
+       年底看一次只是這張圖的取樣點（資料是年度），不是指南規定的檢查時間：指南計畫表 F 區第 22 格
+       「多久看」由讀者自己填（範例小安是每月扣款後看）；年底檢查是作者規則卡（第 11 節黃框）的做法。
     5. 主圖起點選 1990：到 2025 年共 36 年，中間包含 2000–2002 與 2008 兩次大跌；
        第一次超出門檻的年數和全部起點（1928–2021）的中位數比較，記在 main.why_this_start，
        確認不是挑「跑得最快」的那一個。
        另外算 1990、2000、2009 三個起點的完整路徑，以及 1928–2021 每一個起點第一次超出門檻的年數分布。
-    6. 所有印在圖上的百分比一律 Decimal half-up 到小數一位（不用 Python round）。
+    6. 全部起點的說法不用「最慢幾年」：最慢那個起點（1964）靠 1974 年底 75.0017% 擦邊留在門檻裡，
+       差距遠小於資料精度。印出的是「最快 1 年；一半以上 N 年內、超過九成 M 年內」這種計數說法，
+       並用兩種判定（嚴格 >5pp；先 half-up 到一位再 >=5pp）都算一次，兩種都成立才印（assert）。
+       每一個起點「到第一次超出為止」的年份裡，離邊界 0.05pp 以內的都記進 all_starts_scan.edge_cases。
+    7. 所有印在圖上的百分比一律 Decimal half-up 到小數一位（不用 Python round）。
 
 compute() 只用標準庫＋xlrd；chart(res) 才 lazy import essay_charts。
 """
@@ -62,6 +67,14 @@ def band_width_pp(weight_pct):
 
 def outside(w):
     return abs(w - TARGET) > 0.05
+
+
+def outside_rounded(w):
+    """敏感度判定：先 half-up 到小數一位（像讀者看到的 75.0%），再用「以上／以下」。"""
+    return abs(Decimal(repr(w * 100)).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP) - 80) >= 5
+
+
+ROBUST_FAST, ROBUST_MOST = 4, 10   # 「一半以上 4 年內、超過九成 10 年內」
 
 
 def load():
@@ -139,8 +152,13 @@ def scan_starts(data, last, defense=DEFENSE):
     scan = []
     for s in range(SCAN_FROM, SCAN_TO + 1):
         sm = summarize(data, s, last, defense)
+        p = drift_path(data, s, last, defense)
+        br_r = next((r for r in p if outside_rounded(r['stock_w'])), None)
+        upto = [r for r in p if sm['first_breach_year'] is None or r['year'] <= sm['first_breach_year']]
         scan.append({'start': s, 'years_to_breach': sm['first_breach_years_after_start'],
-                     'direction': sm['first_breach_direction'], 'end_stock_pct': sm['end_stock_pct']})
+                     'years_to_breach_rounded_rule': (br_r['year'] - s + 1) if br_r else None,
+                     'direction': sm['first_breach_direction'], 'end_stock_pct': sm['end_stock_pct'],
+                     'edge_years_up_to_breach': edges(upto)})
     yrs = sorted(x['years_to_breach'] for x in scan if x['years_to_breach'] is not None)
     n = len(yrs)
     median = yrs[n // 2] if n % 2 else (yrs[n // 2 - 1] + yrs[n // 2]) / 2
@@ -177,6 +195,20 @@ def compute():
     bond_mark = next(r for r in bond_main if r['year'] == MARK_YEAR)
     _, bond_yrs, bond_median = scan_starts(data, last, 'bond')
 
+    n_scan = len(scan)
+    robust = {}
+    for key in ('years_to_breach', 'years_to_breach_rounded_rule'):
+        v = [x[key] for x in scan if x[key] is not None]
+        robust[key] = {'min': min(v), 'within_%d' % ROBUST_FAST: sum(1 for y in v if y <= ROBUST_FAST),
+                       'within_%d' % ROBUST_MOST: sum(1 for y in v if y <= ROBUST_MOST),
+                       'min_count': sum(1 for y in v if y == min(v)), 'never': n_scan - len(v)}
+    # 印出的三個說法，兩種判定都要成立
+    for rb in robust.values():
+        assert rb['min'] == 1 and rb['never'] == 0
+        assert rb['within_%d' % ROBUST_FAST] * 2 > n_scan          # 一半以上
+        assert rb['within_%d' % ROBUST_MOST] * 10 > n_scan * 9     # 超過九成
+    scan_edges = [{'start': x['start'], 'years': x['edge_years_up_to_breach']} for x in scan if x['edge_years_up_to_breach']]
+
     edge_other = {'annual_rebalance_pre_rebalance_%d' % MAIN_START: edges(reb, 'pre_rebalance_stock_w'),
                   **{'no_rebalance_start_%d' % s: edges(drift_path(data, s, last)) for s in ALT_STARTS}}
 
@@ -193,7 +225,7 @@ def compute():
             'cashflows': '不投入新錢、不提領',
             'start_weights': {'stock': 80, 'defense': 20},
             'start_timing': '起點年的年初（＝前一年年底）',
-            'check_timing': '每年年底看一次，對應指南規則卡「年底偏離超過 5/25 門檻就再平衡」',
+            'check_timing': '每年年底看一次（年度資料的取樣點，不是指南規定的檢查時間；指南計畫表 F 區第 22 格由讀者自己填，年底檢查是作者規則卡、第 11 節黃框的做法）',
             'data_last_year': last,
             'bill_min_annual_return': {'year': bill_min_year, 'return': data[bill_min_year][1]},
         },
@@ -253,6 +285,9 @@ def compute():
             'years_to_breach_min': yrs[0], 'years_to_breach_median': median, 'years_to_breach_max': yrs[-1],
             'first_breach_above_85': sum(1 for x in scan if x['direction'] == 'above_85'),
             'first_breach_below_75': sum(1 for x in scan if x['direction'] == 'below_75'),
+            'robust_counts': robust,
+            'robust_thresholds_years': [ROBUST_FAST, ROBUST_MOST],
+            'edge_cases': scan_edges,
             'faster_than_main': sum(1 for y in yrs if y < br_n),
             'slower_than_main': sum(1 for y in yrs if y > br_n),
             'rows': scan,
@@ -273,6 +308,8 @@ def chart(res):
     a2000 = res['alt_starts']['2000']
     sc = res['all_starts_scan']
     bs = res['bond_sensitivity']
+    rf, rm = sc['robust_thresholds_years']
+    assert all(rb['min'] == sc['years_to_breach_min'] for rb in sc['robust_counts'].values())
     assert not m['years_back_inside_band_after_breach']   # 圖說寫「沒有一年回到門檻裡」的前提
     assert mk['outside_band']
 
@@ -333,8 +370,7 @@ def chart(res):
     nt = E.note('美國 S&P 500（含息）與美國 3 個月國庫券的年度報酬，出自 Damodaran（紐約大學 Stern）公開資料集；'
                 '名目、以美元計，沒有扣物價、費用和稅，也沒有投入新錢或提領。'
                 '防守用美國 3 個月國庫券代表定存（不跌價、利息低）。'
-                '%d 年初放股票 80%%、現金 20%%，之後不買不賣，每年年底看一次股票占多少，'
-                '和本指南規則卡「年底偏離超過 5/25 門檻就再平衡」看的時間點一樣。'
+                '%d 年初放股票 80%%、現金 20%%，之後不買不賣，每年年底看一次股票占多少。'
                 '圖只看得到每年年底；兩個年底之間可能早就跑出門檻，或跑得更遠，這裡看不出來。'
                 '門檻照 5/25 算：股票 80%% 的四分之一是 20 個百分點，比 5 大，取 5；'
                 '現金 20%% 的四分之一剛好是 5，所以兩邊都是股票 75%% 到 85%%。'
@@ -342,10 +378,11 @@ def chart(res):
                 '防守換成美國 10 年期公債（資料集用 10 年期殖利率換算的報酬，不是債券基金的實際報酬）的話，'
                 '2002、%d 年公債上漲，股票占比會落回門檻裡（%d 年底 %s）。'
                 '換一個起點，跑掉的方向和快慢都不一樣：%d 年初開始的話，先往下跑，%d 年底就掉到 %s；'
-                '%d 到 %d 年每一年都當一次起點算過，第一次超出門檻最快 %d 年、最慢 %d 年。過去的走法不代表以後會一樣。'
+                '%d 到 %d 年每一年都當一次起點算過，%d 個起點裡，第一次超出門檻最快 %d 年；一半以上 %d 年內就跑出門檻，超過九成在 %d 年內。'
+                '過去的走法不代表以後會一樣。'
                 % (m['start'], MARK_YEAR, bs['mark_year']['year'], pct(bs['mark_year']['stock_pct']),
                    2000, a2000['first_breach_year'], pct(a2000['first_breach_stock_pct']),
-                   sc['from'], sc['to'], sc['years_to_breach_min'], sc['years_to_breach_max']))
+                   sc['from'], sc['to'], sc['count'], sc['years_to_breach_min'], rf, rm))
     caption = ('%d 年初放股票八成、現金兩成，之後都不動：第 %d 年（%d 年底）股票占比第一次超過 85%%，'
                '之後到 %d 年底沒有一年回到門檻裡，%d 年底是 %s，%d 年底變成 %s；'
                '往哪邊跑、多快跑出去，換個起點就不一樣（圖下說明有 2000 年起點先往下跑的例子）。'
@@ -360,7 +397,7 @@ def chart(res):
                       'end': [m['end'], end_pct],
                       'bond_mark_year': [bs['mark_year']['year'], bs['mark_year']['stock_pct']],
                       'alt_2000_breach': [a2000['first_breach_year'], a2000['first_breach_stock_pct']],
-                      'scan_years_to_breach': [sc['from'], sc['to'], sc['years_to_breach_min'], sc['years_to_breach_max']],
+                      'scan_years_to_breach': [sc['from'], sc['to'], sc['count'], sc['years_to_breach_min'], rf, rm],
                       'lead_sentence': lead}
     return dict(title='不管它，比例會自己跑掉',
                 sub='美國股票八成、現金兩成，每年年底股票占多少（%d 年初起算，到 %d 年底）' % (m['start'], m['end']),

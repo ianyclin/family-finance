@@ -553,7 +553,12 @@ table.lite-annual td:nth-child(2){font-size:.84rem}table.lite-annual th:nth-chil
 LITE_PRINT_CSS = '\n.lite-toc-pg{display:inline}\n'
 FULL_PRINT_CSS = ('\n.toc-pg{margin-left:.5em;color:var(--muted);font-variant-numeric:tabular-nums}@media screen{.toc-pg{display:none}}\n'
                   # fix-r3：s2「資產每增加 60 萬需要多久」十列小表不切成兩頁（cases 的小表試過，會讓陳大哥表尾那頁空一半，不加）
-                  '@media print{#s2 .table-wrap{break-inside:avoid}}\n')
+                  '@media print{#s2 .table-wrap{break-inside:avoid}}\n'
+                  # D10＋S6：沒展開的摺疊區，紙本只印 summary，後面補一句提示（年檢那一格的 summary 已寫「網頁版可以展開」，只補「紙本未印」）
+                  '@media print{details:not([open])>summary::after{content:"（紙本未印，網頁版可展開）";font-weight:400;color:#666}'
+                  '#annual details:not([open])>summary::after{content:"（紙本未印）"}}\n'
+                  # S6：兩個分組標題不在目錄裡、tail_flows 管不到；它們很短，接在上一節的節尾頁排，免得前一頁只剩兩三成
+                  '@media print{section.part#group-core,section.part#group-howto{break-before:auto!important;page-break-before:auto!important}}\n')
 
 
 def section_names(dom):
@@ -795,7 +800,12 @@ def build(m, alt_cache=None):
 
 # ---------------------------------------------------------------- PDF
 
-def open_details(s):
+def open_details(s, only_marked=False):
+    """PDF 用：把摺疊區展開。工作表（only_marked=False）全部展開；
+    完整版（only_marked=True，v6.1 拍板 D10＋S6）只展開帶 data-print 屬性的（要動筆的欄位表、空白版、查表頁），
+    教學性的長表維持收合，summary 後面由 FULL_PRINT_CSS 印出「紙本未印」提示。"""
+    if only_marked:
+        return re.sub(r'<details\b(?=[^>]*\sdata-print=)(?![^>]*\sopen\b)', '<details open', s)
     return re.sub(r'<details\b(?![^>]*\sopen\b)', '<details open', s)
 
 
@@ -926,7 +936,7 @@ def make_pdfs(m, lite, full):
                                                r'(<span class="lite-toc-pg" data-for="([^"]+)">)[^<]*(</span>)', 2)
     set_meta(lite_pdf, '%s｜%s %s' % (m['book_title'], m['edition'], m['version']), m['author'], '%s／%s' % (m['version'], m['date']))
 
-    fp = open_details(full)
+    fp = open_details(full, only_marked=True)
     fp = fp.replace('</style>', FULL_PRINT_CSS + '</style>', 1)
     toc = re.search(r'<nav class="toc".*?</nav>', fp, flags=re.S)
     if toc:

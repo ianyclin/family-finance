@@ -1,0 +1,44 @@
+{
+ "美國": {
+  "days": 9212,
+  "years_by_days": 25.222,
+  "half_up_years": 25,
+  "months_by_days_half_up": 303,
+  "calendar_ymd": [
+   25,
+   2,
+   20
+  ]
+ },
+ "日本": {
+  "days": 12473,
+  "years_by_days": 34.15,
+  "half_up_years": 34,
+  "months_by_days_half_up": 410,
+  "calendar_ymd": [
+   34,
+   1,
+   24
+  ]
+ },
+ "台灣": {
+  "days": 11125,
+  "years_by_days": 30.459,
+  "half_up_years": 30,
+  "months_by_days_half_up": 366,
+  "calendar_ymd": [
+   30,
+   5,
+   17
+  ]
+ },
+ "日本_年月": [
+  34,
+  2
+ ],
+ "G10_raw_pct": {
+  "1995": 86.11520007024302,
+  "2008": 87.68371081594701,
+  "2025": 98.30791585149268
+ }
+}

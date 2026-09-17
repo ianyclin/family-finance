@@ -1,0 +1,238 @@
+#!/usr/bin/env python3
+"""G11 研究：在「歷史新高（含息指數）」那天／那個月／那一年底買進，之後的報酬和其他時點比起來如何。
+
+本檔只做研究計算，不寫指南、不改 calc_core.py / essay_charts.py。整合階段要用，再把 compute() 搬進 calc_core。
+
+資料（三份，都已在 repo 或本機）
+  A. 台股：research/data/taiex_tr_monthly_raw.csv（檔名寫 monthly，內容是逐日收盤）——
+     證交所發行量加權股價報酬指數（含息），2003-01-02 起。讀法照 calc_core.taiex_series()。
+  B. 美股月資料：research/data/shiller_sp_monthly.csv（Robert Shiller 公開資料）。
+     含息月指數照 calc_core.shiller_tr()：月報酬 ＝(P_t ＋ D_t/12) ÷ P_{t−1}，股利欄只到 2023-06。
+     注意：Shiller 的 P 是「月內平均價」，不是月底收盤（G12 就是因為這點不做美股事件圖），
+     所以「創新高的月份」是月平均值創新高，只能拿來看大方向。
+  C. 美股年資料：research/data/damodaran_histret.xls（Damodaran，NYU Stern），S&P 500 含息當年報酬，1928–2025。
+     年底值，沒有月平均的問題，但一年只有一個點，年內高點看不到。讀法照 v61_g8_recovery_by_mix.read_annual()。
+
+定義
+  「在新高」：當期含息指數 ≥ 從資料起點到當期為止的最高值（含平手）。資料起點本身不算（沒有前史）。
+  「不在新高」：其他所有起點。「全部」：兩者合計。
+  「離新高 5% 內」（只算台股與美股月資料，當補充）：當期值 ≥ 到當期為止最高值 × 0.95。
+  視窗：台股用日曆視窗（從某交易日到滿 N 年同一天，沒開盤取前一個交易日，同 calc_core.taiex_windows）；
+        美股月資料用 N×12 個月後；年資料用 N 年後的年底。
+  每個起點算年化報酬 (終值÷起值)^(1/N) − 1；各組報「年化報酬的平均數、中位數、最低、最高」與「N 年後賺錢（終值>起值）的比例」。
+  視窗互相重疊，不是獨立樣本。
+
+口徑：名目、含息（股利再投入）、沒扣費用、稅、交易成本；台股台幣、美股美元，沒有換匯。
+四捨五入一律 half-up（Decimal）。
+用法：python3 tools/v61_g11_ath_returns.py [--out 路徑]   （預設只印到螢幕，不寫檔）
+"""
+import os, sys, csv, json, bisect, statistics
+from datetime import date
+from decimal import Decimal, ROUND_HALF_UP
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)
+TAIEX_CSV = os.path.join(ROOT, 'research', 'data', 'taiex_tr_monthly_raw.csv')
+SHILLER_CSV = os.path.join(ROOT, 'research', 'data', 'shiller_sp_monthly.csv')
+XLS = os.path.join(ROOT, 'research', 'data', 'damodaran_histret.xls')
+
+
+def hu(x, places=1):
+    q = Decimal('1') if places == 0 else Decimal('1').scaleb(-places)
+    v = Decimal(repr(x)).quantize(q, rounding=ROUND_HALF_UP)
+    return int(v) if places == 0 else float(v)
+
+
+# ---------- 讀資料 ----------
+def taiex_series():
+    rows = list(csv.reader(open(TAIEX_CSV, encoding='utf-8')))[1:]
+    return [date.fromisoformat(r[0]) for r in rows], [float(r[1]) for r in rows]
+
+
+def shiller_tr():
+    rows = list(csv.DictReader(open(SHILLER_CSV, encoding='utf-8')))
+    end = next(i for i, r in enumerate(rows) if float(r['Dividend'] or 0) == 0)
+    rows = rows[:end]
+    tr = [1.0]
+    for k in range(1, len(rows)):
+        p0 = float(rows[k - 1]['SP500']); p1 = float(rows[k]['SP500']); d = float(rows[k]['Dividend'])
+        tr.append(tr[-1] * ((p1 + d / 12) / p0))
+    return [r['Date'][:7] for r in rows], tr
+
+
+def damodaran_tr():
+    import xlrd
+    sh = xlrd.open_workbook(XLS).sheet_by_name('Returns by year')
+    hdr = next(r for r in range(sh.nrows) if str(sh.cell_value(r, 0)).strip() == 'Year')
+    names = [str(sh.cell_value(hdr, c)).strip() for c in range(sh.ncols)]
+    c_st = next(c for c, n in enumerate(names) if n.startswith('S&P 500 (includes dividends)'))
+    ret = {}
+    for r in range(hdr + 1, sh.nrows):
+        y = sh.cell_value(r, 0)
+        if isinstance(y, float) and 1900 < y < 2100:
+            ret[int(y)] = sh.cell_value(r, c_st)
+    years = sorted(ret)
+    labels, vals = [str(years[0] - 1)], [1.0]          # 1927 年底 = 1
+    for y in years:
+        labels.append(str(y)); vals.append(vals[-1] * (1 + ret[y]))
+    return labels, vals
+
+
+# ---------- 共用 ----------
+def add_months(d, months):
+    y = d.year + (d.month - 1 + months) // 12
+    m = (d.month - 1 + months) % 12 + 1
+    dd = d.day
+    while True:
+        try:
+            return date(y, m, dd)
+        except ValueError:
+            dd -= 1
+
+
+def flags(vals):
+    at, near, runmax = [False], [False], vals[0]
+    for v in vals[1:]:
+        runmax = max(runmax, v)
+        at.append(v >= runmax)
+        near.append(v >= runmax * 0.95)
+    return at, near
+
+
+def summarize(pairs, years):
+    """pairs: [(起值, 終值)]"""
+    if not pairs:
+        return {'n': 0}
+    ann = [((b / a) ** (1 / years) - 1) * 100 for a, b in pairs]
+    pos = sum(1 for a, b in pairs if b > a)
+    return {'n': len(pairs), 'mean_ann_pct': hu(statistics.fmean(ann)), 'median_ann_pct': hu(statistics.median(ann)),
+            'min_ann_pct': hu(min(ann)), 'max_ann_pct': hu(max(ann)),
+            'positive_share_pct': hu(100 * pos / len(pairs)), 'positive_share_int': hu(100 * pos / len(pairs), 0)}
+
+
+def grouped(starts_end, at, near, years):
+    """starts_end: [(i, j)] 起點索引與終點索引；回傳各組摘要。"""
+    return {
+        'at_high': summarize([(V[i], V[j]) for i, j in starts_end if at[i]], years),
+        'not_at_high': summarize([(V[i], V[j]) for i, j in starts_end if not at[i]], years),
+        'within_5pct': summarize([(V[i], V[j]) for i, j in starts_end if near[i]], years) if near else None,
+        'all': summarize([(V[i], V[j]) for i, j in starts_end], years),
+    }
+
+
+V = None  # 目前處理中的序列（grouped 用）
+
+
+def compute():
+    global V
+    R = {'definition': '在新高＝當期含息指數 ≥ 資料起點到當期的最高值（含平手；資料起點不算）。'
+                       '年化報酬＝(終值÷起值)^(1/N)−1；視窗重疊，不是獨立樣本。名目、含息、沒扣費用稅。'}
+
+    # A. 台股逐日
+    dates, vals = taiex_series(); V = vals
+    at, near = flags(vals)
+    R['taiex_daily'] = {'source': '證交所發行量加權股價報酬指數（含息），逐日收盤', 'currency': 'TWD',
+                        'from': dates[0].isoformat(), 'to': dates[-1].isoformat(), 'days': len(vals),
+                        'days_at_high': sum(at[1:]), 'share_days_at_high_pct': hu(100 * sum(at[1:]) / (len(vals) - 1)),
+                        'share_days_within_5pct_pct': hu(100 * sum(near[1:]) / (len(vals) - 1)),
+                        'horizons': {}}
+    for y in (1, 3, 5, 10):
+        se = []
+        for i in range(1, len(dates)):
+            tgt = add_months(dates[i], 12 * y)
+            if tgt > dates[-1]:
+                break
+            j = bisect.bisect_right(dates, tgt) - 1
+            if j > i:
+                se.append((i, j))
+        R['taiex_daily']['horizons'][str(y) + 'y'] = {'last_start': dates[se[-1][0]].isoformat(), **grouped(se, at, near, y)}
+    # 台股反例：2007-10 前高那天、2018-01 前高、2021-12 前高 之後 1/3/5 年
+    def tw_case(label, d0, d1):
+        i0 = bisect.bisect_left(dates, date.fromisoformat(d0)); i1 = bisect.bisect_right(dates, date.fromisoformat(d1))
+        k = max(range(i0, i1), key=lambda t: vals[t])
+        out = {'label': label, 'peak_date': dates[k].isoformat(), 'is_record': at[k]}
+        for y in (1, 3, 5):
+            tgt = add_months(dates[k], 12 * y)
+            if tgt <= dates[-1]:
+                j = bisect.bisect_right(dates, tgt) - 1
+                out[str(y) + 'y_ann_pct'] = hu(((vals[j] / vals[k]) ** (1 / y) - 1) * 100)
+                out[str(y) + 'y_cum_pct'] = hu((vals[j] / vals[k] - 1) * 100)
+        rec = next((t for t in range(k + 1, len(vals)) if vals[t] >= vals[k] and min(vals[k + 1:t + 1]) < vals[k] * 0.999), None)
+        out['back_to_this_high'] = dates[rec].isoformat() if rec else None
+        return out
+    R['taiex_daily']['cases'] = [tw_case('2007 年高點', '2007-01-01', '2008-06-30'),
+                                 tw_case('2018 年高點', '2018-01-01', '2018-12-31'),
+                                 tw_case('2021–22 年高點', '2021-06-01', '2022-06-30')]
+
+    # B. 美股月（Shiller，月平均價）
+    months, tr = shiller_tr(); V = tr
+    at, near = flags(tr)
+    R['us_monthly_shiller'] = {'source': 'Robert Shiller 公開資料，S&P 500（1957 年前為前身指數）含息、名目；價格是月內平均', 'currency': 'USD',
+                               'from': months[0], 'to': months[-1], 'months': len(tr),
+                               'months_at_high': sum(at[1:]), 'share_months_at_high_pct': hu(100 * sum(at[1:]) / (len(tr) - 1)),
+                               'share_months_within_5pct_pct': hu(100 * sum(near[1:]) / (len(tr) - 1)),
+                               'horizons': {}}
+    for y in (1, 3, 5, 10, 20):
+        k = 12 * y
+        se = [(i, i + k) for i in range(1, len(tr) - k)]
+        R['us_monthly_shiller']['horizons'][str(y) + 'y'] = {'last_start': months[se[-1][0]], **grouped(se, at, near, y)}
+    # 同一套算法、只取 1926 年以後（對照 Dimensional 的 1926 起點）
+    i26 = months.index('1926-01')
+    R['us_monthly_shiller']['from_1926'] = {}
+    for y in (1, 3, 5, 10):
+        k = 12 * y
+        se = [(i, i + k) for i in range(i26, len(tr) - k)]
+        R['us_monthly_shiller']['from_1926'][str(y) + 'y'] = grouped(se, at, near, y)
+
+    def us_case(label, m0, m1):
+        a, b = months.index(m0), months.index(m1)
+        p = max(range(a, b + 1), key=lambda t: tr[t])
+        out = {'label': label, 'peak_month': months[p], 'is_record': at[p]}
+        for y in (1, 3, 5, 10, 20):
+            if p + 12 * y < len(tr):
+                out[str(y) + 'y_ann_pct'] = hu(((tr[p + 12 * y] / tr[p]) ** (1 / y) - 1) * 100)
+        rec = next((t for t in range(p + 1, len(tr)) if tr[t] >= tr[p]), None)
+        # 回到前高：之後第一個 ≥ 高點的月份（中間必須先跌下去；月資料只要下個月比較低就成立）
+        out['back_to_this_high'] = months[rec] if rec else None
+        out['months_to_back'] = (rec - p) if rec else None
+        low = min(range(p, rec if rec else len(tr)), key=lambda t: tr[t])
+        out['max_drop_pct'] = hu((tr[low] / tr[p] - 1) * 100)
+        out['low_month'] = months[low]
+        return out
+    R['us_monthly_shiller']['cases'] = [us_case('1929', '1929-01', '1929-12'), us_case('1937', '1937-01', '1937-12'),
+                                        us_case('1973', '1972-06', '1973-06'), us_case('2000', '2000-01', '2000-12'),
+                                        us_case('2007', '2007-01', '2007-12')]
+
+    # C. 美股年（Damodaran 年底）
+    labels, yv = damodaran_tr(); V = yv
+    at, _ = flags(yv)
+    R['us_annual_damodaran'] = {'source': 'Damodaran（NYU Stern）S&P 500 含息當年報酬，年底值；1927 年底=1', 'currency': 'USD',
+                                'from': labels[1], 'to': labels[-1], 'years': len(yv) - 1,
+                                'years_at_high': sum(at[1:]), 'share_years_at_high_pct': hu(100 * sum(at[1:]) / (len(yv) - 1)),
+                                'horizons': {}}
+    for y in (1, 3, 5, 10):
+        se = [(i, i + y) for i in range(1, len(yv) - y)]
+        g = grouped(se, at, None, y); g.pop('within_5pct')
+        R['us_annual_damodaran']['horizons'][str(y) + 'y'] = {'last_start': labels[se[-1][0]], **g}
+    # 在新高的年底裡，之後 10 年年化最差的五個
+    worst = sorted(((((yv[i + 10] / yv[i]) ** 0.1 - 1) * 100, labels[i]) for i in range(1, len(yv) - 10) if at[i]))[:5]
+    R['us_annual_damodaran']['worst10y_from_record_yearends'] = [{'yearend': l, 'ann_pct': hu(v)} for v, l in worst]
+
+    R['caveats'] = [
+        '視窗重疊，相鄰起點的結果高度相關，不是獨立樣本；新高又常常連在一起出現，「在新高」那組的有效樣本比 n 少很多',
+        '台股含息指數只從 2003 年開始，「新高」是相對 2003 年以後，不是相對 1990 年；又剛好從大跌後起算',
+        'Shiller 價格是月內平均價，不是月底收盤；股利欄只到 2023-06',
+        '平均數把不同年代混在一起；個別起點（1929、2000、2007）可以差很多',
+        '名目、含息、沒扣物價、費用、稅；台股台幣、美股美元',
+        '只看一國單一指數；日本 1989 年那種例子不在這三份資料裡',
+    ]
+    return R
+
+
+if __name__ == '__main__':
+    r = compute()
+    out = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else None
+    s = json.dumps(r, ensure_ascii=False, indent=1)
+    if out:
+        open(out, 'w', encoding='utf-8').write(s)
+    print(s)

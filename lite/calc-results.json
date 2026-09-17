@@ -2298,7 +2298,7 @@
     "defense": 20
    },
    "start_timing": "起點年的年初（＝前一年年底）",
-   "check_timing": "每年年底看一次，對應指南規則卡「年底偏離超過 5/25 門檻就再平衡」",
+   "check_timing": "每年年底看一次（年度資料的取樣點，不是指南規定的檢查時間；指南計畫表 F 區第 22 格由讀者自己填，年底檢查是作者規則卡、第 11 節黃框的做法）",
    "data_last_year": 2025,
    "bill_min_annual_return": {
     "year": 2014,
@@ -3010,645 +3010,2277 @@
    "years_to_breach_max": 22,
    "first_breach_above_85": 72,
    "first_breach_below_75": 22,
+   "robust_counts": {
+    "years_to_breach": {
+     "min": 1,
+     "within_4": 60,
+     "within_10": 90,
+     "min_count": 8,
+     "never": 0
+    },
+    "years_to_breach_rounded_rule": {
+     "min": 1,
+     "within_4": 61,
+     "within_10": 91,
+     "min_count": 9,
+     "never": 0
+    }
+   },
+   "robust_thresholds_years": [
+    4,
+    10
+   ],
+   "edge_cases": [
+    {
+     "start": 1951,
+     "years": [
+      {
+       "year": 1952,
+       "stock_w_raw": 0.8498548625086246
+      }
+     ]
+    },
+    {
+     "start": 1958,
+     "years": [
+      {
+       "year": 1958,
+       "stock_w_raw": 0.8496015773123592
+      }
+     ]
+    },
+    {
+     "start": 1964,
+     "years": [
+      {
+       "year": 1974,
+       "stock_w_raw": 0.7500173392518766
+      }
+     ]
+    },
+    {
+     "start": 1980,
+     "years": [
+      {
+       "year": 1985,
+       "stock_w_raw": 0.8498686691719325
+      }
+     ]
+    },
+    {
+     "start": 1998,
+     "years": [
+      {
+       "year": 1999,
+       "stock_w_raw": 0.8495196084128651
+      }
+     ]
+    },
+    {
+     "start": 2018,
+     "years": [
+      {
+       "year": 2020,
+       "stock_w_raw": 0.8502389780861748
+      }
+     ]
+    }
+   ],
    "faster_than_main": 71,
    "slower_than_main": 17,
    "rows": [
     {
      "start": 1928,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "below_75",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1929,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "below_75",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1930,
      "years_to_breach": 1,
+     "years_to_breach_rounded_rule": 1,
      "direction": "below_75",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1931,
      "years_to_breach": 1,
+     "years_to_breach_rounded_rule": 1,
      "direction": "below_75",
-     "end_stock_pct": 100.0
+     "end_stock_pct": 100.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1932,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 100.0
+     "end_stock_pct": 100.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1933,
      "years_to_breach": 1,
+     "years_to_breach_rounded_rule": 1,
      "direction": "above_85",
-     "end_stock_pct": 100.0
+     "end_stock_pct": 100.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1934,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 100.0
+     "end_stock_pct": 100.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1935,
      "years_to_breach": 1,
+     "years_to_breach_rounded_rule": 1,
      "direction": "above_85",
-     "end_stock_pct": 100.0
+     "end_stock_pct": 100.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1936,
      "years_to_breach": 9,
+     "years_to_breach_rounded_rule": 9,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1937,
      "years_to_breach": 1,
+     "years_to_breach_rounded_rule": 1,
      "direction": "below_75",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1938,
      "years_to_breach": 6,
+     "years_to_breach_rounded_rule": 6,
      "direction": "above_85",
-     "end_stock_pct": 100.0
+     "end_stock_pct": 100.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1939,
      "years_to_breach": 7,
+     "years_to_breach_rounded_rule": 7,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1940,
      "years_to_breach": 6,
+     "years_to_breach_rounded_rule": 6,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1941,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1942,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 100.0
+     "end_stock_pct": 100.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1943,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1944,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1945,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1946,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1947,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1948,
      "years_to_breach": 3,
+     "years_to_breach_rounded_rule": 3,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1949,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1950,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 99.9
+     "end_stock_pct": 99.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1951,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 99.8
+     "end_stock_pct": 99.8,
+     "edge_years_up_to_breach": [
+      {
+       "year": 1952,
+       "stock_w_raw": 0.8498548625086246
+      }
+     ]
     },
     {
      "start": 1952,
      "years_to_breach": 3,
+     "years_to_breach_rounded_rule": 3,
      "direction": "above_85",
-     "end_stock_pct": 99.8
+     "end_stock_pct": 99.8,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1953,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 99.8
+     "end_stock_pct": 99.8,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1954,
      "years_to_breach": 1,
+     "years_to_breach_rounded_rule": 1,
      "direction": "above_85",
-     "end_stock_pct": 99.8
+     "end_stock_pct": 99.8,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1955,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 99.7
+     "end_stock_pct": 99.7,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1956,
      "years_to_breach": 6,
+     "years_to_breach_rounded_rule": 6,
      "direction": "above_85",
-     "end_stock_pct": 99.6
+     "end_stock_pct": 99.6,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1957,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "above_85",
-     "end_stock_pct": 99.6
+     "end_stock_pct": 99.6,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1958,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 1,
      "direction": "above_85",
-     "end_stock_pct": 99.6
+     "end_stock_pct": 99.6,
+     "edge_years_up_to_breach": [
+      {
+       "year": 1958,
+       "stock_w_raw": 0.8496015773123592
+      }
+     ]
     },
     {
      "start": 1959,
      "years_to_breach": 6,
+     "years_to_breach_rounded_rule": 6,
      "direction": "above_85",
-     "end_stock_pct": 99.5
+     "end_stock_pct": 99.5,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1960,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "above_85",
-     "end_stock_pct": 99.4
+     "end_stock_pct": 99.4,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1961,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 99.4
+     "end_stock_pct": 99.4,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1962,
      "years_to_breach": 11,
+     "years_to_breach_rounded_rule": 11,
      "direction": "above_85",
-     "end_stock_pct": 99.3
+     "end_stock_pct": 99.3,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1963,
      "years_to_breach": 3,
+     "years_to_breach_rounded_rule": 3,
      "direction": "above_85",
-     "end_stock_pct": 99.4
+     "end_stock_pct": 99.4,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1964,
      "years_to_breach": 22,
+     "years_to_breach_rounded_rule": 11,
      "direction": "above_85",
-     "end_stock_pct": 99.2
+     "end_stock_pct": 99.2,
+     "edge_years_up_to_breach": [
+      {
+       "year": 1974,
+       "stock_w_raw": 0.7500173392518766
+      }
+     ]
     },
     {
      "start": 1965,
      "years_to_breach": 10,
+     "years_to_breach_rounded_rule": 10,
      "direction": "below_75",
-     "end_stock_pct": 99.2
+     "end_stock_pct": 99.2,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1966,
      "years_to_breach": 9,
+     "years_to_breach_rounded_rule": 9,
      "direction": "below_75",
-     "end_stock_pct": 99.1
+     "end_stock_pct": 99.1,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1967,
      "years_to_breach": 8,
+     "years_to_breach_rounded_rule": 8,
      "direction": "below_75",
-     "end_stock_pct": 99.2
+     "end_stock_pct": 99.2,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1968,
      "years_to_breach": 7,
+     "years_to_breach_rounded_rule": 7,
      "direction": "below_75",
-     "end_stock_pct": 99.1
+     "end_stock_pct": 99.1,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1969,
      "years_to_breach": 6,
+     "years_to_breach_rounded_rule": 6,
      "direction": "below_75",
-     "end_stock_pct": 99.0
+     "end_stock_pct": 99.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1970,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "below_75",
-     "end_stock_pct": 99.2
+     "end_stock_pct": 99.2,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1971,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "below_75",
-     "end_stock_pct": 99.2
+     "end_stock_pct": 99.2,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1972,
      "years_to_breach": 3,
+     "years_to_breach_rounded_rule": 3,
      "direction": "below_75",
-     "end_stock_pct": 99.1
+     "end_stock_pct": 99.1,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1973,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "below_75",
-     "end_stock_pct": 99.0
+     "end_stock_pct": 99.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1974,
      "years_to_breach": 1,
+     "years_to_breach_rounded_rule": 1,
      "direction": "below_75",
-     "end_stock_pct": 99.2
+     "end_stock_pct": 99.2,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1975,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 99.4
+     "end_stock_pct": 99.4,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1976,
      "years_to_breach": 10,
+     "years_to_breach_rounded_rule": 10,
      "direction": "above_85",
-     "end_stock_pct": 99.3
+     "end_stock_pct": 99.3,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1977,
      "years_to_breach": 10,
+     "years_to_breach_rounded_rule": 10,
      "direction": "above_85",
-     "end_stock_pct": 99.1
+     "end_stock_pct": 99.1,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1978,
      "years_to_breach": 8,
+     "years_to_breach_rounded_rule": 8,
      "direction": "above_85",
-     "end_stock_pct": 99.2
+     "end_stock_pct": 99.2,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1979,
      "years_to_breach": 7,
+     "years_to_breach_rounded_rule": 7,
      "direction": "above_85",
-     "end_stock_pct": 99.2
+     "end_stock_pct": 99.2,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1980,
      "years_to_breach": 7,
+     "years_to_breach_rounded_rule": 6,
      "direction": "above_85",
-     "end_stock_pct": 99.2
+     "end_stock_pct": 99.2,
+     "edge_years_up_to_breach": [
+      {
+       "year": 1985,
+       "stock_w_raw": 0.8498686691719325
+      }
+     ]
     },
     {
      "start": 1981,
      "years_to_breach": 8,
+     "years_to_breach_rounded_rule": 8,
      "direction": "above_85",
-     "end_stock_pct": 99.0
+     "end_stock_pct": 99.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1982,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 99.2
+     "end_stock_pct": 99.2,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1983,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 99.1
+     "end_stock_pct": 99.1,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1984,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "above_85",
-     "end_stock_pct": 99.0
+     "end_stock_pct": 99.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1985,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 99.1
+     "end_stock_pct": 99.1,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1986,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 98.8
+     "end_stock_pct": 98.8,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1987,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "above_85",
-     "end_stock_pct": 98.7
+     "end_stock_pct": 98.7,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1988,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 98.7
+     "end_stock_pct": 98.7,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1989,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "above_85",
-     "end_stock_pct": 98.6
+     "end_stock_pct": 98.6,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1990,
      "years_to_breach": 6,
+     "years_to_breach_rounded_rule": 6,
      "direction": "above_85",
-     "end_stock_pct": 98.3
+     "end_stock_pct": 98.3,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1991,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "above_85",
-     "end_stock_pct": 98.5
+     "end_stock_pct": 98.5,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1992,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "above_85",
-     "end_stock_pct": 98.1
+     "end_stock_pct": 98.1,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1993,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 98.1
+     "end_stock_pct": 98.1,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1994,
      "years_to_breach": 3,
+     "years_to_breach_rounded_rule": 3,
      "direction": "above_85",
-     "end_stock_pct": 97.9
+     "end_stock_pct": 97.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1995,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 98.0
+     "end_stock_pct": 98.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1996,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 97.4
+     "end_stock_pct": 97.4,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1997,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 97.0
+     "end_stock_pct": 97.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 1998,
      "years_to_breach": 16,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 96.2
+     "end_stock_pct": 96.2,
+     "edge_years_up_to_breach": [
+      {
+       "year": 1999,
+       "stock_w_raw": 0.8495196084128651
+      }
+     ]
     },
     {
      "start": 1999,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "below_75",
-     "end_stock_pct": 95.4
+     "end_stock_pct": 95.4,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2000,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "below_75",
-     "end_stock_pct": 94.7
+     "end_stock_pct": 94.7,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2001,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "below_75",
-     "end_stock_pct": 95.4
+     "end_stock_pct": 95.4,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2002,
      "years_to_breach": 12,
+     "years_to_breach_rounded_rule": 12,
      "direction": "above_85",
-     "end_stock_pct": 96.1
+     "end_stock_pct": 96.1,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2003,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 97.0
+     "end_stock_pct": 97.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2004,
      "years_to_breach": 10,
+     "years_to_breach_rounded_rule": 10,
      "direction": "above_85",
-     "end_stock_pct": 96.2
+     "end_stock_pct": 96.2,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2005,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "below_75",
-     "end_stock_pct": 95.8
+     "end_stock_pct": 95.8,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2006,
      "years_to_breach": 3,
+     "years_to_breach_rounded_rule": 3,
      "direction": "below_75",
-     "end_stock_pct": 95.8
+     "end_stock_pct": 95.8,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2007,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "below_75",
-     "end_stock_pct": 95.4
+     "end_stock_pct": 95.4,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2008,
      "years_to_breach": 1,
+     "years_to_breach_rounded_rule": 1,
      "direction": "below_75",
-     "end_stock_pct": 95.3
+     "end_stock_pct": 95.3,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2009,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 97.0
+     "end_stock_pct": 97.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2010,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 96.3
+     "end_stock_pct": 96.3,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2011,
      "years_to_breach": 3,
+     "years_to_breach_rounded_rule": 3,
      "direction": "above_85",
-     "end_stock_pct": 95.8
+     "end_stock_pct": 95.8,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2012,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 95.7
+     "end_stock_pct": 95.7,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2013,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 95.0
+     "end_stock_pct": 95.0,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2014,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 93.6
+     "end_stock_pct": 93.6,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2015,
      "years_to_breach": 5,
+     "years_to_breach_rounded_rule": 5,
      "direction": "above_85",
-     "end_stock_pct": 92.7
+     "end_stock_pct": 92.7,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2016,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 92.7
+     "end_stock_pct": 92.7,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2017,
      "years_to_breach": 3,
+     "years_to_breach_rounded_rule": 3,
      "direction": "above_85",
-     "end_stock_pct": 91.9
+     "end_stock_pct": 91.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2018,
      "years_to_breach": 3,
+     "years_to_breach_rounded_rule": 3,
      "direction": "above_85",
-     "end_stock_pct": 90.4
+     "end_stock_pct": 90.4,
+     "edge_years_up_to_breach": [
+      {
+       "year": 2020,
+       "stock_w_raw": 0.8502389780861748
+      }
+     ]
     },
     {
      "start": 2019,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 90.9
+     "end_stock_pct": 90.9,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2020,
      "years_to_breach": 2,
+     "years_to_breach_rounded_rule": 2,
      "direction": "above_85",
-     "end_stock_pct": 88.6
+     "end_stock_pct": 88.6,
+     "edge_years_up_to_breach": []
     },
     {
      "start": 2021,
      "years_to_breach": 4,
+     "years_to_breach_rounded_rule": 4,
      "direction": "above_85",
-     "end_stock_pct": 86.9
+     "end_stock_pct": 86.9,
+     "edge_years_up_to_breach": []
     }
    ]
   },
   "printed": {}
  },
+ "ath_returns": {
+  "definition": "在新高＝當期含息指數 ≥ 資料起點到當期的最高值（含平手；資料起點不算）。年化報酬＝(終值÷起值)^(1/N)−1；視窗重疊，不是獨立樣本。名目、含息、沒扣費用稅。起點從資料第一期開始（和 calc_core rolling 同一個 n）；資料第一期不算新高。",
+  "taiex_daily": {
+   "source": "證交所發行量加權股價報酬指數（含息），逐日收盤",
+   "currency": "TWD",
+   "from": "2003-01-02",
+   "to": "2025-12-31",
+   "days": 5665,
+   "days_at_high": 481,
+   "share_days_at_high_pct": 8.5,
+   "share_days_within_5pct_pct": 48.5,
+   "horizons": {
+    "1y": {
+     "last_start": "2024-12-31",
+     "at_high": {
+      "n": 449,
+      "mean_ann_pct": 9.3,
+      "median_ann_pct": 10.2,
+      "min_ann_pct": -52.6,
+      "max_ann_pct": 51.8,
+      "positive_share_pct": 72.2,
+      "positive_share_int": 72
+     },
+     "not_at_high": {
+      "n": 4973,
+      "mean_ann_pct": 13.4,
+      "median_ann_pct": 13.4,
+      "min_ann_pct": -50.3,
+      "max_ann_pct": 99.2,
+      "positive_share_pct": 77.1,
+      "positive_share_int": 77
+     },
+     "within_5pct": {
+      "n": 2603,
+      "mean_ann_pct": 9.5,
+      "median_ann_pct": 10.1,
+      "min_ann_pct": -52.6,
+      "max_ann_pct": 57.6,
+      "positive_share_pct": 68.7,
+      "positive_share_int": 69
+     },
+     "all": {
+      "n": 5422,
+      "mean_ann_pct": 13.1,
+      "median_ann_pct": 13.2,
+      "min_ann_pct": -52.6,
+      "max_ann_pct": 99.2,
+      "positive_share_pct": 76.7,
+      "positive_share_int": 77
+     }
+    },
+    "3y": {
+     "last_start": "2022-12-30",
+     "at_high": {
+      "n": 391,
+      "mean_ann_pct": 8.1,
+      "median_ann_pct": 9.1,
+      "min_ann_pct": -8.8,
+      "max_ann_pct": 21.0,
+      "positive_share_pct": 87.0,
+      "positive_share_int": 87
+     },
+     "not_at_high": {
+      "n": 4550,
+      "mean_ann_pct": 10.9,
+      "median_ann_pct": 10.3,
+      "min_ann_pct": -9.7,
+      "max_ann_pct": 33.8,
+      "positive_share_pct": 96.0,
+      "positive_share_int": 96
+     },
+     "within_5pct": {
+      "n": 2306,
+      "mean_ann_pct": 9.3,
+      "median_ann_pct": 9.5,
+      "min_ann_pct": -9.7,
+      "max_ann_pct": 23.5,
+      "positive_share_pct": 92.6,
+      "positive_share_int": 93
+     },
+     "all": {
+      "n": 4941,
+      "mean_ann_pct": 10.7,
+      "median_ann_pct": 10.2,
+      "min_ann_pct": -9.7,
+      "max_ann_pct": 33.8,
+      "positive_share_pct": 95.3,
+      "positive_share_int": 95
+     }
+    },
+    "5y": {
+     "last_start": "2020-12-31",
+     "at_high": {
+      "n": 350,
+      "mean_ann_pct": 9.0,
+      "median_ann_pct": 8.6,
+      "min_ann_pct": -5.0,
+      "max_ann_pct": 21.4,
+      "positive_share_pct": 88.0,
+      "positive_share_int": 88
+     },
+     "not_at_high": {
+      "n": 4101,
+      "mean_ann_pct": 10.3,
+      "median_ann_pct": 9.9,
+      "min_ann_pct": -4.8,
+      "max_ann_pct": 24.6,
+      "positive_share_pct": 96.5,
+      "positive_share_int": 97
+     },
+     "within_5pct": {
+      "n": 2052,
+      "mean_ann_pct": 9.9,
+      "median_ann_pct": 9.8,
+      "min_ann_pct": -5.0,
+      "max_ann_pct": 22.0,
+      "positive_share_pct": 93.0,
+      "positive_share_int": 93
+     },
+     "all": {
+      "n": 4451,
+      "mean_ann_pct": 10.2,
+      "median_ann_pct": 9.8,
+      "min_ann_pct": -5.0,
+      "max_ann_pct": 24.6,
+      "positive_share_pct": 95.8,
+      "positive_share_int": 96
+     }
+    },
+    "10y": {
+     "last_start": "2015-12-31",
+     "at_high": {
+      "n": 209,
+      "mean_ann_pct": 8.3,
+      "median_ann_pct": 7.2,
+      "min_ann_pct": 4.6,
+      "max_ann_pct": 13.9,
+      "positive_share_pct": 100.0,
+      "positive_share_int": 100
+     },
+     "not_at_high": {
+      "n": 3018,
+      "mean_ann_pct": 9.7,
+      "median_ann_pct": 9.0,
+      "min_ann_pct": 4.6,
+      "max_ann_pct": 17.6,
+      "positive_share_pct": 100.0,
+      "positive_share_int": 100
+     },
+     "within_5pct": {
+      "n": 1178,
+      "mean_ann_pct": 9.3,
+      "median_ann_pct": 9.0,
+      "min_ann_pct": 4.6,
+      "max_ann_pct": 14.2,
+      "positive_share_pct": 100.0,
+      "positive_share_int": 100
+     },
+     "all": {
+      "n": 3227,
+      "mean_ann_pct": 9.6,
+      "median_ann_pct": 9.0,
+      "min_ann_pct": 4.6,
+      "max_ann_pct": 17.6,
+      "positive_share_pct": 100.0,
+      "positive_share_int": 100
+     }
+    }
+   },
+   "sensitivity": {
+    "at_high_nonpositive_by_start_year": {
+     "1y": {
+      "2003": 7,
+      "2004": 17,
+      "2007": 24,
+      "2010": 9,
+      "2011": 4,
+      "2014": 7,
+      "2015": 10,
+      "2017": 8,
+      "2018": 11,
+      "2021": 16,
+      "2022": 3,
+      "2024": 9
+     },
+     "3y": {
+      "2005": 1,
+      "2006": 18,
+      "2007": 32
+     },
+     "5y": {
+      "2003": 5,
+      "2004": 18,
+      "2007": 19
+     },
+     "10y": {}
+    },
+    "starts_from_2006": {
+     "1y": {
+      "at_high": {
+       "n": 389,
+       "mean_ann_pct": 9.8,
+       "median_ann_pct": 11.3,
+       "min_ann_pct": -52.6,
+       "max_ann_pct": 51.8,
+       "positive_share_pct": 74.0,
+       "positive_share_int": 74
+      },
+      "not_at_high": {
+       "n": 4287,
+       "mean_ann_pct": 13.1,
+       "median_ann_pct": 13.7,
+       "min_ann_pct": -50.3,
+       "max_ann_pct": 99.2,
+       "positive_share_pct": 75.0,
+       "positive_share_int": 75
+      },
+      "all": {
+       "n": 4676,
+       "mean_ann_pct": 12.8,
+       "median_ann_pct": 13.5,
+       "min_ann_pct": -52.6,
+       "max_ann_pct": 99.2,
+       "positive_share_pct": 74.9,
+       "positive_share_int": 75
+      }
+     },
+     "3y": {
+      "at_high": {
+       "n": 331,
+       "mean_ann_pct": 7.7,
+       "median_ann_pct": 8.1,
+       "min_ann_pct": -8.8,
+       "max_ann_pct": 21.0,
+       "positive_share_pct": 84.9,
+       "positive_share_int": 85
+      },
+      "not_at_high": {
+       "n": 3864,
+       "mean_ann_pct": 10.5,
+       "median_ann_pct": 9.7,
+       "min_ann_pct": -9.7,
+       "max_ann_pct": 33.8,
+       "positive_share_pct": 96.8,
+       "positive_share_int": 97
+      },
+      "all": {
+       "n": 4195,
+       "mean_ann_pct": 10.3,
+       "median_ann_pct": 9.5,
+       "min_ann_pct": -9.7,
+       "max_ann_pct": 33.8,
+       "positive_share_pct": 95.8,
+       "positive_share_int": 96
+      }
+     },
+     "5y": {
+      "at_high": {
+       "n": 290,
+       "mean_ann_pct": 10.0,
+       "median_ann_pct": 9.2,
+       "min_ann_pct": -2.7,
+       "max_ann_pct": 21.4,
+       "positive_share_pct": 93.4,
+       "positive_share_int": 93
+      },
+      "not_at_high": {
+       "n": 3415,
+       "mean_ann_pct": 10.6,
+       "median_ann_pct": 10.1,
+       "min_ann_pct": -2.4,
+       "max_ann_pct": 24.6,
+       "positive_share_pct": 98.3,
+       "positive_share_int": 98
+      },
+      "all": {
+       "n": 3705,
+       "mean_ann_pct": 10.6,
+       "median_ann_pct": 10.0,
+       "min_ann_pct": -2.7,
+       "max_ann_pct": 24.6,
+       "positive_share_pct": 97.9,
+       "positive_share_int": 98
+      }
+     },
+     "10y": {
+      "at_high": {
+       "n": 149,
+       "mean_ann_pct": 8.7,
+       "median_ann_pct": 6.2,
+       "min_ann_pct": 4.6,
+       "max_ann_pct": 13.9,
+       "positive_share_pct": 100.0,
+       "positive_share_int": 100
+      },
+      "not_at_high": {
+       "n": 2332,
+       "mean_ann_pct": 10.1,
+       "median_ann_pct": 10.7,
+       "min_ann_pct": 4.6,
+       "max_ann_pct": 17.6,
+       "positive_share_pct": 100.0,
+       "positive_share_int": 100
+      },
+      "all": {
+       "n": 2481,
+       "mean_ann_pct": 10.0,
+       "median_ann_pct": 10.6,
+       "min_ann_pct": 4.6,
+       "max_ann_pct": 17.6,
+       "positive_share_pct": 100.0,
+       "positive_share_int": 100
+      }
+     }
+    },
+    "excluding_starts_2006H2_2007": {
+     "1y": {
+      "at_high": {
+       "n": 392,
+       "mean_ann_pct": 10.5,
+       "median_ann_pct": 10.4,
+       "min_ann_pct": -19.9,
+       "max_ann_pct": 51.8,
+       "positive_share_pct": 74.2,
+       "positive_share_int": 74
+      },
+      "not_at_high": {
+       "n": 4655,
+       "mean_ann_pct": 14.1,
+       "median_ann_pct": 13.5,
+       "min_ann_pct": -45.9,
+       "max_ann_pct": 99.2,
+       "positive_share_pct": 78.1,
+       "positive_share_int": 78
+      },
+      "all": {
+       "n": 5047,
+       "mean_ann_pct": 13.8,
+       "median_ann_pct": 13.3,
+       "min_ann_pct": -45.9,
+       "max_ann_pct": 99.2,
+       "positive_share_pct": 77.8,
+       "positive_share_int": 78
+      }
+     },
+     "3y": {
+      "at_high": {
+       "n": 334,
+       "mean_ann_pct": 9.3,
+       "median_ann_pct": 9.7,
+       "min_ann_pct": -8.8,
+       "max_ann_pct": 21.0,
+       "positive_share_pct": 94.3,
+       "positive_share_int": 94
+      },
+      "not_at_high": {
+       "n": 4232,
+       "mean_ann_pct": 11.5,
+       "median_ann_pct": 10.8,
+       "min_ann_pct": -9.7,
+       "max_ann_pct": 33.8,
+       "positive_share_pct": 97.2,
+       "positive_share_int": 97
+      },
+      "all": {
+       "n": 4566,
+       "mean_ann_pct": 11.4,
+       "median_ann_pct": 10.7,
+       "min_ann_pct": -9.7,
+       "max_ann_pct": 33.8,
+       "positive_share_pct": 97.0,
+       "positive_share_int": 97
+      }
+     },
+     "5y": {
+      "at_high": {
+       "n": 293,
+       "mean_ann_pct": 10.6,
+       "median_ann_pct": 10.2,
+       "min_ann_pct": -5.0,
+       "max_ann_pct": 21.4,
+       "positive_share_pct": 92.2,
+       "positive_share_int": 92
+      },
+      "not_at_high": {
+       "n": 3783,
+       "mean_ann_pct": 10.9,
+       "median_ann_pct": 10.2,
+       "min_ann_pct": -4.8,
+       "max_ann_pct": 24.6,
+       "positive_share_pct": 97.8,
+       "positive_share_int": 98
+      },
+      "all": {
+       "n": 4076,
+       "mean_ann_pct": 10.9,
+       "median_ann_pct": 10.2,
+       "min_ann_pct": -5.0,
+       "max_ann_pct": 24.6,
+       "positive_share_pct": 97.4,
+       "positive_share_int": 97
+      }
+     }
+    },
+    "worst5_starts_1y": [
+     {
+      "date": "2007-10-29",
+      "ret_1y_pct": -52.6,
+      "at_high": true
+     },
+     {
+      "date": "2007-11-20",
+      "ret_1y_pct": -50.3,
+      "at_high": false
+     },
+     {
+      "date": "2007-10-26",
+      "ret_1y_pct": -49.9,
+      "at_high": false
+     },
+     {
+      "date": "2007-10-25",
+      "ret_1y_pct": -49.5,
+      "at_high": false
+     },
+     {
+      "date": "2007-10-30",
+      "ret_1y_pct": -49.4,
+      "at_high": false
+     }
+    ],
+    "worst5_starts_1y_not_at_high_range_pct": [
+     -50.3,
+     -49.4
+    ],
+    "at_high_days_by_year": {
+     "2003": 41,
+     "2004": 18,
+     "2005": 1,
+     "2006": 37,
+     "2007": 39,
+     "2010": 9,
+     "2011": 4,
+     "2013": 12,
+     "2014": 38,
+     "2015": 10,
+     "2016": 8,
+     "2017": 50,
+     "2018": 15,
+     "2019": 31,
+     "2020": 37,
+     "2021": 38,
+     "2022": 3,
+     "2023": 16,
+     "2024": 42,
+     "2025": 32
+    },
+    "note_2003_2005": "含息指數 2003-01-02 才開始，2003–2005 年的「新高」只是 2003 年以後的新高，價格上還低於 2000 年與 1990 年的高點；5 年最差的起點 2004-03-02 就屬於這種"
+   },
+   "cases": [
+    {
+     "label": "2007 年高點",
+     "peak_date": "2007-10-29",
+     "is_record": true,
+     "1y_ann_pct": -52.6,
+     "1y_cum_pct": -52.6,
+     "3y_ann_pct": -1.7,
+     "3y_cum_pct": -5.1,
+     "5y_ann_pct": -2.6,
+     "5y_cum_pct": -12.3,
+     "back_to_this_high": "2010-12-09"
+    },
+    {
+     "label": "2018 年高點",
+     "peak_date": "2018-08-29",
+     "is_record": true,
+     "1y_ann_pct": -1.8,
+     "1y_cum_pct": -1.8,
+     "3y_ann_pct": 19.7,
+     "3y_cum_pct": 71.7,
+     "5y_ann_pct": 12.5,
+     "5y_cum_pct": 80.5,
+     "back_to_this_high": "2019-05-03"
+    },
+    {
+     "label": "2021–22 年高點",
+     "peak_date": "2022-01-17",
+     "is_record": true,
+     "1y_ann_pct": -15.5,
+     "1y_cum_pct": -15.5,
+     "3y_ann_pct": 11.7,
+     "3y_cum_pct": 39.3,
+     "back_to_this_high": "2023-07-14"
+    }
+   ]
+  },
+  "us_monthly_shiller": {
+   "source": "Robert Shiller 公開資料，S&P 500（1957 年前為前身指數）含息、名目；價格是月內平均",
+   "currency": "USD",
+   "from": "1871-01",
+   "to": "2023-06",
+   "months": 1830,
+   "months_at_high": 555,
+   "share_months_at_high_pct": 30.3,
+   "share_months_within_5pct_pct": 55.8,
+   "horizons": {
+    "1y": {
+     "last_start": "2022-06",
+     "at_high": {
+      "n": 555,
+      "mean_ann_pct": 11.1,
+      "median_ann_pct": 11.2,
+      "min_ann_pct": -35.7,
+      "max_ann_pct": 53.0,
+      "positive_share_pct": 73.3,
+      "positive_share_int": 73
+     },
+     "not_at_high": {
+      "n": 1263,
+      "mean_ann_pct": 10.7,
+      "median_ann_pct": 10.6,
+      "min_ann_pct": -62.3,
+      "max_ann_pct": 139.8,
+      "positive_share_pct": 71.7,
+      "positive_share_int": 72
+     },
+     "within_5pct": {
+      "n": 1020,
+      "mean_ann_pct": 10.0,
+      "median_ann_pct": 9.5,
+      "min_ann_pct": -39.2,
+      "max_ann_pct": 57.6,
+      "positive_share_pct": 71.1,
+      "positive_share_int": 71
+     },
+     "all": {
+      "n": 1818,
+      "mean_ann_pct": 10.8,
+      "median_ann_pct": 10.8,
+      "min_ann_pct": -62.3,
+      "max_ann_pct": 139.8,
+      "positive_share_pct": 72.2,
+      "positive_share_int": 72
+     }
+    },
+    "3y": {
+     "last_start": "2020-06",
+     "at_high": {
+      "n": 540,
+      "mean_ann_pct": 9.4,
+      "median_ann_pct": 9.9,
+      "min_ann_pct": -40.2,
+      "max_ann_pct": 38.7,
+      "positive_share_pct": 82.6,
+      "positive_share_int": 83
+     },
+     "not_at_high": {
+      "n": 1254,
+      "mean_ann_pct": 9.8,
+      "median_ann_pct": 9.9,
+      "min_ann_pct": -33.4,
+      "max_ann_pct": 39.7,
+      "positive_share_pct": 85.4,
+      "positive_share_int": 85
+     },
+     "within_5pct": {
+      "n": 1000,
+      "mean_ann_pct": 9.1,
+      "median_ann_pct": 9.2,
+      "min_ann_pct": -40.2,
+      "max_ann_pct": 38.7,
+      "positive_share_pct": 82.0,
+      "positive_share_int": 82
+     },
+     "all": {
+      "n": 1794,
+      "mean_ann_pct": 9.7,
+      "median_ann_pct": 9.9,
+      "min_ann_pct": -40.2,
+      "max_ann_pct": 39.7,
+      "positive_share_pct": 84.6,
+      "positive_share_int": 85
+     }
+    },
+    "5y": {
+     "last_start": "2018-06",
+     "at_high": {
+      "n": 531,
+      "mean_ann_pct": 9.0,
+      "median_ann_pct": 9.6,
+      "min_ann_pct": -17.3,
+      "max_ann_pct": 32.4,
+      "positive_share_pct": 84.9,
+      "positive_share_int": 85
+     },
+     "not_at_high": {
+      "n": 1239,
+      "mean_ann_pct": 9.6,
+      "median_ann_pct": 9.6,
+      "min_ann_pct": -15.3,
+      "max_ann_pct": 33.7,
+      "positive_share_pct": 91.5,
+      "positive_share_int": 92
+     },
+     "within_5pct": {
+      "n": 982,
+      "mean_ann_pct": 9.0,
+      "median_ann_pct": 9.3,
+      "min_ann_pct": -17.3,
+      "max_ann_pct": 33.7,
+      "positive_share_pct": 87.2,
+      "positive_share_int": 87
+     },
+     "all": {
+      "n": 1770,
+      "mean_ann_pct": 9.4,
+      "median_ann_pct": 9.6,
+      "min_ann_pct": -17.3,
+      "max_ann_pct": 33.7,
+      "positive_share_pct": 89.5,
+      "positive_share_int": 90
+     }
+    },
+    "10y": {
+     "last_start": "2013-06",
+     "at_high": {
+      "n": 494,
+      "mean_ann_pct": 8.8,
+      "median_ann_pct": 8.4,
+      "min_ann_pct": -4.0,
+      "max_ann_pct": 19.4,
+      "positive_share_pct": 94.7,
+      "positive_share_int": 95
+     },
+     "not_at_high": {
+      "n": 1216,
+      "mean_ann_pct": 9.5,
+      "median_ann_pct": 8.8,
+      "min_ann_pct": -3.0,
+      "max_ann_pct": 21.2,
+      "positive_share_pct": 97.9,
+      "positive_share_int": 98
+     },
+     "within_5pct": {
+      "n": 925,
+      "mean_ann_pct": 8.8,
+      "median_ann_pct": 8.2,
+      "min_ann_pct": -4.0,
+      "max_ann_pct": 20.4,
+      "positive_share_pct": 95.8,
+      "positive_share_int": 96
+     },
+     "all": {
+      "n": 1710,
+      "mean_ann_pct": 9.3,
+      "median_ann_pct": 8.7,
+      "min_ann_pct": -4.0,
+      "max_ann_pct": 21.2,
+      "positive_share_pct": 97.0,
+      "positive_share_int": 97
+     }
+    },
+    "20y": {
+     "last_start": "2003-06",
+     "at_high": {
+      "n": 477,
+      "mean_ann_pct": 8.5,
+      "median_ann_pct": 7.6,
+      "min_ann_pct": 2.0,
+      "max_ann_pct": 17.8,
+      "positive_share_pct": 100.0,
+      "positive_share_int": 100
+     },
+     "not_at_high": {
+      "n": 1113,
+      "mean_ann_pct": 9.5,
+      "median_ann_pct": 8.3,
+      "min_ann_pct": 2.8,
+      "max_ann_pct": 17.9,
+      "positive_share_pct": 100.0,
+      "positive_share_int": 100
+     },
+     "within_5pct": {
+      "n": 888,
+      "mean_ann_pct": 8.7,
+      "median_ann_pct": 7.6,
+      "min_ann_pct": 2.0,
+      "max_ann_pct": 17.8,
+      "positive_share_pct": 100.0,
+      "positive_share_int": 100
+     },
+     "all": {
+      "n": 1590,
+      "mean_ann_pct": 9.2,
+      "median_ann_pct": 8.1,
+      "min_ann_pct": 2.0,
+      "max_ann_pct": 17.9,
+      "positive_share_pct": 100.0,
+      "positive_share_int": 100
+     }
+    }
+   },
+   "from_1926": {
+    "1y": {
+     "at_high": {
+      "n": 392,
+      "mean_ann_pct": 13.2,
+      "median_ann_pct": 13.5,
+      "min_ann_pct": -35.7,
+      "max_ann_pct": 53.0,
+      "positive_share_pct": 77.0,
+      "positive_share_int": 77
+     },
+     "not_at_high": {
+      "n": 766,
+      "mean_ann_pct": 11.6,
+      "median_ann_pct": 12.9,
+      "min_ann_pct": -62.3,
+      "max_ann_pct": 139.8,
+      "positive_share_pct": 73.0,
+      "positive_share_int": 73
+     },
+     "within_5pct": {
+      "n": 668,
+      "mean_ann_pct": 12.6,
+      "median_ann_pct": 12.6,
+      "min_ann_pct": -39.2,
+      "max_ann_pct": 57.6,
+      "positive_share_pct": 76.0,
+      "positive_share_int": 76
+     },
+     "all": {
+      "n": 1158,
+      "mean_ann_pct": 12.1,
+      "median_ann_pct": 13.2,
+      "min_ann_pct": -62.3,
+      "max_ann_pct": 139.8,
+      "positive_share_pct": 74.4,
+      "positive_share_int": 74
+     }
+    },
+    "3y": {
+     "at_high": {
+      "n": 377,
+      "mean_ann_pct": 10.5,
+      "median_ann_pct": 11.2,
+      "min_ann_pct": -40.2,
+      "max_ann_pct": 38.7,
+      "positive_share_pct": 85.4,
+      "positive_share_int": 85
+     },
+     "not_at_high": {
+      "n": 757,
+      "mean_ann_pct": 10.7,
+      "median_ann_pct": 11.7,
+      "min_ann_pct": -33.4,
+      "max_ann_pct": 39.7,
+      "positive_share_pct": 83.8,
+      "positive_share_int": 84
+     },
+     "within_5pct": {
+      "n": 648,
+      "mean_ann_pct": 10.7,
+      "median_ann_pct": 11.2,
+      "min_ann_pct": -40.2,
+      "max_ann_pct": 38.7,
+      "positive_share_pct": 85.3,
+      "positive_share_int": 85
+     },
+     "all": {
+      "n": 1134,
+      "mean_ann_pct": 10.7,
+      "median_ann_pct": 11.5,
+      "min_ann_pct": -40.2,
+      "max_ann_pct": 39.7,
+      "positive_share_pct": 84.3,
+      "positive_share_int": 84
+     }
+    },
+    "5y": {
+     "at_high": {
+      "n": 368,
+      "mean_ann_pct": 10.2,
+      "median_ann_pct": 10.9,
+      "min_ann_pct": -17.3,
+      "max_ann_pct": 27.4,
+      "positive_share_pct": 85.1,
+      "positive_share_int": 85
+     },
+     "not_at_high": {
+      "n": 742,
+      "mean_ann_pct": 10.2,
+      "median_ann_pct": 11.1,
+      "min_ann_pct": -15.3,
+      "max_ann_pct": 33.2,
+      "positive_share_pct": 89.2,
+      "positive_share_int": 89
+     },
+     "within_5pct": {
+      "n": 630,
+      "mean_ann_pct": 10.5,
+      "median_ann_pct": 11.0,
+      "min_ann_pct": -17.3,
+      "max_ann_pct": 28.0,
+      "positive_share_pct": 87.5,
+      "positive_share_int": 87
+     },
+     "all": {
+      "n": 1110,
+      "mean_ann_pct": 10.2,
+      "median_ann_pct": 11.0,
+      "min_ann_pct": -17.3,
+      "max_ann_pct": 33.2,
+      "positive_share_pct": 87.8,
+      "positive_share_int": 88
+     }
+    },
+    "10y": {
+     "at_high": {
+      "n": 331,
+      "mean_ann_pct": 10.0,
+      "median_ann_pct": 10.3,
+      "min_ann_pct": -4.0,
+      "max_ann_pct": 19.4,
+      "positive_share_pct": 92.1,
+      "positive_share_int": 92
+     },
+     "not_at_high": {
+      "n": 719,
+      "mean_ann_pct": 10.6,
+      "median_ann_pct": 10.3,
+      "min_ann_pct": -3.0,
+      "max_ann_pct": 21.2,
+      "positive_share_pct": 96.7,
+      "positive_share_int": 97
+     },
+     "within_5pct": {
+      "n": 573,
+      "mean_ann_pct": 10.3,
+      "median_ann_pct": 10.9,
+      "min_ann_pct": -4.0,
+      "max_ann_pct": 20.4,
+      "positive_share_pct": 93.4,
+      "positive_share_int": 93
+     },
+     "all": {
+      "n": 1050,
+      "mean_ann_pct": 10.4,
+      "median_ann_pct": 10.3,
+      "min_ann_pct": -4.0,
+      "max_ann_pct": 21.2,
+      "positive_share_pct": 95.2,
+      "positive_share_int": 95
+     }
+    }
+   },
+   "split_1950": {
+    "1y": {
+     "starts_before_1950": {
+      "at_high": {
+       "n": 212,
+       "mean_ann_pct": 8.7,
+       "median_ann_pct": 7.5,
+       "min_ann_pct": -30.7,
+       "max_ann_pct": 53.0,
+       "positive_share_pct": 64.2,
+       "positive_share_int": 64
+      },
+      "not_at_high": {
+       "n": 736,
+       "mean_ann_pct": 9.6,
+       "median_ann_pct": 7.6,
+       "min_ann_pct": -62.3,
+       "max_ann_pct": 139.8,
+       "positive_share_pct": 67.4,
+       "positive_share_int": 67
+      },
+      "all": {
+       "n": 948,
+       "mean_ann_pct": 9.4,
+       "median_ann_pct": 7.6,
+       "min_ann_pct": -62.3,
+       "max_ann_pct": 139.8,
+       "positive_share_pct": 66.7,
+       "positive_share_int": 67
+      }
+     },
+     "starts_1950_on": {
+      "at_high": {
+       "n": 343,
+       "mean_ann_pct": 12.6,
+       "median_ann_pct": 12.9,
+       "min_ann_pct": -35.7,
+       "max_ann_pct": 48.3,
+       "positive_share_pct": 79.0,
+       "positive_share_int": 79
+      },
+      "not_at_high": {
+       "n": 527,
+       "mean_ann_pct": 12.2,
+       "median_ann_pct": 13.6,
+       "min_ann_pct": -40.9,
+       "max_ann_pct": 60.2,
+       "positive_share_pct": 77.6,
+       "positive_share_int": 78
+      },
+      "all": {
+       "n": 870,
+       "mean_ann_pct": 12.4,
+       "median_ann_pct": 13.4,
+       "min_ann_pct": -40.9,
+       "max_ann_pct": 60.2,
+       "positive_share_pct": 78.2,
+       "positive_share_int": 78
+      }
+     }
+    },
+    "5y": {
+     "starts_before_1950": {
+      "at_high": {
+       "n": 212,
+       "mean_ann_pct": 4.5,
+       "median_ann_pct": 3.8,
+       "min_ann_pct": -17.3,
+       "max_ann_pct": 32.4,
+       "positive_share_pct": 75.5,
+       "positive_share_int": 75
+      },
+      "not_at_high": {
+       "n": 736,
+       "mean_ann_pct": 9.0,
+       "median_ann_pct": 8.4,
+       "min_ann_pct": -15.3,
+       "max_ann_pct": 33.7,
+       "positive_share_pct": 90.8,
+       "positive_share_int": 91
+      },
+      "all": {
+       "n": 948,
+       "mean_ann_pct": 8.0,
+       "median_ann_pct": 7.5,
+       "min_ann_pct": -17.3,
+       "max_ann_pct": 33.7,
+       "positive_share_pct": 87.3,
+       "positive_share_int": 87
+      }
+     },
+     "starts_1950_on": {
+      "at_high": {
+       "n": 319,
+       "mean_ann_pct": 12.0,
+       "median_ann_pct": 12.3,
+       "min_ann_pct": -3.4,
+       "max_ann_pct": 27.4,
+       "positive_share_pct": 91.2,
+       "positive_share_int": 91
+      },
+      "not_at_high": {
+       "n": 503,
+       "mean_ann_pct": 10.6,
+       "median_ann_pct": 11.4,
+       "min_ann_pct": -5.8,
+       "max_ann_pct": 29.7,
+       "positive_share_pct": 92.6,
+       "positive_share_int": 93
+      },
+      "all": {
+       "n": 822,
+       "mean_ann_pct": 11.2,
+       "median_ann_pct": 11.7,
+       "min_ann_pct": -5.8,
+       "max_ann_pct": 29.7,
+       "positive_share_pct": 92.1,
+       "positive_share_int": 92
+      }
+     }
+    },
+    "10y": {
+     "starts_before_1950": {
+      "at_high": {
+       "n": 212,
+       "mean_ann_pct": 6.6,
+       "median_ann_pct": 6.0,
+       "min_ann_pct": -4.0,
+       "max_ann_pct": 19.4,
+       "positive_share_pct": 93.4,
+       "positive_share_int": 93
+      },
+      "not_at_high": {
+       "n": 736,
+       "mean_ann_pct": 8.8,
+       "median_ann_pct": 8.1,
+       "min_ann_pct": -3.0,
+       "max_ann_pct": 21.2,
+       "positive_share_pct": 98.1,
+       "positive_share_int": 98
+      },
+      "all": {
+       "n": 948,
+       "mean_ann_pct": 8.3,
+       "median_ann_pct": 7.7,
+       "min_ann_pct": -4.0,
+       "max_ann_pct": 21.2,
+       "positive_share_pct": 97.0,
+       "positive_share_int": 97
+      }
+     },
+     "starts_1950_on": {
+      "at_high": {
+       "n": 282,
+       "mean_ann_pct": 10.5,
+       "median_ann_pct": 10.8,
+       "min_ann_pct": -3.5,
+       "max_ann_pct": 18.8,
+       "positive_share_pct": 95.7,
+       "positive_share_int": 96
+      },
+      "not_at_high": {
+       "n": 480,
+       "mean_ann_pct": 10.7,
+       "median_ann_pct": 10.8,
+       "min_ann_pct": -2.7,
+       "max_ann_pct": 19.3,
+       "positive_share_pct": 97.7,
+       "positive_share_int": 98
+      },
+      "all": {
+       "n": 762,
+       "mean_ann_pct": 10.6,
+       "median_ann_pct": 10.8,
+       "min_ann_pct": -3.5,
+       "max_ann_pct": 19.3,
+       "positive_share_pct": 97.0,
+       "positive_share_int": 97
+      }
+     }
+    }
+   },
+   "cases": [
+    {
+     "label": "1929",
+     "peak_month": "1929-09",
+     "is_record": true,
+     "1y_ann_pct": -30.7,
+     "3y_ann_pct": -31.4,
+     "5y_ann_pct": -17.3,
+     "10y_ann_pct": -3.4,
+     "20y_ann_pct": 2.0,
+     "back_to_this_high": "1945-01",
+     "months_to_back": 184,
+     "max_drop_pct": -81.8,
+     "low_month": "1932-06"
+    },
+    {
+     "label": "1937（不是新高：1929 年的含息高點還沒回來）",
+     "peak_month": "1937-03",
+     "is_record": false,
+     "note": "這個高點不是歷史新高（前一個含息高點還沒回來），不能當成「在新高買進」的例子",
+     "1y_ann_pct": -39.5,
+     "3y_ann_pct": -7.6,
+     "5y_ann_pct": -9.4,
+     "10y_ann_pct": 3.8,
+     "20y_ann_pct": 10.5,
+     "back_to_this_high": "1943-07",
+     "months_to_back": 76,
+     "max_drop_pct": -41.6,
+     "low_month": "1938-04"
+    },
+    {
+     "label": "1973",
+     "peak_month": "1973-01",
+     "is_record": true,
+     "1y_ann_pct": -16.3,
+     "3y_ann_pct": -2.7,
+     "5y_ann_pct": -1.4,
+     "10y_ann_pct": 6.8,
+     "20y_ann_pct": 11.2,
+     "back_to_this_high": "1976-07",
+     "months_to_back": 42,
+     "max_drop_pct": -39.2,
+     "low_month": "1974-12"
+    },
+    {
+     "label": "2000",
+     "peak_month": "2000-08",
+     "is_record": true,
+     "1y_ann_pct": -19.7,
+     "3y_ann_pct": -11.3,
+     "5y_ann_pct": -2.3,
+     "10y_ann_pct": -1.3,
+     "20y_ann_pct": 6.2,
+     "back_to_this_high": "2006-10",
+     "months_to_back": 74,
+     "max_drop_pct": -41.6,
+     "low_month": "2003-02"
+    },
+    {
+     "label": "2007",
+     "peak_month": "2007-10",
+     "is_record": true,
+     "1y_ann_pct": -35.7,
+     "3y_ann_pct": -6.5,
+     "5y_ann_pct": 0.8,
+     "10y_ann_pct": 7.5,
+     "back_to_this_high": "2012-08",
+     "months_to_back": 58,
+     "max_drop_pct": -49.0,
+     "low_month": "2009-03"
+    }
+   ]
+  },
+  "us_annual_damodaran": {
+   "source": "Damodaran（NYU Stern）S&P 500 含息當年報酬，年底值；1927 年底=1",
+   "currency": "USD",
+   "from": "1928",
+   "to": "2025",
+   "years": 98,
+   "years_at_high": 57,
+   "share_years_at_high_pct": 58.2,
+   "horizons": {
+    "1y": {
+     "last_start": "2024",
+     "at_high": {
+      "n": 56,
+      "mean_ann_pct": 10.3,
+      "median_ann_pct": 12.2,
+      "min_ann_pct": -36.6,
+      "max_ann_pct": 37.2,
+      "positive_share_pct": 71.4,
+      "positive_share_int": 71
+     },
+     "not_at_high": {
+      "n": 41,
+      "mean_ann_pct": 13.2,
+      "median_ann_pct": 15.9,
+      "min_ann_pct": -43.8,
+      "max_ann_pct": 52.6,
+      "positive_share_pct": 75.6,
+      "positive_share_int": 76
+     },
+     "all": {
+      "n": 97,
+      "mean_ann_pct": 11.5,
+      "median_ann_pct": 14.8,
+      "min_ann_pct": -43.8,
+      "max_ann_pct": 52.6,
+      "positive_share_pct": 73.2,
+      "positive_share_int": 73
+     }
+    },
+    "3y": {
+     "last_start": "2022",
+     "at_high": {
+      "n": 54,
+      "mean_ann_pct": 10.1,
+      "median_ann_pct": 11.3,
+      "min_ann_pct": -27.2,
+      "max_ann_pct": 30.8,
+      "positive_share_pct": 85.2,
+      "positive_share_int": 85
+     },
+     "not_at_high": {
+      "n": 41,
+      "mean_ann_pct": 11.0,
+      "median_ann_pct": 12.0,
+      "min_ann_pct": -27.3,
+      "max_ann_pct": 29.6,
+      "positive_share_pct": 85.4,
+      "positive_share_int": 85
+     },
+     "all": {
+      "n": 95,
+      "mean_ann_pct": 10.5,
+      "median_ann_pct": 11.4,
+      "min_ann_pct": -27.3,
+      "max_ann_pct": 30.8,
+      "positive_share_pct": 85.3,
+      "positive_share_int": 85
+     }
+    },
+    "5y": {
+     "last_start": "2020",
+     "at_high": {
+      "n": 53,
+      "mean_ann_pct": 11.0,
+      "median_ann_pct": 12.9,
+      "min_ann_pct": -12.0,
+      "max_ann_pct": 28.3,
+      "positive_share_pct": 88.7,
+      "positive_share_int": 89
+     },
+     "not_at_high": {
+      "n": 40,
+      "mean_ann_pct": 10.1,
+      "median_ann_pct": 12.6,
+      "min_ann_pct": -10.7,
+      "max_ann_pct": 22.8,
+      "positive_share_pct": 90.0,
+      "positive_share_int": 90
+     },
+     "all": {
+      "n": 93,
+      "mean_ann_pct": 10.6,
+      "median_ann_pct": 12.7,
+      "min_ann_pct": -12.0,
+      "max_ann_pct": 28.3,
+      "positive_share_pct": 89.2,
+      "positive_share_int": 89
+     }
+    },
+    "10y": {
+     "last_start": "2015",
+     "at_high": {
+      "n": 49,
+      "mean_ann_pct": 10.7,
+      "median_ann_pct": 11.9,
+      "min_ann_pct": -1.7,
+      "max_ann_pct": 20.1,
+      "positive_share_pct": 93.9,
+      "positive_share_int": 94
+     },
+     "not_at_high": {
+      "n": 39,
+      "mean_ann_pct": 10.5,
+      "median_ann_pct": 9.8,
+      "min_ann_pct": -0.9,
+      "max_ann_pct": 18.4,
+      "positive_share_pct": 97.4,
+      "positive_share_int": 97
+     },
+     "all": {
+      "n": 88,
+      "mean_ann_pct": 10.6,
+      "median_ann_pct": 11.1,
+      "min_ann_pct": -1.7,
+      "max_ann_pct": 20.1,
+      "positive_share_pct": 95.5,
+      "positive_share_int": 95
+     }
+    }
+   },
+   "worst10y_from_record_yearends": [
+    {
+     "yearend": "1928",
+     "ann_pct": -1.7
+    },
+    {
+     "yearend": "1998",
+     "ann_pct": -1.4
+    },
+    {
+     "yearend": "1999",
+     "ann_pct": -1.0
+    },
+    {
+     "yearend": "1964",
+     "ann_pct": 1.3
+    },
+    {
+     "yearend": "1968",
+     "ann_pct": 3.2
+    }
+   ]
+  },
+  "caveats": [
+   "視窗重疊，相鄰起點的結果高度相關，不是獨立樣本；新高又常常連在一起出現，「在新高」那組的有效樣本比 n 少很多",
+   "台股含息指數只從 2003 年開始，「新高」是相對 2003 年以後，不是相對 1990 年；又剛好從大跌後起算",
+   "Shiller 價格是月內平均價，不是月底收盤；股利欄只到 2023-06",
+   "平均數把不同年代混在一起；個別起點（1929、2000、2007）可以差很多",
+   "名目、含息、沒扣物價、費用、稅；台股台幣、美股美元",
+   "只看一國單一指數；日本 1989 年那種例子不在這三份資料裡"
+  ],
+  "book_table": {
+   "note": "第 6 節那張小表：「任選一天」取 rolling.*.positive_share.pct_int（第 5 節同一個數），「只挑創新高那天」取本 key 的 at_high.positive_share_int",
+   "taiex": [
+    {
+     "years": 1,
+     "any_day": 77,
+     "at_high": 72
+    },
+    {
+     "years": 3,
+     "any_day": 95,
+     "at_high": 87
+    },
+    {
+     "years": 5,
+     "any_day": 96,
+     "at_high": 88
+    },
+    {
+     "years": 10,
+     "any_day": 100,
+     "at_high": 100
+    }
+   ],
+   "us": [
+    {
+     "years": 1,
+     "any_month": 72,
+     "at_high": 73
+    },
+    {
+     "years": 5,
+     "any_month": 90,
+     "at_high": 85
+    },
+    {
+     "years": 10,
+     "any_month": 97,
+     "at_high": 95
+    }
+   ]
+  },
+  "book_facts": {
+   "taiex_3y_losing_at_high_start_years": [
+    2005,
+    2007
+   ],
+   "us_1929_record_10y_ann_pct": -3.4,
+   "us_1929_record_5y_ann_pct": -17.3
+  }
+ },
  "guide_citations": {
   "guide": "guide/index.html",
   "line_numbers_in_guidetools_text": {
    "第一格 7.84 年": [
-    486
+    443
    ],
    "| 60 萬 | 7.84 年 | 22%": [
-    497
+    454
    ],
    "三十年後差約 86 萬": [
-    584
+    541
    ],
    "2008 年跌了 53.59%": [
-    743
+    706
    ],
    "1.7% 是 2026 年 9 月五大銀行一年期定存牌告利率": [
-    524
+    481
    ],
    "用 3% 到 2.5%（33 到 40 倍）算會保守一些": [
-    2132
+    2179
    ],
    "都落在股票三成到七成五之間": [
-    2132
+    2179
    ],
    "2026 年最高一級 45,800 元": [
-    2149
+    2196
    ],
    "平均月投保薪資 × 年資 × 1.55%": [
-    2148
+    2195
    ],
    "2026 年起請領年齡 65 歲": [
-    2148
+    2195
    ],
    "提前領每年減 4%、最多減 20%": [
-    1531,
-    2148
+    1524,
+    2195
    ],
    "2022 年 2.95%、2023 年 2.49%、2024 年 2.18%": [
-    533
+    490
    ],
    "〔投資等級〕債 −13.0%": [
-    825
+    788
    ],
    "高 7% 約 10 年、中 6% 約 12 年、低 4% 約 18 年": [
-    537,
-    555
+    494,
+    512
    ],
    "低情境下股票八成約 20 年、四成約 25 年": [
-    537
+    494
    ],
    "低 4% 約 21 年": [
-    538
+    495
    ],
    "| 80% | 3.6% | 5.2% | 6%": [
-    440
+    397
    ],
    "| 40% | 2.8% | 3.6% | 4%": [
-    442
+    399
    ],
    "| 物價倍數 | 1.10 | 1.22 | 1.35 | 1.49 | 1.64 | 1.81 | 2.00 | 2.21": [
-    528
+    485
    ],
    "勞保那一層保守起見用今天的投保薪資試算、不乘物價倍數": [
-    2158
+    2205
    ],
    "真實年成本 6.69%": [
-    2109,
-    2193
+    2156,
+    2240
+   ],
+   "大約每十個月就有三個月收在新高": [
+    876
+   ],
+   "| 台股 3 年 | 95% | 87%": [
+    879
+   ],
+   "| 美股 5 年 | 90% | 85%": [
+    883
+   ],
+   "全部是 2005 到 2007 年買進": [
+    886
+   ],
+   "新高月份放五年平均一年 4.5%、其他月份 9.0%；1950 年以後變成 12.0% 對 10.6%": [
+    890
    ]
   },
   "missing": []

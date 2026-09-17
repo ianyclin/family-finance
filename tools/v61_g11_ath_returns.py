@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """G11 研究：在「歷史新高（含息指數）」那天／那個月／那一年底買進，之後的報酬和其他時點比起來如何。
 
-本檔只做研究計算，不寫指南、不改 calc_core.py / essay_charts.py。整合階段要用，再把 compute() 搬進 calc_core。
+2026-09-17（g11）起由 calc_core.py 呼叫 compute()，結果寫進 lite/calc-results.json 的 ath_returns；指南第 6 節「現在是歷史新高」那段的數字從那裡來。
 
 資料（三份，都已在 repo 或本機）
   A. 台股：research/data/taiex_tr_monthly_raw.csv（檔名寫 monthly，內容是逐日收盤）——
@@ -14,7 +14,7 @@
      年底值，沒有月平均的問題，但一年只有一個點，年內高點看不到。讀法照 v61_g8_recovery_by_mix.read_annual()。
 
 定義
-  「在新高」：當期含息指數 ≥ 從資料起點到當期為止的最高值（含平手）。資料起點本身不算（沒有前史）。
+  「在新高」：當期含息指數 ≥ 從資料起點到當期為止的最高值（含平手）。資料起點本身不算（沒有前史），但仍當一個起點算進「不在新高」與「全部」。
   「不在新高」：其他所有起點。「全部」：兩者合計。
   「離新高 5% 內」（只算台股與美股月資料，當補充）：當期值 ≥ 到當期為止最高值 × 0.95。
   視窗：台股用日曆視窗（從某交易日到滿 N 年同一天，沒開盤取前一個交易日，同 calc_core.taiex_windows）；
@@ -110,8 +110,9 @@ def summarize(pairs, years):
             'positive_share_pct': hu(100 * pos / len(pairs)), 'positive_share_int': hu(100 * pos / len(pairs), 0)}
 
 
-def grouped(starts_end, at, near, years):
-    """starts_end: [(i, j)] 起點索引與終點索引；回傳各組摘要。"""
+def grouped(V, starts_end, at, near, years):
+    """V：序列；starts_end: [(i, j)] 起點索引與終點索引；回傳各組摘要。
+    （2026-09-17 整合進 calc_core 時把全域變數 V 改成參數。）"""
     return {
         'at_high': summarize([(V[i], V[j]) for i, j in starts_end if at[i]], years),
         'not_at_high': summarize([(V[i], V[j]) for i, j in starts_end if not at[i]], years),
@@ -120,32 +121,72 @@ def grouped(starts_end, at, near, years):
     }
 
 
-V = None  # 目前處理中的序列（grouped 用）
+def taiex_starts_ends(dates, years):
+    """台股日曆視窗，起點從索引 0 開始（和 calc_core.taiex_windows 同一套，n 才會和 rolling 一致）。
+    資料第一天 at=False，所以它落在「不在新高」與「全部」，不影響「在新高」那組。"""
+    se = []
+    for i in range(len(dates)):
+        tgt = add_months(dates[i], 12 * years)
+        if tgt > dates[-1]:
+            break
+        j = bisect.bisect_right(dates, tgt) - 1
+        if j > i:
+            se.append((i, j))
+    return se
 
 
 def compute():
-    global V
     R = {'definition': '在新高＝當期含息指數 ≥ 資料起點到當期的最高值（含平手；資料起點不算）。'
-                       '年化報酬＝(終值÷起值)^(1/N)−1；視窗重疊，不是獨立樣本。名目、含息、沒扣費用稅。'}
+                       '年化報酬＝(終值÷起值)^(1/N)−1；視窗重疊，不是獨立樣本。名目、含息、沒扣費用稅。'
+                       '起點從資料第一期開始（和 calc_core rolling 同一個 n）；資料第一期不算新高。'}
 
     # A. 台股逐日
-    dates, vals = taiex_series(); V = vals
+    dates, vals = taiex_series()
     at, near = flags(vals)
     R['taiex_daily'] = {'source': '證交所發行量加權股價報酬指數（含息），逐日收盤', 'currency': 'TWD',
                         'from': dates[0].isoformat(), 'to': dates[-1].isoformat(), 'days': len(vals),
                         'days_at_high': sum(at[1:]), 'share_days_at_high_pct': hu(100 * sum(at[1:]) / (len(vals) - 1)),
                         'share_days_within_5pct_pct': hu(100 * sum(near[1:]) / (len(vals) - 1)),
                         'horizons': {}}
+    tw_se = {}
     for y in (1, 3, 5, 10):
-        se = []
-        for i in range(1, len(dates)):
-            tgt = add_months(dates[i], 12 * y)
-            if tgt > dates[-1]:
-                break
-            j = bisect.bisect_right(dates, tgt) - 1
-            if j > i:
-                se.append((i, j))
-        R['taiex_daily']['horizons'][str(y) + 'y'] = {'last_start': dates[se[-1][0]].isoformat(), **grouped(se, at, near, y)}
+        se = tw_se[y] = taiex_starts_ends(dates, y)
+        R['taiex_daily']['horizons'][str(y) + 'y'] = {'last_start': dates[se[-1][0]].isoformat(), **grouped(vals, se, at, near, y)}
+
+    # 台股敏感度（簡報第 1-4 節發現 2、3、4；第 9 節第 5 條）
+    tw_sens = R['taiex_daily']['sensitivity'] = {}
+    # (a) 在新高買進、N 年後沒賺（終值 ≤ 起值）的起點，依起點年份計數
+    tw_sens['at_high_nonpositive_by_start_year'] = {}
+    for y in (1, 3, 5, 10):
+        cnt = {}
+        for i, j in tw_se[y]:
+            if at[i] and vals[j] <= vals[i]:
+                cnt[str(dates[i].year)] = cnt.get(str(dates[i].year), 0) + 1
+        tw_sens['at_high_nonpositive_by_start_year'][str(y) + 'y'] = cnt
+    # (b) 起點只取 2006 年以後（「新高」回看至少三年）
+    tw_sens['starts_from_2006'] = {}
+    for y in (1, 3, 5, 10):
+        se = [(i, j) for i, j in tw_se[y] if dates[i] >= date(2006, 1, 1)]
+        g = grouped(vals, se, at, None, y); g.pop('within_5pct')
+        tw_sens['starts_from_2006'][str(y) + 'y'] = g
+    # (c) 拿掉 2006-07-01 到 2007-12-31 的起點（2008 年那一次）
+    tw_sens['excluding_starts_2006H2_2007'] = {}
+    for y in (1, 3, 5):
+        se = [(i, j) for i, j in tw_se[y] if not (date(2006, 7, 1) <= dates[i] <= date(2007, 12, 31))]
+        g = grouped(vals, se, at, None, y); g.pop('within_5pct')
+        tw_sens['excluding_starts_2006H2_2007'][str(y) + 'y'] = g
+    # (d) 放 1 年最差的五個起點，和它們是不是新高日（「新高」標籤本身不是重點）
+    worst = sorted(((((vals[j] / vals[i]) - 1) * 100, i) for i, j in tw_se[1]))[:5]
+    tw_sens['worst5_starts_1y'] = [{'date': dates[i].isoformat(), 'ret_1y_pct': hu(r), 'at_high': at[i]} for r, i in worst]
+    nh = [r for r, i in worst if not at[i]]
+    tw_sens['worst5_starts_1y_not_at_high_range_pct'] = [hu(min(nh)), hu(max(nh))] if nh else None
+    # (e) 2003–2005 的「新高」只和 2003 年以後比；這份含息資料沒有 2000 年以前的值，無法直接比 1990、2000 年高點
+    tw_sens['at_high_days_by_year'] = {}
+    for i in range(1, len(dates)):
+        if at[i]:
+            k = str(dates[i].year); tw_sens['at_high_days_by_year'][k] = tw_sens['at_high_days_by_year'].get(k, 0) + 1
+    tw_sens['note_2003_2005'] = ('含息指數 2003-01-02 才開始，2003–2005 年的「新高」只是 2003 年以後的新高，'
+                                 '價格上還低於 2000 年與 1990 年的高點；5 年最差的起點 2004-03-02 就屬於這種')
     # 台股反例：2007-10 前高那天、2018-01 前高、2021-12 前高 之後 1/3/5 年
     def tw_case(label, d0, d1):
         i0 = bisect.bisect_left(dates, date.fromisoformat(d0)); i1 = bisect.bisect_right(dates, date.fromisoformat(d1))
@@ -165,7 +206,7 @@ def compute():
                                  tw_case('2021–22 年高點', '2021-06-01', '2022-06-30')]
 
     # B. 美股月（Shiller，月平均價）
-    months, tr = shiller_tr(); V = tr
+    months, tr = shiller_tr()
     at, near = flags(tr)
     R['us_monthly_shiller'] = {'source': 'Robert Shiller 公開資料，S&P 500（1957 年前為前身指數）含息、名目；價格是月內平均', 'currency': 'USD',
                                'from': months[0], 'to': months[-1], 'months': len(tr),
@@ -174,37 +215,55 @@ def compute():
                                'horizons': {}}
     for y in (1, 3, 5, 10, 20):
         k = 12 * y
-        se = [(i, i + k) for i in range(1, len(tr) - k)]
-        R['us_monthly_shiller']['horizons'][str(y) + 'y'] = {'last_start': months[se[-1][0]], **grouped(se, at, near, y)}
+        se = [(i, i + k) for i in range(0, len(tr) - k)]
+        R['us_monthly_shiller']['horizons'][str(y) + 'y'] = {'last_start': months[se[-1][0]], **grouped(tr, se, at, near, y)}
     # 同一套算法、只取 1926 年以後（對照 Dimensional 的 1926 起點）
     i26 = months.index('1926-01')
     R['us_monthly_shiller']['from_1926'] = {}
     for y in (1, 3, 5, 10):
         k = 12 * y
         se = [(i, i + k) for i in range(i26, len(tr) - k)]
-        R['us_monthly_shiller']['from_1926'][str(y) + 'y'] = grouped(se, at, near, y)
+        R['us_monthly_shiller']['from_1926'][str(y) + 'y'] = grouped(tr, se, at, near, y)
+    # 分期敏感度（簡報發現 1）：起點在 1950 年以前 vs 1950 年以後
+    i50 = months.index('1950-01')
+    R['us_monthly_shiller']['split_1950'] = {}
+    for y in (1, 5, 10):
+        k = 12 * y
+        before = [(i, i + k) for i in range(0, min(i50, len(tr) - k))]
+        after = [(i, i + k) for i in range(i50, len(tr) - k)]
+        gb = grouped(tr, before, at, None, y); gb.pop('within_5pct')
+        ga = grouped(tr, after, at, None, y); ga.pop('within_5pct')
+        R['us_monthly_shiller']['split_1950'][str(y) + 'y'] = {'starts_before_1950': gb, 'starts_1950_on': ga}
 
     def us_case(label, m0, m1):
         a, b = months.index(m0), months.index(m1)
         p = max(range(a, b + 1), key=lambda t: tr[t])
         out = {'label': label, 'peak_month': months[p], 'is_record': at[p]}
+        if not at[p]:
+            out['note'] = '這個高點不是歷史新高（前一個含息高點還沒回來），不能當成「在新高買進」的例子'
         for y in (1, 3, 5, 10, 20):
             if p + 12 * y < len(tr):
                 out[str(y) + 'y_ann_pct'] = hu(((tr[p + 12 * y] / tr[p]) ** (1 / y) - 1) * 100)
-        rec = next((t for t in range(p + 1, len(tr)) if tr[t] >= tr[p]), None)
-        # 回到前高：之後第一個 ≥ 高點的月份（中間必須先跌下去；月資料只要下個月比較低就成立）
+        # 回到這個高點：先要有「下個月比高點低」（真的跌下去），再找之後第一個 ≥ 高點的月份。
+        # 下個月就更高的話，沒有「跌下去再回來」這回事，回本欄位留 None 並標出來。
+        if p + 1 < len(tr) and tr[p + 1] >= tr[p]:
+            out['no_drop_next_month'] = True
+            rec = None
+        else:
+            rec = next((t for t in range(p + 1, len(tr)) if tr[t] >= tr[p]), None)
         out['back_to_this_high'] = months[rec] if rec else None
         out['months_to_back'] = (rec - p) if rec else None
         low = min(range(p, rec if rec else len(tr)), key=lambda t: tr[t])
         out['max_drop_pct'] = hu((tr[low] / tr[p] - 1) * 100)
         out['low_month'] = months[low]
         return out
-    R['us_monthly_shiller']['cases'] = [us_case('1929', '1929-01', '1929-12'), us_case('1937', '1937-01', '1937-12'),
+    R['us_monthly_shiller']['cases'] = [us_case('1929', '1929-01', '1929-12'),
+                                        us_case('1937（不是新高：1929 年的含息高點還沒回來）', '1937-01', '1937-12'),
                                         us_case('1973', '1972-06', '1973-06'), us_case('2000', '2000-01', '2000-12'),
                                         us_case('2007', '2007-01', '2007-12')]
 
     # C. 美股年（Damodaran 年底）
-    labels, yv = damodaran_tr(); V = yv
+    labels, yv = damodaran_tr()
     at, _ = flags(yv)
     R['us_annual_damodaran'] = {'source': 'Damodaran（NYU Stern）S&P 500 含息當年報酬，年底值；1927 年底=1', 'currency': 'USD',
                                 'from': labels[1], 'to': labels[-1], 'years': len(yv) - 1,
@@ -212,7 +271,7 @@ def compute():
                                 'horizons': {}}
     for y in (1, 3, 5, 10):
         se = [(i, i + y) for i in range(1, len(yv) - y)]
-        g = grouped(se, at, None, y); g.pop('within_5pct')
+        g = grouped(yv, se, at, None, y); g.pop('within_5pct')
         R['us_annual_damodaran']['horizons'][str(y) + 'y'] = {'last_start': labels[se[-1][0]], **g}
     # 在新高的年底裡，之後 10 年年化最差的五個
     worst = sorted(((((yv[i + 10] / yv[i]) ** 0.1 - 1) * 100, labels[i]) for i in range(1, len(yv) - 10) if at[i]))[:5]

@@ -25,7 +25,7 @@
 | `lite/index.html` | **程式產生，不要手改** | 實作版網頁 |
 | `output/full-v60-out.html` | **程式產生，不要手改** | 完整版發布版（多了 lede 下那一行） |
 | `export/隔離人性-可列印工作表-v6.1.pdf/.html`、`export/隔離人性-理財新手完整指南-v6.1.pdf/.html` | **程式產生** | 匯出（只留最新版） |
-| `lite/work/print/print-lite.html`、`print-full.html` | 程式產生 | 列印用暫存（details 全開、目錄已填頁碼），除錯用 |
+| `lite/work/print/print-lite.html`、`print-full.html` | 程式產生 | 列印用暫存（工作表 details 全開；完整版只開帶 `data-print` 的，v6.1 D10；目錄已填頁碼），除錯用 |
 | `lite/work/lite-v60.txt`、`lite/work/full-v60.txt` | **程式產生** | 審查用純文字：每次 `build_lite.py` 成功後自動重產（實作版逐頁抽自剛印好的 PDF，完整版用 `guidetools.to_text` 抽自 `output/full-v60-out.html`），檔頭記抽取時間與來源；`--no-pdf` 時實作版那一份不重產，會印警告 |
 
 ```bash
@@ -360,7 +360,7 @@ JSON 陣列，每一條：
   - 列印：`@page{size:A4;margin:13mm 13mm 15mm}`＋底部置中頁碼；內文 10pt、行距 1.4；卡片與清單間距縮小；表格 8.5pt、不設最小寬度。網頁版維持完整版行距。
   - 只有 `page_break`、`one_page` 的章與 `{"page_break": true}` 會換頁，其他章接著排。
   - 動作框 `.lite-action`（綠色實線框，標「動作」）；想查證框 `.lite-verify`（灰色虛線框、小字）；虛構聲明 `.lite-fiction`（灰框膠囊）；章名上方的 label `.lite-label`。
-- PDF：Chrome headless `--no-pdf-header-footer --generate-pdf-document-outline`，列印用 HTML 把所有 `details` 加上 `open`；書籤照 h1–h3 自動產生。目錄頁碼：先印一次，用 PyMuPDF 讀目錄連結指向的頁，填進目錄再印；頁碼沒變就停（最多四次）。完整版也照同一流程（在列印用 HTML 的目錄每一項後面加頁碼；網頁版不加）。metadata：title、author、subject（版本／日期）。
+- PDF：Chrome headless `--no-pdf-header-footer --generate-pdf-document-outline`，工作表的列印用 HTML 把所有 `details` 加上 `open`；完整版只展開帶 `data-print` 屬性的（v6.1 拍板 D10：計畫表欄位表、空白版、查表頁），其餘收合、summary 後面由 `FULL_PRINT_CSS` 印「紙本未印」提示；書籤照 h1–h3 自動產生。目錄頁碼：先印一次，用 PyMuPDF 讀目錄連結指向的頁，填進目錄再印；頁碼沒變就停（最多四次）。完整版也照同一流程（在列印用 HTML 的目錄每一項後面加頁碼；網頁版不加）。metadata：title、author、subject（版本／日期）。
 - v6.1 工作表改了兩條列印樣式（只影響這一份輸出）：`header.lite-cover` 壓成頁首窄橫幅（副標 8.5pt／書名 13pt 與版本日期同一行／指路小字），`table.lite-plan` 行距 2.05 → 1.9，這樣計畫表連 H 區都放得進第一頁。
 
 ---
