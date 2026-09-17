@@ -180,10 +180,10 @@ v61 拍板清單（D、L、S、G）已全部處理完，下面是 v6.2 驗收留
 
 - 最後一個 commit：見 `git log`（v6.2 收尾那一筆之後只有交班文件）。
 - `python3 tools/build_lite.py` 全綠：FAIL 0、SENTINELS OK；完整版 147 頁、近乎空白頁 2 頁；工作表 4 頁。
-- 兩份 artifact 用 v6.2 重新發布（完整指南、可列印工作表，網址見「現況」）。
+- **兩份 artifact 還沒發布 v6.2**（2026-09-17 發布時 artifact 服務連續回「network error」）。網上仍是 v6.1。接手第一件事：用 Artifact 工具發布 `output/guide.html`（帶完整版 url）與 `output/lite.html`（帶工作表 url）。
 - 驗收：最後一輪 0 must；新手走查五個任務（要不要開始、填計畫表、大跌想賣、年底檢查、爸媽快退休）都在 1–3 下內找到。
 
 ## 給下一個 session 的第一句話
 
-> 接手《隔離人性》理財指南，先讀 `docs/handoff-guide-2026-09-16.md`（v6.2 現況與「還沒做的事」），然後問我要先處理哪一件。
+> 接手《隔離人性》理財指南，先讀 `docs/handoff-guide-2026-09-16.md`，把 v6.2 的兩份 artifact 發布上去（上次網路錯誤沒發成），再問我「還沒做的事」要先處理哪一件。
 
