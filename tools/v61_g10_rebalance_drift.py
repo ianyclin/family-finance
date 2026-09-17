@@ -379,6 +379,7 @@ def chart(res):
                 '2002、%d 年公債上漲，股票占比會落回門檻裡（%d 年底 %s）。'
                 '換一個起點，跑掉的方向和快慢都不一樣：%d 年初開始的話，先往下跑，%d 年底就掉到 %s；'
                 '%d 到 %d 年每一年都當一次起點算過，%d 個起點裡，第一次超出門檻最快 %d 年；一半以上 %d 年內就跑出門檻，超過九成在 %d 年內。'
+                '再平衡是控制風險，不是保證多賺：這張圖只看比例，沒有比誰最後的錢比較多。'
                 '過去的走法不代表以後會一樣。'
                 % (m['start'], MARK_YEAR, bs['mark_year']['year'], pct(bs['mark_year']['stock_pct']),
                    2000, a2000['first_breach_year'], pct(a2000['first_breach_stock_pct']),
@@ -391,7 +392,7 @@ def chart(res):
                   m['end'], mk['year'], pct(mk['stock_pct']), m['end'], pct(end_pct)))
     lead = ('比例不去管它，會跑多遠？下面這張圖用美國的歷史資料，從 %d 年初放股票八成、現金兩成'
             '（美國 3 個月國庫券，接近定存）開始，之後都不買不賣，看每年年底股票占多少，'
-            '淡色帶就是八二配置的 5/25 門檻。' % m['start'])
+            '淡色帶就是這個比例的 5/25 門檻。' % m['start'])
     res['printed'] = {'first_breach': [br_year, m['first_breach_years_after_start'], br_pct],
                       'mark_year': [mk['year'], mk['stock_pct']],
                       'end': [m['end'], end_pct],

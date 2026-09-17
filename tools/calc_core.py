@@ -656,7 +656,17 @@ _ath['book_facts'] = {
     'taiex_3y_losing_at_high_start_years': [int(_nb3[0]), int(_nb3[-1])] if _nb3 else None,
     'us_1929_record_10y_ann_pct': next(c['10y_ann_pct'] for c in _ath['us_monthly_shiller']['cases'] if c['label'] == '1929'),
     'us_1929_record_5y_ann_pct': next(c['5y_ann_pct'] for c in _ath['us_monthly_shiller']['cases'] if c['label'] == '1929'),
+    # 2026-09-17 fix2：第 6 節改稿後新增的句子
+    'taiex_5y_losing_at_high_start_years': sorted(int(_k) for _k in _ath['taiex_daily']['sensitivity']['at_high_nonpositive_by_start_year']['5y']),
+    'taiex_gap_pp_excluding_windows_spanning_2008_low': {_y: [_ath['taiex_daily']['sensitivity']['excluding_windows_spanning_2008_low'][_y]['gap_pp_full'],
+                                                              _ath['taiex_daily']['sensitivity']['excluding_windows_spanning_2008_low'][_y]['gap_pp_excluding']] for _y in ('3y', '5y')},
+    'taiex_1y_worst_not_at_high_pct': _ath['taiex_daily']['sensitivity']['worst5_starts_1y_not_at_high_range_pct'],
+    'us_record_months_10y_ann_pct_range_by_year': {_yr: [min(_r['10y_ann_pct'] for _r in _rows), max(_r['10y_ann_pct'] for _r in _rows), len(_rows)]
+                                                   for _yr, _rows in _ath['us_monthly_shiller']['record_months_10y_ann_pct_by_year'].items()},
+    'us_split_1950_5y_positive_share_int': {_k: [_v['at_high']['positive_share_int'], _v['not_at_high']['positive_share_int']]
+                                             for _k, _v in _ath['us_monthly_shiller']['split_1950']['5y'].items()},
 }
+assert _ath['book_facts']['us_split_1950_5y_positive_share_int'] == {'starts_before_1950': [75, 91], 'starts_1950_on': [91, 93]}, _ath['book_facts']['us_split_1950_5y_positive_share_int']
 R['ath_returns'] = _ath
 
 # grep 正式檔：引用數字所在行（guidetools text 行號）
@@ -669,8 +679,11 @@ quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '| 物價倍數 | 1.10 | 1.22 | 1.35 | 1.49 | 1.64 | 1.81 | 2.00 | 2.21', '勞保那一層保守起見用今天的投保薪資試算、不乘物價倍數',
           '真實年成本 6.69%',
           # G11（第 6 節「現在是歷史新高」）：數字來自 ath_returns
-          '大約每十個月就有三個月收在新高', '| 台股 3 年 | 95% | 87%', '| 美股 5 年 | 90% | 85%',
-          '全部是 2005 到 2007 年買進', '新高月份放五年平均一年 4.5%、其他月份 9.0%；1950 年以後變成 12.0% 對 10.6%']
+          '大約每十個月就有三個月是新高', '| 台股 3 年 | 95% | 87%', '| 美股 5 年 | 90% | 85%',
+          '全部是 2005 到 2007 年買進', '新高月份放五年平均一年 4.5%、其他月份 9.0%；1950 年以後變成 12.0% 對 10.6%',
+          '1950 年以前低很多（75% 對 91%），1950 年以後只低一點（91% 對 93%）',
+          '1929 年、2000 年新高時買進美股的人，放十年都還是虧的', '就算挑不是新高的日子買，一年後一樣跌掉約一半',
+          '三年、五年的差距，主要就是這一次大跌']
 found = {}
 try:
     sys.path.insert(0, HERE)

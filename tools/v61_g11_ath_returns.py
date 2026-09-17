@@ -180,6 +180,27 @@ def compute():
     tw_sens['worst5_starts_1y'] = [{'date': dates[i].isoformat(), 'ret_1y_pct': hu(r), 'at_high': at[i]} for r, i in worst]
     nh = [r for r, i in worst if not at[i]]
     tw_sens['worst5_starts_1y_not_at_high_range_pct'] = [hu(min(nh)), hu(max(nh))] if nh else None
+    # (f) 2026-09-17 fix2：第 6 節「三年、五年的差距，主要就是這一次大跌」的程式擔保。
+    #     拿掉「持有期間跨過 2008 年最低點」的視窗（最低點由資料算，不寫死），看新高組和其他日子還差多少。
+    #     只拿掉 2006H2–2007 起點（上面 c）對 5 年不夠：2003、2004 年的新高起點也是抱進 2008 年才虧。
+    y08 = [t for t in range(len(dates)) if dates[t].year == 2008]
+    t08 = min(y08, key=lambda t: vals[t])
+    tw_sens['low_2008_date'] = dates[t08].isoformat()
+    tw_sens['excluding_windows_spanning_2008_low'] = {}
+    for y in (3, 5):
+        se = [(i, j) for i, j in tw_se[y] if not (i <= t08 <= j)]
+        g = grouped(vals, se, at, None, y); g.pop('within_5pct')
+        full = R['taiex_daily']['horizons'][str(y) + 'y']
+        gap_full = full['not_at_high']['positive_share_pct'] - full['at_high']['positive_share_pct']
+        gap_ex = g['not_at_high']['positive_share_pct'] - g['at_high']['positive_share_pct']
+        lose_ends = [dates[j] for i, j in tw_se[y] if at[i] and vals[j] <= vals[i]]
+        tw_sens['excluding_windows_spanning_2008_low'][str(y) + 'y'] = {
+            **g, 'gap_pp_full': hu(gap_full), 'gap_pp_excluding': hu(gap_ex),
+            'at_high_losers_end_range': [min(lose_ends).isoformat(), max(lose_ends).isoformat()]}
+        # 「主要」＝拿掉跨 2008 低點的視窗後，差距剩不到原來的三分之一
+        assert gap_ex < gap_full / 3, ('2008 大跌解釋不了大部分差距', y, gap_full, gap_ex)
+    # 「就算挑不是新高的日子買，一年後一樣跌掉約一半」
+    assert nh and all(-55 < r < -45 for r in nh), ('非新高最差起點不是約一半', nh)
     # (e) 2003–2005 的「新高」只和 2003 年以後比；這份含息資料沒有 2000 年以前的值，無法直接比 1990、2000 年高點
     tw_sens['at_high_days_by_year'] = {}
     for i in range(1, len(dates)):
@@ -234,6 +255,13 @@ def compute():
         gb = grouped(tr, before, at, None, y); gb.pop('within_5pct')
         ga = grouped(tr, after, at, None, y); ga.pop('within_5pct')
         R['us_monthly_shiller']['split_1950'][str(y) + 'y'] = {'starts_before_1950': gb, 'starts_1950_on': ga}
+    # 2026-09-17 fix2：「1929 年、2000 年新高時買進美股的人，放十年都還是虧的」——那一年所有新高月份都要算，不只 cases 的高點月
+    R['us_monthly_shiller']['record_months_10y_ann_pct_by_year'] = {}
+    for yr in (1929, 2000):
+        rows = [{'month': months[i], '10y_ann_pct': hu(((tr[i + 120] / tr[i]) ** 0.1 - 1) * 100)}
+                for i in range(1, len(tr) - 120) if at[i] and months[i].startswith(str(yr))]
+        assert rows and all(r['10y_ann_pct'] < 0 for r in rows), ('新高月份放十年不是全部虧', yr, rows)
+        R['us_monthly_shiller']['record_months_10y_ann_pct_by_year'][str(yr)] = rows
 
     def us_case(label, m0, m1):
         a, b = months.index(m0), months.index(m1)

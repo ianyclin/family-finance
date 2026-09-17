@@ -1,0 +1,12 @@
+[
+ {
+  "scope": "我是圖表這一階段的裁判，只看兩張圖：第 4 節的 country-recover",
+  "severity": "should",
+  "section": "s11",
+  "location": "guide/index.html 第 11 節圖前引導句「淡色帶就是八二配置的 5/25 門檻」；tools/v61_g10_rebalance_drift.py chart() 的 lead 字串",
+  "problem": "這句引導句讓「八二」在第 11 節第一次出現，但沒有名詞連結。g-ratio 的連結還掛在圖後面「資產還小的時候…（八二配置…）」那個第二次出現的地方。改之前（charts-before.html）連結掛在第一次出現的地方，所以是這次插入引導句造成的，違反規格硬規則「名詞連結每節只標第一次出現」。讀者也會先讀到「八二配置」，後面才看到小字「八二是八成股票、兩成防守」的解釋。",
+  "fix": "最小改法：引導句改成「淡色帶就是這個比例的 5/25 門檻」，前半句已經寫了股票八成、現金兩成；模組裡 printed.lead_sentence 的字串同步改。另一種改法：把 g-ratio 的 term 連結移到引導句的「八二」，拿掉後面那一處的連結。",
+  "located_section": "s11",
+  "found": false
+ }
+]

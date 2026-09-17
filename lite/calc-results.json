@@ -2234,7 +2234,7 @@
     "years_int": 25,
     "months_rem": null,
     "table_span_text": "1929-09 → 1954-11",
-    "table_duration_text": "25 年"
+    "table_duration_text": "約 25 年"
    },
    {
     "key": "jp",
@@ -4310,6 +4310,79 @@
      -50.3,
      -49.4
     ],
+    "low_2008_date": "2008-11-20",
+    "excluding_windows_spanning_2008_low": {
+     "3y": {
+      "at_high": {
+       "n": 314,
+       "mean_ann_pct": 10.1,
+       "median_ann_pct": 9.9,
+       "min_ann_pct": 0.9,
+       "max_ann_pct": 21.0,
+       "positive_share_pct": 100.0,
+       "positive_share_int": 100
+      },
+      "not_at_high": {
+       "n": 3882,
+       "mean_ann_pct": 12.2,
+       "median_ann_pct": 11.2,
+       "min_ann_pct": -7.1,
+       "max_ann_pct": 33.8,
+       "positive_share_pct": 99.3,
+       "positive_share_int": 99
+      },
+      "all": {
+       "n": 4196,
+       "mean_ann_pct": 12.0,
+       "median_ann_pct": 11.1,
+       "min_ann_pct": -7.1,
+       "max_ann_pct": 33.8,
+       "positive_share_pct": 99.3,
+       "positive_share_int": 99
+      },
+      "gap_pp_full": 9.0,
+      "gap_pp_excluding": -0.7,
+      "at_high_losers_end_range": [
+       "2008-12-29",
+       "2010-10-29"
+      ]
+     },
+     "5y": {
+      "at_high": {
+       "n": 255,
+       "mean_ann_pct": 11.7,
+       "median_ann_pct": 11.1,
+       "min_ann_pct": -2.5,
+       "max_ann_pct": 21.4,
+       "positive_share_pct": 98.0,
+       "positive_share_int": 98
+      },
+      "not_at_high": {
+       "n": 2954,
+       "mean_ann_pct": 11.9,
+       "median_ann_pct": 11.0,
+       "min_ann_pct": -2.4,
+       "max_ann_pct": 24.6,
+       "positive_share_pct": 99.4,
+       "positive_share_int": 99
+      },
+      "all": {
+       "n": 3209,
+       "mean_ann_pct": 11.9,
+       "median_ann_pct": 11.0,
+       "min_ann_pct": -2.5,
+       "max_ann_pct": 24.6,
+       "positive_share_pct": 99.3,
+       "positive_share_int": 99
+      },
+      "gap_pp_full": 8.5,
+      "gap_pp_excluding": 1.4,
+      "at_high_losers_end_range": [
+       "2008-10-20",
+       "2012-10-29"
+      ]
+     }
+    },
     "at_high_days_by_year": {
      "2003": 41,
      "2004": 18,
@@ -4913,6 +4986,64 @@
      }
     }
    },
+   "record_months_10y_ann_pct_by_year": {
+    "1929": [
+     {
+      "month": "1929-01",
+      "10y_ann_pct": -1.4
+     },
+     {
+      "month": "1929-02",
+      "10y_ann_pct": -1.6
+     },
+     {
+      "month": "1929-03",
+      "10y_ann_pct": -1.7
+     },
+     {
+      "month": "1929-05",
+      "10y_ann_pct": -2.8
+     },
+     {
+      "month": "1929-06",
+      "10y_ann_pct": -2.8
+     },
+     {
+      "month": "1929-07",
+      "10y_ann_pct": -3.4
+     },
+     {
+      "month": "1929-08",
+      "10y_ann_pct": -4.0
+     },
+     {
+      "month": "1929-09",
+      "10y_ann_pct": -3.4
+     }
+    ],
+    "2000": [
+     {
+      "month": "2000-03",
+      "10y_ann_pct": -0.4
+     },
+     {
+      "month": "2000-04",
+      "10y_ann_pct": -0.2
+     },
+     {
+      "month": "2000-06",
+      "10y_ann_pct": -1.2
+     },
+     {
+      "month": "2000-07",
+      "10y_ann_pct": -1.3
+     },
+     {
+      "month": "2000-08",
+      "10y_ann_pct": -1.3
+     }
+    ]
+   },
    "cases": [
     {
      "label": "1929",
@@ -5195,7 +5326,48 @@
     2007
    ],
    "us_1929_record_10y_ann_pct": -3.4,
-   "us_1929_record_5y_ann_pct": -17.3
+   "us_1929_record_5y_ann_pct": -17.3,
+   "taiex_5y_losing_at_high_start_years": [
+    2003,
+    2004,
+    2007
+   ],
+   "taiex_gap_pp_excluding_windows_spanning_2008_low": {
+    "3y": [
+     9.0,
+     -0.7
+    ],
+    "5y": [
+     8.5,
+     1.4
+    ]
+   },
+   "taiex_1y_worst_not_at_high_pct": [
+    -50.3,
+    -49.4
+   ],
+   "us_record_months_10y_ann_pct_range_by_year": {
+    "1929": [
+     -4.0,
+     -1.4,
+     8
+    ],
+    "2000": [
+     -1.3,
+     -0.2,
+     5
+    ]
+   },
+   "us_split_1950_5y_positive_share_int": {
+    "starts_before_1950": [
+     75,
+     91
+    ],
+    "starts_1950_on": [
+     91,
+     93
+    ]
+   }
   }
  },
  "guide_citations": {
@@ -5217,23 +5389,23 @@
     481
    ],
    "用 3% 到 2.5%（33 到 40 倍）算會保守一些": [
-    2179
+    2185
    ],
    "都落在股票三成到七成五之間": [
-    2179
+    2185
    ],
    "2026 年最高一級 45,800 元": [
-    2196
+    2202
    ],
    "平均月投保薪資 × 年資 × 1.55%": [
-    2195
+    2201
    ],
    "2026 年起請領年齡 65 歲": [
-    2195
+    2201
    ],
    "提前領每年減 4%、最多減 20%": [
-    1524,
-    2195
+    1530,
+    2201
    ],
    "2022 年 2.95%、2023 年 2.49%、2024 年 2.18%": [
     490
@@ -5261,13 +5433,13 @@
     485
    ],
    "勞保那一層保守起見用今天的投保薪資試算、不乘物價倍數": [
-    2205
+    2211
    ],
    "真實年成本 6.69%": [
-    2156,
-    2240
+    2162,
+    2246
    ],
-   "大約每十個月就有三個月收在新高": [
+   "大約每十個月就有三個月是新高": [
     876
    ],
    "| 台股 3 年 | 95% | 87%": [
@@ -5281,6 +5453,18 @@
    ],
    "新高月份放五年平均一年 4.5%、其他月份 9.0%；1950 年以後變成 12.0% 對 10.6%": [
     890
+   ],
+   "1950 年以前低很多（75% 對 91%），1950 年以後只低一點（91% 對 93%）": [
+    890
+   ],
+   "1929 年、2000 年新高時買進美股的人，放十年都還是虧的": [
+    888
+   ],
+   "就算挑不是新高的日子買，一年後一樣跌掉約一半": [
+    888
+   ],
+   "三年、五年的差距，主要就是這一次大跌": [
+    886
    ]
   },
   "missing": []
