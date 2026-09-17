@@ -61,12 +61,12 @@
 | 1（奇數） | 窄橫幅（書名、v6.1／2026-09-16、一句指路）＋我的投資計畫 A–H 區空白版 | `alt:plan-blank` |
 | 2 | 查表頁（表一、表二、表三） | `alt:lookup-tables` |
 | 3 | 每年一次的檢查表 | `alt:app-a-checklist` |
-| 4 | 四個立即停止＋大跌演練卡 | `src:#ten div.warning`＋`alt:ch4-drill` |
+| 4 | 四個立即停止＋大跌演練卡＋計畫表 F 區「超過門檻」那一格（5/25 說明） | `src:#ten div.warning`＋`alt:ch4-drill`＋`src:#rebalance-525` |
 
 第 1、2 頁雙面印剛好是同一張紙的正反面（`pages` 哨兵在把關）。
 
 - 十二章與附錄 B 退場。**36 份短稿沒有刪**，搬到 `lite/alt/retired/`；完整版裡的 `data-lite` 標記也留著。要回復實作版：把 manifest 的章搬回來、短稿搬回 `lite/alt/`，**每一份都要先逐份對完整版原文重看再 `--stamp`**（退場期間它們不再被指紋檢查）。規則寫在 `lite-format.md` 第 11 節。
-- `lite/facts.txt` 新增 `full-only:` 前綴：16 條兩份逐字比對，11 條隨十二章退場、只查完整版。`lite/case-checks.json` 只留查表頁那一條，其餘在 `lite/case-checks.retired-v60.json`。
+- `lite/facts.txt` 新增 `full-only:` 前綴：17 條兩份逐字比對，10 條隨十二章退場、只查完整版。`lite/case-checks.json` 只留查表頁那一條，其餘在 `lite/case-checks.retired-v60.json`。
 - **工作表模式**（`worksheet_mode()`：manifest 沒有任何 `label`、也沒有 `toc`）：`toc`／`appendix_b`／`chapter_refs`／`unused_marks`／`fiction` 五支印 SKIP＋理由，十二章一回來自動復活；新增 `worksheet` 哨兵接手把關（四塊各一頁、PDF 剛好 4 頁、每塊要有 `src`／`alt` 來源、全文不得出現「第 N 章」與「附錄 X」）。
 - 已知：第 4 頁下半頁是空白（塞得下第三張卡，規格只列兩張）；`lite/manifest.partA.json`／`partB.json` 現在跑不起來（引用的短稿已退場），它們只是第二階段的測試檔。
 - 踩過的雷：`build_lite.py --manifest <沒寫 fragment paths 的 manifest>` 會覆蓋正式的 `output/guide.html`、`output/lite.html`。用實驗用 manifest 前先確認 `paths`，用完重跑一次正式 build。
@@ -167,13 +167,12 @@ python3 tools/test_guidetools.py tools guide/index.html
 
 v61 拍板清單（D、L、S、G）已全部處理完，下面是 v6.2 驗收留下的小事與沒做的選項：
 
-- **手機**：第 11 節「24 格怎麼填」欄位表在 400px 仍是四欄、說明欄很窄（空白版與工作表已改單欄）；空白版在手機是用 CSS order 排成 A→H，DOM 順序仍是 A、B、E、C、D…（螢幕閱讀器照 DOM 念）。
-- **第 14 節篩選按鈕只有三種感受＋全部**，正文說「六種心魔」；是刻意只做三顆，作者要不要補另外三顆沒問過。
-- **工作表**只寫「超過門檻＿＿（例：75–85%）」，沒有解釋 5/25；要解釋得動工作表版面（第 1 頁很滿）。
+- **手機**：空白版在手機是用 CSS order 排成 A→H，DOM 順序仍是 A、B、E、C、D…（螢幕閱讀器照 DOM 念；改 DOM 會動工作表列印版面，暫不改）。（欄位表手機四欄、第 14 節只有三顆篩選、工作表沒解釋 5/25，2026-09-17 已修。）
 - **沒做的選項**（作者沒點頭或選了暫緩）：〔要動筆〕記號；第 13 節挑產品三張卡搬到 ETF 與債券檢查表（施工文件選做批 P）；第 14 節拿掉節號放到後面（選做批 N）。
 - **G8 要重做**得先有月資料的股票含息＋國庫券序列。
 - 專篇 `essay/sections/*.html` 與小朋友版沒跟這幾輪改，專篇仍嵌第三方原圖 base64。
 - 早先未決：藍字密度（第 8 節、費用節）等作者看過。
+- **v6.2 全書審閱**（2026-09-17，七個視角）：`wip/v62-review/review-v62.md`（給作者）與 `review-v62-items.json`（141 項：必修 6、建議改 77、加強 33、拍板題 12）。**注意 M06 判斷有誤**：「懶惰和不學習的代價，是每年被費用扣血」是作者 2026-09-15 拍板的語氣（舊交班文件第 354 行），不是改寫時自己加的；可以討論的只有它放在「原則」卡裡會被讀成研究共識。
 - `wip/v61-2026-09-17/` 是這一輪的補丁、驗收紀錄與截圖（約 30 MB，截圖與副本已 gitignore），確認不需要後可以刪。
 
 ## 這一輪結束時的狀態

@@ -382,7 +382,7 @@ JSON 陣列，每一條：
 | `chapter_refs` | SKIP，並印出掃到幾處章號 | 工作表**一處章號都不該有**，這件事由 `worksheet` 用更嚴的規則（出現就 FAIL）接手 |
 | `unused_marks` | 完整版 `data-lite` 值沒被用到時 SKIP，並列出留著的值；`data-lite-alt` 是否有短稿檔照查（`lite/alt` 或 `lite/alt/retired`） | 標記留著是為了將來回復實作版；短稿檔存在與否仍然會 FAIL |
 | `fiction` | 工作表沒有人物標題時 SKIP；有人物標題照樣要有虛構聲明 | 四個人整批退場，沒有東西要聲明；一旦有人物回來，檢查自動恢復 |
-| `facts` | `full-only:` 的行只查完整版 | 其餘 16 條仍然兩份逐字比對；`full-only` 的行在完整版照樣逐字比對 |
+| `facts` | `full-only:` 的行只查完整版 | 其餘 17 條仍然兩份逐字比對；`full-only` 的行在完整版照樣逐字比對 |
 | `cases` | 只留查表頁那一條（其餘 39 條搬到 `lite/case-checks.retired-v60.json`） | 人物、滾動視窗的內容已經不在輸出裡，留著只會是對不到的假檢查；容許差沒有放寬 |
 | `worksheet`（新增） | 四塊各一頁、PDF 剛好四頁、每塊都有來源、沒有章號與附錄 | 這是工作表的正規則 |
 
@@ -390,5 +390,5 @@ JSON 陣列，每一條：
 
 - 短稿 36 份：`lite/alt/` → `lite/alt/retired/`。退場後不再檢查指紋，所以**回復時必須先對原文重看一次再 `--stamp`**，不可以直接搬回去。
 - 案例數字檢查 39 條：`lite/case-checks.json` → `lite/case-checks.retired-v60.json`。
-- 共同事實 11 條：改成 `full-only:`（行還在 `lite/facts.txt`，只是不再查工作表）。
+- 共同事實 10 條：改成 `full-only:`（行還在 `lite/facts.txt`，只是不再查工作表）。
 - 完整版的 `data-lite="ch1"`…`data-lite-alt="ch4-why"` 這些標記**留在 `guide/index.html` 沒有拿掉**（它們不影響指紋，也不影響閱讀）。

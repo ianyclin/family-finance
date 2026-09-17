@@ -1,0 +1,17 @@
+<html><body><iframe id="f" src="full.html" style="border:0;width:400px;height:900px"></iframe><pre id="o"></pre>
+<script>
+document.getElementById('f').addEventListener('load',()=>{setTimeout(()=>{
+ const d=document.getElementById('f').contentDocument;const w=d.defaultView;
+ const r=[];d.querySelectorAll('section.part').forEach(s=>{const h2=s.querySelector('h2');r.push([s.id,Math.round(s.getBoundingClientRect().height),Math.round(s.getBoundingClientRect().height/w.innerHeight*10)/10,(h2?h2.textContent:'').slice(0,20)])});
+ const cov=d.querySelector('header.cover'), toc=d.getElementById('toc');
+ r.unshift(['cover',Math.round(cov.getBoundingClientRect().height)],['toc',Math.round(toc.getBoundingClientRect().height)],['docW',d.documentElement.scrollWidth,w.innerWidth]);
+ // font sizes
+ const fs=s=>{const e=d.querySelector(s);return e?w.getComputedStyle(e).fontSize:null};
+ r.push(['fs body p',fs('section.part p'),'small',fs('p.small'),'source-note',fs('.source-note'),'td',fs('table.compact td'),'lede',fs('p.lede')]);
+ // overflowing elements
+ const over=[];d.querySelectorAll('section.part *').forEach(e=>{const b=e.getBoundingClientRect();if(b.right>w.innerWidth+1&&!e.closest('.table-wrap')&&!e.closest('figure')&&b.width>0)over.push(e.tagName+'.'+e.className+':'+Math.round(b.right))});
+ r.push(['overflow',over.slice(0,15)]);
+ // longest stretch of vertical px w/o figure/table/img in viewport terms
+ document.getElementById('o').textContent=JSON.stringify(r);
+},2500)});
+</script></body></html>

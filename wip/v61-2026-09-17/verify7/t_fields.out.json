@@ -1,0 +1,647 @@
+{
+ "after-360": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "none",
+  "tdDisplay": "block",
+  "beforeLabels": [
+   "\"區\"",
+   "\"格\"",
+   "\"怎麼填\"",
+   "\"擋住哪個錯\""
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "none"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   288,
+   288
+  ],
+  "wrapBefore": "none",
+  "docScroll": [
+   360,
+   360
+  ],
+  "tableH": 4953,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\""
+  ]
+ },
+ "after-400": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "none",
+  "tdDisplay": "block",
+  "beforeLabels": [
+   "\"區\"",
+   "\"格\"",
+   "\"怎麼填\"",
+   "\"擋住哪個錯\""
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "none"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   328,
+   328
+  ],
+  "wrapBefore": "none",
+  "docScroll": [
+   400,
+   400
+  ],
+  "tableH": 4541,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\""
+  ]
+ },
+ "after-660": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "none",
+  "tdDisplay": "block",
+  "beforeLabels": [
+   "\"區\"",
+   "\"格\"",
+   "\"怎麼填\"",
+   "\"擋住哪個錯\""
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "none"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   588,
+   588
+  ],
+  "wrapBefore": "none",
+  "docScroll": [
+   660,
+   660
+  ],
+  "tableH": 3666,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\""
+  ]
+ },
+ "after-661": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   559,
+   559
+  ],
+  "wrapBefore": "none",
+  "docScroll": [
+   661,
+   661
+  ],
+  "tableH": 3893,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "none",
+   "none",
+   "none"
+  ]
+ },
+ "after-900": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   766,
+   766
+  ],
+  "wrapBefore": "none",
+  "docScroll": [
+   900,
+   900
+  ],
+  "tableH": 2787,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "none",
+   "none",
+   "none"
+  ]
+ },
+ "after-print794": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   681,
+   681
+  ],
+  "wrapBefore": "none",
+  "docScroll": [
+   794,
+   794
+  ],
+  "tableH": 2993,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "none",
+   "none",
+   "none"
+  ]
+ },
+ "after-print400": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   330,
+   330
+  ],
+  "wrapBefore": "\"← 表格可左右滑動 →\"",
+  "docScroll": [
+   400,
+   400
+  ],
+  "tableH": 6036,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\""
+  ]
+ },
+ "before-360": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   288,
+   288
+  ],
+  "wrapBefore": "\"← 表格可左右滑動 →\"",
+  "docScroll": [
+   360,
+   360
+  ],
+  "tableH": 7970,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\""
+  ]
+ },
+ "before-400": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   328,
+   328
+  ],
+  "wrapBefore": "\"← 表格可左右滑動 →\"",
+  "docScroll": [
+   400,
+   400
+  ],
+  "tableH": 6062,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\""
+  ]
+ },
+ "before-660": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   588,
+   588
+  ],
+  "wrapBefore": "\"← 表格可左右滑動 →\"",
+  "docScroll": [
+   660,
+   660
+  ],
+  "tableH": 3049,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\""
+  ]
+ },
+ "before-661": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   559,
+   559
+  ],
+  "wrapBefore": "none",
+  "docScroll": [
+   661,
+   661
+  ],
+  "tableH": 3893,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "none",
+   "none",
+   "none"
+  ]
+ },
+ "before-900": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   766,
+   766
+  ],
+  "wrapBefore": "none",
+  "docScroll": [
+   900,
+   900
+  ],
+  "tableH": 2787,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "none",
+   "none",
+   "none"
+  ]
+ },
+ "before-print794": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   681,
+   681
+  ],
+  "wrapBefore": "none",
+  "docScroll": [
+   794,
+   794
+  ],
+  "tableH": 2993,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "none",
+   "none",
+   "none"
+  ]
+ },
+ "before-print400": {
+  "matches": 1,
+  "allTables_in_s11": 10,
+  "rows": 24,
+  "tdcounts": [
+   4
+  ],
+  "spans": 0,
+  "ths": [
+   "區",
+   "格",
+   "怎麼填",
+   "擋住哪個錯"
+  ],
+  "theadDisplay": "table-header-group",
+  "tdDisplay": "table-cell",
+  "beforeLabels": [
+   "none",
+   "none",
+   "none",
+   "none"
+  ],
+  "emptyCells": 16,
+  "emptyDisplay": [
+   "table-cell"
+  ],
+  "emptyNotMatched": 0,
+  "nonfirstEmpty": 0,
+  "overflowCells": 0,
+  "wrapScroll": [
+   330,
+   330
+  ],
+  "wrapBefore": "\"← 表格可左右滑動 →\"",
+  "docScroll": [
+   400,
+   400
+  ],
+  "tableH": 6036,
+  "firstTdFont": "14.4px",
+  "otherWrapBefore": [
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\"",
+   "\"← 表格可左右滑動 →\""
+  ]
+ },
+ "shots": 4
+}

@@ -1,0 +1,499 @@
+{
+ "buttons": [
+  [
+   "怕晚",
+   "false",
+   133367,
+   93
+  ],
+  [
+   "怕錯過",
+   "false",
+   133367,
+   172
+  ],
+  [
+   "怕賠",
+   "false",
+   133367,
+   237
+  ],
+  [
+   "怕輸人",
+   "false",
+   133367,
+   317
+  ],
+  [
+   "無聊",
+   "false",
+   133404,
+   93
+  ],
+  [
+   "想控制",
+   "false",
+   133404,
+   172
+  ],
+  [
+   "全部",
+   "true",
+   133404,
+   237
+  ]
+ ],
+ "bar_count": 1,
+ "docW": [
+  400,
+  400
+ ],
+ "group_headings": [
+  [
+   "怕晚",
+   "怕晚（4 題）",
+   "",
+   4
+  ],
+  [
+   "怕錯過",
+   "怕錯過（1 題）",
+   "s13-miss",
+   1
+  ],
+  [
+   "怕賠",
+   "怕賠（14 題）",
+   "s13-loss",
+   14
+  ],
+  [
+   "怕輸人",
+   "怕輸人（4 題）",
+   "s13-envy",
+   4
+  ],
+  [
+   "無聊",
+   "無聊（1 題）",
+   "s13-bored",
+   1
+  ],
+  [
+   "想控制",
+   "想控制（7 題）",
+   "s13-control",
+   7
+  ]
+ ],
+ "initial": {
+  "怕晚": [
+   true,
+   true,
+   4
+  ],
+  "怕錯過": [
+   true,
+   true,
+   1
+  ],
+  "怕賠": [
+   true,
+   true,
+   14
+  ],
+  "怕輸人": [
+   true,
+   true,
+   4
+  ],
+  "無聊": [
+   true,
+   true,
+   1
+  ],
+  "想控制": [
+   true,
+   true,
+   7
+  ],
+  "pressed": [
+   "全部"
+  ],
+  "hiddenCount": 0
+ },
+ "per_button": {
+  "怕晚": {
+   "ok": true,
+   "state": {
+    "怕晚": [
+     true,
+     true,
+     4
+    ],
+    "怕錯過": [
+     false,
+     false,
+     1
+    ],
+    "怕賠": [
+     false,
+     false,
+     14
+    ],
+    "怕輸人": [
+     false,
+     false,
+     4
+    ],
+    "無聊": [
+     false,
+     false,
+     1
+    ],
+    "想控制": [
+     false,
+     false,
+     7
+    ],
+    "pressed": [
+     "怕晚"
+    ],
+    "hiddenCount": 10
+   }
+  },
+  "怕錯過": {
+   "ok": true,
+   "state": {
+    "怕晚": [
+     false,
+     false,
+     4
+    ],
+    "怕錯過": [
+     true,
+     true,
+     1
+    ],
+    "怕賠": [
+     false,
+     false,
+     14
+    ],
+    "怕輸人": [
+     false,
+     false,
+     4
+    ],
+    "無聊": [
+     false,
+     false,
+     1
+    ],
+    "想控制": [
+     false,
+     false,
+     7
+    ],
+    "pressed": [
+     "怕錯過"
+    ],
+    "hiddenCount": 10
+   }
+  },
+  "怕賠": {
+   "ok": true,
+   "state": {
+    "怕晚": [
+     false,
+     false,
+     4
+    ],
+    "怕錯過": [
+     false,
+     false,
+     1
+    ],
+    "怕賠": [
+     true,
+     true,
+     14
+    ],
+    "怕輸人": [
+     false,
+     false,
+     4
+    ],
+    "無聊": [
+     false,
+     false,
+     1
+    ],
+    "想控制": [
+     false,
+     false,
+     7
+    ],
+    "pressed": [
+     "怕賠"
+    ],
+    "hiddenCount": 10
+   }
+  },
+  "怕輸人": {
+   "ok": true,
+   "state": {
+    "怕晚": [
+     false,
+     false,
+     4
+    ],
+    "怕錯過": [
+     false,
+     false,
+     1
+    ],
+    "怕賠": [
+     false,
+     false,
+     14
+    ],
+    "怕輸人": [
+     true,
+     true,
+     4
+    ],
+    "無聊": [
+     false,
+     false,
+     1
+    ],
+    "想控制": [
+     false,
+     false,
+     7
+    ],
+    "pressed": [
+     "怕輸人"
+    ],
+    "hiddenCount": 10
+   }
+  },
+  "無聊": {
+   "ok": true,
+   "state": {
+    "怕晚": [
+     false,
+     false,
+     4
+    ],
+    "怕錯過": [
+     false,
+     false,
+     1
+    ],
+    "怕賠": [
+     false,
+     false,
+     14
+    ],
+    "怕輸人": [
+     false,
+     false,
+     4
+    ],
+    "無聊": [
+     true,
+     true,
+     1
+    ],
+    "想控制": [
+     false,
+     false,
+     7
+    ],
+    "pressed": [
+     "無聊"
+    ],
+    "hiddenCount": 10
+   }
+  },
+  "想控制": {
+   "ok": true,
+   "state": {
+    "怕晚": [
+     false,
+     false,
+     4
+    ],
+    "怕錯過": [
+     false,
+     false,
+     1
+    ],
+    "怕賠": [
+     false,
+     false,
+     14
+    ],
+    "怕輸人": [
+     false,
+     false,
+     4
+    ],
+    "無聊": [
+     false,
+     false,
+     1
+    ],
+    "想控制": [
+     true,
+     true,
+     7
+    ],
+    "pressed": [
+     "想控制"
+    ],
+    "hiddenCount": 10
+   }
+  },
+  "全部": {
+   "ok": true,
+   "state": {
+    "怕晚": [
+     true,
+     true,
+     4
+    ],
+    "怕錯過": [
+     true,
+     true,
+     1
+    ],
+    "怕賠": [
+     true,
+     true,
+     14
+    ],
+    "怕輸人": [
+     true,
+     true,
+     4
+    ],
+    "無聊": [
+     true,
+     true,
+     1
+    ],
+    "想控制": [
+     true,
+     true,
+     7
+    ],
+    "pressed": [
+     "全部"
+    ],
+    "hiddenCount": 0
+   }
+  }
+ },
+ "links_into_groups": [
+  [
+   409,
+   "s13-loss",
+   "怕賠",
+   "group-situations",
+   "14"
+  ],
+  [
+   410,
+   "s13-drop20",
+   "怕賠",
+   "group-situations",
+   "市場下跌 20%"
+  ],
+  [
+   411,
+   "s13-crash",
+   "怕賠",
+   "group-situations",
+   "新聞預測市場崩盤"
+  ],
+  [
+   415,
+   "s13-bored",
+   "無聊",
+   "group-situations",
+   "14"
+  ],
+  [
+   417,
+   "s13-miss",
+   "怕錯過",
+   "group-situations",
+   "14"
+  ],
+  [
+   420,
+   "s13-loss",
+   "怕賠",
+   "group-situations",
+   "14"
+  ],
+  [
+   422,
+   "s13-loss",
+   "怕賠",
+   "group-situations",
+   "14"
+  ],
+  [
+   425,
+   "s13-control",
+   "想控制",
+   "group-situations",
+   "14"
+  ],
+  [
+   426,
+   "s13-envy",
+   "怕輸人",
+   "group-situations",
+   "14"
+  ],
+  [
+   612,
+   "s13-switch",
+   "想控制",
+   "annual",
+   "14"
+  ]
+ ],
+ "link_checks": 50,
+ "link_fails": [],
+ "hash_fails": [],
+ "real_click": [
+  [
+   228.9921875,
+   -7482.109375,
+   "group-situations",
+   "市場下跌 20%"
+  ],
+  [
+   false,
+   [
+    "怕輸人"
+   ],
+   "#s13-switch",
+   0
+  ]
+ ],
+ "load_with_hash": [
+  true,
+  [
+   "怕輸人"
+  ],
+  2508
+ ],
+ "console_errors": null
+}

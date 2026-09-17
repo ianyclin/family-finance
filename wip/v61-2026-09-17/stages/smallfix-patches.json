@@ -1,0 +1,7 @@
+[
+{"section":"s11","old":"（網頁版先點開「一頁空白版」再列印；要大一點","new":"（網頁版直接列印時，「一頁空白版」會自動展開、自成一頁；要大一點","why":"v6.2 起 beforeprint 自動展開 data-print 摺疊"},
+{"section":"firstmonth","old":"的「我的投資計畫」（網頁版先點開「一頁空白版」再列印），A 到 E","new":"的「我的投資計畫」（網頁版直接列印時，「一頁空白版」會自動展開、自成一頁），A 到 E","why":"同一句過時說法"},
+{"section":"group-life","old":"可以對照第 <a class=\"xref\" href=\"#case-chen\">12</a> 節的陳大哥（五年後退休，附填好的全表）。替爸媽想的人，「<a class=\"xref\" href=\"#case-chen\">陳大哥：五年後退休</a>」的例子和「<a class=\"xref\" href=\"#family-sheet\">家庭一頁表</a>」都可以拿來和爸媽一起看。","new":"可以對照第 <a class=\"xref\" href=\"#case-chen\">12</a> 節的陳大哥（五年後退休，附填好的全表）；替爸媽想的人，這個例子和「<a class=\"xref\" href=\"#family-sheet\">家庭一頁表</a>」都可以拿來和爸媽一起看。","why":"相鄰兩句重複連到 #case-chen"},
+{"section":"s13","old":"用錢前的準備與家庭交接</a>」的〈家庭一頁表〉。</span>","new":"用錢前的準備與家庭交接</a>」的〈<a class=\"xref\" href=\"#family-sheet\">家庭一頁表</a>〉。</span>","why":"第 31 題純文字改連結"},
+{"section":"s13","old":"  var buttons = ['怕晚', '怕賠', '想控制'];\n","new":"  var buttons = names;\n","why":"篩選按鈕補齊六種心魔"}
+]
