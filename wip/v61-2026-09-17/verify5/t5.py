@@ -1,0 +1,8 @@
+exec(open('walk.py').read())
+go(); click_link("自己或爸媽快退休"); print(where()); shot(ws,'walk-5a-grouplife.png'); print(text_view(1500))
+print("lifecycle screens", screens('#lifecycle','#withdraw'), "withdraw screens", screens('#withdraw','#group-ref'))
+click_link("用錢前的準備與家庭交接","document.querySelector('#group-life')"); print(where()); shot(ws,'walk-5b-withdraw.png'); print(text_view(1500))
+scroll(750); shot(ws,'walk-5c-withdraw2.png'); print(text_view(1200))
+go("#group-life"); click_link("第三題","document.querySelector('#group-life')"); print(where()); shot(ws,'walk-5d-lifecycle-q3.png'); print(text_view(1500))
+go("#group-life"); click_link("陳大哥","document.querySelector('#group-life')"); print(where()); shot(ws,'walk-5e-chen.png'); print(text_view(900))
+p.kill()

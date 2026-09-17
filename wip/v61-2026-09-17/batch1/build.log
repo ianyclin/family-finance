@@ -1,0 +1,55 @@
+wrote lite/index.html (37430 bytes)
+wrote output/full-v60-out.html (1017253 bytes)
+wrote output/guide.html
+wrote output/lite.html
+wrote export/隔離人性-可列印工作表-v6.1.pdf (4 頁，印 2 次)
+wrote export/隔離人性-理財新手完整指南-v6.1.pdf (145 頁，印 6 次)
+  完整版節尾近乎空白、下一節接著排：annual、costs、firstmonth、methods、products、s1、s4、s5、s6、s8、sidepaths、steps、toolbox
+wrote lite/work/full-v60.txt
+wrote lite/work/lite-v60.txt
+== 哨兵：lite/manifest.json（工作表模式） ==
+OK   [alt] 短稿 app-a-checklist：1 個原文區塊指紋相符，數字都在原文裡
+OK   [alt] 短稿 ch4-drill：1 個原文區塊指紋相符，數字都在原文裡
+OK   [alt] 短稿 lookup-tables：1 個原文區塊指紋相符，數字都在原文裡
+OK   [alt] 短稿 plan-blank：1 個原文區塊指紋相符，數字都在原文裡
+OK   [glue] 接合文字、章名、這章做完你會有什麼、動作框都沒有阿拉伯數字
+OK   [facts] 16 條共同事實兩份都找得到；另外 11 條標了 full-only，只查完整版（工作表沒有這些內容）
+OK   [cases] 1 條案例數字和 calc-results.json 相差都在容許範圍內
+OK   [tickers] 實作版：14 個代號只出現在 div.story
+OK   [tickers] 完整版：14 個代號只出現在 div.story、div.source-card、#toolbox li:contains(《)
+OK   [labels] 實作版：「本指南的做法」0 個都在七件事上；「原則」0 個，每章不超過 1 個
+OK   [labels] 完整版：「本指南的做法」7 個都在七件事上；「原則」3 個，每章不超過 1 個
+     實作版每章頁數（PDF 共 4 頁）：
+     id         起頁     範圍        頁數    目標     字數/上限       章名
+     plan       1      1–1       1     -      676/-       隔離人性｜可列印工作表
+OK   [pages] plan「隔離人性｜可列印工作表」剛好一頁（第 1 頁）
+     lookup     2      2–2       1     -      1639/-      計畫表背面：查表頁
+OK   [pages] lookup「計畫表背面：查表頁」剛好一頁（第 2 頁）
+     app-a      3      3–3       1     -      355/-       每年一次的檢查表
+OK   [pages] app-a「每年一次的檢查表」剛好一頁（第 3 頁）
+     cards      4      4–4       1     -      583/-       先停下來的四種情況、大跌時照這張卡做
+OK   [pages] cards「先停下來的四種情況、大跌時照這張卡做」剛好一頁（第 4 頁）
+OK   [pages] 計畫表第 1 頁、查表頁第 2 頁：整本雙面印剛好是同一張紙的正反面
+OK   [pages] 實作版 PDF 4 頁（上限 5）
+SKIP [toc] 工作表模式：工作表沒有目錄（四頁各是一張表，翻頁就看得到），這一支只檢查完整版目錄
+OK   [toc] 完整版 PDF 145 頁、書籤 158 條；目錄 28 條印出的頁碼＝連結目標頁
+     完整版 PDF metadata：title='隔離人性｜理財新手完整指南 v6.1' author='指數三寶飯・家庭理財陪跑'
+OK   [blank_pages] 完整版 PDF 文字少於 250 字的頁 2 頁：第 52 頁（118 字）、第 71 頁（99 字）
+     完整版 PDF 最後一行文字在頁面上半（< 50%）的頁 4 頁：第 52 頁（31%）、第 71 頁（25%）、第 124 頁（41%）、第 145 頁（46%）
+     實作版 PDF metadata：title='隔離人性｜可列印工作表 v6.1' author='指數三寶飯・家庭理財陪跑'；書籤 5 條
+OK   [version] 兩份封面都是「v6.1／2026-09-16」
+OK   [ids] manifest 用到的節 id 在完整版都存在
+SKIP [unused_marks] 工作表模式：完整版還留著 9 種 data-lite 值（app-a、ch1、ch12、ch5、ch5b、ch6、ch7、ch8、ch9），工作表沒有章、不以值抽用；標記留著是為了將來回復實作版（短稿在 lite/alt/retired，36 份）
+SKIP [appendix_b] 工作表模式：沒有章、沒有附 B 想查證總表（工作表 0 張想查證框、0 張總表），只保留「接合文字不得手寫節名」那一條
+SKIP [chapter_refs] 工作表模式：沒有章可以指（掃到 0 處章號，工作表一處都不該有，由 worksheet 哨兵判）
+OK   [stories] 完整版 25 個黃框和 guide/index.html 逐字相同；實作版 0 個黃框都等於完整版原文（只有連結改寫）
+SKIP [fiction] 工作表模式：工作表裡沒有人物頁（小安、阿凱、小芸與阿哲、陳大哥），沒有虛構聲明要檢查；四個人仍在完整版第十二節與案例節裡
+OK   [worksheet] 工作表 4 塊各一頁、PDF 4 頁、沒有章號與附錄；每一塊的來源：plan＝alt:plan-blank　lookup＝alt:lookup-tables　app-a＝alt:app-a-checklist　cards＝src:#ten div.warning＋alt:ch4-drill
+OK   [s13_filter] 完整版 s13 篩選列印時隱藏，靜態 HTML 沒有預先隱藏的題目
+OK   [order] 目錄 28 條連結的順序＝正文 28 節（不含 6 個 group-* 分組節），每節剛好一次；data-group 組 6 個都對得上
+OK   [xref_num] 313 個數字錨文字的節號連結，數字都等於目標所在節的顯示節號
+OK   [part_maps] 6 個分組節地圖、24 行：順序＝目錄同組，節名、開場白、節號都和目標節逐字一致；分組節 lede＝目錄說明
+OK   [fragments] 發布用片段和兩份輸出一致：output/guide.html、output/lite.html
+OK   [check] 實作版：marks 0 later 0 details 0 data-chart 0 story 0 | CHECK OK
+OK   [check] 完整版發布版：marks 14 later 12 details 26 data-chart 17 story 25 | CHECK OK
+SENTINELS OK

@@ -156,10 +156,11 @@ def original_block(cid):
             % (esc(credit), claim, url))
 
 
-def figure(cid, title, sub, svgs, caption, extras=""):
+def figure(cid, title, sub, svgs, caption, extras="", caption_html=False):
+    """caption_html=True：caption 已經是 HTML（指南模式保留 figcaption 裡的節號連結），不再跳脫。"""
     return ('<figure class="chart" data-chart="%s">\n<div class="chart-head"><span class="chart-title">%s</span><span class="chart-sub">%s</span></div>\n'
             '<div class="chart-body">\n%s\n</div>\n%s<figcaption>%s</figcaption>\n%s</figure>'
-            % (cid, esc(title), esc(sub), "\n".join(svgs), extras, esc(caption), original_block(cid)))
+            % (cid, esc(title), esc(sub), "\n".join(svgs), extras, caption if caption_html else esc(caption), original_block(cid)))
 
 
 # ======================================================================
@@ -739,7 +740,7 @@ def taiex_recovery():
     return dict(title="跌下去要多久才回得來：台股 2003 年以來的七次",
                 sub="含息報酬指數，2003-01-02 到 2025-12-31，跌兩成以上的每一段",
                 svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
-                caption="七次跌兩成以上，各花多久才回到跌之前的那個高點。這七次都回來了，是台股這 23 年的紀錄；第 4 節那張表裡，也有等 25 到 34 年的例子。")
+                caption="七次跌兩成以上，各花多久才回到跌之前的那個高點。這七次都回來了，是台股這 23 年的紀錄；第 <a class=\"xref\" href=\"#s4\">4</a> 節那張表裡，也有等 25 到 34 年的例子。")
 
 
 # ======================================================================
@@ -837,9 +838,10 @@ def insert(s, cid, anchor, mode, fig):
     return s[:j] + "\n\n    " + fig + s[j:], None
 
 
-def build(cid, fn_chart, caption=None):
+def build(cid, fn_chart, caption=None, caption_html=False):
     d = fn_chart()
-    return figure(cid, d["title"], d["sub"], d["svgs"], caption if caption is not None else d["caption"], d["extras"])
+    return figure(cid, d["title"], d["sub"], d["svgs"], caption if caption is not None else d["caption"], d["extras"],
+                  caption_html=caption_html)
 
 
 def do_essay():
@@ -880,11 +882,12 @@ def do_guide():
     def repl(m):
         nonlocal n
         cid = m.group(1)
+        # 指南的 figcaption 原樣保留（含 <a class="xref"> 節號連結，migration-plan §10.3），不去標籤、不再跳脫；
+        # 指南是空殼沒有 figcaption 時，用腳本的預設圖說（預設圖說也當 HTML，裡面可以放節號連結）。
         cap = re.search(r"<figcaption>(.*?)</figcaption>", m.group(0), re.S)
-        cap = re.sub(r"<[^>]+>", "", cap.group(1)) if cap else None
-        cap = cap.replace("&amp;", "&") if cap else None
+        cap = cap.group(1) if cap else None
         n += 1
-        fig = build(cid, funcs[cid], cap)
+        fig = build(cid, funcs[cid], cap, caption_html=True)
         before, after = fig_note(m.group(0)), fig_note(fig)
         if before != after:
             diffs.append((cid, before, after))

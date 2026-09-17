@@ -176,6 +176,150 @@ def toc_printed_numbers(pdf_path, targets, max_page=None):
 
 # ---------------------------------------------------------------- 主程式
 
+def _section_num(dom, sec):
+    """節 h2 裡 span.num 的數字；沒有節號回 None。"""
+    h2 = next((c for c in sec.children if c.tag == 'h2'), None)
+    if h2 is None:
+        return None
+    sp = next((c for c in h2.children if c.tag == 'span' and 'num' in c.classes()), None)
+    return B.html_text(dom.inner(sp)).strip() if sp is not None else None
+
+
+def check_toc_order(dom):
+    """order：nav.toc 裡 <a href="#id"> 的順序＝正文 section.part 的順序（排除 group-*），每節剛好一次；
+    每個 details.toc-part[data-group=X]，X 必須是正文中緊接在該組第一節前面的那個 section。
+    回傳 (問題清單, 通過時的說明)。"""
+    bad = []
+    body = [n.attrs['id'] for n in dom.nodes if n.tag == 'section' and 'part' in n.classes() and n.attrs.get('id')]
+    content = [i for i in body if not i.startswith('group-')]
+    nav = next((n for n in dom.nodes if n.tag == 'nav' and n.attrs.get('id') == 'toc'), None)
+    if nav is None:
+        return ['原文找不到 nav#toc'], ''
+    toc = re.findall(r'<a href="#([\w-]+)">', dom.outer(nav))
+    dups = sorted(set(i for i in toc if toc.count(i) > 1))
+    if dups:
+        bad.append('目錄同一節出現不只一次：%s' % '、'.join(dups))
+    missing = [i for i in content if i not in toc]
+    extra = [i for i in toc if i not in content]
+    if missing:
+        bad.append('正文有、目錄沒有：%s' % '、'.join(missing))
+    if extra:
+        bad.append('目錄有、正文沒有（或指到 group-* 分組節）：%s' % '、'.join(sorted(set(extra))))
+    if not dups and not missing and not extra and toc != content:
+        k = next(j for j, (a, b) in enumerate(zip(toc, content)) if a != b)
+        bad.append('目錄順序和正文不同：第 %d 條起目錄是 %s，正文是 %s' % (
+            k + 1, '→'.join(toc[k:k + 3]), '→'.join(content[k:k + 3])))
+    groups = [n for n in dom.nodes if n.tag == 'details' and 'toc-part' in n.classes()
+              and any(a is nav for a in n.ancestors()) and n.attrs.get('data-group')]
+    for g in groups:
+        x = g.attrs['data-group']
+        first = re.search(r'<a href="#([\w-]+)">', dom.outer(g))
+        if not first:
+            bad.append('目錄組 data-group=%s 裡沒有任何節連結' % x); continue
+        f = first.group(1)
+        if f not in body:
+            continue  # 上面已經報過
+        k = body.index(f)
+        prev = body[k - 1] if k > 0 else None
+        if prev != x:
+            bad.append('目錄組 data-group=%s：正文裡緊接在該組第一節 %s 前面的是 %s，不是 %s' % (x, f, prev, x))
+    return bad, '目錄 %d 條連結的順序＝正文 %d 節（不含 %d 個 group-* 分組節），每節剛好一次；data-group 組 %d 個都對得上' % (
+        len(toc), len(content), len(body) - len(content), len(groups))
+
+
+def check_xref_numbers(dom):
+    """xref_num：每個 <a class="xref" href="#X">純數字</a>，數字＝X 所在節（卡片錨點算所屬節）h2 的 span.num。"""
+    bad = []; n_ok = 0
+    for n in dom.nodes:
+        if n.tag != 'a' or 'xref' not in n.classes():
+            continue
+        txt = B.html_text(dom.inner(n)).strip()
+        if not re.fullmatch(r'\d+', txt):
+            continue
+        href = n.attrs.get('href') or ''
+        tid = href[1:] if href.startswith('#') else None
+        tgt = dom.by_id.get(tid) if tid else None
+        if tgt is None:
+            bad.append('錨文字 %s 的連結 %s 找不到目標' % (txt, href)); continue
+        sec = dom.section_of(tgt)
+        num = _section_num(dom, sec) if sec is not None else None
+        where = dom.section_of(n)
+        loc = where.attrs['id'] if where is not None else '封面／節外'
+        if num is None:
+            bad.append('%s 裡「第 %s 節」連到 %s（所在節 %s 沒有節號）' % (loc, txt, href, sec.attrs['id'] if sec is not None else '無'))
+        elif num != txt:
+            bad.append('%s 裡「第 %s 節」連到 %s，那一節（%s）顯示的是第 %s 節' % (loc, txt, href, sec.attrs['id'], num))
+        else:
+            n_ok += 1
+    return bad, '%d 個數字錨文字的節號連結，數字都等於目標所在節的顯示節號' % n_ok
+
+
+def check_part_maps(dom):
+    """part_maps：group-* 分組節的 ol.part-map 清單要和目錄、目標節逐字一致。第 1 批加入分組節地圖後才啟用；
+    原文還沒有任何 ol.part-map 時回傳 (None, 理由)。"""
+    maps = [n for n in dom.nodes if n.tag == 'ol' and 'part-map' in n.classes()]
+    if not maps:
+        return None, '原文還沒有 ol.part-map（施工文件第 1 批才加入分組節地圖），這一支先不查'
+    bad = []; n_li = 0
+    txt = lambda n: B.html_text(dom.inner(n)).strip()
+    kids = lambda n, tag, cls=None: [c for c in n.children if c.tag == tag and (cls is None or cls in c.classes())]
+    nav = next((n for n in dom.nodes if n.tag == 'nav' and n.attrs.get('id') == 'toc'), None)
+    toc_groups = {}
+    if nav is not None:
+        for g in dom.nodes:
+            if g.tag == 'details' and 'toc-part' in g.classes() and g.attrs.get('data-group') \
+                    and any(a is nav for a in g.ancestors()):
+                m = re.search(r'<span class="toc-part-desc">(.*?)</span>', dom.outer(g), re.S)
+                desc_t = B.html_text(m.group(1)).strip() if m else None
+                toc_groups[g.attrs['data-group']] = (re.findall(r'<a href="#([\w-]+)">', dom.outer(g)), desc_t)
+    groups = [n for n in dom.nodes if n.tag == 'section' and 'part' in n.classes()
+              and (n.attrs.get('id') or '').startswith('group-')]
+    for sec in groups:
+        gid = sec.attrs['id']
+        pms = [m for m in maps if dom.section_of(m) is sec]
+        if len(pms) != 1:
+            bad.append('%s 裡應該剛好有 1 個 ol.part-map，實際 %d 個' % (gid, len(pms))); continue
+        if gid not in toc_groups:
+            bad.append('%s 在目錄裡找不到 details.toc-part[data-group=%s]' % (gid, gid)); continue
+        toc_ids, toc_desc = toc_groups[gid]
+        lede = next(iter(kids(sec, 'p', 'lede')), None)
+        if lede is None or txt(lede) != toc_desc:
+            bad.append('%s 的 p.lede（%s）≠ 目錄同組 toc-part-desc（%s）' % (gid, txt(lede) if lede is not None else '無', toc_desc))
+        lis = kids(pms[0], 'li')
+        hrefs = []
+        for li in lis:
+            n_li += 1
+            a = next(iter(kids(li, 'a')), None)
+            if a is None:
+                bad.append('%s 地圖有一行沒有連結' % gid); continue
+            tid = (a.attrs.get('href') or '')[1:]
+            hrefs.append(tid)
+            tgt = dom.by_id.get(tid)
+            if tgt is None or tgt.tag != 'section':
+                bad.append('%s 地圖連到 #%s，那不是一個節' % (gid, tid)); continue
+            h2 = next(iter(kids(tgt, 'h2')), None)
+            name = B.html_text(re.sub(r'<span\b[^>]*class="num"[^>]*>.*?</span>', '', dom.inner(h2), flags=re.S)).strip() if h2 is not None else None
+            if txt(a) != name:
+                bad.append('%s 地圖 #%s 的連結文字「%s」≠ 節名「%s」' % (gid, tid, txt(a), name))
+            ml = kids(li, 'span', 'map-lede')
+            tl = next(iter(kids(tgt, 'p', 'lede')), None)
+            if len(ml) != 1 or tl is None or txt(ml[0]) != txt(tl):
+                bad.append('%s 地圖 #%s 的 map-lede「%s」≠ 那一節的 p.lede「%s」' % (
+                    gid, tid, txt(ml[0]) if len(ml) == 1 else '（%d 個）' % len(ml), txt(tl) if tl is not None else '無'))
+            mn = kids(li, 'span', 'map-num')
+            num = _section_num(dom, tgt)
+            if num is None and mn:
+                bad.append('%s 地圖 #%s 沒有節號，卻有 map-num %s' % (gid, tid, txt(mn[0])))
+            elif num is not None and (len(mn) != 1 or txt(mn[0]) != num):
+                bad.append('%s 地圖 #%s 的 map-num「%s」≠ 那一節的節號 %s' % (gid, tid, txt(mn[0]) if mn else '缺', num))
+        if hrefs != toc_ids:
+            bad.append('%s 地圖順序 %s ≠ 目錄同組 %s' % (gid, '→'.join(hrefs), '→'.join(toc_ids)))
+    stray = [m for m in maps if dom.section_of(m) is None or not dom.section_of(m).attrs['id'].startswith('group-')]
+    if stray:
+        bad.append('有 %d 個 ol.part-map 不在 group-* 分組節裡' % len(stray))
+    return bad, '%d 個分組節地圖、%d 行：順序＝目錄同組，節名、開場白、節號都和目標節逐字一致；分組節 lede＝目錄說明' % (len(groups), n_li)
+
+
 def run(m, pdf_info=None, build_report=None):
     P = m['_paths']
     skip = m.get('sentinel_skip') or []
@@ -662,6 +806,26 @@ def run(m, pdf_info=None, build_report=None):
         for x in s13bad: R.fail('s13_filter', '完整版發布版：' + x)
     else:
         R.ok('s13_filter', '完整版 s13 篩選列印時隱藏，靜態 HTML 沒有預先隱藏的題目')
+
+    # 15b. 結構重排保險（migration-plan §10.2）：原文目錄順序＝正文順序；「第 N 節」錨文字＝該節顯示節號。
+    #      完整版專用，只讀 guide/index.html，工作表模式照樣跑。
+    obad, oinfo = check_toc_order(sdom)
+    if obad:
+        for x in obad: R.fail('order', x)
+    else:
+        R.ok('order', oinfo)
+    xbad, xinfo = check_xref_numbers(sdom)
+    if xbad:
+        for x in xbad: R.fail('xref_num', x)
+    else:
+        R.ok('xref_num', xinfo)
+    pm, pmsg = check_part_maps(sdom)
+    if pm is None:
+        R.skip('part_maps', pmsg)
+    elif pm:
+        for x in pm: R.fail('part_maps', x)
+    else:
+        R.ok('part_maps', pmsg)
 
     # 16. 單獨跑時：先在記憶體重建一次，和檔案比，抓「原文改了、HTML 還沒重建」
     if build_report is None:

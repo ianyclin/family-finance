@@ -557,8 +557,14 @@ FULL_PRINT_CSS = ('\n.toc-pg{margin-left:.5em;color:var(--muted);font-variant-nu
                   # D10＋S6：沒展開的摺疊區，紙本只印 summary，後面補一句提示（年檢那一格的 summary 已寫「網頁版可以展開」，只補「紙本未印」）
                   '@media print{details:not([open])>summary::after{content:"（紙本未印，網頁版可展開）";font-weight:400;color:#666}'
                   '#annual details:not([open])>summary::after{content:"（紙本未印）"}}\n'
-                  # S6：兩個分組標題不在目錄裡、tail_flows 管不到；它們很短，接在上一節的節尾頁排，免得前一頁只剩兩三成
-                  '@media print{section.part#group-core,section.part#group-howto{break-before:auto!important;page-break-before:auto!important}}\n')
+                  # S6＋重排 §10.1：所有 group-* 分組節不在目錄裡、tail_flows 管不到；它們很短，接在上一節的節尾頁排，免得前一頁只剩兩三成。
+                  # 所有 group-* 分組節印成色帶（淺底、上下細線）；短的整塊不斷頁，part-map 超過 5 行（例如 group-core 10 行）允許斷頁，但每一行不切開。
+                  '@media print{section.part[id^="group-"]{break-before:auto!important;page-break-before:auto!important;'
+                  'background:#f3f0e8;border-top:1px solid #999;border-bottom:1px solid #999;padding:.5em .8em;margin-top:1em;'
+                  '-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+                  'section.part[id^="group-"]:not(:has(.part-map li:nth-child(6))){break-inside:avoid}'
+                  'section.part[id^="group-"]>h2{break-after:avoid}'
+                  'section.part[id^="group-"] .part-map li{break-inside:avoid}}\n')
 
 
 def section_names(dom):

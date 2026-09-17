@@ -1,0 +1,26 @@
+[
+ {
+  "section": "css",
+  "old": ".toc details.toc-part>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:baseline;gap:.1em .6em;padding:.55em 0}",
+  "new": ".toc details.toc-part>summary{list-style:none;cursor:pointer;display:block;position:relative;padding:.55em 0 .55em 1.6em}",
+  "why": "目錄組名在 400px 換行時 ▸ 獨佔一行：summary 改 block＋絕對定位記號"
+ },
+ {
+  "section": "css",
+  "old": ".toc details.toc-part>summary::before{content:\"▸\";color:var(--muted);width:1em}",
+  "new": ".toc details.toc-part>summary::before{content:\"▸\";color:var(--muted);position:absolute;left:0}",
+  "why": "目錄組名在 400px 換行時 ▸ 獨佔一行：summary 改 block＋絕對定位記號"
+ },
+ {
+  "section": "css",
+  "old": ".toc .toc-part-range{font-size:.8em;color:var(--muted)}",
+  "new": ".toc .toc-part-range{font-size:.8em;color:var(--muted);margin-left:.6em;white-space:nowrap}",
+  "why": "目錄組名在 400px 換行時 ▸ 獨佔一行：summary 改 block＋絕對定位記號"
+ },
+ {
+  "section": "css",
+  "old": ".toc .toc-part-desc{flex-basis:100%;font-size:.84em;color:var(--muted);padding-left:1.6em}",
+  "new": ".toc .toc-part-desc{display:block;margin-top:.1em;font-size:.84em;color:var(--muted)}",
+  "why": "目錄組名在 400px 換行時 ▸ 獨佔一行：summary 改 block＋絕對定位記號"
+ }
+]

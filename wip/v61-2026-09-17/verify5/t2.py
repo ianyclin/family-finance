@@ -1,0 +1,11 @@
+exec(open('walk.py').read())
+go(); click_link("寫下自己的比例和規則"); print(where()); shot(ws,'walk-2a-groupplan.png'); print(text_view(700))
+click_link("把答案寫成一張紙：我的投資計畫", "document.querySelector('#group-plan')"); print(where()); shot(ws,'walk-2b-s11.png')
+print("s11->plan-table screens", screens('#s11','#plan-table'))
+for k in ['展開 24 格怎麼填','展開一頁空白版','股債比例怎麼定','大跌演練','範例：小安']:
+    y=ev(ws,f"""(()=>{{const e=[...document.querySelectorAll('#s11 summary,#s11 h3')].find(x=>x.textContent.includes({json.dumps(k)}));return e?Math.round(e.getBoundingClientRect().top+scrollY):null}})()""")
+    print(k, round((y-ypos('#s11'))/800,1))
+print("s11 total screens", screens('#s11','#cases'))
+click_link("展開一頁空白版"); time.sleep(0.5); to_y=ev(ws,"""(()=>{const e=[...document.querySelectorAll('#s11 summary')].find(x=>x.textContent.includes('一頁空白版'));e.scrollIntoView({block:'start',behavior:'instant'});return 1})()"""); time.sleep(0.6); shot(ws,'walk-2c-blank.png'); print(text_view(900))
+scroll(750); shot(ws,'walk-2d-blank2.png'); print(text_view(900)); print(where())
+p.kill()

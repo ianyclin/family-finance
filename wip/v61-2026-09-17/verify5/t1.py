@@ -1,0 +1,5 @@
+exec(open('walk.py').read())
+go(); click_link("先確認能不能開始投資"); print(where()); shot(ws,'walk-1a-start.png'); print(text_view(1200))
+scroll(700); shot(ws,'walk-1b-start2.png'); print(text_view(1200))
+scroll(700); shot(ws,'walk-1c-start3.png'); print(text_view(1200))
+p.kill()

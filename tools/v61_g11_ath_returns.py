@@ -201,6 +201,12 @@ def compute():
         assert gap_ex < gap_full / 3, ('2008 大跌解釋不了大部分差距', y, gap_full, gap_ex)
     # 「就算挑不是新高的日子買，一年後一樣跌掉約一半」
     assert nh and all(-55 < r < -45 for r in nh), ('非新高最差起點不是約一半', nh)
+    # 書上限定在「2007 年 10 月底那次高點前後幾天」：高點前後 3 個交易日內的非新高日，一年後全部約跌一半
+    end1 = dict(tw_se[1])
+    y07 = [t for t in range(len(dates)) if dates[t].year == 2007]
+    t07 = max(y07, key=lambda t: vals[t])
+    win07 = [((vals[end1[t]] / vals[t]) - 1) * 100 for t in range(t07 - 3, t07 + 4) if t in end1 and not at[t]]
+    assert dates[t07] == date(2007, 10, 29) and win07 and all(-55 < r < -45 for r in win07), ('2007 高點前後非新高日不是約一半', dates[t07], win07)
     # (e) 2003–2005 的「新高」只和 2003 年以後比；這份含息資料沒有 2000 年以前的值，無法直接比 1990、2000 年高點
     tw_sens['at_high_days_by_year'] = {}
     for i in range(1, len(dates)):

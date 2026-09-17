@@ -1,0 +1,473 @@
+{
+  "summary": "隔離人性 v61：修最後一輪驗收意見 → 目錄重排三批（保險工具、換骨架、找東西的工具）→ 平行驗收與新手走查",
+  "agentCount": 8,
+  "logs": [],
+  "result": {
+    "fix3": "修完了，18 條意見（must 2、should 16）逐條處理，檢查三項全部通過。只有一條沒做完：一頁空白版不能加格子，要作者決定。18 筆改動都套進 `guide/index.html`，另外改了一支程式的檢查，沒有 commit。\n\n**Must**\n1. 再平衡寫出「強制自己賣高買低」：已補在第 11 節再平衡第一段段末，照選項 A，沒加數字，兩個但書都在（高低是和防守那一塊比、不是猜最高最低點；不保證那一次買得便宜）。\n2. 第 14 節（id s13）「覺得價格太高」那一題：已改。只講方向，賺錢的比例和平均報酬這兩把尺分開講，沒加新數字，句尾補了「股票比例睡得著」。\n\n**Should**\n3. 欄位表第 21 格：改成「比例超過自己寫下的門檻（本指南用 5/25…）」。這張表不在工作表保護範圍內。\n4. 「股票會越來越多」：加了「通常」。\n5. 研究沒扣交易成本：小字、S1 來源說明、資料口徑與來源三處都補上「和交易成本」，資料口徑那處另補「只用動手次數代表成本」。\n6. 第 14 節行動句補「股票比例睡得著」：和第 2 條一起改好。\n7. 第 6 節 2007 年那句補回範圍：改成「2007 年 10 月底那次高點前後幾天」，`calc_core.py` 綁的那句原文沒動。`tools/v61_g11_ath_returns.py` 另加一條檢查：高點 2007-10-29 前後 3 個交易日內、不是新高的日子，一年後都約跌一半。跑過通過，`calc-results.json` 不受影響。\n8. 第 6 節小字：「新高那天／其他日子」改成「新高月份／其他月份」。\n9. 第 6 節「這張表」指不清：改成「上面那張新高的表」。\n10. 2007 年範圍（結構裁判也提了同一條）：和第 7 條一起處理。\n11. 資料口徑與來源的「調得越勤越好嗎」找不到：改成「那是不是調得越勤越好？」那一段。\n12. 第 12 節（#cases）陳大哥那處連結：改指 `#lifecycle-q3`，錨文字後補「第三題」。\n13. 一眼看懂的換匯指路：從「第 6 節」改成「費用、稅務與帳戶安全」的「換匯成本」那一列。\n14. 計畫表沒有地方寫門檻：\n    - 欄位表第 21 格已照第 3 條改好。\n    - 一頁空白版 F 區加「門檻」格沒有做，因為空白版是保護區塊，工作表也會跟著變，要作者拍板。\n15. 「先跳過」和「現在寫好」互相打架：把 F 區那句移出「先跳過」段落，單獨一小段放在前面，寫明剛填完計畫表就要寫兩件事：多久看一次、跑掉多少才動。\n16. 例子剛好卡在門檻上：改成「漲了七成，比例變成八成七左右」，並寫出股票八成的範圍是 75% 到 85%。這兩個是示意算術，不是新事實。\n17. 第 11 節正文：補「想多放股票，要回去重做壓力測試、改 E 區的比例，不是放著讓它自己漂」。\n18. 新錢補不回要等多久：補「例如到下一次年檢，新錢還拉不回門檻內，才賣」。年檢那一列在保護範圍內，沒動。\n\n**主線另外決定的兩件事**\n- 列印：第 12 節阿凱、兩桶、陳大哥三個推理摺疊，加上十分鐘版「六個最貴的錯」，都加了 `data-print=\"open\"`。「六個最貴的錯」是退役短稿，不用 `--stamp`。\n- 第 6 節換匯成本那一段改成小字，內容和連結都沒變。\n\n**留給後面的重排批次**：這一輪 18 條裡沒有屬於「目錄、分組、封面入口」的。上面第 14 條的空白版門檻格要等作者拍板。\n\n**頁數**：完整版 PDF 從 139 頁變 145 頁（多 6 頁，多半來自列印時展開的四個摺疊），工作表還是 4 頁。文字少於 250 字的頁有 3 頁：第 52、71、145 頁。\n\n**檢查結果**\n- `python3 tools/build_lite.py`：exit 0，SENTINELS OK。\n- `python3 tools/guidetools.py check guide/index.html`：CHECK OK，重點句 14、先跳過 12。\n- `python3 tools/test_guidetools.py tools guide/index.html`：ALL PASS。\n\n**要注意**：`essay/sections/` 底下 6 個檔被改過（02、03、05、06、08、11），修改時間 09:52:23，在我 09:51 跑完 build 之後。`build_lite.py` 不會碰這個資料夾，所以不是這一輪造成的，可能有別的代理在跑 `essay_charts.py`，請主線確認。\n\n檔案都在 `/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/` 底下：\n- stages/fix3-before.html\n- fix3/patch-fix3.json\n- fix3/patch-fix3.py\n- fix3/after.html\n- fix3/build.log",
+    "b0": "第 0 批做完了。建置和三項檢查都通過，沒有 stamp 任何短稿，也沒有 commit。\n\n**1. 列印規則（§10.1，`tools/build_lite.py`）**\n- 「不另起新頁」原本只寫了 group-core 和 group-howto，改成所有 `section.part[id^=\"group-\"]` 都適用。\n- 分組節印成色帶：淺底、上下細線，列印時保留底色。h2 後面不斷頁。\n- 斷頁規則：地圖清單 5 行以內整塊不斷頁；超過 5 行（例如 group-core 有 10 行）可以跨頁，但每一行不切開。\n- 註解也改成「所有 group-* 分組節」。\n- 頁數沒變：完整版 PDF 還是 145 頁，文字少於 250 字的頁還是 3 頁（第 52、71、145 頁）。\n\n**2. 新哨兵（§10.2，`tools/lite_sentinels.py`）**\n- 加了三個函式，分別是 `order`、`xref_num`、`part_maps`，讀 `guide/index.html`，工作表模式也照樣跑。\n- `order`：通過。目錄 28 條＝正文 28 節（不含 2 個 group-* 分組節），每節剛好一次。目錄每一組的 data-group 也會查。\n- `xref_num`：通過。312 個數字節號連結，數字都等於目標節的顯示節號。\n- `part_maps`：原文還沒有 `ol.part-map`，先印 SKIP 加理由。之後只要出現 part-map，它會直接紅，提醒第 1 批要先把這支寫完。\n\n**3. 兩處沒連結的節號（§10.3）**\n- `guide/index.html` 用 Edit 改了兩處：s5 圖說的「第 4 節」連到 `#s4`，methods 的「第 5 節的比例」連到 `#s5`。和 before 檔比，只多了這兩個連結。\n- `tools/essay_charts.py` 第 743 行的預設圖說同步加上連結。\n- **另外修了一個舊 bug**：`essay_charts.py --guide` 會把 figcaption 裡的標籤全部拿掉。交班文件寫「圖說可以放連結」，但照舊程式，下次重畫圖時連結會被刪掉。現在改成原樣保留 figcaption。在副本上實跑過（重畫 17 張圖），產出和原文逐字相同，連結還在。\n\n**故意弄錯，確認新哨兵會紅**（在記憶體副本上改，正式檔沒動）\n- 把 s5 圖說的 xref 從 4 改成 5：\n  `FAIL [xref_num] s5 裡「第 5 節」連到 #s4，那一節（s4）顯示的是第 4 節`\n  同時 `order` 仍是 OK。\n- 把目錄裡 s7、s8 兩條對調：\n  `FAIL [order] 目錄順序和正文不同：第 11 條起目錄是 s8→s7→s9，正文是 s7→s8→s9`\n  同時 `xref_num` 仍是 OK。\n\n**檢查結果**\n- `python3 tools/build_lite.py`：exit 0，SENTINELS OK（toc 通過；SKIP 5 支，是工作表模式的 4 支加 part_maps）。\n- `python3 tools/guidetools.py check guide/index.html`：CHECK OK（重點句 14、先跳過 12）。\n- `python3 tools/test_guidetools.py tools guide/index.html`：ALL PASS。\n\n**提醒主線**：`essay/sections/` 那 6 個檔在開工前已經有改動，這一批沒有碰。`tools/v61_g11_ath_returns.py` 的改動是上一輪 fix3 留下的。\n\n檔案：\n- /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/batch0-before.html\n- /Users/linyenchu/Cladue Code/family-finance/tools/lite_sentinels.py\n- /Users/linyenchu/Cladue Code/family-finance/tools/build_lite.py\n- /Users/linyenchu/Cladue Code/family-finance/tools/essay_charts.py\n- /Users/linyenchu/Cladue Code/family-finance/guide/index.html\n- 建置紀錄：/private/tmp/claude-501/-Users-linyenchu-Cladue-Code/f330c746-4fb1-4319-8da3-61dfb142160e/scratchpad/build0.log",
+    "b1": "第 1 批（換骨架）做完了。建置和三項檢查都通過，短稿零 stamp，沒有 commit。手機版還沒在瀏覽器實際看過。\n\n**做了什麼**\n- **搬節**：正文順序現在是 …s10 → group-plan → s11, cases, s12 → group-situations → s13, sidepaths → group-howto → firstmonth, steps, products, costs → group-life → annual, lifecycle, withdraw → group-ref → toolbox, methods。實際搬動 4 次，和施工文件一致。\n- **分組節**：group-core、group-howto 原地改寫成組地圖，另外新增 4 個。清單裡的節名、開場白、節號都由程式從目標節照抄。\n- **照「先不加」做到的**：\n  - 沒加狀況索引表，也沒有「表上找不到…」那句。\n  - 沒加 18 個錨點，也沒有陳大哥句。\n  - 閱讀方式框新 1 那句先連 `#s11`。\n- **目錄**：換成施工文件 §5.1 的七組 details，全部帶 `data-print`，只有「開始之前」預設打開。CSS 照 §5.2 與 §6.0 加上；寬螢幕自動展開的 JS 放在 `</nav>` 後面。\n- **sidepaths**：「（上一節）」改成指向「年齡、槓桿與退休」第二題。\n- **閱讀方式框**：換成 `details.promise.read-how`，加了 `data-print=\"open\"`，兩句照樣張換掉，其他字沒動。\n- **part_maps 哨兵**：寫在 `tools/lite_sentinels.py`，照 §10.2 的五條規則檢查。我故意弄錯五種情況（map-num、map-lede、分組節 lede、沒節號卻有 map-num、兩行對調），五種都會紅。\n\n**沒照樣張或施工文件、要你知道的**\n1. **年檢那一行的開場白**：樣張 B 寫「一年一次，一小時…不到門檻不賣」，但原文現在是「至少一年一次，一小時…沒跑出自己寫下的門檻不賣」。哨兵要求逐字等於原文，所以照原文抄。\n2. **樣張沒有、照施工文件寫的新文字**：\n   - 目錄提示「點組名展開；想從頭讀，從「開始之前」往下。」\n   - group-situations 的「動手之前先看一遍也好：先知道自己可能會怕什麼，遇到時比較不慌。」\n   - group-howto 收尾「還沒寫計畫表的人，先回第 11 節。不必從頭讀：做到哪一步，就翻哪一節。」這句和那組的一行說明意思重複。\n   - group-ref 收尾（看不懂的詞在「先認識這些詞」那句）。\n   - group-life 的三個子連結「第一題　年齡該不該影響比例／第二題…／第三題…」。\n   - group-core 收尾是樣張那句，後面接原本的「每一節的順序都一樣…」。\n3. **施工文件以外多加的 CSS**：\n   - 子連結那行加了縮排，和開場白對齊。\n   - 目錄每組的說明文字改成一般粗細（原本會跟著 summary 變粗）。\n   - 列印時：\n     - 拿掉 ▸▾ 記號。原本的列印規則蓋不過展開狀態的那一條，所以 PDF 上還看得到 ▾。\n     - 藏起「點組名展開」提示。\n     - 縮小每組標題的上下間距。\n     - 藏起「怎麼讀這本書」那一行標題，框的內容照樣整段印。\n\n   不加的話，目錄的最後一組會溢到第 3 頁，那頁只有 27 個字。\n\n**驗收**\n- `build_lite.py`：exit 0，SENTINELS OK。`alt` 四份短稿指紋都相符，零 stamp；`order`、`xref_num`、`part_maps`、`toc` 都綠。\n- `guidetools check`：CHECK OK。`test_guidetools`：ALL PASS。\n- **黃框、重點句、警告框比對**：三項都 OK。名詞連結前後都是 106 個，重點句 14 句，details 從 18 個變 26 個（目錄 7 個、封面 1 個）。\n- **`numbers`**：有兩處 LOST，都是節號連結的數字，不是事實：\n  - 封面少一個「14」：舊的「直接翻第 14 節」被新 2 那句換掉了。\n  - 舊 group-core 少了「12、13、14」：那段整個改寫了。\n\n  各節正文都沒有 LOST。\n- **PDF**：完整版 145 頁，和改之前一樣。文字少於 250 字的頁從 3 頁減到 2 頁（第 52、71 頁），原本的第 145 頁不再算在內。工作表還是 4 頁。\n- **手機 400px 沒實際看**：瀏覽器面板打不開本機檔案，這台也沒有 playwright。§11.4 的手機檢查要等第 2 批。\n\n檔案都在 /Users/linyenchu/Cladue Code/family-finance/ 底下：\n- wip/v61-2026-09-17/stages/batch1-before.html\n- wip/v61-2026-09-17/batch1/make-patch.py\n- wip/v61-2026-09-17/batch1/patch-batch1.json（不含後來用 Edit 加的列印 CSS）\n- wip/v61-2026-09-17/batch1/after.html\n- wip/v61-2026-09-17/batch1/build.log\n- wip/v61-2026-09-17/batch1/numbers.txt\n- wip/v61-2026-09-17/batch1/diff.txt\n- wip/v61-2026-09-17/batch1/compare_protected.py\n- guide/index.html\n- tools/lite_sentinels.py",
+    "b2": "第 2 批（找東西的工具）做完了。建置和三項檢查都通過，短稿零 stamp，沒有 commit。\n\n**做了什麼**（`patch-batch2.json`，共 25 筆，用 guidetools apply 套上）\n- **§8 錨點 18 個**：\n  - `ten-stop`、`drill` 是插在受保護區塊前面的空 span。\n  - `s10-cooling` 只在 li 上加屬性。\n  - 其餘 15 個加在 h3 上。\n- **§6.3 狀況索引**：10 列照樣張，放在 group-situations 的「動手之前先看一遍也好」和清單之間；清單後面加了「表上找不到，就往下翻第 14 節…」。\n  - 每一格指到的 id 我都開 HTML 讀過內容，都對得上。\n  - 幾個容易疑心的地方也確認過：s13「怕賠」最後一題就是台幣升值；「怕賠」裡有「市場下跌 20%」和「新聞預測市場崩盤」；常見的岔路裡有「借錢買高股息」和信貸、質押那一段；165 出自 ten 的警告框。\n  - 「大跌」那一列沒有連到詐騙警告。\n- **§7.1 封面入口**：七個按鈕和一行小字照樣張，放在閱讀方式框上面；CSS 照施工文件，列印時整塊隱藏。\n- **新 1 那句**：`#s11` 改回 `#plan-table`。\n- **§6.5**：group-life 加了陳大哥那句（連 `#case-chen`）。\n- **§9.3**：products 白話版後面加了指路句（連 `#s12-paths`，錨文字 13）。\n- **〔要動筆〕記號**：作者沒點頭，沒做。\n\n**施工文件以外多改的一處**\n- 400px 截圖時看到，目錄組名太長會換行，▸ 自己佔一行、組名掉到下一行（「遇到狀況時翻…」「隨人生調整…」兩組）。這是第 1 批 CSS 留下的問題。\n- 修法：summary 從 flex 改成 block，▸ 改絕對定位，節號範圍改 nowrap。列印規則沒動。\n- 這 4 條另存成 `patch-batch2-toc-css.json`，並確認用它重套出來的檔和現在的 guide 完全一樣。\n\n**驗收**\n- `build_lite.py`：exit 0，SENTINELS OK。`alt` 四份短稿指紋都相符，零 stamp；`order`、`xref_num`（333 條）、`part_maps`、`toc` 都綠。\n- `guidetools check`：CHECK OK。`test_guidetools`：ALL PASS。\n- 黃框、重點句、警告框比對：三項都 OK。名詞連結前後都是 106 個，重點句 14 句，details 26 個（這批沒變），xref 從 464 變 492。\n- `numbers`：沒有 LOST。ADDED 只在 group-situations、products（13）和 group-life（12）。\n- **PDF**：完整版從 145 頁變 147 頁，多的兩頁是索引表。文字少於 250 字的頁還是 2 頁（第 52、71 頁），工作表還是 4 頁。\n- **400px 實看**（Chrome headless，把頁面放在 400px 寬的 iframe 裡截圖）：\n  - 封面入口排成兩欄，沒有溢出；閱讀方式框預設收合。\n  - 目錄只開「開始之前」，其他六組收合，寬螢幕判斷的 JS 在 400px 沒觸發。\n  - 狀況索引表在 400px 內放得下；s13 篩選列有正常出現。\n- **沒做到的檢查**：\n  - 用 headless 捲到頁面中段時截出來是空白，所以「遇到狀況時翻」那張是把前面各節藏起來、讓這組排到頁首再截，版面本身沒改。\n  - 沒有實際點連結確認跳到的位置。\n\n**發現但沒動**\n- 手機版整頁會橫捲（頁寬 525px，畫面 400px）。原因是 methods 裡一行很長的 `<code>https://www.twse.com.tw/rwd/zh/TAIEX/MFI94U?...</code>` 不會斷行，第 1 批之前就有，不在這批範圍。\n\n**還沒做**：施工文件列的裁判逐列核對（fable xhigh）和新手走查（sonnet）這一批都沒跑。\n\n檔案都在 /Users/linyenchu/Cladue Code/family-finance/ 底下：\n- wip/v61-2026-09-17/stages/batch2-before.html\n- wip/v61-2026-09-17/stages/batch2-cover.png\n- wip/v61-2026-09-17/stages/batch2-toc-collapsed.png\n- wip/v61-2026-09-17/stages/batch2-toc-open.png\n- wip/v61-2026-09-17/stages/batch2-situations.png\n- wip/v61-2026-09-17/batch2/make-patch.py\n- wip/v61-2026-09-17/batch2/patch-batch2.json\n- wip/v61-2026-09-17/batch2/patch-batch2-toc-css.json\n- wip/v61-2026-09-17/batch2/after.html\n- wip/v61-2026-09-17/batch2/build.log\n- wip/v61-2026-09-17/batch2/numbers.txt\n- wip/v61-2026-09-17/batch2/diff.txt\n- guide/index.html",
+    "verify": [
+      {
+        "scope": "結構裁判，只讀不改。比對三個版本：改前 stages/fix3-before.html（等於 HEAD）、各批的 before 檔、改後 guide/index.html。改後這份和 output/full-v60-out.html、batch2/after.html、export 裡的 html 逐位元相同。另外看了 export 的 PDF（147 頁）、batch2 的 400px 截圖，並用 headless Chrome 實印了封面加目錄兩種情況：有 JS 的寬螢幕，和把展開腳本拿掉。檢查程式與截圖都放在 wip/v61-2026-09-17/verify5/：check_struct.py、directional.py、protected_raw.py、show.py、struct_lib.py、print-nojs.pdf、print-nojs-p1.png、print-js-wide.pdf、pdf-p1.png、pdf-p2.png、pdf-p101.png、pdf-p102.png、pdf-p17-top.png、pdf-bands-montage.png、mobile-cover-toc.png。\n\n結果：\n(1) 方位詞：掃了所有跨節連結前後的方位詞，以及「上一節、下一節、附錄、開始前、先看懂，再決定、本書的主體」等舊組名，舊組名全書剩 0 處。唯一剩下的「下一節」在 cases，下一節仍是第 13 節，沒錯。firstmonth、sidepaths、annual、lifecycle、withdraw 的互相引用都查過，沒有新增「先用後解釋」：「家庭一頁表」第 11 節就出現過，「儲蓄險是什麼」現在就接在第 14 節後面。\n(2) 組地圖：6 張地圖共 24 行，節名、開場白、節號都和正文逐字相同。每組開場白也和目錄那組的說明逐字相同。\n(3) 目錄與節號：目錄 28 條和正文順序一致，節名和 h2 相同。每組 data-group 都緊接在該組第一節前面；「第 1–10 節」「第 11–13 節」兩個範圍也對。目錄編號從 11、14 起算的 CSS 是對的，PDF 印出來也是 11、14。333 個數字節號連結，每個數字都等於目標錨點所在節的節號，沒有落入「id 和節號不同」的陷阱。沒有連結的「第 N 節」只剩目錄裡的範圍字樣。PDF 目錄 28 條印的頁碼都等於書籤頁。\n(4) 受保護區塊：黃框 25、重點句 14、警告框 9 和改前原始 HTML 逐字相同。plan-blank、lookup-tables、ch4-drill、#annual ol.checklist 也原樣不變。有差異的 data-lite-alt 只有兩張已退場短稿（ch6-paths、ch5-risk）的 h3 加了 id，施工文件允許。numbers 對照：各節正文沒有遺失，遺失的只有舊封面的 14 和舊 group-core 的 12、13、14，都是節號連結；「一眼看懂」少的 6 是 fix3 第 13 條的改動。名詞連結 106 個、details 18 → 26，都符合施工文件。\n(5) 施工文件第 13 節 13 列逐列核對，保留和推翻都照做了：firstmonth 在 steps 前、annual → lifecycle → withdraw、withdraw 沒改名、目錄說明放進 summary、group-* 不在目錄、列印規則已擴大成 section.part[id^=\"group-\"]、封面定位句保留、「實作附錄」一詞全書 0 處。\n(6) 螢幕上是漸進增強：沒有 JS 時目錄只開「開始之前」，其他組點了就開。PDF 匯出時 7 組目錄和閱讀方式框全部展開，也沒有「紙本未印」字樣。問題在網頁版列印，見第一條發現。\n\n另外抽查了狀況索引裡指向第 14 節的五個錨點，題目都對得上：「怕賠」第 14 題是台幣升值，「怕輸人」有「朋友集中一檔」，「想控制」有「加碼攤平」。18 個錨點都不在摺疊裡面。",
+        "verdict": "fix_needed",
+        "findings": [
+          {
+            "severity": "should",
+            "section": "§7.2 閱讀方式框／§5.3 目錄 JS（題 6：列印全開）",
+            "location": "guide/index.html：<style> 裡批 1 加的 @media print 規則 details.read-how>summary{display:none}，以及 </nav> 後面那段只在 min-width:760px 才展開的腳本",
+            "problem": "只有 PDF 匯出流程會強制展開摺疊（open_details）。讀者直接從網頁列印時，只要螢幕窄於 760px（手機）或沒有 JS，閱讀方式框和 6 組目錄都維持收合。閱讀方式框的 summary 在列印時又被藏起來，結果整個框印成一個空的綠框，一個字都沒有。目錄則只印 7 個組名和說明，節名不見了。實印證據：verify5/print-nojs.pdf 與 print-nojs-p1.png。寬螢幕加 JS 的版本（print-js-wide.pdf）是正常的。第 11 節正文本來就叫讀者「網頁版先點開一頁空白版再列印」，所以網頁列印是真的會發生的用法。作者拍板的是「框在手機收合（列印照樣展開）」，網頁列印目前做不到。",
+            "fix": "兩處小改，都不碰內文：\n1. 把 CSS 改成 details.read-how[open]>summary{display:none}。沒展開時至少印出「怎麼讀這本書…」那一行，不會變成空框。\n2. 在同一段 script 的 matchMedia 判斷之外，加一個 window.addEventListener('beforeprint', …)，把 #toc details.toc-part 和 details.read-how 設成 open；需要的話在 afterprint 還原。範圍只限這 8 個摺疊，不要擴大到全部帶 data-print 的摺疊，免得改變第 11 節「先點開再列印」的說法。\n改完用 verify5/cover-nojs.html 的做法（拿掉展開腳本）再印一次確認。"
+          },
+          {
+            "severity": "note",
+            "section": "§11.3 PDF 目錄頁（第 3 批收尾）",
+            "location": "export/隔離人性-理財新手完整指南-v6.1.pdf 第 1–2 頁（verify5/pdf-p1.png、pdf-p2.png）",
+            "problem": "「開始之前」這一組被切成兩頁：第 1 頁底部只有組名、說明和「十分鐘看完 3」一行，其他三節在第 2 頁，而且兩欄排版下第 1 頁右欄是空的。頁碼都對，只是讀起來斷得很怪。",
+            "fix": "第 3 批看 PDF 時處理：例如列印時讓第一個 details.toc-part 整組不斷頁，或縮小封面閱讀方式框的上下間距，讓整組留在第 1 頁或整組移到第 2 頁。改完要確認目錄不會溢到第 3 頁（批 1 回報過這個風險）。"
+          },
+          {
+            "severity": "note",
+            "section": "§11.3 分組色帶斷頁（第 3 批收尾）",
+            "location": "PDF 第 16–17 頁 group-core（verify5/pdf-bands-montage.png、pdf-p17-top.png）",
+            "problem": "group-core 的地圖 1–9 行在第 16 頁，第 10 行和收尾那句「至少先讀第 5 節和第 10 節」孤零零落在第 17 頁頂端，接著就是第 1 節。每一行本身沒被切開，符合 build_lite 的規則，但最後一行加上收尾句被丟到下一頁，看起來像殘段。",
+            "fix": "第 3 批調色帶規則時一起看：例如 group-* 的最後兩個 li 和它後面的 p.small 設 break-before:avoid，或讓 part-map 最後一行和收尾句黏在一起。記下調整前後的總頁數和近乎空白的頁數。"
+          },
+          {
+            "severity": "note",
+            "section": "§6.4 group-howto（新文字，要作者點頭）",
+            "location": "guide/index.html #group-howto：p.lede 和收尾 p.small",
+            "problem": "同一張地圖裡，開場白寫「做到哪一步，翻哪一節」，收尾又寫「不必從頭讀：做到哪一步，就翻哪一節」，五行內同一句話出現兩次。批 1 已經提過，還沒決定怎麼改。",
+            "fix": "給作者二選一：\n(A) 收尾只留「還沒寫計畫表的人，先回第 11 節。」\n(B) 保留收尾的原句，把組的一行說明改短；但那句說明同時是目錄 summary 的文字，兩邊要一起改，part_maps 哨兵會檢查兩邊是否一致。\n建議 A，改的地方最少。"
+          },
+          {
+            "severity": "note",
+            "section": "§8 錨點與第 14 節篩選按鈕",
+            "location": "guide/index.html #s13 內的篩選 script；#group-situations 狀況索引指向 s13-miss、s13-loss、s13-envy、s13-bored、s13-control 的連結",
+            "problem": "讀者如果先在第 14 節按過篩選（例如只看「怕晚」），其他感受那幾組的 h3 會被設成 display:none。之後再從狀況索引點「怕賠」「想控制」等連結，目標元素在畫面上不存在，頁面不會捲過去，看起來像連結壞了。要先按「全部」才恢復。只有「先篩選、再點索引」的人會遇到。",
+            "fix": "在 s13 篩選 script 裡加一個 hashchange 監聽，頁面載入時也檢查一次：如果 location.hash 指到的元素帶 data-s13-hidden，或位在被藏起來的組裡，就先 show('全部') 再 scrollIntoView。不改任何文字。"
+          },
+          {
+            "severity": "note",
+            "section": "方位詞（題 1）：照抄規則下的殘留語感",
+            "location": "#withdraw「這兩件事的細節都在「年齡、槓桿與退休」第三題，往下找「為什麼提領期怕一開始就跌」…」；#group-plan 第 13 節那一行照抄的開場白「配上前面已經寫好的那張「我的投資計畫」」",
+            "problem": "兩處嚴格說都沒錯：「往下找」指的是在第三題裡往下找；地圖那句是照抄原節開場白，本來就不准改。但搬節以後 lifecycle 排在 withdraw 上面，印出來的讀者可能把「往下找」讀成從 withdraw 往後翻。地圖那句出現在還沒讀第 11 節的位置，「已經寫好」也有點早。",
+            "fix": "可以不改，施工文件第 9.2 節已經判定不用改。如果作者想更清楚，withdraw 那句改成「到那一題裡找…」，屬於內文改動，要作者點頭。地圖那句受照抄規則限制，維持原樣。"
+          },
+          {
+            "severity": "note",
+            "section": "§11.4 手機檢查（驗收條件，改動前就有的問題）",
+            "location": "guide/index.html #methods 的 <code>https://www.twse.com.tw/rwd/zh/TAIEX/MFI94U?date=YYYYMM01&amp;response=json</code>，CSS 裡沒有任何 code 斷行規則",
+            "problem": "施工文件第 11.4 節要求 400px 下「頁面本身不橫捲」。批 2 量到頁寬 525px，原因是這一行長網址不會斷行。我確認了這行網址在 HEAD 就有，CSS 也沒有斷行規則，所以不是這次重排造成的；但只要它還在，第 11.4 節這一項就不能判定通過。",
+            "fix": "第 3 批加一條 CSS，例如 code{overflow-wrap:anywhere}（或 word-break:break-all），重看 400px 確認頁面寬度等於畫面寬度。不動內文，alt 哨兵的指紋不受影響。"
+          },
+          {
+            "severity": "note",
+            "section": "§12 第 2 批驗收（未完成項）",
+            "location": "wip/v61-2026-09-17/batch2 回報",
+            "problem": "第 2 批驗收還有幾項沒做：\n- 新手走查（sonnet、400px、五個任務）\n- 封面「大跌很慌」→ 狀況索引 → s5-remember 的實際點擊跳轉\n- 第 14 節篩選按鈕的手動點擊確認\n\n這次結構審查只核對了錨點的位置（都在正文、不在摺疊裡）和第 14 節五個群組錨點的內容，沒有實際點過連結。",
+            "fix": "這一批 commit 前或第 3 批開工前補做，結果附在回報。建議把上面第 5 條的篩選情境（先篩選、再點索引）一起列進走查。"
+          }
+        ]
+      },
+      {
+        "scope": "狀況索引 10 列（共 24 個連結，加上表下「表上找不到」那句）和封面入口（7 個按鈕加一行小字），以 guide/index.html 為準，另外拿 output/full-v60-out.html、export 的完整指南 HTML 和 PDF 對照。先逐節讀完施工文件 §6.3、§7.1、§8、§11.4，也讀了推薦文件第四節。\n\n做了哪些檢查：\n（1）group-situations 整節和 nav.tasks，跟施工文件的 HTML 逐字比對，完全相同（plan_vs_guide.py）。\n（2）每個 href 在 HTML 裡找 id，列出目標所在的節、節號、有沒有包在摺疊或受保護區塊裡，以及卡片內文（links.py）。三份 HTML 的結果完全相同，輸出在 links-*.txt。\n（3）用 Chrome headless 實際點每一個連結（make_jump_test.py → jump-result-400.json）。headless 最窄只能開到 500px，不是 400px。結果：37 個連結全部跳到對的卡片標題（離視窗頂 0 到 16px），沒有目標被藏住或在收合的摺疊裡。\n（4）另外測第 14 節的篩選按鈕按下以後再點索引（make_filter_test.py → filter-result.json）。\n（5）入口文字對照全部 34 個 section 的節名（包括 group-*），逐一比前 6 個字。另外用 toc_entries.py 確認 PDF 第 1 頁沒有印出入口連結，toc 哨兵也沒有把封面連結誤當成目錄項。\n\n結論：\n- 沒有新事實、新數字。表裡的 165、31 題、六種、四個立即停止、四種出事、正 2、信貸、質押、融資、月配、主題型，原文都找得到出處。\n- 「大跌」那一列指到 plan-table、s5-remember、drill、s13-loss，沒有碰到 ten-stop 或 costs-four。\n- 七個入口按鈕都去對地方，沒有一個以節名開頭。\n- 以下幾條不是連結壞掉，是「跳到的卡片沒有完全回答那一列」或「某個狀態下跳不過去」。\n\n我沒有改任何原文或程式。只在 verify5/ 新增檢查程式與結果，另外刪了自己產生的 3 張空白截圖。verify5/ 裡的 walk-*、pdf-* 和其他檔案是別的代理產生的，我沒有動。",
+        "verdict": "fix_needed",
+        "findings": [
+          {
+            "severity": "should",
+            "section": "§6.3 狀況索引／s13 篩選腳本",
+            "location": "guide/index.html 第 2404 行起，s13 的 <script>（data-s13-filter）；另外影響狀況索引裡指到 #s13-miss、#s13-envy、#s13-bored、#s13-control 的連結",
+            "problem": "第 14 節的篩選按鈕用 `[data-s13-hidden]{display:none}` 把其他感受的 h3 和清單藏起來。讀者如果在第 14 節按了「怕賠」（或「怕晚」「想控制」），再回到上面的狀況索引去點「怕錯過」「怕輸人」「無聊」「想控制」，頁面完全不動：目標被 display:none 藏住，瀏覽器不會捲過去。實測（filter-result.json）：按下「怕賠」以後，s13-bored、s13-miss、s13-control、s13-envy 四個連結點下去 scrollY 都沒變；s13-loss 和 s13-family 正常。以前沒有連結直接指到這些群組，是第 2 批加了錨點以後才冒出來的路。讀者會以為連結壞了。",
+            "fix": "在同一段腳本最後加一個 capture 階段的 click 監聽：`document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a[href^=\"#\"]'); if (!a) return; var t = document.getElementById(a.getAttribute('href').slice(1)); if (t && sec.contains(t) && t.closest('[data-s13-hidden]')) show('全部'); }, true);`。它在瀏覽器跳頁之前先切回「全部」。不要只靠 hashchange，因為點同一個錨點兩次時 hashchange 不會觸發。改完要跑 s13_filter 哨兵，並用 make_filter_test.py 重測四個連結都會捲動。"
+          },
+          {
+            "severity": "should",
+            "section": "§6.3 狀況索引 第 5 列（台幣升值，海外資產縮水）",
+            "location": "group-situations 表格第 5 列第一個連結 `第 <a class=\"xref\" href=\"#s6-fx\">6</a> 節「等匯率，和等股價是同一個問題」`",
+            "problem": "#s6-fx 那張卡回答的是「買之前要不要等台幣貶一點再換美元」（開頭：「買海外資產的人，常常還會多等一件事：等台幣貶一點再換美元」），講的是等匯率的代價。它沒有解釋「已經持有的海外資產因為台幣升值縮水，是怎麼回事、要不要處理」。直接回答這一列的是第 5 節正文「對台灣人來說還有第三種：換回台幣的波動」那一段和下面的小字（例子 32→30、「不是資產壞掉，是尺換了」、多年升貶抵不掉）。這一列的第二個連結是第 14 節「怕賠」最後一題，那題本身能回答，它的標籤也寫第 5 節，不是第 6 節。所以這一列的第一個連結只回答了相關的另一件事。",
+            "fix": "建議（要主線決定，第 1 案等於多加第 19 個錨點）：\n1. 在 s5 的 `<p>對台灣人來說還有第三種` 前面插 `<span id=\"s5-fx\"></span>`。那段不在 facts.txt，也不在任何 data-lite 區塊裡。儲存格改成「第 <a class=\"xref\" href=\"#s5-fx\">5</a> 節「換回台幣的波動」、第 14 節「怕賠」最後一題、第 6 節「等匯率，和等股價是同一個問題」」。xref_num 會是 5，交班文件的錨點清單記成 19 個。\n2. 不加錨點、只調順序：把「第 14 節「怕賠」最後一題」移到最前面，第 6 節留在後面。儲存格文字的順序有變，要作者點頭。"
+          },
+          {
+            "severity": "note",
+            "section": "§6.3 狀況索引 第 6 列（想改計畫、想調高股票比例、想加碼攤平）",
+            "location": "表格第 6 列 `#s13-control`",
+            "problem": "第一個連結 #s10-cooling 完全對題，冷卻期那條明寫「想賣、想加碼、換商品、調高股票比例都算」。第二個連結「想控制」裡只有「臨時想加碼攤平」對得上。第 14 節最直接回答「想改計畫」的是第 22 題「想改變原有配置」，那題分在「怕輸人」，不在「想控制」。讀者點「想控制」會找不到「想改配置」那題。",
+            "fix": "可以不改，因為第一個連結已經回答整列。想更準的話，把「第 14 節「想控制」」改成「第 14 節「想控制」、「怕輸人」第 22 題」，後者連 #s13-envy。這是新增的指路文字，要作者點頭。"
+          },
+          {
+            "severity": "note",
+            "section": "§6.3 狀況索引 第 2 列（投了好幾年，好像都沒在長）",
+            "location": "表格第 2 列 `#s13-bored`",
+            "problem": "「無聊」那一題是「覺得長期投資太無聊」，答案是「無聊可能表示規則正在運作……不用靠追熱門製造動作」，講的是想找刺激，不是「帳戶看起來沒在長」。前兩個連結 s2-slow 和 s5-remember 都直接回答這一列，所以只是第三個連結比較弱，不算指錯。",
+            "fix": "不必改。要收緊的話，可以把第 14 節那一格拿掉，只留第 2、5 節。這會改到已核准的表格，要作者點頭。"
+          },
+          {
+            "severity": "note",
+            "section": "§7.1 封面入口：節名開頭規則",
+            "location": "nav.tasks 第 3 個按鈕「寫下自己的比例和規則」；小字「看不懂的詞，翻「<a class=\"xref\" href=\"#glossary\">先認識這些詞</a>」」",
+            "problem": "七個按鈕都沒有以節名的前 6 個字開頭（逐一比過 34 個 section 名，包括 group-*），規則成立，但有兩個邊緣：\n1. 「寫下自己的比例和規則」和 group-plan 的 h2「寫下自己的計畫」前 5 個字一樣，只差第 6 個字。section_names 也會收 group-* 節名，以後改一個字就可能踩線。\n2. 按鈕下面那行小字的連結文字正好等於 glossary 節名「先認識這些詞」。這行是施工文件 §7.1 樣板原文，而且 .tasks 列印時隱藏，toc 哨兵只讀 PDF，PDF 第 1 頁實測沒有入口連結，所以現在不會觸發。",
+            "fix": "現在不用改。第 3 批寫交班文件時，在「封面入口文字不准以節名開頭」那條補一句：比對範圍包含 group-* 組名；小字裡的節名連結靠 .tasks 列印隱藏來豁免，如果以後改成列印也顯示，要重新檢查。"
+          }
+        ]
+      },
+      {
+        "scope": "fix3 複驗（再平衡、G11，只讀）。改後 guide/index.html、output/full-v60-out.html、export 的 HTML 三份逐位元組相同，PDF 共 147 頁，是在 guide 之後產生的。檢查程式在 wip/v61-2026-09-17/verify5/（c1–c10、extract.py、txt/、details_inventory.json、pdf_pages.txt、pdf-p004/084/090/091/092.png），沒改任何正式檔，也沒跑 build。結論：(1)(2)(4) 全部通過；(3) 有 1 條 should，其餘處理都合理。\n【總查】18 筆補丁在現在的 guide 裡都還在，都只出現一次，舊句全部消失（c1）。把 18 筆倒著套回 fix3/after.html，結果和 fix3-before.html 逐位元組相同，表示沒有補丁以外的改動（c2）。第 0 到第 2 批也沒有把它們蓋掉。\n(1) 賣高買低：兩個但書都在。第一個「高、低是和防守那一塊比，不是猜最高點或最低點」，第二個「不保證那一次買得便宜，股票可能跌了又跌」。前面還有「照規則調回…不用靠當天的感覺」，說明這是照規則做，不是猜。所以和十分鐘版第 2 件「不猜高低點」、第 6 節「不擇時」都不衝突。第 11 節幾段後本來就寫「完全不管的，長期常常賺得比較多，是多冒險換來的」，也不會讀成「再平衡能多賺」。第 14 節「上漲後想先獲利了結」「臨時想加碼攤平」兩題也和它一致。\n(2) 第 14 節「價格太高」那題，逐格對第 6 節的表和小字（c9）：\n- 新高那組賺錢的比例，7 格較低、1 格一樣（台股 10 年）、1 格較高（美股 1 年，73 對 72），最多低 16 個百分點（75 對 91）。所以「常常比較低，有時低很多」屬實，高點風險沒有說小。\n- 平均報酬：1950 年以前新高月份 4.5% 低於其他月份 9.0%，以後 12.0% 高於 10.6%，「換個年代會翻過來」屬實。\n- 兩把尺分開講，和第 6 節的結論「新高決定不了要不要買」一致；句尾補上「股票比例睡得著」，符合 g11-brief 第 7 節。舊句「有時比其他日子差一些」在正式檔已經找不到。\n- 第 6 節 2007 年那句另外獨立重算（c3）：高點是 2007-10-29；前後 3 個交易日內不是新高的 6 天，一年後跌 46.5% 到 49.9%。「10 月底那次高點前後幾天…約一半」成立。窗口放寬到前後 5 個交易日，最少的一天只跌 43.6%，所以「幾天」這個範圍是對的。calc_core 綁的原句仍然是新句的一部分，模組新加的檢查和我重算的結果一致。\n(3) 16 條 should：\n- 研究口徑：拿 Vanguard 2010 原文核對。第 10 頁寫只用動手次數和周轉率代表成本，圖表附註寫沒算稅、沒有新錢，三處補寫都成立。\n- 示意算術：股票八成、定存兩成，股票漲七成後占 87.2%（定存計息也有 87.0%）；5/25 給股票八成的範圍是 75% 到 85%。\n- 兩條改過的連結：#lifecycle-q3 底下確實有「三成到七成五」那句；費用節的表確實有「換匯成本」那一列。PDF 裡也分別跳到第 132 頁和第 119 頁。\n- 「那是不是調得越勤越好？」「新高月份」「上面那張新高的表」「通常」「想多放股票…」「例如到下一次年檢…」都到位。\n- 第 14 條（空白版門檻格）還沒做，本來就要作者決定；但第 15 條新加的段落讓這個缺口更明顯，見下面的 should。\n(4) 列印：\n- 第 12 節三個推理摺疊，把內文逐句拆開，在 PDF 第 84 到 91 頁找（c6），分別找到 43/43、36/36、91/91 句。十分鐘版「六個最貴的錯」14/14 句都在第 4 頁。\n- 其他 11 個教學摺疊，網頁版預設都收起來，PDF 也都只印標題。每個標題後面都有「（紙本未印，網頁版可展開）」提示，年檢那格印「（紙本未印）」。從標題那頁起連續三頁內，內文都沒印出來（c7）；第 13 節三條路徑那格命中 3 句，查過都是全書其他地方也有的重複句。\n- 展開的內容沒有造成很空的頁：第 91 頁看起來少字，實際是整頁表格。",
+        "verdict": "fix_needed",
+        "findings": [
+          {
+            "severity": "should",
+            "section": "s11 再平衡第一段（fix3 第 15 條）＋欄位表第 21、22 格（第 3 條）＋一頁空白版與可列印工作表的 F 區（第 14 條，未決）",
+            "location": "guide/index.html #s11「接下來講再平衡…剛填完計畫表就要在 F 區寫好…多久看一次比例（至少一年一次），和跑掉多少才動（下面的 5/25，或自己定的門檻）」；第 21 格「比例超過自己寫下的門檻」；空白版 F 區「可以賣：□超過門檻且新錢補不回」；lite/index.html 與 export 工作表",
+            "problem": "fix3 新加的段落要讀者「剛填完計畫表就要在 F 區寫好…跑掉多少才動」，第 21 格也改成「自己寫下的門檻」，十分鐘版第 4 件同樣說「自己寫下的門檻」。可是全書找不到一格能寫門檻：\n- 空白版 F 區只有勾選框「□超過門檻」。\n- 第 22 格只有「每月＿日看比例、每年＿月年檢」。\n- 可列印工作表整份沒有提到 5/25（出現 0 次），只拿工作表的人不知道門檻是多少。\n\n以前這句藏在「先跳過也可以」的段落裡，現在被拉出來、講得更明確。讀者會照著去找那一格，找不到就會卡住。這是第 14 條的延伸，不是新錯，但在作者決定之前，正文和表格是互相矛盾的。",
+            "fix": "放進作者拍板清單，白話三個選項：\n- **A（建議）**：空白版和工作表的 F 區加一格「再平衡門檻：股票低於＿%或高於＿%（本指南用 5/25）」。後果：要動受保護區塊（plan-blank、工作表），重新 stamp，重跑頁數和工作表 4 頁的檢查。\n- **B（不動受保護區塊，A 決定前先頂著）**：在新段落句尾補一句「一頁空白版沒有專門的格子，寫在 F 區『超過門檻』旁邊，像小安寫的『股票低於 75% 或高於 85%』」，約 40 字，不影響指紋。工作表仍然沒有 5/25 的說明。\n- **C**：新段落的「跑掉多少才動」改成「用哪一把尺（本指南用 5/25）」，不要求寫數字。後果：讀者手上還是沒有具體的數字可以對照。"
+          },
+          {
+            "severity": "note",
+            "section": "s11 再平衡「賣高買低」句（fix3 第 1 條 must）",
+            "location": "「照規則調回，也等於逼自己賣高買低：股票漲多了賣一點，跌多了用新錢或防守那邊的錢補一點，不用靠當天的感覺。」下一段是「最省事的調法：…不用賣股票；新錢補不回…才賣多的那邊。」",
+            "problem": "冒號後面那兩小句沒有帶上「比例跑出門檻」這個條件。單獨讀，「漲多了賣一點」很像第 8 節質疑的停利，「跌多了補一點」很像第 14 節說還是在猜買點的臨時加碼。緊接的下一段又說「不用賣股票」，讀起來有點前後拉扯。前面的例子已經講過跑出 75% 到 85%，句首也有「照規則」，所以風險低，不影響 must 算通過。",
+            "fix": "改成「比例跑出門檻時，漲多的那邊賣一點、跌多的那邊補一點（能用新錢補就先用新錢），不用靠當天的感覺。」兩個但書照舊保留。"
+          },
+          {
+            "severity": "note",
+            "section": "第 14 節（id s13）「覺得價格太高而等待回檔」（fix3 第 7 條）",
+            "location": "「只挑新高那天買，之後賺錢的比例常常比較低，有時低很多；但哪邊平均賺得多，換個年代會翻過來」",
+            "problem": "「平均賺得多會翻過來」只有美股 Shiller 月資料能支持，那份資料算的是當月平均價。fix3 第 9 條才因為同一個理由，把第 6 節小字的「那天」改成「月份」，第 14 節這句卻還寫「那天」，理由沒有貫徹。第 6 節表頭「只挑創新高那天買」也包含美股月資料那幾列，這是原本就有的寫法。事實方向沒有錯。",
+            "fix": "第 14 節改成「只挑創新高的時候買」，可以一起涵蓋日資料和月資料。要不要順便改第 6 節表頭，由主線決定。"
+          },
+          {
+            "severity": "note",
+            "section": "資料口徑與來源（methods）的再平衡研究說明（fix3 第 6 條）",
+            "location": "「沒算稅和交易成本（只用動手次數代表成本）」",
+            "problem": "Vanguard 2010 第 10 頁原文是 the number of rebalancing events and the annual turnover were proxies for costs，代表成本的是動手次數和年周轉率兩個指標。書上寫「只用動手次數」少了周轉率。第 11 節的小字和來源卡只寫「沒算稅和交易成本」，沒有這個問題。",
+            "fix": "改成「（只用動手次數和周轉率代表成本）」。"
+          },
+          {
+            "severity": "note",
+            "section": "s11 再平衡例子（fix3 第 16 條）",
+            "location": "「例如你設定股票八成、定存兩成，一年後股票漲了七成，比例變成八成七左右」",
+            "problem": "算術沒錯（87.2%）。但「一年漲七成」歷史上極少見（c10）：\n- 美股含息 1928 到 2025 年，最好的一年是 +52.6%（1954），從來沒有到 +70%。\n- 台股含息 2004 到 2025 年，只有 2009 年（+83.3%）一次。\n\n新手可能把這個數字當成常態。改之前的「一年五成」也一樣少見。",
+            "fix": "改成「幾年下來股票漲了七成」。算三年定存利息，股票占比約 86.7%，仍是「八成七左右」，其餘文字不用動。不改也可以，但建議在交班記一筆：這是示意數字。"
+          },
+          {
+            "severity": "note",
+            "section": "每年一次的檢查表（annual）與第 11 節「新錢補不回要等多久」（fix3 第 18 條）",
+            "location": "annual 導言「…新錢補落後的那一邊，沒跑出自己寫下的門檻不賣」；股債比例那一列「超過門檻才動，新錢先補少的那邊（第 11 節）」",
+            "problem": "第 11 節現在寫「到下一次年檢，新錢還拉不回門檻內，才賣」，所以要不要賣是在年檢那天決定的。可是年檢表那一列只寫「新錢先補少的那邊」，沒有說到了年檢新錢還補不回就要賣。讀者代理原本建議順便在 annual 導言講清楚，這一次沒有做。有「（第 11 節）」連結可以翻回去，所以只列 note。",
+            "fix": "那一列受保護，不動。可以在 annual 導言句尾補「跑出門檻、到年檢時新錢還拉不回來，才賣」。改之前先確認導言不在 facts 和指紋的範圍內。"
+          },
+          {
+            "severity": "note",
+            "section": "列印（fix3 第 14 到 17 條的 data-print=\"open\"）",
+            "location": "PDF 第 4 頁「▼ 展開：六個最貴的錯，各在哪一節擋」；第 84、86、88 頁「▼ 展開阿凱怎麼算出六成和試算」等",
+            "problem": "內容在紙本上已經展開，前面卻還印著「▼ 展開…」這個網頁操作提示，讀起來有點怪。欄位表、查表頁本來就是這樣，不是 fix3 造成的，也不影響功能。",
+            "fix": "優先順序低。可以只在 FULL_PRINT_CSS 對 details[open]>summary 拿掉 ▼ 記號，或保持現狀；「展開」兩個字寫在 summary 文字裡，要改得動受保護的短稿，不建議。"
+          }
+        ]
+      },
+      {
+        "scope": "新手走查（國中程度、第一次投資、手機 400px）：output/full-v60-out.html（和 guide/index.html 逐位元相同）。用 Chrome headless 加 CDP 模擬 400×800 手機畫面，全程只點頁面上的連結。截圖放在 wip/v61-2026-09-17/verify5/walk-*.png（共 22 張，每張都看過），檢查程式是同一個資料夾裡的 cdp.py、walk.py、t0–t6.py。正文沒有改。\n\n五個任務從封面起算點幾下：\n(1) 要不要開始投資：1 下，點「先確認能不能開始投資」會直接到「投資前的安全順序」。\n(2) 填計畫表：3 下，封面「寫下自己的比例和規則」→ 地圖裡的第 11 節 → 往下滑約 2.6 個畫面，點開「一頁空白版」。\n(3) 大跌想賣：2 下，封面「大跌很慌、想賣」→ 狀況索引第一列就在第一個畫面裡 → 點節號。\n(4) 年度檢查：1 下，會直接到「每年一次的檢查表」。\n(5) 爸媽快退休：2 下，封面「自己或爸媽快退休」→ 組地圖 → 陳大哥（第 12 節）或「用錢前的準備」。\n\n五個任務都找得到地方，沒有 must 等級的問題。每個錨點跳過去時，標題都在畫面頂端，沒有被遮住，也沒有跳錯位置。",
+        "verdict": "pass",
+        "findings": [
+          {
+            "severity": "should",
+            "section": "任務 3／狀況索引，全書節號連結",
+            "location": "#group-situations 表格「先翻這裡」欄；全書 a.xref",
+            "problem": "狀況索引裡能點的只有節號數字，例如「第 5 節」只有「5」能點，實測寬 9px、高 18px；「11」「14」寬 18px。全書 492 個 xref 裡，333 個只有數字能點。人在慌的時候用手指點，很容易點不到或點錯；新手也不一定知道那個數字就是連結（只有一條淡色虛線底線）。",
+            "fix": "至少在狀況索引表裡，把引號裡的名稱一起包進連結，例如 <a>第 5 節「跌的時候…記得這幾句」</a>。正文其他節號連結可以留到之後再處理。"
+          },
+          {
+            "severity": "should",
+            "section": "任務 3／狀況索引第一列",
+            "location": "#group-situations 第 1 列 → #s13-loss",
+            "problem": "「第 14 節『怕賠』」會跳到「怕賠（14 題）」的開頭。但「市場下跌 20%」和「新聞預測市場崩盤」是這 14 題裡的第 6、7 題，前面 5 題是等跌再投、一次或分批、高配息、常看帳戶、股債比例。慌的人要往下滑好幾個畫面才找到，走查時在這裡停下來猶豫。",
+            "fix": "給「市場下跌 20%」這一題加一個錨點（例如 s13-drop20），第一列直接連過去。也可以在錨文字寫「『怕賠』裡的『市場下跌 20%』」。"
+          },
+          {
+            "severity": "should",
+            "section": "任務 3／狀況索引第一列",
+            "location": "#group-situations 第 1 列「先打開自己計畫表的 F 區照做」",
+            "problem": "這句預設讀者已經寫好計畫表。第一次投資、還沒寫的人點「計畫表」只會跳到 A–H 各區的說明，沒有寫給「還沒有計畫表」的人的做法，要停下來想：那我現在該怎麼辦？",
+            "fix": "在同一格補半句，例如「還沒寫計畫表：先不賣，看完第 5 節那張卡，平靜後再回第 11 節寫」。這是新文字，要作者點頭。"
+          },
+          {
+            "severity": "should",
+            "section": "任務 5／隨人生調整",
+            "location": "封面按鈕「自己或爸媽快退休、快要用錢」→ #group-life、#withdraw、#lifecycle-q3",
+            "problem": "封面按鈕寫了「爸媽」，但落地的組地圖、「用錢前的準備」和第三題都只對「你自己」說話。全書只有封面按鈕出現「爸媽」，「父母」只在安全順序裡出現一次（父母的醫療與看護）。讀者要自己想出「陳大哥就等於我爸媽」「家庭一頁表可以和爸媽一起填」。連到陳大哥的只有一個「12」（寬 14px），而且這行是淡色小字。",
+            "fix": "在 group-life 的陳大哥那句前後補一句給替爸媽看的人，例如「替爸媽看：先讀陳大哥（60 歲、五年後退休），再和爸媽一起填家庭一頁表」，並把連結擴大到「陳大哥」三個字。這是新文字，要作者點頭。"
+          },
+          {
+            "severity": "should",
+            "section": "任務 5／用錢前的準備",
+            "location": "#withdraw 開頭第三段",
+            "problem": "「用錢前的準備」一開頭就請讀者回到「年齡、槓桿與退休」第三題，「往下找…兩張卡」。第三題是 lifecycle 的一部分，整個 lifecycle 約 14 個畫面長。新手在這裡要來回跳，而且落地後還得自己找那兩張卡。",
+            "fix": "那兩張卡如果有 id，就直接連到卡上；如果沒有，就補兩個錨點，例如 lifecycle-sequence、lifecycle-3layers。"
+          },
+          {
+            "severity": "should",
+            "section": "任務 2／計畫表",
+            "location": "#group-plan 小字、#s11 段末 decision「印《可列印工作表》的計畫表那一頁」",
+            "problem": "書裡三次提到《可列印工作表》，但沒有一處是連結，全頁也沒有任何本機檔案的連結。手機讀者看到「另有《可列印工作表》」會想點，卻找不到地方點。段末又說「網頁版先點開『一頁空白版』再列印」，但用手機列印本來就不方便。",
+            "fix": "如果工作表和主體會放在同一個地方發佈，就加相對連結；如果不會，就寫清楚去哪裡拿，例如「和這份檔案一起發的另一個檔案」。要作者決定怎麼發佈。"
+          },
+          {
+            "severity": "should",
+            "section": "任務 2／一頁空白版",
+            "location": "#s11 details「展開一頁空白版」，400px 截圖 walk-2c、walk-2d",
+            "problem": "手機上空白版仍然排成兩欄：左欄是 A、B，右欄是 E；下一格左欄 C、D，右欄 F、G、H。照手機由上往下讀，順序變成 A、B、E、C、D、F，而且每欄只有約 150px，每一行都被切碎。上方還顯示「← 表格可左右滑動 →」，但這張表其實不能橫向滑動，狀況索引表也一樣（scrollWidth＝clientWidth＝328）。",
+            "fix": "在 max-width:600px 時把空白版改成單欄（A→H）。「表格可左右滑動」提示只在表格真的比畫面寬時才顯示，例如用 JS 比 scrollWidth 和 clientWidth。空白版是保護區塊，只改 CSS 不改內容也要先確認哨兵同意。"
+          },
+          {
+            "severity": "should",
+            "section": "任務 4／年度檢查",
+            "location": "#annual 第 4 項「費用」→「要換，先算換的成本（第 14 節）」",
+            "problem": "這個連結會跳到第 14 節開頭（31 種情境）。真正有用的那一題「改換費用較低的產品」埋在裡面，沒有自己的錨點，讀者要一路往下翻。",
+            "fix": "給 s13「改換費用較低的產品」這一題加錨點，這裡直接連過去。"
+          },
+          {
+            "severity": "note",
+            "section": "任務 1／安全順序",
+            "location": "封面按鈕 → #start",
+            "problem": "很順：點 1 下，標題和白話版都在第一個畫面裡。但整節約 7 個畫面長，「完成五項檢查，再決定投入金額」這個結論要滑到最後才看到。國中程度的讀者可能讀到第 4 項的保險細節就停了，不知道自己算不算「可以開始」。",
+            "fix": "可以在白話版下面加一行「五項都打勾，就可以開始；還沒滿，先用小金額走一次開戶」，把段末結論提前。這是新文字，可有可無。"
+          },
+          {
+            "severity": "note",
+            "section": "任務 2／計畫表",
+            "location": "#group-plan 小字「填 E 區和 F 區以前，先讀第 5 節和第 10 節」",
+            "problem": "順著走到第 11 節時，這句會讓新手猶豫要不要先繞去第 5、10 節。另外，填 E 區要用的「兩把尺」在空白版下方約 1.1 個畫面，要先往下讀才知道怎麼填。不影響找到空白版。",
+            "fix": "不用改。或者把小字改成「填到 E、F 區卡住時，再看第 5、10 節」，比較不像非讀不可的前置作業。"
+          },
+          {
+            "severity": "note",
+            "section": "全站／手機",
+            "location": "整頁 scrollWidth 525px，畫面 400px",
+            "problem": "第 2 批已經回報：methods 裡一行長 <code> 網址不會換行，整頁會橫向滑動。五個任務截圖時版面都沒有歪，但手機用手指滑的時候可能會斜斜移動。",
+            "fix": "給 methods 那個 code 加 word-break:break-all 或 overflow-wrap:anywhere。"
+          },
+          {
+            "severity": "note",
+            "section": "全站／導航",
+            "location": "各節末的「回目錄」",
+            "problem": "唯一的返回入口在每節最後；第 11 節有 17 個畫面長，lifecycle 有 14 個畫面長。走查時要回封面，都是靠瀏覽器的上一頁（hash 跳轉可以回去），新手不一定會想到。",
+            "fix": "可以考慮在手機上加一個浮動的「回目錄」小鈕，或是不處理，交給作者決定。"
+          },
+          {
+            "severity": "note",
+            "section": "封面",
+            "location": "nav.tasks、details.read-how、#toc",
+            "problem": "順利：七個按鈕排成兩欄，每個按鈕大小是 180×70–94px，好點；閱讀方式框預設收合；目錄只開「開始之前」。第一個畫面只看得到前兩個按鈕，要往下滑一點才看到其他五個，影響不大。",
+            "fix": "不用改。"
+          }
+        ]
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Fix3"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Batch0"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 3,
+      "title": "Batch1"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 4,
+      "title": "Batch2"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 5,
+      "title": "Verify"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "fix3",
+      "phaseIndex": 1,
+      "phaseTitle": "Fix3",
+      "agentId": "afd3162ab826067e5",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789609733077,
+      "queuedAt": 1789609730638,
+      "attempt": 1,
+      "lastToolName": "Bash",
+      "lastToolSummary": "cd \"/Users/linyenchu/Cladue Code/family-finance\" && grep -n…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance（獨立本機 git repo）。\n必讀：/Users/linyenchu/Cladue Code/family-finance/docs/handoff-guide-2026-09-16.md（標記系統；節 id ≠ 顯示節號：#cases＝12、#s12＝13、#s13＝14；工具規矩）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（含最後一節「追加：全書目錄重排」的作者拍板）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/eli5-rules.md。\n硬規則：大檔只用 Edi…",
+      "promptFramed": false,
+      "lastProgressAt": 1789609971222,
+      "tokens": 128101,
+      "toolCalls": 26,
+      "durationMs": 238144,
+      "resultPreview": "修完了，18 條意見（must 2、should 16）逐條處理，檢查三項全部通過。只有一條沒做完：一頁空白版不能加格子，要作者決定。18 筆改動都套進 `guide/index.html`，另外改了一支程式的檢查，沒有 commit。\n\n**Must**\n1. 再平衡寫出「強制自己賣高買低」：已補在第 11 節再平衡第一段段末，照選項 A，沒加數字，兩個但書都在（高低是和防守那一塊比、不是猜最高最低點；不保證那一次買得便宜）。\n2. 第 14 節（id s13）「覺得價格太高」那一題：已改。只講方向，賺錢的比例和平均報酬這兩把尺分開講，沒加新數字，句尾補了「股票比例睡得著」。\n\n**Should**\n3. 欄位表第 21 格：改成「比例超過自己寫下的門檻（本指南用 5/25…）」。這張表不在工作表保護範圍內。\n4. 「股票會越來越多」：加了「通常」。\n5. 研究沒扣交易成本：小字、S1 …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "batch0",
+      "phaseIndex": 2,
+      "phaseTitle": "Batch0",
+      "agentId": "a3b8b587535bb3188",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789609977464,
+      "queuedAt": 1789609973095,
+      "attempt": 1,
+      "lastToolName": "Bash",
+      "lastToolSummary": "cd \"/Users/linyenchu/Cladue Code/family-finance\" && python3…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance（獨立本機 git repo）。\n必讀：/Users/linyenchu/Cladue Code/family-finance/docs/handoff-guide-2026-09-16.md（標記系統；節 id ≠ 顯示節號：#cases＝12、#s12＝13、#s13＝14；工具規矩）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（含最後一節「追加：全書目錄重排」的作者拍板）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/eli5-rules.md。\n硬規則：大檔只用 Edi…",
+      "promptFramed": false,
+      "lastProgressAt": 1789610202708,
+      "tokens": 139281,
+      "toolCalls": 31,
+      "durationMs": 225243,
+      "resultPreview": "第 0 批做完了。建置和三項檢查都通過，沒有 stamp 任何短稿，也沒有 commit。\n\n**1. 列印規則（§10.1，`tools/build_lite.py`）**\n- 「不另起新頁」原本只寫了 group-core 和 group-howto，改成所有 `section.part[id^=\"group-\"]` 都適用。\n- 分組節印成色帶：淺底、上下細線，列印時保留底色。h2 後面不斷頁。\n- 斷頁規則：地圖清單 5 行以內整塊不斷頁；超過 5 行（例如 group-core 有 10 行）可以跨頁，但每一行不切開。\n- 註解也改成「所有 group-* 分組節」。\n- 頁數沒變：完整版 PDF 還是 145 頁，文字少於 250 字的頁還是 3 頁（第 52、71、145 頁）。\n\n**2. 新哨兵（§10.2，`tools/lite_sentinels.py`）**\n- 加…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "batch1",
+      "phaseIndex": 3,
+      "phaseTitle": "Batch1",
+      "agentId": "a6c51bee00cbf3e02",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789610206424,
+      "queuedAt": 1789610204194,
+      "attempt": 1,
+      "lastToolName": "Bash",
+      "lastToolSummary": "cd \"/Users/linyenchu/Cladue Code/family-finance\" && python3…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance（獨立本機 git repo）。\n必讀：/Users/linyenchu/Cladue Code/family-finance/docs/handoff-guide-2026-09-16.md（標記系統；節 id ≠ 顯示節號：#cases＝12、#s12＝13、#s13＝14；工具規矩）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（含最後一節「追加：全書目錄重排」的作者拍板）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/eli5-rules.md。\n硬規則：大檔只用 Edi…",
+      "promptFramed": false,
+      "lastProgressAt": 1789610614837,
+      "tokens": 175926,
+      "toolCalls": 36,
+      "durationMs": 408412,
+      "resultPreview": "第 1 批（換骨架）做完了。建置和三項檢查都通過，短稿零 stamp，沒有 commit。手機版還沒在瀏覽器實際看過。\n\n**做了什麼**\n- **搬節**：正文順序現在是 …s10 → group-plan → s11, cases, s12 → group-situations → s13, sidepaths → group-howto → firstmonth, steps, products, costs → group-life → annual, lifecycle, withdraw → group-ref → toolbox, methods。實際搬動 4 次，和施工文件一致。\n- **分組節**：group-core、group-howto 原地改寫成組地圖，另外新增 4 個。清單裡的節名、開場白、節號都由程式從目標節照抄。\n- **照「先不加」做到的**：\n  - 沒…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "batch2",
+      "phaseIndex": 4,
+      "phaseTitle": "Batch2",
+      "agentId": "ac5b5fde793a22bf5",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789610619027,
+      "queuedAt": 1789610616914,
+      "attempt": 1,
+      "lastToolName": "Bash",
+      "lastToolSummary": "cd \"/Users/linyenchu/Cladue Code/family-finance\" && B=wip/v…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance（獨立本機 git repo）。\n必讀：/Users/linyenchu/Cladue Code/family-finance/docs/handoff-guide-2026-09-16.md（標記系統；節 id ≠ 顯示節號：#cases＝12、#s12＝13、#s13＝14；工具規矩）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（含最後一節「追加：全書目錄重排」的作者拍板）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/eli5-rules.md。\n硬規則：大檔只用 Edi…",
+      "promptFramed": false,
+      "lastProgressAt": 1789611035084,
+      "tokens": 166438,
+      "toolCalls": 43,
+      "durationMs": 416056,
+      "resultPreview": "第 2 批（找東西的工具）做完了。建置和三項檢查都通過，短稿零 stamp，沒有 commit。\n\n**做了什麼**（`patch-batch2.json`，共 25 筆，用 guidetools apply 套上）\n- **§8 錨點 18 個**：\n  - `ten-stop`、`drill` 是插在受保護區塊前面的空 span。\n  - `s10-cooling` 只在 li 上加屬性。\n  - 其餘 15 個加在 h3 上。\n- **§6.3 狀況索引**：10 列照樣張，放在 group-situations 的「動手之前先看一遍也好」和清單之間；清單後面加了「表上找不到，就往下翻第 14 節…」。\n  - 每一格指到的 id 我都開 HTML 讀過內容，都對得上。\n  - 幾個容易疑心的地方也確認過：s13「怕賠」最後一題就是台幣升值；「怕賠」裡有「市場下跌 20%」和「新聞預…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "verify:structure",
+      "phaseIndex": 5,
+      "phaseTitle": "Verify",
+      "agentId": "ac6e7147636373386",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789611039096,
+      "queuedAt": 1789611036498,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "結構裁判，只讀不改。比對三個版本：改前 stages/fix3-before.h…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檢查程式與截圖寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify5/）。改前（這一輪開始前）：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/fix3-before.html；改後：guide/index.html、output/full-v60-out.html、export/ 的 PDF。施工文件：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/restructure/migration-plan.md（權威，逐節讀完）；給…",
+      "promptFramed": false,
+      "lastProgressAt": 1789611615853,
+      "tokens": 237883,
+      "toolCalls": 64,
+      "durationMs": 575792,
+      "resultPreview": "{\"scope\":\"結構裁判，只讀不改。比對三個版本：改前 stages/fix3-before.html（等於 HEAD）、各批的 before 檔、改後 guide/index.html。改後這份和 output/full-v60-out.html、batch2/after.html、export 裡的 html 逐位元相同。另外看了 export 的 PDF（147 頁）、batch2 的 400px 截圖，並用 headless Chrome 實印了封面加目錄兩種情況：有 JS 的寬螢幕，和把展開腳本拿掉。檢查程式與截圖都放在 wip/v61-2026-09-17/verify5/：check_struct.py、directional.py、protected_raw.py、show.py、struct_lib.py、print-nojs.pdf、print-nojs-p1.pn…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "verify:index",
+      "phaseIndex": 5,
+      "phaseTitle": "Verify",
+      "agentId": "a5db42c18f3d1991f",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789611039373,
+      "queuedAt": 1789611036498,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "狀況索引 10 列（共 24 個連結，加上表下「表上找不到」那句）…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檢查程式與截圖寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify5/）。改前（這一輪開始前）：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/fix3-before.html；改後：guide/index.html、output/full-v60-out.html、export/ 的 PDF。施工文件：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/restructure/migration-plan.md（權威，逐節讀完）；給…",
+      "promptFramed": false,
+      "lastProgressAt": 1789611431792,
+      "tokens": 188908,
+      "toolCalls": 29,
+      "durationMs": 391731,
+      "resultPreview": "{\"scope\":\"狀況索引 10 列（共 24 個連結，加上表下「表上找不到」那句）和封面入口（7 個按鈕加一行小字），以 guide/index.html 為準，另外拿 output/full-v60-out.html、export 的完整指南 HTML 和 PDF 對照。先逐節讀完施工文件 §6.3、§7.1、§8、§11.4，也讀了推薦文件第四節。\\n\\n做了哪些檢查：\\n（1）group-situations 整節和 nav.tasks，跟施工文件的 HTML 逐字比對，完全相同（plan_vs_guide.py）。\\n（2）每個 href 在 HTML 裡找 id，列出目標所在的節、節號、有沒有包在摺疊或受保護區塊裡，以及卡片內文（links.py）。三份 HTML 的結果完全相同，輸出在 links-*.txt。\\n（3）用 Chrome headless 實際點每一個連結（…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "verify:fix3",
+      "phaseIndex": 5,
+      "phaseTitle": "Verify",
+      "agentId": "a2ea6ad5c30dd76c7",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789611038783,
+      "queuedAt": 1789611036498,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "fix3 複驗（再平衡、G11，只讀）。改後 guide/index.html、outp…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檢查程式與截圖寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify5/）。改前（這一輪開始前）：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/fix3-before.html；改後：guide/index.html、output/full-v60-out.html、export/ 的 PDF。施工文件：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/restructure/migration-plan.md（權威，逐節讀完）；給…",
+      "promptFramed": false,
+      "lastProgressAt": 1789611613388,
+      "tokens": 197485,
+      "toolCalls": 61,
+      "durationMs": 574604,
+      "resultPreview": "{\"scope\":\"fix3 複驗（再平衡、G11，只讀）。改後 guide/index.html、output/full-v60-out.html、export 的 HTML 三份逐位元組相同，PDF 共 147 頁，是在 guide 之後產生的。檢查程式在 wip/v61-2026-09-17/verify5/（c1–c10、extract.py、txt/、details_inventory.json、pdf_pages.txt、pdf-p004/084/090/091/092.png），沒改任何正式檔，也沒跑 build。結論：(1)(2)(4) 全部通過；(3) 有 1 條 should，其餘處理都合理。\\n【總查】18 筆補丁在現在的 guide 裡都還在，都只出現一次，舊句全部消失（c1）。把 18 筆倒著套回 fix3/after.html，結果和 fix3-before.h…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "walkthrough",
+      "phaseIndex": 5,
+      "phaseTitle": "Verify",
+      "agentId": "a662b34f05d8bd866",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789611039542,
+      "queuedAt": 1789611036499,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "新手走查（國中程度、第一次投資、手機 400px）：output/full-v…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。只讀不改（檢查程式與截圖寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify5/）。改前（這一輪開始前）：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/stages/fix3-before.html；改後：guide/index.html、output/full-v60-out.html、export/ 的 PDF。施工文件：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/restructure/migration-plan.md（權威，逐節讀完）；給…",
+      "promptFramed": false,
+      "lastProgressAt": 1789611431949,
+      "tokens": 140639,
+      "toolCalls": 36,
+      "durationMs": 392406,
+      "resultPreview": "{\"scope\":\"新手走查（國中程度、第一次投資、手機 400px）：output/full-v60-out.html（和 guide/index.html 逐位元相同）。用 Chrome headless 加 CDP 模擬 400×800 手機畫面，全程只點頁面上的連結。截圖放在 wip/v61-2026-09-17/verify5/walk-*.png（共 22 張，每張都看過），檢查程式是同一個資料夾裡的 cdp.py、walk.py、t0–t6.py。正文沒有改。\\n\\n五個任務從封面起算點幾下：\\n(1) 要不要開始投資：1 下，點「先確認能不能開始投資」會直接到「投資前的安全順序」。\\n(2) 填計畫表：3 下，封面「寫下自己的比例和規則」→ 地圖裡的第 11 節 → 往下滑約 2.6 個畫面，點開「一頁空白版」。\\n(3) 大跌想賣：2 下，封面「大跌很慌、想賣」→ 狀況索…"
+    }
+  ],
+  "totalTokens": 1374661,
+  "totalToolCalls": 326
+}

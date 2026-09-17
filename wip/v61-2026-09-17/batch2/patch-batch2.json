@@ -1,0 +1,152 @@
+[
+ {
+  "section": "ten",
+  "old": "<div class=\"warning\" data-lite=\"ch1\"",
+  "new": "<span id=\"ten-stop\"></span><div class=\"warning\" data-lite=\"ch1\"",
+  "why": "錨點：四個立即停止（span 插在警告框前）"
+ },
+ {
+  "section": "s2",
+  "old": "<h3>前幾年像沒在長：先有心理準備</h3>",
+  "new": "<h3 id=\"s2-slow\">前幾年像沒在長：先有心理準備</h3>",
+  "why": "錨點 s2-slow"
+ },
+ {
+  "section": "s5",
+  "old": "<h3>跌的時候、很久沒漲的時候，記得這幾句</h3>",
+  "new": "<h3 id=\"s5-remember\">跌的時候、很久沒漲的時候，記得這幾句</h3>",
+  "why": "錨點 s5-remember"
+ },
+ {
+  "section": "s6",
+  "old": "<h3>等匯率，和等股價是同一個問題</h3>",
+  "new": "<h3 id=\"s6-fx\">等匯率，和等股價是同一個問題</h3>",
+  "why": "錨點 s6-fx"
+ },
+ {
+  "section": "s6",
+  "old": "<h3>現在是歷史新高，會不會太高了？</h3>",
+  "new": "<h3 id=\"s6-ath\">現在是歷史新高，會不會太高了？</h3>",
+  "why": "錨點 s6-ath"
+ },
+ {
+  "section": "s8",
+  "old": "<h3>高股息 ETF：先看四件事</h3>",
+  "new": "<h3 id=\"s8-dividend\">高股息 ETF：先看四件事</h3>",
+  "why": "錨點 s8-dividend"
+ },
+ {
+  "section": "s11",
+  "old": "<h3>把答案寫成一張紙：我的投資計畫</h3>",
+  "new": "<h3 id=\"plan-table\">把答案寫成一張紙：我的投資計畫</h3>",
+  "why": "錨點 plan-table"
+ },
+ {
+  "section": "cases",
+  "old": "<h3>陳大哥：五年後退休</h3>",
+  "new": "<h3 id=\"case-chen\">陳大哥：五年後退休</h3>",
+  "why": "錨點 case-chen"
+ },
+ {
+  "section": "s12",
+  "old": "<h3>三條新手路徑：去哪裡買、各付什麼代價</h3>",
+  "new": "<h3 id=\"s12-paths\">三條新手路徑：去哪裡買、各付什麼代價</h3>",
+  "why": "錨點 s12-paths"
+ },
+ {
+  "section": "s13",
+  "old": "<h3>怕錯過（1 題）</h3>",
+  "new": "<h3 id=\"s13-miss\">怕錯過（1 題）</h3>",
+  "why": "錨點 s13-miss"
+ },
+ {
+  "section": "s13",
+  "old": "<h3>怕賠（14 題）</h3>",
+  "new": "<h3 id=\"s13-loss\">怕賠（14 題）</h3>",
+  "why": "錨點 s13-loss"
+ },
+ {
+  "section": "s13",
+  "old": "<h3>怕輸人（4 題）</h3>",
+  "new": "<h3 id=\"s13-envy\">怕輸人（4 題）</h3>",
+  "why": "錨點 s13-envy"
+ },
+ {
+  "section": "s13",
+  "old": "<h3>無聊（1 題）</h3>",
+  "new": "<h3 id=\"s13-bored\">無聊（1 題）</h3>",
+  "why": "錨點 s13-bored"
+ },
+ {
+  "section": "s13",
+  "old": "<h3>想控制（7 題）</h3>",
+  "new": "<h3 id=\"s13-control\">想控制（7 題）</h3>",
+  "why": "錨點 s13-control"
+ },
+ {
+  "section": "s13",
+  "old": "<h3>家人推銷時：守住自己的規則，不必說服對方</h3>",
+  "new": "<h3 id=\"s13-family\">家人推銷時：守住自己的規則，不必說服對方</h3>",
+  "why": "錨點 s13-family"
+ },
+ {
+  "section": "costs",
+  "old": "<h3>四種出事，哪一種會讓錢真的不見</h3>",
+  "new": "<h3 id=\"costs-four\">四種出事，哪一種會讓錢真的不見</h3>",
+  "why": "錨點 costs-four"
+ },
+ {
+  "section": "s10",
+  "old": "<ul class=\"checklist\"><li><strong>冷卻期</strong>",
+  "new": "<ul class=\"checklist\"><li id=\"s10-cooling\"><strong>冷卻期</strong>",
+  "why": "錨點：冷卻期 li（只加屬性）"
+ },
+ {
+  "section": "s11",
+  "old": "<div class=\"data-card\" data-lite-alt=\"ch4-drill\">",
+  "new": "<span id=\"drill\"></span><div class=\"data-card\" data-lite-alt=\"ch4-drill\">",
+  "why": "錨點：大跌演練（span 插在受保護區塊前）"
+ },
+ {
+  "section": "group-situations",
+  "old": "<p>動手之前先看一遍也好：先知道自己可能會怕什麼，遇到時比較不慌。</p>\n<ol class=\"part-map\">\n<li><span class=\"map-num\">14</span>",
+  "new": "<p>動手之前先看一遍也好：先知道自己可能會怕什麼，遇到時比較不慌。</p>\n<div class=\"table-wrap\"><table class=\"compact text situations\"><thead><tr><th>遇到的狀況</th><th>先翻這裡</th></tr></thead><tbody>\n<tr><td>帳面跌了一兩成、新聞說要崩盤，很想賣</td><td>先打開自己<a class=\"xref\" href=\"#plan-table\">計畫表</a>的 F 區照做；再看第 <a class=\"xref\" href=\"#s5-remember\">5</a> 節「跌的時候、很久沒漲的時候，記得這幾句」、第 <a class=\"xref\" href=\"#drill\">11</a> 節「大跌演練」、第 <a class=\"xref\" href=\"#s13-loss\">14</a> 節「怕賠」</td></tr>\n<tr><td>投了好幾年，好像都沒在長</td><td>第 <a class=\"xref\" href=\"#s2-slow\">2</a> 節「前幾年像沒在長」、第 <a class=\"xref\" href=\"#s5-remember\">5</a> 節同一張卡、第 <a class=\"xref\" href=\"#s13-bored\">14</a> 節「無聊」</td></tr>\n<tr><td>漲很多，想先賣掉一些</td><td>第 <a class=\"xref\" href=\"#s8\">8</a> 節、第 <a class=\"xref\" href=\"#s13-miss\">14</a> 節「怕錯過」</td></tr>\n<tr><td>手上有錢，想等跌下來，或覺得現在太高</td><td>第 <a class=\"xref\" href=\"#s6\">6</a> 節（含「<a class=\"xref\" href=\"#s6-ath\">現在是歷史新高，會不會太高了？</a>」）、第 <a class=\"xref\" href=\"#s13-loss\">14</a> 節「怕賠」</td></tr>\n<tr><td>台幣升值，海外資產縮水</td><td>第 <a class=\"xref\" href=\"#s6-fx\">6</a> 節「等匯率，和等股價是同一個問題」、第 <a class=\"xref\" href=\"#s13-loss\">14</a> 節「怕賠」最後一題</td></tr>\n<tr><td>想改計畫、想調高股票比例、想加碼攤平</td><td>第 <a class=\"xref\" href=\"#s10-cooling\">10</a> 節「冷卻期」、第 <a class=\"xref\" href=\"#s13-control\">14</a> 節「想控制」</td></tr>\n<tr><td>朋友集中一檔賺很多，覺得自己輸了</td><td>第 <a class=\"xref\" href=\"#s13-envy\">14</a> 節「怕輸人」</td></tr>\n<tr><td>有人推薦高股息、月配、儲蓄險、正 2、主題型，或家人一直推銷</td><td>「<a class=\"xref\" href=\"#sidepaths\">常見的岔路</a>」、第 <a class=\"xref\" href=\"#s8-dividend\">8</a> 節「高股息 ETF：先看四件事」、第 <a class=\"xref\" href=\"#s13-family\">14</a> 節「家人推銷時」</td></tr>\n<tr><td>想借錢投資（信貸、質押、融資）</td><td>「<a class=\"xref\" href=\"#lifecycle-q2\">年齡、槓桿與退休</a>」第二題、「<a class=\"xref\" href=\"#sidepaths\">常見的岔路</a>」</td></tr>\n<tr><td>LINE 老師、保證獲利、要你匯款或給驗證碼</td><td>「<a class=\"xref\" href=\"#ten-stop\">十分鐘看完</a>」的四個立即停止（已經匯了，打 165）、「<a class=\"xref\" href=\"#costs-four\">費用、稅務與帳戶安全</a>」的「四種出事」</td></tr>\n</tbody></table></div>\n<ol class=\"part-map\">\n<li><span class=\"map-num\">14</span>",
+  "why": "§6.3 狀況索引表"
+ },
+ {
+  "section": "group-situations",
+  "old": "這裡只回答一件事：為什麼它不是核心。</span></li>\n</ol>\n<a class=\"back\" href=\"#toc\">回目錄</a></section>",
+  "new": "這裡只回答一件事：為什麼它不是核心。</span></li>\n</ol>\n<p class=\"small\">表上找不到，就往下翻第 <a class=\"xref\" href=\"#s13\">14</a> 節，31 題照六種感受分組。</p>\n<a class=\"back\" href=\"#toc\">回目錄</a></section>",
+  "why": "§6.3 收尾句"
+ },
+ {
+  "section": "group-life",
+  "old": "讓家人接得下去。</span></li>\n</ol>\n<a class=\"back\" href=\"#toc\">回目錄</a></section>",
+  "new": "讓家人接得下去。</span></li>\n</ol>\n<p class=\"small\">離退休只剩幾年的人，可以對照第 <a class=\"xref\" href=\"#case-chen\">12</a> 節的陳大哥（五年後退休，附填好的全表）。</p>\n<a class=\"back\" href=\"#toc\">回目錄</a></section>",
+  "why": "§6.5 陳大哥句"
+ },
+ {
+  "section": "products",
+  "old": "ETF 也要打開成分表，不能只看名稱、價格或配息。</p>\n<div class=\"data-card\" data-lite-alt=\"ch6-pick\"><h3>選 ETF 時逐項查看</h3>",
+  "new": "ETF 也要打開成分表，不能只看名稱、價格或配息。</p>\n<p>還沒決定去哪裡買，先看第 <a class=\"xref\" href=\"#s12-paths\">13</a> 節「三條新手路徑：去哪裡買、各付什麼代價」。</p>\n<div class=\"data-card\" data-lite-alt=\"ch6-pick\"><h3>選 ETF 時逐項查看</h3>",
+  "why": "§9.3 products 指路句（第 2 題 A）"
+ },
+ {
+  "section": "cover",
+  "old": "第 <a class=\"xref\" href=\"#s11\">11</a> 節的計畫表（白話版、兩把尺、壓力測試、三問）",
+  "new": "第 <a class=\"xref\" href=\"#plan-table\">11</a> 節的計畫表（白話版、兩把尺、壓力測試、三問）",
+  "why": "新 1 改回 #plan-table"
+ },
+ {
+  "section": "cover",
+  "old": "</p>\n<details class=\"promise read-how\" data-print=\"open\">",
+  "new": "</p>\n<nav class=\"tasks\" aria-label=\"我現在想\"><p class=\"tasks-title\"><strong>我現在想……</strong></p>\n<ul>\n<li><a href=\"#ten\">只有十分鐘，先抓重點</a></li>\n<li><a href=\"#start\">先確認能不能開始投資（預備金、卡債、保單）</a></li>\n<li><a href=\"#group-plan\">寫下自己的比例和規則</a></li>\n<li><a href=\"#group-howto\">開戶、挑商品、下第一單</a></li>\n<li><a href=\"#group-situations\">大跌很慌、想賣，或有人推銷</a></li>\n<li><a href=\"#annual\">年底了，做一年一次的檢查</a></li>\n<li><a href=\"#group-life\">自己或爸媽快退休、快要用錢</a></li>\n</ul>\n<p class=\"small\">看不懂的詞，翻「<a class=\"xref\" href=\"#glossary\">先認識這些詞</a>」；想從頭讀，往下看<a href=\"#toc\">目錄</a>。</p></nav>\n<details class=\"promise read-how\" data-print=\"open\">",
+  "why": "§7.1 封面入口"
+ },
+ {
+  "section": "css",
+  "old": ".part-map .map-lede+.small{display:block;padding-left:1.9em}\n",
+  "new": ".part-map .map-lede+.small{display:block;padding-left:1.9em}\n.tasks ul{list-style:none;margin:.4em 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}\n.tasks li a{display:block;height:100%;padding:.6em .8em;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-decoration:none;line-height:1.4}\n@media print{.tasks{display:none}}\n",
+  "why": "§7.1 CSS"
+ }
+]

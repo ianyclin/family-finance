@@ -1,0 +1,366 @@
+{
+ "vw": 500,
+ "docW": 525,
+ "res": [
+  {
+   "where": "cover",
+   "href": "ten",
+   "text": "只有十分鐘，先抓重點",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 2152,
+   "lands": "十分鐘看完：新手先記住這七件事其他各節，都是這七件事的理由和"
+  },
+  {
+   "where": "cover",
+   "href": "start",
+   "text": "先確認能不能開始投資（預備金、卡債、保單",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 11408,
+   "lands": "投資前的安全順序先打地基，再蓋樓；投資是樓上的事。 白話版遠"
+  },
+  {
+   "where": "cover",
+   "href": "group-plan",
+   "text": "寫下自己的比例和規則",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 80533,
+   "lands": "寫下自己的計畫把理由填成一張紙：這筆錢什麼時候用、股票放幾成"
+  },
+  {
+   "where": "cover",
+   "href": "group-howto",
+   "text": "開戶、挑商品、下第一單",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 120252,
+   "lands": "動手做：開戶、挑商品、第一年計畫寫好以後照順序做；做到哪一步"
+  },
+  {
+   "where": "cover",
+   "href": "group-situations",
+   "text": "大跌很慌、想賣，或有人推銷",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 107955,
+   "lands": "遇到狀況時翻：怕跌、想賣、有人推銷心裡在怕、手癢想動、有人推"
+  },
+  {
+   "where": "cover",
+   "href": "annual",
+   "text": "年底了，做一年一次的檢查",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 140140,
+   "lands": "每年一次的檢查表至少一年一次，一小時。平常只在每月扣款後看一"
+  },
+  {
+   "where": "cover",
+   "href": "group-life",
+   "text": "自己或爸媽快退休、快要用錢",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 139432,
+   "lands": "隨人生調整：每年檢查、年紀變了、快要用錢一年檢查一次；年紀、"
+  },
+  {
+   "where": "cover",
+   "href": "glossary",
+   "text": "先認識這些詞",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 14316,
+   "lands": "先認識這些詞前後各節都會用到，看不懂的時候回來查。 白話版像"
+  },
+  {
+   "where": "cover",
+   "href": "toc",
+   "text": "目錄",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 1000,
+   "lands": "目錄 點組名展開；想從頭讀，從「開始之前」往下。 開始之前先"
+  },
+  {
+   "where": "帳面跌了一兩成、新聞說要崩盤，很想賣",
+   "href": "plan-table",
+   "text": "計畫表",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 81471,
+   "lands": "把答案寫成一張紙：我的投資計畫"
+  },
+  {
+   "where": "帳面跌了一兩成、新聞說要崩盤，很想賣",
+   "href": "s5-remember",
+   "text": "5",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 58312,
+   "lands": "跌的時候、很久沒漲的時候，記得這幾句"
+  },
+  {
+   "where": "帳面跌了一兩成、新聞說要崩盤，很想賣",
+   "href": "drill",
+   "text": "11",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 86690,
+   "lands": "大跌演練：挑一個平靜的晚上，花十分鐘從計畫表 E 區抄下：「"
+  },
+  {
+   "where": "帳面跌了一兩成、新聞說要崩盤，很想賣",
+   "href": "s13-loss",
+   "text": "14",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 110655,
+   "lands": "怕賠（14 題）"
+  },
+  {
+   "where": "投了好幾年，好像都沒在長",
+   "href": "s2-slow",
+   "text": "2",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 32757,
+   "lands": "前幾年像沒在長：先有心理準備"
+  },
+  {
+   "where": "投了好幾年，好像都沒在長",
+   "href": "s5-remember",
+   "text": "5",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 58312,
+   "lands": "跌的時候、很久沒漲的時候，記得這幾句"
+  },
+  {
+   "where": "投了好幾年，好像都沒在長",
+   "href": "s13-bored",
+   "text": "14",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 114329,
+   "lands": "無聊（1 題）"
+  },
+  {
+   "where": "漲很多，想先賣掉一些",
+   "href": "s8",
+   "text": "8",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 67534,
+   "lands": "8漲了要不要先賣一些？賣出會降低市場曝險；之後若再買回，就多"
+  },
+  {
+   "where": "漲很多，想先賣掉一些",
+   "href": "s13-miss",
+   "text": "14",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 110458,
+   "lands": "怕錯過（1 題）"
+  },
+  {
+   "where": "手上有錢，想等跌下來，或覺得現在太高",
+   "href": "s6",
+   "text": "6",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 60314,
+   "lands": "6要不要等跌下來再買？猜低點要猜對兩次，等待也有代價。 白話"
+  },
+  {
+   "where": "手上有錢，想等跌下來，或覺得現在太高",
+   "href": "s6-ath",
+   "text": "現在是歷史新高，會不會太高了？",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 62088,
+   "lands": "現在是歷史新高，會不會太高了？"
+  },
+  {
+   "where": "手上有錢，想等跌下來，或覺得現在太高",
+   "href": "s13-loss",
+   "text": "14",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 110655,
+   "lands": "怕賠（14 題）"
+  },
+  {
+   "where": "台幣升值，海外資產縮水",
+   "href": "s6-fx",
+   "text": "6",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 63447,
+   "lands": "等匯率，和等股價是同一個問題"
+  },
+  {
+   "where": "台幣升值，海外資產縮水",
+   "href": "s13-loss",
+   "text": "14",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 110655,
+   "lands": "怕賠（14 題）"
+  },
+  {
+   "where": "想改計畫、想調高股票比例、想加碼攤平",
+   "href": "s10-cooling",
+   "text": "10",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 78319,
+   "lands": "冷卻期：規則：計畫表上任何一格要改（想賣、想加碼、換商品、調"
+  },
+  {
+   "where": "想改計畫、想調高股票比例、想加碼攤平",
+   "href": "s13-control",
+   "text": "14",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 114526,
+   "lands": "想控制（7 題）"
+  },
+  {
+   "where": "朋友集中一檔賺很多，覺得自己輸了",
+   "href": "s13-envy",
+   "text": "14",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 113483,
+   "lands": "怕輸人（4 題）"
+  },
+  {
+   "where": "有人推薦高股息、月配、儲蓄險、正 2",
+   "href": "sidepaths",
+   "text": "常見的岔路",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 116750,
+   "lands": "常見的岔路：為什麼不是核心 每一條你都會遇到；這裡只回答一件"
+  },
+  {
+   "where": "有人推薦高股息、月配、儲蓄險、正 2",
+   "href": "s8-dividend",
+   "text": "8",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 68340,
+   "lands": "高股息 ETF：先看四件事"
+  },
+  {
+   "where": "有人推薦高股息、月配、儲蓄險、正 2",
+   "href": "s13-family",
+   "text": "14",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 115649,
+   "lands": "家人推銷時：守住自己的規則，不必說服對方"
+  },
+  {
+   "where": "想借錢投資（信貸、質押、融資）",
+   "href": "lifecycle-q2",
+   "text": "年齡、槓桿與退休",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 146275,
+   "lands": "二、年輕時借錢投資，有沒有道理？"
+  },
+  {
+   "where": "想借錢投資（信貸、質押、融資）",
+   "href": "sidepaths",
+   "text": "常見的岔路",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 116750,
+   "lands": "常見的岔路：為什麼不是核心 每一條你都會遇到；這裡只回答一件"
+  },
+  {
+   "where": "LINE 老師、保證獲利、要你匯款或",
+   "href": "ten-stop",
+   "text": "十分鐘看完",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 3489,
+   "lands": "四個立即停止保證獲利、穩賺不賠。LINE 上的「老師」或「助"
+  },
+  {
+   "where": "LINE 老師、保證獲利、要你匯款或",
+   "href": "costs-four",
+   "text": "費用、稅務與帳戶安全",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 135832,
+   "lands": "四種出事，哪一種會讓錢真的不見"
+  },
+  {
+   "where": "group-situations",
+   "href": "s13",
+   "text": "14",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 109412,
+   "lands": "14三十一種常見情境：我在怕什麼？先辨認困難，再回前面的章節"
+  },
+  {
+   "where": "group-life",
+   "href": "annual",
+   "text": "每年一次的檢查表",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 140140,
+   "lands": "每年一次的檢查表至少一年一次，一小時。平常只在每月扣款後看一"
+  },
+  {
+   "where": "group-life",
+   "href": "lifecycle",
+   "text": "年齡、槓桿與退休：三個常被問的問題",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 144970,
+   "lands": "年齡、槓桿與退休：三個常被問的問題研究怎麼說、台灣的制度怎麼"
+  },
+  {
+   "where": "group-life",
+   "href": "lifecycle-q1",
+   "text": "第一題",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 145381,
+   "lands": "一、年齡真的該影響比例嗎？"
+  },
+  {
+   "where": "group-life",
+   "href": "lifecycle-q2",
+   "text": "第二題",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 146275,
+   "lands": "二、年輕時借錢投資，有沒有道理？"
+  },
+  {
+   "where": "group-life",
+   "href": "lifecycle-q3",
+   "text": "第三題",
+   "hidden": null,
+   "top": 0,
+   "scrollY": 148229,
+   "lands": "三、退休要存多少、每年能領多少？"
+  },
+  {
+   "where": "group-life",
+   "href": "withdraw",
+   "text": "用錢前的準備與家庭交接",
+   "hidden": null,
+   "top": 16,
+   "scrollY": 154149,
+   "lands": "用錢前的準備與家庭交接開始拿錢出來花以前，先把近幾年要用的錢"
+  }
+ ]
+}

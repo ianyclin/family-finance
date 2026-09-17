@@ -1,0 +1,61 @@
+[
+ {
+  "filterButton": true
+ },
+ {
+  "href": "s13-loss",
+  "displayed": true,
+  "before": 107971,
+  "after": 109854,
+  "top": 0
+ },
+ {
+  "href": "s13-bored",
+  "displayed": false,
+  "before": 107971,
+  "after": 107971,
+  "top": 0
+ },
+ {
+  "href": "s13-miss",
+  "displayed": false,
+  "before": 107971,
+  "after": 107971,
+  "top": 0
+ },
+ {
+  "href": "s13-loss",
+  "displayed": true,
+  "before": 107971,
+  "after": 109854,
+  "top": 0
+ },
+ {
+  "href": "s13-loss",
+  "displayed": true,
+  "before": 107971,
+  "after": 109854,
+  "top": 0
+ },
+ {
+  "href": "s13-control",
+  "displayed": false,
+  "before": 107971,
+  "after": 107971,
+  "top": 0
+ },
+ {
+  "href": "s13-envy",
+  "displayed": false,
+  "before": 107971,
+  "after": 107971,
+  "top": 0
+ },
+ {
+  "href": "s13-family",
+  "displayed": true,
+  "before": 107971,
+  "after": 112703,
+  "top": 0
+ }
+]
