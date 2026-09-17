@@ -792,6 +792,18 @@ def asset_rotation():
                 caption="由上往下看第一欄：四種都當過第一名，也會連著好幾年是同一個（美股 2012 到 2015、台股 2023 到 2025）。連這四種最基本的東西都排不出固定順序；哪一年會換人，前一年看不出來。")
 
 
+# ======================================================================
+# G9/G10：兩張只在指南的新圖，各自的 compute()/chart() 寫在 tools/v61_g*.py
+def country_recovery():
+    import v61_g9_country_recovery as _g9
+    return _g9.chart(calc()["country_recovery"])
+
+
+def rebalance_drift():
+    import v61_g10_rebalance_drift as _g10
+    return _g10.chart(calc()["rebalance_drift"])
+
+
 CHARTS = [
     ("three-circles", "01-where-return-comes-from.html", "順便講「又穩又高」", "aside", three_circles),
     ("four-people", "02-time.html", "手冊算過四個人", "aside", four_people),
@@ -861,6 +873,8 @@ def do_guide():
     funcs["control-map"] = control_map       # 只在指南
     funcs["taiex-recovery"] = taiex_recovery  # 只在指南
     funcs["asset-rotation"] = asset_rotation  # 只在指南
+    funcs["country-recovery"] = country_recovery  # 只在指南
+    funcs["rebalance-drift"] = rebalance_drift    # 只在指南
     n = 0
     diffs = []
     def repl(m):

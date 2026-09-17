@@ -1,0 +1,420 @@
+{
+  "summary": "隔離人性 v61：照驗收意見產出第一批修正補丁；修 G9、G10 兩張圖，G8 撤下",
+  "agentCount": 10,
+  "logs": [],
+  "result": {
+    "drafts": [
+      {
+        "group": "cases",
+        "patch_file": "/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/patch-cases.json",
+        "patch_count": 8,
+        "fixed": [
+          "w1 must＋w1 should＋readers should（三條重複）：陳大哥全表 E 風險列連結改成「年齡、槓桿與退休」第三題（href #lifecycle），那裡有 h3「為什麼提領期怕一開始就跌」；表格內容沒動",
+          "readers should 開場段：改成「錢不夠時照三問第 3 題的順序補（多存 → 延後 → 降低目標），不靠調高股票比例。」前一句已經連到第 11 節的三問，所以沒有再加節號",
+          "readers should 共同算法小字：「表一底下」改成「表一上面那段小字」，並補上查表頁的收合標題「展開計畫表背面：查表頁」，註明要先點開（已查過：說明小字確實在表一標題和表格中間）",
+          "w1 should 阿凱地板：「長期資產、能延後最多 3 年、2041 年起重新判斷」這一句移到 <ol> 前面獨立成一段，主詞寫明「投資圈這筆錢」；地板那一步恢復成一句話；沒有加數字",
+          "w1 should＋readers should（八二欄沒人解讀，兩條合修）：阿凱三問第 3 題補回「沒補之前（投收入的 20%），就算調高到八成，低情境也只有 412 萬，還是差 38 萬（下面第一張試算表的右欄），所以不靠調高股票比例」",
+          "readers should 阿凱補法第③步：補上「（維持投收入的 20%，低情境約 392 萬做得到）」",
+          "readers should 小芸與阿哲結論：補上「（下面展開區分成「頭期款桶」「長期桶」兩段推理，各對應一張）」",
+          "w1 should＋readers should（兩條合修）頭期款桶第 1 題：改成「就是替頭期款另外填一張計畫表（推理就是這一段）」"
+        ],
+        "deferred_to_structure_batch": [],
+        "rejected": [],
+        "copy_check_ok": true
+      },
+      {
+        "group": "s11",
+        "patch_file": "/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/patch-s11.json",
+        "patch_count": 4,
+        "fixed": [
+          "w1 should：D2 那句原本說去三問卡看「為什麼不靠調高股票比例」，但三問第 3 題只有規則、沒有理由。改成照實指到「三問，和答不過時怎麼辦」第 3 題的順序（多存 → 延後 → 降低目標，不靠調高股票比例），不再答應讀者有理由可看。",
+          "w1 should＋readers should（兩位都在講欄位表第 16 格，合併只修一次）：先指到緊接在後的一頁空白版 E 區小字，公式則寫出完整卡名「壓力測試：大跌那天，實際少多少錢」那張卡的「填自己的（E 區）」，不會翻錯到兩把尺卡。",
+          "readers should：分桶圖下方那句不再叫人跳去安全順序第 5 項，直接寫出「日期不能延後的錢（教育金、房款）要更保守，接近用錢時慢慢降低風險」。內容取自 start 第 5 項小字；指向安全順序的連結留在下面兩把尺「地板」那一條。",
+          "readers should：小安範例 D 區「上面的暫估」改成「還沒挑產品、自己買指數 ETF 的人先暫估 0.5%，見上面欄位表第 12 格」。0.5% 是本節原本就有的數字。"
+        ],
+        "deferred_to_structure_batch": [],
+        "rejected": [],
+        "copy_check_ok": true
+      },
+      {
+        "group": "front",
+        "patch_file": "/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/patch-front.json",
+        "patch_count": 6,
+        "fixed": [
+          "must s3（w1 第 1、2 條，重複只修一次）：指路句改成「總費用率怎麼扣掉＝第 11 節計畫表背面的查表頁；還沒挑產品時先暫估多少＝同一節「展開 24 格怎麼填」裡 D 區那一列」。已查過：0.5% 暫估只在欄位表 D 試算第 12 格，查表頁沒有",
+          "must firstmonth（w1 第 5、6 條，重複只修一次）：「每年一次的檢查表」十項改成七項，和 annual 的 p.decision「把這七項印出來」一致",
+          "should ten（w1 第 3 條＋readers 第 10 條，同一處合併修）：結論留在原地（五年內要用的錢不放股票、放超過五年也不等於安全、接近用錢時慢慢降低風險）＋連到 start 第 5 項看分桶；補回第 11 節連結（全股票連續放五年最差 −2%，那裡查得到）",
+          "should firstmonth（w1 第 4 條＋readers 第 9 條，同一處合併修）：補回冷卻期的就地解釋（沿用舊句原話）、哪些動作算改規則（想賣、想加碼、換商品、調高股票比例），以及「先寫下日期和理由」；拿掉「分辨方法」，修好主語和受詞兜不起來的問題；等幾天和唯一例外仍然只在第 10 節",
+          "should why（readers 第 11 條）：改寫成 start 第 5 項真的有的內容（底線＋分桶）；「股票放幾成」改指第 11 節",
+          "should s1（readers 第 8 條）：扣費用併進步驟二，讀者先扣費用才算；直接寫出兩個摺疊的名字「展開 24 格怎麼填」看 D 區那一列、「展開計畫表背面：查表頁」"
+        ],
+        "deferred_to_structure_batch": [
+          "w1 should（located_section cover）：指向 withdraw 的 7 處錨文字，包括目錄的「用錢、退休與家庭交接」和 group-howto 說明。這是改節名，屬第二批結構輪，這一輪不動"
+        ],
+        "rejected": [],
+        "copy_check_ok": true
+      },
+      {
+        "group": "mid",
+        "patch_file": "/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/patch-mid.json",
+        "patch_count": 4,
+        "fixed": [
+          "w1 must（#s13 第 14 節）：「處理套牢的舊部位」的「見第 10 節第 7 條」改成「見第 10 節「捨不得認賠」那一條」，第 10 節裡確實有這個條名（<li><strong>捨不得認賠。</strong>）。readers 那條 should 講的是同一件事，兩條只修一次。數字檢查顯示第 14 節少了一個「7」，就是這個錯的條號，是刻意拿掉的。",
+          "w1 should（#s12 第 13 節）：C 區小字補回「手續費和換匯是一次性的，不算進去」，並把「欄位說明」改成「欄位表」，和第 11 節摺疊摘要「展開 24 格怎麼填（欄位表，…）」的叫法一致。",
+          "readers should（#s12 挑產品前三題第 2 題）：「先跳過也可以」的標籤前面加 <br>，讓它自己起一行；後面加一句「從這裡到這一題結束，講的是註冊地的稅。」，讀者就知道能跳過的範圍到哪裡。標籤文字沒有改，later 標記仍是 12 個。",
+          "readers should（#s12 同一件事講兩次）：在「再去比愛爾蘭註冊和美國註冊的稅」後面補「這兩種還差在美國遺產稅，下面「挑產品前先知道三件事」第 2 條一起講」。「台灣註冊的基金也先扣 30%」這件事只寫在這一題，所以原文沒有刪。第 13 節多出的數字「2」是指到第 2 條的條號，不是新的事實。"
+        ],
+        "deferred_to_structure_batch": [],
+        "rejected": [
+          {
+            "finding": "readers should（#s12）建議做法一：把註冊地那一段收進清單項目裡的新 <details> 摺疊",
+            "reason": "只採用了這條意見的目標（講清楚能跳過到哪裡、兩處怎麼分工），沒有照它的做法加摺疊。原因：全書沒有任何清單項目裡放 <details> 的先例，加了會多一個結構元素，還要另寫摘要文字。建議做法二（第 2 題只留一句指路）也沒有採用：「台灣註冊也先扣 30%」和「每 100 元先少 30 元／15 元」只寫在這裡，照做會刪掉事實，數字也會變少。改用上面「換行＋明說範圍＋指路」的寫法。"
+          }
+        ],
+        "copy_check_ok": true
+      },
+      {
+        "group": "back",
+        "patch_file": "/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/patch-back.json",
+        "patch_count": 7,
+        "fixed": [
+          "w1／annual L1 正文：補回「平常」——「從開始投資那天起，平常只記跨過圈的兩種錢」",
+          "w1／annual L1 摺疊內：「直接拿指數當年的漲幅來比會失真（第 9 節）」移到「想精算的人」正上方，句首補「和指數比的時候，」、句尾補「要比得準，照下面三步算指數那一邊」；原句逐字留在摺疊裡",
+          "w1／annual L5：補回主語「家庭一頁表上的帳戶、保單、貸款…有沒有變」",
+          "readers／annual：「表裡只放今年的進出，去年以前的都由 1 月 1 日那筆代替」搬出摺疊，放在三行例子表格正上方；摺疊裡同一句刪掉（「年底這樣算：」保留），數字總數不變",
+          "readers／withdraw：第一段改成先講道理（跌時賣股票付生活費＝低價賣掉更多、漲回來時股票已少），點名這是下面四項準備要先從預留現金支應的原因；勞保勞退那段併進同一句指路，只指一次「年齡、槓桿與退休」第三題，並寫出要往下找的兩張卡標題（部分緩解 readers／lifecycle 找不到第三題的問題）；100 萬、1973、1974 保留，無新增數字"
+        ],
+        "deferred_to_structure_batch": [
+          "w1：指向 withdraw 的三處提領類連結（annual 六件事第 2 條、lifecycle 第三題末句、cases 陳大哥）——要等第二批決定節名與「四項準備」放哪裡後一起改",
+          "w1：withdraw 的 lede、白話版與「四項準備」卡改成以家庭交接為主——D6 收尾，屬第二批改節名範圍；lede 和白話版照 eli5-rules 本輪也不能動",
+          "readers／lifecycle：h3「為什麼提領期怕一開始就跌」「勞保和勞退先算，再算第三層」「台灣三種常見的借法」加題號或改 h4，並給一、二、三題加 id、全書改指到該 id——標題依 eli5-rules 不能動，改錨點與全書連結是結構改動；本輪只在 withdraw 指路句裡寫出兩張卡標題作緩解"
+        ],
+        "rejected": [],
+        "copy_check_ok": true
+      }
+    ],
+    "chartOut": [
+      "改完了。模組裡的三段期間都改成到日的起訖，年數照日期重算、half-up，和指南 #s4 表的三個數字都對得上。自測腳本全部斷言通過，桌面與手機截圖我都看過，沒有重疊或超框。\n\n**改了什麼**（只動 `tools/v61_g9_country_recovery.py`；改前的版本另存在 `wip/v61-2026-09-17/fix/charts/v61_g9_country_recovery.before.py`）\n1. **must**：長條端點和圖上日期都改成到日。美國 1929-09-03 → 1954-11-23，日本 1989-12-29 → 2024-02-22，台灣 1990-02-10 → 2020-07-27。note 裡「美國、台灣的日期只到月，日本到日」那句刪掉，改成「日期都是收盤日」。\n2. **年數重算**（整月數＋剩下天數÷當月天數）：\n   - 美國 302.6667 個月（25.2222 年），標「約 25 年」。\n   - 日本 409.7742 個月（34.1478 年），410 個月拆成「34 年 2 個月」。\n   - 台灣 365.5484 個月（30.4624 年），標「約 30 年」。\n   - 核對結果：年數和表上的「25 年、34 年 2 個月、約 30 年」一致。\n   - 但有兩處要講清楚：\n     - 美國、台灣如果也像日本一樣標到月，會是 25 年 3 個月（303 個月）、30 年 6 個月（366 個月），和表上只寫年的寫法對不上。所以這兩條照表的粒度只標年、half-up；日本表上寫到月，就標到月。\n     - 表上美國寫「25 年」沒有「約」，台灣寫「約 30 年」。圖上兩條都標「約」，因為實際是 25.22 年。指南沒動，要不要統一請你決定。\n   - 表上美國、台灣的起訖只寫到月（1929-09 → 1954-11、1990-02 → 2020-07），和到日的日期不衝突。\n3. **should（calc_core 依賴指南）**：三列資料改成寫死在模組裡，註明查核出處（`research/supp-market-history.md`、`chapters/07` 的 src-07-11、表的查核說明欄），`compute()` 不再靠讀指南取數字。表還在才比對：市場、起訖前綴、年月數字不一致就 raise。表不在就不 raise，只在結果記一筆 `table_check`。日本含息年份也寫死了，不會再遇到 `\"%d\" % None` 的 TypeError。回傳加了 `table_check`、`endpoint`、`months_rounded`，拿掉 `table_heading` 和 `table_columns`。我查過，`calc_core` 和 `essay_charts` 只用到 `compute()` 和 `chart()`，沒有讀這兩個被拿掉的欄位。\n4. **should（長條終點）**：副標、aria-label、圖說都改成「第一次收盤」；note 補上「之後還是可能再跌回舊高點以下」。\n5. **should（含息的說法）**：「早一些」改成只寫事實，不用形容詞。\n6. **should（圖說第二句）**：「在那個高點買進的人……」整句刪掉。\n7. **單項圖例刪掉**：定義已經寫在圖說裡。\n8. **桌面版排版**：美國那條太短，兩端各放一個日期會擠在一起。所以三條都改成把「起 → 訖」合成一串，置中放在長條下方，並限制在軸的範圍內。手機版照舊，日期放在右上。\n\n**新的副標**：美國、日本、台灣的價格指數（不含股利），從歷史高點到第一次收盤再創新高\n\n**新的圖說草稿**\n每一條是一個市場的價格指數，從當時最高的收盤，到第一次收盤超過它為止：美國約 25 年、日本 34 年 2 個月、台灣約 30 年。這是三個挑出來的例子，不是每次下跌都這麼久，也不代表下跌一定回得來。\n\n**新的 note**\n三條都是價格指數（不含股利）、名目、各自幣別，沒有扣物價、費用和稅。美國：道瓊工業指數，聯準會歷史頁；日本：日經 225 指數，日經官方；台灣：加權股價指數，證交所逐日收盤。日期都是收盤日。長條畫到第一次收盤超過舊高點；之後還是可能再跌回舊高點以下。含息版會比較早回到高點：日本含息版 2021 年就先過了高點（價格版是 2024 年）；美國、台灣本文沒有含息版的日期。三個指數、幣別不同，不能直接比快慢。\n\n**新的引導句草稿**（在指南裡，這一輪沒寫進去）\n把上面那張表的三段期間畫在同一條年份軸上，更容易看出「等很久」是幾十年。\n\n**新的關鍵數字清單**\n- 美國：道瓊價格指數，1929-09-03 收 381.17 → 1954-11-23 收回；25.22 年，標「約 25 年」。\n- 日本：日經 225 價格指數，1989-12-29 → 2024-02-22；34.15 年，410 個月，標「34 年 2 個月」；含息版 2021 年先過高點。\n- 台灣：加權指數，1990-02-10 收 12,495.34 → 2020-07-27 第一次收盤超越；30.46 年，標「約 30 年」；含息版沒有官方數字。\n- 年份軸 1925–2030。\n\n**沒採用的意見與理由**\n1. **裁判建議把那句寫成「圖上美國、台灣照表只標到月」**：沒照寫，因為你的 must 要求端點改到日，這句就不對了。改成「日期都是收盤日」。\n2. **裁判建議縮短 note、刪掉和 p.small 重複的句子**：刪了「挑出來的例子，不是平均；歷史不是保證」（圖說已經有「挑出來的例子」）。「不能直接比快慢」留下，因為三條畫在同一條軸上，本身就會讓人想比。這和 p.small 重複一句，是否刪由你定。\n3. **圖放在哪（A 保留表，B 用圖取代表）**：這是拍板題，而且要改指南，我沒動。現在的模組兩種都能用：表拿掉也不會 raise。\n4. **第 4 節表標題「早很多年」和第 5 節兩種說法要不要統一**：屬於指南既有文字，列進整合拍板，沒改。\n5. **引導句**：在指南裡，只給草稿，沒寫進去。\n6. **沒跑 `calc_core.py`**：它會寫出結果檔，而這次規矩是只改模組、不重產，所以沒跑。舊的 `w3/test_G9.py` 也沒重跑，免得蓋掉 w3 的舊截圖。\n\n**自測與截圖**\n- 自測：`/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/charts/test_G9_fix.py`，涵蓋到日的日期、年數標籤、half-up、表不在時不 raise、圖說和 note 的字句，以及三條的日期都出現在圖上。\n- 桌面截圖：`/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/charts/country-recovery-desktop.png`\n- 手機截圖：`/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/charts/country-recovery-mobile.png`\n- 預覽頁：同一個資料夾的 `country-recovery.html` 和 `country-recovery-mobile.html`",
+      "I fixed the rebalance-drift chart module per the judge's notes. The test runs clean, and I checked both new screenshots myself: no overlapping labels and nothing past the frame. Following the rules I was given, I only edited `tools/v61_g10_rebalance_drift.py`, didn't run build or `--guide`, and didn't commit. The file isn't tracked by git, so there's no diff to show. The version from before my changes is saved at `/private/tmp/claude-501/-Users-linyenchu-Cladue-Code/f330c746-4fb1-4319-8da3-61dfb142160e/scratchpad/g10.bak.py`.\n\n**What changed**\n1. **Must (defense asset):**\n   - The defense is now the 3-month T-bill from the same Damodaran file (the \"cash\" in the section 4 rotation chart), and every number was recomputed.\n   - `compute()` asserts that no year in 1928–2025 has a negative T-bill return (the lowest is 0.03% in 2014), which backs the legend's \"不跌價\".\n   - The 10-year Treasury is kept only as a comparison written into the note (`bond_sensitivity`); it is not drawn as a line.\n   - Removed the false docstring claim that the dataset has no other long-run defense asset.\n   - The note says how the Treasury returns are derived and that year-end checking matches the rule card's \"年底偏離超過 5/25 門檻就再平衡\".\n2. **Should (dashed line and legend):**\n   - The legend now reads \"虛線：設定的 80%（再平衡就是調回這裡）\".\n   - The sentence \"永遠停在中間那條虛線\" is gone, and the caption's last sentence is the judge's suggested wording.\n   - The annual-rebalance pre-rebalance numbers are still not printed.\n3. **Should (year-end only):** the note now says the chart only sees each year-end and can't show what happened in between.\n4. **Should (other start years):** the caption says a different start year changes the direction and speed, and points to the 2000 example under the chart.\n5. **Minor fixes:**\n   - The first dot is labelled \"1990 年初 80%\", and the subtitle says \"1990 年初起算，到 2025 年底\".\n   - The legend wording now matches what's on the chart (\"淡色帶\" for the band, \"虛線\" for the target line).\n   - The 2008 label sits under its dot.\n6. **Robustness:**\n   - A new `MARK_YEAR` setting controls the 2008 label.\n   - `chart()` stops with an error if the line ever re-enters the band after its first breach, so the caption can't go stale.\n   - The lead sentence is stored in `res['printed']['lead_sentence']`.\n\n**New caption draft**\n1990 年初放股票八成、現金兩成，之後都不動：第 6 年（1995 年底）股票占比第一次超過 85%，之後到 2025 年底沒有一年回到門檻裡，2008 年底是 87.7%，2025 年底變成 98.3%；往哪邊跑、多快跑出去，換個起點就不一樣（圖下說明有 2000 年起點先往下跑的例子）。中間虛線是設定的八成；線跑出淡色帶，就是 5/25 說該動手的時候。\n\n**New lead sentence draft**\n比例不去管它，會跑多遠？下面這張圖用美國的歷史資料，從 1990 年初放股票八成、現金兩成（美國 3 個月國庫券，接近定存）開始，之後都不買不賣，看每年年底股票占多少，淡色帶就是八二配置的 5/25 門檻。\n\n**On-chart labels**\n- Desktop: \"1995 年第一次超過 85%：86.1%\", \"2008 年底 87.7%：股市大跌那年也沒回到門檻裡\", \"98.3%\", \"1990 年初 80%\".\n- Mobile: shortened to \"1995 年 86.1%\" and \"2008 年 87.7%\".\n\n**Key numbers (all half-up, one decimal)**\n- **5/25 band:** stocks min(5, 20) = 5 points; cash min(5, 5) = 5 points. Both give a stock share of 75%–85%, and \"outside\" means strictly more than 5 points away. No year on any path is within ±0.05 points of the edge.\n- **1990 start:**\n  - First breach is at end-1995 (year 6) at 86.1%, going up, and it never comes back inside.\n  - End-2008 is 87.7%, the lowest point after the breach.\n  - End-2025 is 98.3% stocks and 1.7% cash.\n  - 31 of 36 year-ends are outside the band.\n- **2000 start:** first breach is end-2001 at 74.5%, going down. The low is 68.8% in 2008, the path re-enters the band in 2004–2007 and 2010–2014, and it ends at 94.7%.\n- **2009 start:** breaches at end-2010 (85.2%) and ends at 97.0%. The old 85.0017% edge case is gone.\n- **All 94 start years (1928–2021):** fastest breach 1 year, median 4, slowest 22. 72 break out upward, 22 downward, and none stays inside. For 1990's 6 years, 71 start years are faster and 17 slower, so it wasn't picked for speed.\n- **Treasury version (note only):** end-2008 is 78.3%. It is back inside the band in 2002 and 2008–2012, and all start years give 1 / 4 / 16 years.\n- **Annual returns:**\n\n| Year | Stocks | T-bills | Treasuries |\n|---|---|---|---|\n| 2002 | −22.0% | 1.6% | 15.1% |\n| 2008 | −36.6% | 1.4% | 20.1% |\n\n- **Annual rebalancing (not printed):** only 2008 breaches before rebalancing; pre-rebalance range is 71.5%–84.1%.\n\nThese all match the judge's recomputation (1995 / 6 years / 86.1%, 87.7%, 31 years, 98.3%, 74.5%, 22 years).\n\n**Not adopted, and why**\n- **Damodaran in the section 11 source card:** that needs an edit to `guide/index.html`, which I wasn't allowed to touch; it's for whoever integrates. Suggested entry: Damodaran（紐約大學 Stern）Historical Returns on Stocks, Bonds and Bills, https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html, with the note \"比例漂移圖：S&P 500 含息與美國 3 個月國庫券年度報酬（10 年期公債只在說明裡對照）\".\n- **Treasury as a faint second line:** I put it in the note instead, as the judge's fix also allowed. A second line would compete with the band and the target line and add labels.\n- **\"以上／以下\" vs \"超過\" wording in the guide:** the judge said it can wait for this round, and it's guide text anyway.\n- **Legend and wording differences from the judge's suggestions:**\n  - The legend uses the words you asked for (\"防守用美國 3 個月國庫券代表定存（不跌價、利息低）\") rather than the judge's \"接近定存\".\n  - The 2008 label says \"股市大跌那年\" instead of \"大跌那年\" so it's clear what fell. The −36.6% behind it is kept in `compute()` but not printed.\n  - As a result, the main legend entry wraps to two lines on desktop.\n\n**Test and screenshots**\n- Test: `/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/charts/test_G10.py`. It checks:\n  - every number on the chart can be found in the `compute()` output;\n  - the new numbers above;\n  - that the old Treasury figures (85.3, 96.6, the on-chart 78.3) and the word \"永遠\" are gone;\n  - that both half-up methods (`Decimal(repr)` and exact decimal) agree for every printed value.\n- Screenshots:\n  - `/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/charts/rebalance-drift-desktop.png`\n  - `/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/charts/rebalance-drift-mobile.png`\n- The preview pages are in the same folder: `rebalance-drift.html` and `rebalance-drift-mobile.html`."
+    ],
+    "integ": "任務完成，未 commit、未動 guide/index.html、未跑 build_lite.py 或 essay_charts.py --guide。\n\n## 改了哪些行\n\n**tools/calc_core.py**（約第 631-638 行）\n- 刪除 `import v61_g8_recovery_by_mix as _g8`\n- 刪除 `R['recovery_by_mix'] = _g8.compute()`\n- 註解「G8/G9/G10：三張只在指南的新圖」改為「G9/G10：兩張只在指南的新圖」\n\n**tools/essay_charts.py**\n- 刪除 `recovery_by_mix()` 函式（原第 797-799 行，`import v61_g8_recovery_by_mix as _g8; return _g8.chart(...)`）\n- 刪除 `do_guide()` 裡的 `funcs[\"recovery-by-mix\"] = recovery_by_mix    # 只在指南`（原第 881 行）\n- 同一段區塊註解同步改為「G9/G10」\n\n**檔案搬移**\n- `tools/v61_g8_recovery_by_mix.py` 用 `mv` 搬到 `/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/retired/v61_g8_recovery_by_mix.py`（未刪除）\n\n## 驗證結果\n\n1. `python3 tools/calc_core.py` 執行成功，最後一行印出「引用缺漏: []」，並成功寫出 `lite/calc-results.json`。\n\n2. 拿現在的 `lite/calc-results.json` 和 `git show HEAD:lite/calc-results.json` 比對全部 key：\n   - `recovery_by_mix`：已從新檔案消失（符合預期，已撤下）\n   - `country_recovery`、`rebalance_drift`：內容與 HEAD 不同（符合任務描述「G9、G10 模組已經被修過」）\n   - 其餘所有 key（akai、chen、xiaoan、xiaoyun_azhe、rolling、taiex_drawdowns、multiplier_tables、fee_gap、quiet_period、stress_100wan、sweet_satisfy、sweet_spot_guide、cpi_multiplier、lookup_table、xirr_demo、_meta）**逐字相同，無變動**\n   - 唯一例外：`guide_citations` 裡幾個引用字串對應的行號變了（例如「用 3% 到 2.5%」從 2150→2132）。查證後這與 G8 撤除無關——`guide/index.html` 本身跟 HEAD 完全一致（`git diff HEAD --stat guide/index.html` 無輸出），但用 `guidetools.to_text()` 現場重新抽取的行號本來就跟 HEAD 委任時 commit 的 `calc-results.json` 對不上，代表 HEAD 那份 `guide_citations` 在 commit 當下就已經跟 guide 內文有落差（pre-existing staleness），不是這次改動造成的。\n\n3. `python3 -c` 匯入 `essay_charts`，呼叫 `country_recovery()` 與 `rebalance_drift()`：\n   - 兩者都正常回傳，無例外\n   - 都含完整 5 個 key：`title`、`sub`、`svgs`（各 2 張，長度都 >2000 字元，非空）、`caption`（非空字串）、`extras`（非空字串，223 / 891 字元）\n\n## 未動的檔案\n- `guide/index.html` 未碰\n- `tools/build_lite.py`、`tools/essay_charts.py --guide` 未執行\n- 未 `git add` / `git commit`（`git status` 仍顯示 `tools/calc_core.py`、`tools/essay_charts.py`、`lite/calc-results.json` 為 modified，`v61_g8_recovery_by_mix.py` 已從 tools/ 移出、出現在 `wip/v61-2026-09-17/retired/` 下）",
+    "rever": [
+      {
+        "chart_id": "country-recovery",
+        "verdict": "pass",
+        "findings": [
+          {
+            "severity": "note",
+            "problem": "（複驗紀錄，不是問題）我沒有 import 模組，重抓原始資料後獨立重算，圖上、圖說、note、calc-results 的每個數字都對上，0 項不符。重算程式、輸出、原始資料都放在 wip/v61-2026-09-17/verify2/country-recovery/（recompute2.py、recompute2-output.txt、extra-checks-output.txt）。\n(1) 美國：今天重抓聯準會頁，原文寫 1929-09-03 收 381.17，1954-11-23 才回到 1929 年的高點。兩天相隔 9,212 天，也就是 25 年 2 個月 20 天，折合 302.6667 個月、25.2222 年，half-up 後是「約 25 年」。\n(2) 日本：用 FRED 的日經收盤算，1989-12-29 收 38,915.87 是當時最高；之後第一次收盤超過它是 2024-02-22，收 39,098.68；中間最高只到 1990-01-04 的 38,712.88。兩天相隔 34 年 1 個月 24 天，折合 409.7742 個月、34.1478 年；總月數 half-up 是 410，拆成「34 年 2 個月」，和 Nippon.com 原文「34 years and 2 months」一致。日經官方頁寫含息版 2021 年 2 月創歷史新高。\n(3) 台灣：證交所逐日收盤 1990-01 到 1997-06 全部 90 個月重抓；1997-07 到 2020-06 用 Yahoo 日收盤，和證交所重疊的 280 天完全一樣。1990-02-10 收 12,495.34 是最高；中間最高是 2020-01-14 的 12,179.81；2020-07-24 收 12,304.04，第一次收盤超越是 2020-07-27 的 12,588.30。兩天相隔 30 年 5 個月 17 天，折合 365.5484 個月、30.4624 年，標「約 30 年」。1990 年以前證交所查不到，改用維基轉引的年高點（二手資料）：1989 年最高 10,843.96，沒超過。\n(4) 三種月數算法（週年日法、天數÷30.44、照模組說明自己重寫一次）得到的年標籤和年月標籤都一樣，表示 half-up 不會因為換算法而翻邊。美國、台灣如果標到月，會是 25 年 3 個月、30 年 6 個月，和修的人說的一致。\n(5) 長條位置：6 個端點的小數年份與 calc-results 相符。兩種換算差不到 0.002 年；桌面、手機 SVG 的長條端點和我算的差不到 0.15 單位。刻度桌面 1930–2030 每 10 年一格，手機 1940–2020 每 20 年一格；軸 1925–2030 涵蓋 1929.67 到 2024.14。\n(6) lite/calc-results.json 的 country_recovery 和模組目前的輸出逐字相同；拿掉的 table_heading、table_columns，全專案沒有地方在讀。\n(7) 第一輪 must 已修好：note 改成「日期都是收盤日」，桌面與手機圖上的日期都到日。\n(8) 第一輪六條 should：含息那句只寫事實、圖說第二句已刪、副標／aria-label／圖說／note 都改成「第一次收盤」並補了「可能再跌回」、單項圖例已刪、compute() 改用常數、TypeError 那條路已不存在，這幾項都修好。引導句草稿與裁判建議逐字相同，照規矩沒寫進指南。放圖位置 A/B 仍是拍板題。\n(9) 截圖：桌面與手機都沒有重疊、超框或被裁切。\n(10) 和第 11 節的 5/25、「本指南的做法」防守放定存沒有交集，不衝突。第 4 節表、第 5 節（1201、1520、1522、1671 行的「25 到 34 年」）、第 7 章（約 25 年／34 年 2 個月／約 30 年、2021 年 2 月、12,588.30）的數字都一致。",
+            "fix": "不用改。"
+          },
+          {
+            "severity": "note",
+            "problem": "「表還在才比、不一致才 raise」大致做到了。我另外把指南複本改成 12 種寫法去跑 compute()（probe_table_paths.py，只讀，寫到 verify2/guide-variants/）：表整塊拿掉、只留 h3、標題改字，都不會 raise；日本改成「約 34 年」、美國起訖改成 1929-10，會正確 raise。\n但還有三條路和原意不合：\n(a) 表的 <tr> 加上屬性，數字全對也會 raise「找不到美國那一列」，calc_core 整支停下。\n(b) 起訖的箭頭「→」換成「–」，會丟 ValueError，calc_core 一樣停下。\n(c) <tbody> 加上屬性時，會靜靜跳過比對，table_check 卻寫「表不在」，和實際狀況不符。\n現在指南 35 張表的 tr、tbody、td 都沒有屬性，起訖也都用「→」，所以目前觸發不了，不影響這次驗收。",
+            "fix": "可以順手加固（交 applier，不急）：read_table 的 regex 改成 <tr[^>]*>、<tbody[^>]*>；起訖切不成兩段時，不要丟例外，改在 table_check 記一筆「找到表但解析失敗」。只有真正的數字或日期不一致才 raise。「找到標題但解析不到表」和「表不在」分開寫。"
+          },
+          {
+            "severity": "note",
+            "problem": "主標題「單押一個市場，回到高點等了多久」還帶著「投資人在等」的角度：「單押」是投資人的動作，「等了」是人在等。可是長條畫的是指數從最高收盤到第一次收盤超越，和第一輪刪掉圖說第二句的理由同一類，只是輕很多。「單押」也隱含「不單押就不用等這麼久」，這一點圖上沒有證據。指南的 p.small 本來就寫「單押一個國家……」，所以這不算錯，只是和表標題「單一市場可能等很久」的說法不一樣。",
+            "fix": "作者決定，可以不改。要改的話建議改成「單一市場的價格指數，回到高點花了多久：三個著名例子」，和表標題對齊，也不再暗示投資人的經驗。"
+          },
+          {
+            "severity": "note",
+            "problem": "修的人請裁判決定兩件事。(a) 表上美國寫「25 年」沒有「約」，圖上寫「約 25 年」：實際是 25.22 年，圖單獨看時需要「約」；表那一欄的欄名本來就是「約多久」，所以表不改也沒錯。日本「34 年 2 個月」其實也是四捨五入（34 年 1 個月 24 天），但和日經／Nippon.com 的原文一致，可以不加「約」。(b) note 裡「三個指數、幣別不同，不能直接比快慢」和 p.small 重複一句。",
+            "fix": "(a) 圖維持「約 25 年」，指南不必改。整合時如果想讓表上美國、台灣兩列寫法一樣，可以在表上加「約」；模組比對照樣會過，我已實測。(b) 留著：三條畫在同一條軸上，本身就會讓人想比；如果選 B 用圖取代表，這句更是必要。"
+          },
+          {
+            "severity": "note",
+            "problem": "整合時要一起處理的依賴，都不是這張圖要修的。\n(1) 引導句草稿「把上面那張表……」只在選 A（保留表）時成立。\n(2) 如果選 B 用圖取代表：note 要補上表查核說明欄現在才有的兩件事：台灣盤中高點 12,682.41 是轉引、台灣含息版沒有官方數字。第 5 節 1201、1520、1522 行的「第 4 節那張表」要改成「那張圖」，引導句也要重寫。\n(3) 第 4 節表標題「早很多年回本」、1201 行「早很多年」、1671 行「早一些」三處怎麼說要統一，仍在整合拍板；圖的 note 只寫「比較早」，和這三處都不矛盾。\n(4) 資料邊界：日經官方原文只說含息版「2021 年 2 月創歷史新高」，第一次超過 1989 年高點的月份查不到（日經含息 CSV 只從 2023 年開始）。note 寫「2021 年就先過了高點」在原文支持的範圍內，但不能改寫成「2021 年才第一次超過」。台灣「當時最高的收盤」在 1990 年以前那段，靠的是維基轉引的年高點。",
+            "fix": "這一輪不用改。拍板 A/B 的時候照上面清單一起處理；選 B 就照第一輪那三件事，加上這裡 (2) 列的兩項。"
+          }
+        ]
+      },
+      {
+        "chart_id": "rebalance-drift",
+        "verdict": "fix_needed",
+        "findings": [
+          {
+            "severity": "should",
+            "problem": "note 寫「和本指南規則卡『年底偏離超過 5/25 門檻就再平衡』看的時間點一樣」，出處掛錯了。引號裡那句來自第 11 節結尾的黃框（「我的規則卡：…年底偏離超過 5/25 門檻就再平衡，平時每月投入時偏離到門檻兩倍也會動」），是作者自己的卡，第 13 節黃框也有同一句。指南說的「規則卡」是投資計畫的 F 到 H 區，F22 格的檢查頻率留白（「每月＿日扣款後看比例；每年＿月年檢」），小安範例寫的是「每月 7 日扣款後看一次比例」。所以「年底看一次」並不是本指南的規則，照現在的寫法，讀者會以為指南規定年底檢查。docstring 演算法第 4 點和 compute() 的 basis.check_timing 也寫「對應指南規則卡」。第一輪 should（只看年底）加的那句「圖只看得到每年年底…這裡看不出來」本身沒問題。",
+            "fix": "把那一句改成「每年年底看一次股票占多少（第 11 節作者的規則卡也是年底檢查；範例計畫是每月扣款後看）。」，或直接刪掉「和本指南規則卡…看的時間點一樣」這半句，保留下一句「圖只看得到每年年底…」。docstring 第 4 點和 basis.check_timing 同步改成「作者規則卡（第 11 節黃框）」。"
+          },
+          {
+            "severity": "should",
+            "problem": "note 寫的「最慢 22 年」卡在門檻邊上，模組的邊界檢查沒掃到它。22 年來自 1964 年初起點：1974 年底股票占比是 75.0017%，只比 75% 高 0.0017 個百分點，算在門檻裡，所以要到 1985 年底（85.98%）才第一次跑出去。edges() 只查了 1990、2000、2009 三條路徑和 1990 每年再平衡那條，沒查 1928–2021 的 94 個起點。重算結果：(a) 把 1964–1974 的國庫券年報酬每年加 0.005 個百分點，1974 年底就變成 74.9919%，1964 起點變成 11 年，最慢的就換人；(b) 先四捨五入到一位（75.0%）再照指南例子的「以上／以下」判定，最慢變成 12 年（2002 起點）。嚴格 > 和 >= 兩種判法都是 22，數字本身沒算錯，但靠的是遠小於資料精度的差距。掃描裡其他靠近邊界的起點：1951（1952 年，差 0.015pp）、1958（1958 年，0.040pp）、1980（1985 年，0.013pp）、1998（1999 年，0.048pp）、2018（2020 年，差 0.024pp，算超出）；它們都不影響最快、最慢。「最快 1 年」站得住：1930、1931、1933、1935、1937、1954、1974、2008 共 8 個起點第一年就超出，2008 差很遠。重算程式：verify2/rebalance-drift/scan_edges.py、scan_rule_sensitivity.py、scan_robust_stats.py。",
+            "fix": "建議把「第一次超出門檻最快 1 年、最慢 22 年」改成不怕邊界的說法：「94 個起點裡，最快 1 年；一半以上 4 年內就跑出門檻，超過九成在 10 年內。」嚴格口徑是 ≤4 年 60 個、≤10 年 90 個；四捨五入口徑是 61、91 個，兩種說法都成立。compute() 要多存這兩個計數，edges() 也要擴大到 94 個起點：凡是決定印出數字的那一年，或它前面的年份，離邊界 0.05pp 以內就 assert 失敗，或記進 edge_cases。test_G10.py 裡的 (1, 22) 斷言跟著改。如果堅持保留 22，至少要在 compute() 記下 1964→1974 年 75.0017% 這個擦邊，並讓 chart() 在最慢那個起點碰到擦邊時停下來。"
+          },
+          {
+            "severity": "should",
+            "problem": "第一輪 should「第 11 節直接來源」只修了一半。note 已經補上公債報酬是用 10 年期殖利率換算、不是債券基金實績。但第 11 節再平衡那張來源卡（guide/index.html 約第 2005 行）還是只有 Housel、Vanguard、Swedroe 三條，沒有 Damodaran。附錄資料出處那一段（約第 2380 行）也只寫了第 4 節輪換圖用到三欄，沒寫這張圖。修的人沒權限改 guide，但整合時如果漏掉，圖上的數字在本節和附錄都找不到出處。",
+            "fix": "整合時做兩件事：(1) 第 11 節來源卡加一條 Damodaran（紐約大學 Stern）Historical Returns on Stocks, Bonds and Bills，連到 https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html，備註用修的人建議的「比例漂移圖：S&P 500 含息與美國 3 個月國庫券年度報酬（10 年期公債只在說明裡對照）」。(2) 附錄資料出處那段在第 4 節那句後面補一句：「第 11 節比例漂移圖用同一份資料集的 S&P 500 含息與 3 個月國庫券兩欄（10 年期公債只在圖下說明對照），名目美元，不是換回台幣的報酬。」"
+          },
+          {
+            "severity": "note",
+            "problem": "同一張圖裡用詞不一致，還有重複和前後矛盾。(1) 引導句寫「接近定存」，圖例和 note 寫「代表定存」。(2) 圖例和 note 一字不差重複了「防守用美國 3 個月國庫券代表定存（不跌價、利息低）」。(3) note 先寫「示意：只用美國一個市場、一個起點」，後面卻接著講公債版和 2000 起點、94 個起點掃描，讀起來自相矛盾。(4) note 寫「2002、2008 年公債上漲」，但國庫券每年也都是正報酬，關鍵其實是那兩年股票大跌、公債大漲（2002：−22.0% 對 +15.1%；2008：−36.6% 對 +20.1%），第一輪建議的字是「大漲」。",
+            "fix": "(1) 引導句的「接近定存」改成「代表定存」，和圖例一致（圖例用詞是作者指定的）。(2) 刪掉 note 裡重複的那句，圖例留著。(3) 改成「圖上只畫美國一個市場、一個起點。」(4) 改成「2002、2008 年股票大跌、公債大漲，股票占比會落回門檻裡（2008 年底 78.3%）」。"
+          },
+          {
+            "severity": "note",
+            "problem": "截圖複查：桌面版和手機版都沒有標籤重疊，也沒有東西超出框。三處小瑕疵：(1) 桌面標籤一個寫「1995 年第一次超過 85%」，一個寫「2008 年底 87.7%」，年／年底不一致。手機版兩個都是「年」，而起點寫「1990 年初」，對照起來容易誤會。(2) 淡色帶的圖例色塊是不透明的琥珀色，圖上的帶子是 14% 透明度的淺米色，照色塊找不到帶子。(3) x 軸刻度擺在年底（「1990」在 1990 年底 78.3% 那個低點下方），起點「1990 年初」的點在刻度左邊約半格。副標已經寫「每年年底」，所以不算錯。",
+            "fix": "(1) 桌面改成「1995 年底第一次超過 85%：86.1%」，手機改成「1995 年底 86.1%」「2008 年底 87.7%」，前提是寬度放得下；手機放不下就維持現狀。(2) 淡色帶的圖例色塊用和帶子一樣的透明度，這要看 E.legend 能不能傳 opacity。(3) 可不改。"
+          },
+          {
+            "severity": "note",
+            "problem": "穩健性和整合風險。(1) chart() 直接把「2002」和「2000 年起點先往下跑」寫死在字串裡，沒有 assert：2002 是否真的在 bond_sensitivity.summary.years_back_inside_after_breach 裡、alt_starts['2000'].first_breach_direction 是否是 below_75，都沒檢查。目前資料下兩者都成立。(2) 修的人說引導句存在 res['printed']['lead_sentence']，但 lite/calc-results.json 裡 rebalance_drift.printed 是 {}：calc_core 只寫 compute() 的結果，printed 要跑 chart() 才會填。引導句只存在 chart() 的字串裡，要人工貼進 guide/index.html 圖的正前方（句中寫「下面這張圖」），也沒有哨兵拿它和 compute 對照。",
+            "fix": "(1) chart() 加 assert 2002 in bs['summary']['years_back_inside_after_breach'] and MARK_YEAR in bs['summary']['years_back_inside_after_breach']，再加 assert a2000['first_breach_direction'] == 'below_75'；年份最好也改成從這些欄位取值。(2) 整合時手動把引導句貼到圖前面，並在交班裡註明引導句的來源是 chart()。或者把引導句字串搬進 compute()，讓它寫進 calc-results.json。"
+          },
+          {
+            "severity": "note",
+            "problem": "口徑提醒，可不改。(1) 圖是美元國庫券對美元股票，讀者的定存是台幣。附錄對第 4 節有寫「不是台灣人換回台幣實際拿到的報酬」，這張圖的 note 只寫「以美元計」。(2)「利息低」是跟股票比：1990 年國庫券 7.75%，1990 年代大多 3–5.7%，1990–2025 算術平均約 2.8%。(3) 圖假設不投入新錢；指南的典型讀者每月投入，新錢先補落後的那邊，比例跑得會比圖慢。note 已寫明「沒有投入新錢」，下一段正文也講了新錢補回，所以沒有替讀者下結論。",
+            "fix": "可不改。如果要補，只在附錄資料出處那句加「不是換回台幣的報酬」（見上一條 should），note 不必再加長。"
+          },
+          {
+            "severity": "note",
+            "problem": "驗收紀錄。重算時沒有 import 任何模組，也沒用第一輪的 recompute.py。方法 A 用年報酬欄做 Fraction 精確連乘，方法 B 用同表的累積值欄相除，兩法最大差 2e-16，half-up 也用精確有理數做。重算和圖、圖說、note、引導句的每個數字都一致：1995 年底／第 6 年／86.1%；1995 後沒有一年回到門檻內；2008 年底 87.7%（是超出後的最低點）；2025 年底 98.3%，防守 1.7%；36 年裡 31 年在門檻外；2000 起點 2001 年底 74.5%，往下超出；公債版 2008 年底 78.3%，2002、2008–2012 回到門檻內；掃描 94 個起點，沒有一個始終不超出，最快 1、中位 4、最慢 22，往上 72、往下 22，比 1990 快的 71、慢的 17；5/25 兩邊都是 5，75–85%。印出的值離進位邊界都在 0.033pp 以上，主線離門檻最近 1.1pp。國庫券 1928–2025 沒有負年，最低 2014 年 0.03%。每年再平衡調回前只有 2008 超出，範圍 71.5–84.1，沒印出。lite/calc-results.json 的 rebalance_drift 逐項對照，含 94 個起點的每一列，0 筆不符。第一輪逐條：must（防守資產）已修好，主線改國庫券，docstring 錯句刪了，公債只放 note；should 虛線與圖例已修，「永遠」刪了，最後一句照建議；should 只看年底，句子已補，但出處另見第一條 should；should 其他起點，圖說已補；should 來源，公債換算那句已補，來源卡待整合。和指南對照：第 4 節輪換圖標籤「現金（美國 3 個月國庫券，美元）」、2008 年報酬 20.1／1.4／−36.6 和本圖一致；第 11 節 5/25 的 75–85% 和嚴格「超過」，對得上 F21「低於 75% 或高於 85%」；「本指南的做法」防守放定存、大跌不跟著跌，和國庫券不跌價一致；正文「股票八成、定存兩成」對上圖的八二。第 4 節回本表用價格指數，本圖用含息，沒有數字互相牴觸。",
+            "fix": "無需修改。重算程式和輸出放在 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify2/rebalance-drift/：recompute_v2.py、recompute_v2-out.json、compare_calc_results.py、scan_edges.py、scan_rule_sensitivity.py、scan_robust_stats.py、mobile-zoom.png、desktop-zoom-left.png。"
+          }
+        ]
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Fix text"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Fix charts"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 3,
+      "title": "Re-verify charts"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "chart-fix:country-recovery",
+      "phaseIndex": 2,
+      "phaseTitle": "Fix charts",
+      "agentId": "aa520e2008197460e",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789604775992,
+      "queuedAt": 1789604773837,
+      "attempt": 1,
+      "lastToolName": "Read",
+      "lastToolSummary": "/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09…",
+      "promptPreview": "你是 builder，照驗收意見修一張新圖的模組。專案：/Users/linyenchu/Cladue Code/family-finance。\n模組：tools/v61_g9_country_recovery.py（compute() 與 chart(res)）。驗收意見：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify/charts-fixlist.json 裡 chart 欄位是 country-recovery 的那幾條（must 與 should）；完整裁判回報在 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify/verify-result.json 的 charts 陣列。\n驗收 must：note …",
+      "promptFramed": false,
+      "lastProgressAt": 1789604918714,
+      "tokens": 93024,
+      "toolCalls": 10,
+      "durationMs": 142722,
+      "resultPreview": "改完了。模組裡的三段期間都改成到日的起訖，年數照日期重算、half-up，和指南 #s4 表的三個數字都對得上。自測腳本全部斷言通過，桌面與手機截圖我都看過，沒有重疊或超框。\n\n**改了什麼**（只動 `tools/v61_g9_country_recovery.py`；改前的版本另存在 `wip/v61-2026-09-17/fix/charts/v61_g9_country_recovery.before.py`）\n1. **must**：長條端點和圖上日期都改成到日。美國 1929-09-03 → 1954-11-23，日本 1989-12-29 → 2024-02-22，台灣 1990-02-10 → 2020-07-27。note 裡「美國、台灣的日期只到月，日本到日」那句刪掉，改成「日期都是收盤日」。\n2. **年數重算**（整月數＋剩下天數÷當月天數）：\n   - 美國 30…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "chart-fix:rebalance-drift",
+      "phaseIndex": 2,
+      "phaseTitle": "Fix charts",
+      "agentId": "a811e0bafdfe94af7",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789604777650,
+      "queuedAt": 1789604773837,
+      "attempt": 1,
+      "lastToolName": "Bash",
+      "lastToolSummary": "cd \"/Users/linyenchu/Cladue Code/family-finance\"; sed -i ''…",
+      "promptPreview": "你是 builder，照驗收意見修一張新圖的模組。專案：/Users/linyenchu/Cladue Code/family-finance。\n模組：tools/v61_g10_rebalance_drift.py（compute() 與 chart(res)）。驗收意見：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify/charts-fixlist.json 裡 chart 欄位是 rebalance-drift 的那幾條（must 與 should）；完整裁判回報在 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify/verify-result.json 的 charts 陣列。\n驗收 must：防守用美國 …",
+      "promptFramed": false,
+      "lastProgressAt": 1789605001553,
+      "tokens": 120536,
+      "toolCalls": 20,
+      "durationMs": 223902,
+      "resultPreview": "I fixed the rebalance-drift chart module per the judge's notes. The test runs clean, and I checked both new screenshots myself: no overlapping labels and nothing past the frame. Following the rules I was given, I only edited `tools/v61_g10_rebalance_drift.py`, didn't run build or `--guide`, and didn't commit. The file isn't tracked by git, so there's no diff to show. The version from before my cha…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "fix:cases",
+      "phaseIndex": 1,
+      "phaseTitle": "Fix text",
+      "agentId": "a3a11a106263c2746",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789604777268,
+      "queuedAt": 1789604773850,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "cases",
+      "promptPreview": "你是起草代理，照驗收意見產出修正補丁。專案：/Users/linyenchu/Cladue Code/family-finance。**不准修改 repo 裡的任何檔案**，只能寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/ 底下。\n先讀：/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（硬規則）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/eli5-rules.md（寫法、不能動的東西）、/Users/linyenchu/Cladue Code/family-finance/d…",
+      "promptFramed": false,
+      "lastProgressAt": 1789604851511,
+      "tokens": 96049,
+      "toolCalls": 8,
+      "durationMs": 73102,
+      "resultPreview": "{\"group\":\"cases\",\"patch_file\":\"/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/patch-cases.json\",\"patch_count\":8,\"fixed\":[\"w1 must＋w1 should＋readers should（三條重複）：陳大哥全表 E 風險列連結改成「年齡、槓桿與退休」第三題（href #lifecycle），那裡有 h3「為什麼提領期怕一開始就跌」；表格內容沒動\",\"readers should 開場段：改成「錢不夠時照三問第 3 題的順序補（多存 → 延後 → 降低目標），不靠調高股票比例。」前一句已經連到第 11 節的三問，所以沒有再加節號\",\"readers should 共同算法小字：「表一底下」改成「表一上面那段小字」，並補上查表頁的收合…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "fix:s11",
+      "phaseIndex": 1,
+      "phaseTitle": "Fix text",
+      "agentId": "a06d32e8bac4da266",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789604777190,
+      "queuedAt": 1789604773850,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "s11",
+      "promptPreview": "你是起草代理，照驗收意見產出修正補丁。專案：/Users/linyenchu/Cladue Code/family-finance。**不准修改 repo 裡的任何檔案**，只能寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/ 底下。\n先讀：/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（硬規則）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/eli5-rules.md（寫法、不能動的東西）、/Users/linyenchu/Cladue Code/family-finance/d…",
+      "promptFramed": false,
+      "lastProgressAt": 1789604839073,
+      "tokens": 88597,
+      "toolCalls": 10,
+      "durationMs": 60665,
+      "resultPreview": "{\"group\":\"s11\",\"patch_file\":\"/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/patch-s11.json\",\"patch_count\":4,\"fixed\":[\"w1 should：D2 那句原本說去三問卡看「為什麼不靠調高股票比例」，但三問第 3 題只有規則、沒有理由。改成照實指到「三問，和答不過時怎麼辦」第 3 題的順序（多存 → 延後 → 降低目標，不靠調高股票比例），不再答應讀者有理由可看。\",\"w1 should＋readers should（兩位都在講欄位表第 16 格，合併只修一次）：先指到緊接在後的一頁空白版 E 區小字，公式則寫出完整卡名「壓力測試：大跌那天，實際少多少錢」那張卡的「填自己的（E 區）」，不會翻錯到兩把尺卡。\",\"readers should：…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "fix:front",
+      "phaseIndex": 1,
+      "phaseTitle": "Fix text",
+      "agentId": "a6d7fc4aa986b39f6",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789604777870,
+      "queuedAt": 1789604773851,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "front",
+      "promptPreview": "你是起草代理，照驗收意見產出修正補丁。專案：/Users/linyenchu/Cladue Code/family-finance。**不准修改 repo 裡的任何檔案**，只能寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/ 底下。\n先讀：/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（硬規則）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/eli5-rules.md（寫法、不能動的東西）、/Users/linyenchu/Cladue Code/family-finance/d…",
+      "promptFramed": false,
+      "lastProgressAt": 1789604888343,
+      "tokens": 98075,
+      "toolCalls": 16,
+      "durationMs": 109933,
+      "resultPreview": "{\"group\":\"front\",\"patch_file\":\"/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/patch-front.json\",\"patch_count\":6,\"fixed\":[\"must s3（w1 第 1、2 條，重複只修一次）：指路句改成「總費用率怎麼扣掉＝第 11 節計畫表背面的查表頁；還沒挑產品時先暫估多少＝同一節「展開 24 格怎麼填」裡 D 區那一列」。已查過：0.5% 暫估只在欄位表 D 試算第 12 格，查表頁沒有\",\"must firstmonth（w1 第 5、6 條，重複只修一次）：「每年一次的檢查表」十項改成七項，和 annual 的 p.decision「把這七項印出來」一致\",\"should ten（w1 第 3 條＋readers 第 10 條，同一處合併…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "fix:mid",
+      "phaseIndex": 1,
+      "phaseTitle": "Fix text",
+      "agentId": "adf0f5fea529567a0",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789604777165,
+      "queuedAt": 1789604773851,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "mid",
+      "promptPreview": "你是起草代理，照驗收意見產出修正補丁。專案：/Users/linyenchu/Cladue Code/family-finance。**不准修改 repo 裡的任何檔案**，只能寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/ 底下。\n先讀：/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（硬規則）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/eli5-rules.md（寫法、不能動的東西）、/Users/linyenchu/Cladue Code/family-finance/d…",
+      "promptFramed": false,
+      "lastProgressAt": 1789604852290,
+      "tokens": 82344,
+      "toolCalls": 11,
+      "durationMs": 75124,
+      "resultPreview": "{\"group\":\"mid\",\"patch_file\":\"/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/patch-mid.json\",\"patch_count\":4,\"fixed\":[\"w1 must（#s13 第 14 節）：「處理套牢的舊部位」的「見第 10 節第 7 條」改成「見第 10 節「捨不得認賠」那一條」，第 10 節裡確實有這個條名（<li><strong>捨不得認賠。</strong>）。readers 那條 should 講的是同一件事，兩條只修一次。數字檢查顯示第 14 節少了一個「7」，就是這個錯的條號，是刻意拿掉的。\",\"w1 should（#s12 第 13 節）：C 區小字補回「手續費和換匯是一次性的，不算進去」，並把「欄位說明」改成「欄位表」，和第 11 節摺疊摘要「展…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "fix:back",
+      "phaseIndex": 1,
+      "phaseTitle": "Fix text",
+      "agentId": "a508c0d319c594579",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789604777272,
+      "queuedAt": 1789604773851,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "back",
+      "promptPreview": "你是起草代理，照驗收意見產出修正補丁。專案：/Users/linyenchu/Cladue Code/family-finance。**不准修改 repo 裡的任何檔案**，只能寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/ 底下。\n先讀：/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/spec-v61-remaining.md（硬規則）、/Users/linyenchu/Cladue Code/family-finance/docs/core-edition/specs/eli5-rules.md（寫法、不能動的東西）、/Users/linyenchu/Cladue Code/family-finance/d…",
+      "promptFramed": false,
+      "lastProgressAt": 1789604854909,
+      "tokens": 84563,
+      "toolCalls": 9,
+      "durationMs": 76500,
+      "resultPreview": "{\"group\":\"back\",\"patch_file\":\"/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/fix/patch-back.json\",\"patch_count\":7,\"fixed\":[\"w1／annual L1 正文：補回「平常」——「從開始投資那天起，平常只記跨過圈的兩種錢」\",\"w1／annual L1 摺疊內：「直接拿指數當年的漲幅來比會失真（第 9 節）」移到「想精算的人」正上方，句首補「和指數比的時候，」、句尾補「要比得準，照下面三步算指數那一邊」；原句逐字留在摺疊裡\",\"w1／annual L5：補回主語「家庭一頁表上的帳戶、保單、貸款…有沒有變」\",\"readers／annual：「表裡只放今年的進出，去年以前的都由 1 月 1 日那筆代替」搬出摺疊，放在三行例子表格正上方；摺疊裡同…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "integrate",
+      "phaseIndex": 2,
+      "phaseTitle": "Fix charts",
+      "agentId": "a7240a84e1eb67383",
+      "model": "claude-sonnet-5",
+      "state": "done",
+      "startedAt": 1789605005507,
+      "queuedAt": 1789605003645,
+      "attempt": 1,
+      "lastToolName": "Bash",
+      "lastToolSummary": "cd \"/Users/linyenchu/Cladue Code/family-finance\" && git sta…",
+      "promptPreview": "專案：/Users/linyenchu/Cladue Code/family-finance。整合代理，只做這幾件事、不 commit、不改 guide/index.html、不跑 build_lite.py 或 essay_charts.py --guide：\n1. 撤下 G8（recovery-by-mix）：驗收發現年度資料會把回本年數算成「四種比例差不多」的假象、而且換成本書實際的防守（定存）結論會翻轉，決定這一輪不放。從 tools/calc_core.py 移除 import 與 R['recovery_by_mix']，從 tools/essay_charts.py 移除 \"recovery-by-mix\" 的註冊；模組檔 tools/v61_g8_recovery_by_mix.py 搬到 /Users/linyenchu/Cladue Code/family-financ…",
+      "promptFramed": false,
+      "lastProgressAt": 1789605123350,
+      "tokens": 84028,
+      "toolCalls": 19,
+      "durationMs": 117843,
+      "resultPreview": "任務完成，未 commit、未動 guide/index.html、未跑 build_lite.py 或 essay_charts.py --guide。\n\n## 改了哪些行\n\n**tools/calc_core.py**（約第 631-638 行）\n- 刪除 `import v61_g8_recovery_by_mix as _g8`\n- 刪除 `R['recovery_by_mix'] = _g8.compute()`\n- 註解「G8/G9/G10：三張只在指南的新圖」改為「G9/G10：兩張只在指南的新圖」\n\n**tools/essay_charts.py**\n- 刪除 `recovery_by_mix()` 函式（原第 797-799 行，`import v61_g8_recovery_by_mix as _g8; return _g8.chart(...)`）\n- 刪除 `do_…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "reverify:country-recovery",
+      "phaseIndex": 3,
+      "phaseTitle": "Re-verify charts",
+      "agentId": "a55195899c7e72fb4",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789605127560,
+      "queuedAt": 1789605125070,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "country-recovery",
+      "promptPreview": "你是裁判，複驗一張修過的新圖；只讀不改（重算程式寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify2/country-recovery/）。專案：/Users/linyenchu/Cladue Code/family-finance。\n圖 country-recovery，模組 tools/v61_g9_country_recovery.py，lite/calc-results.json 已更新。第一輪驗收意見：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify/charts-fixlist.json（chart=country-recovery）。修的人的說明：\n改完了。模組裡的三段期間都改成到日的起訖，年數…",
+      "promptFramed": false,
+      "lastProgressAt": 1789605762085,
+      "tokens": 183583,
+      "toolCalls": 49,
+      "durationMs": 634092,
+      "resultPreview": "{\"chart_id\":\"country-recovery\",\"verdict\":\"pass\",\"findings\":[{\"severity\":\"note\",\"problem\":\"（複驗紀錄，不是問題）我沒有 import 模組，重抓原始資料後獨立重算，圖上、圖說、note、calc-results 的每個數字都對上，0 項不符。重算程式、輸出、原始資料都放在 wip/v61-2026-09-17/verify2/country-recovery/（recompute2.py、recompute2-output.txt、extra-checks-output.txt）。\\n(1) 美國：今天重抓聯準會頁，原文寫 1929-09-03 收 381.17，1954-11-23 才回到 1929 年的高點。兩天相隔 9,212 天，也就是 25 年 2 個月 20 天，折合 302.6667 個…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "reverify:rebalance-drift",
+      "phaseIndex": 3,
+      "phaseTitle": "Re-verify charts",
+      "agentId": "a1192762c50910121",
+      "model": "claude-opus-5",
+      "state": "done",
+      "startedAt": 1789605127030,
+      "queuedAt": 1789605125070,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "rebalance-drift",
+      "promptPreview": "你是裁判，複驗一張修過的新圖；只讀不改（重算程式寫到 /Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify2/rebalance-drift/）。專案：/Users/linyenchu/Cladue Code/family-finance。\n圖 rebalance-drift，模組 tools/v61_g10_rebalance_drift.py，lite/calc-results.json 已更新。第一輪驗收意見：/Users/linyenchu/Cladue Code/family-finance/wip/v61-2026-09-17/verify/charts-fixlist.json（chart=rebalance-drift）。修的人的說明：\nI fixed the rebalance-drif…",
+      "promptFramed": false,
+      "lastProgressAt": 1789605598952,
+      "tokens": 162912,
+      "toolCalls": 35,
+      "durationMs": 471921,
+      "resultPreview": "{\"chart_id\":\"rebalance-drift\",\"verdict\":\"fix_needed\",\"findings\":[{\"severity\":\"should\",\"problem\":\"note 寫「和本指南規則卡『年底偏離超過 5/25 門檻就再平衡』看的時間點一樣」，出處掛錯了。引號裡那句來自第 11 節結尾的黃框（「我的規則卡：…年底偏離超過 5/25 門檻就再平衡，平時每月投入時偏離到門檻兩倍也會動」），是作者自己的卡，第 13 節黃框也有同一句。指南說的「規則卡」是投資計畫的 F 到 H 區，F22 格的檢查頻率留白（「每月＿日扣款後看比例；每年＿月年檢」），小安範例寫的是「每月 7 日扣款後看一次比例」。所以「年底看一次」並不是本指南的規則，照現在的寫法，讀者會以為指南規定年底檢查。docstring 演算法第 4 點和 compute() 的 basis.check_…"
+    }
+  ],
+  "totalTokens": 1093711,
+  "totalToolCalls": 187
+}

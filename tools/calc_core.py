@@ -628,6 +628,13 @@ R['asset_rotation'] = {
     'rows': _rot,
 }
 
+# G9/G10：兩張只在指南的新圖，各自的 compute()
+sys.path.insert(0, HERE)
+import v61_g9_country_recovery as _g9
+import v61_g10_rebalance_drift as _g10
+R['country_recovery'] = _g9.compute()
+R['rebalance_drift'] = _g10.compute()
+
 # grep 正式檔：引用數字所在行（guidetools text 行號）
 quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '三十年後差約 86 萬', '2008 年跌了 53.59%', '1.7% 是 2026 年 9 月五大銀行一年期定存牌告利率',
