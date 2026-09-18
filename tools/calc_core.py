@@ -406,6 +406,9 @@ ch['labor_pension_two_stage'] = {
     'targets_one_stage_wan': {str(k): r0(gap_y * k / 10000) for k in (25, 33, 40)},
     'targets_two_stage_wan': {str(k): r0(_two(k) / 10000) for k in (25, 33, 40)},
     'targets_two_stage_wan1': {str(k): r1(_two(k) / 10000) for k in (25, 33, 40)},
+    # v6.3 批 1 修正（must-1）：小字用「未取整的每月缺口」算的第一段倍數，也要加上第二段的 84 萬才同基準
+    'targets_two_stage_wan_if_exact_gap': {str(k): r0((gap_exact * 12 * k + _extra_total) / 10000) for k in (25, 33, 40)},
+    'targets_two_stage_wan1_if_exact_gap': {str(k): r1((gap_exact * 12 * k + _extra_total) / 10000) for k in (25, 33, 40)},
 }
 
 # ---------- N1（v6.3）：0.5% 示範費率的扣費結果 ----------
@@ -893,7 +896,11 @@ quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '本息合計最高保 300 萬（中央存保）',
           # 小安改成扣費後（主線 2026-09-18 拍板）
           '每月改投 6,500 元 → 低情境約 203 萬',
-          '2046 年約 203 萬、跌 50% 少 81 萬']
+          '2046 年約 203 萬、跌 50% 少 81 萬',
+          # v6.3 批 1 修正
+          '第一段 40 倍約 1,018 萬，加上第二段的 84 萬約 1,102 萬',
+          '同一段時間的一年期定存年平均是 2022 年約 1.14%、2023 年約 1.55%、2024 年約 1.68%',
+          '要到 2054 年 1 月左右（多約 7.3 年）']
 
 found = {}
 try:
