@@ -77,3 +77,7 @@ python3 tools/test_guidetools.py tools guide/index.html
 - 〔第 7 批〕第 14 節合併後是 29 題，h2 還叫「三十二種常見情境」：h2 改成不數數的「常見情境：我在怕什麼？」，目錄、`group-situations` 組地圖（part_maps 逐字）、狀況索引下的「32 題」小字、節首說明、`p.decision`、全書提到「三十二種／32 種情境」的地方同步。
 - 〔第 7 批〕封面「正在跌」入口確認連 `#plan-panic`；`#s11-f-pause`（既有）與第 4a 批可能新增的 `#plan-pause` 若指同一段，只留 `s11-f-pause`，連結改過去。
 - 〔第 7 批〕s13 有兩個 `a.term` 指 `#g-circle`，留第一個。
+- 〔裁定〕lifecycle 主線上限放寬到 3,100：提領規則卡、勞保一次領或月領短卡是作者 v6.3 點名要的，留主線。
+- 〔第 7 批〕lifecycle 的 sequence-risk 圖 `p.note`（277 字，`tools/v63_g02*`，有 calc_core quotes 盯著的句子不能動）：把沒有被 quotes 盯的口徑句移進圖下 `details.more`，兩邊同步；做不到 350 就回報，不硬砍。
+- 〔第 7 批／4b〕firstmonth 第一週放一份「起步版六行」小卡或明確連到 `#plan-starter`（格式以第 4a 批定案的為準）。
+- 〔第 7 批〕annual 的 `p.lede`「照計畫表 F 區設定的比例拆兩筆」與同節「和 E 區的設定差多少」：比例寫在 E 區，lede 改成不提區名（part_maps 同步）。
