@@ -89,7 +89,7 @@
 | 節號連結 | `第 <a class="xref" href="#s4">4</a> 節` | 內文出現「第 N 節」一律要連。節名引用用 `「<a class="xref" href="#start">投資前的安全順序</a>」`。 |
 | 名詞連結 | `<a class="term" href="#g-xxx" title="一句解釋">詞</a>` | 每節只標第一次；不標在標題、白話版、黃框、strong、其他連結裡。新名詞先加詞彙表 `<dt id="g-…">` 再標。目前 106 處。 |
 | 重點句 | `<mark class="key">句子</mark>` | 目前 14 句（清單見下）。一節最多一句，單獨看得懂，是行動或結論。 |
-| 先跳過 | `<span class="later">先跳過也可以…</span>` | 12 處。 |
+| 先跳過 | `<span class="later">先跳過也可以…</span>` | 13 處（v6.3 批 2 的勞保「一次領還是月領」短卡加了一處）。 |
 | 白話版 | `<p class="explain"><span class="plain-title">白話版</span><br>比喻</p>` | 每節都有；要是比喻，不可以直接講答案；裡面不放名詞連結。 |
 | 卡片 | `data-card`／`source-card`／`story`／`warning`／`p.decision` | 每節順序：h2 → lede → 白話版 → 內容 → 來源 → 黃框 → 行動。 |
 | 圖 | `<figure class="chart" data-chart="圖id">` | 圖由 `tools/essay_charts.py --guide` 產生，見下面的警告。 |

@@ -869,6 +869,18 @@ _ath['book_facts'] = {
 assert _ath['book_facts']['us_split_1950_5y_positive_share_int'] == {'starts_before_1950': [75, 91], 'starts_1950_on': [91, 93]}, _ath['book_facts']['us_split_1950_5y_positive_share_int']
 R['ath_returns'] = _ath
 
+# v6.3 第二批：五張只在指南的新圖，各自的 compute()（模組在 tools/v63_g0*.py）
+import v63_g01_plan_flow as _g01
+import v63_g02_sequence_risk as _g02
+import v63_g03_drag_breakdown as _g03
+import v63_g04_fee_gap as _g04
+import v63_g05_safety_steps as _g05
+R['plan_flow'] = _g01.compute()
+R['sequence_risk'] = _g02.compute()
+R['drag_breakdown'] = _g03.compute()
+R['fee_gap_chart'] = _g04.compute()
+R['safety_steps'] = _g05.compute()
+
 # grep 正式檔：引用數字所在行（guidetools text 行號）
 quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '三十年後差約 86 萬', '2008 年跌了 53.59%', '1.7% 是 2026 年 9 月五大銀行一年期定存牌告利率',
@@ -900,7 +912,12 @@ quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           # v6.3 批 1 修正
           '第一段 40 倍約 1,018 萬，加上第二段的 84 萬約 1,102 萬',
           '同一段時間的一年期定存年平均是 2022 年約 1.14%、2023 年約 1.55%、2024 年約 1.68%',
-          '要到 2054 年 1 月左右（多約 7.3 年）']
+          '要到 2054 年 1 月左右（多約 7.3 年）',
+          # v6.3 批 2：G02 sequence-risk、G04 fee-gap 的圖說與圖下說明（數字由 tools/v63_g02、g04 算）
+          '先跌的那一個第 10 年剩約 36 萬，後跌的那一個剩約 106 萬',
+          '所以兩個人的平均報酬一樣（一年 6.5%）',
+          '同一組報酬不管什麼順序，十年後都是 148 萬',
+          '一年 6% 到約 502 萬，一年 5% 到約 416 萬，第 30 年差 86 萬']
 
 found = {}
 try:

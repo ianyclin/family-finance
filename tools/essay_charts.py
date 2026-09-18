@@ -806,6 +806,33 @@ def rebalance_drift():
     return _g10.chart(calc()["rebalance_drift"])
 
 
+# ======================================================================
+# v6.3 第二批 G01–G05：五張只在指南的新圖，compute()/chart() 寫在 tools/v63_g0*.py
+def plan_flow():
+    import v63_g01_plan_flow as _g01
+    return _g01.chart(calc()["plan_flow"])
+
+
+def sequence_risk():
+    import v63_g02_sequence_risk as _g02
+    return _g02.chart(calc()["sequence_risk"])
+
+
+def drag_breakdown():
+    import v63_g03_drag_breakdown as _g03
+    return _g03.chart(calc()["drag_breakdown"])
+
+
+def fee_gap():
+    import v63_g04_fee_gap as _g04
+    return _g04.chart(calc()["fee_gap_chart"])
+
+
+def safety_steps():
+    import v63_g05_safety_steps as _g05
+    return _g05.chart(calc()["safety_steps"])
+
+
 CHARTS = [
     ("three-circles", "01-where-return-comes-from.html", "順便講「又穩又高」", "aside", three_circles),
     ("four-people", "02-time.html", "手冊算過四個人", "aside", four_people),
@@ -878,6 +905,11 @@ def do_guide():
     funcs["asset-rotation"] = asset_rotation  # 只在指南
     funcs["country-recovery"] = country_recovery  # 只在指南
     funcs["rebalance-drift"] = rebalance_drift    # 只在指南
+    funcs["plan-flow"] = plan_flow                # 只在指南
+    funcs["sequence-risk"] = sequence_risk        # 只在指南
+    funcs["drag-breakdown"] = drag_breakdown      # 只在指南
+    funcs["fee-gap"] = fee_gap                    # 只在指南
+    funcs["safety-steps"] = safety_steps          # 只在指南
     n = 0
     diffs = []
     def repl(m):
