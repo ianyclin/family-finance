@@ -66,3 +66,11 @@ python3 tools/test_guidetools.py tools guide/index.html
 - **F 區「跌 10%、20%、30% 各做什麼／三格／三種跌幅」的句子一律留給第 4 批**，其他批看到只做句子減重、不改規則。`#plan-panic`、`#drill`、一頁空白版、查表頁、年檢表（帶 `data-lite-alt` 的區塊）也留給第 4 批。
 - **平行施工**：第 2、3、5、6 批各在自己的 git worktree 同時進行，只准改自己那幾節的行。`<style>`、封面、目錄、`group-*` 組地圖、tools/ 不要動（需要就寫在回報裡）；唯一例外：自己那幾節的 h2／lede 改了，會讓 `part_maps` 紅——所以 **h2 與 `p.lede` 不要改**。worktree 裡沒有被 gitignore 的檔：基準檔請用絕對路徑 `/Users/linyenchu/Cladue Code/family-finance/wip/v63-review/_baseline_v631.html`；build 缺檔時從主工作目錄複製需要的（不要 commit 它們）。
 - commit 時只加來源檔：`git add guide/index.html lite/alt lite/facts.txt lite/case-checks.json tools/essay_charts.py tools/v63_g*.py`（有動到才加）；`output/`、`lite/index.html`、`lite/work/`、`lite/calc-results.json` 這些產生的檔**不要 commit**（`git checkout -- output lite/index.html lite/work` 還原），合併後由 Fable 統一重建。
+
+## 留給第 4 批與第 7 批的事（Fable 隨批次累積）
+
+- 〔第 4 批〕s8 主線與 planstep 第 6 行寫「只有三種情況才賣」，但完整版欄位表第 21 格是四種（還有「換成同類、費用更低的」）。統一成不數數的寫法（「只有這幾種情況才賣：…」），起步版列三種常見的、完整版列全部，兩邊不矛盾。
+- 〔第 4 批〕s9 figcaption「F 區三格都寫照常投入」、s10-cooling 第四題「F 區三格重寫」隨 F 區收一格同步。
+- 〔第 7 批〕`tools/v63_g07_investor_cycle.py:135` 的 `p.note` 後半（逐站重述各節 lede，約 215 字）刪掉，指南同步，s10 小字壓到 350 內。
+- 〔第 7 批〕s6、s8、s9 等圖下「官方原圖（英文）：…圖片版權屬原機構」的 `p.note` 是出處聲明：移進該節來源卡或圖的 `details.more`（`essay_charts.py` 與指南兩邊同步）。
+- 〔第 7 批〕全書沒有 class、沒有 `data-print` 的舊摺疊（約 15 個）：屬「想深入」性質的改成 `.more`＋具體摘要。
