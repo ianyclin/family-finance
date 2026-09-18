@@ -516,7 +516,7 @@ table.lite-annual td:nth-child(2){font-size:.84rem}table.lite-annual th:nth-chil
   .lite-ch h3,.lite-ch h4,.lite-ch>.lede{break-after:avoid}
   .lite-ch>h2{break-inside:avoid}
   .lite-ch .data-card{break-inside:avoid}
-  table.lite-plan{font-size:10.5pt;line-height:1.9}   /* v6.1：頁首多了窄橫幅，行距從 2.05 收到 1.9，讓整張計畫表（含 H 區）留在第一頁 */
+  table.lite-plan{font-size:10.5pt;line-height:1.75}   /* v6.1：頁首多了窄橫幅，行距從 2.05 收到 1.9，讓整張計畫表（含 H 區）留在第一頁；v6.3 批 2a 再收到 1.75，吸收 E 區第三格、C 區路徑名稱與 F 區加高的手寫線 */
   table.lite-annual{font-size:10pt}table.lite-annual td{padding:9px 5px}
   table.lite-plan-stress{font-size:10pt;line-height:1.5}table.lite-plan-stress th,table.lite-plan-stress td{padding:1px 4px}
   table.lite-lookup th,table.lite-lookup td{padding:1px 5px;line-height:1.25}

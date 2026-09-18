@@ -1,0 +1,50 @@
+[
+ {
+  "section": "lifecycle",
+  "old": "Vanguard 的說法是：退休初期報酬差，可能永久損害退休者的投資組合。</p></div>\n<div class=\"data-card\" id=\"pension\">",
+  "new": "Vanguard 的說法是：退休初期報酬差，可能永久損害退休者的投資組合。</p></div>\n<div class=\"data-card\"><h3 id=\"withdraw-rules\">提領規則卡：每年拿多少、先賣哪一塊</h3><p>開始拿錢花以後，每年到了同一天要決定兩件事：今年拿多少、從哪一格拿。先寫在卡上，跌的那天就不用臨場想。下面只列常見做法和代價，不給建議比例。</p><ul><li><strong>今年拿多少：</strong>固定比例（拿當時餘額的一個百分比）不會領光，但跌的那年拿得少；固定金額隨物價調最穩，可是市場差時照樣拿一樣多，可能提早用完；上下限是折衷：照比例算，再限制每年的增減幅度，代價是多算一步。</li><li><strong>先賣哪一塊：</strong>先動預留現金，再從超過目標比例的那一邊賣，都沒超過才照股債比等比例賣；從漲多的那邊拿，等於順便把比例調回去。</li><li><strong>大跌那年：</strong>生活費從預留現金拿，不賣股票。</li><li><strong>預留現金怎麼補：</strong>配息、利息改成不再投入、直接進現金那一格；或訂一個日子（例如每年一月）一次補足。現金放越多，長期成長拖越低。</li><li><strong>算不算再平衡：</strong>拿完錢再看一次比例，偏離太多就再平衡；門檻用計畫表 F 區自己那一把尺（第 <a class=\"xref\" href=\"#s11\">11</a> 節）。</li><li><strong>錢不夠的三條路：</strong>減支出、延後退休、部分工作。和存錢期的「多存 → 延後 → 降低目標」同一套，都不靠調高股票比例。</li></ul><p><a class=\"xref\" href=\"#case-chen\">陳大哥</a>的卡：頭五年的缺口 126 萬放台幣定存，大跌那年從這裡拿；第一年拿 25.2 萬，是 1,088 萬的 2.3%；勞退月退發完後改領一年 33.6 萬，比例用那時的餘額重算。</p><p class=\"small\">上下限的常見寫法是每年最多比去年多拿 5%、最多少拿 1.5%（Vanguard 的例子）；「減支出」的力道，Vanguard 的試算是提領率少 0.5 個百分點，錢多撐約五年。這些都是用美國股債和它自己的假設算的，不是建議值，也不是台灣的規定，換一組假設就會變。預留現金要不要算進股債比的分母，兩種寫法都有：本文陳大哥的 126 萬是算在投資圈裡的。</p></div>\n<div class=\"data-card\" id=\"pension\">",
+  "why": "D07-B：報酬順序風險那段之後補提領規則卡，只列常見做法與代價、不給建議比例，用陳大哥既有數字示範。"
+ },
+ {
+  "section": "lifecycle",
+  "old": "試算依現行法規；勞保年金的給付規則可能修法，把它當「目前的規則」，不當保證收入。</li>\n</ul></div>\n<div class=\"source-card\">",
+  "new": "試算依現行法規；勞保年金的給付規則可能修法，把它當「目前的規則」，不當保證收入。</li>\n</ul></div>\n<div class=\"data-card\"><h3 id=\"pension-lump\">勞保老年給付：一次領還是月領</h3><span class=\"later\">先跳過也可以，快要請領那年再回來看</span><p>同一段勞保年資，有人按月領年金，有人一次領一筆。這裡只寫規則和怎麼比，不替你挑。</p><ul><li><strong>誰有得選：</strong>年資滿 15 年、到了法定請領年齡，領的是按月的老年年金；未滿 15 年是老年一次金。要選「一次請領老年給付」，得在民國 98 年 1 月 1 日勞保年金上路以前就有勞保年資，98 年以後才第一次加保的人沒有這個選項（另有年資與年齡條件）。請領年齡、提前減與延後加在上面那張卡。</li><li><strong>錢怎麼算：</strong>年金兩式擇優：平均月投保薪資×年資×0.775%＋3,000 元，或×1.55%（上面那張卡用第二式）。一次領＝平均月投保薪資×給付月數：年資每滿 1 年給 1 個月，超過 15 年的部分每滿 1 年給 2 個月，最多 45 個月；逾 60 歲的年資最多算 5 年，合併最多 50 個月。</li><li><strong>怎麼比：</strong>兩邊的「平均月投保薪資」算法不同：年金取加保期間最高 60 個月的平均，一次請領取退保當月往前 36 個月的平均。所以不能只看公式，要用勞保局的試算各算一次，再放回自己的提領規則卡看接不接得上。</li><li><strong>不能反悔：</strong>老年給付一經勞保局核付就不得變更，申請前先試算。</li></ul><p class=\"small\">以上是勞保局現行規定（該頁 2025 年 12 月更新），不是本文的建議。兩邊的代價不一樣：年金是按月領、有物價調整的規定，一次領以後那筆錢要自己管、自己承擔風險。本文不比較誰划算。</p></div>\n<div class=\"source-card\">",
+  "why": "D07-B 的勞保短卡：只寫勞保局的規則與比較方法，不下結論。"
+ },
+ {
+  "section": "lifecycle",
+  "old": "<span class=\"source-note\">第九類退職所得：提繳時未課稅的自提要計入；一次領 15 萬×年資以下所得額為零、分期減除 65 萬（法條基數，隨物價調整）</span></a></div></div>",
+  "new": "<span class=\"source-note\">第九類退職所得：提繳時未課稅的自提要計入；一次領 15 萬×年資以下所得額為零、分期減除 65 萬（法條基數，隨物價調整）</span></a><a class=\"source-link\" href=\"https://web.archive.org/web/20240302132404/https://static.vgcontent.info/crp/intl/gas/canada/documents/from-assets-to-income.pdf\" target=\"_blank\" rel=\"noopener\"><span>Vanguard (2020)：From assets to income: A goals-based approach to retirement spending</span><span class=\"source-note\">三種提領規則與取捨：「dollar plus inflation」「percentage of portfolio」與上下限式的「dynamic spending」（例子是 5% ceiling、−1.5% floor，第 4 頁）；賣出付生活費之後「causes the allocation to deviate from the target by more than 5 percent」才考慮再平衡（第 18 頁）。Vanguard 官網原檔已下架，連的是網頁典藏</span></a><a class=\"source-link\" href=\"https://www.bli.gov.tw/0004857.html\" target=\"_blank\" rel=\"noopener\"><span>勞保局：老年給付－給付標準</span><span class=\"source-note\">年金兩式擇優（0.775%＋3,000 元／1.55%）；老年一次金與一次請領老年給付＝平均月投保薪資×給付月數，超過 15 年的年資每滿 1 年給 2 個月、最高 45 個月，逾 60 歲年資最多 5 年、合併最高 50 個月；年金的平均月投保薪資取最高 60 個月、一次請領取退保前 36 個月</span></a><a class=\"source-link\" href=\"https://www.bli.gov.tw/0102697.html\" target=\"_blank\" rel=\"noopener\"><span>勞保局常見問答 21：選擇一次請領老年給付還是年金比較有利？</span><span class=\"source-note\">「老年給付一經本局核付後，即不得變更」；勞保局只提供四種試算方式，不替當事人選</span></a></div></div>",
+  "why": "新卡用到的來源：Vanguard 2020 提領規則、勞保局給付標準與常見問答 21。"
+ },
+ {
+  "section": "lifecycle",
+  "old": "<span>Vanguard (2026)：Principles for Retirement Income</span><span class=\"source-note\">報酬順序風險，第 10 頁</span></a><a class=\"source-link\" href=\"https://www.bli.gov.tw/0019825.html\"",
+  "new": "<span>Vanguard (2026)：Principles for Retirement Income</span><span class=\"source-note\">報酬順序風險，第 10 頁；預留現金（spending fund）建議放一年份的提領金額、用配息利息或固定的日子補回、放太多會拖低長期財富，第 30–31 頁；動態提領「In years where your portfolio is down, you spend a bit less」，第 26 頁；「Reducing your withdrawal rate by 0.5 percentage points can make your savings last another five years」，第 7 頁；延後退休與部分工作，第 18 頁</span></a><a class=\"source-link\" href=\"https://www.bli.gov.tw/0019825.html\"",
+  "why": "提領規則卡的預留現金、動態提領、錢不夠三條路都出自這一份，補上頁碼與原文短引。"
+ },
+ {
+  "section": "lifecycle",
+  "old": "<span>勞保局：老年給付請領資格</span><span class=\"source-note\">115 年起 65 歲、年資 15 年</span></a><a class=\"source-link\" href=\"https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0030020\"",
+  "new": "<span>勞保局：老年給付請領資格</span><span class=\"source-note\">115 年起 65 歲、年資 15 年；「98年1月1日前有勞保年資者，才能選擇一次請領老年給付」</span></a><a class=\"source-link\" href=\"https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0030020\"",
+  "why": "勞保短卡用到的門檻，出自同一頁，補進註記。"
+ },
+ {
+  "section": "withdraw",
+  "old": "再加一個壓力情境測試（例如：一退休就遇到大跌，或物價漲得比約 2% 快）。</li></ol></div>",
+  "new": "再加一個壓力情境測試（例如：一退休就遇到大跌，或物價漲得比約 2% 快）。</li></ol><p>這四項是「準備什麼」。真的開始拿錢以後，每年拿多少、先賣哪一塊、預留現金怎麼補、錢不夠怎麼辦，寫在「<a class=\"xref\" href=\"#withdraw-rules\">提領規則卡：每年拿多少、先賣哪一塊</a>」那張卡（在「<a class=\"xref\" href=\"#lifecycle-q3\">年齡、槓桿與退休</a>」第三題）。</p></div>",
+  "why": "D07：四項準備只講準備，提領期的規則要有一條路走過去。"
+ },
+ {
+  "section": "annual",
+  "old": "密碼、多因素驗證、聯絡資料，順便核對一次持股與現金。</li>\n</ol>\n<div class=\"data-card\" data-lite=\"ch12 app-a\">",
+  "new": "密碼、多因素驗證、聯絡資料，順便核對一次持股與現金。</li>\n</ol>\n<p class=\"small\">已經在從投資圈拿生活費的人，第三項「股債比例」要連著「<a class=\"xref\" href=\"#withdraw-rules\">提領規則卡：每年拿多少、先賣哪一塊</a>」一起看：今年拿多少、先賣哪一塊，和比例要不要調回去，是同一次要做完的事。</p>\n<div class=\"data-card\" data-lite=\"ch12 app-a\">",
+  "why": "D07：年檢是提領期的人一年一次的入口；指路句放在 ol.checklist 外面，不動工作表 app-a 指紋。"
+ },
+ {
+  "section": "header.cover",
+  "old": "想直接動手、要可以印出來手寫的表格，另有《<a href=\"https://claude.ai/artifact/492iv4AuQeSHVPRN2XEC1E\" target=\"_blank\" rel=\"noopener\">可列印工作表</a>》。</p>",
+  "new": "想直接動手、要可以印出來手寫的表格，另有《<a href=\"https://claude.ai/artifact/492iv4AuQeSHVPRN2XEC1E\" target=\"_blank\" rel=\"noopener\">可列印工作表</a>》。</p>\n<p class=\"subtitle\">給台灣新手的長期投資與行為紀律指南；勞保、勞退那幾段適用受僱勞工，公教、軍職、自營者的退休制度要另外查。</p>",
+  "why": "Q6-A 作者拍板：副標加一句定位＋適用對象註記；不動 h1。"
+ }
+]
