@@ -1,0 +1,301 @@
+{
+ "sections": [
+  {
+   "id": "cover",
+   "total": 902,
+   "folded": 550,
+   "small": 61,
+   "story": 0,
+   "mainline": 291
+  },
+  {
+   "id": "toc",
+   "total": 654,
+   "folded": 631,
+   "small": 21,
+   "story": 0,
+   "mainline": 2
+  },
+  {
+   "id": "ten",
+   "total": 1150,
+   "folded": 283,
+   "small": 0,
+   "story": 0,
+   "mainline": 867
+  },
+  {
+   "id": "why",
+   "total": 4467,
+   "folded": 2454,
+   "small": 786,
+   "story": 0,
+   "mainline": 1227
+  },
+  {
+   "id": "start",
+   "total": 1861,
+   "folded": 0,
+   "small": 696,
+   "story": 78,
+   "mainline": 1087
+  },
+  {
+   "id": "glossary",
+   "total": 3239,
+   "folded": 0,
+   "small": 0,
+   "story": 0,
+   "mainline": 3239
+  },
+  {
+   "id": "group-core",
+   "total": 471,
+   "folded": 0,
+   "small": 71,
+   "story": 0,
+   "mainline": 400
+  },
+  {
+   "id": "s1",
+   "total": 2361,
+   "folded": 241,
+   "small": 735,
+   "story": 44,
+   "mainline": 1341
+  },
+  {
+   "id": "s2",
+   "total": 6751,
+   "folded": 1104,
+   "small": 2389,
+   "story": 69,
+   "mainline": 3189
+  },
+  {
+   "id": "s3",
+   "total": 4403,
+   "folded": 0,
+   "small": 2074,
+   "story": 60,
+   "mainline": 2269
+  },
+  {
+   "id": "s4",
+   "total": 6079,
+   "folded": 226,
+   "small": 2938,
+   "story": 164,
+   "mainline": 2751
+  },
+  {
+   "id": "s5",
+   "total": 6894,
+   "folded": 2878,
+   "small": 1702,
+   "story": 92,
+   "mainline": 2222
+  },
+  {
+   "id": "s6",
+   "total": 2405,
+   "folded": 160,
+   "small": 871,
+   "story": 59,
+   "mainline": 1315
+  },
+  {
+   "id": "s7",
+   "total": 1429,
+   "folded": 206,
+   "small": 464,
+   "story": 65,
+   "mainline": 694
+  },
+  {
+   "id": "s8",
+   "total": 2370,
+   "folded": 0,
+   "small": 1038,
+   "story": 137,
+   "mainline": 1195
+  },
+  {
+   "id": "s9",
+   "total": 2391,
+   "folded": 0,
+   "small": 1088,
+   "story": 117,
+   "mainline": 1186
+  },
+  {
+   "id": "s10",
+   "total": 5244,
+   "folded": 1645,
+   "small": 1311,
+   "story": 68,
+   "mainline": 2220
+  },
+  {
+   "id": "group-plan",
+   "total": 253,
+   "folded": 0,
+   "small": 69,
+   "story": 0,
+   "mainline": 184
+  },
+  {
+   "id": "s11",
+   "total": 16540,
+   "folded": 8453,
+   "small": 2533,
+   "story": 99,
+   "mainline": 5455
+  },
+  {
+   "id": "cases",
+   "total": 10113,
+   "folded": 6032,
+   "small": 1524,
+   "story": 0,
+   "mainline": 2557
+  },
+  {
+   "id": "s12",
+   "total": 5424,
+   "folded": 469,
+   "small": 1781,
+   "story": 277,
+   "mainline": 2897
+  },
+  {
+   "id": "group-situations",
+   "total": 862,
+   "folded": 0,
+   "small": 95,
+   "story": 0,
+   "mainline": 767
+  },
+  {
+   "id": "s13",
+   "total": 4034,
+   "folded": 0,
+   "small": 249,
+   "story": 78,
+   "mainline": 3707
+  },
+  {
+   "id": "sidepaths",
+   "total": 1917,
+   "folded": 0,
+   "small": 777,
+   "story": 31,
+   "mainline": 1109
+  },
+  {
+   "id": "group-howto",
+   "total": 212,
+   "folded": 0,
+   "small": 34,
+   "story": 0,
+   "mainline": 178
+  },
+  {
+   "id": "firstmonth",
+   "total": 1474,
+   "folded": 0,
+   "small": 0,
+   "story": 0,
+   "mainline": 1474
+  },
+  {
+   "id": "steps",
+   "total": 2177,
+   "folded": 0,
+   "small": 634,
+   "story": 0,
+   "mainline": 1543
+  },
+  {
+   "id": "products",
+   "total": 2552,
+   "folded": 0,
+   "small": 883,
+   "story": 67,
+   "mainline": 1602
+  },
+  {
+   "id": "costs",
+   "total": 3928,
+   "folded": 1008,
+   "small": 1196,
+   "story": 0,
+   "mainline": 1724
+  },
+  {
+   "id": "group-life",
+   "total": 321,
+   "folded": 0,
+   "small": 101,
+   "story": 0,
+   "mainline": 220
+  },
+  {
+   "id": "annual",
+   "total": 3713,
+   "folded": 1128,
+   "small": 593,
+   "story": 84,
+   "mainline": 1908
+  },
+  {
+   "id": "lifecycle",
+   "total": 9689,
+   "folded": 999,
+   "small": 3959,
+   "story": 161,
+   "mainline": 4570
+  },
+  {
+   "id": "withdraw",
+   "total": 1466,
+   "folded": 0,
+   "small": 155,
+   "story": 0,
+   "mainline": 1311
+  },
+  {
+   "id": "group-ref",
+   "total": 143,
+   "folded": 0,
+   "small": 31,
+   "story": 0,
+   "mainline": 112
+  },
+  {
+   "id": "toolbox",
+   "total": 2247,
+   "folded": 0,
+   "small": 662,
+   "story": 0,
+   "mainline": 1585
+  },
+  {
+   "id": "methods",
+   "total": 3859,
+   "folded": 0,
+   "small": 867,
+   "story": 0,
+   "mainline": 2992
+  }
+ ],
+ "totals": {
+  "total": 123995,
+  "folded": 28467,
+  "small": 32388,
+  "story": 1750,
+  "mainline": 61390
+ },
+ "outside": 261,
+ "source": "wip/v63-review/_baseline_v63.html"
+}

@@ -458,6 +458,7 @@ def fee_case(rate, years, lump, monthly, target_wan=None, fee=FEE_DEMO):
 
 FD = {'fee_pct': FEE_DEMO,
       'method': '整體報酬率（表一查到的數字）直接減 0.5 個百分點（作者 2026-09-18 拍板 Q1-A）。'
+                '＝把整個組合一起扣的簡化假設，不是按部位加權（v6.3.1：書上第 11 節第 12 格同步寫明）；'
                 'exact＝用扣完費的報酬率按月複利算的精確值，案例本文用這個；'
                 'by_book_table2＝讀者拿印好的表二會算出來的數字（沒有那一列就取比它小的那一列）。',
       'deposit_note': '股票 0%、全放台幣定存的桶子沒有內扣費用，不減示範費率'}

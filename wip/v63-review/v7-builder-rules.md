@@ -1,0 +1,59 @@
+# v7 預覽版：builder 共同規則
+
+每一批的 builder 先讀（依序）：本檔 → `design-v7.md`（全讀；2c、2d 與 2026-09-19 更正優先於較早的段落）→ `decisions-2026-09-19.md` 的「模糊的正確」一節 → `docs/core-edition/specs/eli5-rules.md`（句子寫法與作者看過的範例）→ `engineering-impact.md`（會踩的雷）→ `material-map.md` 裡和自己那一批有關的部分 → `docs/handoff-guide-2026-09-16.md` 的「作者的原則」「標記系統」「固定流程」「工具」。
+
+## 你在替誰寫
+
+第一次接觸投資的台灣讀者，用手機讀。國中生讀得懂，大人不覺得被當小孩。他要的是「模糊的正確」：方向可靠、好懂、足以做下一步。精細的計算與例外是作者替他做完的工作，不是他的功課。
+
+## 每節主線的骨架（2d）
+
+① 這一節的答案／現在先做什麼 → ② 為什麼大致合理：一個畫面、一個機制、一兩個數字 → ③ 什麼情況才要停下來重想（最多兩三條）。之後：圖（有的話）→「想深入」摺疊 → 來源 → 黃框 → planstep（有的話）→ `p.decision`。
+
+## 每一段的取捨（2a）
+
+> 拿掉這個細節，新手會做出明顯不合適的決定嗎？還是只是專業讀者會覺得不夠完整？
+
+- 前者：留主線，放在骨架的 ③，只講一次。
+- 後者：移進 `<details class="more"><summary>想深入：〈具體講什麼〉</summary>…</details>`。一節可以有兩三個，摘要要具體（「想深入：定存這二十年有沒有追上物價」），不要寫「更多細節」。
+- 重複句、重複的防禦性但書（不是建議／不是預測／不是保證）：刪，每節最多留一次。
+- 看得到的小字（`p.small`、`span.small`、`p.note`）每節合計 ≤ 350 字，只留緊貼數字的一句出處或口徑；其餘連同它說明的內容一起進「想深入」。
+- 第二份以後的研究、名人、對照市場、推導、口徑說明、長表：進「想深入」。來源卡留在原位（來源卡不算主線）。
+- **移層優先於刪除**；有來源的內容不刪。
+
+## 句子
+
+- 一句一件事。先畫面，再道理，最後數字；數字要看得出「所以呢」。
+- 不寫「不是 A，而是 B」的堆疊；不寫翻譯腔；不寫空泛總結句；不在句子裡用括號塞第二件事（括號只用來就地解釋名詞，十個字內）。
+- 簡化後的句子單獨拿出來要成立；不得滑成承諾（「長期一定賺」「跌了都會回來」「放五年就安全」）。
+- 不寫複利口徑；只說「這是估算」。
+- 主線不准有「先看第 N 節才懂」的依賴；指路句一節最多一句，放在最後。
+
+## 不能動
+
+黃框 `div.story` 全文；所有既有 `id`；h2 節名（設計點名的除外）；來源卡的引文與連結；圖的資料；`mark.key` 文字（設計點名的那一句除外）；教學段不放商品代號；不新增事實、數字、研究、來源（小安的數字取自現有小安全表）；`a.term` 每節只標第一次、不放在標題／白話版／黃框／strong／mark／其他連結裡；`a.xref` 的錨文字＝目標節的顯示節號（id s12 顯示 13、s13 顯示 14、cases 顯示 12）。
+
+## 怎麼改檔
+
+- 分支 `v7-preview`。只改自己那一批的節；別批的節看到問題記在回報裡，不要動。
+- `guide/index.html` 1.1 MB：用 grep／python 小範圍讀；用 Edit 或寫一支一次性的 python 腳本做「整段替換」（以節的起訖標記定位，替換前 assert 舊段落出現剛好一次）。**不要用 `guidetools.py apply` 搬節或做有重疊的補丁**（engineering-impact 第 1 點）。不要整檔 Write。
+- 圖說在指南與 `tools/essay_charts.py`（或 `tools/v63_g0*.py`）各一份，改一邊就要改另一邊；跑圖一律 `python3 tools/essay_charts.py --guide`。
+- 改到帶 `data-lite-alt` 的區塊：看過對應的 `lite/alt/*.html` 仍然對，才 `--stamp`。
+
+## 每批交件前自己跑
+
+```bash
+python3 tools/v7_check.py numbers wip/v63-review/_baseline_v631.html guide/index.html --section <你的節…>   # LOST 必須 0（或列進 allow 檔並說明）
+python3 tools/v7_check.py anchors wip/v63-review/_baseline_v631.html guide/index.html
+python3 tools/v7_check.py mainline guide/index.html        # 對照 budget-v7.json 你的節
+python3 tools/v7_check.py planstep guide/index.html
+python3 tools/build_lite.py                                 # exit 0＋SENTINELS OK
+python3 tools/guidetools.py check guide/index.html
+python3 tools/test_guidetools.py tools guide/index.html
+```
+
+哨兵紅了照 `docs/core-edition/specs/lite-format.md` 第 9 節。因為設計改動而必須調整哨兵或白名單時：在回報裡寫清楚改了哪一支、為什麼不是放寬語意。全綠後 `git add -A && git commit`（訊息寫批次與做了什麼）。
+
+## 回報格式
+
+1. 各節 mainline／small 改前 → 改後（對照預算）。2. 移進「想深入」的東西清單（每節幾個摺疊、摘要文字）。3. 直接刪掉的句子（逐字）與理由。4. 你不確定、需要 Fable 裁的地方（附原文與你的提案）。5. 每節挑一段「改前／改後」逐字對照，讓 Fable 看語氣。6. 檢查與哨兵的最後輸出。

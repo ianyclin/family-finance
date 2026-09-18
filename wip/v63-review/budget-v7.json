@@ -1,0 +1,11 @@
+{
+  "_comment": "mainline 上限（tools/v7_check.py budget）。visible＝mainline+small 的上限寫在 _visible 裡，等工具支援。基準見 mainline-baseline-v63.json（全書 mainline 61,390、small 32,388）。",
+  "_total_max": 50000,
+  "cover": 320, "ten": 600, "why": 800, "start": 1000,
+  "s1": 1200, "s2": 2000, "s3": 1500, "s4": 1800, "s5": 1800,
+  "s6": 1100, "s7": 700, "s8": 1000, "s9": 1000, "s10": 1800,
+  "s11": 3500, "cases": 2000, "s12": 2000, "s13": 3000,
+  "firstmonth": 1300, "annual": 1700, "lifecycle": 2800,
+  "_visible_total_max": 62000,
+  "_visible_small_per_section_max": 350
+}
