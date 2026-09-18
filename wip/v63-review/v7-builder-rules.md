@@ -57,3 +57,12 @@ python3 tools/test_guidetools.py tools guide/index.html
 ## 回報格式
 
 1. 各節 mainline／small 改前 → 改後（對照預算）。2. 移進「想深入」的東西清單（每節幾個摺疊、摘要文字）。3. 直接刪掉的句子（逐字）與理由。4. 你不確定、需要 Fable 裁的地方（附原文與你的提案）。5. 每節挑一段「改前／改後」逐字對照，讓 Fable 看語氣。6. 檢查與哨兵的最後輸出。
+
+## 第 1 批之後的補充裁定（Fable，2026-09-19）
+
+- 來源卡 `div.source-card` 在工具裡獨立成 `source` 欄，不算小字也不算主線；留在原位、照常顯示。每節小字 ≤350 指的是 `p.small／span.small／p.note／figcaption`。
+- 一節可以放兩張 planstep（手機上一張卡只問一件事）。planstep 標題寫「你的計畫・第 N 行：〈白話問題〉」，N 照 design-v7.md 2b 的六行；`data-plan` 寫對應的完整版格號。
+- 封面入口可以是八個。為了減重而拿掉某節的名詞連結 `a.term` 可以，詞條本身留著。
+- **F 區「跌 10%、20%、30% 各做什麼／三格／三種跌幅」的句子一律留給第 4 批**，其他批看到只做句子減重、不改規則。`#plan-panic`、`#drill`、一頁空白版、查表頁、年檢表（帶 `data-lite-alt` 的區塊）也留給第 4 批。
+- **平行施工**：第 2、3、5、6 批各在自己的 git worktree 同時進行，只准改自己那幾節的行。`<style>`、封面、目錄、`group-*` 組地圖、tools/ 不要動（需要就寫在回報裡）；唯一例外：自己那幾節的 h2／lede 改了，會讓 `part_maps` 紅——所以 **h2 與 `p.lede` 不要改**。worktree 裡沒有被 gitignore 的檔：基準檔請用絕對路徑 `/Users/linyenchu/Cladue Code/family-finance/wip/v63-review/_baseline_v631.html`；build 缺檔時從主工作目錄複製需要的（不要 commit 它們）。
+- commit 時只加來源檔：`git add guide/index.html lite/alt lite/facts.txt lite/case-checks.json tools/essay_charts.py tools/v63_g*.py`（有動到才加）；`output/`、`lite/index.html`、`lite/work/`、`lite/calc-results.json` 這些產生的檔**不要 commit**（`git checkout -- output lite/index.html lite/work` 還原），合併後由 Fable 統一重建。
