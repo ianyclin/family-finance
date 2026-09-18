@@ -4,14 +4,15 @@
 
 用法：
   python3 tools/v7_check.py mainline <html> [--json out.json]
-      逐節列出去空白字數：total／folded／small／story／mainline／visible，並印全書合計。
-      visible＝mainline＋small（手機上一眼看得到的字，摺疊與黃框不算）。
+      逐節列出去空白字數：total／folded／small／source／story／mainline／visible，並印全書合計。
+      visible＝mainline＋small（手機上一眼看得到的字，摺疊、黃框與來源卡都不算）。
   python3 tools/v7_check.py numbers <before.html> <after.html> [--section id ...] [--allow-file allow.json]
       以 section id 為 key 比對阿拉伯數字 token 多重集合；真正的 LOST 會讓 exit code = 1。
   python3 tools/v7_check.py budget <html> <budget.json> [--section id ...]
       budget.json 形如 {"ten": 600, "why": 900, "_total_max": 70000}；超過的節列出來，exit 1。
       另支援 "_visible_total_max"（全書 mainline＋small 上限）與
-      "_visible_small_per_section_max"（每節 small 上限；SMALL_EXEMPT 那幾節與 group-* 不查）。
+      "_visible_small_per_section_max"（每節 small 上限，不含來源卡；
+      SMALL_EXEMPT 那幾節與 group-* 不查）。
       給了 --section 就只檢查指定的節，兩個全書合計改成只印不判（施工中途全書必然超標）。
   python3 tools/v7_check.py planstep <html>
       檢查每個 div.planstep 的結構與位置；結構錯 exit 1。
@@ -19,7 +20,9 @@
       改前的 id 在改後都還在；改後的 href="#…" 都有對應 id。
 
 「節」的定義：每個 <section id=…>，另加 header#top.cover（記為 cover）與 nav#toc（記為 toc）。
-分類優先序（互斥，一段文字只算一次）：folded > story > small；mainline = total − folded − story − small。
+分類優先序（互斥，一段文字只算一次）：folded > story > source > small；
+mainline = total − folded − story − source − small。來源卡（.source-card）自成一欄，
+既不算 small 也不算 mainline，也不進 visible。
 """
 import argparse
 import json
@@ -31,7 +34,8 @@ from html.parser import HTMLParser
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
         'link', 'meta', 'param', 'source', 'track', 'wbr'}
 SKIP = {'script', 'style', 'svg'}
-SMALL_CLASSES = {'small', 'source-card'}
+SMALL_CLASSES = {'small'}
+SOURCE_CLASSES = {'source-card'}
 # 這幾節整節就是查表／導覽用的小字，不適用「每節看得到的小字 ≤ N 字」；group-* 分組節同理。
 SMALL_EXEMPT = {'glossary', 'toolbox', 'methods', 'cover', 'toc'}
 
@@ -79,8 +83,8 @@ class Doc(HTMLParser):
         return self.sec_stack[-1][1] if self.sec_stack else None
 
     def _flags(self):
-        """回傳祖先狀態：(skip, in_details, in_story, in_small, in_figure)。"""
-        skip = det = sto = sml = fig = False
+        """回傳祖先狀態：(skip, in_details, in_story, in_source, in_small, in_figure)。"""
+        skip = det = sto = src = sml = fig = False
         for tag, cls in self.stack:
             if tag in SKIP:
                 skip = True
@@ -90,9 +94,11 @@ class Doc(HTMLParser):
                 sto = True
             elif tag == 'figure':
                 fig = True
+            if cls & SOURCE_CLASSES:
+                src = True
             if (cls & SMALL_CLASSES) or tag == 'figcaption' or (tag == 'p' and 'note' in cls):
                 sml = True
-        return skip, det, sto, sml, fig
+        return skip, det, sto, src, sml, fig
 
     @staticmethod
     def _section_name(tag, attrs, cls):
@@ -108,7 +114,7 @@ class Doc(HTMLParser):
     def _new_section(self, name):
         if name not in self.sections:
             self.sections[name] = {'id': name, 'total': 0, 'folded': 0,
-                                   'small': 0, 'story': 0, 'text': []}
+                                   'small': 0, 'source': 0, 'story': 0, 'text': []}
         return self.sections[name]
 
     # ---- parser callbacks -------------------------------------------
@@ -116,7 +122,7 @@ class Doc(HTMLParser):
         self.seq += 1
         a = dict(attrs)
         cls = cls_of(a)
-        skip, det, sto, sml, fig = self._flags()
+        skip, det, sto, src, sml, fig = self._flags()
         cur = self._cur()
 
         if not skip:
@@ -160,7 +166,7 @@ class Doc(HTMLParser):
                 return
 
     def handle_data(self, data):
-        skip, det, sto, sml, fig = self._flags()
+        skip, det, sto, src, sml, fig = self._flags()
         if skip:
             return
         n = nonws_len(data)
@@ -176,6 +182,8 @@ class Doc(HTMLParser):
             r['folded'] += n
         elif sto:
             r['story'] += n
+        elif src:
+            r['source'] += n
         elif sml:
             r['small'] += n
         r['text'].append(data)
@@ -184,10 +192,10 @@ class Doc(HTMLParser):
     def rows(self):
         out = []
         for r in self.sections.values():
-            m = r['total'] - r['folded'] - r['story'] - r['small']
+            m = r['total'] - r['folded'] - r['story'] - r['source'] - r['small']
             out.append({'id': r['id'], 'total': r['total'], 'folded': r['folded'],
-                        'small': r['small'], 'story': r['story'], 'mainline': m,
-                        'visible': m + r['small']})
+                        'small': r['small'], 'source': r['source'], 'story': r['story'],
+                        'mainline': m, 'visible': m + r['small']})
         return out
 
     def section_text(self):
@@ -209,14 +217,17 @@ def cmd_mainline(args):
     d = parse(args.html)
     rows = d.rows()
     w = max([len(r['id']) for r in rows] + [7])
-    print('%-*s %8s %8s %8s %8s %9s %8s' % (w, 'section', 'total', 'folded', 'small', 'story',
-                                            'mainline', 'visible'))
+    fmt_h = '%-*s %8s %8s %8s %8s %8s %9s %8s'
+    fmt_r = '%-*s %8d %8d %8d %8d %8d %9d %8d'
+    print(fmt_h % (w, 'section', 'total', 'folded', 'small', 'source', 'story',
+                   'mainline', 'visible'))
     for r in rows:
-        print('%-*s %8d %8d %8d %8d %9d %8d' % (w, r['id'], r['total'], r['folded'],
-                                                r['small'], r['story'], r['mainline'], r['visible']))
-    tot = {k: sum(r[k] for r in rows) for k in ('total', 'folded', 'small', 'story', 'mainline', 'visible')}
-    print('%-*s %8d %8d %8d %8d %9d %8d' % (w, 'TOTAL', tot['total'], tot['folded'],
-                                            tot['small'], tot['story'], tot['mainline'], tot['visible']))
+        print(fmt_r % (w, r['id'], r['total'], r['folded'], r['small'], r['source'],
+                       r['story'], r['mainline'], r['visible']))
+    tot = {k: sum(r[k] for r in rows)
+           for k in ('total', 'folded', 'small', 'source', 'story', 'mainline', 'visible')}
+    print(fmt_r % (w, 'TOTAL', tot['total'], tot['folded'], tot['small'], tot['source'],
+                   tot['story'], tot['mainline'], tot['visible']))
     print('outside-of-section %d' % d.outside)
     if args.json:
         payload = {'sections': rows, 'totals': tot, 'outside': d.outside, 'source': args.html}

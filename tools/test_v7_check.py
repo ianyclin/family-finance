@@ -69,32 +69,57 @@ R = rows_of(main_path)
 expect('mainline: 三個節（cover／toc／s1）依 DOM 順序',
        [r['id'] for r in v7.parse(main_path).rows()] == ['cover', 'toc', 's1'], list(R))
 expect('mainline: header#top.cover 記成 cover，全部算主線',
-       R['cover'] == {'id': 'cover', 'total': 10, 'folded': 0, 'small': 0, 'story': 0,
-                      'mainline': 10, 'visible': 10}, R.get('cover'))
+       R['cover'] == {'id': 'cover', 'total': 10, 'folded': 0, 'small': 0, 'source': 0,
+                      'story': 0, 'mainline': 10, 'visible': 10}, R.get('cover'))
 expect('mainline: nav#toc 記成 toc', R['toc']['total'] == 3 and R['toc']['mainline'] == 3, R.get('toc'))
-# s1：h2(3)+主線(5) 是主線；small(5)+note(5)+source-card(9)+figcaption(5)=24 是小字；
+# s1：h2(3)+主線(5) 是主線；small(5)+note(5)+figcaption(5)=15 是小字；source-card(9) 是 source；
 # story(5)；details 內 summary(3)+內文(5)+小字(7)=15 全算 folded；script/style/svg 不算。
-expect('mainline: small/note/source-card/figcaption 歸 small', R['s1']['small'] == 24, R['s1'])
+expect('mainline: small/note/figcaption 歸 small（不含來源卡）', R['s1']['small'] == 15, R['s1'])
+expect('mainline: div.source-card 自成一欄 source', R['s1']['source'] == 9, R['s1'])
 expect('mainline: details 內的一切（含裡面的 small）歸 folded', R['s1']['folded'] == 15, R['s1'])
 expect('mainline: div.story 歸 story', R['s1']['story'] == 5, R['s1'])
 expect('mainline: total 不含 script/style/svg', R['s1']['total'] == 52, R['s1'])
-expect('mainline: mainline = total − folded − small − story', R['s1']['mainline'] == 8, R['s1'])
-expect('mainline: visible = mainline + small（摺疊與黃框不算）', R['s1']['visible'] == 32, R['s1'])
+expect('mainline: mainline = total − folded − story − source − small', R['s1']['mainline'] == 8, R['s1'])
+expect('mainline: visible = mainline + small（摺疊、黃框、來源卡都不算）',
+       R['s1']['visible'] == 23, R['s1'])
 expect('mainline: section 外的文字（footer）不進任何節', v7.parse(main_path).outside == 4,
        v7.parse(main_path).outside)
 
-# 分類互斥：story 裡的 small 只算一次（本工具的優先序 folded > story > small）
+# 分類互斥：優先序 folded > story > source > small，一段文字只算一次
 ov = w('ov.html', '<section id="x"><div class="story"><p class="small">一二三四五</p></div></section>')
 Rov = rows_of(ov)['x']
 expect('mainline: story 裡的 small 不重複扣（story=5, small=0, mainline=0）',
        (Rov['story'], Rov['small'], Rov['mainline']) == (5, 0, 0), Rov)
+
+src_html = w('src.html',
+             '<section id="p1"><div class="source-card"><p class="small">一二三四五</p></div></section>'
+             '<section id="p2"><div class="story"><div class="source-card">一二三四五</div></div></section>'
+             '<section id="p3"><details><div class="source-card">一二三四五</div></details></section>'
+             '<section id="p4"><p class="small source-card">一二三四五</p></section>'
+             '<section id="p5"><div class="source-card">一二三</div><p>四五六七</p></section>')
+Rs = rows_of(src_html)
+expect('mainline: 來源卡裡的 small 算 source 不算 small（source > small）',
+       (Rs['p1']['source'], Rs['p1']['small'], Rs['p1']['mainline'], Rs['p1']['visible']) == (5, 0, 0, 0),
+       Rs['p1'])
+expect('mainline: story 裡的來源卡算 story（story > source）',
+       (Rs['p2']['story'], Rs['p2']['source']) == (5, 0), Rs['p2'])
+expect('mainline: details 裡的來源卡算 folded（folded > source）',
+       (Rs['p3']['folded'], Rs['p3']['source']) == (5, 0), Rs['p3'])
+expect('mainline: 同一元素同時有 small 與 source-card 算 source',
+       (Rs['p4']['source'], Rs['p4']['small']) == (5, 0), Rs['p4'])
+expect('mainline: 來源卡不算 mainline 也不算 visible',
+       (Rs['p5']['total'], Rs['p5']['source'], Rs['p5']['small'],
+        Rs['p5']['mainline'], Rs['p5']['visible']) == (7, 3, 0, 4, 4), Rs['p5'])
 
 rc, out = run('mainline', main_path, '--json', os.path.join(TMP, 'm.json'))
 j = json.load(open(os.path.join(TMP, 'm.json'), encoding='utf-8'))
 expect('mainline CLI: exit 0 且寫出 JSON',
        rc == 0 and j['totals']['mainline'] == 21 and len(j['sections']) == 3, out)
 expect('mainline CLI: 表頭與合計都有 visible 欄',
-       'visible' in out and j['totals']['visible'] == 45, out)
+       'visible' in out and j['totals']['visible'] == 36, out)
+expect('mainline CLI: 表頭與合計都有 source 欄',
+       'source' in out.splitlines()[0] and j['totals']['source'] == 9
+       and j['sections'][2]['source'] == 9, out)
 
 # ----------------------------------------------------------------- numbers
 expect('numbers: 千分位逗號去掉後比較', v7.tokens('每月 5,000 元')['5000'] == 1, v7.tokens('每月 5,000 元'))
@@ -163,27 +188,33 @@ expect('budget: 超過的節列出來 → exit 1',
 rc, out = run('budget', main_path, bud_missing)
 expect('budget: budget 裡的節在書裡找不到 → exit 1', rc == 1 and 'MISSING SECTION: nope' in out, out)
 
-# _visible_total_max：全書 mainline＋small（這份 fixture 是 21＋24＝45）
-bud_v_ok = w('bud_v_ok.json', json.dumps({'_visible_total_max': 45}))
-bud_v_bad = w('bud_v_bad.json', json.dumps({'_visible_total_max': 44}))
+# _visible_total_max：全書 mainline＋small（這份 fixture 是 21＋15＝36，來源卡的 9 不算）
+bud_v_ok = w('bud_v_ok.json', json.dumps({'_visible_total_max': 36}))
+bud_v_bad = w('bud_v_bad.json', json.dumps({'_visible_total_max': 35}))
 rc, out = run('budget', main_path, bud_v_ok)
 expect('budget: _visible_total_max 剛好等於上限 → exit 0',
-       rc == 0 and 'visible=45' in out and 'BUDGET OK' in out, out)
+       rc == 0 and 'visible=36' in out and 'BUDGET OK' in out, out)
 rc, out = run('budget', main_path, bud_v_bad)
 expect('budget: _visible_total_max 超過 → exit 1',
        rc == 1 and '_visible_total_max' in out and 'OVER' in out, out)
 
-# _visible_small_per_section_max：s1 的 small 是 24
-bud_s_ok = w('bud_s_ok.json', json.dumps({'_visible_small_per_section_max': 24}))
+# _visible_small_per_section_max：s1 的 small 是 15（來源卡的 9 不進 small，不受這條管）
+bud_s_ok = w('bud_s_ok.json', json.dumps({'_visible_small_per_section_max': 15}))
 bud_s_bad = w('bud_s_bad.json', json.dumps({'_visible_small_per_section_max': 10}))
 rc, out = run('budget', main_path, bud_s_ok)
 expect('budget: 每節 small 剛好等於上限不算超過 → exit 0',
-       rc == 0 and 's1               small=24' in out and 'BUDGET OK' in out, out)
+       rc == 0 and 's1               small=15' in out and 'BUDGET OK' in out, out)
 rc, out = run('budget', main_path, bud_s_bad)
 expect('budget: 每節 small 超過 → exit 1 且指名是 small',
-       rc == 1 and 'small=24' in out and 'OVER' in out and 's1 (small)' not in out and 'BUDGET FAILED' in out, out)
+       rc == 1 and 'small=15' in out and 'OVER' in out and 's1 (small)' not in out and 'BUDGET FAILED' in out, out)
 expect('budget: cover／toc 不查 small（小字上限只印該查的節）',
        'cover            small=' not in out and 'toc              small=' not in out, out)
+
+# 來源卡不進 small，所以整節只有來源卡時不會撞到每節 small 上限
+only_src = w('only_src.html', '<section id="s8"><div class="source-card">一二三四五六七八九十</div></section>')
+rc, out = run('budget', only_src, w('bud_s3.json', json.dumps({'_visible_small_per_section_max': 3})))
+expect('budget: _visible_small_per_section_max 只管 small，來源卡不算 → exit 0',
+       rc == 0 and 's8               small=0' in out and 'BUDGET OK' in out, out)
 
 EXEMPT = ('<section id="glossary"><p class="small">一二三四五六七八九十</p></section>'
           '<section id="toolbox"><p class="small">一二三四五六七八九十</p></section>'
@@ -207,8 +238,8 @@ expect('budget --section: 只看 cover（mainline 10 > 5）→ exit 1，s1 完�
 expect('budget --section: 全書合計印出來但不判',
        'skipped(--section)' in out and out.count('skipped(--section)') == 2, out)
 rc, out = run('budget', main_path, w('bud_sec2.json', json.dumps(
-    {'s1': 8, 'cover': 5, '_total_max': 10, '_visible_small_per_section_max': 24})), '--section', 's1')
-expect('budget --section: 只看 s1（mainline 8≤8、small 24≤24）→ exit 0',
+    {'s1': 8, 'cover': 5, '_total_max': 10, '_visible_small_per_section_max': 15})), '--section', 's1')
+expect('budget --section: 只看 s1（mainline 8≤8、small 15≤15）→ exit 0',
        rc == 0 and 'BUDGET OK' in out and 'cover' not in out, out)
 rc, out = run('budget', main_path, bud_sec, '--section', 'nope')
 expect('budget --section: 不存在的 section id → exit 1', rc == 1 and 'unknown section' in out, out)

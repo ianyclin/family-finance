@@ -1,0 +1,375 @@
+{
+ "sections": [
+  {
+   "id": "cover",
+   "total": 904,
+   "folded": 550,
+   "small": 61,
+   "source": 0,
+   "story": 0,
+   "mainline": 293,
+   "visible": 354
+  },
+  {
+   "id": "toc",
+   "total": 654,
+   "folded": 631,
+   "small": 21,
+   "source": 0,
+   "story": 0,
+   "mainline": 2,
+   "visible": 23
+  },
+  {
+   "id": "ten",
+   "total": 1150,
+   "folded": 283,
+   "small": 0,
+   "source": 0,
+   "story": 0,
+   "mainline": 867,
+   "visible": 867
+  },
+  {
+   "id": "why",
+   "total": 4467,
+   "folded": 2454,
+   "small": 440,
+   "source": 346,
+   "story": 0,
+   "mainline": 1227,
+   "visible": 1667
+  },
+  {
+   "id": "start",
+   "total": 1861,
+   "folded": 0,
+   "small": 560,
+   "source": 136,
+   "story": 78,
+   "mainline": 1087,
+   "visible": 1647
+  },
+  {
+   "id": "glossary",
+   "total": 3239,
+   "folded": 0,
+   "small": 0,
+   "source": 0,
+   "story": 0,
+   "mainline": 3239,
+   "visible": 3239
+  },
+  {
+   "id": "group-core",
+   "total": 471,
+   "folded": 0,
+   "small": 71,
+   "source": 0,
+   "story": 0,
+   "mainline": 400,
+   "visible": 471
+  },
+  {
+   "id": "s1",
+   "total": 2361,
+   "folded": 241,
+   "small": 477,
+   "source": 258,
+   "story": 44,
+   "mainline": 1341,
+   "visible": 1818
+  },
+  {
+   "id": "s2",
+   "total": 6772,
+   "folded": 1104,
+   "small": 1859,
+   "source": 530,
+   "story": 69,
+   "mainline": 3210,
+   "visible": 5069
+  },
+  {
+   "id": "s3",
+   "total": 4403,
+   "folded": 0,
+   "small": 1228,
+   "source": 846,
+   "story": 60,
+   "mainline": 2269,
+   "visible": 3497
+  },
+  {
+   "id": "s4",
+   "total": 6079,
+   "folded": 226,
+   "small": 1630,
+   "source": 1308,
+   "story": 164,
+   "mainline": 2751,
+   "visible": 4381
+  },
+  {
+   "id": "s5",
+   "total": 6931,
+   "folded": 2915,
+   "small": 1276,
+   "source": 426,
+   "story": 92,
+   "mainline": 2222,
+   "visible": 3498
+  },
+  {
+   "id": "s6",
+   "total": 2405,
+   "folded": 160,
+   "small": 729,
+   "source": 142,
+   "story": 59,
+   "mainline": 1315,
+   "visible": 2044
+  },
+  {
+   "id": "s7",
+   "total": 1429,
+   "folded": 206,
+   "small": 261,
+   "source": 203,
+   "story": 65,
+   "mainline": 694,
+   "visible": 955
+  },
+  {
+   "id": "s8",
+   "total": 2376,
+   "folded": 0,
+   "small": 815,
+   "source": 228,
+   "story": 137,
+   "mainline": 1196,
+   "visible": 2011
+  },
+  {
+   "id": "s9",
+   "total": 2443,
+   "folded": 0,
+   "small": 724,
+   "source": 364,
+   "story": 117,
+   "mainline": 1238,
+   "visible": 1962
+  },
+  {
+   "id": "s10",
+   "total": 5346,
+   "folded": 1645,
+   "small": 708,
+   "source": 603,
+   "story": 68,
+   "mainline": 2322,
+   "visible": 3030
+  },
+  {
+   "id": "group-plan",
+   "total": 253,
+   "folded": 0,
+   "small": 69,
+   "source": 0,
+   "story": 0,
+   "mainline": 184,
+   "visible": 253
+  },
+  {
+   "id": "s11",
+   "total": 16708,
+   "folded": 8608,
+   "small": 1905,
+   "source": 628,
+   "story": 99,
+   "mainline": 5468,
+   "visible": 7373
+  },
+  {
+   "id": "cases",
+   "total": 10113,
+   "folded": 6032,
+   "small": 807,
+   "source": 717,
+   "story": 0,
+   "mainline": 2557,
+   "visible": 3364
+  },
+  {
+   "id": "s12",
+   "total": 5424,
+   "folded": 469,
+   "small": 967,
+   "source": 814,
+   "story": 277,
+   "mainline": 2897,
+   "visible": 3864
+  },
+  {
+   "id": "group-situations",
+   "total": 862,
+   "folded": 0,
+   "small": 95,
+   "source": 0,
+   "story": 0,
+   "mainline": 767,
+   "visible": 862
+  },
+  {
+   "id": "s13",
+   "total": 4034,
+   "folded": 0,
+   "small": 249,
+   "source": 0,
+   "story": 78,
+   "mainline": 3707,
+   "visible": 3956
+  },
+  {
+   "id": "sidepaths",
+   "total": 1917,
+   "folded": 0,
+   "small": 378,
+   "source": 399,
+   "story": 31,
+   "mainline": 1109,
+   "visible": 1487
+  },
+  {
+   "id": "group-howto",
+   "total": 212,
+   "folded": 0,
+   "small": 34,
+   "source": 0,
+   "story": 0,
+   "mainline": 178,
+   "visible": 212
+  },
+  {
+   "id": "firstmonth",
+   "total": 1486,
+   "folded": 0,
+   "small": 0,
+   "source": 0,
+   "story": 0,
+   "mainline": 1486,
+   "visible": 1486
+  },
+  {
+   "id": "steps",
+   "total": 2177,
+   "folded": 0,
+   "small": 428,
+   "source": 206,
+   "story": 0,
+   "mainline": 1543,
+   "visible": 1971
+  },
+  {
+   "id": "products",
+   "total": 2552,
+   "folded": 0,
+   "small": 281,
+   "source": 602,
+   "story": 67,
+   "mainline": 1602,
+   "visible": 1883
+  },
+  {
+   "id": "costs",
+   "total": 3928,
+   "folded": 1008,
+   "small": 348,
+   "source": 848,
+   "story": 0,
+   "mainline": 1724,
+   "visible": 2072
+  },
+  {
+   "id": "group-life",
+   "total": 321,
+   "folded": 0,
+   "small": 101,
+   "source": 0,
+   "story": 0,
+   "mainline": 220,
+   "visible": 321
+  },
+  {
+   "id": "annual",
+   "total": 3713,
+   "folded": 1128,
+   "small": 423,
+   "source": 170,
+   "story": 84,
+   "mainline": 1908,
+   "visible": 2331
+  },
+  {
+   "id": "lifecycle",
+   "total": 9689,
+   "folded": 999,
+   "small": 1820,
+   "source": 2139,
+   "story": 161,
+   "mainline": 4570,
+   "visible": 6390
+  },
+  {
+   "id": "withdraw",
+   "total": 1466,
+   "folded": 0,
+   "small": 0,
+   "source": 155,
+   "story": 0,
+   "mainline": 1311,
+   "visible": 1311
+  },
+  {
+   "id": "group-ref",
+   "total": 143,
+   "folded": 0,
+   "small": 31,
+   "source": 0,
+   "story": 0,
+   "mainline": 112,
+   "visible": 143
+  },
+  {
+   "id": "toolbox",
+   "total": 2249,
+   "folded": 0,
+   "small": 208,
+   "source": 456,
+   "story": 0,
+   "mainline": 1585,
+   "visible": 1793
+  },
+  {
+   "id": "methods",
+   "total": 3887,
+   "folded": 0,
+   "small": 547,
+   "source": 320,
+   "story": 0,
+   "mainline": 3020,
+   "visible": 3567
+  }
+ ],
+ "totals": {
+  "total": 124425,
+  "folded": 28659,
+  "small": 19551,
+  "source": 12844,
+  "story": 1750,
+  "mainline": 61621,
+  "visible": 81172
+ },
+ "outside": 261,
+ "source": "wip/v63-review/_baseline_v631.html"
+}
