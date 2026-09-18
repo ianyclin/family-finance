@@ -69,7 +69,8 @@ R = rows_of(main_path)
 expect('mainline: 三個節（cover／toc／s1）依 DOM 順序',
        [r['id'] for r in v7.parse(main_path).rows()] == ['cover', 'toc', 's1'], list(R))
 expect('mainline: header#top.cover 記成 cover，全部算主線',
-       R['cover'] == {'id': 'cover', 'total': 10, 'folded': 0, 'small': 0, 'story': 0, 'mainline': 10}, R.get('cover'))
+       R['cover'] == {'id': 'cover', 'total': 10, 'folded': 0, 'small': 0, 'story': 0,
+                      'mainline': 10, 'visible': 10}, R.get('cover'))
 expect('mainline: nav#toc 記成 toc', R['toc']['total'] == 3 and R['toc']['mainline'] == 3, R.get('toc'))
 # s1：h2(3)+主線(5) 是主線；small(5)+note(5)+source-card(9)+figcaption(5)=24 是小字；
 # story(5)；details 內 summary(3)+內文(5)+小字(7)=15 全算 folded；script/style/svg 不算。
@@ -78,6 +79,7 @@ expect('mainline: details 內的一切（含裡面的 small）歸 folded', R['s1
 expect('mainline: div.story 歸 story', R['s1']['story'] == 5, R['s1'])
 expect('mainline: total 不含 script/style/svg', R['s1']['total'] == 52, R['s1'])
 expect('mainline: mainline = total − folded − small − story', R['s1']['mainline'] == 8, R['s1'])
+expect('mainline: visible = mainline + small（摺疊與黃框不算）', R['s1']['visible'] == 32, R['s1'])
 expect('mainline: section 外的文字（footer）不進任何節', v7.parse(main_path).outside == 4,
        v7.parse(main_path).outside)
 
@@ -91,6 +93,8 @@ rc, out = run('mainline', main_path, '--json', os.path.join(TMP, 'm.json'))
 j = json.load(open(os.path.join(TMP, 'm.json'), encoding='utf-8'))
 expect('mainline CLI: exit 0 且寫出 JSON',
        rc == 0 and j['totals']['mainline'] == 21 and len(j['sections']) == 3, out)
+expect('mainline CLI: 表頭與合計都有 visible 欄',
+       'visible' in out and j['totals']['visible'] == 45, out)
 
 # ----------------------------------------------------------------- numbers
 expect('numbers: 千分位逗號去掉後比較', v7.tokens('每月 5,000 元')['5000'] == 1, v7.tokens('每月 5,000 元'))
@@ -158,6 +162,59 @@ expect('budget: 超過的節列出來 → exit 1',
        rc == 1 and 'OVER' in out and 's1' in out and '_total_max' in out, out)
 rc, out = run('budget', main_path, bud_missing)
 expect('budget: budget 裡的節在書裡找不到 → exit 1', rc == 1 and 'MISSING SECTION: nope' in out, out)
+
+# _visible_total_max：全書 mainline＋small（這份 fixture 是 21＋24＝45）
+bud_v_ok = w('bud_v_ok.json', json.dumps({'_visible_total_max': 45}))
+bud_v_bad = w('bud_v_bad.json', json.dumps({'_visible_total_max': 44}))
+rc, out = run('budget', main_path, bud_v_ok)
+expect('budget: _visible_total_max 剛好等於上限 → exit 0',
+       rc == 0 and 'visible=45' in out and 'BUDGET OK' in out, out)
+rc, out = run('budget', main_path, bud_v_bad)
+expect('budget: _visible_total_max 超過 → exit 1',
+       rc == 1 and '_visible_total_max' in out and 'OVER' in out, out)
+
+# _visible_small_per_section_max：s1 的 small 是 24
+bud_s_ok = w('bud_s_ok.json', json.dumps({'_visible_small_per_section_max': 24}))
+bud_s_bad = w('bud_s_bad.json', json.dumps({'_visible_small_per_section_max': 10}))
+rc, out = run('budget', main_path, bud_s_ok)
+expect('budget: 每節 small 剛好等於上限不算超過 → exit 0',
+       rc == 0 and 's1               small=24' in out and 'BUDGET OK' in out, out)
+rc, out = run('budget', main_path, bud_s_bad)
+expect('budget: 每節 small 超過 → exit 1 且指名是 small',
+       rc == 1 and 'small=24' in out and 'OVER' in out and 's1 (small)' not in out and 'BUDGET FAILED' in out, out)
+expect('budget: cover／toc 不查 small（小字上限只印該查的節）',
+       'cover            small=' not in out and 'toc              small=' not in out, out)
+
+EXEMPT = ('<section id="glossary"><p class="small">一二三四五六七八九十</p></section>'
+          '<section id="toolbox"><p class="small">一二三四五六七八九十</p></section>'
+          '<section id="methods"><p class="small">一二三四五六七八九十</p></section>'
+          '<section id="group-core"><p class="small">一二三四五六七八九十</p></section>'
+          '<section id="s9"><p class="small">一二三四五六七八九十</p></section>')
+ex = w('exempt.html', EXEMPT)
+rc, out = run('budget', ex, w('bud_s5.json', json.dumps({'_visible_small_per_section_max': 5})))
+expect('budget: glossary／toolbox／methods／group-* 不查 small，s9 照查 → exit 1',
+       rc == 1 and 's9               small=10' in out and 'OVER' in out
+       and 'glossary' not in out and 'toolbox' not in out
+       and 'methods' not in out and 'group-core' not in out, out)
+
+# --section：只檢查指定的節，兩個全書合計只印不判
+bud_sec = w('bud_sec.json', json.dumps({'s1': 5, 'cover': 5, '_total_max': 10,
+                                        '_visible_total_max': 10,
+                                        '_visible_small_per_section_max': 10}))
+rc, out = run('budget', main_path, bud_sec, '--section', 'cover')
+expect('budget --section: 只看 cover（mainline 10 > 5）→ exit 1，s1 完全不出現',
+       rc == 1 and 'cover            mainline=10' in out and 's1 ' not in out, out)
+expect('budget --section: 全書合計印出來但不判',
+       'skipped(--section)' in out and out.count('skipped(--section)') == 2, out)
+rc, out = run('budget', main_path, w('bud_sec2.json', json.dumps(
+    {'s1': 8, 'cover': 5, '_total_max': 10, '_visible_small_per_section_max': 24})), '--section', 's1')
+expect('budget --section: 只看 s1（mainline 8≤8、small 24≤24）→ exit 0',
+       rc == 0 and 'BUDGET OK' in out and 'cover' not in out, out)
+rc, out = run('budget', main_path, bud_sec, '--section', 'nope')
+expect('budget --section: 不存在的 section id → exit 1', rc == 1 and 'unknown section' in out, out)
+rc, out = run('budget', main_path, bud_missing, '--section', 's1')
+expect('budget --section: budget 裡沒被指定的節不算 MISSING',
+       rc == 0 and 'MISSING SECTION' not in out, out)
 
 # ---------------------------------------------------------------- planstep
 PS_OK = '''<section id="s2"><h2>S2</h2>

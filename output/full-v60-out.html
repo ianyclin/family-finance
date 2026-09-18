@@ -31,6 +31,12 @@
 .tasks li a{display:block;height:100%;padding:.6em .8em;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-decoration:none;line-height:1.4}
 @media print{.tasks{display:none}}
 .decision::before{content:"本節行動"}
+.planstep{margin:22px 0;padding:16px 18px;border:2px dashed var(--green);border-radius:16px;background:var(--surface)}
+.planstep>p{margin:.4em 0}
+.planstep>p.planstep-title{margin:0 0 .5em;font-size:.84rem;font-weight:900;letter-spacing:.04em;color:var(--green)}
+details.more{border-left:2px solid var(--line);padding-left:14px}
+details.more>summary{font-weight:700;font-size:.92rem;color:var(--muted)}
+details.more[open]>summary{color:var(--green)}
 .glossary dt{font-weight:800;margin-top:.6em}.glossary dd{margin:0 0 .3em 1.2em;color:var(--muted)}
 @media(max-width:660px){.table-wrap::before{content:"← 表格可左右滑動 →";display:block;position:sticky;left:0;padding:6px 10px;border-bottom:1px solid var(--line);color:var(--muted);font-size:.78rem;background:var(--surface)}}
 @media screen and (max-width:660px){table.lite-plan,table.lite-plan>tbody,table.lite-plan>tbody>tr,table.lite-plan>tbody>tr>td{display:block;width:auto}details[data-lite-alt~="plan-blank"] .table-wrap>table{display:block}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody{display:flex;flex-direction:column}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody>tr{display:contents}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody>tr>td{display:block;width:auto}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody>tr:nth-child(2)>td:nth-child(1){order:1}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody>tr:nth-child(1)>td:nth-child(2){order:2}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody>tr:nth-child(2)>td:nth-child(2){order:3}.table-wrap:has(>table.lite-plan)::before,.table-wrap:has(>table.situations)::before,details[data-lite-alt~="plan-blank"] .table-wrap::before{content:none;display:none}}
@@ -38,7 +44,7 @@
 @media screen and (pointer:coarse){.table-wrap:has(>table.situations){overflow-x:hidden}a.xref{padding:.4em .8em;margin:0 -.8em;border-bottom:0;text-decoration:underline dotted 1px;text-underline-offset:.24em}}
 @media(max-width:660px){table{min-width:0}.compact{min-width:0}.wide{min-width:520px}th,td{padding:8px 6px}.bar-label{grid-row:1;grid-column:1}.bar-value{grid-row:1;grid-column:2}.bar-track{grid-row:2}.bar-note{grid-row:3}body{font-size:17px}.cover{padding-top:42px}.toc ul,.toc ol{columns:1}.part{padding:22px 18px;border-radius:18px}.bar-row{grid-template-columns:1fr auto}.bar-track{grid-column:1/3}.bar-note{grid-column:1/3}.sources-grid{grid-template-columns:1fr}.source-link{display:block}.source-note{display:block;text-align:left}.audit-stamp{gap:7px}.chip{font-size:.78rem}}
 @media(prefers-color-scheme:dark){:root{--teal:#71cfb3;--accent:#ef8b80;--fill:#202c26;--paper:#101713;--surface:#17201b;--ink:#edf2ef;--muted:#aab6b0;--line:#35423b;--green:#71cfb3;--green2:#17382f;--amber:#f0ad59;--amber2:#3b2b18;--red:#ef8b80;--blue:#8cb8e0;--shadow:none}.data-card{background:#19251f;border-color:#35483f}html mark.key{background:linear-gradient(transparent 50%,#6b5320 50%)}.source-card{background:#2a241a;border-color:#51442e}.warning{background:#3a211f}.bar-track{background:#36423c}.bar-track span{background:var(--green)}thead{background:#202c26}.num{color:#101713}}
-@media print{body{background:white;color:black;font-size:10.5pt}.cover,.part{width:100%;box-shadow:none}.part{break-inside:auto;border:0;border-top:1px solid #aaa;border-radius:0}.story,.decision,.warning,figure.chart{break-inside:avoid}p.small{break-before:avoid}.decision{break-before:avoid}.data-card,.source-card{break-inside:auto;background:white}.data-card h3,.source-card h3,h3,h4{break-after:avoid}li,tr,.source-link{break-inside:avoid}.story,.decision,.warning{background:white}.toc ul,.toc ol{columns:2}.back{display:none}a{color:black;text-decoration:none}.sources-grid{display:block}.source-link{display:block;padding:4px 0;border-top:1px solid #ddd;font-size:9pt}.source-link span{display:block}.source-link .source-note{color:#333;text-align:left}.source-link::after{content:attr(href);display:block;font-size:7.5pt;color:#666;word-break:break-all}.explain{background:#eef4f1}.story{background:#fbf3e4}figure.chart svg.d{display:block}figure.chart svg.m{display:none}figure.chart details.orig{display:none}section.part{break-before:page;page-break-before:always}details[data-print="page"]{break-before:page;break-after:page;break-inside:avoid}details[data-print="page"] table{font-size:9.5pt}.cover{break-after:auto}@page{size:A4;margin:16mm 14mm;@bottom-center{content:counter(page);font-size:9pt;color:#666}}}
+@media print{body{background:white;color:black;font-size:10.5pt}.cover,.part{width:100%;box-shadow:none}.part{break-inside:auto;border:0;border-top:1px solid #aaa;border-radius:0}.story,.decision,.warning,figure.chart{break-inside:avoid}p.small{break-before:avoid}.decision{break-before:avoid}.data-card,.source-card{break-inside:auto;background:white}.data-card h3,.source-card h3,h3,h4{break-after:avoid}li,tr,.source-link{break-inside:avoid}.story,.decision,.warning{background:white}.planstep{break-inside:avoid;background:white;border-color:#666}details.more{border-left:0;padding-left:0}.toc ul,.toc ol{columns:2}.back{display:none}a{color:black;text-decoration:none}.sources-grid{display:block}.source-link{display:block;padding:4px 0;border-top:1px solid #ddd;font-size:9pt}.source-link span{display:block}.source-link .source-note{color:#333;text-align:left}.source-link::after{content:attr(href);display:block;font-size:7.5pt;color:#666;word-break:break-all}.explain{background:#eef4f1}.story{background:#fbf3e4}figure.chart svg.d{display:block}figure.chart svg.m{display:none}figure.chart details.orig{display:none}section.part{break-before:page;page-break-before:always}details[data-print="page"]{break-before:page;break-after:page;break-inside:avoid}details[data-print="page"] table{font-size:9.5pt}.cover{break-after:auto}@page{size:A4;margin:16mm 14mm;@bottom-center{content:counter(page);font-size:9pt;color:#666}}}
 figure.chart{margin:24px 0;padding:18px 20px 14px;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--green);border-radius:16px;overflow:hidden;font-family:var(--sans)}
 figure.chart .chart-head{display:flex;flex-direction:column;gap:3px;margin:0 0 12px}
 figure.chart .chart-title{font-weight:800;font-size:1rem;line-height:1.4;color:var(--ink)}
@@ -75,17 +81,18 @@ a.term{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blu
 <li><a href="#start">先確認能不能開始投資（預備金、卡債、保單）</a></li>
 <li><a href="#group-plan">寫下自己的比例和規則</a></li>
 <li><a href="#group-howto">開戶、挑商品、下第一單</a></li>
-<li><a href="#group-situations">大跌很慌、想賣，或有人推銷</a></li>
+<li><a href="#plan-panic">正在跌、很慌、想賣</a></li>
+<li><a href="#group-situations">有人推銷，或心裡卡著別的事</a></li>
 <li><a href="#annual">年底了，做一年一次的檢查</a></li>
 <li><a href="#group-life">自己或爸媽快退休、快要用錢</a></li>
 </ul>
 <p class="small">看不懂的詞，翻「<a class="xref" href="#glossary">先認識這些詞</a>」；想從頭讀，往下看<a href="#toc">目錄</a>。</p></nav>
-<details class="promise read-how" data-print="open"><summary><strong>怎麼讀這本書</strong>：綠框、黃框、標籤、預設讀法</summary><strong>閱讀方式：</strong>每節先用日常比喻說清楚（綠色的「白話版」框），再補數字、假設、限制與原始來源。先讀綠色框就能掌握重點；需要查證時再看表格與來源。黃色框「作者的做法紀錄」是作者個人的過程，不是教學內容，也不是建議；教學內容只寫有來源的通則。看到不懂的詞，先翻「<a class="xref" href="#glossary">先認識這些詞</a>」。<strong>預設讀法（一條路）：</strong>「<a class="xref" href="#ten">十分鐘看完</a>」→「<a class="xref" href="#start">投資前的安全順序</a>」→「<a class="xref" href="#glossary">先認識這些詞</a>」的前十四個 → 第 <a class="xref" href="#s1">1</a> 節起，照目錄往下讀。心裡正在怕某一件事的時候，翻「<a class="xref" href="#group-situations">遇到狀況時翻</a>」；要開戶、下單、對帳的時候，翻「<a class="xref" href="#group-howto">動手做</a>」；每年檢查、年紀變了、快要用錢的時候，翻「<a class="xref" href="#group-life">隨人生調整</a>」。段落下方的淡色小字是出處和補充說明，第一遍可以跳過。<details data-print="open"><summary>時間不夠，或想換個順序：另外兩條路線</summary><p><strong>只有十分鐘：</strong>讀「<a class="xref" href="#ten">十分鐘看完</a>」和「<a class="xref" href="#start">投資前的安全順序</a>」。</p><p><strong>四十分鐘：</strong>再加「<a class="xref" href="#why">為什麼選指數化</a>」、第 <a class="xref" href="#plan-table">11</a> 節的計畫表（白話版、兩把尺、壓力測試、三問）、第 <a class="xref" href="#s12">13</a> 節的四個原則和七個問題，最後看「<a class="xref" href="#firstmonth">從第一週到第一年</a>」；讀完就知道這個星期做什麼。</p><p><strong>四十分鐘版讀完以後：</strong>先看第 <a class="xref" href="#cases">12</a> 節，另外三個人用和你一樣的步驟，填出完全不同的股票比例；再從第 <a class="xref" href="#s1">1</a> 節依序讀到第 <a class="xref" href="#s10">10</a> 節，補上每一步的理由。</p></details><br><strong>標籤：</strong><span class="label-principle">原則</span>（幾乎所有指數化研究都同意）　<span class="label-practice">本指南的做法</span>（不是唯一答案，換別的也合理）　<span style="background:var(--amber2);border-left:5px solid var(--amber);padding:0 .4em">黃框</span>＝作者的做法紀錄</details>
+<details class="promise read-how" data-print="open"><summary><strong>怎麼讀這本書</strong>：綠框、黃框、標籤、讀的順序</summary><strong>閱讀方式：</strong>每節先用日常比喻說清楚（綠色的「白話版」框），再補數字、假設、限制與原始來源。先讀綠色框就能掌握重點；需要查證時再看表格與來源。黃色框「作者的做法紀錄」是作者個人的過程，不是教學內容，也不是建議；教學內容只寫有來源的通則。看到不懂的詞，先翻「<a class="xref" href="#glossary">先認識這些詞</a>」。<strong>讀的順序：</strong>「<a class="xref" href="#ten">十分鐘看完</a>」→「<a class="xref" href="#start">投資前的安全順序</a>」→ 第 <a class="xref" href="#s1">1</a> 節起，照目錄往下讀。邊讀邊填「起步版六行」：從「投資前的安全順序」開始，每隔幾節會出現一張虛線小卡，寫完那一行再往下，六行寫完就可以開始。摺疊起來的「想深入」是選讀：裡面是口徑、邊界和第二份以後的證據，不點開也不會漏掉要做的事。心裡正在怕某一件事的時候，翻「<a class="xref" href="#group-situations">遇到狀況時翻</a>」；要開戶、下單、對帳的時候，翻「<a class="xref" href="#group-howto">動手做</a>」；每年檢查、年紀變了、快要用錢的時候，翻「<a class="xref" href="#group-life">隨人生調整</a>」。段落下方的淡色小字是出處和補充說明，第一遍可以跳過。<details data-print="open"><summary>時間不夠，或想換個順序：四十分鐘的走法</summary><p><strong>四十分鐘：</strong>再加「<a class="xref" href="#why">為什麼選指數化</a>」、第 <a class="xref" href="#plan-table">11</a> 節的計畫表（白話版、兩把尺、壓力測試、三問）、第 <a class="xref" href="#s12">13</a> 節的四個原則和七個問題，最後看「<a class="xref" href="#firstmonth">從第一週到第一年</a>」；讀完就知道這個星期做什麼。</p><p><strong>四十分鐘版讀完以後：</strong>先看第 <a class="xref" href="#cases">12</a> 節，另外三個人用和你一樣的步驟，填出完全不同的股票比例；再從第 <a class="xref" href="#s1">1</a> 節依序讀到第 <a class="xref" href="#s10">10</a> 節，補上每一步的理由。</p></details><br><strong>標籤：</strong><span class="label-principle">原則</span>（幾乎所有指數化研究都同意）　<span class="label-practice">本指南的做法</span>（不是唯一答案，換別的也合理）　<span style="background:var(--amber2);border-left:5px solid var(--amber);padding:0 .4em">黃框</span>＝作者的做法紀錄</details>
 <div class="audit-stamp"><span class="chip">先顧現金流</span><span class="chip">再談投資</span><span class="chip">歷史不是保證</span><span class="chip">費用與稅都要算</span><span class="chip">規則寫在平靜時</span></div>
 <nav class="toc" id="toc" aria-label="目錄"><h2>目錄</h2>
 <p class="small toc-hint">點組名展開；想從頭讀，從「開始之前」往下。</p>
-<details class="toc-part" data-print="open" open><summary><span class="toc-part-name">開始之前</span><span class="toc-part-desc">先抓重點，確認自己的錢能不能開始；看不懂的詞在這裡查。</span></summary>
-<ul><li><a href="#ten">十分鐘看完：新手先記住這七件事</a></li><li><a href="#why">為什麼選指數化：得到什麼、要接受什麼</a></li><li><a href="#start">投資前的安全順序</a></li><li><a href="#glossary">先認識這些詞</a></li></ul></details>
+<details class="toc-part" data-print="open" open><summary><span class="toc-part-name">開始之前</span><span class="toc-part-desc">先抓重點，確認自己的錢能不能開始，再看為什麼用這個方法。</span></summary>
+<ul><li><a href="#ten">十分鐘看完：新手先記住這七件事</a></li><li><a href="#start">投資前的安全順序</a></li><li><a href="#why">為什麼選指數化：得到什麼、要接受什麼</a></li></ul></details>
 <details class="toc-part" data-print="open" data-group="group-core"><summary><span class="toc-part-name">先搞懂：為什麼這樣做</span><span class="toc-part-range">第 1–10 節</span><span class="toc-part-desc">十個新手最常問的問題，一節回答一個；計畫表每一格的理由都在這裡。</span></summary>
 <ol class="toc-from-1"><li><a href="#s1">投資賺的是誰的錢？</a></li><li><a href="#s2">現在開始會不會太晚？</a></li><li><a href="#s3">為什麼不請人幫我挑？</a></li><li><a href="#s4">為什麼不只買最會漲的？</a></li><li><a href="#s5">帳面跌了兩成，是出事了嗎？</a></li><li><a href="#s6">要不要等跌下來再買？</a></li><li><a href="#s7">買在幾號、多久買一次？</a></li><li><a href="#s8">漲了要不要先賣一些？</a></li><li><a href="#s9">買一樣的東西，結果為什麼不同？</a></li><li><a href="#s10">明明知道，為什麼還是想動手？</a></li></ol></details>
 <details class="toc-part" data-print="open" data-group="group-plan"><summary><span class="toc-part-name">寫下自己的計畫</span><span class="toc-part-range">第 11–13 節</span><span class="toc-part-desc">把理由填成一張紙：這筆錢什麼時候用、股票放幾成、跌了怎麼做；再看另外三個人怎麼填。</span></summary>
@@ -96,8 +103,8 @@ a.term{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blu
 <ul><li><a href="#firstmonth">從第一週到第一年：一頁時間表</a></li><li><a href="#steps">第一次投資的七個步驟</a></li><li><a href="#products">ETF 與債券檢查表</a></li><li><a href="#costs">費用、稅務與帳戶安全</a></li></ul></details>
 <details class="toc-part" data-print="open" data-group="group-life"><summary><span class="toc-part-name">隨人生調整：每年檢查、年紀變了、快要用錢</span><span class="toc-part-desc">一年檢查一次；年紀、收入、用錢的日子改變時，回來重算。</span></summary>
 <ul><li><a href="#annual">每年一次的檢查表</a></li><li><a href="#lifecycle">年齡、槓桿與退休：三個常被問的問題</a></li><li><a href="#withdraw">用錢前的準備與家庭交接</a></li></ul></details>
-<details class="toc-part" data-print="open" data-group="group-ref"><summary><span class="toc-part-name">查資料</span><span class="toc-part-desc">官方網站、延伸閱讀，和全書數字怎麼算出來。</span></summary>
-<ul><li><a href="#toolbox">去哪查：官方入口與延伸閱讀</a></li><li><a href="#methods">資料口徑與來源</a></li></ul></details>
+<details class="toc-part" data-print="open" data-group="group-ref"><summary><span class="toc-part-name">查資料</span><span class="toc-part-desc">看不懂的詞、官方網站、延伸閱讀，和全書數字怎麼算出來。</span></summary>
+<ul><li><a href="#glossary">先認識這些詞</a></li><li><a href="#toolbox">去哪查：官方入口與延伸閱讀</a></li><li><a href="#methods">資料口徑與來源</a></li></ul></details>
 </nav>
 <script>
 (function(){if(!window.matchMedia||!window.matchMedia('(min-width: 760px)').matches)return;
@@ -107,17 +114,84 @@ document.querySelectorAll('#toc details.toc-part, details.read-how').forEach(fun
 </header>
 <main>
 
-<section class="part" id="ten"><h2>十分鐘看完：新手先記住這七件事</h2><p class="lede">其他各節，都是這七件事的理由和細節。</p>
+<section class="part" id="ten"><h2>十分鐘看完：新手先記住這七件事</h2><p class="lede">其他各節，都是這七件事的理由。</p>
 <p class="explain"><span class="plain-title">白話版</span><br>像食譜的第一頁：先記住幾個步驟，細節邊做邊翻。</p>
-<p>大錢投進來之前，先做完「<a class="xref" href="#start">投資前的安全順序</a>」那五項：現金流、高利率債務、預備金、重大保障、把錢按使用日期分桶。定投入金額以前，用自己的金額算過大跌時會少幾萬，確定撐得住；還不確定的，先用小金額練流程，但小金額證明不了錢變多以後也撐得住（第 <a class="xref" href="#s11">11</a> 節）。</p>
-<ol class="checklist" data-lite-alt="ch1-seven"><li><strong>買低成本、分散、按市值比重（公司越大、買得越多）的指數 ETF。</strong>核心放全球型，台股大盤可以是其中一塊；<a class="term" href="#g-etf" title="基金是把很多人的錢集合起來投資；ETF 是可以在券商 app 直接買賣的基金。">ETF</a> 不一定分散，要看裡面裝什麼（第 <a class="xref" href="#s3">3</a>、<a class="xref" href="#s4">4</a> 節）。</li><li><strong>固定時間買，不猜高低點。</strong>（第 <a class="xref" href="#s6">6</a>、<a class="xref" href="#s7">7</a> 節）</li><li><strong>扣掉五年內要用的錢，能存多少就投多少。</strong>儲蓄率是你控制得了的，報酬率不是（第 <a class="xref" href="#s2">2</a> 節）。</li><li><strong>定好股債比，寫進「我的投資計畫」。</strong>股票那一塊從最近高點跌 10%、20%、30% 以上各做什麼，要在平靜的時候先寫好；<a class="term" href="#g-ratio" title="股票和防守資產（債券、定存）的比例。">股債比</a>跑掉多少才<a class="term" href="#g-rebal" title="股票和債券的比例跑掉了，把它調回原本設定的樣子。">再平衡</a>，門檻和做法都在第 <a class="xref" href="#s11">11</a> 節。</li><li><strong>股票要放得夠久。</strong>放越久，歷史上虧錢的段落越少（第 <a class="xref" href="#s5">5</a> 節），但不是保證：五年內要用的錢不放股票，接近用錢的日子要慢慢降低風險（「<a class="xref" href="#start">投資前的安全順序</a>」第 5 項）。歷史上全股票連續放五年也虧過，數字在第 <a class="xref" href="#s5">5</a> 節。</li><li><strong>少花時間看盤。</strong>把時間留給家庭和增加收入（第 <a class="xref" href="#s10">10</a> 節）。</li><li><strong>前十幾年會覺得長得很慢，這是正常的。</strong>資產自己長出來的錢，全放股票大約 10 到 18 年才追得上你一年投入的錢；有放定存、每年調高投入的人更晚，常見要 20 年上下（第 <a class="xref" href="#s2">2</a> 節的甜蜜點）。所以前幾年看的是自己有沒有照規則投入，不是帳戶長了多少。</li></ol>
+<p>大錢投進來以前，先走完「<a class="xref" href="#start">投資前的安全順序</a>」那五項；每月投多少，照第 <a class="xref" href="#s11">11</a> 節算過大跌那天少幾萬再定。</p>
+<ol class="checklist" data-lite-alt="ch1-seven"><li><strong>買低成本、分散、按市值比重（公司越大、買得越多）的指數 ETF。</strong>核心放全球型，台股大盤可以是裡面的一塊；<a class="term" href="#g-etf" title="基金是把很多人的錢集合起來投資；ETF 是可以在券商 app 直接買賣的基金。">ETF</a> 不一定分散，要看裡面裝什麼（第 <a class="xref" href="#s3">3</a>、<a class="xref" href="#s4">4</a> 節）。</li><li><strong>固定時間買，不猜高低點。</strong>（第 <a class="xref" href="#s6">6</a>、<a class="xref" href="#s7">7</a> 節）</li><li><strong>扣掉五年內要用的錢，能存多少就投多少。</strong>儲蓄率你控制得了，報酬率不是（第 <a class="xref" href="#s2">2</a> 節）。</li><li><strong>定好股債比，寫進「我的投資計畫」。</strong>股票那一塊從最近高點跌 10%、20%、30% 以上各做什麼，在平靜的時候先寫好（第 <a class="xref" href="#s11">11</a> 節）。</li><li><strong>股票要放得夠久。</strong>放越久，歷史上虧錢的段落越少（第 <a class="xref" href="#s5">5</a> 節），但不是保證。五年內要用的錢不放股票，快到用錢的日子要慢慢降低風險（「<a class="xref" href="#start">投資前的安全順序</a>」第 5 項）。</li><li><strong>少花時間看盤。</strong>時間留給家庭和增加收入（第 <a class="xref" href="#s10">10</a> 節）。</li><li><strong>前十幾年會覺得長得很慢，這是正常的。</strong>前幾年看的是自己有沒有照規則投入，不是帳戶長了多少。</li></ol>
+<details class="more"><summary>想深入：前十幾年為什麼長得這麼慢，還有「放五年也虧過」那段歷史</summary><p>資產自己長出來的錢，全放股票大約 10 到 18 年才追得上你一年投入的錢；有放定存、每年調高投入的人更晚，常見要 20 年上下（第 <a class="xref" href="#s2">2</a> 節的甜蜜點）。</p><p>「放越久越少虧」講的是歷史上的段落，不是保證：全股票連續放五年也虧過，各放幾年的結果在第 <a class="xref" href="#s5">5</a> 節。</p></details>
 <span id="ten-stop"></span><div class="warning" data-lite="ch1"><strong>四個立即停止</strong><ol><li>保證獲利、穩賺不賠。</li><li>LINE 上的「老師」或「助理」拉你進群組。</li><li>要你匯到私人帳戶、虛擬資產錢包，或派人收現金。</li><li>要你讓對方遠端操控手機、電腦，或給驗證碼。</li></ol>遇到任何一個：停止匯款、不再回訊息；已經匯了，打 165。理由在「<a class="xref" href="#costs">費用、稅務與帳戶安全</a>」。</div>
 <details data-lite-alt="ch1-six" data-print="open"><summary>展開：六個最貴的錯，各在哪一節擋</summary><ol class="checklist"><li><strong>借錢投資。</strong>信貸、<a class="term" href="#g-margin" title="融資是向券商借錢買股票。">融資</a>、拿股票去借錢再買，利息一定要付，報酬不一定有（「<a class="xref" href="#lifecycle-q2">年齡、槓桿與退休</a>」第二題、「<a class="xref" href="#sidepaths">常見的岔路</a>」）。</li><li><strong>五年內要用的錢放股票。</strong>先把這筆錢分出去，不放股票（第 <a class="xref" href="#s5">5</a>、<a class="xref" href="#s11">11</a> 節）。</li><li><strong>被詐騙。</strong>遇到上面四個立即停止的任何一個，就停（「<a class="xref" href="#costs">費用、稅務與帳戶安全</a>」）。</li><li><strong>大跌時恐慌賣。</strong>股票那一塊從最近高點跌 10%、20%、30% 以上各做什麼，在平靜的時候先寫好（第 <a class="xref" href="#s5">5</a>、<a class="xref" href="#s11">11</a> 節）。</li><li><strong>買到高費用產品。</strong>追蹤同一類指數的，先比總費用（第 <a class="xref" href="#s3">3</a> 節、「<a class="xref" href="#products">ETF 與債券檢查表</a>」）。</li><li><strong>照抄別人的配置。</strong>股債比要用自己的金額和用錢日期去算，別人的比例不能直接搬（第 <a class="xref" href="#s11">11</a>、<a class="xref" href="#s12">13</a> 節）。</li></ol></details>
-<p class="decision">讀完這一頁，照「<a class="xref" href="#firstmonth">從第一週到第一年</a>」那一頁的順序做：先看清楚自己的錢、寫下規則（計畫表先寫得出來的格子就好），再用小金額下第一單；開戶、下單那幾步怎麼做，翻「<a class="xref" href="#steps">第一次投資的七個步驟</a>」。遇到問題，再翻對應的那一節。</p><a class="back" href="#toc">回目錄</a></section>
+<p class="decision">先做「<a class="xref" href="#start">投資前的安全順序</a>」那五項檢查，再決定每月投多少。</p><a class="back" href="#toc">回目錄</a></section>
+
+<section class="part" id="start"><h2>投資前的安全順序</h2><p class="lede">先打地基，再蓋樓；投資是樓上的事。</p>
+<p class="explain"><span class="plain-title">白話版</span><br>遠足前要先帶水、穿鞋、看天氣，才決定走哪條路。投資也一樣：先確保臨時需要錢時不用賣股票，再讓長期不用的錢去冒險。</p>
+
+<p>投資前要做的五件事有先後：下面這張圖先把它們排成一道樓梯，最上面那一階才是投資。</p>
+<figure class="chart" data-chart="safety-steps">
+<div class="chart-head"><span class="chart-title">投資前的五階：走完才輪到投資</span><span class="chart-sub">示意：階梯高低只表示先後順序，不表示難易或金額</span></div>
+<div class="chart-body">
+<svg class="d" viewBox="0 0 640 264" role="img" aria-label="投資前的安全順序：五階樓梯，由低到高是看懂現金流、處理高利率債務、留預備金、補保障、按用錢日期分桶，最上面一階才是投資" font-family="var(--sans)">
+<rect x="8.0" y="218.0" width="104.0" height="38.0" fill="var(--teal)" fill-opacity="0.13"/>
+<line x1="8.0" y1="218.0" x2="112.0" y2="218.0" stroke="var(--teal)" stroke-width="2.4"/>
+<text x="60.0" y="198.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">① 看懂每月</text>
+<text x="60.0" y="212.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">現金流</text>
+<rect x="112.0" y="180.0" width="104.0" height="76.0" fill="var(--teal)" fill-opacity="0.13"/>
+<line x1="112.0" y1="180.0" x2="216.0" y2="180.0" stroke="var(--teal)" stroke-width="2.4"/>
+<text x="164.0" y="160.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">② 先處理</text>
+<text x="164.0" y="174.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">高利率債務</text>
+<rect x="216.0" y="142.0" width="104.0" height="114.0" fill="var(--teal)" fill-opacity="0.13"/>
+<line x1="216.0" y1="142.0" x2="320.0" y2="142.0" stroke="var(--teal)" stroke-width="2.4"/>
+<text x="268.0" y="122.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">③ 留緊急</text>
+<text x="268.0" y="136.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">預備金</text>
+<rect x="320.0" y="104.0" width="104.0" height="152.0" fill="var(--teal)" fill-opacity="0.13"/>
+<line x1="320.0" y1="104.0" x2="424.0" y2="104.0" stroke="var(--teal)" stroke-width="2.4"/>
+<text x="372.0" y="84.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">④ 補上重大</text>
+<text x="372.0" y="98.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">風險保障</text>
+<rect x="424.0" y="66.0" width="104.0" height="190.0" fill="var(--teal)" fill-opacity="0.13"/>
+<line x1="424.0" y1="66.0" x2="528.0" y2="66.0" stroke="var(--teal)" stroke-width="2.4"/>
+<text x="476.0" y="46.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">⑤ 把錢按使用</text>
+<text x="476.0" y="60.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">日期分桶</text>
+<rect x="528.0" y="28.0" width="104.0" height="228.0" fill="var(--amber)" fill-opacity="0.22"/>
+<line x1="528.0" y1="28.0" x2="632.0" y2="28.0" stroke="var(--amber)" stroke-width="2.4"/>
+<text x="580.0" y="8.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">才開始</text>
+<text x="580.0" y="22.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">投資</text>
+</svg>
+<svg class="m" viewBox="0 0 360 252" role="img" aria-label="投資前的安全順序：由下往上五階，看懂現金流、處理高利率債務、留預備金、補保障、按用錢日期分桶，最上面一階才是投資" font-family="var(--sans)">
+<rect x="6.0" y="204.0" width="348.0" height="30" rx="4" fill="var(--teal)" fill-opacity="0.13"/>
+<line x1="6.0" y1="204.0" x2="354.0" y2="204.0" stroke="var(--teal)" stroke-width="2.4"/>
+<text x="16.0" y="223.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">① 看懂每月現金流</text>
+<rect x="17.0" y="164.0" width="337.0" height="30" rx="4" fill="var(--teal)" fill-opacity="0.13"/>
+<line x1="17.0" y1="164.0" x2="354.0" y2="164.0" stroke="var(--teal)" stroke-width="2.4"/>
+<text x="27.0" y="183.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">② 先處理高利率債務</text>
+<rect x="28.0" y="124.0" width="326.0" height="30" rx="4" fill="var(--teal)" fill-opacity="0.13"/>
+<line x1="28.0" y1="124.0" x2="354.0" y2="124.0" stroke="var(--teal)" stroke-width="2.4"/>
+<text x="38.0" y="143.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">③ 留緊急預備金</text>
+<rect x="39.0" y="84.0" width="315.0" height="30" rx="4" fill="var(--teal)" fill-opacity="0.13"/>
+<line x1="39.0" y1="84.0" x2="354.0" y2="84.0" stroke="var(--teal)" stroke-width="2.4"/>
+<text x="49.0" y="103.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">④ 補上重大風險保障</text>
+<rect x="50.0" y="44.0" width="304.0" height="30" rx="4" fill="var(--teal)" fill-opacity="0.13"/>
+<line x1="50.0" y1="44.0" x2="354.0" y2="44.0" stroke="var(--teal)" stroke-width="2.4"/>
+<text x="60.0" y="63.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">⑤ 把錢按使用日期分桶</text>
+<rect x="61.0" y="4.0" width="293.0" height="30" rx="4" fill="var(--amber)" fill-opacity="0.22"/>
+<line x1="61.0" y1="4.0" x2="354.0" y2="4.0" stroke="var(--amber)" stroke-width="2.4"/>
+<text x="71.0" y="23.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">才開始投資</text>
+</svg>
+</div>
+<p class="note">示意圖，沒有新數字：階梯的高低只表示先後順序，不表示哪一階比較難、要花多少錢或多久。每一階要做什麼，在下面那五點裡。</p><figcaption>由低到高五階：看懂每月現金流、先處理高利率債務、留緊急預備金、補上重大風險保障、把錢按使用日期分桶。五階做完，最上面那一階才是投資。</figcaption>
+</figure>
+<ol class="checklist" data-lite-alt="ch2-start"><li><strong>看懂每月現金流。</strong>錢從哪裡來、花去哪裡。列出固定收入、必要支出、債務最低還款，還有不定期的大筆支出（年繳的保費、稅、紅包）。</li><li><strong>先處理高利率債務。</strong>利率高過 4% 的債，通常先還。信用卡只繳最低應繳、餘額繼續滾利息的那種，一定先還。還債少付的利息是一定省到的；投資能賺多少，沒有人能保證。</li><li><strong>留緊急預備金。</strong>常見起點是必要支出的三到六個月：每月必要支出 3 萬，就先存 9 萬到 18 萬。放活存或定存，重點是隨時拿得到。它和投資裡防守用的債券、定存是兩筆錢，不能互相充當（第 <a class="xref" href="#s11">11</a> 節）。</li><li><strong>補上重大風險保障。</strong>先確認健保、醫療、意外、壽險或失能保障，夠不夠讓一次事故不會拖垮家庭。保險和投資守的是同一樣東西，就是你未來還能賺的薪水：保險擋它突然消失，投資把它慢慢換成<a class="term" href="#g-hc" title="財務資本是已經存下來、會自己生錢的資產。">財務資本</a>（第 <a class="xref" href="#s2">2</a> 節）。</li><li><strong>把錢按使用日期分桶。</strong>五年內要用的錢（頭期款、結婚、生小孩、留學、換車、父母的醫療與看護）放定存或短天期的工具，不放股票；一年內要用的那一桶，以隨時拿得出來為主。五年以上的錢，才逐步使用股票這類<a class="term" href="#g-vol" title="價格上上下下的幅度。">波動</a>大的資產（第 <a class="xref" href="#s6">6</a>、<a class="xref" href="#s11">11</a> 節）。</li></ol>
+<details class="more"><summary>想深入：4% 這把粗尺從哪裡來、預備金要存多少</summary><p><strong>4% 這把粗尺：</strong>4% 是第 <a class="xref" href="#s1">1</a> 節股票報酬率的低情境，還沒扣費用；有放定存、債券的人整體更低。比它高的利息，還掉是穩穩省到的。循環信用（只繳最低應繳，沒繳完的餘額繼續滾利息）的利率通常遠高過合理的長期投資報酬。房貸通常低於這個數字，要不要提前還，「<a class="xref" href="#lifecycle">年齡、槓桿與退休</a>」那一節有討論。</p><p><strong>預備金要存多少：</strong>還和家人住的學生或上班族，必要支出算自己每月一定要付的（交通、手機、餐費，每月固定拿給家裡的錢也算）；保險先問家人家裡保了什麼。收入不穩、家裡只靠一份收入、扶養責任較重或工作難替代，通常需要更多。它不追求最高報酬，也不放在證券戶裡等著投入；防守那一塊的工作是穩住整體。</p></details>
+<details class="more"><summary>想深入：保額怎麼估、五年這條線怎麼畫</summary><p><strong>保障的三個防呆：</strong>一、保障優先用定期險（只保一段年限、保費相對便宜、期滿不退錢），先把保額買夠；單身、沒負債、沒人靠你的人，壽險可以很少，醫療和失能保障才是重點。二、把所有保費加起來，算出占收入的比例；比例偏高就重看哪幾張是真的必要。三、名字裡有「儲蓄」「還本」「投資型」的保單，先當投資商品比費用，不當保障。</p><p><strong>保額怎麼估：</strong>保險處理不能承受的大損失，投資處理長期成長。保額看家裡的負債，加上家人幾年的生活費；年數看家裡最小的孩子還要幾年才能自立。定期險有年齡上限、有病史未必買得到，到那時再談其他選項。</p><p><strong>五年這條線：</strong>五年內要用的錢不放股票是底線；放超過五年，也不代表股票就安全。日期不能延後的教育金與房款要更保守，接近用錢時要慢慢降低風險。三個桶長什麼樣，看第 <a class="xref" href="#s11">11</a> 節那張「按用錢日期分三桶」。</p></details>
+<div class="warning" data-lite-alt="ch2-start"><strong>借錢投資會把賺的和賠的一起放大。</strong>資產跌時，債務與利息不會跟著變小。信用卡、信貸、向券商借錢買股票（<a class="term" href="#g-margin" title="融資是向券商借錢買股票。">融資</a>）、會放大漲跌倍數的 ETF，都不適合用來填補「本金太少」的焦慮。</div>
+<div class="source-card"><h3>延伸閱讀</h3><a class="source-link" href="https://www.finra.org/investors/investing/investing-basics/financial-foundations" target="_blank" rel="noopener"><span>FINRA：Financial Foundations</span><span class="source-note">「Build an Emergency Fund」一段：理財規劃師常建議三到六個月生活費，收入不穩或職業特殊者要更多</span></a><a class="source-link" href="https://www.fsc.gov.tw/ch/home.jsp?id=96&amp;parentpath=0,2&amp;mcustomize=news_view.jsp&amp;dataserno=202409050002&amp;dtable=News" target="_blank" rel="noopener"><span>金管會：購買投資型保險商品注意事項（2024-09-05）</span><span class="source-note">「投資相關風險是由保戶自行承擔、不保證獲利」</span></a></div><div class="story"><p>2022 年起，我陸續解掉幾張儲蓄險。那些錢原本是過高的備用金，我把它搬到投資；總資產沒變，但算出來能退休的年齡往前了 5 個月。要不要解，先照第 <a class="xref" href="#s13">14</a> 節算三個數。</p></div>
+<div class="planstep" data-plan="A1 A2"><p class="planstep-title">你的計畫・第 1 行：這筆錢做什麼用、哪一年要用</p><p>小安 25 歲，每月可以投 5,000 元。他寫：45 歲時的長期資產，2046 年 9 月要用。</p><p>你寫：用途＿＿＿＿＿＿，＿＿＿＿年要用。還沒想好，先寫最可能的那個。</p></div>
+<div class="planstep" data-plan="B6 B7 B8"><p class="planstep-title">你的計畫・第 2 行：預備金、高利率的債、重大保障，好了嗎</p><p>小安寫：預備金還差 3 萬，另外兩項都好了。所以他先補預備金，同時用小金額把開戶到下單走一次。</p><p>你寫：□ 三項都好了　□ 還差＿＿＿＿＿＿，補完的日期＿＿＿＿＿＿。</p><p>有一項還沒好：你現在的計畫就是先補這一項。寫下補完的日期，到時候回來。這也算完成第一步。</p></div>
+<p class="decision" data-lite-alt="ch2-start">五項都做完，再決定每月投多少。還有一項沒好，先補那一項；想先熟悉流程，可以用不影響生活的小金額把開戶到下單走一次（「<a class="xref" href="#steps">第一次投資的七個步驟</a>」）。</p><a class="back" href="#toc">回目錄</a></section>
+
 
 <section class="part" id="why"><h2>為什麼選指數化：得到什麼、要接受什麼</h2><p class="lede">這一頁是全篇的地圖；每一條後面標的節號，就是證據放在哪一節。</p>
 <p class="explain"><span class="plain-title">白話版</span><br>與其猜哪一家公司會贏，不如把整個市場都買下來、放很久、少動手、少付費。這樣做拿到的是平均，不是第一名；跌的時候照跌，但不用猜。</p>
-<div class="data-card"><h3>你得到什麼｜你要接受什麼</h3><p>這一張表只回答兩件事：這樣做得到什麼、要接受什麼。<mark class="key">它是一套寫得下來的步驟，不是一種本事。</mark></p><div class="table-wrap"><table class="compact"><thead><tr><th>你得到什麼</th><th>你要接受什麼</th></tr></thead><tbody><tr><td>整個市場的報酬，不用猜哪一家公司會贏（第 <a class="xref" href="#s1">1</a> 節）。</td><td>永遠不會是第一名：有些年份會輸給押對單一市場或單一股票的人（第 <a class="xref" href="#s4">4</a> 節）。</td></tr><tr><td>不用挑人挑基金：扣掉費用以後，主動挑選的人整體一定低於市場平均，這是算術（第 <a class="xref" href="#s3">3</a> 節）。</td><td>市場跌時照跌：台股 2008 年整年跌 43.07%（第 <a class="xref" href="#s5">5</a> 節）。</td></tr><tr><td>費用壓到最低：報酬你控制不了，成本可以（第 <a class="xref" href="#s3">3</a> 節）。</td><td>不保證在你要用錢時回本，所以越近要用的錢，股票越少（第 <a class="xref" href="#s11">11</a> 節）。</td></tr><tr><td>不用挑日子、不用等跌：有錢可投、計畫也允許就投進去（第 <a class="xref" href="#s6">6</a>、<a class="xref" href="#s7">7</a> 節）。</td><td>它很無聊，無聊會讓人想多做一點（第 <a class="xref" href="#s10">10</a> 節）。</td></tr><tr><td>不綁在任何人身上：你會的，家人和孩子也接得下去（「<a class="xref" href="#withdraw">用錢前的準備與家庭交接</a>」）。</td><td>「買整個世界」其實重押美國大型科技股：全球市值型指數裡，美國大約占六成（第 <a class="xref" href="#s12">13</a> 節）。</td></tr><tr><td>有一把現成的尺：拿自己的成績去比指數，看得出多做的那些動作是加分還是扣分（第 <a class="xref" href="#s9">9</a> 節）。</td><td>配置還是要你自己決定：股票放幾成、台股放多少、要不要新興市場（第 <a class="xref" href="#s11">11</a>、<a class="xref" href="#s12">13</a> 節）。</td></tr><tr><td>趁還能工作，把薪水的一部分換成會自己長大的錢（第 <a class="xref" href="#s2">2</a> 節）。</td><td>在台灣買全球型有三種摩擦：手續費、稅、規模（「<a class="xref" href="#costs">費用、稅務與帳戶安全</a>」、第 <a class="xref" href="#s12">13</a> 節）。</td></tr><tr><td>台灣券商就買得到，小額、定期定額都可以。</td><td>它替代不了更基本的事：預備金、保險、儲蓄率、債務都排在投資前面（「<a class="xref" href="#start">投資前的安全順序</a>」）。</td></tr></tbody></table></div><p class="small">還有兩件事要先知道：一檔 ETF 不等於分散，高股息、主題型、正 2 反 1 也叫 ETF，但不是市值型指數投資（第 <a class="xref" href="#s8">8</a> 節、「<a class="xref" href="#sidepaths">常見的岔路</a>」）；指數也不是「市場本身」，名單上有誰、哪國算哪一類、多久換一次，都是指數公司決定的（第 <a class="xref" href="#s12">13</a> 節）。</p></div>
+<div class="data-card"><h3>你得到什麼｜你要接受什麼</h3><p><mark class="key">它是一套寫得下來的步驟，不是一種本事。</mark></p><div class="table-wrap"><table class="compact"><thead><tr><th>你得到什麼</th><th>你要接受什麼</th></tr></thead><tbody><tr><td>整個市場的報酬，不用猜哪一家公司會贏（第 <a class="xref" href="#s1">1</a> 節）。</td><td>永遠不會是第一名：有些年份會輸給押對單一市場或單一股票的人（第 <a class="xref" href="#s4">4</a> 節）。</td></tr><tr><td>不用挑人挑基金：扣掉費用以後，主動挑選的人整體一定低於市場平均，這是算術（第 <a class="xref" href="#s3">3</a> 節）。</td><td>市場跌時照跌：台股 2008 年整年跌 43.07%（第 <a class="xref" href="#s5">5</a> 節）。</td></tr><tr><td>費用壓到最低：報酬你控制不了，成本可以（第 <a class="xref" href="#s3">3</a> 節）。</td><td>不保證在你要用錢時回本，所以越近要用的錢，股票越少（第 <a class="xref" href="#s11">11</a> 節）。</td></tr><tr><td>不用挑日子、不用等跌：有錢可投、計畫也允許就投進去（第 <a class="xref" href="#s6">6</a>、<a class="xref" href="#s7">7</a> 節）。</td><td>它很無聊，無聊會讓人想多做一點（第 <a class="xref" href="#s10">10</a> 節）。</td></tr><tr><td>不綁在任何人身上：你會的，家人和孩子也接得下去（「<a class="xref" href="#withdraw">用錢前的準備與家庭交接</a>」）。</td><td>「買整個世界」其實重押美國大型科技股：全球市值型指數裡，美國大約占六成（第 <a class="xref" href="#s12">13</a> 節）。</td></tr><tr><td>有一把現成的尺：拿自己的成績去比指數，看得出多做的那些動作是加分還是扣分（第 <a class="xref" href="#s9">9</a> 節）。</td><td>配置還是要你自己決定：股票放幾成、台股放多少、要不要新興市場（第 <a class="xref" href="#s11">11</a>、<a class="xref" href="#s12">13</a> 節）。</td></tr><tr><td>趁還能工作，把薪水的一部分換成會自己長大的錢（第 <a class="xref" href="#s2">2</a> 節）。</td><td>在台灣買全球型有三種摩擦：手續費、稅、規模（「<a class="xref" href="#costs">費用、稅務與帳戶安全</a>」、第 <a class="xref" href="#s12">13</a> 節）。</td></tr><tr><td>台灣券商就買得到，小額、定期定額都可以。</td><td>它替代不了更基本的事：預備金、保險、儲蓄率、債務都排在投資前面（「<a class="xref" href="#start">投資前的安全順序</a>」）。</td></tr></tbody></table></div><details class="more"><summary>想深入：這張表沒說的兩件事（ETF 不等於分散、指數不等於市場）</summary><p>一檔 ETF 不等於分散：高股息、主題型、正 2 反 1 也叫 ETF，但不是市值型指數投資（第 <a class="xref" href="#s8">8</a> 節、「<a class="xref" href="#sidepaths">常見的岔路</a>」）。</p><p>指數也不是「市場本身」：名單上有誰、哪國算哪一類、多久換一次，都是指數公司決定的（第 <a class="xref" href="#s12">13</a> 節）。</p></details></div>
 <details data-print="open"><summary>展開：六個理由，一條一條講</summary>
 <div class="data-card"><h3>為什麼要投資、為什麼用指數化、為什麼不動手：六個理由</h3><ol class="checklist">
 <li><strong>趁還能工作，把薪水的一部分換成會自己長大的錢。</strong>你年輕時最大的資產是未來還能賺的薪水（人力資本），它每過一年就少一年，也可能提早歸零。換出來的那筆錢叫<a class="term" href="#g-hc" title="財務資本是已經存下來、會自己生錢的資產。">財務資本</a>，投資的第一個理由就在這裡（第 <a class="xref" href="#s2">2</a> 節）。<br><span class="small">薪水可能因為生病、失能、被裁提早歸零；沒有人知道自己什麼時候不想工作、什麼時候不能工作。指數化是做這件事最不用猜的方法，理由是接下來三條；最後兩條，是為什麼規則定了就不再動。</span></li>
@@ -154,6 +228,7 @@ document.querySelectorAll('#toc details.toc-part, details.read-how').forEach(fun
 <li><strong>需要時間</strong>：美國 1950 年以後，全股票放十年最差仍約 −1%，放二十年最差才是正的；這是歷史，不是保證（第 <a class="xref" href="#s4">4</a>、<a class="xref" href="#s5">5</a> 節）。<br><span class="small">日本 1989 年買在高點的人，二十年後還在虧。放一年什麼都可能發生。</span></li>
 </ul></div>
 </details>
+<details class="more"><summary>想深入：哪些事你控制得了、哪些控制不了</summary>
 <div class="data-card" id="control-map"><h3>把力氣放在哪裡：控制得了、部分控制、控制不了</h3><p>和投資有關的事，可以分成三層。分層不是為了安慰自己，是為了知道力氣往哪裡放：控制得了的先做完，控制不了的不拿來當決定的依據。</p>
 <figure class="chart" data-chart="control-map">
 <div class="chart-head"><span class="chart-title">三層：控制得了、部分控制、控制不了</span><span class="chart-sub">示意圖，不是資料；每一項在哪一節，看圖下那三條清單</span></div>
@@ -241,121 +316,10 @@ document.querySelectorAll('#toc details.toc-part, details.read-how').forEach(fun
 <p class="small">第一層也不是完全自由：收入多少、要不要養小孩或照顧長輩，決定了「存多少」的上限；你能決定的是在這個範圍裡把比例訂下來、照著做。</p>
 <p class="small">中間那一層要小心：有一部分決定權，不等於全部。有人能自己決定幾歲退休，也有人是被裁員決定的；保障買不買由你，買不買得到要看健康狀況。控制不了的那一層照樣會影響結果，本文的做法是把它們寫進假設（例如報酬率填低一點、目標估大一點），不是拿來猜下一步。</p>
 <p class="small">最後那一層也要小心：走勢和規則你改不了，但要不要碰、碰多少，仍然是你選的（避險版本在第 <a class="xref" href="#s5">5</a> 節，註冊地、帳戶種類和換匯成本在「<a class="xref" href="#costs">費用、稅務與帳戶安全</a>」和「<a class="xref" href="#products">ETF 與債券檢查表</a>」）。</p></div>
-<div class="warning"><strong>先別把大錢投進來：</strong>先做完「<a class="xref" href="#start">投資前的安全順序</a>」那五項檢查（現金流、高利率債務、預備金、重大保障、用錢日期），再照第 <a class="xref" href="#s11">11</a> 節用自己的金額算一次：股票跌一半那天少幾萬、會不會影響生活、會不會賣掉。</div>
+</details>
+<div class="warning"><strong>先別把大錢投進來：</strong>「<a class="xref" href="#start">投資前的安全順序</a>」那五項還沒做完以前，先用小金額練流程；金額要放大，先照第 <a class="xref" href="#s11">11</a> 節算一次股票跌一半那天少幾萬。</div>
 <div class="source-card"><h3>本頁數字的來源在各節</h3><p class="small">92.89%、84%：SPIVA 美國與亞洲報告（第 <a class="xref" href="#s3">3</a> 節）。三分之二：Vanguard 2023（第 <a class="xref" href="#s6">6</a> 節）。7.3%：台股含息指數自算（第 <a class="xref" href="#s7">7</a> 節）。3.8 個百分點：Barber、Lee、Liu、Odean 2009（第 <a class="xref" href="#s9">9</a> 節）。43.07%、53.59%：台股含息指數自算；−37%、25 到 34 年：J.P. Morgan、聯準會、日經、證交所（第 <a class="xref" href="#s4">4</a>、<a class="xref" href="#s5">5</a> 節）。人力資本轉換：Ibbotson、Milevsky、Chen、Zhu 2007（第 <a class="xref" href="#s2">2</a> 節）。四個原則的架構：Vanguard「Principles for Investing Success」（第 <a class="xref" href="#s12">13</a> 節）。主動管理的算術：Sharpe 1991（第 <a class="xref" href="#s3">3</a> 節）。全球指數的國家與公司權重、新興市場與中國：全球市值型指數的公開權重揭露（第 <a class="xref" href="#s12">13</a> 節）。</p></div>
 <p class="decision">讀完這一頁，把「為什麼」用自己的話說一遍；說不出來，先讀第 <a class="xref" href="#s1">1</a>、<a class="xref" href="#s3">3</a>、<a class="xref" href="#s5">5</a> 節再往下。</p><a class="back" href="#toc">回目錄</a></section>
-
-<section class="part" id="start"><h2>投資前的安全順序</h2><p class="lede">先打地基，再蓋樓；投資是樓上的事。</p>
-<p class="explain"><span class="plain-title">白話版</span><br>遠足前要先帶水、穿鞋、看天氣，才決定走哪條路。投資也一樣：先確保臨時需要錢時不用賣股票，再讓長期不用的錢去冒險。</p>
-
-<p>投資前要做的五件事有先後：下面這張圖先把它們排成一道樓梯，最上面那一階才是投資。</p>
-<figure class="chart" data-chart="safety-steps">
-<div class="chart-head"><span class="chart-title">投資前的五階：走完才輪到投資</span><span class="chart-sub">示意：階梯高低只表示先後順序，不表示難易或金額</span></div>
-<div class="chart-body">
-<svg class="d" viewBox="0 0 640 264" role="img" aria-label="投資前的安全順序：五階樓梯，由低到高是看懂現金流、處理高利率債務、留預備金、補保障、按用錢日期分桶，最上面一階才是投資" font-family="var(--sans)">
-<rect x="8.0" y="218.0" width="104.0" height="38.0" fill="var(--teal)" fill-opacity="0.13"/>
-<line x1="8.0" y1="218.0" x2="112.0" y2="218.0" stroke="var(--teal)" stroke-width="2.4"/>
-<text x="60.0" y="198.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">① 看懂每月</text>
-<text x="60.0" y="212.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">現金流</text>
-<rect x="112.0" y="180.0" width="104.0" height="76.0" fill="var(--teal)" fill-opacity="0.13"/>
-<line x1="112.0" y1="180.0" x2="216.0" y2="180.0" stroke="var(--teal)" stroke-width="2.4"/>
-<text x="164.0" y="160.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">② 先處理</text>
-<text x="164.0" y="174.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">高利率債務</text>
-<rect x="216.0" y="142.0" width="104.0" height="114.0" fill="var(--teal)" fill-opacity="0.13"/>
-<line x1="216.0" y1="142.0" x2="320.0" y2="142.0" stroke="var(--teal)" stroke-width="2.4"/>
-<text x="268.0" y="122.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">③ 留緊急</text>
-<text x="268.0" y="136.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">預備金</text>
-<rect x="320.0" y="104.0" width="104.0" height="152.0" fill="var(--teal)" fill-opacity="0.13"/>
-<line x1="320.0" y1="104.0" x2="424.0" y2="104.0" stroke="var(--teal)" stroke-width="2.4"/>
-<text x="372.0" y="84.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">④ 補上重大</text>
-<text x="372.0" y="98.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">風險保障</text>
-<rect x="424.0" y="66.0" width="104.0" height="190.0" fill="var(--teal)" fill-opacity="0.13"/>
-<line x1="424.0" y1="66.0" x2="528.0" y2="66.0" stroke="var(--teal)" stroke-width="2.4"/>
-<text x="476.0" y="46.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">⑤ 把錢按使用</text>
-<text x="476.0" y="60.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">日期分桶</text>
-<rect x="528.0" y="28.0" width="104.0" height="228.0" fill="var(--amber)" fill-opacity="0.22"/>
-<line x1="528.0" y1="28.0" x2="632.0" y2="28.0" stroke="var(--amber)" stroke-width="2.4"/>
-<text x="580.0" y="8.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">才開始</text>
-<text x="580.0" y="22.0" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">投資</text>
-</svg>
-<svg class="m" viewBox="0 0 360 252" role="img" aria-label="投資前的安全順序：由下往上五階，看懂現金流、處理高利率債務、留預備金、補保障、按用錢日期分桶，最上面一階才是投資" font-family="var(--sans)">
-<rect x="6.0" y="204.0" width="348.0" height="30" rx="4" fill="var(--teal)" fill-opacity="0.13"/>
-<line x1="6.0" y1="204.0" x2="354.0" y2="204.0" stroke="var(--teal)" stroke-width="2.4"/>
-<text x="16.0" y="223.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">① 看懂每月現金流</text>
-<rect x="17.0" y="164.0" width="337.0" height="30" rx="4" fill="var(--teal)" fill-opacity="0.13"/>
-<line x1="17.0" y1="164.0" x2="354.0" y2="164.0" stroke="var(--teal)" stroke-width="2.4"/>
-<text x="27.0" y="183.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">② 先處理高利率債務</text>
-<rect x="28.0" y="124.0" width="326.0" height="30" rx="4" fill="var(--teal)" fill-opacity="0.13"/>
-<line x1="28.0" y1="124.0" x2="354.0" y2="124.0" stroke="var(--teal)" stroke-width="2.4"/>
-<text x="38.0" y="143.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">③ 留緊急預備金</text>
-<rect x="39.0" y="84.0" width="315.0" height="30" rx="4" fill="var(--teal)" fill-opacity="0.13"/>
-<line x1="39.0" y1="84.0" x2="354.0" y2="84.0" stroke="var(--teal)" stroke-width="2.4"/>
-<text x="49.0" y="103.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">④ 補上重大風險保障</text>
-<rect x="50.0" y="44.0" width="304.0" height="30" rx="4" fill="var(--teal)" fill-opacity="0.13"/>
-<line x1="50.0" y1="44.0" x2="354.0" y2="44.0" stroke="var(--teal)" stroke-width="2.4"/>
-<text x="60.0" y="63.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">⑤ 把錢按使用日期分桶</text>
-<rect x="61.0" y="4.0" width="293.0" height="30" rx="4" fill="var(--amber)" fill-opacity="0.22"/>
-<line x1="61.0" y1="4.0" x2="354.0" y2="4.0" stroke="var(--amber)" stroke-width="2.4"/>
-<text x="71.0" y="23.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">才開始投資</text>
-</svg>
-</div>
-<p class="note">示意圖，沒有新數字：階梯的高低只表示先後順序，不表示哪一階比較難、要花多少錢或多久。每一階的內容在本節那五點裡：高利率債務的粗尺是利率高過 4%，緊急預備金常見的起點是必要支出的三到六個月，分桶是把錢按「什麼時候要用」分開，五年內要用的錢不放股票（三個桶長什麼樣，看第 11 節那張「按用錢日期分三桶」）。本節的行動句是：完成現金流、債務、預備金、保障與用錢日期五項檢查，再決定投入金額。</p><figcaption>由低到高五階：看懂每月現金流、先處理高利率債務、留緊急預備金、補上重大風險保障、把錢按使用日期分桶。五階做完，最上面那一階才是投資。</figcaption>
-</figure>
-<ol class="checklist" data-lite-alt="ch2-start"><li><strong>看懂每月現金流。</strong>也就是每個月錢從哪裡來、花去哪裡。列出固定收入、必要支出、債務最低還款，還有不定期的大筆支出（例如年繳的保費、稅、紅包）。</li><li><strong>先處理高利率債務。</strong>粗尺（抓個大概的標準）：債的利率如果高過 4%，通常先還債（4% 是第 <a class="xref" href="#s1">1</a> 節股票報酬率的低情境，還沒扣費用；有放定存、債券的人整體更低）；信用卡循環利息（只繳最低應繳，沒繳完的餘額繼續滾利息）這種高利債，一定先還。還債少付的利息是一定省到的；投資能賺多少，沒有人能保證。<br><span class="small">循環信用的利率通常遠高過合理的長期投資報酬。房貸通常低於這個數字，要不要提前還，「<a class="xref" href="#lifecycle">年齡、槓桿與退休</a>」那一節有討論。</span></li><li><strong>留緊急預備金。</strong>常見起點是必要支出的三到六個月，例如每月必要支出 3 萬，就先存 9 萬到 18 萬。還和家人住的學生或上班族，必要支出算自己每月一定要付的（交通、手機、餐費，每月固定拿給家裡的錢也算）；保險先問家人家裡保了什麼。放活存或定存，重點是隨時拿得到。它和之後投資裡防守用的債券、定存是兩筆錢，不能互相充當（第 <a class="xref" href="#s11">11</a> 節）。<br><span class="small">收入不穩、家裡只靠一份收入、扶養責任較重或工作難替代，通常需要更多。它不追求最高報酬，也不放在證券戶裡等著投入。防守那一塊的工作是穩住整體。</span></li><li><strong>補上重大風險保障。</strong>先確認健保、醫療、意外、壽險或失能保障是否足以避免一次事故拖垮家庭。保險和投資守的是同一樣東西，你未來還能賺的薪水：壽險與失能險擋的是它突然消失，投資做的是把它慢慢換成<a class="term" href="#g-hc" title="財務資本是已經存下來、會自己生錢的資產。">財務資本</a>（第 <a class="xref" href="#s2">2</a> 節）。三個防呆：<br>一、保障優先用定期險（只保一段年限、保費相對便宜、期滿不退錢），先把保額買夠；單身、沒負債、沒人靠你的人，壽險可以很少，醫療和失能保障才是重點。<br>二、把所有保費加起來，算出占收入的比例；比例偏高就重看哪幾張是真的必要。<br>三、名字裡有「儲蓄」「還本」「投資型」的保單，先當投資商品比費用，不當保障。<br><span class="small">保險處理不能承受的大損失，投資處理長期成長。保額看家裡的負債，加上家人幾年的生活費；年數看家裡最小的孩子還要幾年才能自立。定期險有年齡上限、有病史未必買得到，到那時再談其他選項。</span></li><li><strong>把錢按使用日期分桶。</strong>一年內要用的錢以安全、要用時拿得出來（流動性）為主；一到五年只承受有限<a class="term" href="#g-vol" title="價格上上下下的幅度。">波動</a>；五年以上才逐步使用股票等高波動資產。五年內要用的錢（買房的頭期款、結婚、生小孩、留學或進修、換車、父母的醫療與看護）放定存或短天期的工具，不放股票。<br><span class="small">五年內要用的錢不放股票是底線；放超過五年，也不代表股票就安全。日期不能延後的教育金與房款要更保守，接近用錢時要慢慢降低風險。「五年內會不會用到」是第 <a class="xref" href="#s6">6</a>、<a class="xref" href="#s11">11</a> 節反覆問的那一句。</span></li></ol>
-<div class="warning" data-lite-alt="ch2-start"><strong>借錢投資會把賺的和賠的一起放大。</strong>資產跌時，債務與利息不會跟著變小。信用卡、信貸、向券商借錢買股票（<a class="term" href="#g-margin" title="融資是向券商借錢買股票。">融資</a>）、會放大漲跌倍數的 ETF，都不適合用來填補「本金太少」的焦慮。</div>
-<div class="source-card"><h3>延伸閱讀</h3><a class="source-link" href="https://www.finra.org/investors/investing/investing-basics/financial-foundations" target="_blank" rel="noopener"><span>FINRA：Financial Foundations</span><span class="source-note">「Build an Emergency Fund」一段：理財規劃師常建議三到六個月生活費，收入不穩或職業特殊者要更多</span></a><a class="source-link" href="https://www.fsc.gov.tw/ch/home.jsp?id=96&amp;parentpath=0,2&amp;mcustomize=news_view.jsp&amp;dataserno=202409050002&amp;dtable=News" target="_blank" rel="noopener"><span>金管會：購買投資型保險商品注意事項（2024-09-05）</span><span class="source-note">「投資相關風險是由保戶自行承擔、不保證獲利」</span></a></div><div class="story"><p>2022 年起，我陸續解掉幾張儲蓄險。那些錢原本是過高的備用金，我把它搬到投資；總資產沒變，但算出來能退休的年齡往前了 5 個月。要不要解，先照第 <a class="xref" href="#s13">14</a> 節算三個數。</p></div>
-<p class="decision" data-lite-alt="ch2-start">完成現金流、債務、預備金、保障與用錢日期五項檢查，再決定投入金額。預備金還沒存滿以前，可以先用不影響生活的小金額把開戶到下單走一次（「<a class="xref" href="#steps">第一次投資的七個步驟</a>」）；固定投入的金額，等五項做完再定。</p><a class="back" href="#toc">回目錄</a></section>
-
-
-<section class="part" id="glossary"><h2>先認識這些詞</h2><p class="lede">前後各節都會用到，看不懂的時候回來查。</p>
-<p class="explain"><span class="plain-title">白話版</span><br>像遊戲說明書前面的角色介紹：先認識名字，後面出場時才知道是誰。前十四個是主角，後面的是配角，出場再認就好。</p>
-<h3>先懂這十四個</h3><dl class="glossary">
-<dt id="g-stock">股票、股東</dt><dd>公司把自己切成很多小塊，一小塊叫股票，買的人叫股東。公司賺了錢，可能分一部分給股東，也可能留下來繼續擴張，例如多開幾家店。</dd>
-<dt id="g-bond">債券</dt><dd>借錢給政府或公司時拿到的借據：對方定期付利息，到期把本金還你。價格會隨利率等因素漲跌，不賣也會看到帳面變化。</dd>
-<dt id="g-td">定存</dt><dd>把錢放銀行、約定一段時間不動，利息比活存高一點。</dd>
-<dt id="g-etf">基金、ETF</dt><dd>基金像一個大籃子，把很多人的錢集合起來一起投資；ETF 是可以在券商 app 像股票一樣直接買賣的基金。ETF 不一定分散，要看籃子裡裝什麼：裝全世界幾千家公司很分散，只裝同一個產業就集中得多。</dd>
-<dt id="g-index">指數、指數投資</dt><dd>指數是一張公司名單，用來看這一群公司整體漲跌多少，像看全班的成績、不看單一個同學（市值型指數裡，大公司占的分量比較大）；照名單買下一整群公司、拿市場平均、不猜誰會贏，就叫指數投資。照公司大小按比例買的叫「市值型」（本文說的指數 ETF 多半指它），一個市場最常拿來代表全體的指數，口語叫「大盤」，例如台股的加權指數、美股的 S&P 500。</dd>
-<dt id="g-broker">券商、複委託</dt><dd>券商是幫你買賣股票和 ETF 的地方，要先在那裡開戶。複委託是請台灣券商幫你到國外市場買，帳戶還是留在台灣。</dd>
-<dt id="g-annual">年化、名目、實質</dt><dd>年化是「平均一年長多少」，例如十年翻一倍，年化約 7%，不是 10%，因為每年賺的錢會留下來一起賺（複利）。名目是沒扣物價、帳面上看到的數字，實質是扣掉物價上漲後真正多出來的，例如名目賺 5%、物價漲 2%，實質大約 3%。本文的報酬率都是名目數字。</dd>
-<dt id="g-scope">口徑</dt><dd>一個數字是怎麼算出來的：哪段期間、哪種貨幣、有沒有把配息算進去、有沒有扣費用。就像量身高有人穿鞋、有人赤腳，算法不同的兩個數字不能直接比大小。</dd>
-<dt id="g-div">含息、配息</dt><dd>配息是公司或基金把一部分錢發給你；「除息」那天價格會先扣掉這一塊，錢通常再過幾週才進帳，例如 100 元的股票配 5 元，除息那天的參考價先變 95 元。含息是把配出來的錢也算進報酬裡。</dd>
-<dt id="g-vol">波動</dt><dd>價格上上下下的幅度。跌的時候，市值是真的變少了，只是還沒賣、損失還沒定下來；會不會漲回來，沒有人保證。這裡講的是一整群公司的價格起伏，單獨一家公司可能真的倒掉，第 <a class="xref" href="#s5">5</a> 節會分開講；一家和一整群差在哪，在第 <a class="xref" href="#s4-one-vs-crowd">4</a> 節。</dd>
-<dt id="g-rebal">再平衡</dt><dd>股票和債券的比例跑掉了，把它調回原本設定的樣子。例如設定股票八成，漲到九成時，就調回八成。目的是讓風險回到當初選的大小，不是為了多賺。</dd>
-<dt id="g-fx">匯率</dt><dd>一塊美元換多少台幣。買國外的東西，除了市場漲跌還多一層匯率：例如美股完全沒動，但 1 美元從換 32 元台幣變成只換 30 元（台幣升值），你換算回來的台幣就變少了。</dd>
-<dt id="g-tr">總報酬</dt><dd>價格漲跌加上配息，一起算。比較兩檔商品都看它，不看配息率：配息很多、價格卻一路跌的，總報酬可能反而比較差。</dd>
-<dt id="g-fee">內扣費用</dt><dd>基金每天從淨值（基金每一單位真正值多少錢）裡扣掉的經理費、保管費和其他成本。你不會看到扣款紀錄，就像服務費已經算在菜價裡，但報酬已經少了這一塊。</dd>
-</dl>
-<h3>遇到再查</h3><dl class="glossary">
-<dt id="g-total-fee">總費用率</dt><dd>每年固定會扣的那一種費用：內扣費用，路徑 C（機器人理財、投信代操這類）再加平台或代操的年費。手續費和換匯是每次買賣時付、不是每年從淨值扣，所以不算進總費用率。</dd>
-<dt id="g-nav">淨值</dt><dd>基金每一份真正值多少錢：把基金裡的東西全部照今天的價格算出總值，再除以切成幾份，像一整個披薩的價錢除以片數。ETF 在市場上的成交價，會在淨值上下晃。</dd>
-<dt id="g-hc">人力資本、財務資本</dt><dd>人力資本是你未來還能賺的薪水；財務資本是已經存下來、會自己生錢的資產。投資做的事，是把前者換成後者。</dd>
-<dt id="g-compound">複利</dt><dd>賺到的錢留著繼續賺。100 元賺 7 元變 107 元，隔年用 107 元繼續賺，所以時間越久長越快。</dd>
-<dt id="g-pp">百分點</dt><dd>兩個百分比相減的差。報酬從 6% 變 5%，是少 1 個百分點，放三十年，錢可能差一到兩成多。如果說「少 1%」，是另一件事：6% 再少它的百分之一，只剩 5.94%。</dd>
-<dt id="g-exposure">曝險</dt><dd>會被某一件事影響的程度。薪水、房子、投資都押在台灣，就是對台灣的曝險很高。</dd>
-<dt id="g-factor">因子、因子溢酬</dt><dd>因子是照某種特徵挑股票的規則，例如只挑小公司、價格便宜的公司，或最近在漲的公司；溢酬是這樣挑在歷史上比整個市場多賺的部分。多賺多少、以後還有沒有，沒有人保證。</dd>
-<dt id="g-core">核心、衛星</dt><dd>核心是占大部分、照規則長期持有的那一塊；衛星是旁邊一小塊、有上限的嘗試。本文的核心是全球市值型。</dd>
-<dt id="g-ratio">股債比、八二、六四</dt><dd>股票和防守資產（債券、定存）的比例。八二是八成股票、兩成防守；六四是六成對四成。</dd>
-<dt id="g-card">規則卡</dt><dd>第 <a class="xref" href="#s11">11</a> 節「我的投資計畫」的 F 到 H 區：跌了做什麼、什麼情況才賣、家裡誰知道、改計畫紀錄。整張表（A 到 H 區，含用途、投入、股債比）叫「我的投資計畫」。寫給平靜時的自己，也寫給家人。</dd>
-<dt id="g-yield">殖利率</dt><dd>一年配的息除以現在的價格，例如 100 元的股票一年配 5 元，殖利率就是 5%。它只講配多少，不講賺多少：配出來的錢會從價格裡扣掉（第 <a class="xref" href="#s8">8</a> 節）。</dd>
-<dt id="g-ig">投資等級債</dt><dd>被信用評等公司（專門替借錢的一方打還款能力分數的公司）評為比較會還錢的債券。相對的是高收益債（也叫垃圾債），利息高，還不出錢的機率也高。</dd>
-<dt id="g-hedge">匯率避險</dt><dd>用合約先把未來換匯的價格講好，讓某一種貨幣的漲跌影響不到你，代價是要付費用。要先看它鎖的是哪一種：鎖成美元，只擋掉其他貨幣換美元的漲跌，美元換台幣的漲跌還在。</dd>
-<dt id="g-equal">收益平準金</dt><dd>新進場的人付的錢裡，先放進去的一份還沒分出去的收益；它是基金帳上中性的會計項目，用來讓新舊投資人分得公平。配息裡領到的這一塊不是基金新賺的，稅法上當成退還本金、不課稅。要留意的是配息率明顯高過基金實際收到的股息時，是不是靠它撐出來的（第 <a class="xref" href="#s8">8</a> 節）。</dd>
-<dt id="g-te">追蹤差距、追蹤誤差</dt><dd>追蹤差距是一段時間裡，基金的報酬和它追蹤的指數報酬差多少，差得越少越好；例如指數一年漲 10%、基金漲 9.8%，差距就是 0.2 個百分點。追蹤誤差是這個差距每段時間忽大忽小的程度（統計上叫標準差），越小代表跟得越穩。</dd>
-<dt id="g-prem">折溢價</dt><dd>ETF 的市價和淨值的差。市價高於淨值叫溢價，像花 101 元買只值 100 元的東西；低於淨值叫折價。</dd>
-<dt id="g-dur">存續期間</dt><dd>用來量「利率一變，債券價格會跟著動多少」的數字；到期越久，利率一動價格晃得越大。例如存續期間 5 年的債券，利率小幅上升 1 個百分點，價格大約跌 5%（這是近似算法）。</dd>
-<dt id="g-domicile">註冊地、掛牌地</dt><dd>註冊地是基金設在哪個國家，決定扣稅和適用的法律；掛牌地是在哪個交易所買賣。</dd>
-<dt id="g-stop">停利</dt><dd>漲了先賣掉一部分，把帳面獲利換成現金；賣了之後要不要買回，是另一個決定。</dd>
-<dt id="g-daytrade">當沖</dt><dd>同一天買進又賣掉，賺當天的價差。</dd>
-<dt id="g-settle">交割、T+2</dt><dd>成交後真正付錢、拿到股票的動作。台灣是成交日算起第二個營業日完成，所以叫 T+2，例如週一買、週三扣款，交割戶在那之前要有錢。</dd>
-<dt id="g-order">限價單、市價單</dt><dd>限價單是「最多用這個價買」；市價單是「照現在能成交的價馬上買」。定期定額由券商代下單，不用選。</dd>
-<dt id="g-nhi">二代健保補充保費</dt><dd>健保在一般保費之外，對股利、利息、租金、高額獎金等收入另外收的一小筆保費：股利、利息單次達 2 萬元才扣；獎金是全年累計超過投保金額 4 倍的部分才扣（以健保署公告為準）。</dd>
-<dt id="g-bracket">級距</dt><dd>所得稅把全年所得切成幾段，越高的那一段稅率越高；你落在哪一段，就叫級距。</dd>
-<dt id="g-margin">融資、維持率</dt><dd>融資是向券商借錢買股票。維持率是「股票現在值多少」除以「借了多少」，跌到門檻以下券商會要你補錢，不補就替你賣掉。</dd>
-<dt id="g-xirr">XIRR</dt><dd>試算表裡的一個內建算式（像加總的 SUM 一樣，輸入就會算）：把每一筆放進去、拿出來的金額和日期都算進去，算出「平均一年長多少」。本文說的「自己的年化」都用它，而且只記進出投資圈的錢。</dd>
-<dt id="g-circle">投資圈</dt><dd>這篇自己的說法，不是指投資界：把持股、防守用的定存或活存、準備要投的現金，還有賣掉但還沒花掉的錢，圈在一起算成績；緊急預備金、已經分出去五年內要用的錢（例如頭期款那一桶）、房子、房貸在圈外。算報酬時只記跨過這個圈的錢（「<a class="xref" href="#annual">每年一次的檢查表</a>」）。</dd>
-<dt id="g-swr">提領率</dt><dd>退休後每年從資產拿出來花的比例；4% 的意思是資產一百萬，第一年領四萬，之後照物價調整。它和「一年會長 4%」不是同一件事。</dd>
-</dl>
-<p class="decision">讀到看不懂的詞先回這裡；前十四個懂了就能往下讀，後面的遇到再查。</p><a class="back" href="#toc">回目錄</a></section>
 
 <section class="part" id="group-core"><h2>先搞懂：為什麼這樣做</h2><p class="lede">十個新手最常問的問題，一節回答一個；計畫表每一格的理由都在這裡。</p>
 <ol class="part-map">
@@ -370,13 +334,13 @@ document.querySelectorAll('#toc details.toc-part, details.read-how').forEach(fun
 <li><span class="map-num">9</span><a class="xref" href="#s9">買一樣的東西，結果為什麼不同？</a><span class="map-lede">差別常在中途的買賣，不只在最初買了什麼。</span></li>
 <li><span class="map-num">10</span><a class="xref" href="#s10">明明知道，為什麼還是想動手？</a><span class="map-lede">想動手不代表不夠聰明；大腦本來就會走捷徑。</span></li>
 </ol>
-<p class="small">可以照順序讀，也可以挑最想問的先讀；要寫計畫的人，至少先讀第 <a class="xref" href="#s5">5</a> 節和第 <a class="xref" href="#s10">10</a> 節。每一節的順序都一樣：先白話版，再數字和來源，最後一句「本節行動」。</p>
+<p class="small">可以照順序讀，也可以挑最想問的先讀；要寫計畫的人，至少先讀第 <a class="xref" href="#s5">5</a> 節和第 <a class="xref" href="#s10">10</a> 節。每一節的順序都一樣：先白話版，再數字和來源，最後一句「本節行動」；多數節在行動前還有一張虛線小卡，寫下你自己計畫裡的一行。</p>
 <a class="back" href="#toc">回目錄</a></section>
 
 <section class="part" id="s1"><h2><span class="num">1</span>投資賺的是誰的錢？</h2><p class="lede">先找付款的人，再看可能拿到多少。</p>
 <p class="explain"><span class="plain-title">白話版</span><br>錢不會自己生小孩。你收到的每一塊錢，都要有人付。看得懂是誰付、他為什麼願意付，才有辦法看風險。</p>
 <p>常見的來源有四種：</p><ol class="checklist"><li><strong>利息。</strong>借錢給政府、公司或銀行，對方付利息。</li><li><strong>公司賺的錢。</strong>買股票當公司的一小部分主人，公司賺錢後分一部分給股東。</li><li><strong>租金。</strong>把房子租給別人住，對方付租金，但要扣掉空置、修繕與折舊。</li><li><strong>下一個人的錢。</strong>東西本身不產生利息、股利或租金，賺錢只能靠下一個人用更高的價格接手；價格全看下一個人願意出多少，投機成分很高，不能假裝成穩定收入。</li></ol>
-<p>ETF 只是一種可以直接買賣的基金，不等於「一定分散」或「一定是指數投資」，要看裡面裝什麼。</p><p class="small">股票、股東、債券、基金、ETF 這些詞，前面「<a class="xref" href="#glossary">先認識這些詞</a>」有解釋。</p>
+<p>ETF 只是一種可以直接買賣的基金，不等於「一定分散」或「一定是指數投資」，要看裡面裝什麼。</p><p class="small">股票、股東、債券、基金、ETF 這些詞，在「<a class="xref" href="#glossary">先認識這些詞</a>」有解釋。</p>
 <p>指數投資是按一套公開規則，買下一整群公司，不猜冠軍。好處是少猜；代價是接受平均、接受市場會跌，永遠不會單押到第一名。因為只是照規則做，它不綁在任何人身上：你會的，家人也會；現在會的，老了也會。</p>
 <div class="data-card"><h3>長期數字要怎麼讀</h3><p>美國股票 1900 到 2025 年，平均一年長 9.8%；同期先進市場整體（美國、英國、德國這些）8.5%，新興市場（台灣、中國、印度這些）6.9%。美國是過去一百多年表現最好的市場之一；國家一換，答案就換。</p><p class="small">三個數字都含股利再投入、都用美元算，出自同一份年鑑（「<a class="xref" href="#lifecycle-q3">年齡、槓桿與退休</a>」第三題也提到美國數字偏高）。</p></div>
 <div class="data-card"><h3>歷史報酬不是預期報酬</h3><p><mark class="key">上面的歷史數字是過去，不是預測。</mark>想像你買下一棵果樹。果子是每年配給你的錢。樹長大、結更多果子，是公司獲利成長。第三塊是別人願意出多少錢買這棵樹：同一棵每年結一樣多果子的樹，今年有人出 1 萬買，明年可能只出 8 千，這一塊沒人猜得到。股票也一樣，一群公司長期的報酬，來自兩塊估得出來的東西（公司分給股東的錢、公司獲利的成長）和一塊沒人知道的東西（大家願意為同樣的獲利付多少價格）。2026 年 6 月底，Vanguard 估計未來十年美國股票平均一年約 4.2% 到 6.2%，美國以外的先進市場約 4.5% 到 6.5%（用美元算，還沒扣費用和稅）。</p></div>
@@ -3261,13 +3225,64 @@ document.querySelectorAll('#toc details.toc-part, details.read-how').forEach(fun
 <div class="source-card"><h3>直接來源</h3><a class="source-link" href="https://corporate.vanguard.com/content/dam/corp/research/pdf/vanguard_principles_retirement_income.pdf" target="_blank" rel="noopener"><span>Vanguard (2026)：Principles for Retirement Income</span><span class="source-note">報酬順序風險的定義與影響，第 10 頁</span></a><a class="source-link" href="https://www.vanguard.co.uk/content/dam/intl/europe/documents/en/whitepapers/safeguarding-retirement-bear-market.pdf" target="_blank" rel="noopener"><span>Vanguard Research (2020)：Safeguarding retirement in a bear market</span><span class="source-note">1973 與 1974 年退休的例子；細節在「年齡、槓桿與退休」第三題</span></a></div>
 <p class="decision">在開始提領前，準備近期支出、壓力情境與家庭一頁表，讓計畫不依賴單一個人的記憶。</p><a class="back" href="#toc">回目錄</a></section>
 
-<section class="part" id="group-ref"><h2>查資料</h2><p class="lede">官方網站、延伸閱讀，和全書數字怎麼算出來。</p>
+<section class="part" id="group-ref"><h2>查資料</h2><p class="lede">看不懂的詞、官方網站、延伸閱讀，和全書數字怎麼算出來。</p>
 <ol class="part-map">
+<li><a class="xref" href="#glossary">先認識這些詞</a><span class="map-lede">前後各節都會用到，看不懂的時候回來查。</span></li>
 <li><a class="xref" href="#toolbox">去哪查：官方入口與延伸閱讀</a><span class="map-lede">本文多處說「以公開說明書為準」「查官方公告」，這一頁就是那些地方；頁尾另有書單。</span></li>
 <li><a class="xref" href="#methods">資料口徑與來源</a><span class="map-lede">數字必須和期間、幣別、股利、費用及計算方式一起讀。</span></li>
 </ol>
-<p class="small">看不懂的詞，在最前面的「<a class="xref" href="#glossary">先認識這些詞</a>」；正文裡點詞也會跳過去。</p>
+<p class="small">看不懂的詞，在這一組的第一節「<a class="xref" href="#glossary">先認識這些詞</a>」；正文裡點詞也會跳過去。</p>
 <a class="back" href="#toc">回目錄</a></section>
+
+<section class="part" id="glossary"><h2>先認識這些詞</h2><p class="lede">前後各節都會用到，看不懂的時候回來查。</p>
+<p class="explain"><span class="plain-title">白話版</span><br>像遊戲說明書前面的角色介紹：先認識名字，後面出場時才知道是誰。前十四個是主角，後面的是配角，出場再認就好。</p>
+<h3>先懂這十四個</h3><dl class="glossary">
+<dt id="g-stock">股票、股東</dt><dd>公司把自己切成很多小塊，一小塊叫股票，買的人叫股東。公司賺了錢，可能分一部分給股東，也可能留下來繼續擴張，例如多開幾家店。</dd>
+<dt id="g-bond">債券</dt><dd>借錢給政府或公司時拿到的借據：對方定期付利息，到期把本金還你。價格會隨利率等因素漲跌，不賣也會看到帳面變化。</dd>
+<dt id="g-td">定存</dt><dd>把錢放銀行、約定一段時間不動，利息比活存高一點。</dd>
+<dt id="g-etf">基金、ETF</dt><dd>基金像一個大籃子，把很多人的錢集合起來一起投資；ETF 是可以在券商 app 像股票一樣直接買賣的基金。ETF 不一定分散，要看籃子裡裝什麼：裝全世界幾千家公司很分散，只裝同一個產業就集中得多。</dd>
+<dt id="g-index">指數、指數投資</dt><dd>指數是一張公司名單，用來看這一群公司整體漲跌多少，像看全班的成績、不看單一個同學（市值型指數裡，大公司占的分量比較大）；照名單買下一整群公司、拿市場平均、不猜誰會贏，就叫指數投資。照公司大小按比例買的叫「市值型」（本文說的指數 ETF 多半指它），一個市場最常拿來代表全體的指數，口語叫「大盤」，例如台股的加權指數、美股的 S&P 500。</dd>
+<dt id="g-broker">券商、複委託</dt><dd>券商是幫你買賣股票和 ETF 的地方，要先在那裡開戶。複委託是請台灣券商幫你到國外市場買，帳戶還是留在台灣。</dd>
+<dt id="g-annual">年化、名目、實質</dt><dd>年化是「平均一年長多少」，例如十年翻一倍，年化約 7%，不是 10%，因為每年賺的錢會留下來一起賺（複利）。名目是沒扣物價、帳面上看到的數字，實質是扣掉物價上漲後真正多出來的，例如名目賺 5%、物價漲 2%，實質大約 3%。本文的報酬率都是名目數字。</dd>
+<dt id="g-scope">口徑</dt><dd>一個數字是怎麼算出來的：哪段期間、哪種貨幣、有沒有把配息算進去、有沒有扣費用。就像量身高有人穿鞋、有人赤腳，算法不同的兩個數字不能直接比大小。</dd>
+<dt id="g-div">含息、配息</dt><dd>配息是公司或基金把一部分錢發給你；「除息」那天價格會先扣掉這一塊，錢通常再過幾週才進帳，例如 100 元的股票配 5 元，除息那天的參考價先變 95 元。含息是把配出來的錢也算進報酬裡。</dd>
+<dt id="g-vol">波動</dt><dd>價格上上下下的幅度。跌的時候，市值是真的變少了，只是還沒賣、損失還沒定下來；會不會漲回來，沒有人保證。這裡講的是一整群公司的價格起伏，單獨一家公司可能真的倒掉，第 <a class="xref" href="#s5">5</a> 節會分開講；一家和一整群差在哪，在第 <a class="xref" href="#s4-one-vs-crowd">4</a> 節。</dd>
+<dt id="g-rebal">再平衡</dt><dd>股票和債券的比例跑掉了，把它調回原本設定的樣子。例如設定股票八成，漲到九成時，就調回八成。目的是讓風險回到當初選的大小，不是為了多賺。</dd>
+<dt id="g-fx">匯率</dt><dd>一塊美元換多少台幣。買國外的東西，除了市場漲跌還多一層匯率：例如美股完全沒動，但 1 美元從換 32 元台幣變成只換 30 元（台幣升值），你換算回來的台幣就變少了。</dd>
+<dt id="g-tr">總報酬</dt><dd>價格漲跌加上配息，一起算。比較兩檔商品都看它，不看配息率：配息很多、價格卻一路跌的，總報酬可能反而比較差。</dd>
+<dt id="g-fee">內扣費用</dt><dd>基金每天從淨值（基金每一單位真正值多少錢）裡扣掉的經理費、保管費和其他成本。你不會看到扣款紀錄，就像服務費已經算在菜價裡，但報酬已經少了這一塊。</dd>
+</dl>
+<h3>遇到再查</h3><dl class="glossary">
+<dt id="g-total-fee">總費用率</dt><dd>每年固定會扣的那一種費用：內扣費用，路徑 C（機器人理財、投信代操這類）再加平台或代操的年費。手續費和換匯是每次買賣時付、不是每年從淨值扣，所以不算進總費用率。</dd>
+<dt id="g-nav">淨值</dt><dd>基金每一份真正值多少錢：把基金裡的東西全部照今天的價格算出總值，再除以切成幾份，像一整個披薩的價錢除以片數。ETF 在市場上的成交價，會在淨值上下晃。</dd>
+<dt id="g-hc">人力資本、財務資本</dt><dd>人力資本是你未來還能賺的薪水；財務資本是已經存下來、會自己生錢的資產。投資做的事，是把前者換成後者。</dd>
+<dt id="g-compound">複利</dt><dd>賺到的錢留著繼續賺。100 元賺 7 元變 107 元，隔年用 107 元繼續賺，所以時間越久長越快。</dd>
+<dt id="g-pp">百分點</dt><dd>兩個百分比相減的差。報酬從 6% 變 5%，是少 1 個百分點，放三十年，錢可能差一到兩成多。如果說「少 1%」，是另一件事：6% 再少它的百分之一，只剩 5.94%。</dd>
+<dt id="g-exposure">曝險</dt><dd>會被某一件事影響的程度。薪水、房子、投資都押在台灣，就是對台灣的曝險很高。</dd>
+<dt id="g-factor">因子、因子溢酬</dt><dd>因子是照某種特徵挑股票的規則，例如只挑小公司、價格便宜的公司，或最近在漲的公司；溢酬是這樣挑在歷史上比整個市場多賺的部分。多賺多少、以後還有沒有，沒有人保證。</dd>
+<dt id="g-core">核心、衛星</dt><dd>核心是占大部分、照規則長期持有的那一塊；衛星是旁邊一小塊、有上限的嘗試。本文的核心是全球市值型。</dd>
+<dt id="g-ratio">股債比、八二、六四</dt><dd>股票和防守資產（債券、定存）的比例。八二是八成股票、兩成防守；六四是六成對四成。</dd>
+<dt id="g-card">規則卡</dt><dd>第 <a class="xref" href="#s11">11</a> 節「我的投資計畫」的 F 到 H 區：跌了做什麼、什麼情況才賣、家裡誰知道、改計畫紀錄。整張表（A 到 H 區，含用途、投入、股債比）叫「我的投資計畫」。寫給平靜時的自己，也寫給家人。</dd>
+<dt id="g-yield">殖利率</dt><dd>一年配的息除以現在的價格，例如 100 元的股票一年配 5 元，殖利率就是 5%。它只講配多少，不講賺多少：配出來的錢會從價格裡扣掉（第 <a class="xref" href="#s8">8</a> 節）。</dd>
+<dt id="g-ig">投資等級債</dt><dd>被信用評等公司（專門替借錢的一方打還款能力分數的公司）評為比較會還錢的債券。相對的是高收益債（也叫垃圾債），利息高，還不出錢的機率也高。</dd>
+<dt id="g-hedge">匯率避險</dt><dd>用合約先把未來換匯的價格講好，讓某一種貨幣的漲跌影響不到你，代價是要付費用。要先看它鎖的是哪一種：鎖成美元，只擋掉其他貨幣換美元的漲跌，美元換台幣的漲跌還在。</dd>
+<dt id="g-equal">收益平準金</dt><dd>新進場的人付的錢裡，先放進去的一份還沒分出去的收益；它是基金帳上中性的會計項目，用來讓新舊投資人分得公平。配息裡領到的這一塊不是基金新賺的，稅法上當成退還本金、不課稅。要留意的是配息率明顯高過基金實際收到的股息時，是不是靠它撐出來的（第 <a class="xref" href="#s8">8</a> 節）。</dd>
+<dt id="g-te">追蹤差距、追蹤誤差</dt><dd>追蹤差距是一段時間裡，基金的報酬和它追蹤的指數報酬差多少，差得越少越好；例如指數一年漲 10%、基金漲 9.8%，差距就是 0.2 個百分點。追蹤誤差是這個差距每段時間忽大忽小的程度（統計上叫標準差），越小代表跟得越穩。</dd>
+<dt id="g-prem">折溢價</dt><dd>ETF 的市價和淨值的差。市價高於淨值叫溢價，像花 101 元買只值 100 元的東西；低於淨值叫折價。</dd>
+<dt id="g-dur">存續期間</dt><dd>用來量「利率一變，債券價格會跟著動多少」的數字；到期越久，利率一動價格晃得越大。例如存續期間 5 年的債券，利率小幅上升 1 個百分點，價格大約跌 5%（這是近似算法）。</dd>
+<dt id="g-domicile">註冊地、掛牌地</dt><dd>註冊地是基金設在哪個國家，決定扣稅和適用的法律；掛牌地是在哪個交易所買賣。</dd>
+<dt id="g-stop">停利</dt><dd>漲了先賣掉一部分，把帳面獲利換成現金；賣了之後要不要買回，是另一個決定。</dd>
+<dt id="g-daytrade">當沖</dt><dd>同一天買進又賣掉，賺當天的價差。</dd>
+<dt id="g-settle">交割、T+2</dt><dd>成交後真正付錢、拿到股票的動作。台灣是成交日算起第二個營業日完成，所以叫 T+2，例如週一買、週三扣款，交割戶在那之前要有錢。</dd>
+<dt id="g-order">限價單、市價單</dt><dd>限價單是「最多用這個價買」；市價單是「照現在能成交的價馬上買」。定期定額由券商代下單，不用選。</dd>
+<dt id="g-nhi">二代健保補充保費</dt><dd>健保在一般保費之外，對股利、利息、租金、高額獎金等收入另外收的一小筆保費：股利、利息單次達 2 萬元才扣；獎金是全年累計超過投保金額 4 倍的部分才扣（以健保署公告為準）。</dd>
+<dt id="g-bracket">級距</dt><dd>所得稅把全年所得切成幾段，越高的那一段稅率越高；你落在哪一段，就叫級距。</dd>
+<dt id="g-margin">融資、維持率</dt><dd>融資是向券商借錢買股票。維持率是「股票現在值多少」除以「借了多少」，跌到門檻以下券商會要你補錢，不補就替你賣掉。</dd>
+<dt id="g-xirr">XIRR</dt><dd>試算表裡的一個內建算式（像加總的 SUM 一樣，輸入就會算）：把每一筆放進去、拿出來的金額和日期都算進去，算出「平均一年長多少」。本文說的「自己的年化」都用它，而且只記進出投資圈的錢。</dd>
+<dt id="g-circle">投資圈</dt><dd>這篇自己的說法，不是指投資界：把持股、防守用的定存或活存、準備要投的現金，還有賣掉但還沒花掉的錢，圈在一起算成績；緊急預備金、已經分出去五年內要用的錢（例如頭期款那一桶）、房子、房貸在圈外。算報酬時只記跨過這個圈的錢（「<a class="xref" href="#annual">每年一次的檢查表</a>」）。</dd>
+<dt id="g-swr">提領率</dt><dd>退休後每年從資產拿出來花的比例；4% 的意思是資產一百萬，第一年領四萬，之後照物價調整。它和「一年會長 4%」不是同一件事。</dd>
+</dl>
+<p class="decision">讀到看不懂的詞就回這裡查；前十四個是主角，先看過一遍，後面的遇到再查。</p><a class="back" href="#toc">回目錄</a></section>
 
 <section class="part" id="toolbox"><h2>去哪查：官方入口與延伸閱讀</h2><p class="lede">本文多處說「以公開說明書為準」「查官方公告」，這一頁就是那些地方；頁尾另有書單。</p>
 <p class="explain"><span class="plain-title">白話版</span><br>像電話簿：本文說「去查官方」的時候，號碼都在這一頁。</p>

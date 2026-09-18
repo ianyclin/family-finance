@@ -4,11 +4,15 @@
 
 用法：
   python3 tools/v7_check.py mainline <html> [--json out.json]
-      逐節列出去空白字數：total／folded／small／story／mainline，並印全書合計。
+      逐節列出去空白字數：total／folded／small／story／mainline／visible，並印全書合計。
+      visible＝mainline＋small（手機上一眼看得到的字，摺疊與黃框不算）。
   python3 tools/v7_check.py numbers <before.html> <after.html> [--section id ...] [--allow-file allow.json]
       以 section id 為 key 比對阿拉伯數字 token 多重集合；真正的 LOST 會讓 exit code = 1。
-  python3 tools/v7_check.py budget <html> <budget.json>
+  python3 tools/v7_check.py budget <html> <budget.json> [--section id ...]
       budget.json 形如 {"ten": 600, "why": 900, "_total_max": 70000}；超過的節列出來，exit 1。
+      另支援 "_visible_total_max"（全書 mainline＋small 上限）與
+      "_visible_small_per_section_max"（每節 small 上限；SMALL_EXEMPT 那幾節與 group-* 不查）。
+      給了 --section 就只檢查指定的節，兩個全書合計改成只印不判（施工中途全書必然超標）。
   python3 tools/v7_check.py planstep <html>
       檢查每個 div.planstep 的結構與位置；結構錯 exit 1。
   python3 tools/v7_check.py anchors <before.html> <after.html>
@@ -28,6 +32,8 @@ VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
         'link', 'meta', 'param', 'source', 'track', 'wbr'}
 SKIP = {'script', 'style', 'svg'}
 SMALL_CLASSES = {'small', 'source-card'}
+# 這幾節整節就是查表／導覽用的小字，不適用「每節看得到的小字 ≤ N 字」；group-* 分組節同理。
+SMALL_EXEMPT = {'glossary', 'toolbox', 'methods', 'cover', 'toc'}
 
 WS_RE = re.compile(r'\s+')
 # 連續的數字，可含千分位逗號與小數點，可帶前置負號（- 或 −）。
@@ -180,7 +186,8 @@ class Doc(HTMLParser):
         for r in self.sections.values():
             m = r['total'] - r['folded'] - r['story'] - r['small']
             out.append({'id': r['id'], 'total': r['total'], 'folded': r['folded'],
-                        'small': r['small'], 'story': r['story'], 'mainline': m})
+                        'small': r['small'], 'story': r['story'], 'mainline': m,
+                        'visible': m + r['small']})
         return out
 
     def section_text(self):
@@ -202,13 +209,14 @@ def cmd_mainline(args):
     d = parse(args.html)
     rows = d.rows()
     w = max([len(r['id']) for r in rows] + [7])
-    print('%-*s %8s %8s %8s %8s %9s' % (w, 'section', 'total', 'folded', 'small', 'story', 'mainline'))
+    print('%-*s %8s %8s %8s %8s %9s %8s' % (w, 'section', 'total', 'folded', 'small', 'story',
+                                            'mainline', 'visible'))
     for r in rows:
-        print('%-*s %8d %8d %8d %8d %9d' % (w, r['id'], r['total'], r['folded'],
-                                            r['small'], r['story'], r['mainline']))
-    tot = {k: sum(r[k] for r in rows) for k in ('total', 'folded', 'small', 'story', 'mainline')}
-    print('%-*s %8d %8d %8d %8d %9d' % (w, 'TOTAL', tot['total'], tot['folded'],
-                                        tot['small'], tot['story'], tot['mainline']))
+        print('%-*s %8d %8d %8d %8d %9d %8d' % (w, r['id'], r['total'], r['folded'],
+                                                r['small'], r['story'], r['mainline'], r['visible']))
+    tot = {k: sum(r[k] for r in rows) for k in ('total', 'folded', 'small', 'story', 'mainline', 'visible')}
+    print('%-*s %8d %8d %8d %8d %9d %8d' % (w, 'TOTAL', tot['total'], tot['folded'],
+                                            tot['small'], tot['story'], tot['mainline'], tot['visible']))
     print('outside-of-section %d' % d.outside)
     if args.json:
         payload = {'sections': rows, 'totals': tot, 'outside': d.outside, 'source': args.html}
@@ -323,15 +331,31 @@ def cmd_numbers(args):
 
 
 # ------------------------------------------------------------------ budget
+def small_checked(sec_id):
+    """這一節要不要查「看得到的小字」上限。"""
+    return sec_id not in SMALL_EXEMPT and not sec_id.startswith('group-')
+
+
 def cmd_budget(args):
     d = parse(args.html)
     rows = {r['id']: r for r in d.rows()}
     with open(args.budget, encoding='utf-8') as f:
         budget = json.load(f)
+
+    want = None
+    if args.section:
+        want = [s for grp in args.section for s in grp]
+        unknown = [s for s in want if s not in rows]
+        if unknown:
+            print('unknown section: %s' % ', '.join(unknown))
+            return 1
+
     over = []
     missing = []
     for k, limit in budget.items():
         if k.startswith('_'):
+            continue
+        if want is not None and k not in want:
             continue
         if k not in rows:
             missing.append(k)
@@ -341,15 +365,34 @@ def cmd_budget(args):
         print('%-16s mainline=%-7d limit=%-7d %s' % (k, m, limit, mark))
         if m > limit:
             over.append((k, m, limit))
+
+    smax = budget.get('_visible_small_per_section_max')
+    if smax is not None:
+        for k, r in rows.items():
+            if want is not None and k not in want:
+                continue
+            if not small_checked(k):
+                continue
+            mark = 'OVER' if r['small'] > smax else 'ok'
+            print('%-16s small=%-10d limit=%-7d %s' % (k, r['small'], smax, mark))
+            if r['small'] > smax:
+                over.append((k + ' (small)', r['small'], smax))
+
     total = sum(r['mainline'] for r in rows.values())
-    tmax = budget.get('_total_max')
-    if tmax is not None:
-        mark = 'OVER' if total > tmax else 'ok'
-        print('%-16s mainline=%-7d limit=%-7d %s' % ('_total_max', total, tmax, mark))
-        if total > tmax:
-            over.append(('_total_max', total, tmax))
-    else:
-        print('%-16s mainline=%-7d' % ('(book total)', total))
+    vtotal = sum(r['visible'] for r in rows.values())
+    for label, value, limit, field in (('_total_max', total, budget.get('_total_max'), 'mainline'),
+                                       ('_visible_total_max', vtotal, budget.get('_visible_total_max'), 'visible')):
+        if limit is None:
+            print('%-16s %s=%-7d （budget 沒寫上限）' % ('(book total)', field, value))
+            continue
+        if want is not None:
+            print('%-16s %s=%-7d limit=%-7d skipped(--section)' % (label, field, value, limit))
+            continue
+        mark = 'OVER' if value > limit else 'ok'
+        print('%-16s %s=%-7d limit=%-7d %s' % (label, field, value, limit, mark))
+        if value > limit:
+            over.append((label, value, limit))
+
     for k in missing:
         print('MISSING SECTION: %s' % k)
     if over or missing:
@@ -442,6 +485,7 @@ def build_parser():
     p = sub.add_parser('budget', help='主線字數預算')
     p.add_argument('html')
     p.add_argument('budget')
+    p.add_argument('--section', action='append', nargs='+', help='只檢查這些 section id')
     p.set_defaults(func=cmd_budget)
 
     p = sub.add_parser('planstep', help='div.planstep 結構與位置')
