@@ -1,0 +1,12 @@
+{
+ "_comment": "批 5（cases／s12／s13／sidepaths／group-situations）允許丟掉的數字 token。每一條都是『同一個數字在本節其他位置仍然在』的重複提及（design-v7 第 1 節規則 3 的例外）。用法：python3 tools/v7_check.py numbers <baseline> guide/index.html --section cases s12 s13 sidepaths group-situations --allow-file wip/v63-review/allow-batch5.json",
+ "allow": [
+  {"section": "cases", "token": "0.5", "count": 1, "reason": "三個人的『結論』拿掉「扣掉 0.5% 示範費率以後」（扣費細節照批次指示移層）；0.5% 的說明在新的『想深入：四個人共同的算法』與各人試算表、四人比較表裡仍在"},
+  {"section": "cases", "token": "1.7", "count": 1, "reason": "小芸阿哲結論拿掉「報酬率直接用當下的一年期定存 1.7%」；1.7% 在展開的頭期款桶推理與四人比較表裡仍在"},
+  {"section": "cases", "token": "500", "count": 1, "reason": "小芸阿哲結論的「（多 500 元）」和同一句「每月 1 萬改成 1.05 萬」重複；500 元在展開的長期桶推理與四人比較表裡仍在"},
+  {"section": "cases", "token": "2008", "count": 1, "reason": "陳大哥『和小安差在哪』第 2 條整條和新的結論重複，刪掉；2008 年在條件、結論、展開的三問與四人比較表裡仍在"},
+  {"section": "s13", "token": "15", "count": 1, "reason": "分組標題「怕賠（15 題）」→「怕賠（12 題）」：三對重複題合併後的實際題數"},
+  {"section": "s13", "token": "6", "count": 1, "reason": "「等市場跌下來再投入」與「覺得價格太高而等回檔」合併，兩題原本各有一個指向第 6 節的 xref，合併後只留一個"},
+  {"section": "s13", "token": "8", "count": 1, "reason": "「偏好高配息產品」與「已經買了高股息 ETF」合併，兩題原本各有一個指向第 8 節的 xref，合併後只留一個"}
+ ]
+}

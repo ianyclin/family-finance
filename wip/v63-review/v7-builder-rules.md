@@ -74,3 +74,6 @@ python3 tools/test_guidetools.py tools guide/index.html
 - 〔第 7 批〕`tools/v63_g07_investor_cycle.py:135` 的 `p.note` 後半（逐站重述各節 lede，約 215 字）刪掉，指南同步，s10 小字壓到 350 內。
 - 〔第 7 批〕s6、s8、s9 等圖下「官方原圖（英文）：…圖片版權屬原機構」的 `p.note` 是出處聲明：移進該節來源卡或圖的 `details.more`（`essay_charts.py` 與指南兩邊同步）。
 - 〔第 7 批〕全書沒有 class、沒有 `data-print` 的舊摺疊（約 15 個）：屬「想深入」性質的改成 `.more`＋具體摘要。
+- 〔第 7 批〕第 14 節合併後是 29 題，h2 還叫「三十二種常見情境」：h2 改成不數數的「常見情境：我在怕什麼？」，目錄、`group-situations` 組地圖（part_maps 逐字）、狀況索引下的「32 題」小字、節首說明、`p.decision`、全書提到「三十二種／32 種情境」的地方同步。
+- 〔第 7 批〕封面「正在跌」入口確認連 `#plan-panic`；`#s11-f-pause`（既有）與第 4a 批可能新增的 `#plan-pause` 若指同一段，只留 `s11-f-pause`，連結改過去。
+- 〔第 7 批〕s13 有兩個 `a.term` 指 `#g-circle`，留第一個。
