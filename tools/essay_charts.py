@@ -840,6 +840,13 @@ def holding_positive():
     return _g06.chart(_g06.compute())
 
 
+# v6.3 第三批 P2 的 G07：散戶心境圖（示意，圖上沒有數字），compute() 在 tools/v63_g07_investor_cycle.py，
+# 由 calc_core.py 收進 calc-results.json 的 investor_cycle。
+def investor_cycle():
+    import v63_g07_investor_cycle as _g07
+    return _g07.chart(calc()["investor_cycle"])
+
+
 CHARTS = [
     ("three-circles", "01-where-return-comes-from.html", "順便講「又穩又高」", "aside", three_circles),
     ("four-people", "02-time.html", "手冊算過四個人", "aside", four_people),
@@ -918,6 +925,7 @@ def do_guide():
     funcs["fee-gap"] = fee_gap                    # 只在指南
     funcs["safety-steps"] = safety_steps          # 只在指南
     funcs["holding-positive"] = holding_positive  # 只在指南
+    funcs["investor-cycle"] = investor_cycle      # 只在指南
     n = 0
     diffs = []
     def repl(m):

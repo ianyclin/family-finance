@@ -969,6 +969,74 @@ R['drag_breakdown'] = _g03.compute()
 R['fee_gap_chart'] = _g04.compute()
 R['safety_steps'] = _g05.compute()
 
+# v6.3 批 3（P2）：個股 vs 市值型指數（第 4 節新卡）、報酬率不等於報酬（第 2 節新卡）
+# 學術與官方數字是查證過的定值，逐條出處與但書在 wip/v63/stock-vs-index/evidence.md；
+# 這裡只集中存放（書上引用它），並用本檔的 fv() 現算「報酬率不等於報酬」那幾個數字。
+import v63_g07_investor_cycle as _g07
+R['investor_cycle'] = _g07.compute()
+
+_one_cost, _one_up_pct = 10000, 50
+_one_gain = _one_cost * _one_up_pct / 100
+_plan_m, _plan_rate, _plan_years = 5000, 4, 10
+_plan_fv = fv(0, _plan_rate, _plan_years * 12, _plan_m)
+_plan_put = _plan_m * _plan_years * 12
+_plan_gain = _plan_fv - _plan_put
+R['stock_vs_index'] = {
+    'us_bessembinder_2018': {
+        'cite': 'Bessembinder (2018), Do stocks outperform Treasury bills?, JFE 129(3): 440–457',
+        'doi': '10.1016/j.jfineco.2018.06.004',
+        'basis': 'CRSP 月報酬、NYSE／Amex／Nasdaq 普通股，1926 年 7 月–2016 年 12 月，含股利再投資；'
+                 '「終身」＝從第一次出現在 CRSP 到下市或 2016 年 12 月；基準是一個月期國庫券',
+        'n_stocks': 25967, 'n_firms': 25332,
+        'beat_tbill_pct': 42.6, 'below_tbill_pct': r1(100 - 42.6),
+        'positive_lifetime_pct': 49.5, 'median_lifetime_return_pct': -2.29,
+        'most_common_outcome': '報酬四捨五入到最近的 5% 時，出現最多次的是虧損 100%',
+        'wealth_creator_firms': 1092, 'wealth_creator_share_pct': 4.31,
+        'wealth_creator_share_check': r1(1092 / 25332 * 100),
+        'caveat': '4.31% 說的是「淨財富創造」集中在這些公司，不是「只有 4% 的股票有賺錢」',
+    },
+    'global_bessembinder_2023': {
+        'cite': 'Bessembinder, Chen, Choi & Wei (2023), Long-Term Shareholder Returns: '
+                'Evidence from 64,000 Global Stocks, FAJ 79(3): 33–63',
+        'doi': '10.1080/0015198X.2023.2188870',
+        'basis': '1990 年 1 月–2020 年 12 月、逾 64,000 檔全球普通股；基準同為一個月期美國國庫券',
+        'n_stocks_text': '逾 64,000 檔',
+        'us_below_tbill_pct': 55.2, 'nonus_below_tbill_pct': 57.4,
+        'top_wealth_creator_share_pct': 2.4, 'net_wealth_creation_usd_trillion': 75.7,
+        'caveat': '和 2019 年工作論文版（1990–2018、1.3%／44.7 兆）期間不同，不能混用',
+    },
+    'taiwan_listed_counts': {
+        'basis': '2003 年底家數出自臺灣證券交易所《證交所 60 週年》專刊 P15〈歷年上市公司家數統計〉；'
+                 '今天的家數與上市日期出自證交所開放資料〈上市公司基本資料〉，出表日 2026-09-17（資料筆數自算）',
+        'listed_end_2003': 669, 'today_total': 1094,
+        'today_listed_on_or_before_2003': 549, 'today_listed_after_2003': 545,
+        'today_listed_after_2003_check': 1094 - 549,
+        'still_listed_share_pct': r1(549 / 669 * 100),
+        'after_2003_share_pct': r1((1094 - 549) / 1094 * 100),
+        'caveat': '「不在名單上」不等於倒閉（含合併、轉上櫃、收購後下市）；曾下市又重新上市或由上櫃轉上市的，'
+                  '上市日期算後來那一次，所以 549 是下限。不要寫「倒了幾家」',
+    },
+    'one_share_vs_plan': {
+        'basis': '個股那一邊是一次漲幅；計畫那一邊用本檔 fv()：年率÷12 按月複利、每月月底投入，未扣費用與稅。'
+                 '4% 是第 1 節低情境（股票 100%）',
+        'stock_cost': _one_cost, 'stock_up_pct': _one_up_pct, 'stock_gain': r0(_one_gain),
+        'plan_monthly': _plan_m, 'plan_rate_pct': _plan_rate, 'plan_years': _plan_years,
+        'plan_fv': r0(_plan_fv), 'plan_fv_wan1': wan1(_plan_fv),
+        'plan_put': _plan_put, 'plan_put_wan': wan(_plan_put),
+        'plan_gain': r0(_plan_gain), 'plan_gain_wan1': wan1(_plan_gain),
+        'gain_over_stock_gain_times': r1(_plan_gain / _one_gain),
+        'gain_over_stock_gain_times_int': r0(_plan_gain / _one_gain),
+        'stock_up_needed_pct': r1(_plan_gain / _one_cost * 100),
+        'stock_up_needed_pct_int': r0(_plan_gain / _one_cost * 100),
+    },
+}
+assert R['stock_vs_index']['us_bessembinder_2018']['below_tbill_pct'] == 57.4
+assert R['stock_vs_index']['taiwan_listed_counts']['today_listed_after_2003_check'] == 545
+assert (R['stock_vs_index']['one_share_vs_plan']['plan_fv_wan1'],
+        R['stock_vs_index']['one_share_vs_plan']['plan_gain_wan1']) == (73.6, 13.6)
+assert (R['stock_vs_index']['one_share_vs_plan']['gain_over_stock_gain_times_int'],
+        R['stock_vs_index']['one_share_vs_plan']['stock_up_needed_pct_int']) == (27, 1362)
+
 # grep 正式檔：引用數字所在行（guidetools text 行號）
 quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '三十年後差約 86 萬', '2008 年跌了 53.59%', '1.7% 是 2026 年 9 月五大銀行一年期定存牌告利率',
@@ -1013,6 +1081,18 @@ quotes += QUOTES_V63_Q
 quotes += ['股票跌一半以後股票剩 40 萬、總共剩 60 萬，股票占 66.7%',
            '從防守搬 8 萬去買股票（防守從 20 萬剩 12 萬）',
            '要再投入 40 萬新錢才回得到八成']
+# v6.3 批 3（P2）：第 4 節「一家對上整群」、第 2 節「報酬率不等於報酬」
+quotes += ['只有 42.6% 的終身報酬贏過同一段時間的一個月期國庫券',
+           '中間那一檔的終身報酬是 −2.29%',
+           '排在最前面的 1,092 家（4.31%）',
+           '55.2% 的美國股票和 57.4% 的非美國股票',
+           '表現最好的 2.4% 公司，解釋了全部 75.7 兆美元',
+           '2003 年底台灣有 669 家上市公司，今天名單上還在的是 549 家',
+           '今天的 1,094 家裡，有 545 家是 2004 年以後才上市的',
+           '漲 50%，賺到 5,000 元',
+           '到期約 73.6 萬：其中 60 萬是自己存的，13.6 萬是報酬',
+           '是前面那 5,000 元的 27 倍',
+           '它得漲 1,362%']
 
 found = {}
 try:
