@@ -1,0 +1,27 @@
+== 2026-09-18 裁判自行開頁核對（原文逐字）==
+
+--- 勞保局 0004857 給付標準（最後更新 2025-12-24）---
+Traceback (most recent call last):
+  File "<stdin>", line 6, in <module>
+IndexError: list index out of range
+
+--- 勞保局 0004856 請領資格（2024-12-24）：一次請領資格句 ---
+* 請領資格 98年1月1日勞保年金施行後，老年給付分3種請領資格：1.老年年金給付；2.老年一次金給付；3.一次請領老年給付。98年1月1日前有勞保年資者，才能選擇一次請領老年給付；98年1月1日勞保年金施行後初次參加勞工保險者，不得選擇一次請領老年給付。上述給付經本局核付後，不得變更，日後亦不得以未離職為由要求退回已領給付。
+* 2.老年一次金給付；3.一次請領老年給付。98年1月1日前有勞保年資者，才能選擇一次請領老年給付；98年1月1日勞保年金施行後初次參加勞工保險者，不得選擇一次請領老年給付。上述給付經本局核付後，不得變更，日後亦不得以未離職為由要求退回已領給付。 一、老年年金給付： 被保險人合於下列規定之一者，得請領老年年金給付： （一） 年滿60歲，保險年資合計滿15年，並辦理離
+* 上述給付經本局核付後，不得變更，日後亦不得以未離職為由要求退回已領給付。 一、老年年金給付： 被保險人合於下列規定之一者，得請領老年年金給付： （一） 年滿60歲，保險年資合計滿15年，並辦理離職退保者。 ※ 上開請領年齡自98年至106年為60歲，107年提高為61歲，109年提高為62歲，111年提高為63歲，113年提高為64歲，115年以後為65歲。 ※ 展延老
+* 之後死亡，如果有未及撥入死者帳戶的老年年金，得由其法定繼承人請領。如果死者有老年給付差額，得由符合規定的受益人，另外再選擇請領差額。 二、老年一次金給付： 年滿60歲，保險年資合計未滿15年，並辦理離職退保者。 ※ 上開請領年齡自98年至106年為60歲，107年提高為61歲，109年提高為62歲，111年提高為63歲，113年提高為64歲，115年以後為65歲。
+
+--- 勞保局 0102697 常見問答 21（2023-12-20）---
+* 老年給付一經本局核付後，即不得變更，所以被保險人申請老年給付前，可先試算一次請領老年給付或按月領取老年年金的金額，審慎考量何者符合自身需求後，再提出申請，以保障自身權益。試算老年給付金額的方式有下列4種：
+
+--- Vanguard (2020) From assets to income（web.archive 2024-03-02 快照）---
+[印在頁碼 4] ...BILITY Unpredictable + or – More stable Portfolio cannot be depleted PORTFOLIO VIABILITY DOLLAR PLUS INFLATION RULE 0% ceiling 0% /f_loor DYNAMIC SPENDING RULE 5% ceiling –1.5% /f_loor PERCENTAGE OF PORTFOLIO RULE Unlimited ceiling Unlimited /f_loor Source: Vanguard....
+[印在頁碼 5] ...eal portfolio balance. He or she would then determine a ceiling and floor by applying chosen percentages to the previous year’s real spending amount, such as a 5% ceiling (increase) and a –1.5% floor (decrease), and compare the results.4 If the new spending amount exceeds the ceiling, it will be limited to the ceiling amount. If it falls below the floor, it...
+[印在頁碼 7] ...range from 0.65 to 1.17 at the 5th and 95th percentiles, with an average of 0.89. Using the dynamic spending approach in the example above, real spending would never decrease by more than 1.5% or increase by more than 5% from the prior year. The percentage of portfolio approach, however, could result in real spending decreasing or increasing by a the...
+[印在頁碼 18] ...g need has been met, the final step should be a review of asset allocation. If selling assets to generate cash flow from the portfolio causes the allocation to deviate from the target by more than 5 percent, the investor should consider rebalancing in tax- advantaged accounts within the constraints of the wash- sale rules.14 Our research has shown that spending fr...
+
+--- Vanguard Principles for Retirement Income（官方 PDF）---
+[印在頁碼 8] ...r withdrawal rate could be too high, even a small change can have a big impact. Reducing your withdrawal rate by 0.5 percentage points can make your savings last another five years. 5 5 This calculation assumes a portfolio with a beginning balance of $50...
+[印在頁碼 26] ...professional who can provide guidance tailored to their needs and objectives. • In years where your portfolio is down, you spend a bit less. In years where your portfolio is up, you spend a bit more. • Dynamic spending can help you avoid...
+[印在頁碼 30] ...xpenses easier and more convenient. • We recommend keeping a spending fund with 12 months’ worth of planned portfolio withdrawals in a readily accessible high-yield savings account or money market vehicle. • You may decide you want a larger spending...
+[印在頁碼 18] ...ment For those who are able to do so, staying in or returning to the workforce, either full-time or part-time, can be another way to make your savings last longer. Even a one-year delay in retirement can have a significant impact...

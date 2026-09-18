@@ -382,6 +382,21 @@ ch['allocation_46'] = {'stock_wan': 320, 'global_wan': 240, 'tw_etf_kept_wan': 8
 ch['retire_ym'] = ym(60)
 R['chen'] = ch
 
+# ---------- v6.3 批 2 修正：退休那天早於勞保請領年齡的橋接缺口 ----------
+# 退休 60 歲、勞保 2026 年起 65 歲才能請領：中間那幾年領不到勞保，
+# 缺口要另外算（那幾年的「生活費 − 勞退」× 年數，直接加到目標上）。
+# 這裡只算「比原本的算法多缺多少」＝勞保月給付 × 12 × 年數。
+BRIDGE_RETIRE_AGE, BRIDGE_CLAIM_AGE = 60, 65
+_bridge_years = BRIDGE_CLAIM_AGE - BRIDGE_RETIRE_AGE
+_bridge_extra = round(labor) * 12 * _bridge_years
+ch['retire_before_claim'] = {
+    'retire_age': BRIDGE_RETIRE_AGE, 'claim_age': BRIDGE_CLAIM_AGE, 'years': _bridge_years,
+    'labor_insurance_monthly': round(labor), 'extra_gap_total': _bridge_extra,
+    'extra_gap_total_wan': r0(_bridge_extra / 10000),
+    'printed': '21,297×12×5≈128 萬',
+    'note': '這是「多缺」的部分：原本的算法已經扣掉勞保，橋接那幾年扣不到，要加回去；'
+            '另一條路是選提前減額年金（每年減 4%、最多減 20%），用減額後的金額重算缺口'}
+
 # ---------- N2（v6.3）：陳大哥的勞退月退分兩段 ----------
 # 勞保局：勞退月退休金依年金生命表、平均餘命與利率計算，「按季發給至平均餘命止」，
 # 平均餘命、利率及金額「至少每 3 年檢討調整一次」（開始領以後平均餘命不再變動，但會依調整後利率與專戶餘額重算）。
@@ -917,7 +932,9 @@ quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '先跌的那一個第 10 年剩約 36 萬，後跌的那一個剩約 106 萬',
           '所以兩個人的平均報酬一樣（一年 6.5%）',
           '同一組報酬不管什麼順序，十年後都是 148 萬',
-          '一年 6% 到約 502 萬，一年 5% 到約 416 萬，第 30 年差 86 萬']
+          '一年 6% 到約 502 萬，一年 5% 到約 416 萬，第 30 年差 86 萬',
+          # v6.3 批 2 修正：退休早於請領年齡的橋接缺口（#lifecycle 第三題）
+          '五年多缺 21,297×12×5≈128 萬']
 
 found = {}
 try:

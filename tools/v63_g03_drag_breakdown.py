@@ -123,10 +123,11 @@ def chart(res):
                 % (PERIOD, res['total_pp'], res['total_pp']))
     caption = ('每年少賺的 %s 個百分點，%d%% 是證交稅、%d%% 是手續費、%d%% 是買賣價差，'
                '剩下 %d%% 才是進出時機。前兩塊加起來 %d%%，是每買賣一次就要付出去的錢。'
+               '所以呢：少買賣。F 區三格都寫照常投入，這三塊錢就省下來了。'
                % (res['total_pp'], parts[0]['share_pct'], parts[1]['share_pct'],
                   parts[2]['share_pct'], parts[3]['share_pct'], trade))
-    lead = ('這 %s 個百分點花到哪裡去？下面這條長條是那 %s 個百分點的 100%%，'
-            '四塊加起來就是全部。' % (res['total_pp'], res['total_pp']))
+    lead = ('把上面那幾塊畫成一條長條：整條就是那 %s 個百分點，四塊加起來剛好是全部。'
+            % res['total_pp'])
     res['printed'] = {'parts': [(p['name'], p['share_pct']) for p in parts],
                       'trade_cost_share_pct': trade, 'total_pp': res['total_pp'],
                       'lead_sentence': lead}

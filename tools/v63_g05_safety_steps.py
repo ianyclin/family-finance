@@ -108,7 +108,7 @@ def chart(res):
                 '本節的行動句是：%s' % ACTION)
     caption = ('由低到高五階：%s。五階做完，最上面那一階才是投資。'
                % '、'.join(s['name'] for s in res['steps']))
-    lead = '這五項有先後：下面這張圖把它們排成一道樓梯，最上面那一階才是投資。'
+    lead = '投資前要做的五件事有先後：下面這張圖先把它們排成一道樓梯，最上面那一階才是投資。'
     res['printed'] = {'steps': [s['name'] for s in res['steps']], 'top': res['top'],
                       'lead_sentence': lead}
     return dict(title='投資前的五階：走完才輪到投資',
