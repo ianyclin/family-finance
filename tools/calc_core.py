@@ -597,6 +597,79 @@ _chf['deposit_insurance_limit_wan'] = 300
 FD['chen'] = _chf
 R['fee_demo_0_5pct'] = FD
 
+# ---------- v6.3 批 3（拍板 D02 選 C）：只有「全放定存的桶子」改用當下的一年期定存牌告利率 ----------
+# 其他混合配置一律維持查表的防守 2%。1.7% 是 2026 年 9 月五大銀行一年期定存牌告利率
+# （完整版第 2 節已經引用過同一個數字，不是新來源）。
+# 範圍：小芸與阿哲的頭期款桶（股票 0%、全放台幣定存）、陳大哥「全放定存」那一列。
+DEPOSIT_RATE_NOW = 1.7
+_d02 = {'rate': DEPOSIT_RATE_NOW,
+        'source': '2026 年 9 月五大銀行一年期定存牌告利率（完整版第 2 節已引用）',
+        'scope': '只用在全放定存的桶子；股債混合的桶子仍用查表的防守 2%',
+        'lookup_defense_rate_kept': DEFENSE}
+# 小芸與阿哲 頭期款桶：現有 120 萬、每月存 X、84 個月（2033-09）要 400 萬
+_dp17 = {'months': 84, 'target_ym': ym(84), 'target_wan': 400,
+         'fv_25k_wan1': wan1(fv(1_200_000, DEPOSIT_RATE_NOW, 84, 25000)),
+         'fv_25k_wan': wan(fv(1_200_000, DEPOSIT_RATE_NOW, 84, 25000))}
+_dp17['gap_wan'] = r0(400 - _dp17['fv_25k_wan1'])
+_dp17['save_more'] = {str(x): {'fv_wan1': wan1(fv(1_200_000, DEPOSIT_RATE_NOW, 84, x)),
+                               'fv_wan': wan(fv(1_200_000, DEPOSIT_RATE_NOW, 84, x)),
+                               'enough': fv(1_200_000, DEPOSIT_RATE_NOW, 84, x) >= 4_000_000}
+                      for x in (25000, 28000, 28500, 29000, 29500, 30000, 30500)}
+_dp17['save_more_min_step500'] = min(int(k) for k, v in _dp17['save_more'].items() if v['enough'])
+_m17 = months_to(1_200_000, DEPOSIT_RATE_NOW, 25000, 4_000_000)
+_dp17['delay_25k'] = {'month': _m17, 'ym': ym(_m17), 'extra_months': _m17 - 84}
+_dp17['vs_2pct'] = {'fv_25k_wan1': wan1(fv(1_200_000, r0pct, 84, 25000)),
+                    'fv_30k_wan': wan(fv(1_200_000, r0pct, 84, 30000)),
+                    'note': '查表 2% 的舊數字，只留作對照'}
+_d02['xiaoyun_azhe_down_payment'] = _dp17
+# 陳大哥「全放定存」那一列：800 萬＋每月 3 萬、60 個月到 2031-09
+_ch0now = fv(8_000_000, DEPOSIT_RATE_NOW, 60, 30000)
+_ch0tbl = fv(8_000_000, lookup[0]['low'], 60, 30000)
+_d02['chen_all_deposit'] = {
+    'rate': DEPOSIT_RATE_NOW, 'amount_wan': wan(_ch0now), 'amount_wan1': wan1(_ch0now),
+    'reaches_33x_two_stage': _ch0now >= _two(33), 'over_33x_two_stage_wan': wan(_ch0now - _two(33)),
+    'reaches_40x_two_stage': _ch0now >= _two(40), 'vs_40x_two_stage_wan': wan(_two(40) - _ch0now),
+    'lookup_2pct_amount_wan': wan(_ch0tbl),
+    'stock20_after_fee_rate': after_fee(lookup[20]['low']),
+    'stock20_after_fee_amount_wan': wan(fv(8_000_000, after_fee(lookup[20]['low']), 60, 30000)),
+    'note': '書上小字的比較對象改成「查表 0% 那一列的 2%」：股票兩成扣完示範費率（1.9%）比查表 2% 那一列少一點，'
+            '但比全放定存用 1.7% 算的多——這一句講的是扣費率的算法，不是定存利率'}
+R['deposit_rate_d02'] = _d02
+
+# ---------- v6.3 批 3（拍板 D04 選 B）：大跌那年，比例掉出門檻要不要動防守 ----------
+# 純算術：股債比例 × 一次跌幅，不含報酬率、不含新錢的複利。
+def _rebalance_after_crash(total, stock_pct, stock_drop_pct, band_lo=None, band_hi=None):
+    st0 = total * stock_pct / 100; df0 = total - st0
+    st1 = st0 * (1 - stock_drop_pct / 100); tot1 = st1 + df0
+    share1 = st1 / tot1 * 100
+    target_stock = tot1 * stock_pct / 100
+    from_defense = target_stock - st1          # 從防守搬多少去買股票，比例才回到原設定
+    # 只用新錢補、不動防守：新錢 x 全買股票，(st1+x)/(tot1+x)=stock_pct → x
+    k = stock_pct / 100
+    new_money = (k * tot1 - st1) / (1 - k)
+    return {'total_wan': wan(total), 'stock_pct': stock_pct, 'stock_drop_pct': stock_drop_pct,
+            'stock_before_wan': wan(st0), 'defense_wan': wan(df0),
+            'stock_after_wan': wan(st1), 'total_after_wan': wan(tot1),
+            'stock_share_after_pct': r1(share1),
+            'band': [band_lo, band_hi], 'out_of_band': (band_lo is not None and share1 < band_lo),
+            'move_from_defense_wan': wan(from_defense),
+            'defense_left_wan': wan(df0 - from_defense),
+            'new_money_only_wan': wan(new_money)}
+R['rebalance_after_crash_d04'] = {
+    '100wan_82_stock_half': _rebalance_after_crash(1_000_000, 80, 50, 75, 85),
+    'note': '100 萬、股票八成防守兩成，股票跌一半：股票 80→40 萬、總資產剩 60 萬、股票占 66.7%，'
+            '掉出 5/25 給八成的 75%–85%。要當天回到八成，從防守搬 8 萬去買股票（防守剩 12 萬）；'
+            '只用新錢補、不動防守，要再投入 40 萬新錢才會回到八成'}
+
+# v6.3 批 3（Q 組）的引用句：patch-Q.json 已整合進 guide/index.html，
+# 下面在 quotes 定義完之後併進 quotes（見檔尾 quotes += QUOTES_V63_Q）。
+QUOTES_V63_Q = [
+    '每月存 2.5 萬，到 2033 年 9 月約 358 萬，差 42 萬',
+    '每月 3 萬，約 403 萬，夠，選這個（2.95 萬只到約 398 萬，不夠）',
+    '全放定存，試算改用當下的一年期定存 1.7%',
+    '到 2031 年約 1,059 萬',
+]
+
 # ---------- XIRR ----------
 def xirr(flows):
     d0 = flows[0][0]
@@ -935,6 +1008,11 @@ quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '一年 6% 到約 502 萬，一年 5% 到約 416 萬，第 30 年差 86 萬',
           # v6.3 批 2 修正：退休早於請領年齡的橋接缺口（#lifecycle 第三題）
           '五年多缺 21,297×12×5≈128 萬']
+quotes += QUOTES_V63_Q
+# v6.3 批 3（拍板 D04 選 B）：欄位表第 20 格的八二腰斬例子
+quotes += ['股票跌一半以後股票剩 40 萬、總共剩 60 萬，股票占 66.7%',
+           '從防守搬 8 萬去買股票（防守從 20 萬剩 12 萬）',
+           '要再投入 40 萬新錢才回得到八成']
 
 found = {}
 try:

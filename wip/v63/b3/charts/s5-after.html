@@ -1,0 +1,631 @@
+<!doctype html><meta charset="utf-8"><style>
+:root{--teal:#176c5a;--accent:#a4483f;--fill:#eef2ef;--sans:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;--paper:#f6f2e9;--surface:#fffdf8;--ink:#17211d;--muted:#5d6a64;--line:#d8d4ca;--green:#176c5a;--green2:#dceee7;--amber:#b66d18;--amber2:#f6e7cf;--red:#a4483f;--blue:#345f88;--shadow:0 12px 32px rgba(23,33,29,.08);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-size:18px;line-height:1.78}a{color:var(--green);text-underline-offset:.18em}header,main,footer{width:min(100% - 32px,860px);margin-inline:auto}.cover{padding:72px 0 28px}.eyebrow{color:var(--green);font-weight:800;letter-spacing:.08em}.cover h1{font-size:clamp(2.4rem,7vw,4.8rem);line-height:1.08;margin:.2em 0}.subtitle{font-size:1.25rem;color:var(--muted);max-width:42em}.promise{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--green);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow)}.audit-stamp{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}.chip{border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--surface);font-size:.84rem}.toc{scroll-margin-top:16px;margin:32px 0;padding:22px 28px 18px;background:var(--surface);border:1px solid var(--line);border-radius:18px}.toc h2{margin:0 0 .2em}.toc li{break-inside:avoid;margin:0;padding:.3em 0;line-height:1.45}.toc ul,.toc ol{list-style:none;margin:0;padding:0;columns:2;column-gap:36px}.toc ol{counter-reset:toc}.toc ol li{counter-increment:toc}.toc ol li::before{content:counter(toc,decimal-leading-zero);display:inline-block;min-width:1.9em;color:var(--muted);font-size:.82em;font-variant-numeric:tabular-nums;letter-spacing:.02em}.toc h3{font-size:.78rem;letter-spacing:.1em;color:var(--muted);margin:1.2em 0 .5em;padding-bottom:.35em;border-bottom:1px solid var(--line)}.toc h3+p.small{margin:0 0 .5em}.toc h4{font-size:.84rem;margin:.8em 0 .1em}.part{background:var(--surface);border:1px solid var(--line);border-radius:24px;margin:24px 0;padding:clamp(22px,5vw,48px);box-shadow:var(--shadow);scroll-margin-top:16px}.part h2{font-size:clamp(1.55rem,4vw,2.25rem);line-height:1.28;margin:0 0 .65em}.num{display:inline-grid;place-items:center;width:2.05em;height:2.05em;margin-right:.35em;border-radius:50%;background:var(--green);color:white;font-size:.66em;vertical-align:.18em}.lede{font-size:1.2rem;font-weight:800;color:var(--green);margin:0 0 1.4em}.explain{padding:14px 16px;background:var(--green2);border-radius:16px}.explain strong{color:var(--green)}.plain-title{font-size:.84rem;font-weight:900;letter-spacing:.08em;color:var(--green);text-transform:uppercase}.data-card,.source-card,.story,.decision,.warning{margin:22px 0;border-radius:16px;padding:18px 20px}.data-card{background:#f3f6f4;border:1px solid #cfdad5}.source-card{background:#f8f3e9;border:1px solid #e4d6ba}.source-card h3,.data-card h3{margin:0 0 .55em;font-size:1rem}.data-card>ul>li,.data-card>ol>li{margin:.8em 0}.data-card h4{margin:1.1em 0 .45em;font-size:.9rem}.source-link{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid rgba(93,106,100,.25);font-size:.84rem}.source-link:first-of-type{border-top:0}.source-note{color:var(--muted);text-align:right}.story{background:var(--amber2);border-left:5px solid var(--amber)}.story::before{content:"作者的做法紀錄（個人過程，不是教學內容）";display:block;font-weight:800;color:var(--amber);font-size:.84rem;letter-spacing:.04em}.decision{border:2px solid var(--green);font-weight:700}.decision::before{content:"本節行動";display:block;color:var(--green);font-size:.84rem}.warning{background:#faece9;border-left:5px solid var(--red)}.bars{display:grid;gap:12px}.bar-row{display:grid;grid-template-columns:minmax(140px,1.2fr) minmax(120px,2fr) auto;gap:8px 12px;align-items:center}.bar-track{height:14px;background:#dde2df;border-radius:999px;overflow:hidden}.bar-track span{display:block;height:100%;background:var(--green);border-radius:inherit}.bar-value{font-variant-numeric:tabular-nums;font-weight:800}.bar-note{grid-column:2/4;color:var(--muted);font-size:.84rem}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:var(--surface)}table{width:100%;border-collapse:collapse;min-width:600px;font-size:.9rem}th,td{padding:10px 12px;text-align:right;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}th:first-child,td:first-child{text-align:left}thead{background:#eef2ef}.compact{min-width:420px}.wide{min-width:520px}.text td,.text th{text-align:left}.small{font-size:.84rem;color:var(--muted)}.checklist li,.qa li,.rules li,.biases li{margin:.8em 0;padding-left:.25em}.qa{padding-left:1.5em}.qa strong{display:block}.tag{display:inline-block;margin-top:.25em;padding:2px 9px;background:var(--green2);border-radius:999px;color:var(--green);font-size:.84rem}.sources-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.audit-table td:nth-child(2){text-align:left}.ok{color:var(--green);font-weight:800}.fix{color:var(--red);font-weight:800}.caveat{color:var(--amber);font-weight:800}details{margin:14px 0}summary{cursor:pointer;font-weight:800;color:var(--green)}q{quotes:"「" "」"}.back{display:inline-block;margin-top:16px;font-size:.84rem}footer{padding:22px 0 80px;color:var(--muted);font-size:.9rem}
+.toc .toc-hint{margin:.2em 0 .6em}
+.toc details.toc-part{border-top:1px solid var(--line);padding:.15em 0}
+.toc details.toc-part>summary{list-style:none;cursor:pointer;display:block;position:relative;padding:.55em 0 .55em 1.6em}
+.toc details.toc-part>summary::-webkit-details-marker{display:none}
+.toc details.toc-part>summary::before{content:"▸";color:var(--muted);position:absolute;left:0}
+.toc details.toc-part[open]>summary::before{content:"▾"}
+.toc .toc-part-name{font-weight:700}
+.toc .toc-part-range{font-size:.8em;color:var(--muted);margin-left:.6em;white-space:nowrap}
+.toc .toc-part-desc{display:block;margin-top:.1em;font-size:.84em;color:var(--muted)}
+.toc ol.toc-from-11{counter-reset:toc 10}
+.toc ol.toc-from-14{counter-reset:toc 13}
+.toc .toc-tag{margin-left:.5em;font-size:.75em;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 .35em}
+.toc .toc-part-range,.toc .toc-part-desc{font-weight:400}
+@media print{.toc details.toc-part>summary::before,.toc details.toc-part[open]>summary::before{content:none}.toc .toc-part-desc{padding-left:0}.toc .toc-hint{display:none}.toc details.toc-part{padding:0}.toc details.toc-part>summary{padding:.3em 0 .1em;break-after:avoid}details.read-how[open]>summary{display:none}details[data-print]:not([open])::details-content{content-visibility:visible;display:block}}
+.part-map{list-style:none;margin:.6em 0;padding:0}
+.part-map li{padding:.45em 0;border-top:1px solid var(--line)}
+.part-map .map-num{display:inline-block;min-width:1.9em;color:var(--muted);font-variant-numeric:tabular-nums}
+.part-map .map-lede{display:block;font-size:.88em;color:var(--muted);padding-left:1.9em}
+.part-map .map-lede+.small{display:block;padding-left:1.9em}
+.tasks ul{list-style:none;margin:.4em 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.tasks li a{display:block;height:100%;padding:.6em .8em;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-decoration:none;line-height:1.4}
+@media print{.tasks{display:none}}
+.decision::before{content:"本節行動"}
+.glossary dt{font-weight:800;margin-top:.6em}.glossary dd{margin:0 0 .3em 1.2em;color:var(--muted)}
+@media(max-width:660px){.table-wrap::before{content:"← 表格可左右滑動 →";display:block;position:sticky;left:0;padding:6px 10px;border-bottom:1px solid var(--line);color:var(--muted);font-size:.78rem;background:var(--surface)}}
+@media screen and (max-width:660px){table.lite-plan,table.lite-plan>tbody,table.lite-plan>tbody>tr,table.lite-plan>tbody>tr>td{display:block;width:auto}details[data-lite-alt~="plan-blank"] .table-wrap>table{display:block}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody{display:flex;flex-direction:column}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody>tr{display:contents}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody>tr>td{display:block;width:auto}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody>tr:nth-child(2)>td:nth-child(1){order:1}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody>tr:nth-child(1)>td:nth-child(2){order:2}details[data-lite-alt~="plan-blank"] .table-wrap>table>tbody>tr:nth-child(2)>td:nth-child(2){order:3}.table-wrap:has(>table.lite-plan)::before,.table-wrap:has(>table.situations)::before,details[data-lite-alt~="plan-blank"] .table-wrap::before{content:none;display:none}}
+@media screen and (max-width:660px){#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap::before{content:none;display:none}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table,#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody,#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr,#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr>td{display:block;width:auto}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>thead{display:none}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr{padding:.35em 0 .55em;border-bottom:1px solid var(--line)}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr>td{padding:.15em 8px;border:0}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr>td:empty{display:none}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr>td:nth-child(1){font-weight:800;margin-top:.5em}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr>td::before{display:inline-block;min-width:4.6em;margin-right:.4em;color:var(--muted);font-size:.74rem;font-weight:400;line-height:1.3}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr>td:nth-child(1)::before{content:"區"}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr>td:nth-child(2)::before{content:"格"}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr>td:nth-child(3)::before{content:"怎麼填"}#s11 details[data-print="open"]:not([data-lite-alt])>.table-wrap>table>tbody>tr>td:nth-child(4)::before{content:"擋住哪個錯"}}
+@media screen and (pointer:coarse){.table-wrap:has(>table.situations){overflow-x:hidden}a.xref{padding:.4em .8em;margin:0 -.8em;border-bottom:0;text-decoration:underline dotted 1px;text-underline-offset:.24em}}
+@media(max-width:660px){table{min-width:0}.compact{min-width:0}.wide{min-width:520px}th,td{padding:8px 6px}.bar-label{grid-row:1;grid-column:1}.bar-value{grid-row:1;grid-column:2}.bar-track{grid-row:2}.bar-note{grid-row:3}body{font-size:17px}.cover{padding-top:42px}.toc ul,.toc ol{columns:1}.part{padding:22px 18px;border-radius:18px}.bar-row{grid-template-columns:1fr auto}.bar-track{grid-column:1/3}.bar-note{grid-column:1/3}.sources-grid{grid-template-columns:1fr}.source-link{display:block}.source-note{display:block;text-align:left}.audit-stamp{gap:7px}.chip{font-size:.78rem}}
+@media(prefers-color-scheme:dark){:root{--teal:#71cfb3;--accent:#ef8b80;--fill:#202c26;--paper:#101713;--surface:#17201b;--ink:#edf2ef;--muted:#aab6b0;--line:#35423b;--green:#71cfb3;--green2:#17382f;--amber:#f0ad59;--amber2:#3b2b18;--red:#ef8b80;--blue:#8cb8e0;--shadow:none}.data-card{background:#19251f;border-color:#35483f}html mark.key{background:linear-gradient(transparent 50%,#6b5320 50%)}.source-card{background:#2a241a;border-color:#51442e}.warning{background:#3a211f}.bar-track{background:#36423c}.bar-track span{background:var(--green)}thead{background:#202c26}.num{color:#101713}}
+@media print{body{background:white;color:black;font-size:10.5pt}.cover,.part{width:100%;box-shadow:none}.part{break-inside:auto;border:0;border-top:1px solid #aaa;border-radius:0}.story,.decision,.warning,figure.chart{break-inside:avoid}p.small{break-before:avoid}.decision{break-before:avoid}.data-card,.source-card{break-inside:auto;background:white}.data-card h3,.source-card h3,h3,h4{break-after:avoid}li,tr,.source-link{break-inside:avoid}.story,.decision,.warning{background:white}.toc ul,.toc ol{columns:2}.back{display:none}a{color:black;text-decoration:none}.sources-grid{display:block}.source-link{display:block;padding:4px 0;border-top:1px solid #ddd;font-size:9pt}.source-link span{display:block}.source-link .source-note{color:#333;text-align:left}.source-link::after{content:attr(href);display:block;font-size:7.5pt;color:#666;word-break:break-all}.explain{background:#eef4f1}.story{background:#fbf3e4}figure.chart svg.d{display:block}figure.chart svg.m{display:none}figure.chart details.orig{display:none}section.part{break-before:page;page-break-before:always}details[data-print="page"]{break-before:page;break-after:page;break-inside:avoid}details[data-print="page"] table{font-size:9.5pt}.cover{break-after:auto}@page{size:A4;margin:16mm 14mm;@bottom-center{content:counter(page);font-size:9pt;color:#666}}}
+figure.chart{margin:24px 0;padding:18px 20px 14px;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--green);border-radius:16px;overflow:hidden;font-family:var(--sans)}
+figure.chart .chart-head{display:flex;flex-direction:column;gap:3px;margin:0 0 12px}
+figure.chart .chart-title{font-weight:800;font-size:1rem;line-height:1.4;color:var(--ink)}
+figure.chart .chart-sub{font-size:.84rem;line-height:1.5;color:var(--muted)}
+figure.chart .chart-body{margin:0 -4px}
+figure.chart svg{display:block;width:100%;height:auto}
+figure.chart svg.m{display:none}figure.chart svg.d.m{display:block}
+@media (max-width:640px){figure.chart svg.d{display:none}figure.chart svg.m{display:block}figure.chart svg.d.m{display:block}}
+figure.chart .legend{display:flex;flex-wrap:wrap;gap:4px 18px;list-style:none;margin:10px 0 0;padding:0;font-size:.84rem;line-height:1.6;color:var(--ink)}
+figure.chart .legend .swatch{display:inline-block;width:1.1em;height:.6em;border-radius:3px;margin-right:.45em;vertical-align:baseline}
+figure.chart .note{margin:8px 0 0;font-size:.84rem;line-height:1.6;color:var(--muted)}
+figure.chart figcaption{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:.9rem;line-height:1.7;color:var(--ink);overflow-wrap:anywhere}
+figure.chart table.dca{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse;margin-top:10px;font-size:.84rem}
+figure.chart table.dca th,figure.chart table.dca td{padding:.3rem .35rem;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+figure.chart table.dca th{color:var(--muted);font-weight:500}
+figure.chart table.dca thead th{color:var(--ink);font-weight:700}
+figure.chart table.dca tbody th{text-align:left}
+figure.chart details.orig{margin-top:10px}figure.chart details.orig summary{cursor:pointer;color:var(--green);font-weight:700;font-size:.84rem;list-style:none}figure.chart details.orig summary::before{content:"▸ ";}figure.chart details.orig[open] summary::before{content:"▾ ";}figure.chart details.orig img{display:block;width:100%;height:auto;margin-top:8px;border:1px solid var(--line);border-radius:8px;background:#fff}
+table.prose th,table.prose td{text-align:left;vertical-align:top}table.prose td:first-child{white-space:nowrap;font-weight:700}
+.xref{color:var(--green);text-decoration:none;border-bottom:1px dotted currentColor}.xref:hover{border-bottom-style:solid}@media print{.xref{border-bottom:0}a.term{color:#345f88;border-bottom:1px dotted #345f88}html body mark.key{background:linear-gradient(transparent 50%,#f3d98c 50%);-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+a.term{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blue)}mark.key{background:linear-gradient(transparent 50%,#f3d98c 50%);color:inherit;padding:0 .15em;border-radius:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}.checklist li>p{margin:.5em 0}figure.photo .chart-body>img{display:block;width:100%;height:auto;border-radius:8px}figure.photo .credit{display:block;text-align:right;font-size:.84rem;color:var(--line)}.later{display:inline-block;margin:0 0 .4em;padding:2px 9px;background:var(--amber2);color:var(--amber);border-radius:999px;font-size:.84rem}.glossary+h3,section h3+dl.glossary{margin-top:.6em}.label-principle,.label-practice{display:inline-block;margin:0 .45em .2em 0;padding:1px 10px;border-radius:16px;font-size:.84rem;font-weight:700;line-height:1.6;white-space:nowrap;-webkit-print-color-adjust:exact;print-color-adjust:exact}.label-principle{background:#1f4a3d;border:1px solid #1f4a3d;color:#fff}.label-practice{background:transparent;border:1px dashed #7a8894;color:#51606d}@media(prefers-color-scheme:dark){.label-principle{background:#b9d8ca;border-color:#b9d8ca;color:#101713}.label-practice{border-color:#8e9ca8;color:#bcc7d0}}@media print{.label-principle{background:#1f4a3d;border-color:#1f4a3d;color:#fff}.label-practice{border-color:#666;color:#333}}.part code{overflow-wrap:anywhere;word-break:break-all} body{background:var(--paper);padding:10px}</style><main style="max-width:860px;margin:auto"><section class="part" id="s5"><h2><span class="num">5</span>帳面跌了兩成，是出事了嗎？</h2><p class="lede">先分清楚是價格在晃，還是資產真的壞掉。</p>
+<p class="explain"><span class="plain-title">白話版</span><br>船在浪上上下晃，不等於船破洞。浪很大會難受；破洞則可能真的回不來。兩種都叫「跌」，處理方法卻不同。</p>
+<p>同樣是帳面少了兩成，可能是兩件完全不同的事：</p><ul class="checklist" data-lite-alt="ch4-why"><li><strong>波動：價格上上下下。</strong>你買的公司大多還在營業，價格隨大家對獲利的預期和市場情緒變動。這叫<a class="term" href="#g-vol" title="價格上上下下的幅度。">波動</a>。</li><li><strong>永久損失：東西真的沒了。</strong>公司倒閉、產品下市、遇到詐騙，資產的價值真的消失。</li></ul><p>廣泛分散能降低單一公司出事的影響。但它不保證整個市場會回到某個價位，也不保證在你要用錢以前回來。</p>
+<p id="s5-fx">對台灣人來說還有第三種：<strong>換回台幣的波動</strong>。例如你有 1 萬美元的海外股票，一整年股價都沒動；但 1 美元原本換 32 元台幣，後來台幣升值，只換 30 元，你的股票換回台幣就從 32 萬變 30 萬。這不是資產壞掉，是尺換了：你日後要花的是台幣，所以這把尺才是你真正的尺。匯率沒有人能可靠地預測，常見的做法是投入時不看匯率、不因匯率擇時。</p>
+<details><summary>展開：換匯成本、避險版本、一籃子外幣（<span class="later">先跳過也可以，看到「避險」兩個字再回來</span>）</summary><p>猜不到的是匯率會怎麼走，不是換匯這件事本身：換匯的成本——即期價差、匯款費、各家券商的優惠——下單前就查得到，換之前先比（「<a class="xref" href="#costs">費用、稅務與帳戶安全</a>」的「換匯成本」那一列）。名字裡有「避險」的基金和 ETF，是用額外的成本把某一種匯率的影響鎖小，要先看鎖的是哪一種貨幣：「USD Hedged」沒有抵掉美元對台幣的漲跌；只有名稱寫明鎖新台幣的版本，鎖到的才是台幣匯率。</p><p class="small">全球股票背後是一籃子外幣資產，台幣對它們整體升值時才會縮水。長期分批買、分批領的人，短期的起伏會互相抵掉一部分；多年下來的升貶抵不掉，只能當成持有海外資產的代價之一。基金裡有歐元、日圓等各國貨幣，海外 ETF 名字裡的「USD Hedged」是把這些貨幣對美元的漲跌抵掉，讓它像純美元資產。要不要買避險版本是另一個選擇：避險有成本，也把「台幣會不會一直升」變成另一個要猜的題目。</p></details>
+<div class="data-card"><h3>還有一種跌，可能回不來</h3><p>第 <a class="xref" href="#s4">4</a> 節那張表裡，價格指數曾經 25 到 34 年才回到高點，但那是市場很久看起來不對，不是資產消失。真正幾十年不回本的是另一種：通膨失控、戰爭、資產被沒收，少見，但一發生就是一輩子的事。台灣讀者的薪水、房子、勞保、健保都在台灣，投資那一塊如果也全押台灣，等於把全部雞蛋放在同一個地緣風險（所在地區的政治、經濟出事的風險）裡。全球分散擋的是「台灣經濟長期不好，薪水、房子、台股一起縮水」這種風險；戰爭、資產被沒收那種情況不在此列。這不是要你搬家，也不是要你賣掉台股；台股放多少，用第 <a class="xref" href="#s4">4</a> 節的想法自己定。</p><p class="small">那張表是美國、日本、台灣，含股利算會早很多年。戰爭、資產被沒收那種極端情境：不管是透過台灣券商買的海外 ETF，還是台灣<a class="term" href="#g-domicile" title="掛牌地是基金在哪個交易所買賣。">掛牌</a>的全球 ETF，帳戶都在台灣、保管鏈都在海外，真出事時能不能動用，沒有人能保證；那是另一題，本文不處理。</p></div>
+<p data-lite-alt="ch4-why"><mark class="key">波動會在兩種情況變成真的傷害：第一，錢很快要用，被迫低價賣；第二，比例超過心理承受度，自己在低點賣。</mark>所以風險不只看市場，也要看這筆錢多久以後要用，以及跌的時候你撐不撐得住。</p>
+<details><summary>展開一張圖：同一個年化，中間可能怎麼走</summary>
+<p>這張圖把同一個<a class="term" href="#g-annual" title="年化就是平均一年長多少。">年化</a>（平均一年長多少）畫成兩條線：一條是想像中一路平滑的，一條是中途上上下下的。</p>
+<figure class="chart" data-chart="smooth-vs-jagged">
+<div class="chart-head"><span class="chart-title">你以為的複利，和你真實經歷的</span><span class="chart-sub">示意：每月 5,000 元、30 年、年化都是 6%，兩條線終點一樣</span></div>
+<div class="chart-body">
+<svg class="d" viewBox="0 0 640 300" role="img" aria-label="示意：每月投入 5,000 元、年化同為 6%、30 年，平滑假想線與中途下跌的鋸齒線" font-family="var(--sans)">
+<line x1="52.0" y1="272.0" x2="622.0" y2="272.0" stroke="var(--ink)" stroke-width="1.3"/>
+<text x="46.0" y="276.0" font-size="11" text-anchor="end" fill="var(--muted)">0</text>
+<line x1="52.0" y1="190.1" x2="622.0" y2="190.1" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="194.0" font-size="11" text-anchor="end" fill="var(--muted)">200 萬</text>
+<line x1="52.0" y1="108.1" x2="622.0" y2="108.1" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="112.1" font-size="11" text-anchor="end" fill="var(--muted)">400 萬</text>
+<line x1="52.0" y1="26.2" x2="622.0" y2="26.2" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="30.2" font-size="11" text-anchor="end" fill="var(--muted)">600 萬</text>
+<text x="52.0" y="288.5" font-size="12.5" text-anchor="middle" fill="var(--muted)">0 年</text>
+<text x="242.0" y="288.5" font-size="12.5" text-anchor="middle" fill="var(--muted)">10 年</text>
+<text x="432.0" y="288.5" font-size="12.5" text-anchor="middle" fill="var(--muted)">20 年</text>
+<text x="622.0" y="288.5" font-size="12.5" text-anchor="middle" fill="var(--muted)">30 年</text>
+<polyline points="52.0,272.0 71.0,269.5 90.0,266.8 109.0,263.9 128.0,261.0 147.0,257.7 166.0,254.2 185.0,250.7 204.0,246.9 223.0,242.8 242.0,238.4 261.0,233.9 280.0,229.0 299.0,223.7 318.0,218.3 337.0,212.5 356.0,206.2 375.0,199.6 394.0,192.7 413.0,185.3 432.0,177.3 451.0,169.0 470.0,160.1 489.0,150.7 508.0,140.7 527.0,130.1 546.0,118.7 565.0,106.8 584.0,94.0 603.0,80.6 622.0,66.3" fill="none" stroke="var(--muted)" stroke-width="2.2" stroke-dasharray="6 5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="52.0,272.0 71.0,269.3 90.0,266.7 109.0,264.4 128.0,260.2 147.0,260.5 166.0,256.5 185.0,251.2 204.0,252.5 223.0,248.2 242.0,244.3 261.0,237.7 280.0,230.9 299.0,217.3 318.0,197.1 337.0,182.1 356.0,170.0 375.0,193.1 394.0,171.9 413.0,180.1 432.0,182.8 451.0,186.3 470.0,214.0 489.0,200.5 508.0,192.0 527.0,178.6 546.0,149.1 565.0,103.6 584.0,57.9 603.0,74.0 622.0,66.5" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="622.0" cy="66.5" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+</svg>
+<svg class="m" viewBox="0 0 360 240" role="img" aria-label="示意：每月投入 5,000 元、年化同為 6%、30 年，平滑假想線與中途下跌的鋸齒線" font-family="var(--sans)">
+<line x1="46.0" y1="212.0" x2="348.0" y2="212.0" stroke="var(--ink)" stroke-width="1.3"/>
+<text x="40.0" y="215.6" font-size="10" text-anchor="end" fill="var(--muted)">0</text>
+<line x1="46.0" y1="148.1" x2="348.0" y2="148.1" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="151.7" font-size="10" text-anchor="end" fill="var(--muted)">200 萬</text>
+<line x1="46.0" y1="84.3" x2="348.0" y2="84.3" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="87.9" font-size="10" text-anchor="end" fill="var(--muted)">400 萬</text>
+<line x1="46.0" y1="20.4" x2="348.0" y2="20.4" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="24.0" font-size="10" text-anchor="end" fill="var(--muted)">600 萬</text>
+<text x="46.0" y="227.0" font-size="11" text-anchor="middle" fill="var(--muted)">0 年</text>
+<text x="146.7" y="227.0" font-size="11" text-anchor="middle" fill="var(--muted)">10 年</text>
+<text x="247.3" y="227.0" font-size="11" text-anchor="middle" fill="var(--muted)">20 年</text>
+<text x="348.0" y="227.0" font-size="11" text-anchor="middle" fill="var(--muted)">30 年</text>
+<polyline points="46.0,212.0 56.1,210.0 66.1,207.9 76.2,205.7 86.3,203.4 96.3,200.8 106.4,198.2 116.5,195.4 126.5,192.4 136.6,189.2 146.7,185.8 156.7,182.3 166.8,178.5 176.9,174.4 186.9,170.1 197.0,165.6 207.1,160.7 217.1,155.6 227.2,150.2 237.3,144.4 247.3,138.2 257.4,131.7 267.5,124.8 277.5,117.4 287.6,109.6 297.7,101.4 307.7,92.5 317.8,83.2 327.9,73.3 337.9,62.8 348.0,51.6" fill="none" stroke="var(--muted)" stroke-width="1.8000000000000003" stroke-dasharray="6 5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="46.0,212.0 56.1,209.9 66.1,207.8 76.2,206.1 86.3,202.8 96.3,203.0 106.4,199.9 116.5,195.8 126.5,196.8 136.6,193.5 146.7,190.4 156.7,185.3 166.8,180.0 176.9,169.3 186.9,153.6 197.0,141.9 207.1,132.5 217.1,150.5 227.2,133.9 237.3,140.3 247.3,142.5 257.4,145.2 267.5,166.8 277.5,156.3 287.6,149.6 297.7,139.2 307.7,116.2 317.8,80.7 327.9,45.1 337.9,57.6 348.0,51.8" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="348.0" cy="51.8" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+</svg>
+</div>
+<ul class="legend"><li><span class="swatch" style="background:var(--muted)"></span>假設每年都剛好 6%（虛線）</li><li><span class="swatch" style="background:var(--accent)"></span>年化同樣 6%，中途有漲有跌</li></ul><p class="note">兩條線終點一樣，是因為先把年化定死在 6%。真實的定期投入不會這樣：同樣的年化，先跌後漲和先漲後跌，終點也會不同。</p><figcaption>同一個年化，中間怎麼走沒有人保證；這條實線只是其中一種走法，虛線那條每年剛好 6% 的路只是算出來的假想。中途往下的那幾段，不代表計畫出錯。兩條線終點一樣，是因為我們先把年化定死在 6%；真實世界事先沒有人知道會是多少，也可能更低。這張圖說的是「中途會晃」，不是「一定補得回來」。</figcaption>
+</figure></details>
+<div class="data-card"><h3>台股含息報酬指數 2003–2025</h3><p>23 年中有 18 年整年是賺的。把每一年「從當年某個高點，跌到之後的最低點」的幅度拿來平均，是 17.73%；跌得最少的一年是 4.60%，2008 年跌了 53.59%。就算是整年賺錢的年份，中途也常跌一段。2008 年約 −43.07%，隔年 2009 年約 +83.34%：大跌和大漲可能緊挨著出現。</p><p class="small">使用 TWSE 每日收盤資料。全年報酬以「前一年最後收盤到本年最後收盤」計算；年內最大跌幅則是本年高點到其後低點。</p><figure class="chart" data-chart="intra-year">
+<div class="chart-head"><span class="chart-title">台股每一年：年底的報酬，和年中曾經跌掉多少</span><span class="chart-sub">2003 到 2025 年，含息，%</span></div>
+<div class="chart-body">
+<svg class="d" viewBox="0 0 640 340" role="img" aria-label="台灣含息指數 2003 到 2025 年：每年的全年報酬（長條）與年內最大跌幅（圓點）" font-family="var(--sans)">
+<line x1="52.0" y1="310.2" x2="622.0" y2="310.2" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="314.1" font-size="11" text-anchor="end" fill="var(--muted)">-60%</text>
+<line x1="52.0" y1="272.0" x2="622.0" y2="272.0" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="276.0" font-size="11" text-anchor="end" fill="var(--muted)">-40%</text>
+<line x1="52.0" y1="233.9" x2="622.0" y2="233.9" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="237.8" font-size="11" text-anchor="end" fill="var(--muted)">-20%</text>
+<line x1="52.0" y1="195.7" x2="622.0" y2="195.7" stroke="var(--ink)" stroke-width="1.3"/>
+<text x="46.0" y="199.7" font-size="11" text-anchor="end" fill="var(--muted)">0%</text>
+<line x1="52.0" y1="157.6" x2="622.0" y2="157.6" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="161.5" font-size="11" text-anchor="end" fill="var(--muted)">20%</text>
+<line x1="52.0" y1="119.4" x2="622.0" y2="119.4" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="123.4" font-size="11" text-anchor="end" fill="var(--muted)">40%</text>
+<line x1="52.0" y1="81.2" x2="622.0" y2="81.2" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="85.2" font-size="11" text-anchor="end" fill="var(--muted)">60%</text>
+<line x1="52.0" y1="43.1" x2="622.0" y2="43.1" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="47.0" font-size="11" text-anchor="end" fill="var(--muted)">80%</text>
+<rect x="56.5" y="132.6" width="15.9" height="63.1" rx="2.5" fill="var(--muted)"/>
+<text x="64.4" y="128.6" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">33</text>
+<circle cx="64.4" cy="231.0" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="64.4" y="246.0" font-size="11" text-anchor="middle" fill="var(--accent)">-18</text>
+<text x="64.4" y="330.5" font-size="12.5" text-anchor="middle" fill="var(--muted)">'03</text>
+<rect x="81.2" y="181.2" width="15.9" height="14.5" rx="2.5" fill="var(--muted)"/>
+<text x="89.2" y="177.2" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">8</text>
+<circle cx="89.2" cy="239.7" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="89.2" y="259.0" font-size="11" text-anchor="middle" fill="var(--accent)">-23</text>
+<rect x="106.0" y="174.8" width="15.9" height="20.9" rx="2.5" fill="var(--muted)"/>
+<text x="114.0" y="170.8" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">11</text>
+<circle cx="114.0" cy="217.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="114.0" y="232.9" font-size="11" text-anchor="middle" fill="var(--accent)">-12</text>
+<text x="114.0" y="330.5" font-size="12.5" text-anchor="middle" fill="var(--muted)">'05</text>
+<rect x="130.8" y="149.1" width="15.9" height="46.6" rx="2.5" fill="var(--muted)"/>
+<text x="138.7" y="145.1" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">24</text>
+<circle cx="138.7" cy="224.8" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="138.7" y="245.9" font-size="11" text-anchor="middle" fill="var(--accent)">-15</text>
+<rect x="155.6" y="171.9" width="15.9" height="23.8" rx="2.5" fill="var(--muted)"/>
+<text x="163.5" y="167.9" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">12</text>
+<circle cx="163.5" cy="234.7" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="163.5" y="258.9" font-size="11" text-anchor="middle" fill="var(--accent)">-20</text>
+<rect x="180.4" y="195.7" width="15.9" height="82.2" rx="2.5" fill="var(--muted)"/>
+<text x="188.3" y="289.9" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">-43</text>
+<circle cx="188.3" cy="298.0" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="188.3" y="313.0" font-size="11" text-anchor="middle" fill="var(--accent)">-54</text>
+<rect x="205.2" y="36.7" width="15.9" height="159.0" rx="2.5" fill="var(--muted)"/>
+<text x="213.1" y="32.7" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">83</text>
+<circle cx="213.1" cy="217.8" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="213.1" y="232.8" font-size="11" text-anchor="middle" fill="var(--accent)">-12</text>
+<rect x="229.9" y="169.8" width="15.9" height="25.9" rx="2.5" fill="var(--muted)"/>
+<text x="237.9" y="165.8" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">14</text>
+<circle cx="237.9" cy="225.0" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="237.9" y="245.8" font-size="11" text-anchor="middle" fill="var(--accent)">-15</text>
+<text x="237.9" y="330.5" font-size="12.5" text-anchor="middle" fill="var(--muted)">'10</text>
+<rect x="254.7" y="195.7" width="15.9" height="34.3" rx="2.5" fill="var(--muted)"/>
+<text x="262.7" y="242.0" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">-18</text>
+<circle cx="262.7" cy="242.5" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="262.7" y="258.8" font-size="11" text-anchor="middle" fill="var(--accent)">-25</text>
+<rect x="279.5" y="171.0" width="15.9" height="24.7" rx="2.5" fill="var(--muted)"/>
+<text x="287.4" y="167.0" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">13</text>
+<circle cx="287.4" cy="224.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="287.4" y="239.9" font-size="11" text-anchor="middle" fill="var(--accent)">-15</text>
+<rect x="304.3" y="166.8" width="15.9" height="28.9" rx="2.5" fill="var(--muted)"/>
+<text x="312.2" y="162.8" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">15</text>
+<circle cx="312.2" cy="212.4" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="312.2" y="252.9" font-size="11" text-anchor="middle" fill="var(--accent)">-9</text>
+<rect x="329.1" y="174.0" width="15.9" height="21.7" rx="2.5" fill="var(--muted)"/>
+<text x="337.0" y="170.0" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">11</text>
+<circle cx="337.0" cy="215.6" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="337.0" y="230.6" font-size="11" text-anchor="middle" fill="var(--accent)">-10</text>
+<rect x="353.9" y="195.7" width="15.9" height="13.1" rx="2.5" fill="var(--muted)"/>
+<text x="361.8" y="220.8" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">-7</text>
+<circle cx="361.8" cy="239.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="361.8" y="254.9" font-size="11" text-anchor="middle" fill="var(--accent)">-23</text>
+<text x="361.8" y="330.5" font-size="12.5" text-anchor="middle" fill="var(--muted)">'15</text>
+<rect x="378.6" y="166.0" width="15.9" height="29.7" rx="2.5" fill="var(--muted)"/>
+<text x="386.6" y="162.0" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">16</text>
+<circle cx="386.6" cy="212.1" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="386.6" y="227.1" font-size="11" text-anchor="middle" fill="var(--accent)">-9</text>
+<rect x="403.4" y="158.5" width="15.9" height="37.2" rx="2.5" fill="var(--muted)"/>
+<text x="411.3" y="154.5" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">20</text>
+<circle cx="411.3" cy="204.5" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="411.3" y="240.1" font-size="11" text-anchor="middle" fill="var(--accent)">-5</text>
+<rect x="428.2" y="195.7" width="15.9" height="9.2" rx="2.5" fill="var(--muted)"/>
+<text x="436.1" y="216.9" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">-5</text>
+<circle cx="436.1" cy="223.3" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="436.1" y="253.1" font-size="11" text-anchor="middle" fill="var(--accent)">-14</text>
+<rect x="453.0" y="140.5" width="15.9" height="55.2" rx="2.5" fill="var(--muted)"/>
+<text x="460.9" y="136.5" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">29</text>
+<circle cx="460.9" cy="209.4" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="460.9" y="224.4" font-size="11" text-anchor="middle" fill="var(--accent)">-7</text>
+<rect x="477.8" y="144.0" width="15.9" height="51.7" rx="2.5" fill="var(--muted)"/>
+<text x="485.7" y="140.0" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">27</text>
+<circle cx="485.7" cy="250.2" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="485.7" y="265.2" font-size="11" text-anchor="middle" fill="var(--accent)">-29</text>
+<text x="485.7" y="330.5" font-size="12.5" text-anchor="middle" fill="var(--muted)">'20</text>
+<rect x="502.5" y="144.1" width="15.9" height="51.6" rx="2.5" fill="var(--muted)"/>
+<text x="510.5" y="140.1" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">27</text>
+<circle cx="510.5" cy="220.0" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="510.5" y="235.0" font-size="11" text-anchor="middle" fill="var(--accent)">-13</text>
+<rect x="527.3" y="195.7" width="15.9" height="35.6" rx="2.5" fill="var(--muted)"/>
+<text x="535.3" y="243.3" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">-19</text>
+<circle cx="535.3" cy="250.0" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="535.3" y="265.0" font-size="11" text-anchor="middle" fill="var(--accent)">-28</text>
+<rect x="552.1" y="135.6" width="15.9" height="60.1" rx="2.5" fill="var(--muted)"/>
+<text x="560.0" y="131.6" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">31</text>
+<circle cx="560.0" cy="208.8" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="560.0" y="223.8" font-size="11" text-anchor="middle" fill="var(--accent)">-7</text>
+<rect x="576.9" y="135.2" width="15.9" height="60.5" rx="2.5" fill="var(--muted)"/>
+<text x="584.8" y="131.2" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">32</text>
+<circle cx="584.8" cy="230.6" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="584.8" y="245.6" font-size="11" text-anchor="middle" fill="var(--accent)">-18</text>
+<rect x="601.7" y="139.5" width="15.9" height="56.2" rx="2.5" fill="var(--muted)"/>
+<text x="609.6" y="135.5" font-size="12" text-anchor="middle" fill="var(--ink)" font-weight="700">29</text>
+<circle cx="609.6" cy="246.3" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="609.6" y="261.3" font-size="11" text-anchor="middle" fill="var(--accent)">-27</text>
+<text x="609.6" y="330.5" font-size="12.5" text-anchor="middle" fill="var(--muted)">'25</text>
+</svg>
+<svg class="m" viewBox="0 0 360 270" role="img" aria-label="台灣含息指數 2003 到 2025 年：每年的全年報酬（長條）與年內最大跌幅（圓點）" font-family="var(--sans)">
+<line x1="46.0" y1="241.1" x2="348.0" y2="241.1" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="244.7" font-size="10" text-anchor="end" fill="var(--muted)">-60%</text>
+<line x1="46.0" y1="211.6" x2="348.0" y2="211.6" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="215.2" font-size="10" text-anchor="end" fill="var(--muted)">-40%</text>
+<line x1="46.0" y1="182.1" x2="348.0" y2="182.1" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="185.7" font-size="10" text-anchor="end" fill="var(--muted)">-20%</text>
+<line x1="46.0" y1="152.6" x2="348.0" y2="152.6" stroke="var(--ink)" stroke-width="1.3"/>
+<text x="40.0" y="156.2" font-size="10" text-anchor="end" fill="var(--muted)">0%</text>
+<line x1="46.0" y1="123.2" x2="348.0" y2="123.2" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="126.8" font-size="10" text-anchor="end" fill="var(--muted)">20%</text>
+<line x1="46.0" y1="93.7" x2="348.0" y2="93.7" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="97.3" font-size="10" text-anchor="end" fill="var(--muted)">40%</text>
+<line x1="46.0" y1="64.2" x2="348.0" y2="64.2" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="67.8" font-size="10" text-anchor="end" fill="var(--muted)">60%</text>
+<line x1="46.0" y1="34.7" x2="348.0" y2="34.7" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="38.3" font-size="10" text-anchor="end" fill="var(--muted)">80%</text>
+<rect x="48.4" y="103.9" width="8.4" height="48.7" rx="2.5" fill="var(--muted)"/>
+<text x="52.6" y="99.9" font-size="9.5" text-anchor="middle" fill="var(--ink)" font-weight="700">33</text>
+<circle cx="52.6" cy="179.9" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="52.6" y="259.0" font-size="11" text-anchor="middle" fill="var(--muted)">'03</text>
+<rect x="61.5" y="141.4" width="8.4" height="11.2" rx="2.5" fill="var(--muted)"/>
+<circle cx="65.7" cy="186.6" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="65.7" y="200.1" font-size="9.5" text-anchor="middle" fill="var(--accent)">-23</text>
+<rect x="74.6" y="136.5" width="8.4" height="16.1" rx="2.5" fill="var(--muted)"/>
+<circle cx="78.8" cy="169.7" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="78.8" y="259.0" font-size="11" text-anchor="middle" fill="var(--muted)">'05</text>
+<rect x="87.8" y="116.6" width="8.4" height="36.0" rx="2.5" fill="var(--muted)"/>
+<circle cx="92.0" cy="175.1" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="100.9" y="134.2" width="8.4" height="18.4" rx="2.5" fill="var(--muted)"/>
+<circle cx="105.1" cy="182.7" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="105.1" y="196.2" font-size="9.5" text-anchor="middle" fill="var(--accent)">-20</text>
+<rect x="114.0" y="152.6" width="8.4" height="63.5" rx="2.5" fill="var(--muted)"/>
+<text x="118.2" y="226.6" font-size="9.5" text-anchor="middle" fill="var(--ink)" font-weight="700">-43</text>
+<circle cx="118.2" cy="231.6" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="118.2" y="245.1" font-size="9.5" text-anchor="middle" fill="var(--accent)">-54</text>
+<rect x="127.1" y="29.8" width="8.4" height="122.8" rx="2.5" fill="var(--muted)"/>
+<text x="131.3" y="25.8" font-size="9.5" text-anchor="middle" fill="var(--ink)" font-weight="700">83</text>
+<circle cx="131.3" cy="169.7" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="140.3" y="132.6" width="8.4" height="20.0" rx="2.5" fill="var(--muted)"/>
+<circle cx="144.5" cy="175.3" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="144.5" y="259.0" font-size="11" text-anchor="middle" fill="var(--muted)">'10</text>
+<rect x="153.4" y="152.6" width="8.4" height="26.5" rx="2.5" fill="var(--muted)"/>
+<circle cx="157.6" cy="188.8" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="157.6" y="202.3" font-size="9.5" text-anchor="middle" fill="var(--accent)">-25</text>
+<rect x="166.5" y="133.6" width="8.4" height="19.1" rx="2.5" fill="var(--muted)"/>
+<circle cx="170.7" cy="175.2" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="179.7" y="130.3" width="8.4" height="22.3" rx="2.5" fill="var(--muted)"/>
+<circle cx="183.9" cy="165.5" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="192.8" y="135.8" width="8.4" height="16.8" rx="2.5" fill="var(--muted)"/>
+<circle cx="197.0" cy="168.0" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="205.9" y="152.6" width="8.4" height="10.1" rx="2.5" fill="var(--muted)"/>
+<circle cx="210.1" cy="186.8" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="210.1" y="200.3" font-size="9.5" text-anchor="middle" fill="var(--accent)">-23</text>
+<text x="210.1" y="259.0" font-size="11" text-anchor="middle" fill="var(--muted)">'15</text>
+<rect x="219.1" y="129.7" width="8.4" height="23.0" rx="2.5" fill="var(--muted)"/>
+<circle cx="223.3" cy="165.3" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="232.2" y="123.9" width="8.4" height="28.8" rx="2.5" fill="var(--muted)"/>
+<circle cx="236.4" cy="159.4" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="245.3" y="152.6" width="8.4" height="7.1" rx="2.5" fill="var(--muted)"/>
+<circle cx="249.5" cy="174.0" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="258.5" y="110.0" width="8.4" height="42.6" rx="2.5" fill="var(--muted)"/>
+<text x="262.7" y="106.0" font-size="9.5" text-anchor="middle" fill="var(--ink)" font-weight="700">29</text>
+<circle cx="262.7" cy="163.2" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="271.6" y="112.7" width="8.4" height="40.0" rx="2.5" fill="var(--muted)"/>
+<text x="275.8" y="108.7" font-size="9.5" text-anchor="middle" fill="var(--ink)" font-weight="700">27</text>
+<circle cx="275.8" cy="194.7" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="275.8" y="208.2" font-size="9.5" text-anchor="middle" fill="var(--accent)">-29</text>
+<text x="275.8" y="259.0" font-size="11" text-anchor="middle" fill="var(--muted)">'20</text>
+<rect x="284.7" y="112.8" width="8.4" height="39.9" rx="2.5" fill="var(--muted)"/>
+<text x="288.9" y="108.8" font-size="9.5" text-anchor="middle" fill="var(--ink)" font-weight="700">27</text>
+<circle cx="288.9" cy="171.4" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="297.8" y="152.6" width="8.4" height="27.5" rx="2.5" fill="var(--muted)"/>
+<circle cx="302.0" cy="194.6" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="302.0" y="208.1" font-size="9.5" text-anchor="middle" fill="var(--accent)">-28</text>
+<rect x="311.0" y="106.2" width="8.4" height="46.4" rx="2.5" fill="var(--muted)"/>
+<text x="315.2" y="102.2" font-size="9.5" text-anchor="middle" fill="var(--ink)" font-weight="700">31</text>
+<circle cx="315.2" cy="162.7" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="324.1" y="105.9" width="8.4" height="46.8" rx="2.5" fill="var(--muted)"/>
+<text x="328.3" y="101.9" font-size="9.5" text-anchor="middle" fill="var(--ink)" font-weight="700">32</text>
+<circle cx="328.3" cy="179.6" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<rect x="337.2" y="109.2" width="8.4" height="43.4" rx="2.5" fill="var(--muted)"/>
+<text x="341.4" y="105.2" font-size="9.5" text-anchor="middle" fill="var(--ink)" font-weight="700">29</text>
+<circle cx="341.4" cy="191.7" r="3.2" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+<text x="341.4" y="205.2" font-size="9.5" text-anchor="middle" fill="var(--accent)">-27</text>
+<text x="341.4" y="259.0" font-size="11" text-anchor="middle" fill="var(--muted)">'25</text>
+</svg>
+</div>
+<ul class="legend"><li><span class="swatch" style="background:var(--muted)"></span>全年含息報酬</li><li><span class="swatch" style="background:var(--accent)"></span>年內從高點最多跌掉</li></ul><p class="note">證交所發行量加權股價報酬指數，逐日收盤自算。平均年內最多跌 17.73%；23 年裡 18 年全年為正。手機版只標較大的數字。</p><figcaption>這 23 年裡，中途跌過一成以上的有 18 年；年底收正的也有 18 年。意思是：中途跌一成很平常，也不代表那一年會虧。對一整群公司的指數來說，年內跌一成是常態，不等於資產壞掉；最差的 2008 年整年跌 43.07%。</figcaption>
+<p class="note">官方原圖（英文）：J.P. Morgan Asset Management，Guide to the Markets U.S.（2026 年 6 月 30 日資料），第 17 頁「S&amp;P 500 intra-year declines vs. calendar year returns」。這是美國版；本文的圖是台股同一種畫法。本文的數字是自己算的，不是原圖上的數字，也不轉載原圖，原圖請看 <a href="https://am.jpmorgan.com/us/en/asset-management/adv/insights/market-insights/guide-to-the-markets/" target="_blank" rel="noopener">原始頁面</a>；圖片版權屬原機構，本文引用的數字以正文為準。</p>
+</figure><details><summary>展開 23 年完整表</summary><div class="table-wrap"><table class="compact"><thead><tr><th>年度</th><th>全年含息報酬</th><th>年內最大跌幅</th></tr></thead><tbody><tr><td>2003</td><td>+33.08%</td><td>−18.49%</td></tr><tr><td>2004</td><td>+7.59%</td><td>−23.08%</td></tr><tr><td>2005</td><td>+10.94%</td><td>−11.61%</td></tr><tr><td>2006</td><td>+24.44%</td><td>−15.27%</td></tr><tr><td>2007</td><td>+12.50%</td><td>−20.41%</td></tr><tr><td>2008</td><td>−43.07%</td><td>−53.59%</td></tr><tr><td>2009</td><td>+83.34%</td><td>−11.59%</td></tr><tr><td>2010</td><td>+13.57%</td><td>−15.36%</td></tr><tr><td>2011</td><td>−17.98%</td><td>−24.52%</td></tr><tr><td>2012</td><td>+12.94%</td><td>−15.32%</td></tr><tr><td>2013</td><td>+15.14%</td><td>−8.73%</td></tr><tr><td>2014</td><td>+11.39%</td><td>−10.44%</td></tr><tr><td>2015</td><td>−6.87%</td><td>−23.18%</td></tr><tr><td>2016</td><td>+15.59%</td><td>−8.61%</td></tr><tr><td>2017</td><td>+19.52%</td><td>−4.60%</td></tr><tr><td>2018</td><td>−4.83%</td><td>−14.47%</td></tr><tr><td>2019</td><td>+28.92%</td><td>−7.16%</td></tr><tr><td>2020</td><td>+27.12%</td><td>−28.55%</td></tr><tr><td>2021</td><td>+27.06%</td><td>−12.74%</td></tr><tr><td>2022</td><td>−18.68%</td><td>−28.47%</td></tr><tr><td>2023</td><td>+31.48%</td><td>−6.86%</td></tr><tr><td>2024</td><td>+31.73%</td><td>−18.31%</td></tr><tr><td>2025</td><td>+29.47%</td><td>−26.54%</td></tr></tbody></table></div></details><p class="small">資料從 2003-01-02 開始，因此 2003 年是第一個資料日至年底的近似報酬；其餘年度才有前一年底作為起點。歷史結果不代表未來會維持相同比例。</p></div>
+<p>J.P. Morgan 的美股同款圖顯示，1980–2025 平均年內跌幅約 14.2%，46 年中 35 年全年仍為正。</p><p class="small">它和台股表用的市場與股利<a class="term" href="#g-scope" title="一個數字的算法和範圍：哪段期間、哪種幣別、有沒有含息、有沒有扣費。">口徑</a>不同，只能看方向，不能直接比高低。</p>
+<div class="data-card" data-lite-alt="ch4-why"><h3>跌下去以後，要漲多少才回得來</h3><div class="table-wrap"><table class="compact"><thead><tr><th>跌幅</th><th>剩下</th><th>回到原點要漲</th></tr></thead><tbody><tr><td>−10%</td><td>90%</td><td>+11.1%</td></tr><tr><td>−30%</td><td>70%</td><td>+42.9%</td></tr><tr><td>−50%</td><td>50%</td><td>+100%</td></tr></tbody></table></div><p>例如 100 萬跌 50%，剩 50 萬；要從 50 萬回到 100 萬，得漲 100%。跌和漲的百分比不對稱，因為漲的時候是從比較小的數字開始算。</p></div>
+<div class="data-card"><h3>台股 2003 年以來，跌兩成以上的那七次</h3><p>上面那張表講的是算術：跌多少、要漲多少才回得來。下面這張是紀錄：台股含息指數 2003 到 2025 年之間，有七次從高點跌掉兩成以上，每一次各花多久才回到跌之前的那個高點。這裡的跌幅是跨年算的（例如 2007 年 10 月的高點，一路跌到 2008 年 11 月），所以會比上面那張「年內最大跌幅」的數字大。</p>
+<figure class="chart" data-chart="taiex-recovery">
+<div class="chart-head"><span class="chart-title">跌下去要多久才回得來：台股 2003 年以來的七次</span><span class="chart-sub">含息報酬指數，2003-01-02 到 2025-12-31，跌兩成以上的每一段</span></div>
+<div class="chart-body">
+<svg class="d" viewBox="0 0 640 220" role="img" aria-label="台股含息指數 2003 年以來跌兩成以上的七次，各花多久回到前一個高點" font-family="var(--sans)">
+<text x="4.0" y="21.0" font-size="12.5" text-anchor="start" fill="var(--ink)">2004 年的高點，跌 23%</text>
+<rect x="156.0" y="8.0" width="247.0" height="15.0" rx="3" fill="var(--teal)"/>
+<rect x="156.0" y="8.0" width="51.6" height="15.0" rx="3" fill="var(--accent)"/>
+<text x="409.0" y="21.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">1.8 年</text>
+<text x="4.0" y="51.0" font-size="12.5" text-anchor="start" fill="var(--ink)">2007 年的高點，跌 56%</text>
+<rect x="156.0" y="38.0" width="422.0" height="15.0" rx="3" fill="var(--teal)"/>
+<rect x="156.0" y="38.0" width="143.8" height="15.0" rx="3" fill="var(--accent)"/>
+<text x="584.0" y="51.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">3.1 年</text>
+<text x="4.0" y="81.0" font-size="12.5" text-anchor="start" fill="var(--ink)">2011 年的高點，跌 25%</text>
+<rect x="156.0" y="68.0" width="356.9" height="15.0" rx="3" fill="var(--teal)"/>
+<rect x="156.0" y="68.0" width="120.8" height="15.0" rx="3" fill="var(--accent)"/>
+<text x="518.9" y="81.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">2.6 年</text>
+<text x="4.0" y="111.0" font-size="12.5" text-anchor="start" fill="var(--ink)">2015 年的高點，跌 23%</text>
+<rect x="156.0" y="98.0" width="185.9" height="15.0" rx="3" fill="var(--teal)"/>
+<rect x="156.0" y="98.0" width="44.8" height="15.0" rx="3" fill="var(--accent)"/>
+<text x="347.9" y="111.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">1.4 年</text>
+<text x="4.0" y="141.0" font-size="12.5" text-anchor="start" fill="var(--ink)">2020 年的高點，跌 29%</text>
+<rect x="156.0" y="128.0" width="65.1" height="15.0" rx="3" fill="var(--teal)"/>
+<rect x="156.0" y="128.0" width="24.4" height="15.0" rx="3" fill="var(--accent)"/>
+<text x="227.1" y="141.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">0.5 年</text>
+<text x="4.0" y="171.0" font-size="12.5" text-anchor="start" fill="var(--ink)">2022 年的高點，跌 29%</text>
+<rect x="156.0" y="158.0" width="202.2" height="15.0" rx="3" fill="var(--teal)"/>
+<rect x="156.0" y="158.0" width="104.5" height="15.0" rx="3" fill="var(--accent)"/>
+<text x="364.2" y="171.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">1.5 年</text>
+<text x="4.0" y="201.0" font-size="12.5" text-anchor="start" fill="var(--ink)">2024 年的高點，跌 28%</text>
+<rect x="156.0" y="188.0" width="145.2" height="15.0" rx="3" fill="var(--teal)"/>
+<rect x="156.0" y="188.0" width="100.4" height="15.0" rx="3" fill="var(--accent)"/>
+<text x="307.2" y="201.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">1.1 年</text>
+</svg>
+<svg class="m" viewBox="0 0 360 248" role="img" aria-label="台股含息指數 2003 年以來跌兩成以上的七次，各花多久回到前一個高點" font-family="var(--sans)">
+<text x="4.0" y="19.0" font-size="11" text-anchor="start" fill="var(--ink)">2004 跌 23%</text>
+<rect x="98.0" y="8.0" width="119.4" height="13.0" rx="3" fill="var(--teal)"/>
+<rect x="98.0" y="8.0" width="24.9" height="13.0" rx="3" fill="var(--accent)"/>
+<text x="223.4" y="19.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">1.8 年</text>
+<text x="4.0" y="53.0" font-size="11" text-anchor="start" fill="var(--ink)">2007 跌 56%</text>
+<rect x="98.0" y="42.0" width="204.0" height="13.0" rx="3" fill="var(--teal)"/>
+<rect x="98.0" y="42.0" width="69.5" height="13.0" rx="3" fill="var(--accent)"/>
+<text x="308.0" y="53.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">3.1 年</text>
+<text x="4.0" y="87.0" font-size="11" text-anchor="start" fill="var(--ink)">2011 跌 25%</text>
+<rect x="98.0" y="76.0" width="172.5" height="13.0" rx="3" fill="var(--teal)"/>
+<rect x="98.0" y="76.0" width="58.4" height="13.0" rx="3" fill="var(--accent)"/>
+<text x="276.5" y="87.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">2.6 年</text>
+<text x="4.0" y="121.0" font-size="11" text-anchor="start" fill="var(--ink)">2015 跌 23%</text>
+<rect x="98.0" y="110.0" width="89.9" height="13.0" rx="3" fill="var(--teal)"/>
+<rect x="98.0" y="110.0" width="21.6" height="13.0" rx="3" fill="var(--accent)"/>
+<text x="193.9" y="121.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">1.4 年</text>
+<text x="4.0" y="155.0" font-size="11" text-anchor="start" fill="var(--ink)">2020 跌 29%</text>
+<rect x="98.0" y="144.0" width="31.5" height="13.0" rx="3" fill="var(--teal)"/>
+<rect x="98.0" y="144.0" width="11.8" height="13.0" rx="3" fill="var(--accent)"/>
+<text x="135.5" y="155.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">0.5 年</text>
+<text x="4.0" y="189.0" font-size="11" text-anchor="start" fill="var(--ink)">2022 跌 29%</text>
+<rect x="98.0" y="178.0" width="97.7" height="13.0" rx="3" fill="var(--teal)"/>
+<rect x="98.0" y="178.0" width="50.5" height="13.0" rx="3" fill="var(--accent)"/>
+<text x="201.7" y="189.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">1.5 年</text>
+<text x="4.0" y="223.0" font-size="11" text-anchor="start" fill="var(--ink)">2024 跌 28%</text>
+<rect x="98.0" y="212.0" width="70.2" height="13.0" rx="3" fill="var(--teal)"/>
+<rect x="98.0" y="212.0" width="48.5" height="13.0" rx="3" fill="var(--accent)"/>
+<text x="174.2" y="223.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">1.1 年</text>
+</svg>
+</div>
+<ul class="legend"><li><span class="swatch" style="background:var(--accent)"></span>從高點跌到最低點</li><li><span class="swatch" style="background:var(--teal)"></span>整段：高點跌下去，到回到同一個高點</li></ul><p class="note">證交所發行量加權股價報酬指數（含息）逐日收盤自算，2003-01-02 到 2025-12-31。跌幅從「到當天為止的最高收盤」起算，回到同一個收盤值那天算回本；年數是高點到回本，一年算 365.25 天。這七段都回到了前高，最快 0.5 年、最慢 3.1 年。</p><figcaption>紅色那一段是還在往下跌，綠色接到哪裡，就是回到原來高點的那一天。七次裡最快 0.5 年，最慢 3.1 年。這七次都回來了，是台股這 23 年的紀錄；第 <a class="xref" href="#s4">4</a> 節那張表裡，也有等 25 到 34 年的例子。</figcaption>
+</figure>
+<p>這是台股這 23 年的紀錄，不是規律。同樣問「跌下去要多久才回得來」，第 <a class="xref" href="#s4">4</a> 節那張表裡，單一國家的價格指數曾經要等 25 到 34 年。答案可以差幾十年，所以這張圖不能讀成「後來都會回復」。</p><p class="small">用收盤值算，含息、名目，沒有扣物價、費用和稅。七段都回到前高是事後才知道的：在每一段的當下，沒有人知道會不會回來、要等多久，也沒有人知道會不會再往下。這也是為什麼五年內要用的錢不放股票（第 <a class="xref" href="#s11">11</a> 節）。</p></div>
+<details><summary>展開：放越久，最好和最差的那一段會不會靠近（美國與台股的區間）</summary>
+<div class="data-card"><h3>美國 1950–2025：連續放 1、5、10、20 年的報酬區間</h3><figure class="chart" data-chart="ranges">
+<div class="chart-head"><span class="chart-title">放 1、5、10、20 年，最好的一段和最差的一段（換算成平均一年）</span><span class="chart-sub">美國 1950–2025，平均一年報酬區間，%</span></div>
+<div class="chart-body">
+<svg class="d" viewBox="0 0 640 300" role="img" aria-label="持有越久，最好與最差越靠近；一半債券讓最差那端縮小" font-family="var(--sans)">
+<line x1="52.0" y1="260.4" x2="622.0" y2="260.4" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="264.4" font-size="11" text-anchor="end" fill="var(--muted)">-40%</text>
+<line x1="52.0" y1="212.6" x2="622.0" y2="212.6" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="216.5" font-size="11" text-anchor="end" fill="var(--muted)">-20%</text>
+<line x1="52.0" y1="164.7" x2="622.0" y2="164.7" stroke="var(--ink)" stroke-width="1.3"/>
+<text x="46.0" y="168.7" font-size="11" text-anchor="end" fill="var(--muted)">0%</text>
+<line x1="52.0" y1="116.9" x2="622.0" y2="116.9" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="120.9" font-size="11" text-anchor="end" fill="var(--muted)">20%</text>
+<line x1="52.0" y1="69.1" x2="622.0" y2="69.1" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="46.0" y="73.0" font-size="11" text-anchor="end" fill="var(--muted)">40%</text>
+<rect x="60.0" y="40.4" width="27.6" height="212.9" rx="2.5" fill="var(--amber)"/>
+<text x="73.8" y="36.4" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+52</text>
+<text x="73.8" y="265.3" font-size="10.5" text-anchor="middle" fill="var(--ink)">-37</text>
+<rect x="91.6" y="85.8" width="27.6" height="110.0" rx="2.5" fill="var(--muted)"/>
+<text x="105.4" y="81.8" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+33</text>
+<text x="105.4" y="207.8" font-size="10.5" text-anchor="middle" fill="var(--ink)">-13</text>
+<rect x="123.2" y="95.4" width="27.6" height="107.6" rx="2.5" fill="var(--teal)"/>
+<text x="137.1" y="91.4" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+29</text>
+<text x="137.1" y="215.0" font-size="10.5" text-anchor="middle" fill="var(--ink)">-16</text>
+<rect x="154.9" y="131.3" width="27.6" height="33.5" rx="2.5" fill="var(--blue)"/>
+<text x="168.7" y="127.3" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+14</text>
+<text x="168.7" y="176.7" font-size="10.5" text-anchor="middle" fill="var(--ink)">+0</text>
+<text x="123.2" y="288.5" font-size="12.5" text-anchor="middle" fill="var(--ink)" font-weight="700">連續 1 年</text>
+<rect x="202.5" y="95.4" width="27.6" height="74.2" rx="2.5" fill="var(--amber)"/>
+<text x="216.3" y="91.4" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+29</text>
+<text x="216.3" y="181.5" font-size="10.5" text-anchor="middle" fill="var(--ink)">-2</text>
+<rect x="234.1" y="121.7" width="27.6" height="47.8" rx="2.5" fill="var(--muted)"/>
+<text x="247.9" y="117.7" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+18</text>
+<text x="247.9" y="181.5" font-size="10.5" text-anchor="middle" fill="var(--ink)">-2</text>
+<rect x="265.8" y="119.3" width="27.6" height="40.7" rx="2.5" fill="var(--teal)"/>
+<text x="279.6" y="115.3" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+19</text>
+<text x="279.6" y="172.0" font-size="10.5" text-anchor="middle" fill="var(--ink)">+2</text>
+<rect x="297.4" y="138.4" width="27.6" height="26.3" rx="2.5" fill="var(--blue)"/>
+<text x="311.2" y="134.4" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+11</text>
+<text x="311.2" y="176.7" font-size="10.5" text-anchor="middle" fill="var(--ink)">+0</text>
+<text x="265.8" y="288.5" font-size="12.5" text-anchor="middle" fill="var(--ink)" font-weight="700">連續 5 年</text>
+<rect x="345.0" y="116.9" width="27.6" height="50.2" rx="2.5" fill="var(--amber)"/>
+<text x="358.8" y="112.9" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+20</text>
+<text x="358.8" y="179.1" font-size="10.5" text-anchor="middle" fill="var(--ink)">-1</text>
+<rect x="376.6" y="131.3" width="27.6" height="31.1" rx="2.5" fill="var(--muted)"/>
+<text x="390.4" y="127.3" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+14</text>
+<text x="390.4" y="174.4" font-size="10.5" text-anchor="middle" fill="var(--ink)">+1</text>
+<rect x="408.2" y="126.5" width="27.6" height="33.5" rx="2.5" fill="var(--teal)"/>
+<text x="422.1" y="122.5" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+16</text>
+<text x="422.1" y="172.0" font-size="10.5" text-anchor="middle" fill="var(--ink)">+2</text>
+<rect x="439.9" y="143.2" width="27.6" height="21.5" rx="2.5" fill="var(--blue)"/>
+<text x="453.7" y="139.2" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+9</text>
+<text x="453.7" y="176.7" font-size="10.5" text-anchor="middle" fill="var(--ink)">+0</text>
+<text x="408.2" y="288.5" font-size="12.5" text-anchor="middle" fill="var(--ink)" font-weight="700">連續 10 年</text>
+<rect x="487.5" y="121.7" width="27.6" height="28.7" rx="2.5" fill="var(--amber)"/>
+<text x="501.3" y="117.7" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+18</text>
+<text x="501.3" y="162.4" font-size="10.5" text-anchor="middle" fill="var(--ink)">+6</text>
+<rect x="519.1" y="138.4" width="27.6" height="23.9" rx="2.5" fill="var(--muted)"/>
+<text x="532.9" y="134.4" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+11</text>
+<text x="532.9" y="174.4" font-size="10.5" text-anchor="middle" fill="var(--ink)">+1</text>
+<rect x="550.8" y="131.3" width="27.6" height="21.5" rx="2.5" fill="var(--teal)"/>
+<text x="564.6" y="127.3" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+14</text>
+<text x="564.6" y="164.8" font-size="10.5" text-anchor="middle" fill="var(--ink)">+5</text>
+<rect x="582.4" y="145.6" width="27.6" height="16.7" rx="2.5" fill="var(--blue)"/>
+<text x="596.2" y="141.6" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-weight="700">+8</text>
+<text x="596.2" y="174.4" font-size="10.5" text-anchor="middle" fill="var(--ink)">+1</text>
+<text x="550.8" y="288.5" font-size="12.5" text-anchor="middle" fill="var(--ink)" font-weight="700">連續 20 年</text>
+</svg>
+<svg class="m" viewBox="0 0 360 420" role="img" aria-label="持有越久，最好與最差越靠近；一半債券讓最差那端縮小" font-family="var(--sans)">
+<line x1="46.0" y1="173.8" x2="348.0" y2="173.8" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="177.4" font-size="10" text-anchor="end" fill="var(--muted)">-40%</text>
+<line x1="46.0" y1="142.8" x2="348.0" y2="142.8" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="146.4" font-size="10" text-anchor="end" fill="var(--muted)">-20%</text>
+<line x1="46.0" y1="111.8" x2="348.0" y2="111.8" stroke="var(--ink)" stroke-width="1.3"/>
+<text x="40.0" y="115.4" font-size="10" text-anchor="end" fill="var(--muted)">0%</text>
+<line x1="46.0" y1="80.9" x2="348.0" y2="80.9" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="84.5" font-size="10" text-anchor="end" fill="var(--muted)">20%</text>
+<line x1="46.0" y1="49.9" x2="348.0" y2="49.9" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="53.5" font-size="10" text-anchor="end" fill="var(--muted)">40%</text>
+<rect x="54.0" y="31.3" width="29.8" height="137.9" rx="2.5" fill="var(--amber)"/>
+<text x="68.9" y="27.3" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+52</text>
+<text x="68.9" y="179.7" font-size="9.0" text-anchor="middle" fill="var(--ink)">-37</text>
+<rect x="87.8" y="60.7" width="29.8" height="71.3" rx="2.5" fill="var(--muted)"/>
+<text x="102.6" y="56.7" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+33</text>
+<text x="102.6" y="142.5" font-size="9.0" text-anchor="middle" fill="var(--ink)">-13</text>
+<rect x="121.5" y="66.9" width="29.8" height="69.7" rx="2.5" fill="var(--teal)"/>
+<text x="136.4" y="62.9" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+29</text>
+<text x="136.4" y="147.1" font-size="9.0" text-anchor="middle" fill="var(--ink)">-16</text>
+<rect x="155.2" y="90.2" width="29.8" height="21.7" rx="2.5" fill="var(--blue)"/>
+<text x="170.1" y="86.2" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+14</text>
+<text x="170.1" y="122.3" font-size="9.0" text-anchor="middle" fill="var(--ink)">+0</text>
+<text x="121.5" y="197.0" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="700">連續 1 年</text>
+<rect x="205.0" y="66.9" width="29.8" height="48.0" rx="2.5" fill="var(--amber)"/>
+<text x="219.9" y="62.9" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+29</text>
+<text x="219.9" y="125.4" font-size="9.0" text-anchor="middle" fill="var(--ink)">-2</text>
+<rect x="238.8" y="84.0" width="29.8" height="31.0" rx="2.5" fill="var(--muted)"/>
+<text x="253.6" y="80.0" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+18</text>
+<text x="253.6" y="125.4" font-size="9.0" text-anchor="middle" fill="var(--ink)">-2</text>
+<rect x="272.5" y="82.4" width="29.8" height="26.3" rx="2.5" fill="var(--teal)"/>
+<text x="287.4" y="78.4" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+19</text>
+<text x="287.4" y="119.2" font-size="9.0" text-anchor="middle" fill="var(--ink)">+2</text>
+<rect x="306.2" y="94.8" width="29.8" height="17.0" rx="2.5" fill="var(--blue)"/>
+<text x="321.1" y="90.8" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+11</text>
+<text x="321.1" y="122.3" font-size="9.0" text-anchor="middle" fill="var(--ink)">+0</text>
+<text x="272.5" y="197.0" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="700">連續 5 年</text>
+<line x1="46.0" y1="383.8" x2="348.0" y2="383.8" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="387.4" font-size="10" text-anchor="end" fill="var(--muted)">-40%</text>
+<line x1="46.0" y1="352.8" x2="348.0" y2="352.8" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="356.4" font-size="10" text-anchor="end" fill="var(--muted)">-20%</text>
+<line x1="46.0" y1="321.8" x2="348.0" y2="321.8" stroke="var(--ink)" stroke-width="1.3"/>
+<text x="40.0" y="325.4" font-size="10" text-anchor="end" fill="var(--muted)">0%</text>
+<line x1="46.0" y1="290.9" x2="348.0" y2="290.9" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="294.5" font-size="10" text-anchor="end" fill="var(--muted)">20%</text>
+<line x1="46.0" y1="259.9" x2="348.0" y2="259.9" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="40.0" y="263.5" font-size="10" text-anchor="end" fill="var(--muted)">40%</text>
+<rect x="54.0" y="290.9" width="29.8" height="32.5" rx="2.5" fill="var(--amber)"/>
+<text x="68.9" y="286.9" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+20</text>
+<text x="68.9" y="333.9" font-size="9.0" text-anchor="middle" fill="var(--ink)">-1</text>
+<rect x="87.8" y="300.2" width="29.8" height="20.1" rx="2.5" fill="var(--muted)"/>
+<text x="102.6" y="296.2" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+14</text>
+<text x="102.6" y="330.8" font-size="9.0" text-anchor="middle" fill="var(--ink)">+1</text>
+<rect x="121.5" y="297.1" width="29.8" height="21.7" rx="2.5" fill="var(--teal)"/>
+<text x="136.4" y="293.1" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+16</text>
+<text x="136.4" y="329.2" font-size="9.0" text-anchor="middle" fill="var(--ink)">+2</text>
+<rect x="155.2" y="307.9" width="29.8" height="13.9" rx="2.5" fill="var(--blue)"/>
+<text x="170.1" y="303.9" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+9</text>
+<text x="170.1" y="332.3" font-size="9.0" text-anchor="middle" fill="var(--ink)">+0</text>
+<text x="121.5" y="407.0" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="700">連續 10 年</text>
+<rect x="205.0" y="294.0" width="29.8" height="18.6" rx="2.5" fill="var(--amber)"/>
+<text x="219.9" y="290.0" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+18</text>
+<text x="219.9" y="323.0" font-size="9.0" text-anchor="middle" fill="var(--ink)">+6</text>
+<rect x="238.8" y="304.8" width="29.8" height="15.5" rx="2.5" fill="var(--muted)"/>
+<text x="253.6" y="300.8" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+11</text>
+<text x="253.6" y="330.8" font-size="9.0" text-anchor="middle" fill="var(--ink)">+1</text>
+<rect x="272.5" y="300.2" width="29.8" height="13.9" rx="2.5" fill="var(--teal)"/>
+<text x="287.4" y="296.2" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+14</text>
+<text x="287.4" y="324.6" font-size="9.0" text-anchor="middle" fill="var(--ink)">+5</text>
+<rect x="306.2" y="309.5" width="29.8" height="10.8" rx="2.5" fill="var(--blue)"/>
+<text x="321.1" y="305.5" font-size="9.0" text-anchor="middle" fill="var(--ink)" font-weight="700">+8</text>
+<text x="321.1" y="330.8" font-size="9.0" text-anchor="middle" fill="var(--ink)">+1</text>
+<text x="272.5" y="407.0" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="700">連續 20 年</text>
+</svg>
+</div>
+<ul class="legend"><li><span class="swatch" style="background:var(--amber)"></span>全放股票</li><li><span class="swatch" style="background:var(--muted)"></span>全部債券</li><li><span class="swatch" style="background:var(--teal)"></span>一半股票一半債券</li><li><span class="swatch" style="background:var(--blue)"></span>現金</li></ul><p class="note">美國 1950 到 2025 年，以整年報酬為單位、連續放 1 到 20 年，平均一年的報酬區間（%）；這張表每一段都是從 1 月 1 日算到 12 月 31 日；如果從某個高點那一天起算，一年後會比表上最差的那格更差，所以表上的最差值是偏好看的。J.P. Morgan「Guide to Retirement 2026」第 42 頁。</p><figcaption>往右看，最好和最差越來越靠近，但差距不會縮到消失。把全股票和一半一半放在一起比，債券那一塊防守把最差的一年切掉一大半，同時也切掉一些最好的。這裡的債券是美國整體的投資等級債券（1976 年前用 Strategas/Ibbotson，之後用 Bloomberg Aggregate），2022 年股債同跌那一年已經算在裡面。</figcaption>
+<p class="note">官方原圖（英文）：J.P. Morgan Asset Management，Guide to Retirement 2026，第 42 頁「Range of stock, bond and blended total returns」。本文的圖是同一頁的數字重畫。本文只重畫數字、不轉載原圖，原圖請看 <a href="https://am.jpmorgan.com/us/en/asset-management/adv/insights/retirement-insights/guide-to-retirement/" target="_blank" rel="noopener">原始頁面</a>；圖片版權屬原機構，本文引用的數字以正文為準。</p>
+</figure><div class="table-wrap"><table class="wide"><thead><tr><th>配置</th><th>連續 1 年</th><th>連續 5 年</th><th>連續 10 年</th><th>連續 20 年</th></tr></thead><tbody><tr><td>全股票</td><td>−37%～+52%</td><td>−2%～+29%</td><td>−1%～+20%</td><td>+6%～+18%</td></tr><tr><td>50% 股票／50% 債券</td><td>−16%～+29%</td><td>+2%～+19%</td><td>+2%～+16%</td><td>+5%～+14%</td></tr><tr><td>全債券</td><td>−13%～+33%</td><td>−2%～+18%</td><td>+1%～+14%</td><td>+1%～+11%</td></tr><tr><td>現金</td><td>0%～+14%</td><td>0%～+11%</td><td>0%～+9%</td><td>+1%～+8%</td></tr></tbody></table></div><p data-lite-alt="ch4-why">表上每一格都是「平均一年」：全股票放 20 年那格 +6%～+18%，意思是運氣最差的 20 年，平均每年還有 6%。放越久，最好和最差的那一段越靠近。加入債券，最差的一年比較不慘，但最好的一年也比較少。債券通常能降低波動，但不保證：2022 年美國股票 −18.1%、<a class="term" href="#g-ig" title="被信用評等公司評為還錢能力較好的債券。">投資等級</a>債 −13.0%，同一年下跌。不能把「20 年最差為正」讀成未來保證。</p><p class="small">2022 年數字：S&P 500 含息、Bloomberg U.S. Aggregate（美國整體投資等級債），出自 J.P. Morgan Guide to the Markets 2026 年第三季第 58 頁「Asset class returns」。1950 年以前、其他國家、匯率、物價、稅費與實際投資產品不在這張表裡。</p></div>
+<div class="data-card" data-lite-alt="ch11-howlong"><h3>台股 2003–2025：連續放 1、5、10、20 年的報酬區間</h3><p>同一個問法換到台股：任選一天買進，抱滿 1 年、5 年、10 年、20 年，換算成平均一年，最好的一段和最差的一段各是多少。</p><div class="table-wrap"><table class="compact"><thead><tr><th>抱多久</th><th>最差（平均一年）</th><th>最好（平均一年）</th></tr></thead><tbody><tr><td>1 年</td><td>−52.6%</td><td>+99.2%</td></tr><tr><td>5 年</td><td>−5.0%</td><td>+24.6%</td></tr><tr><td>10 年</td><td>+4.6%</td><td>+17.6%</td></tr><tr><td>20 年</td><td>+9.0%</td><td>+12.4%</td></tr></tbody></table></div><p>放越久，最好和最差越靠近。但靠近不是保證變正：台股的含息資料只有 2003 年以後（起點的限制寫在下面「這段歷史裡，不同持有期間有多少比例是賺的」那張卡），10 年和 20 年那兩列只是說「這段期間裡找不到虧錢的那一段」。</p><p class="small">證交所發行量加權股價報酬指數（含息），2003-01-02 到 2025-12-31 共 5,665 個交易日。每個交易日都當一次買進日，賣出日取滿 N 年的同一天、那天沒開盤就取前一個交易日，再換算成平均一年。這些期間彼此重疊，不是互相獨立的樣本；沒有扣掉物價、費用和稅。20 年那一列只有 746 個視窗，買進日全部落在 2003 到 2005 這三年，幾乎是同一段歷史，不要當成分布看。和上面美國那張表的市場與期間都不同，不能直接比高低。</p></div></details>
+<div class="data-card" data-lite-alt="ch11-howlong"><h3>這段歷史裡，不同持有期間有多少比例是賺的</h3><p>先說清楚：下面是這段歷史裡的比例，不是未來的機率；這些期間彼此重疊，過去沒有虧過，不保證以後不會。</p>
+<figure class="chart" data-chart="holding-positive">
+<div class="chart-head"><span class="chart-title">抱多久打開，是賺的比例有多高</span><span class="chart-sub">台股 2003–2025、美股 1871–2023，每一天（美股每個月）都當買進日，%</span></div>
+<div class="chart-body">
+<svg class="d" viewBox="0 0 640 397" role="img" aria-label="台股與美股：每一天都當買進日，抱滿不同期間以後，打開來是賺的比例" font-family="var(--sans)">
+<line x1="64.0" y1="16.0" x2="64.0" y2="375.0" stroke="var(--ink)" stroke-width="1.3"/>
+<text x="64.0" y="390.0" font-size="11" text-anchor="middle" fill="var(--muted)">0%</text>
+<line x1="329.0" y1="16.0" x2="329.0" y2="375.0" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="329.0" y="390.0" font-size="11" text-anchor="middle" fill="var(--muted)">50%（一半）</text>
+<line x1="594.0" y1="16.0" x2="594.0" y2="375.0" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="594.0" y="390.0" font-size="11" text-anchor="middle" fill="var(--muted)">100%</text>
+<text x="4.0" y="37.0" font-size="12.5" text-anchor="start" fill="var(--ink)" font-weight="800">台股　含息，2003–2025</text>
+<text x="58.0" y="58.0" font-size="12.5" text-anchor="end" fill="var(--muted)">1 天</text>
+<rect x="64.0" y="46.0" width="291.5" height="15.0" rx="2.5" fill="var(--teal)"/>
+<text x="361.5" y="58.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">55%</text>
+<text x="58.0" y="85.0" font-size="12.5" text-anchor="end" fill="var(--muted)">1 個月</text>
+<rect x="64.0" y="73.0" width="328.6" height="15.0" rx="2.5" fill="var(--teal)"/>
+<text x="398.6" y="85.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">62%</text>
+<text x="58.0" y="112.0" font-size="12.5" text-anchor="end" fill="var(--muted)">1 年</text>
+<rect x="64.0" y="100.0" width="408.1" height="15.0" rx="2.5" fill="var(--teal)"/>
+<text x="478.1" y="112.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">77%</text>
+<text x="58.0" y="139.0" font-size="12.5" text-anchor="end" fill="var(--muted)">3 年</text>
+<rect x="64.0" y="127.0" width="503.5" height="15.0" rx="2.5" fill="var(--teal)"/>
+<text x="573.5" y="139.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">95%</text>
+<text x="58.0" y="166.0" font-size="12.5" text-anchor="end" fill="var(--muted)">5 年</text>
+<rect x="64.0" y="154.0" width="508.8" height="15.0" rx="2.5" fill="var(--teal)"/>
+<text x="578.8" y="166.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">96%</text>
+<text x="58.0" y="193.0" font-size="12.5" text-anchor="end" fill="var(--muted)">10 年</text>
+<rect x="64.0" y="181.0" width="530.0" height="15.0" rx="2.5" fill="var(--teal)"/>
+<text x="600.0" y="193.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">100%</text>
+<text x="4.0" y="227.0" font-size="12.5" text-anchor="start" fill="var(--ink)" font-weight="800">美股　S&amp;P 500 含息，1871–2023</text>
+<text x="58.0" y="248.0" font-size="12.5" text-anchor="end" fill="var(--muted)">1 年</text>
+<rect x="64.0" y="236.0" width="381.6" height="15.0" rx="2.5" fill="var(--muted)"/>
+<text x="451.6" y="248.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">72%</text>
+<text x="58.0" y="275.0" font-size="12.5" text-anchor="end" fill="var(--muted)">5 年</text>
+<rect x="64.0" y="263.0" width="477.0" height="15.0" rx="2.5" fill="var(--muted)"/>
+<text x="547.0" y="275.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">90%</text>
+<text x="58.0" y="302.0" font-size="12.5" text-anchor="end" fill="var(--muted)">10 年</text>
+<rect x="64.0" y="290.0" width="514.1" height="15.0" rx="2.5" fill="var(--muted)"/>
+<text x="584.1" y="302.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">97%</text>
+<text x="58.0" y="329.0" font-size="12.5" text-anchor="end" fill="var(--muted)">20 年</text>
+<rect x="64.0" y="317.0" width="530.0" height="15.0" rx="2.5" fill="var(--muted)"/>
+<text x="600.0" y="329.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">100%</text>
+<text x="58.0" y="356.0" font-size="12.5" text-anchor="end" fill="var(--muted)">30 年</text>
+<rect x="64.0" y="344.0" width="530.0" height="15.0" rx="2.5" fill="var(--muted)"/>
+<text x="600.0" y="356.0" font-size="12" text-anchor="start" fill="var(--ink)" font-weight="800">100%</text>
+</svg>
+<svg class="m" viewBox="0 0 360 365" role="img" aria-label="台股與美股：每一天都當買進日，抱滿不同期間以後，打開來是賺的比例" font-family="var(--sans)">
+<line x1="52.0" y1="12.0" x2="52.0" y2="345.0" stroke="var(--ink)" stroke-width="1.3"/>
+<text x="52.0" y="359.0" font-size="10" text-anchor="middle" fill="var(--muted)">0%</text>
+<line x1="181.0" y1="12.0" x2="181.0" y2="345.0" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="181.0" y="359.0" font-size="10" text-anchor="middle" fill="var(--muted)">50%（一半）</text>
+<line x1="310.0" y1="12.0" x2="310.0" y2="345.0" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="310.0" y="359.0" font-size="10" text-anchor="middle" fill="var(--muted)">100%</text>
+<text x="4.0" y="31.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="800">台股　含息，2003–2025</text>
+<text x="46.0" y="50.0" font-size="11" text-anchor="end" fill="var(--muted)">1 天</text>
+<rect x="52.0" y="40.0" width="141.9" height="13.0" rx="2.5" fill="var(--teal)"/>
+<text x="199.9" y="50.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">55%</text>
+<text x="46.0" y="75.0" font-size="11" text-anchor="end" fill="var(--muted)">1 個月</text>
+<rect x="52.0" y="65.0" width="160.0" height="13.0" rx="2.5" fill="var(--teal)"/>
+<text x="218.0" y="75.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">62%</text>
+<text x="46.0" y="100.0" font-size="11" text-anchor="end" fill="var(--muted)">1 年</text>
+<rect x="52.0" y="90.0" width="198.7" height="13.0" rx="2.5" fill="var(--teal)"/>
+<text x="256.7" y="100.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">77%</text>
+<text x="46.0" y="125.0" font-size="11" text-anchor="end" fill="var(--muted)">3 年</text>
+<rect x="52.0" y="115.0" width="245.1" height="13.0" rx="2.5" fill="var(--teal)"/>
+<text x="303.1" y="125.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">95%</text>
+<text x="46.0" y="150.0" font-size="11" text-anchor="end" fill="var(--muted)">5 年</text>
+<rect x="52.0" y="140.0" width="247.7" height="13.0" rx="2.5" fill="var(--teal)"/>
+<text x="305.7" y="150.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">96%</text>
+<text x="46.0" y="175.0" font-size="11" text-anchor="end" fill="var(--muted)">10 年</text>
+<rect x="52.0" y="165.0" width="258.0" height="13.0" rx="2.5" fill="var(--teal)"/>
+<text x="316.0" y="175.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">100%</text>
+<text x="4.0" y="207.0" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="800">美股　S&amp;P 500 含息，1871–2023</text>
+<text x="46.0" y="226.0" font-size="11" text-anchor="end" fill="var(--muted)">1 年</text>
+<rect x="52.0" y="216.0" width="185.8" height="13.0" rx="2.5" fill="var(--muted)"/>
+<text x="243.8" y="226.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">72%</text>
+<text x="46.0" y="251.0" font-size="11" text-anchor="end" fill="var(--muted)">5 年</text>
+<rect x="52.0" y="241.0" width="232.2" height="13.0" rx="2.5" fill="var(--muted)"/>
+<text x="290.2" y="251.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">90%</text>
+<text x="46.0" y="276.0" font-size="11" text-anchor="end" fill="var(--muted)">10 年</text>
+<rect x="52.0" y="266.0" width="250.3" height="13.0" rx="2.5" fill="var(--muted)"/>
+<text x="308.3" y="276.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">97%</text>
+<text x="46.0" y="301.0" font-size="11" text-anchor="end" fill="var(--muted)">20 年</text>
+<rect x="52.0" y="291.0" width="258.0" height="13.0" rx="2.5" fill="var(--muted)"/>
+<text x="316.0" y="301.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">100%</text>
+<text x="46.0" y="326.0" font-size="11" text-anchor="end" fill="var(--muted)">30 年</text>
+<rect x="52.0" y="316.0" width="258.0" height="13.0" rx="2.5" fill="var(--muted)"/>
+<text x="316.0" y="326.0" font-size="10.5" text-anchor="start" fill="var(--ink)" font-weight="800">100%</text>
+</svg>
+</div>
+<ul class="legend"><li><span class="swatch" style="background:var(--teal)"></span>台股（含息，2003–2025）</li><li><span class="swatch" style="background:var(--muted)"></span>美股（S&amp;P 500 含息，1871–2023）</li></ul><p class="note">台股用證交所發行量加權股價報酬指數（含息）逐日收盤自算，2003-01-02 到 2025-12-31 共 5,665 個交易日，每個交易日都當一次買進日；美股用 Robert Shiller 公開月資料的 S&amp;P 500 含息、名目，1871 年 1 月 到 2023 年 6 月，每個月都當一次買進日（股利欄到這裡為止）。兩邊的市場和期間都不一樣，台股也只算到 10 年，所以上下兩塊不能直接比高低。這些期間彼此重疊，不是互相獨立的樣本；都沒有扣掉物價、費用和稅。</p><figcaption>同一筆錢，差別只在多久以後才打開來看：隔天打開差不多是擲硬幣，抱得越久，打開來是賺的比例越高。這是這兩段歷史裡的比例，不是未來的機率；台股只有 23 年，10 年那一條的 100% 只代表這段期間。</figcaption>
+</figure>
+<p>圖上的比例和展開裡那兩張表是同一組數字。表上的 100% 只是說：在那段歷史裡，找不到虧錢的那一段。它不是保證，也不是說放十年一定賺：台股的含息資料只有 2003 年以後，起點又剛好在 2000 到 2002 年那波大跌之後，10 年那一列的 100% 只代表這段期間。</p><details><summary>展開兩張表：台股與美股「打開來是賺的」比例</summary><p>台股含息，2003 到 2025 年：</p><div class="table-wrap"><table class="compact"><thead><tr><th>抱多久</th><th>打開來是賺的</th></tr></thead><tbody><tr><td>1 天</td><td>55%</td></tr><tr><td>1 個月</td><td>62%</td></tr><tr><td>1 年</td><td>77%</td></tr><tr><td>3 年</td><td>95%</td></tr><tr><td>5 年</td><td>96%</td></tr><tr><td>10 年</td><td>100%</td></tr></tbody></table></div><p>美股 S&P 500 含息，1871 到 2023 年：</p><div class="table-wrap"><table class="compact"><thead><tr><th>抱多久</th><th>打開來是賺的</th></tr></thead><tbody><tr><td>1 年</td><td>72%</td></tr><tr><td>5 年</td><td>90%</td></tr><tr><td>10 年</td><td>97%</td></tr><tr><td>20 年</td><td>100%</td></tr><tr><td>30 年</td><td>100%</td></tr></tbody></table></div><p class="small">兩張表的數字、算法和限制，就是上面那張圖的說明寫的那些。</p></details></div>
+<div class="data-card"><h3 id="s5-remember">跌的時候、很久沒漲的時候，記得這幾句</h3><ul class="checklist"><li><strong>跌的那天，先問這筆錢要放多久。</strong>美國 1950 到 2025 年，全股票連續放十年，運氣最差的那一段是平均一年約 −1%，十年下來帳面少約一成；扣掉物價少得更多，從某個高點起算也更差。放二十年，最差的那一段平均一年約 6%（上面「放越久，最好和最差的那一段會不會靠近」那個展開裡的區間表）。這是歷史，不是保證。</li><li><strong>年中跌一段很平常。</strong>台股 2003 到 2025 年，23 年裡有 18 年整年是賺的，也有 18 年中途跌過一成以上（本節台股那張表）。</li><li><strong>很久沒漲，先看是不是押在一個國家。</strong>只買一個國家的股票，歷史上曾經要等 25 到 34 年，價格才回到原來的高點；核心放全球，就是為了不用陪一個國家等這麼久。放全球也可能好幾年看起來沒漲，上面第一條說的「放十年最差」也是負的；這時照 F 區繼續投入。<br><span class="small">那是不含股利的價格指數；把股利算進去會早一些（第 <a class="xref" href="#s4">4</a> 節）。</span></li><li><strong>前幾年看的是有沒有照規則投入，</strong>不是帳戶長了多少（第 <a class="xref" href="#s2">2</a> 節）。</li><li><strong>想打開 app 的時候，先打開計畫表 F 區。</strong>上面寫的，是平靜時的你替今天做好的決定（第 <a class="xref" href="#s11">11</a> 節）。</li></ul></div>
+<div class="source-card"><h3>直接來源</h3><a class="source-link" href="https://www.twse.com.tw/zh/indices/taiex/mfi94u.html" target="_blank" rel="noopener"><span>TWSE 發行量加權股價報酬指數</span><span class="source-note">官方資料自 2003-01-01 提供</span></a><a class="source-link" href="https://am.jpmorgan.com/content/dam/jpm-am-aem/global/en/insights/retirement-insights/guide-to-retirement-us.pdf" target="_blank" rel="noopener"><span>J.P. Morgan Guide to Retirement 2026（官方 PDF；此網址永遠指向最新版，頁碼以 2026 版為準）</span><span class="source-note">第 42 頁區間表</span></a><a class="source-link" href="https://am.jpmorgan.com/content/dam/jpm-am-aem/global/en/insights/market-insights/guide-to-the-markets/mi-guide-to-the-markets-us.pdf" target="_blank" rel="noopener"><span>J.P. Morgan Guide to the Markets（官方 PDF，2026 年第三季；此網址永遠指向最新版，本文數字以 2026 年第三季版為準）</span><span class="source-note">第 17 頁 1980–2025 年內跌幅 14.2%、46 年裡 35 年為正；第 58 頁 2022 年 S&P 500 −18.1%、Bloomberg U.S. Aggregate −13.0%</span></a><a class="source-link" href="https://shillerdata.com/" target="_blank" rel="noopener"><span>Robert Shiller 公開月資料（ie_data.xls，官方下載頁）</span><span class="source-note">S&P 500 月平均收盤價（Shiller 的價格欄是當月每日收盤價的平均）與年化股利，1871 年起；本文的含息月報酬＝（當月價格＋當月股利÷12）÷上月價格，股利欄最後一個月是 2023 年 6 月；用月平均價會比用月收盤價少一點波動，短期那幾列「打開來是賺的」比例會略偏高</span></a></div>
+<div class="story"><p>我投入時不看匯率、當天就換，沒有買鎖台幣的版本。</p></div>
+<div class="story"><p>我照規則投入完，市場就跌了（「果然有什麼魔咒在我身上」）。我把它當成周年慶打八折，照原本步調不動；但這只適合資產沒壞、錢也不急用的時候。</p></div><p class="decision">這筆錢若明年就要用，現在就不該承受大跌；若十年以上不用，仍要先寫好跌 20% 時的動作（選項在第 <a class="xref" href="#s11">11</a> 節的規則卡）。</p><a class="back" href="#toc">回目錄</a></section>
+
+
+</main>

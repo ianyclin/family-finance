@@ -833,6 +833,13 @@ def safety_steps():
     return _g05.chart(calc()["safety_steps"])
 
 
+# v6.3 第三批 P1 的 G06：數字直接讀 lite/calc-results.json 的 rolling（calc_core.py 已經算好），
+# 所以 compute() 也在模組裡，不需要 calc-results.json 另開一個鍵。
+def holding_positive():
+    import v63_g06_holding_positive as _g06
+    return _g06.chart(_g06.compute())
+
+
 CHARTS = [
     ("three-circles", "01-where-return-comes-from.html", "順便講「又穩又高」", "aside", three_circles),
     ("four-people", "02-time.html", "手冊算過四個人", "aside", four_people),
@@ -910,6 +917,7 @@ def do_guide():
     funcs["drag-breakdown"] = drag_breakdown      # 只在指南
     funcs["fee-gap"] = fee_gap                    # 只在指南
     funcs["safety-steps"] = safety_steps          # 只在指南
+    funcs["holding-positive"] = holding_positive  # 只在指南
     n = 0
     diffs = []
     def repl(m):
