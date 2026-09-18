@@ -382,6 +382,203 @@ ch['allocation_46'] = {'stock_wan': 320, 'global_wan': 240, 'tw_etf_kept_wan': 8
 ch['retire_ym'] = ym(60)
 R['chen'] = ch
 
+# ---------- N2（v6.3）：陳大哥的勞退月退分兩段 ----------
+# 勞保局：勞退月退休金依年金生命表、平均餘命與利率計算，「按季發給至平均餘命止」，
+# 平均餘命、利率及金額「至少每 3 年檢討調整一次」（開始領以後平均餘命不再變動，但會依調整後利率與專戶餘額重算）。
+# 所以 7,000 元不能整段退休期都扣：這裡把退休期切成「領月退期間」與「之後」兩段。
+PENSION_YEARS_ASSUMED = 20      # 假設領 20 年（65 → 85 歲）。這是本文的假設，不是勞保局公布的數字
+RETIREMENT_YEARS_ASSUMED = 30   # 指南既有說法「退休後還要花三十年左右」
+_stage2_years = RETIREMENT_YEARS_ASSUMED - PENSION_YEARS_ASSUMED
+_extra_y = pension * 12                      # 第二段每年多缺的錢（月退停發）
+_extra_total = _extra_y * _stage2_years
+_two = lambda k: gap_y * k + _extra_total
+ch['labor_pension_two_stage'] = {
+    'source_url': 'https://www.bli.gov.tw/0104047.htm',
+    'source_title': '勞保局：勞工退休金月退休金試算',
+    'source_quote': '按季發給至平均餘命止。前述平均餘命、利率及金額至少每3年檢討調整一次',
+    'assumption': {'pension_years': PENSION_YEARS_ASSUMED, 'retirement_years': RETIREMENT_YEARS_ASSUMED,
+                   'note': '20 年與 30 年都是本文的假設，不是勞保局數字；實際年限要用勞保局試算'},
+    'stage1': {'years': PENSION_YEARS_ASSUMED, 'gap_monthly': gap_m, 'gap_yearly': gap_y,
+               'gap_yearly_wan': r1(gap_y / 10000)},
+    'stage2': {'years': _stage2_years, 'extra_monthly': pension, 'extra_yearly': _extra_y,
+               'extra_yearly_wan': r1(_extra_y / 10000), 'extra_total_wan': r1(_extra_total / 10000),
+               'gap_yearly': gap_y + _extra_y, 'gap_yearly_wan': r1((gap_y + _extra_y) / 10000)},
+    'targets_one_stage_wan': {str(k): r0(gap_y * k / 10000) for k in (25, 33, 40)},
+    'targets_two_stage_wan': {str(k): r0(_two(k) / 10000) for k in (25, 33, 40)},
+    'targets_two_stage_wan1': {str(k): r1(_two(k) / 10000) for k in (25, 33, 40)},
+}
+
+# ---------- N1（v6.3）：0.5% 示範費率的扣費結果 ----------
+# 書上規則（第 11 節查表頁表一上面那段小字）：整體報酬率＝表一查到的數字 －總費用率；
+#   拿這個數字查表二，剛好沒有那一列就取「比它小的那一列」，再用表二印出來的數字相乘相加（by_book_table2）。
+# 案例本文沿用原本的算法：用同一個扣完費的報酬率、按月複利、每月月底投入算精確值（exact）。
+# 股票 0%、全放台幣定存的桶子沒有內扣費用，呼叫時傳 fee=0。
+FEE_DEMO = 0.5
+T2_ROWS = [r1(2.0 + 0.2 * i) for i in range(11)]     # 表二印出來的列：2.0%–4.0%，每 0.2 個百分點
+def after_fee(rate, fee=FEE_DEMO): return r1(rate - fee)
+def t2_row(rate):
+    xs = [x for x in T2_ROWS if x <= rate + 1e-9]
+    return max(xs) if xs else None
+def t2_monthly_cell(rate, years): return wan1(fv(0, rate, years * 12, 1000))   # 表二「每月 1,000 元」那張
+def t2_lump_cell(rate, years): return wan1(fv(100000, rate, years * 12, 0))    # 表二「現在有 10 萬」那張
+def fee_case(rate, years, lump, monthly, target_wan=None, fee=FEE_DEMO):
+    ra = after_fee(rate, fee); v = fv(lump, ra, years * 12, monthly)
+    o = {'rate_table1': rate, 'fee_pct': fee, 'rate_after_fee': ra, 'years': years, 'lump': lump, 'monthly': monthly,
+         'no_fee_wan': wan(fv(lump, rate, years * 12, monthly)),
+         'exact': {'wan1': wan1(v), 'wan': wan(v), 'value': round(v)}}
+    row = t2_row(ra)
+    if row is not None and years in list(YEARS):
+        b = t2_lump_cell(row, years) * (lump / 100000) + t2_monthly_cell(row, years) * (monthly / 1000)
+        o['by_book_table2'] = {'row': row, 'lump_cell': t2_lump_cell(row, years),
+                               'monthly_cell': t2_monthly_cell(row, years), 'wan1': r1(b), 'wan': r0(b)}
+    else:
+        o['by_book_table2'] = {'row': row, 'note': '表二沒有可取的列（或年數不在表上），書上要求改用複利計算機'}
+    if target_wan is not None:
+        o['target_wan'] = target_wan; o['enough_exact'] = v >= target_wan * 10000
+        o['short_wan'] = 0 if v >= target_wan * 10000 else wan(target_wan * 10000 - v)
+    return o
+
+FD = {'fee_pct': FEE_DEMO,
+      'method': '整體報酬率（表一查到的數字）直接減 0.5 個百分點（作者 2026-09-18 拍板 Q1-A）。'
+                'exact＝用扣完費的報酬率按月複利算的精確值，案例本文用這個；'
+                'by_book_table2＝讀者拿印好的表二會算出來的數字（沒有那一列就取比它小的那一列）。',
+      'deposit_note': '股票 0%、全放台幣定存的桶子沒有內扣費用，不減示範費率'}
+
+# 小安（第 11 節）：每月 2,000（前 10 個月）→5,000→6,500，八二
+_c65f = lambda m: 2000 if m <= 10 else (5000 if m <= 26 else 6500)
+_xaf = fv(0, after_fee(rt80['low']), 240, _c65f)
+FD['xiaoan'] = {'rate_table1': rt80['low'], 'rate_after_fee': after_fee(rt80['low']), 'target_wan': 200,
+                'no_fee_wan': wan(fv(0, rt80['low'], 240, _c65f)),
+                'plan_6500_low_wan': wan(_xaf), 'plan_6500_low_wan1': wan1(_xaf),
+                'enough_exact': _xaf >= 2_000_000,
+                'base_plan_low_wan': wan(fv(0, after_fee(rt80['low']), 240, base)),
+                'min_enough_step500': min(x for x in (5500, 6000, 6500, 7000, 7500, 8000)
+                                          if fv(0, after_fee(rt80['low']), 240,
+                                                (lambda m, x=x: 2000 if m <= 10 else (5000 if m <= 26 else x))) >= 2_000_000)}
+
+# 主線 2026-09-18 拍板：第 11 節的小安也改成扣費後（0.5% 暫估）。以下鏡射上面 xa 的整套算法，只把報酬率換成扣完費的。
+_rt80f = {k: after_fee(v) for k, v in rt80.items()}
+_xf = FD['xiaoan']
+_xf['rates_after_fee_all'] = _rt80f
+_xf['base_plan'] = {k: {'fv_wan': wan(fv(0, v, 240, base)), 'fv_wan1': wan1(fv(0, v, 240, base)),
+                        'vs_target_wan1': r1(wan1(fv(0, v, 240, base)) - 200)} for k, v in _rt80f.items()}
+_xf['base_principal_wan'] = sum(base(m) for m in range(1, 241)) / 10000
+_xf['options_step500'] = {}
+for _x in (5500, 6000, 6500, 7000):
+    _c = lambda m, x=_x: 2000 if m <= 10 else (5000 if m <= 26 else x)
+    _xf['options_step500'][str(_x)] = {
+        'low_fv_wan1': wan1(fv(0, _rt80f['low'], 240, _c)), 'low_fv_wan': wan(fv(0, _rt80f['low'], 240, _c)),
+        'mid_fv_wan1': wan1(fv(0, _rt80f['mid'], 240, _c)), 'mid_fv_wan': wan(fv(0, _rt80f['mid'], 240, _c)),
+        'high_fv_wan1': wan1(fv(0, _rt80f['high'], 240, _c)), 'high_fv_wan': wan(fv(0, _rt80f['high'], 240, _c)),
+        'principal_wan': sum(_c(m) for m in range(1, 241)) / 10000,
+        'enough_low': fv(0, _rt80f['low'], 240, _c) >= 2_000_000}
+_v60f = fv(0, _rt80f['low'], 60, _c65f)
+_m50f = months_to(0, _rt80f['low'], _c65f, 500000); _m100f = months_to(0, _rt80f['low'], _c65f, 1000000)
+_xf['plan_6500'] = {'low_fv_wan1': wan1(_xaf), 'low_fv_wan': wan(_xaf),
+                    'mid_fv_wan1': wan1(fv(0, _rt80f['mid'], 240, _c65f)), 'mid_fv_wan': wan(fv(0, _rt80f['mid'], 240, _c65f)),
+                    'high_fv_wan1': wan1(fv(0, _rt80f['high'], 240, _c65f)), 'high_fv_wan': wan(fv(0, _rt80f['high'], 240, _c65f)),
+                    'month60_wan1': wan1(_v60f), 'month60_wan': wan(_v60f),
+                    'reach_50wan': {'month': _m50f, 'ym': ym(_m50f)}, 'reach_100wan': {'month': _m100f, 'ym': ym(_m100f)},
+                    'month240': ym(240)}
+# 壓力測試沿用 fix-r3／fix-r4：少的錢用表上印的整數萬算；換成幾個月薪水先除物價倍數再除月薪 3.8 萬
+_xf['stress'] = {}
+for _key, _v, _yrs in (('year5', _v60f, 5), ('y2046', _xaf, 20)):
+    _l = {str(d): r0(wan(_v) * 0.8 * d / 100) for d in (40, 50, 60)}
+    _m = cpi(_yrs)
+    _xf['stress'][_key] = {'amount_wan': wan(_v), 'loss_wan': _l,
+                           'loss50_today_money': {'cpi': _m, 'years': _yrs, 'today_wan': r0(_l['50'] / _m),
+                                                  'months_salary_38k': r1(r0(_l['50'] / _m) * 10000 / 38000),
+                                                  'months_salary_38k_unrounded': r1(_l['50'] / _m * 10000 / 38000)}}
+# 延後（fix-r5 同一套）：不多存時，目標跟著年數重查物價倍數
+_df = months_to_rescaled(0, _rt80f['low'], base, 134, 241)
+_df.update({'ym': ym(_df['month']), 'extra_months': _df['month'] - 240, 'extra_years': round((_df['month'] - 240) / 12, 1),
+            'max_delay_years': 5, 'within_max': _df['month'] - 240 <= 60})
+_xf['delay_rescaled'] = _df
+_xf['section5_2_example'] = {'now_3wan_80pct_loss50_wan': r1(3 * 0.8 * 0.5),
+                             'y2046_loss50_wan': _xf['stress']['y2046']['loss_wan']['50']}
+
+# 阿凱：六四（表一低 3.2%）→ 2.7%；已有 30 萬、20 年、目標 450 萬（2046-09）
+_akf = {'note': '投入＝月收入的百分比，平均月收入 5 萬；未扣費時 24% 到得了 450 萬，扣 0.5% 以後不夠'}
+_akf['pct20_10k'] = fee_case(low64, 20, 300000, 10000, 450)
+_akf['options_step500'] = {str(x): fee_case(low64, 20, 300000, x, 450) for x in (12000, 12500, 13000, 13500)}
+_akf['min_enough_step500'] = min(int(k) for k, v in _akf['options_step500'].items() if v['enough_exact'])
+_akf['min_integer_pct'] = next(p for p in range(20, 41)
+                               if fv(300000, after_fee(low64), 240, 50000 * p / 100) >= 4_500_000)
+_akf['min_integer_pct_monthly'] = {'avg_50k': 50000 * _akf['min_integer_pct'] // 100,
+                                   'low_month_30k': 30000 * _akf['min_integer_pct'] // 100,
+                                   'high_month_80k': 80000 * _akf['min_integer_pct'] // 100,
+                                   'prev_pct_24_monthly_low_month_30k': 30000 * 24 // 100}
+_akm = _akf['min_enough_step500']
+_akf['table_2046'] = {lab: {k: {'pct20_10k': wan(fv(300000, after_fee(lookup[s][k]), 240, 10000)),
+                                'after_gap': wan(fv(300000, after_fee(lookup[s][k]), 240, _akm)),
+                                'rate_after_fee': after_fee(lookup[s][k])} for k in ('low', 'mid', 'high')}
+                      for lab, s in (('64', 60), ('82', 80))}
+_akf['drill_2046_low'] = {}
+for s in (80, 70, 60):
+    _a = wan(fv(300000, after_fee(lookup[s]['low']), 240, _akm))
+    _ls = {str(d): r0(_a * s / 100 * d / 100) for d in (40, 50, 60)}
+    _t = r0(_ls['50'] / cpi(20))
+    _akf['drill_2046_low'][str(s)] = {'rate_after_fee': after_fee(lookup[s]['low']), 'amount_wan': _a, 'loss_wan': _ls,
+                                      'loss50_today_wan': _t, 'loss50_months_income_50k': r1(_t * 10000 / 50000)}
+_d = months_to_rescaled(300000, after_fee(low64), 10000, 302, 241)
+_d.update({'ym': ym(_d['month']), 'extra_months': _d['month'] - 240, 'extra_years': round((_d['month'] - 240) / 12, 1),
+           'max_delay_years': 3, 'within_max': _d['month'] - 240 <= 36})
+_akf['delay_pct20_rescaled'] = _d
+_akf['lower_target_wan'] = int(fv(300000, after_fee(low64), 240, 10000) / 100000) * 10
+FD['akai'] = _akf
+
+# 小芸與阿哲：頭期款桶全放定存（沒有內扣費用）；長期桶八二（表一低 3.6%）→ 3.1%
+_xyf = {'down_payment': {'rate': r0pct, 'fee_pct': 0,
+                         'note': '股票 0%、全放台幣定存，沒有內扣費用，不減示範費率；金額和未扣費相同',
+                         'fv_25k_wan1': wan1(fv(1_200_000, r0pct, 84, 25000)),
+                         'fv_30k_wan1': wan1(fv(1_200_000, r0pct, 84, 30000)),
+                         'if_fee_applied_wan1': wan1(fv(1_200_000, after_fee(r0pct), 84, 30000))}}
+_ltr = lookup[80]['low']
+_xyf['long_term'] = {'save10k': fee_case(_ltr, 30, 400000, 10000, 700),
+                     'options_step500': {str(x): fee_case(_ltr, 30, 400000, x, 700) for x in (10000, 10500, 11000)}}
+_xyf['long_term']['min_enough_step500'] = min(int(k) for k, v in _xyf['long_term']['options_step500'].items() if v['enough_exact'])
+_xym = _xyf['long_term']['min_enough_step500']
+_xyf['long_term']['extra_monthly'] = _xym - 10000
+_xyf['long_term']['table_2056'] = {k: {'rate_after_fee': after_fee(lookup[80][k]),
+                                       'save10k_wan': wan(fv(400000, after_fee(lookup[80][k]), 360, 10000)),
+                                       'after_gap_wan': wan(fv(400000, after_fee(lookup[80][k]), 360, _xym))}
+                                   for k in ('low', 'mid', 'high')}
+_xylt = wan(fv(400000, after_fee(_ltr), 360, _xym))
+_xyf['long_term']['stress_2056_low'] = {'amount_wan': _xylt,
+                                        'loss_wan': {str(d): r0(_xylt * 0.8 * d / 100) for d in (40, 50, 60)}}
+FD['xiaoyun_azhe'] = _xyf
+
+# 陳大哥：防守放台幣定存，但照書上規則仍從整體報酬率直接減 0.5%（把錢算少一點）；股票 0% 那一列不減
+_chr = lambda s, k: lookup[s][k] if s == 0 else after_fee(lookup[s][k])
+_chf = {'note': '800 萬＋每月 3 萬、60 個月到 2031-09', 'deposit_row_note': FD['deposit_note'],
+        'rates_after_fee': {lab: {k: _chr(s, k) for k in ('low', 'mid', 'high')}
+                            for lab, s in (('73', 70), ('64', 60), ('55', 50), ('46', 40), ('28', 20), ('0', 0))},
+        'fv_2031_wan': {lab: {k: wan(fv(8_000_000, _chr(s, k), 60, 30000)) for k in ('low', 'mid', 'high')}
+                        for lab, s in (('73', 70), ('64', 60), ('55', 50), ('46', 40), ('28', 20), ('0', 0))}}
+_chf['by_book_table2_46_low'] = fee_case(lookup[40]['low'], 5, 8_000_000, 30000)['by_book_table2']
+_lo46f = fv(8_000_000, _chr(40, 'low'), 60, 30000); _lo73f = fv(8_000_000, _chr(70, 'low'), 60, 30000)
+_chf['drill_2031_low'] = {}
+for s in (70, 60, 50, 40):
+    _a = wan(fv(8_000_000, _chr(s, 'low'), 60, 30000))
+    _ls = {str(d): r0(_a * s / 100 * d / 100) for d in (40, 50, 60)}
+    _chf['drill_2031_low'][str(s)] = {'rate_after_fee': _chr(s, 'low'), 'amount_wan': _a, 'loss_wan': _ls,
+                                      'loss50_years_of_gap': r1(_ls['50'] * 10000 / gap_y)}
+_chf['stress_800wan_today'] = ch['stress_800wan']  # 現在 800 萬那三列不受報酬率影響，沿用
+_chf['first_year_withdrawal'] = {'amount_wan': r1(gap_y / 10000), 'pct_of_46_low': r1(gap_y / _lo46f * 100),
+                                 'stage2_amount_wan': r1((gap_y + _extra_y) / 10000)}
+_chf['vs_two_stage_targets'] = {
+    'amount_46_low_wan': wan(_lo46f), 'amount_73_low_wan': wan(_lo73f),
+    '46_low_reaches_33x_two_stage': _lo46f >= _two(33), '46_low_over_33x_two_stage_wan': wan(_lo46f - _two(33)),
+    '46_low_reaches_40x_two_stage': _lo46f >= _two(40),
+    '46_low_vs_40x_two_stage_wan': wan(abs(_lo46f - _two(40))),
+    '73_low_reaches_40x_two_stage': _lo73f >= _two(40),
+    '73_minus_46_low_wan': wan(_lo73f - _lo46f),
+    'extra_loss50_73_vs_46_wan': _chf['drill_2031_low']['70']['loss_wan']['50'] - _chf['drill_2031_low']['40']['loss_wan']['50']}
+_chf['floor_5y_gap_wan'] = r1(gap_y * 5 / 10000)
+_chf['deposit_insurance_limit_wan'] = 300
+FD['chen'] = _chf
+R['fee_demo_0_5pct'] = FD
+
 # ---------- XIRR ----------
 def xirr(flows):
     d0 = flows[0][0]
@@ -683,7 +880,21 @@ quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '全部是 2005 到 2007 年買進', '新高月份放五年平均一年 4.5%、其他月份 9.0%；1950 年以後變成 12.0% 對 10.6%',
           '1950 年以前低很多（75% 對 91%），1950 年以後只低一點（91% 對 93%）',
           '1929 年、2000 年新高時買進美股的人，放十年都還是虧的', '就算挑不是新高的日子買，一年後一樣跌掉約一半',
-          '三年、五年的差距，主要就是這一次大跌']
+          '三年、五年的差距，主要就是這一次大跌',
+          # v6.3 第一批（C 組 #cases、D 補丁小安扣費後）落地後的句子
+          '四個人的試算都已經扣掉 0.5% 的示範費率',
+          '扣掉 0.5% 示範費率以後，低情境約 369 萬，差 81 萬',
+          '投入從收入的 20% 調到 26%（25% 只到約 449 萬，不夠），低情境約 465 萬',
+          '3 萬的月份投 7,800 元',
+          '每月從 1 萬改成 1.05 萬（多 500 元），低情境約 724 萬',
+          '按季發給，領到平均餘命為止',
+          '33 倍 832＋84＝約 916 萬',
+          '低情境約 1,088 萬，916 萬的目標夠',
+          '本息合計最高保 300 萬（中央存保）',
+          # 小安改成扣費後（主線 2026-09-18 拍板）
+          '每月改投 6,500 元 → 低情境約 203 萬',
+          '2046 年約 203 萬、跌 50% 少 81 萬']
+
 found = {}
 try:
     sys.path.insert(0, HERE)
@@ -711,6 +922,8 @@ p('阿凱 24% 後演練:', ak['after_gap_24pct'])
 p('阿凱:', ak['fv_10k'], ak['save_more_64'], ak['delay_rescaled_fix_r5'],ak['lower_target_64'], ak['stress']['y2046_64_low'], '八二低到450?', ak['check_82_low_reaches_target'])
 p('小芸阿哲:', xy)
 p('陳大哥:', json.dumps(ch, ensure_ascii=False))
+p('陳大哥 勞退兩段（N2）:', json.dumps(ch['labor_pension_two_stage'], ensure_ascii=False))
+p('扣 0.5% 示範費率（N1）:', json.dumps(R['fee_demo_0_5pct'], ensure_ascii=False))
 p('XIRR:', R['xirr_demo'])
 p('無感期:', R['quiet_period'], '費用差:', R['fee_gap'])
 p('甜蜜點/滿足點:', json.dumps(R['sweet_satisfy']['years'], ensure_ascii=False), '倍數:', R['sweet_satisfy']['ratio_vs_sweet'])
