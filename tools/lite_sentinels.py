@@ -579,7 +579,16 @@ def run(m, pdf_info=None, build_report=None):
                     R.fail('pages', '計畫表那一頁的背面必須是查表頁：計畫表要在奇數頁、查表頁緊接在下一頁'
                                     '（現在計畫表第 %s 頁、查表頁第 %s 頁）' % (st['plan'], st['lookup']))
             else:
-                R.fail('pages', '工作表找不到 plan／lookup 這兩塊，量不出「計畫表背面是查表頁」')
+                # v7 第二輪修正批（N9）：st[id] 在「manifest 沒有這一塊」和「PDF 書籤量不到起頁」
+                # 兩種情況都會落到這裡，訊息要分得出是哪一種。
+                gone = [k for k in ('plan', 'lookup') if k not in st]
+                nopage = [k for k in ('plan', 'lookup') if k in st and not st[k]]
+                if gone:
+                    R.fail('pages', '工作表的 manifest 裡沒有 %s 這一塊，量不出「計畫表背面是查表頁」'
+                           % '／'.join(gone))
+                else:
+                    R.fail('pages', 'PDF 書籤裡量不到 %s 的起頁（書籤標題和章名對不上？），'
+                                    '量不出「計畫表背面是查表頁」' % '／'.join(nopage))
         else:
             # 十二章的實作版（工作表模式以外）照舊只管計畫表那一張紙：計畫表在奇數頁、查表頁緊接在下一頁
             st = dict((ch['id'], s) for ch, s, e, n, top in rows)
