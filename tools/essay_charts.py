@@ -36,6 +36,12 @@ DATA = ROOT / "research" / "data"
 GUIDE = ROOT / "guide" / "index.html"
 CALC = ROOT / "lite" / "calc-results.json"
 
+# v7 批 7：指南模式不再把「官方原圖（英文）：…」那條出處聲明印在 figure 裡面。
+# 它是出處、不是圖說，留在圖下會佔掉手機上「看得到的小字」的額度（每節 ≤350 字），
+# 所以指南改成放在 figure 後面自己的 <details class="more">（可見的三張）或緊接著的 <p class="note">
+# （本來就在摺疊裡的三張）。專篇 essay/sections 沒有那一層，維持印在 figure 裡。
+GUIDE_MODE = False
+
 
 def calc():
     """指南新增的兩張資料圖，數字一律取自 tools/calc_core.py 產生的 lite/calc-results.json，
@@ -146,7 +152,7 @@ REDRAWN = {"ranges", "missing-days", "five-people"}
 
 
 def original_block(cid):
-    if cid not in ORIGINALS:
+    if cid not in ORIGINALS or GUIDE_MODE:
         return ""
     credit, url = ORIGINALS[cid]
     claim = ("本文只重畫數字、不轉載原圖" if cid in REDRAWN
@@ -911,6 +917,8 @@ def fig_note(fig_html):
 
 def do_guide():
     """指南：只換同 id 的圖，保留指南自己的 figcaption。"""
+    global GUIDE_MODE
+    GUIDE_MODE = True   # 出處聲明不印在 figure 裡；指南把它放在 figure 後面（見 GUIDE_MODE 的說明）
     s = GUIDE.read_text(encoding="utf-8")
     funcs = {cid: f for cid, _, _, _, f in CHARTS}
     funcs["human-capital"] = human_capital   # 只在指南
