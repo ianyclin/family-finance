@@ -1,26 +1,55 @@
 {
  "format": "lite-manifest/1",
- "version": "v6.3.1",
+ "version": "v7.0 預覽",
  "date": "2026-09-19",
  "book_title": "隔離人性",
  "edition": "可列印工作表",
- "eyebrow": "計畫表・查表頁・年檢勾選表",
+ "eyebrow": "三張紙：起步版六行・完整版計畫表・年檢表",
  "author": "指數三寶飯・家庭理財陪跑",
- "page_limit": 5,
+ "page_limit": 6,
  "paths": {
   "source": "guide/index.html",
   "full_html": "output/full-v60-out.html"
  },
  "chapters": [
   {
-   "id": "plan",
+   "id": "starter",
    "kind": "cover",
    "title": "隔離人性｜可列印工作表",
    "one_page": true,
    "blocks": [
     {
-     "glue": "<p class=\"small\">理由和出處在《隔離人性｜理財新手完整指南》第十一節「把答案寫成一張紙：我的投資計畫」。</p>"
+     "glue": "<p class=\"small\">新手先印這張。理由和出處在《隔離人性｜理財新手完整指南》第十一節「把答案寫成一張紙：我的投資計畫」。</p>"
     },
+    {
+     "alt": "plan-starter"
+    },
+    {
+     "alt": "plan-panic"
+    }
+   ]
+  },
+  {
+   "id": "cards",
+   "title": "第一張背面：先停下來的四種情況、大跌演練",
+   "one_page": true,
+   "blocks": [
+    {
+     "src": "#ten div.warning"
+    },
+    {
+     "alt": "ch4-drill"
+    },
+    {
+     "glue": "<p class=\"small\">降到兩成還是做不到怎麼辦、比例改了還要補哪幾格：看完整指南第十一節的大跌演練那一段。</p>"
+    }
+   ]
+  },
+  {
+   "id": "plan",
+   "title": "第二張正面：完整版計畫表",
+   "one_page": true,
+   "blocks": [
     {
      "alt": "plan-blank"
     }
@@ -28,7 +57,7 @@
   },
   {
    "id": "lookup",
-   "title": "計畫表背面：查表頁",
+   "title": "第二張背面：查表頁",
    "one_page": true,
    "blocks": [
     {
@@ -38,7 +67,7 @@
   },
   {
    "id": "app-a",
-   "title": "每年一次的檢查表",
+   "title": "第三張正面：每年一次的檢查表",
    "one_page": true,
    "blocks": [
     {
@@ -53,21 +82,18 @@
    ]
   },
   {
-   "id": "cards",
-   "title": "先停下來的四種情況、大跌時照這張卡做",
+   "id": "rebalance",
+   "title": "第三張背面：跑掉多少才動",
    "one_page": true,
    "blocks": [
-    {
-     "src": "#ten div.warning"
-    },
-    {
-     "alt": "ch4-drill"
-    },
     {
      "glue": "<h3>計畫表 F 區「超過門檻」那一格</h3>"
     },
     {
      "src": "#rebalance-525"
+    },
+    {
+     "glue": "<p>家庭一頁表（帳戶、保單、貸款、聯絡人、文件位置）在完整指南「用錢前的準備與家庭交接」那一節。</p>"
     }
    ]
   }
