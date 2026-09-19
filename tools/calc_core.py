@@ -231,7 +231,7 @@ ak['stress']['y2046_64_low']['loss50_today_money'] = {'cpi': cpi(20), 'today_wan
 ak['drill_2046_low'] = {str(s): {'rate': lookup[s]['low'], 'amount_wan': wan(fv(300000, lookup[s]['low'], 240, 10000)),
                                  'loss_wan': {str(d): r0(wan(fv(300000, lookup[s]['low'], 240, 10000)) * s / 100 * d / 100) for d in (40, 50, 60)}}
                         for s in (80, 70, 60)}
-ak['drill_2046_low']['story'] = '八成「先賣一些」做不到 → 七成「想停扣」做不到 → 六成「照常投入」做得到（虛構的回答，不是算出來的）'
+ak['drill_2046_low']['story'] = '第一反應是「先賣一些」（2022 年真的賣過）；做完安排後：八成、七成他覺得還是會賣 → 六成他覺得能照計畫投入、不賣（虛構的回答，不是算出來的）'
 # step0-1（spec-v60-stage2 第 0 步）：C 區改投收入的 24%；壓力測試、大跌演練三列改用補完缺口後（每月平均 1.2 萬）的 2046 年低情境金額；
 # 月數照第 16 格規則：少的錢（印出來的整數萬）÷ 物價倍數 → 今天的錢（整數萬）÷ 月收入 5 萬。drill_2046_low（每月 1 萬）作廢
 _ag = {'pct': 24, 'monthly_avg': 50000 * 24 // 100, 'monthly_30k': 30000 * 24 // 100, 'monthly_80k': 80000 * 24 // 100,
@@ -372,7 +372,7 @@ for s in (70, 60, 50, 40):
     ls_ = {str(d): r0(a_ * s / 100 * d / 100) for d in (40, 50, 60)}
     ch['drill_2031_low'][str(s)] = {'rate': lookup[s]['low'], 'amount_wan': a_, 'loss_wan': ls_,
                                     'loss50_years_of_gap': r1(ls_['50'] * 10000 / gap_y)}
-ch['drill_2031_low']['story'] = '七、六、五成「想賣」→ 四成「照常、不賣，生活費從定存拿」通過（虛構的回答，不是算出來的）'
+ch['drill_2031_low']['story'] = '第一反應是賣掉（2008 年真的賣過）；做完安排後：七、六、五成他覺得還是會賣 → 四成他覺得能照計畫做、不賣，生活費從定存拿（虛構的回答，不是算出來的）'
 ch['drill_2031_low']['q1_floor_covered'] = {'floor_wan': r1(gap_y * 5 / 10000), 'existing_deposit_wan': 240,
                                             'covered': 240 >= gap_y * 5 / 10000}
 ch['stress_800wan']['_note'] = 'fix-r4：現在 800 萬是今天的錢、缺口是 2031 年的錢，時間點不同，指南不再印年數'

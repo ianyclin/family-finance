@@ -525,7 +525,8 @@ table.lite-annual td:nth-child(2){font-size:.84rem}table.lite-annual th:nth-chil
   .lite-ch .data-card{break-inside:avoid}
   table.lite-plan{font-size:10.5pt;line-height:1.52}   /* v6.1：頁首多了窄橫幅，行距從 2.05 收到 1.9，讓整張計畫表（含 H 區）留在第一頁；v6.3 批 2a 再收到 1.75，吸收 E 區第三格、C 區路徑名稱與 F 區加高的手寫線；v7 批 4b 再收到 1.62，吸收 D 區白話欄名、E 區壓力測試拆三步與三問拆三行 */
   /* 起步版六行是「一眼看得完」那一頁：字比其他頁大、留白多、手寫線高 */
-  table.lite-starter{font-size:11.5pt;line-height:1.5}table.lite-starter td{padding:7px 8px}
+  /* v7 第三輪 B：第 4 題多一格「其餘放＿」、卡底那句改成兩階段的新說法、急救卡多一行適用條件，這一頁掉到第 2 頁。字級維持 11.5pt（這一頁要「一眼看得完」），改收行距與列距把三行吸收回來 */
+  table.lite-starter{font-size:11.5pt;line-height:1.38}table.lite-starter td{padding:4px 8px}
   table.lite-starter td>p.small{font-size:9.5pt}
   table.lite-annual{font-size:10pt}table.lite-annual td{padding:9px 5px}
   table.lite-plan-stress{font-size:10pt;line-height:1.5}table.lite-plan-stress th,table.lite-plan-stress td{padding:1px 4px}
