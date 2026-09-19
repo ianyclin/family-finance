@@ -511,15 +511,28 @@ table.lite-plan-h{width:100%;margin-top:.2em}table.lite-plan-h td{height:2.2em;b
 table.lite-plan-stress{width:100%;min-width:0;table-layout:fixed;border-collapse:separate;border-spacing:6px 0;margin:.1em 0 .2em;line-height:1.5}table.lite-plan-stress th{font-weight:400;white-space:nowrap}
 table.lite-plan-stress th:first-child,table.lite-plan-stress td:first-child{width:46%}
 table.lite-plan-stress td{width:auto;height:2em;vertical-align:bottom;border-bottom:1px solid currentColor}table.lite-plan-stress td:first-child{border-bottom:0;white-space:nowrap}
+/* v7 批 4b：第一張紙正面的起步版六行。一欄六列（手機不橫向捲），每一列＝白話問句／小安示範（淡色）／加高的手寫線 */
+table.lite-starter{table-layout:fixed;width:100%}
+table.lite-starter td{vertical-align:top;width:auto}
+table.lite-starter td>p:first-child{margin:0 0 .15em}
+table.lite-starter td>p.small{margin:0 0 .35em}
+/* 一欄的表不會橫向捲，手機上不要印「表格可左右滑動」的提示（完整版對 table.lite-plan 也做了同一件事） */
+@media screen and (max-width:660px){.table-wrap:has(>table.lite-starter)::before{content:none;display:none}}
 table.lite-annual td:nth-child(2){font-size:.84rem}table.lite-annual th:nth-child(3){white-space:nowrap}table.lite-annual th:nth-child(4),table.lite-annual td:nth-child(4){width:40%}
 @media print{
   .lite-ch h3,.lite-ch h4,.lite-ch>.lede{break-after:avoid}
   .lite-ch>h2{break-inside:avoid}
   .lite-ch .data-card{break-inside:avoid}
-  table.lite-plan{font-size:10.5pt;line-height:1.75}   /* v6.1：頁首多了窄橫幅，行距從 2.05 收到 1.9，讓整張計畫表（含 H 區）留在第一頁；v6.3 批 2a 再收到 1.75，吸收 E 區第三格、C 區路徑名稱與 F 區加高的手寫線 */
+  table.lite-plan{font-size:10.5pt;line-height:1.52}   /* v6.1：頁首多了窄橫幅，行距從 2.05 收到 1.9，讓整張計畫表（含 H 區）留在第一頁；v6.3 批 2a 再收到 1.75，吸收 E 區第三格、C 區路徑名稱與 F 區加高的手寫線；v7 批 4b 再收到 1.62，吸收 D 區白話欄名、E 區壓力測試拆三步與三問拆三行 */
+  /* 起步版六行是「一眼看得完」那一頁：字比其他頁大、留白多、手寫線高 */
+  table.lite-starter{font-size:11.5pt;line-height:1.6}table.lite-starter td{padding:9px 8px}
+  table.lite-starter td>p.small{font-size:9.5pt}
   table.lite-annual{font-size:10pt}table.lite-annual td{padding:9px 5px}
   table.lite-plan-stress{font-size:10pt;line-height:1.5}table.lite-plan-stress th,table.lite-plan-stress td{padding:1px 4px}
-  table.lite-lookup th,table.lite-lookup td{padding:1px 5px;line-height:1.25}
+  table.lite-lookup th,table.lite-lookup td{padding:0 5px;line-height:1.08}
+  /* v7 批 4b：查表頁多了「怎麼用，三步」與算好的例子，表以外的文字收小一點，整頁仍留在一頁 */
+  #lookup p,#lookup li{font-size:9.5pt;line-height:1.35}
+  #lookup ol,#lookup p{margin:.2em 0}#lookup .checklist li{margin:.1em 0;padding-left:0}
   @page{size:A4;margin:13mm 13mm 15mm;@bottom-center{content:counter(page);font-size:9pt;color:#666}}
   body{font-size:10pt;line-height:1.4;background:white;color:black}
   header,main,footer{width:100%}

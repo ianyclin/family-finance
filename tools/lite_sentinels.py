@@ -14,7 +14,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import build_lite as B
 
 SKIPPABLE = {'version', 'unused_marks', 'facts', 'cases', 'pages'}
-WORKSHEET_PAGES = 4  # 可列印工作表固定四頁：計畫表、查表頁、年檢勾選表、兩張卡（spec-v61-worksheet.md）
+# 可列印工作表（v7「三張紙」，spec-v61-worksheet.md 末節）：
+#   一塊＝一頁，頁數 5 或 6；6 頁時可以是 6 塊，也可以是 5 塊＋末頁留白（blank_page）。
+#   雙面印時 1–2、3–4、5–6 各是同一張紙的正反面，所以塊數也決定了紙數。
+#   v6.1 的舊規則是固定 4 塊 4 頁（計畫表、查表頁、年檢表、兩張卡），v7 改設計後放進下面的區間；
+#   「每塊一頁」「每塊要有來源」「不得出現章號與附錄」三條沒有放寬，奇偶成對那條從只管前兩頁擴到管每一張紙。
+WORKSHEET_PAGES_MIN = 5
+WORKSHEET_PAGES_MAX = 6
 
 
 def worksheet_mode(m):
@@ -523,6 +529,8 @@ def run(m, pdf_info=None, build_report=None):
             if node is not None:
                 chars[c['id']] = len(B.compact(B.html_text(re.sub(r'<div class="lite-verify">.*?</div>', '', ldom.outer(node), flags=re.S))))
         rows = pi['rows']
+        # 工作表可以在最後一塊的最後放一張刻意留白頁（湊滿第三張紙的背面）：那一塊量到的是兩頁，第二頁是留白頁
+        blank_tail = bool(rows) and any(b.get('blank_page') for b in rows[-1][0].get('blocks', []))
         for i, (ch, s, e, n, top) in enumerate(rows):
             if s is None:
                 R.fail('pages', '%s：PDF 書籤裡找不到章名「%s」' % (ch['id'], B.chapter_heading(ch))); continue
@@ -533,17 +541,41 @@ def run(m, pdf_info=None, build_report=None):
                 R.warn('chars', '%s 字數 %d 超過上限 %d' % (ch['id'], cc, lim))
             if ch.get('one_page'):
                 nxt_top = (i + 1 >= len(rows)) or rows[i + 1][4] or rows[i + 1][1] != e
-                if n != 1 or not top or not nxt_top:
-                    R.fail('pages', '%s「%s」要剛好一頁，實際 %s–%s（開頭在頁首：%s；下一章另起一頁：%s）' % (ch['id'], ch['title'], s, e, top, nxt_top))
+                want_n = 2 if (blank_tail and i == len(rows) - 1) else 1
+                if n != want_n or not top or not nxt_top:
+                    R.fail('pages', '%s「%s」要剛好%s，實際 %s–%s（開頭在頁首：%s；下一章另起一頁：%s）'
+                           % (ch['id'], ch['title'], '一頁＋一張留白頁' if want_n == 2 else '一頁', s, e, top, nxt_top))
                 else:
-                    R.ok('pages', '%s「%s」剛好一頁（第 %d 頁）' % (ch['id'], ch['title'], s))
-        # 計畫表和查表頁要是同一張紙的正反面：整本雙面印時計畫表在奇數頁（正面），查表頁緊接在下一頁（主線決定①）
-        st = dict((ch['id'], s) for ch, s, e, n, top in rows)
-        if st.get('plan') and st.get('lookup'):
-            if st['plan'] % 2 == 1 and st['lookup'] == st['plan'] + 1:
-                R.ok('pages', '計畫表第 %d 頁、查表頁第 %d 頁：整本雙面印剛好是同一張紙的正反面' % (st['plan'], st['lookup']))
-            else:
-                R.fail('pages', '計畫表要在奇數頁、查表頁緊接在下一頁（現在計畫表第 %s 頁、查表頁第 %s 頁）' % (st['plan'], st['lookup']))
+                    R.ok('pages', '%s「%s」剛好一頁（第 %d 頁）%s' % (ch['id'], ch['title'], s,
+                         '，後面一張刻意留白頁' if want_n == 2 else ''))
+        # 每一張紙的正反面：雙面印時第 1–2、3–4、5–6 頁各是同一張紙（主線決定①；v7 從只管前兩頁擴到管每一張紙）
+        if ws:
+            faces = [(ch['id'], s) for ch, s, e, n, top in rows]
+            if blank_tail and rows[-1][1] is not None:
+                faces.append(('（留白頁）', rows[-1][1] + 1))
+            sbad = 0
+            if len(faces) % 2 == 1:
+                R.fail('pages', '工作表有 %d 面，最後一面沒有背面；要嘛補一塊，要嘛在最後一塊末尾加 blank_page' % len(faces))
+                sbad += 1
+            sheets = [(faces[i], faces[i + 1]) for i in range(0, len(faces) - 1, 2)]
+            for (fid, fs), (bid, bs) in sheets:
+                if fs is None or bs is None:
+                    R.fail('pages', '%s／%s：PDF 書籤裡找不到起頁，量不出正反面' % (fid, bid)); sbad += 1
+                elif fs % 2 != 1 or bs != fs + 1:
+                    R.fail('pages', '%s 要在奇數頁（正面）、%s 緊接在下一頁（背面）；現在是第 %s 頁、第 %s 頁'
+                           % (fid, bid, fs, bs)); sbad += 1
+            if not sbad:
+                R.ok('pages', '%d 張紙雙面印，每一張正反面成對：%s' % (len(sheets), '；'.join(
+                    '第 %d 張＝第 %s、%s 頁（%s／%s）' % (i + 1, f[1], b[1], f[0], b[0])
+                    for i, (f, b) in enumerate(sheets))))
+        else:
+            # 十二章的實作版（工作表模式以外）照舊只管計畫表那一張紙：計畫表在奇數頁、查表頁緊接在下一頁
+            st = dict((ch['id'], s) for ch, s, e, n, top in rows)
+            if st.get('plan') and st.get('lookup'):
+                if st['plan'] % 2 == 1 and st['lookup'] == st['plan'] + 1:
+                    R.ok('pages', '計畫表第 %d 頁、查表頁第 %d 頁：整本雙面印剛好是同一張紙的正反面' % (st['plan'], st['lookup']))
+                else:
+                    R.fail('pages', '計畫表要在奇數頁、查表頁緊接在下一頁（現在計畫表第 %s 頁、查表頁第 %s 頁）' % (st['plan'], st['lookup']))
         if pi['page_count'] > limit:
             R.fail('pages', '實作版 PDF %d 頁，超過上限 %d 頁' % (pi['page_count'], limit))
         else:
@@ -758,15 +790,24 @@ def run(m, pdf_info=None, build_report=None):
     if not fbad and heads:
         R.ok('fiction', '%d 個人物標題前面都緊接著虛構聲明' % len(heads))
 
-    # 14b. 工作表（spec-v61-worksheet.md）：四塊各一頁、四塊都印得出來、每一塊都有完整版來源、沒有章與附錄
+    # 14b. 工作表（spec-v61-worksheet.md「v7：三張紙」）：
+    #      每一塊剛好一頁、每一塊都印得出來、每一塊都有完整版來源、頁數 5 或 6（6 頁時末頁可以是留白頁）、
+    #      塊數對得上頁數、沒有章與附錄。奇偶頁成對（正反面）那一條在 pages 那一支。
     if not ws:
         R.skip('worksheet', '不是工作表模式（manifest 還有章號或目錄），這一支不適用')
     else:
         wbad = 0
         chs = m['chapters']
-        if len(chs) != WORKSHEET_PAGES:
-            R.fail('worksheet', '工作表要剛好 %d 塊（各一頁），manifest 有 %d 塊：%s'
-                   % (WORKSHEET_PAGES, len(chs), '、'.join(c['id'] for c in chs))); wbad += 1
+        blanks = sum(1 for c in chs for b in c.get('blocks', []) if b.get('blank_page'))
+        want_pages = len(chs) + blanks
+        if not (WORKSHEET_PAGES_MIN <= want_pages <= WORKSHEET_PAGES_MAX):
+            R.fail('worksheet', '工作表要 %d 到 %d 頁（一塊一頁，末頁可以是留白頁），manifest 有 %d 塊＋%d 張留白：%s'
+                   % (WORKSHEET_PAGES_MIN, WORKSHEET_PAGES_MAX, len(chs), blanks,
+                      '、'.join(c['id'] for c in chs))); wbad += 1
+        if blanks:
+            last_blocks = chs[-1].get('blocks', [])
+            if blanks > 1 or not (last_blocks and last_blocks[-1].get('blank_page')):
+                R.fail('worksheet', '留白頁只准有一張，而且只能放在最後一塊的最後（現在 %d 張）' % blanks); wbad += 1
         srcs = []
         for c in chs:
             if not (c.get('one_page') or c.get('kind') == 'cover'):
@@ -780,8 +821,12 @@ def run(m, pdf_info=None, build_report=None):
             srcs.append('%s＝%s' % (c['id'], '＋'.join('%s:%s' % g for g in got)))
         if lite_pdf_pages is None:
             R.fail('worksheet', '沒有工作表 PDF，量不到頁數'); wbad += 1
-        elif lite_pdf_pages != WORKSHEET_PAGES:
-            R.fail('worksheet', '工作表 PDF %d 頁，要剛好 %d 頁' % (lite_pdf_pages, WORKSHEET_PAGES)); wbad += 1
+        elif not (WORKSHEET_PAGES_MIN <= lite_pdf_pages <= WORKSHEET_PAGES_MAX):
+            R.fail('worksheet', '工作表 PDF %d 頁，要 %d 到 %d 頁'
+                   % (lite_pdf_pages, WORKSHEET_PAGES_MIN, WORKSHEET_PAGES_MAX)); wbad += 1
+        elif lite_pdf_pages != want_pages:
+            R.fail('worksheet', '工作表 PDF %d 頁，但 manifest 是 %d 塊＋%d 張留白＝%d 頁（一塊一頁）'
+                   % (lite_pdf_pages, len(chs), blanks, want_pages)); wbad += 1
         ltext = B.html_text(lite)
         chap = re.findall(r'第\s*(?:[一二三四五六七八九十]+|\d+)\s*章', ltext)
         appx = re.findall(r'附錄\s*[0-9A-Za-z一二三四五六七八九十]|附\s*[A-Z](?![a-z])', ltext)
@@ -790,8 +835,8 @@ def run(m, pdf_info=None, build_report=None):
         if appx:
             R.fail('worksheet', '工作表出現附錄（附 A／附 B 已退場）：%s' % '、'.join(sorted(set(appx)))); wbad += 1
         if not wbad:
-            R.ok('worksheet', '工作表 %d 塊各一頁、PDF %d 頁、沒有章號與附錄；每一塊的來源：%s'
-                 % (len(chs), lite_pdf_pages, '　'.join(srcs)))
+            R.ok('worksheet', '工作表 %d 塊各一頁（＋%d 張留白）、PDF %d 頁＝%d 張紙、沒有章號與附錄；每一塊的來源：%s'
+                 % (len(chs), blanks, lite_pdf_pages, (lite_pdf_pages + 1) // 2, '　'.join(srcs)))
 
     # 15. 完整版 s13 篩選：只在網頁顯示、靜態 HTML 不預先隱藏
     scripts = ''.join(fdom.s[n.open_end:n.inner_end] for n in fdom.nodes if n.tag == 'script')
