@@ -81,3 +81,7 @@ python3 tools/test_guidetools.py tools guide/index.html
 - 〔第 7 批〕lifecycle 的 sequence-risk 圖 `p.note`（277 字，`tools/v63_g02*`，有 calc_core quotes 盯著的句子不能動）：把沒有被 quotes 盯的口徑句移進圖下 `details.more`，兩邊同步；做不到 350 就回報，不硬砍。
 - 〔第 7 批／4b〕firstmonth 第一週放一份「起步版六行」小卡或明確連到 `#plan-starter`（格式以第 4a 批定案的為準）。
 - 〔第 7 批〕annual 的 `p.lede`「照計畫表 F 區設定的比例拆兩筆」與同節「和 E 區的設定差多少」：比例寫在 E 區，lede 改成不提區名（part_maps 同步）。
+- 〔第 7 批〕s11 以外依賴「F 區三格」的句子同步成一格的說法：清單在第 4a 批回報，已存成 `wip/v63-review/f-zone-sync-list.md`。另：s11 三問第 2 題「通過才留在這個比例；沒通過…」改成和演練卡一致的有限說法（「演練沒有發現做不到的地方，才留在這個比例，仍寫暫定；做不到，股票比例降一成再演練」）；cases 阿凱演練「和 F 區一樣／不一樣、通過／沒通過」同理。
+- 〔第 7 批〕`#plan-starter` 要有入口：封面「怎麼讀這本書」、ten 的 `p.decision`、firstmonth 第一週、s10 最後一張 planstep 之後各一句連過去（「六行填完了，到第 11 節把它們抄在一起」）。
+- 〔第 7 批〕`tools/v63_g01_plan_flow.py` 的 `p.note` 與 figcaption 重複講兩條回頭的路，留一份。
+- 〔第 7 批〕`methods` 版本紀錄加 v7.0 預覽一條（主線減重與移層、起步版六行、F 區收一格、第 14 節改查詢區、工作表三張紙）。封面版本字樣改「v7.0 預覽／2026-09-19」（`version` 哨兵要兩份封面一致，和第 4b 批協調：4b 改 `lite/manifest.json`，第 7 批改指南封面；合併後由 Fable 重建確認）。
