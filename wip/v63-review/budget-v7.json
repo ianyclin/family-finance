@@ -1,5 +1,5 @@
 {
- "_comment": "mainline 上限（tools/v7_check.py budget）。基準 v6.3.1：mainline 61,621、small 19,551、source 12,844（來源卡獨立一欄，不算 small）、visible＝mainline+small 81,172。見 mainline-baseline-v631.json。",
+ "_comment": "mainline 上限（tools/v7_check.py budget）。基準 v6.3.1：mainline 61,621、small 19,551、source 12,844（來源卡獨立一欄，不算 small）、visible＝mainline+small 81,172。見 mainline-baseline-v631.json。v7 欄位名橋接批：cases 放寬到 2,050（派工指定）；s11 放寬到 3,550，因為 Fable 裁定的三處欄位名橋接（保守算／已經投資的錢／每年被扣的費用）只能寫在 s11 主線，硬塞進原本的 3,500 就得刪別的主線句子。",
  "_total_max": 50000,
  "cover": 320,
  "ten": 600,
@@ -15,8 +15,8 @@
  "s8": 1000,
  "s9": 1000,
  "s10": 1800,
- "s11": 3500,
- "cases": 2000,
+ "s11": 3550,
+ "cases": 2050,
  "s12": 2000,
  "s13": 3000,
  "firstmonth": 1300,
