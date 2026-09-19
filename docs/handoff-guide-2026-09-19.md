@@ -34,7 +34,7 @@
 - 可列印工作表：https://claude.ai/artifact/492iv4AuQeSHVPRN2XEC1E （第 8 版＝v6.3.1）
 - **外部讀者看到的是 Share 選單裡「釘選」的那一版**。發了新版不等於讀者看得到，要作者自己去 Share 改釘選。
 
-**v7.0 預覽網址**：（見 session 最後回報，Fable 會補）
+**v7.0 預覽網址**：完整指南 https://claude.ai/artifact/9WawELoGewi9ecKK32YcfU ；工作表 https://claude.ai/artifact/SyGNXbzfPAXVeundB33Wb4 （2026-09-19 各第 1 版；更新時帶這兩個 `url`，不要覆蓋正式版）
 
 **規矩**：作者說「我會先看」。**作者看過、同意之前，不要把 v7 發到正式網址、不要合併回 `main`。**
 

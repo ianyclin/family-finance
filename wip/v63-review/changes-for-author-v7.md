@@ -1,6 +1,6 @@
 # v7.0 預覽：給作者的變動清單（2026-09-19）
 
-正式網址仍是 v6.3.1。v7.0 預覽另發私人網址，你看過、同意之前不會換。每一項都可以單獨退回。
+正式網址仍是 v6.3.1。v7.0 預覽（私人）：完整指南 https://claude.ai/artifact/9WawELoGewi9ecKK32YcfU ；工作表 https://claude.ai/artifact/SyGNXbzfPAXVeundB33Wb4 。你看過、同意之前不會換正式網址。每一項都可以單獨退回。
 
 ## 一、請你特別看的決定（我自己拿的主意，或動到你的規則）
 
