@@ -568,6 +568,18 @@ def run(m, pdf_info=None, build_report=None):
                 R.ok('pages', '%d 張紙雙面印，每一張正反面成對：%s' % (len(sheets), '；'.join(
                     '第 %d 張＝第 %s、%s 頁（%s／%s）' % (i + 1, f[1], b[1], f[0], b[0])
                     for i, (f, b) in enumerate(sheets))))
+            # v7 最終修正批（B9）：把 v6 那條指名的檢查補回來——計畫表那一頁的背面必須是查表頁。
+            # 上面的成對檢查只管「奇數頁＋下一頁」，不擋把 plan 和 lookup 拆到不同張紙上。
+            st = dict((ch['id'], s) for ch, s, e, n, top in rows)
+            if st.get('plan') and st.get('lookup'):
+                if st['plan'] % 2 == 1 and st['lookup'] == st['plan'] + 1:
+                    R.ok('pages', '計畫表第 %d 頁、查表頁第 %d 頁：計畫表那一頁的背面就是查表頁'
+                         % (st['plan'], st['lookup']))
+                else:
+                    R.fail('pages', '計畫表那一頁的背面必須是查表頁：計畫表要在奇數頁、查表頁緊接在下一頁'
+                                    '（現在計畫表第 %s 頁、查表頁第 %s 頁）' % (st['plan'], st['lookup']))
+            else:
+                R.fail('pages', '工作表找不到 plan／lookup 這兩塊，量不出「計畫表背面是查表頁」')
         else:
             # 十二章的實作版（工作表模式以外）照舊只管計畫表那一張紙：計畫表在奇數頁、查表頁緊接在下一頁
             st = dict((ch['id'], s) for ch, s, e, n, top in rows)
