@@ -22,7 +22,8 @@
 「節」的定義：每個 <section id=…>，另加 header#top.cover（記為 cover）與 nav#toc（記為 toc）。
 分類優先序（互斥，一段文字只算一次）：folded > story > source > small；
 mainline = total − folded − story − source − small。來源卡（.source-card）自成一欄，
-既不算 small 也不算 mainline，也不進 visible。
+既不算 small 也不算 mainline，也不進 visible。來源卡本身是 <details class="source-card">
+（v7 第五輪起預設收起、列印全開）時仍算 source，不算 folded。
 """
 import argparse
 import json
@@ -88,7 +89,9 @@ class Doc(HTMLParser):
         for tag, cls in self.stack:
             if tag in SKIP:
                 skip = True
-            elif tag == 'details':
+            elif tag == 'details' and not (cls & SOURCE_CLASSES):
+                # 來源卡 v7 第五輪起本身就是 <details class="source-card">（預設收起、列印全開）。
+                # 它仍然自成 source 一欄，不算 folded；裡面另外包的 details 照樣算 folded。
                 det = True
             elif tag == 'div' and 'story' in cls:
                 sto = True

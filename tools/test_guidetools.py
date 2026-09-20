@@ -42,6 +42,8 @@ def add_before(h):
     h = h.replace('<span class="later">', '<span data-lite="skip" class="later">')
     h = h.replace('<p class="small">', '<p data-lite="ch4" class="small">')
     h = h.replace('<div class="source-card">', '<div data-lite="skip" class="source-card">')
+    # v7 第五輪：來源卡改成 <details class="source-card" data-print="open">，屬性放在 class 前面也要認得
+    h = h.replace('<details class="source-card"', '<details data-lite="skip" class="source-card"')
     h = h.replace('<a class="term"', '<a data-lite="x" class="term"')
     return h
 
@@ -122,6 +124,16 @@ expect('mark in li>strong -> OK', rc == 0, out)
 p2 = os.path.join(tmp, 'two.html')
 open(p2, 'w', encoding='utf-8').write(base.replace('</body>', '<p><mark class="key top">頂級句</mark></p></body>'))
 expect('to_text turns key top into ★…★', '★頂級句★' in gt.to_text(p2))
+
+# --- v7 第五輪：來源卡改成 <details class="source-card">，to_text 仍要整塊拿掉
+sc = base.replace('</body>', '<details class="source-card" data-print="open"><summary>直接來源（1 筆）</summary>'
+                             '<a class="source-link" href="#x">來源卡裡的字不該出現在正文</a></details></body>')
+p3 = os.path.join(tmp, 'sc.html'); open(p3, 'w', encoding='utf-8').write(sc)
+expect('to_text strips details.source-card', '來源卡裡的字不該出現在正文' not in gt.to_text(p3))
+expect('to_text keep_sources keeps it', '來源卡裡的字不該出現在正文' in gt.to_text(p3, keep_sources=True))
+p4 = os.path.join(tmp, 'sc2.html')
+open(p4, 'w', encoding='utf-8').write(base.replace('</body>', '<div class="source-card"><p>舊版來源卡</p></div></body>'))
+expect('to_text still strips div.source-card', '舊版來源卡' not in gt.to_text(p4))
 
 print('RESULT', 'ALL PASS' if fails == 0 else '%d FAIL' % fails)
 sys.exit(1 if fails else 0)

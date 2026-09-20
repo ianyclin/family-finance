@@ -105,6 +105,19 @@ expect('mainline: story 裡的來源卡算 story（story > source）',
        (Rs['p2']['story'], Rs['p2']['source']) == (5, 0), Rs['p2'])
 expect('mainline: details 裡的來源卡算 folded（folded > source）',
        (Rs['p3']['folded'], Rs['p3']['source']) == (5, 0), Rs['p3'])
+
+# v7 第五輪：來源卡本身改成預設收起的 <details class="source-card">，仍算 source、不算 folded；
+# 來源卡裡面另外包的 details 照舊算 folded。
+sc_html = w('sc.html',
+            '<section id="q1"><details class="source-card" data-print="open"><summary>直接來源（1 筆）</summary>'
+            '<a class="source-link" href="#">一二三四五</a></details></section>'
+            '<section id="q2"><details class="source-card"><summary>來源</summary>一二三'
+            '<details><p>四五六七</p></details></details></section>')
+Rc = rows_of(sc_html)
+expect('mainline: details.source-card 仍算 source，不算 folded',
+       (Rc['q1']['source'], Rc['q1']['folded'], Rc['q1']['mainline']) == (5 + len('直接來源（1筆）'), 0, 0), Rc['q1'])
+expect('mainline: 來源卡裡面的 details 算 folded',
+       (Rc['q2']['folded'], Rc['q2']['mainline']) == (4, 0), Rc['q2'])
 expect('mainline: 同一元素同時有 small 與 source-card 算 source',
        (Rs['p4']['source'], Rs['p4']['small']) == (5, 0), Rs['p4'])
 expect('mainline: 來源卡不算 mainline 也不算 visible',

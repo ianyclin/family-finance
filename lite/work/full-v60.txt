@@ -1,4 +1,4 @@
-（抽取時間 2026-09-20 12:22；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
+（抽取時間 2026-09-20 12:26；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
 
 隔離人性｜理財新手完整指南
 
@@ -91,9 +91,10 @@ document.querySelectorAll('details.read-how').forEach(function(d){d.open=true;})
 function openToc(){if(location.hash==='#toc'){document.querySelectorAll('#toc details.toc-part').forEach(function(d){d.open=true;});}}
 openToc();window.addEventListener('hashchange',openToc);
 document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href="#toc"]');if(a){document.querySelectorAll('#toc details.toc-part').forEach(function(d){d.open=true;});}},true);})();
-(function(){var timer=null;
-function mark(){Array.prototype.forEach.call(document.querySelectorAll('.table-wrap'),function(w){
-if(w.scrollWidth>w.clientWidth+2){w.classList.add('is-scrollable');}else{w.classList.remove('is-scrollable');}});}
+(function(){/* 連到收起的摺疊（來源卡、想深入）裡的錨點時，把祖先 details 全部打開 */
+function openAncestors(id){if(!id){return null;}var t=null;try{t=document.getElementById(id);}catch(e){return null;}
+if(!t){return null;}var n=t.parentNode;while(n&&n.nodeType===1){if(n.tagName==='DETAILS'&&!n.open){n.open=true;}n=n.parentNode;}return t;}
+function idOf(s){if(!s||s.lengthw.clientWidth+2){w.classList.add('is-scrollable');}else{w.classList.remove('is-scrollable');}});}
 function later(){if(timer){clearTimeout(timer);}timer=setTimeout(mark,120);}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',later);}else{later();}
 window.addEventListener('load',later);window.addEventListener('resize',later);

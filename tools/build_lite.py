@@ -401,7 +401,8 @@ def remove_elements(s):
     kill = []
     for n in dom.nodes:
         cl = n.classes()
-        if (n.tag == 'p' and 'explain' in cl) or (n.tag == 'div' and ('source-card' in cl or 'sources-grid' in cl)) \
+        # 來源卡 v7 第五輪起是 <details class="source-card">（原本是 div），兩種都要拿掉
+        if (n.tag == 'p' and 'explain' in cl) or ('source-card' in cl or 'sources-grid' in cl) \
                 or n.tag in ('figure', 'svg', 'img', 'script', 'style') or (n.tag == 'a' and 'back' in cl) \
                 or (n.tag == 'details' and 'orig' in cl) \
                 or 'skip' in n.tokens('data-lite'):

@@ -30,14 +30,19 @@ def open_tag(tag, cls=None):
 
 def count_open(h, tag, cls=None): return len(re.findall(open_tag(tag, cls), h))
 
-def div_blocks(h, cls):
-    """Yield (start, end) of each <div class="cls" ...>...</div>, matching nested divs."""
-    for m in re.finditer(open_tag('div', cls), h):
+def tag_blocks(h, tag, cls):
+    """Yield (start, end) of each <tag class="cls" ...>...</tag>, matching nested same-tag elements."""
+    close = '</%s>' % tag
+    for m in re.finditer(open_tag(tag, cls), h):
         depth = 0; j = m.start(); k = len(h)
-        for t in re.finditer(r'<div\b[^>]*>|</div>', h[j:]):
-            depth += -1 if t.group(0) == '</div>' else 1
+        for t in re.finditer(r'<%s\b[^>]*>|</%s>' % (tag, tag), h[j:]):
+            depth += -1 if t.group(0) == close else 1
             if depth == 0: k = j + t.end(); break
         yield j, k
+
+def div_blocks(h, cls):
+    """Yield (start, end) of each <div class="cls" ...>...</div>, matching nested divs."""
+    return tag_blocks(h, 'div', cls)
 
 class _MarkScan(HTMLParser):
     """走一次 DOM，找出每個 mark.key／mark.key.top 所在的節與祖先鏈。"""
@@ -147,18 +152,23 @@ def check(path):
         print('CHECK FAILED'); [print(' -', e) for e in errs]; sys.exit(1)
     print('CHECK OK')
 
-def strip_div(h, cls):
+def strip_blocks(h, cls, tags=('div', 'details')):
+    """拿掉整塊 <tag class="cls">…</tag>。來源卡 v7 第五輪起是 <details class="source-card">，
+    舊版是 <div class="source-card">，兩種都要認得出來。"""
+    spans = sorted(s for t in tags for s in tag_blocks(h, t, cls))
     out = []; i = 0
-    for j, k in div_blocks(h, cls):
+    for j, k in spans:
         if j < i: continue  # nested inside a block already stripped
         out.append(h[i:j]); i = k
     out.append(h[i:])
     return ''.join(out)
 
+def strip_div(h, cls): return strip_blocks(h, cls, ('div',))
+
 def to_text(path, keep_sources=False):
     h = read(path)
     h = re.sub(r'<style.*?</style>', '', h, flags=re.S)
-    if not keep_sources: h = strip_div(h, 'source-card')
+    if not keep_sources: h = strip_blocks(h, 'source-card')
     h = re.sub(r'<svg.*?</svg>', '', h, flags=re.S)
     h = re.sub(open_tag('details', 'orig') + r'.*?</details>', '', h, flags=re.S)
     h = re.sub(r'<img[^>]*alt="([^"]*)"[^>]*>', r'〔圖：\1〕', h); h = re.sub(r'<img[^>]*>', '', h)
