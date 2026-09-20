@@ -49,7 +49,7 @@
 3. **現在有兩條線**：`main` ＝已發布的 v6.3.1；`v7-preview` ＝重寫過的 v7.0 預覽，**還沒合併、還沒上正式網址**。等作者看。見下一節。
 4. **改完一定跑**：`python3 tools/build_lite.py`（exit 0＋`SENTINELS OK` 才算做完）＋ `tools/v7_check.py` 四支。**哨兵紅了不要繞過**，照 `docs/core-edition/specs/lite-format.md` 第 9 節那一欄處理；也不要為了變綠而放寬哨兵語意。
 5. **這個資料夾是獨立的本機 git repo**（無遠端）。根目錄 `life-journal` 是公開 GitHub 倉庫，已 gitignore 本資料夾；**永遠不要把 family-finance 加進 life-journal**。動手前先 commit，改完先給作者看 diff。
-6. **作者的鐵律**：教學段不推薦商品（代號只准出現在黃框 `div.story`）；黃框「」裡的引句一個字都不能改；文件不替讀者下結論；每個數字要有來源。
+6. **作者的鐵律**：（2026-09-20 作者更正：「我沒有不推薦，我是只推薦市值型指數 etf」——這條原本被記成「不推薦商品」，是 AI 這邊一路收緊的；正確的理解是：書只推薦市值型指數 ETF 這一類，教學段不寫個別商品代號）教學段不寫個別商品（代號只准出現在黃框 `div.story`）；黃框「」裡的引句一個字都不能改；文件不替讀者下結論；每個數字要有來源。
 7. **派子代理照 `CLAUDE.md` 的分流**：跑腳本 runner、找位置 scout、套改動 applier、建造 builder、驗收 judge（決策與思考用 Fable，其餘派 Opus）。主線不要自己寫長篇。
 
 ---
