@@ -1162,6 +1162,10 @@ R['taiex_stoploss'] = {
 assert (R['taiex_stoploss']['n_triggers'], R['taiex_stoploss']['n_one_year_higher']) == (11, 9)
 assert R['taiex_stoploss']['worst_2007']['low_within_2y_vs_sell_pct'] == -47.9
 assert (R['taiex_stoploss']['n_rebought'], R['taiex_stoploss']['rebuy_vs_sell_pct_min'], R['taiex_stoploss']['rebuy_vs_sell_pct_max']) == (11, 18.2, 22.8)
+# v7 審核團批 A4：買回價／賣價的下限是規則本身的算術（1 ÷ 0.85），和資料無關；書上印 17.6%
+R['taiex_stoploss']['rebuy_vs_sell_pct_floor_from_rule'] = r1((1 / 0.85 - 1) * 100)
+assert R['taiex_stoploss']['rebuy_vs_sell_pct_floor_from_rule'] == 17.6
+assert R['taiex_stoploss']['rebuy_vs_sell_pct_min'] >= R['taiex_stoploss']['rebuy_vs_sell_pct_floor_from_rule']
 assert R['taiex_stoploss']['worst_2007']['rebuy_date'] == '2010-12-09' and R['taiex_stoploss']['worst_2007']['rebuy_vs_sell_pct'] == 18.9
 # 加了空手期間的利息，11 次的買回價仍然全部高於現金（兩種利率都是）——所以「結論不變」站得住
 assert all(v['n_rebuy_above_cash'] == 11 and v['rebuy_vs_cash_pct_min'] > 0
@@ -1401,11 +1405,12 @@ quotes += ['只有 42.6% 的終身報酬贏過同一段時間的一個月期國�
            '它得漲 1,362%']
 # v6.3 批 3 修正：第 5 節滿足點表外那一句補數字；第 7 節兩個分母與名單口徑
 # v7 六位模擬讀者批第二輪（裁判⑥ M2/M3）：第 11 節停損那一段的口徑小字，數字來自 taiex_stoploss
-quotes += ['「從高點跌 15% 就賣、等指數回到原來的高點才買回」會觸發 11 次，11 次的買回價都比賣價高約兩成',
+quotes += ['「從高點跌 15% 就賣、等指數回到原來的高點才買回」會觸發 11 次。這條規則的結果是算術，不是運氣：'
+           '賣在高點下面 15%、等回到高點才買，買回價一定比賣價高至少 17.6%（1 ÷ 0.85）；台股這 11 次實際高 18% 到 23%',
            '賣出後兩年內指數最低比賣價再低近五成；但照這條規則要到 2010 年 12 月才買回，買回價比賣價高約一成九']
 # v7 預覽「錢變多以後：一天的漲跌，會開始超過月薪」批：第 8 節 #s5-daily 那一段。
 # 主線那張表的第三欄來自 taiex_daily_moves；示範句與摺疊裡兩張小表來自 months_to_salary_multiple。
-quotes += ['沒有發生過（單日最大跌幅約 9.7%）',
+quotes += ['沒有發生過：台股有單日漲跌幅限制，這份資料最大的一天約 −9.7%',
            '平均一年約 10 天',
            '平均一年約 32 天',
            '大約第 8 年到 25 倍，第 21 年到 100 倍',
