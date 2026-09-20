@@ -900,6 +900,7 @@ def taiex_stoploss(threshold=0.15):
             elif vals[i] <= vals[peak] * (1 - threshold):
                 out.append({'peak': peak, 'sell': i}); holding = False
         elif vals[i] > vals[peak]:
+            out[-1]['rebuy'] = i
             holding, peak = True, i
     eps = []
     for e in out:
@@ -915,7 +916,10 @@ def taiex_stoploss(threshold=0.15):
                     'one_year_date': dates[j].isoformat(), 'one_year_value': round(vals[j], 2),
                     'one_year_higher': vals[j] > sell_v, 'short_window': short,
                     'low_within_2y_date': dates[lo_i].isoformat(), 'low_within_2y_value': round(lo, 2),
-                    'low_within_2y_vs_sell_pct': r1((lo / sell_v - 1) * 100)})
+                    'low_within_2y_vs_sell_pct': r1((lo / sell_v - 1) * 100),
+                    'rebuy_date': (dates[e['rebuy']].isoformat() if 'rebuy' in e else None),
+                    'rebuy_value': (round(vals[e['rebuy']], 2) if 'rebuy' in e else None),
+                    'rebuy_vs_sell_pct': (r1((vals[e['rebuy']] / sell_v - 1) * 100) if 'rebuy' in e else None)})
     return eps
 
 
@@ -929,6 +933,9 @@ R['taiex_stoploss'] = {
     'n_one_year_higher': sum(1 for e in _sl if e['one_year_higher']),
     'n_short_window': sum(1 for e in _sl if e['short_window']),
     'worst_2007': (_sl_2007[0] if _sl_2007 else None),
+    'n_rebought': sum(1 for e in _sl if e['rebuy_date']),
+    'rebuy_vs_sell_pct_min': min(e['rebuy_vs_sell_pct'] for e in _sl if e['rebuy_date']),
+    'rebuy_vs_sell_pct_max': max(e['rebuy_vs_sell_pct'] for e in _sl if e['rebuy_date']),
     'episodes': _sl,
     'caveats': ['一個市場、23 年、一條門檻的紀錄，不是規律；換門檻、換市場、換期間，數字就會變',
                 '沒有扣交易成本與稅（扣了對這條規則更不利），也沒有算空手期間的現金報酬（算了稍微有利）',
@@ -936,6 +943,8 @@ R['taiex_stoploss'] = {
 }
 assert (R['taiex_stoploss']['n_triggers'], R['taiex_stoploss']['n_one_year_higher']) == (11, 9)
 assert R['taiex_stoploss']['worst_2007']['low_within_2y_vs_sell_pct'] == -47.9
+assert (R['taiex_stoploss']['n_rebought'], R['taiex_stoploss']['rebuy_vs_sell_pct_min'], R['taiex_stoploss']['rebuy_vs_sell_pct_max']) == (11, 18.2, 22.8)
+assert R['taiex_stoploss']['worst_2007']['rebuy_date'] == '2010-12-09' and R['taiex_stoploss']['worst_2007']['rebuy_vs_sell_pct'] == 18.9
 
 # ---------- 四類資產逐年輪換（美股、10 年期公債、3 個月國庫券、台股） ----------
 # 美國三類取 Damodaran（紐約大學）公開資料集；台股用本文自己的含息報酬指數。
@@ -1169,8 +1178,8 @@ quotes += ['只有 42.6% 的終身報酬贏過同一段時間的一個月期國�
            '它得漲 1,362%']
 # v6.3 批 3 修正：第 5 節滿足點表外那一句補數字；第 7 節兩個分母與名單口徑
 # v7 六位模擬讀者批第二輪（裁判⑥ M2/M3）：第 11 節停損那一段的口徑小字，數字來自 taiex_stoploss
-quotes += ['「從高點跌 15% 就賣」會觸發 11 次，其中 9 次一年後指數高於賣價',
-           '2007 年 11 月那一次賣出後，兩年內指數最低比賣價再低近五成']
+quotes += ['「從高點跌 15% 就賣、等指數回到原來的高點才買回」會觸發 11 次，11 次的買回價都比賣價高約兩成',
+           '賣出後兩年內指數最低比賣價再低近五成；但照這條規則要到 2010 年 12 月才買回，買回價比賣價高約一成九']
 quotes += ['存 15%、低 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']
