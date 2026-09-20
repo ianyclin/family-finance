@@ -104,7 +104,7 @@
 |---|---|---|
 | 節號連結 | `第 <a class="xref" href="#s4">4</a> 節` | 內文出現「第 N 節」一律要連 |
 | 名詞連結 | `<a class="term" href="#g-xxx" title="一句解釋">詞</a>` | 每節只標第一次；不標在標題、白話版、黃框、strong、其他連結裡。目前 105 處 |
-| 重點句（兩級） | 黃線 `<mark class="key">句子</mark>`／淡紅線 `<mark class="key top">句子</mark>` | v7 第五輪起分兩級（作者：「重點可以黃線，超級重點可以淡紅線」「不是一節限制一句」）。現在共 115 句：黃線 101、淡紅線 14（清單見下）。**黃線沒有每節句數上限**；淡紅線是「整本書只記得這一句」，一個核心觀念最多一句。兩級都要單獨看得懂、是行動或結論，而且**不准放在** `<details>`、`div.story`、`p.explain`、`.source-card`、標題（h1–h4）、小字（`.small`／`p.note`）、`figcaption`、`summary`、表格儲存格（`td`／`th`）裡——`python3 tools/guidetools.py check` 會擋下來，並印出 `marks 115 … markstop 14 (黃線 101＋淡紅 14)` |
+| 重點句（兩級） | 黃線 `<mark class="key">句子</mark>`／淡紅線 `<mark class="key top">句子</mark>` | v7 第五輪起分兩級（作者：「重點可以黃線，超級重點可以淡紅線」「不是一節限制一句」）。現在共 115 句：黃線 98、淡紅線 14（清單見下）。**黃線沒有每節句數上限**；淡紅線是「整本書只記得這一句」，一個核心觀念最多一句。兩級都要單獨看得懂、是行動或結論，而且**不准放在** `<details>`、`div.story`、`p.explain`、`.source-card`、標題（h1–h4）、小字（`.small`／`p.note`）、`figcaption`、`summary`、表格儲存格（`td`／`th`）裡——`python3 tools/guidetools.py check` 會擋下來，並印出 `marks 115 … markstop 14 (黃線 98＋淡紅 14)` |
 | 先跳過 | `<span class="later">先跳過也可以…</span>` | 13 處 |
 | 白話版 | `<p class="explain"><span class="plain-title">白話版</span><br>比喻</p>` | 每節都有；要是比喻，不可以直接講答案 |
 | 想深入 | `<details class="more"><summary>想深入：〈具體講什麼〉</summary>` | 摘要要具體。針對某一種人的用「如果你…：」 |
@@ -389,7 +389,7 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 - **第三輪（同一天，ChatGPT 讀完預覽第 2 版後的評閱）**：A 部分（不改規則：小安前後一致、下市不等於歸零、稅表列名、朋友那題、急救卡與第 5 行的適用範圍、四處移層）＋B 部分（改規則：演練三步三出口含「不知道」、完整版改成第一次年檢用到才補、六行加「其餘放哪裡／每年幾月檢查」、急救卡適用條件前置）。規格 `spec-v7-round3-A.md`、`spec-v7-round3-B.md`；commit 18c2583、199ff23、3919a02。作者尚未逐項確認，全部列在 `changes-for-author-v7.md`「一之二」，每項可單獨退回。**B 部分之後沒有再派裁判**（Fable 讀過演練卡、急救卡、對照表的改後全文）；下一個 session 若要動這幾張卡，先派一位裁判只驗 199ff23 的新句子。
 - **2026-09-20 作者開始自己從頭檢視（目前看到封面），工作方式改成「先討論，作者同意才開工」。** 這一天做了：封面減重、目錄與手機表格提示、全書 28 節連號（裁判④）、第四輪（風險段、「本多終勝」黃框、標籤改白話）、第五輪（借貸三層＋四件事表、一次投入還是分批、兩級重點句 36＋14、作者兩段黃框、來源卡收起）、裁判⑤（1 must＋8 should 全修）。規格 `spec-v7-renumber.md`、`spec-v7-round4.md`、`spec-v7-round5.md`、`spec-v7-round5b.md`；給作者的逐項清單在 `changes-for-author-v7.md`「一之三」「一之四」。預覽網址：指南第 6 版、工作表第 4 版。
 - **反覆出現的教訓**：每一批新寫的句子都驗出寫過頭的地方（含作者稱讚過的那一段）。新增內容一律派裁判只驗那一批的新句子，驗完才發布；`v7_check numbers` 要同時對「開工前的 commit」跑（只對舊基準會假綠）。
-- 現在的數字：主線約 47,600、完整版 PDF 155 頁、工作表 6 頁；重點句黃線 101、淡紅 14（作者 2026-09-20「黃線候選我認為可以都上去」，`mark-candidates-2.md` 新建議清單標完）。`v7-preview` HEAD 見 `git log`（071dcda 之後只有文件）。
+- 現在的數字：主線約 47,600、完整版 PDF 155 頁、工作表 6 頁；重點句黃線 98、淡紅 14（作者 2026-09-20「黃線候選我認為可以都上去」，`mark-candidates-2.md` 新建議清單標完）。`v7-preview` HEAD 見 `git log`（071dcda 之後只有文件）。
 - **還沒驗的**：claude.ai 的 artifact 外框裡，點頁內連結再按上一頁會不會回到原位（本機測是會；預覽網址要登入，Fable 不能代登）。請作者用手機開預覽時順手試。
 - 3bb111e 當時的全綠紀錄：`numbers` LOST 0、`anchors` OK、`budget` OK、`planstep` OK、`build_lite` SENTINELS OK（工作表 6 頁）、`guidetools check` OK、兩支測試 ALL PASS、`calc_core` 引用缺漏 []、`essay_charts` 0 ⚠。
 - 作者用公司網路，每小時要重連一次；發布或長時間工作流遇到 network error，等作者重連後重試即可。
