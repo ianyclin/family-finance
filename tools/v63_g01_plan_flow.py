@@ -110,7 +110,7 @@ def chart(res):
                            % (bx0, top, bx1 - bx0, hh, E.MUTED))
                 out.append(E.text(name_x, mid + f_desc * 0.36, desc, f_desc, 'start', E.INK, '700'))
             else:   # loop：往回的說明，字和區名切齊，箭頭走左邊的走道
-                out.append(E.text(name_x, mid + f_desc * 0.36, '↩ ' + desc, f_desc, 'start', E.AMBER, '700'))
+                out.append(E.text(name_x, mid + f_desc * 0.36, desc, f_desc, 'start', E.AMBER, '700'))
                 lane = lane_out if key == 'D→C' else lane_in
                 tgt = LOOP_TARGET[key]
                 ti = next(j for j, r in enumerate(ROWS)

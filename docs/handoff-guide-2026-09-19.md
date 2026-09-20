@@ -6,7 +6,7 @@
 
 ## 2026-09-20 換 session 時的現況（最新，先讀這段；和下文衝突時以這段為準）
 
-**狀態**：`v7-preview` HEAD 見 `git log`（434e260 之後只有文件）。預覽網址：**指南第 9 版**（含到 20c679f：回原位按鈕、目錄全部展開、封面兩顆按鈕、手機表格整理）、**工作表第 4 版**（這之後工作表沒變）。`release/guide-v7.0-preview.html`、`release/worksheet-v7.0-preview.html` 是發布用的穩定副本（gitignore；每次重建後從 `export/` 複製）。正式網址仍是 v6.3.1，沒動。數字：主線約 47,600 字、完整版 PDF 155 頁、工作表 6 頁、黃線 99＋淡紅 14。
+**狀態**：`v7-preview` HEAD 見 `git log`（434e260 之後只有文件）。預覽網址：**指南第 10 版**（含到流程圖拿掉 ↩ 那個 commit：回原位按鈕、目錄全部展開、封面兩顆按鈕、手機表格整理）、**工作表第 4 版**（這之後工作表沒變）。`release/guide-v7.0-preview.html`、`release/worksheet-v7.0-preview.html` 是發布用的穩定副本（gitignore；每次重建後從 `export/` 複製）。正式網址仍是 v6.3.1，沒動。數字：主線約 47,600 字、完整版 PDF 155 頁、工作表 6 頁、黃線 99＋淡紅 14。
 
 **工作方式（作者 2026-09-20 明說，最重要）**
 
@@ -17,7 +17,7 @@
 5. **每一批新寫的句子都派裁判只驗那一批**（每一輪都驗出寫過頭的地方）；純換有官方出處的數字，Fable 逐條核對改前改後即可。
 6. 大檔 Artifact 發布交給 `claude` 子代理（不要在主線 read，1.2 MB 會灌進上下文）；一律帶 `url`、不用 force、不碰兩個正式版。
 
-**手機閱讀（2026-09-20 下午作者用 Claude 手機 app 實測後加的）**：app 的閱讀畫面沒有上一頁 → 書自己帶「← 回到剛才讀的地方」浮動按鈕（作者確認在 app 裡會浮出來；箭頭用 U+2190，不要用 ↩，iPhone 會畫成彩色 emoji）。手機表格：46 張在 375px 全部不用左右滑、短字不折行（做法見下面第 4 項與 `wip/v63-review/spec-v7-tables-mobile.md`）。**之後新增或改任何表，都要在瀏覽器 375px 量過**（builder 不能跑無頭瀏覽器，由主線用 scratch 工作區 `.claude/launch.json` 的 `v7-preview-static`＋`resize_window mobile` 量：短字折行、橫向溢出、≥3 欄單格超過 8 行）。「可左右滑」的判斷看 `table.offsetWidth`，不看 `scrollWidth`（`a.xref` 的觸控內距會凸出 7px 造成誤判）。留著沒做：第 14 節計畫流程圖 SVG 裡還有 4 處「↩」（`tools/v63_g01_plan_flow.py:113`）；`.source-card`／`.story`／`.warning` 手機左右內距還是 20px，和已縮成 14px 的 `.data-card` 不一致。
+**手機閱讀（2026-09-20 下午作者用 Claude 手機 app 實測後加的）**：app 的閱讀畫面沒有上一頁 → 書自己帶「← 回到剛才讀的地方」浮動按鈕（作者確認在 app 裡會浮出來；箭頭用 U+2190，不要用 ↩，iPhone 會畫成彩色 emoji）。手機表格：46 張在 375px 全部不用左右滑、短字不折行（做法見下面第 4 項與 `wip/v63-review/spec-v7-tables-mobile.md`）。**之後新增或改任何表，都要在瀏覽器 375px 量過**（builder 不能跑無頭瀏覽器，由主線用 scratch 工作區 `.claude/launch.json` 的 `v7-preview-static`＋`resize_window mobile` 量：短字折行、橫向溢出、≥3 欄單格超過 8 行）。「可左右滑」的判斷看 `table.offsetWidth`，不看 `scrollWidth`（`a.xref` 的觸控內距會凸出 7px 造成誤判）。（第 14 節計畫流程圖裡的「↩」作者實機確認也是彩色 emoji，已拿掉——左邊本來就有回頭箭頭線。）留著沒做：`.source-card`／`.story`／`.warning` 手機左右內距還是 20px，和已縮成 14px 的 `.data-card` 不一致。
 
 **作者檢視進度**：從頭看，**目前看到封面**（封面、目錄、連號、標籤、風險段、借貸、一次投入、兩級重點句、來源卡都是他看封面時順著談出來的）。下一個 session 多半是他繼續往下看、逐節給意見。
 
