@@ -28,3 +28,6 @@ wip/v63-review/_baseline_v631.html
 wip/v63-review/_baseline_v7_prerenumber.html
 release/
 .claude/
+
+wip/v63-review/personas/_book-*.txt
+wip/v63-review/making-of/user-msgs-*.txt

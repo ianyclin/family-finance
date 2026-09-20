@@ -1,0 +1,85 @@
+{
+  "74b71b1c-f70a-4f20-89ce-2952d977c51c.jsonl": {
+    "first_timestamp": "2026-09-06T22:38:27.682Z",
+    "last_timestamp": "2026-09-18T21:12:08.939Z",
+    "user_msg_count": 82,
+    "assistant_msg_count": 1975,
+    "agent_task_tool_use_count": 53,
+    "subagent_type_counts": {
+      "builder": 10,
+      "general-purpose": 23,
+      "judge": 20
+    },
+    "parse_error_count": 0
+  },
+  "f330c746-4fb1-4319-8da3-61dfb142160e.jsonl": {
+    "first_timestamp": "2026-09-13T00:01:19.364Z",
+    "last_timestamp": "2026-09-18T21:09:25.750Z",
+    "user_msg_count": 90,
+    "assistant_msg_count": 1396,
+    "agent_task_tool_use_count": 65,
+    "subagent_type_counts": {
+      "judge": 24,
+      "builder": 36,
+      "claude-code-guide": 1,
+      "scout": 2,
+      "claude": 1,
+      "applier": 1
+    },
+    "parse_error_count": 0
+  },
+  "3bb8f219-f49e-4cb2-96dc-ca609ed3266b.jsonl": {
+    "first_timestamp": "2026-08-22T11:39:54.223Z",
+    "last_timestamp": "2026-09-20T06:52:57.082Z",
+    "user_msg_count": 40,
+    "assistant_msg_count": 2343,
+    "agent_task_tool_use_count": 8,
+    "subagent_type_counts": {
+      "scout": 3,
+      "builder": 4,
+      "judge": 1
+    },
+    "parse_error_count": 0
+  },
+  "6e704d86-104b-4df9-9e10-30e7fda25b49.jsonl": {
+    "first_timestamp": "2026-09-06T22:06:45.235Z",
+    "last_timestamp": "2026-09-20T06:59:22.546Z",
+    "user_msg_count": 24,
+    "assistant_msg_count": 671,
+    "agent_task_tool_use_count": 15,
+    "subagent_type_counts": {
+      "Explore": 2,
+      "builder": 10,
+      "judge": 2,
+      "applier": 1
+    },
+    "parse_error_count": 0
+  },
+  "4c1275e1-63cf-4e06-bf12-0777d502dff1.jsonl": {
+    "first_timestamp": "2026-09-18T21:11:02.408Z",
+    "last_timestamp": "2026-09-18T22:24:38.528Z",
+    "user_msg_count": 10,
+    "assistant_msg_count": 81,
+    "agent_task_tool_use_count": 4,
+    "subagent_type_counts": {
+      "judge": 1,
+      "scout": 2,
+      "builder": 1
+    },
+    "parse_error_count": 0
+  },
+  "ac2cb2bd-824f-4f6e-95ab-a47754a292ee.jsonl": {
+    "first_timestamp": "2026-09-18T21:11:02.408Z",
+    "last_timestamp": "2026-09-20T11:40:17.836Z",
+    "user_msg_count": 69,
+    "assistant_msg_count": 634,
+    "agent_task_tool_use_count": 59,
+    "subagent_type_counts": {
+      "judge": 8,
+      "scout": 6,
+      "builder": 26,
+      "claude": 19
+    },
+    "parse_error_count": 0
+  }
+}
