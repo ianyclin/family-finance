@@ -875,6 +875,53 @@ R['taiex_drawdowns'] = {
 }
 
 
+# ---------- 平常一天漲跌多大（第 8 節「錢變多以後：平常的一天」） ----------
+def taiex_daily_moves(threshold=0.01):
+    """台股含息逐日的單日報酬：當日收盤 ÷ 前一個交易日收盤 − 1。
+
+    口徑：
+    1. 資料是 2003-01-02 到 2025-12-31 的證交所發行量加權股價報酬指數（含息），共 5,665 個交易日。
+       第一天沒有前一天，所以單日報酬有 5,664 個；**占比的分母是 5,664，不是 5,665**。
+    2. 門檻用「大於或等於」（|r| ≥ 1%、r ≤ −1%）。這份資料沒有剛好等於 ±1.000000% 的日子，
+       所以改成嚴格大於／小於，天數一樣。
+    3. 「平均一年幾天」＝天數 ÷ 年數，年數用實際天數算：(2025-12-31 − 2003-01-02) ÷ 365.25 ＝ 22.995 年。
+       和直接除以整數 23 年算出來的結果相同（69.9 與 31.9），所以口徑選哪一種都不影響書上的數字。
+    4. 「大約每幾個交易日就有一天」＝ 5,664 ÷ 天數。
+    含息、名目，沒有扣物價、費用和稅；只用收盤值。這是這 23 年的紀錄，不是未來的機率。
+    """
+    dates, vals = taiex_series()
+    rets = [vals[i] / vals[i - 1] - 1 for i in range(1, len(vals))]
+    years = (dates[-1] - dates[0]).days / 365.25
+
+    def block(sel):
+        n = sum(1 for r in rets if sel(r))
+        return {'days': n, 'share_pct': r1(100 * n / len(rets)), 'share_pct_int': r0(100 * n / len(rets)),
+                'per_year': r1(n / years), 'per_year_int': r0(n / years),
+                'per_year_div23': r1(n / 23), 'one_in_trading_days': r1(len(rets) / n)}
+
+    return {'trading_days': len(dates), 'daily_returns': len(rets), 'years': round(years, 3),
+            'threshold_pct': r1(threshold * 100),
+            'abs_ge': block(lambda r: abs(r) >= threshold),
+            'down_le': block(lambda r: r <= -threshold)}
+
+
+_dm = taiex_daily_moves()
+R['taiex_daily_moves'] = dict(_dm, **{
+    'source': '證交所發行量加權股價報酬指數（含息）', 'file': os.path.relpath(TAIEX_CSV, ROOT),
+    'from': _td[0].isoformat(), 'to': _td[-1].isoformat(),
+    'rule': taiex_daily_moves.__doc__,
+    'caveats': ['一個市場、23 年的紀錄，不是規律，也不是未來的機率',
+                '占比的分母是 5,664 個單日報酬（5,665 個交易日扣掉沒有前一天的第一天）',
+                '含息、名目，沒有扣物價、費用和稅；只用收盤值'],
+})
+assert (R['taiex_daily_moves']['trading_days'], R['taiex_daily_moves']['daily_returns']) == (5665, 5664)
+assert (R['taiex_daily_moves']['abs_ge']['days'], R['taiex_daily_moves']['abs_ge']['share_pct'],
+        R['taiex_daily_moves']['abs_ge']['per_year_int'], R['taiex_daily_moves']['abs_ge']['one_in_trading_days']) == (1608, 28.4, 70, 3.5)
+assert (R['taiex_daily_moves']['down_le']['days'], R['taiex_daily_moves']['down_le']['share_pct'],
+        R['taiex_daily_moves']['down_le']['per_year_int']) == (733, 12.9, 32)
+assert R['taiex_daily_moves']['abs_ge']['per_year_div23'] == R['taiex_daily_moves']['abs_ge']['per_year']
+
+
 # ---------- 「從高點跌 N% 就賣」這條規則，在台股這 23 年會發生什麼（第 11 節停損那一段） ----------
 def taiex_stoploss(threshold=0.15):
     """回測「股票那一塊從最近高點跌 N% 就全部賣掉」。台股含息逐日，2003-01-02～2025-12-31。
@@ -1180,6 +1227,9 @@ quotes += ['只有 42.6% 的終身報酬贏過同一段時間的一個月期國�
 # v7 六位模擬讀者批第二輪（裁判⑥ M2/M3）：第 11 節停損那一段的口徑小字，數字來自 taiex_stoploss
 quotes += ['「從高點跌 15% 就賣、等指數回到原來的高點才買回」會觸發 11 次，11 次的買回價都比賣價高約兩成',
            '賣出後兩年內指數最低比賣價再低近五成；但照這條規則要到 2010 年 12 月才買回，買回價比賣價高約一成九']
+# v7 預覽「錢變多以後：平常的一天」批：第 8 節 #s5-daily 那一段，數字來自 taiex_daily_moves
+quotes += ['一天漲或跌超過 1% 的日子，大約每三、四個交易日就有一天',
+           '光算跌超過 1% 的，一年大約三十天']
 quotes += ['存 15%、低 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']
