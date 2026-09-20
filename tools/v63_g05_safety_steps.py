@@ -56,7 +56,7 @@ def chart(res):
         cols = len(STEPS) + 1
         cw = (lay.W - pad * 2) / cols
         rise = 38
-        h = rise * cols + 36
+        h = rise * cols + 52   # 最上面一階的兩行字要留在圖框裡（原本 +36，「才開始」畫到 y<0 被切掉）
         base = h - 8
         fs = 11.5
         lh = 14

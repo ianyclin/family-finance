@@ -17,7 +17,7 @@
 5. **每一批新寫的句子都派裁判只驗那一批**（每一輪都驗出寫過頭的地方）；純換有官方出處的數字，Fable 逐條核對改前改後即可。
 6. 大檔 Artifact 發布交給 `claude` 子代理（不要在主線 read，1.2 MB 會灌進上下文）；一律帶 `url`、不用 force、不碰兩個正式版。
 
-**手機閱讀（2026-09-20 下午作者用 Claude 手機 app 實測後加的）**：app 的閱讀畫面沒有上一頁 → 書自己帶「← 回到剛才讀的地方」浮動按鈕（作者確認在 app 裡會浮出來；箭頭用 U+2190，不要用 ↩，iPhone 會畫成彩色 emoji）。手機表格：46 張在 375px 全部不用左右滑、短字不折行（做法見下面第 4 項與 `wip/v63-review/spec-v7-tables-mobile.md`）。**之後新增或改任何表，都要在瀏覽器 375px 量過**（builder 不能跑無頭瀏覽器，由主線用 scratch 工作區 `.claude/launch.json` 的 `v7-preview-static`＋`resize_window mobile` 量：短字折行、橫向溢出、≥3 欄單格超過 8 行）。「可左右滑」的判斷看 `table.offsetWidth`，不看 `scrollWidth`（`a.xref` 的觸控內距會凸出 7px 造成誤判）。（第 14 節計畫流程圖裡的「↩」作者實機確認也是彩色 emoji，已拿掉——左邊本來就有回頭箭頭線。）留著沒做：`.source-card`／`.story`／`.warning` 手機左右內距還是 20px，和已縮成 14px 的 `.data-card` 不一致。
+**手機閱讀（2026-09-20 下午作者用 Claude 手機 app 實測後加的）**：app 的閱讀畫面沒有上一頁 → 書自己帶「← 回到剛才讀的地方」浮動按鈕（作者確認在 app 裡會浮出來；箭頭用 U+2190，不要用 ↩，iPhone 會畫成彩色 emoji）。手機表格：46 張在 375px 全部不用左右滑、短字不折行（做法見下面第 4 項與 `wip/v63-review/spec-v7-tables-mobile.md`）。**圖也要量**：每張 SVG 的 `<text>` 用 `getBBox()` 對 `viewBox`，桌機寬與手機寬各量一次，不得有字超出圖框（svg 是 `overflow:hidden`，超出就被切；2026-09-21 作者抓到第 2 節樓梯圖「才開始」畫到 y<0，另一張手機版的「30 年」超出右緣 2px，都已修）。**之後新增或改任何表，都要在瀏覽器 375px 量過**（builder 不能跑無頭瀏覽器，由主線用 scratch 工作區 `.claude/launch.json` 的 `v7-preview-static`＋`resize_window mobile` 量：短字折行、橫向溢出、≥3 欄單格超過 8 行）。「可左右滑」的判斷看 `table.offsetWidth`，不看 `scrollWidth`（`a.xref` 的觸控內距會凸出 7px 造成誤判）。（第 14 節計畫流程圖裡的「↩」作者實機確認也是彩色 emoji，已拿掉——左邊本來就有回頭箭頭線。）留著沒做：`.source-card`／`.story`／`.warning` 手機左右內距還是 20px，和已縮成 14px 的 `.data-card` 不一致。
 
 **作者檢視進度**：從頭看，**目前看到封面**（封面、目錄、連號、標籤、風險段、借貸、一次投入、兩級重點句、來源卡都是他看封面時順著談出來的）。下一個 session 多半是他繼續往下看、逐節給意見。
 

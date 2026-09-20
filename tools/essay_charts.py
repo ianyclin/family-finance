@@ -606,7 +606,8 @@ def smooth_vs_jagged():
         out = [svg_open(lay, h, "示意：每月投入 5,000 元、年化同為 6%、30 年，平滑假想線與中途下跌的鋸齒線")]
         out += grid(lay, py, (0, 200, 400, 600), lambda v: ("%d 萬" % v) if v else "0")
         for t in (0, 10, 20, 30):
-            out.append(text(px(t), bottom + lay.f + 4, "%d 年" % t, lay.f, "middle", MUTED))
+            # 最右邊那個刻度靠右對齊，手機版才不會超出圖框被切掉
+            out.append(text(px(t), bottom + lay.f + 4, "%d 年" % t, lay.f, "end" if t == 30 else "middle", MUTED))
         out.append(poly([(px(t), py(v)) for t, v in smooth], MUTED, lay.line - 0.4, dash="6 5"))
         out.append(poly([(px(t), py(v)) for t, v in jagged], ACCENT, lay.line))
         out.append(dot(px(jagged[-1][0]), py(jagged[-1][1]), ACCENT))
