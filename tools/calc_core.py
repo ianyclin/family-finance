@@ -963,19 +963,35 @@ def months_to_salary_multiple(multiple, annual_return=0.06, save_rate=0.2, cap=1
 
 R['salary_multiple_years'] = {
     'rule': months_to_salary_multiple.__doc__,
-    'save_rate_pct': 20,
+    # 書上主線示範句用的那一組：每月投入月薪的兩成、一年 6%。
+    'guide_line': {'save_rate_pct': 20, 'annual_return_pct': 6.0,
+                   '25x_years_int': months_to_salary_multiple(25, 0.06, 0.2)['years_int'],
+                   '100x_years_int': months_to_salary_multiple(100, 0.06, 0.2)['years_int']},
     'by_rate': {str(r1(a * 100)): {str(k): months_to_salary_multiple(k, a) for k in (10, 25, 50, 100)}
                 for a in (0.04, 0.06, 0.07)},
-    'guide_table_rate_pct': 6.0,
+    # 書上摺疊裡那兩張小表（列＝每月投入佔月薪，欄＝第 4 節的低／中／高情境）。
+    'guide_grid': {str(k): {str(r0(s * 100)): {str(r1(a * 100)): months_to_salary_multiple(k, a, s)['years_int']
+                                               for a in (0.04, 0.06, 0.07)}
+                            for s in (0.1, 0.2, 0.3)}
+                   for k in (25, 100)},
     'caveats': ['月薪假設一路不變；薪水會漲的人會更早到',
                 '沒有扣物價、費用和稅，也沒有算這筆錢中途被拿去用掉',
                 '報酬率是第 4 節的情境值，不是預測；真實的路不會每年一樣'],
 }
 _sm = R['salary_multiple_years']['by_rate']
+_sg = R['salary_multiple_years']['guide_grid']
 assert [_sm['6.0'][k]['months'] for k in ('10', '25', '50', '100')] == [45, 98, 164, 255]
 assert [_sm['6.0'][k]['years_int'] for k in ('10', '25', '50', '100')] == [4, 8, 14, 21]
 assert _sm['4.0']['100']['months'] == 297 and _sm['4.0']['100']['years_int'] == 25
 assert _sm['7.0']['100']['months'] == 239 and _sm['7.0']['100']['years_int'] == 20
+# 主線示範句「大約第 8 年到 25 倍，第 21 年到 100 倍」
+assert (R['salary_multiple_years']['guide_line']['25x_years_int'],
+        R['salary_multiple_years']['guide_line']['100x_years_int']) == (8, 21)
+# 摺疊那兩張小表的 18 格（列 10%／20%／30%，欄 4%／6%／7%）
+assert [[_sg['25'][s][a] for a in ('4.0', '6.0', '7.0')] for s in ('10', '20', '30')] == \
+       [[15, 14, 13], [9, 8, 8], [6, 6, 6]]
+assert [[_sg['100'][s][a] for a in ('4.0', '6.0', '7.0')] for s in ('10', '20', '30')] == \
+       [[37, 30, 28], [25, 21, 20], [19, 17, 16]]
 
 
 # ---------- 「從高點跌 N% 就賣」這條規則，在台股這 23 年會發生什麼（第 11 節停損那一段） ----------
@@ -1317,9 +1333,18 @@ quotes += ['只有 42.6% 的終身報酬贏過同一段時間的一個月期國�
 # v7 六位模擬讀者批第二輪（裁判⑥ M2/M3）：第 11 節停損那一段的口徑小字，數字來自 taiex_stoploss
 quotes += ['「從高點跌 15% 就賣、等指數回到原來的高點才買回」會觸發 11 次，11 次的買回價都比賣價高約兩成',
            '賣出後兩年內指數最低比賣價再低近五成；但照這條規則要到 2010 年 12 月才買回，買回價比賣價高約一成九']
-# v7 預覽「錢變多以後：平常的一天」批：第 8 節 #s5-daily 那一段，數字來自 taiex_daily_moves
-quotes += ['一天漲或跌超過 1% 的日子，大約每三、四個交易日就有一天',
-           '光算跌超過 1% 的，一年大約三十天']
+# v7 預覽「錢變多以後：一天的漲跌，會開始超過月薪」批：第 8 節 #s5-daily 那一段。
+# 主線那張表的第三欄來自 taiex_daily_moves；示範句與摺疊裡兩張小表來自 months_to_salary_multiple。
+quotes += ['沒有發生過（單日最大跌幅約 9.7%）',
+           '平均一年約 10 天',
+           '平均一年約 32 天',
+           '大約第 8 年到 25 倍，第 21 年到 100 倍',
+           '| 月薪的一成 | 15 | 14 | 13',
+           '| 月薪的兩成 | 9 | 8 | 8',
+           '| 月薪的三成 | 6 | 6 | 6',
+           '| 月薪的一成 | 37 | 30 | 28',
+           '| 月薪的兩成 | 25 | 21 | 20',
+           '| 月薪的三成 | 19 | 17 | 16']
 quotes += ['存 15%、低 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']
