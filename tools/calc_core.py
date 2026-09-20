@@ -637,6 +637,76 @@ _d02['chen_all_deposit'] = {
             '但比全放定存用 1.7% 算的多——這一句講的是扣費率的算法，不是定存利率'}
 R['deposit_rate_d02'] = _d02
 
+# ---------- 台灣家庭實際存多少（第 5 節「存多少算合理？兩個參考」） ----------
+# 行政院主計總處「113 年家庭收支調查」統計表，2026-09-20 下載。
+# 原始 ods 存在 wip/v63-review/sources/Year10.ods（第 10 表）、Year12.ods（第 12 表），
+# 下面的數字是用 python 讀 content.xml 逐格核過的，不是抄新聞稿。
+FIES_URL = 'https://www.stat.gov.tw/News_Content.aspx?n=3908&s=235198'
+_fies_avg = {'disposable_income': 1165206, 'consumption': 888699, 'savings': 276507, 'savings_rate_pct': 23.73}
+# 第 12 表：可支配所得按戶數五等分位組，113 年平均每戶儲蓄（元）與該年儲蓄率（%）。
+# 最低所得組的儲蓄率官方印「--」（儲蓄為負，算不出比率）。
+_fies_q = [
+    {'group': '最低所得組（最低的 20%）', 'savings': -18214, 'savings_rate_pct': None, 'note': '儲蓄為負，官方表印「--」'},
+    {'group': '第二組', 'savings': 55971, 'savings_rate_pct': 7.98},
+    {'group': '第三組（中間）', 'savings': 152986, 'savings_rate_pct': 15.28},
+    {'group': '第四組', 'savings': 306654, 'savings_rate_pct': 22.19},
+    {'group': '最高所得組（最高的 20%）', 'savings': 885139, 'savings_rate_pct': 37.55},
+]
+R['tw_household_savings'] = {
+    'basis': '行政院主計總處「113 年家庭收支調查」統計表第 10 表（可支配所得、消費支出及儲蓄）與第 12 表'
+             '（戶數五等分位組之平均每戶儲蓄）；113 年＝西元 2024 年；2026-09-20 下載，'
+             '原始 ods 存在 wip/v63-review/sources/Year10.ods、Year12.ods。',
+    'source_url': FIES_URL, 'year_roc': 113, 'year_ad': 2024, 'downloaded': '2026-09-20',
+    'unit': '元／每戶／年',
+    'average_household': _fies_avg,
+    'quintiles': _fies_q,
+    # 書上用的四捨五入版本
+    'guide_rounded': {'disposable_income_wan': r0(_fies_avg['disposable_income'] / 10000),
+                      'savings_wan': r0(_fies_avg['savings'] / 10000),
+                      'savings_rate_pct_1dp': r1(_fies_avg['savings_rate_pct']),
+                      'lowest_group_shortfall_wan1': r1(abs(_fies_q[0]['savings']) / 10000),
+                      'rates_1dp': [None] + [r1(q['savings_rate_pct']) for q in _fies_q[1:]]},
+    'definitions': {
+        '可支配所得': '所得收入總計 − 非消費支出（＝利息支出＋經常移轉支出，後者含綜合所得稅、社會保險保費等）；'
+                 '報告名詞解釋第二十項「各種家庭所得結構關係」：可支配所得＝所得收入總計[400]−非消費支出[600]＝消費+儲蓄。',
+        '儲蓄': '可支配所得 − 消費支出。',
+        '利息支出': '報告名詞解釋第十八項：「消費性借款利息、典當利息、購置私有住宅貸款利息及死會利息支出等，'
+                 '其中貸款利息是指扣除還本後的利息支出。」——房貸利息在算可支配所得以前就扣掉了。',
+        '房貸本金': '報告沒有逐條定義償還本金怎麼歸類（書上因此不把這一點寫成官方定義）。',
+    },
+    'caveats': ['「平均每戶」是全體家庭的平均，不是中位數；五等分位各組的數字也是該組的平均',
+                '家庭收支調查的口徑是「戶」，不是個人；戶內人口數各組不同',
+                '儲蓄率是各該組的儲蓄 ÷ 該組可支配所得，最低所得組儲蓄為負，官方表印「--」'],
+}
+# 自己驗算一次：儲蓄＝可支配所得−消費支出；儲蓄率＝儲蓄÷可支配所得
+assert _fies_avg['disposable_income'] - _fies_avg['consumption'] == _fies_avg['savings']
+assert r1(100 * _fies_avg['savings'] / _fies_avg['disposable_income']) == 23.7
+assert round(100 * _fies_avg['savings'] / _fies_avg['disposable_income'], 2) == _fies_avg['savings_rate_pct']
+assert R['tw_household_savings']['guide_rounded']['disposable_income_wan'] == 117
+assert R['tw_household_savings']['guide_rounded']['savings_wan'] == 28
+assert R['tw_household_savings']['guide_rounded']['lowest_group_shortfall_wan1'] == 1.8
+assert R['tw_household_savings']['guide_rounded']['rates_1dp'] == [None, 8.0, 15.3, 22.2, 37.6]
+# 五組裡有三組平均存不到兩成（最低組為負、8.0%、15.3%）
+assert sum(1 for q in _fies_q if q['savings_rate_pct'] is None or q['savings_rate_pct'] < 20) == 3
+
+
+# ---------- 本金還小的時候：多拚 1 個百分點報酬 vs 多存 1,000 元（第 5 節） ----------
+# 小安第一年：每月月底投 5,000 元，年率÷12 按月複利（和書上其他試算同一個口徑）。
+_eff_6 = fv(0, 6, 12, 5000)
+_eff_7 = fv(0, 7, 12, 5000)
+R['small_base_effort'] = {
+    'basis': '每月月底投 5,000 元、12 個月；年率 ÷ 12 按月複利，沒有扣費用與稅。'
+             '6% 與 7% 是第 4 節的中、高情境，這裡只用來看「多 1 個百分點」值多少。',
+    'monthly': 5000, 'months': 12, 'principal_year1': 60000,
+    'fv_6pct': round(_eff_6, 2), 'fv_7pct': round(_eff_7, 2),
+    'gap_1pp': round(_eff_7 - _eff_6, 2), 'gap_1pp_r0': r0(_eff_7 - _eff_6),
+    'save_1000_more_per_month_year1': 12000,
+    'times': r1(12000 / (_eff_7 - _eff_6)),
+    'note': '書上主線寫「大約多 300 元」，實算 285 元；同一年多存 1,000 元／月是 12,000 元，差約 42 倍。',
+}
+assert R['small_base_effort']['gap_1pp_r0'] == 285
+assert R['small_base_effort']['save_1000_more_per_month_year1'] == 12000
+
 # ---------- v6.3 批 3（拍板 D04 選 B）：大跌那年，比例掉出門檻要不要動防守 ----------
 # 純算術：股債比例 × 一次跌幅，不含報酬率、不含新錢的複利。
 def _rebalance_after_crash(total, stock_pct, stock_drop_pct, band_lo=None, band_hi=None):
