@@ -1,4 +1,4 @@
-（抽取時間 2026-09-20 22:24；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
+（抽取時間 2026-09-20 22:26；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
 
 隔離人性｜理財新手完整指南
 
