@@ -2,7 +2,7 @@
 """Guide helper tools.
 Usage:
   python3 guidetools.py apply  <base.html> <out.html> <patch1.json> [patch2.json ...]
-  python3 guidetools.py check  <html>
+  python3 guidetools.py check  <html>   # 標籤／id／連結／名詞連結，並印兩級重點句（marks 總數、markstop 淡紅數）
   python3 guidetools.py text   <html> <out.txt>
   python3 guidetools.py diff   <old.html> <new.html> <out.txt>
   python3 guidetools.py numbers <old.html> <new.html>
@@ -10,8 +10,15 @@ Patch JSON: [{"section": "...", "old": "...", "new": "...", "why": "..."}]
 """
 import sys, json, re, difflib
 from collections import Counter
+from html.parser import HTMLParser
 
 TAGS = ['div','p','li','ul','ol','a','strong','h3','h4','section','figure','details','summary','table','tr','td','span','dt','dd','dl','mark']
+
+# 重點句兩級（v7 第五輪）：黃線 <mark class="key">、淡紅線 <mark class="key top">。
+MARK_ANY = r'<mark\b(?=[^>]*?(?<![\w-])class="key(?: top)?")[^>]*>'
+MARK_TOP = r'<mark\b(?=[^>]*?(?<![\w-])class="key top")[^>]*>'
+# 兩級都不准出現在這些容器裡（作者 2026-09-20；摘要／標題／小字／圖說／表格儲存格／摺疊／黃框／白話版／來源卡）
+VOID_TAGS = {'area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr'}
 
 def read(p): return open(p, encoding='utf-8').read()
 
@@ -31,6 +38,66 @@ def div_blocks(h, cls):
             depth += -1 if t.group(0) == '</div>' else 1
             if depth == 0: k = j + t.end(); break
         yield j, k
+
+class _MarkScan(HTMLParser):
+    """走一次 DOM，找出每個 mark.key／mark.key.top 所在的節與祖先鏈。"""
+
+    def __init__(self):
+        HTMLParser.__init__(self, convert_charrefs=True)
+        self.stack = []          # [(tag, classes)]
+        self.sec = []            # [(stack_index, section_id)]
+        self.marks = []          # [{'top':bool,'sec':str,'anc':[(tag,cls)],'text':[str]}]
+        self.cur = None
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs); cls = set((a.get('class') or '').split())
+        if tag == 'mark' and 'key' in cls:
+            self.cur = {'top': 'top' in cls, 'sec': self.sec[-1][1] if self.sec else None,
+                        'anc': list(self.stack), 'text': []}
+            self.marks.append(self.cur)
+        if tag not in VOID_TAGS:
+            self.stack.append((tag, cls))
+            if tag == 'section' and a.get('id'): self.sec.append((len(self.stack) - 1, a['id']))
+
+    def handle_endtag(self, tag):
+        if tag in VOID_TAGS: return
+        if tag == 'mark': self.cur = None
+        for i in range(len(self.stack) - 1, -1, -1):
+            if self.stack[i][0] == tag:
+                del self.stack[i:]
+                while self.sec and self.sec[-1][0] >= i: self.sec.pop()
+                return
+
+    def handle_data(self, data):
+        if self.cur is not None: self.cur['text'].append(data)
+
+
+def _forbidden(anc):
+    """祖先鏈裡的禁止容器名稱（空的表示這一句放對地方）。"""
+    out = []
+    for t, c in anc:
+        if t == 'details': out.append('details')
+        elif t in ('h1', 'h2', 'h3', 'h4', 'td', 'th', 'figcaption', 'summary'): out.append(t)
+        elif t == 'div' and 'story' in c: out.append('div.story')
+        elif 'source-card' in c: out.append(t + '.source-card')
+        elif t == 'p' and 'explain' in c: out.append('p.explain')
+        elif t == 'p' and 'note' in c: out.append('p.note')
+        elif 'small' in c: out.append(t + '.small')
+    return out
+
+
+def marks(h):
+    """回傳 (黃線數, 淡紅線數, 違規清單)。違規＝重點句落在禁止的容器裡。"""
+    p = _MarkScan(); p.feed(h); p.close()
+    bad = []
+    for m in p.marks:
+        f = _forbidden(m['anc'])
+        if f:
+            bad.append('%s（%s）%s' % ('淡紅' if m['top'] else '黃線', m['sec'],
+                                      ''.join(m['text'])[:24] + ' ← 在 ' + '／'.join(f) + ' 裡'))
+    top = sum(1 for m in p.marks if m['top'])
+    return len(p.marks) - top, top, bad
+
 
 def apply(base, out, patches):
     h = read(base); P = []
@@ -71,8 +138,11 @@ def check(path):
     if story_terms: errs.append('term links inside story boxes: %d' % story_terms)
     strong_terms = len(re.findall(r'<strong\b[^>]*>[^<]*' + term, H))
     if strong_terms: errs.append('term links inside strong: %d' % strong_terms)
-    print('marks', count_open(h, 'mark', 'key'), 'later', len(re.findall(r'<[a-z]+\b(?=[^>]*?(?<![\w-])class="later")[^>]*>', h)),
-          'details', count_open(h, 'details'), 'data-chart', len(re.findall(r'(?<![\w-])data-chart=', h)), 'story', count_open(h, 'div', 'story'))
+    n_key, n_top, mark_bad = marks(h)
+    for b in mark_bad: errs.append('重點句放在不准放的容器裡：' + b)
+    print('marks', n_key + n_top, 'later', len(re.findall(r'<[a-z]+\b(?=[^>]*?(?<![\w-])class="later")[^>]*>', h)),
+          'details', count_open(h, 'details'), 'data-chart', len(re.findall(r'(?<![\w-])data-chart=', h)), 'story', count_open(h, 'div', 'story'),
+          'markstop', n_top, '(黃線 %d＋淡紅 %d)' % (n_key, n_top))
     if errs:
         print('CHECK FAILED'); [print(' -', e) for e in errs]; sys.exit(1)
     print('CHECK OK')
@@ -94,7 +164,7 @@ def to_text(path, keep_sources=False):
     h = re.sub(r'<img[^>]*alt="([^"]*)"[^>]*>', r'〔圖：\1〕', h); h = re.sub(r'<img[^>]*>', '', h)
     h = re.sub(open_tag('div', 'story'), '\n【黃框】', h); h = re.sub(open_tag('summary'), '\n【摺疊】', h)
     h = re.sub(open_tag('p', 'small'), '\n〈小字〉', h); h = re.sub(open_tag('span', 'small'), '〈小字〉', h)
-    h = re.sub(open_tag('a', 'term') + r'(.*?)</a>', r'〔\1〕', h); h = re.sub(open_tag('mark', 'key') + r'(.*?)</mark>', r'★\1★', h)
+    h = re.sub(open_tag('a', 'term') + r'(.*?)</a>', r'〔\1〕', h); h = re.sub(MARK_ANY + r'(.*?)</mark>', r'★\1★', h)
     h = re.sub(open_tag('span', 'later') + r'(.*?)</span>', r'［\1］', h); h = h.replace('<br>', '\n')
     h = re.sub(r'<h2[^>]*>', '\n\n## ', h); h = re.sub(r'<h3[^>]*>', '\n### ', h)
     h = re.sub(r'</(p|li|h2|h3|h4|dd|dt|tr|figcaption|div|summary)>', '\n', h); h = re.sub(r'<t[dh][^>]*>', ' | ', h)

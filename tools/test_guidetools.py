@@ -94,5 +94,34 @@ expect('href to data-*-id only -> broken href FAILED', rc == 1 and 'broken hrefs
 rc, out = run_check(base.replace('</body>', '<div class="story-title" data-lite="x"><a class="term" href="#g-etf">E</a></div></body>'))
 expect('class="story-title" not treated as story', rc == 0, out)
 
+# --- v7 第五輪：兩級重點句（黃線 mark.key／淡紅線 mark.key.top）
+def field(line, name):
+    t = line.split()
+    return int(t[t.index(name) + 1])
+
+expect('counts line reports markstop', 'markstop' in counts0, counts0)
+rc, out = run_check(base.replace('</body>', '<p><mark class="key top">x</mark><mark class="key">y</mark></p></body>'))
+expect('marks +2 / markstop +1',
+       rc == 0 and field(out.splitlines()[0], 'marks') == field(counts0, 'marks') + 2
+       and field(out.splitlines()[0], 'markstop') == field(counts0, 'markstop') + 1, out)
+
+for wrap, label in (('<details><summary>s</summary><p><mark class="key">x</mark></p></details>', 'details'),
+                    ('<div class="story"><p><mark class="key top">x</mark></p></div>', 'div.story'),
+                    ('<p class="explain"><mark class="key">x</mark></p>', 'p.explain'),
+                    ('<p class="small"><mark class="key">x</mark></p>', 'p.small'),
+                    ('<h3><mark class="key">x</mark></h3>', 'h3'),
+                    ('<figure><figcaption><mark class="key">x</mark></figcaption></figure>', 'figcaption'),
+                    ('<table><tr><td><mark class="key top">x</mark></td></tr></table>', 'td')):
+    rc, out = run_check(base.replace('</body>', wrap + '</body>'))
+    expect('mark in %s -> FAILED' % label, rc == 1 and '重點句放在不准放的容器裡' in out, out)
+
+# 放在 strong／li／p 裡是合法的
+rc, out = run_check(base.replace('</body>', '<ul><li><mark class="key"><strong>x</strong></mark></li></ul></body>'))
+expect('mark in li>strong -> OK', rc == 0, out)
+
+p2 = os.path.join(tmp, 'two.html')
+open(p2, 'w', encoding='utf-8').write(base.replace('</body>', '<p><mark class="key top">頂級句</mark></p></body>'))
+expect('to_text turns key top into ★…★', '★頂級句★' in gt.to_text(p2))
+
 print('RESULT', 'ALL PASS' if fails == 0 else '%d FAIL' % fails)
 sys.exit(1 if fails else 0)
