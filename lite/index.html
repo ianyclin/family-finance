@@ -44,6 +44,7 @@ details.more{border-left:2px solid var(--line);padding-left:14px}
 details.more>summary{font-weight:700;font-size:.92rem;color:var(--muted)}
 details.more[open]>summary{color:var(--green)}
 .glossary dt{font-weight:800;margin-top:.6em}.glossary dd{margin:0 0 .3em 1.2em;color:var(--muted)}
+@media(max-width:660px){.table-wrap.no-scroll{overflow-x:hidden}}
 @media(max-width:660px){.table-wrap.is-scrollable::before{content:"← 表格可左右滑動 →";display:block;position:sticky;left:0;padding:6px 10px;border-bottom:1px solid var(--line);color:var(--muted);font-size:.78rem;background:var(--surface)}}
 /* v7 連號批（A2）：三張在 375px 只差幾 px 就要左右滑的表（why 的對照表、s10 的「你心裡的聲音」、s12 的三條路徑比較）縮欄內距、讓過長的英文字串可以換行，改到不用滑。 */
 @media(max-width:660px){table.tight th,table.tight td{padding:8px 4px;overflow-wrap:anywhere}}
