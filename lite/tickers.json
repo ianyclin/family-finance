@@ -20,7 +20,7 @@
  ],
  "allow_full": [
   "div.story",
-  ".source-card",
+  "details.source-card",
   "#toolbox li:contains(《)"
  ]
 }

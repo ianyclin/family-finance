@@ -151,7 +151,7 @@
 - 第 8 節 `s5` 波動會在兩種情況變成真的傷害：第一，錢很快要用，被迫低價賣；第二，比例超過心理承受度，自己在低點賣。
 - 第 9 節 `s6` 有錢可投、計畫也允許的時候，就照規則投進去。
 - 第 12 節 `s9` 熱門時加碼、下跌時退出，會讓投資人的錢放在較差的時段。
-- 第 13 節 `s10` 從下一個扣款日起，恢復原本的金額，不用等「比較好的時機」。
+- 第 13 節 `s10` 停扣過、追過熱門的人：從下一個扣款日起恢復原本的金額，不用等「比較好的時機」。
 - 第 14 節 `s11` 平靜時的自己，替慌張時的自己先做好決定。
 - 第 14 節 `s11` 最不用臨場判斷的答案是「不管跌多少，照常投入，什麼都不改」。
 - 第 23 節 `annual` 先看做到了沒有，再看數字。
@@ -184,10 +184,10 @@
 - 第 17 節 `s13` 無聊可能表示規則正在運作。
 - 第 17 節 `s13` 照卡做，不用說服對方。
 - 第 18 節 `sidepaths` 保障用保險買，投資用投資買；混在一起的商品要拆開比費用。
-- 第 20 節 `steps` 買進前先讓交割帳戶有足夠資金，避免違約交割
+- 第 20 節 `steps` 買進前先讓交割帳戶有足夠資金，避免違約交割。
 - 第 21 節 `products` 防守那一塊放多少，決定大跌時少多少錢；放什麼，決定那一塊自己會不會也跟著大跌。
 - 第 22 節 `costs` 前三種是投資本來就有的風險；只有第四種，是錢一開始就沒有進市場。
-- 第 22 節 `costs` 保證獲利、拉你進群組、要你匯到私人帳戶、要你的驗證碼：看到任何一個，先停。
+- 第 22 節 `costs` 保證獲利、拉你進群組、要你匯到私人帳戶、要你給驗證碼或讓人遠端操控：看到任何一個，先停。
 - 第 23 節 `annual` 報酬落後不代表紀律差，報酬好也不代表做法對。
 - 第 23 節 `annual` 自己的年化和指數差很多時，先找原因，不先換商品。
 - 第 24 節 `lifecycle` 借的錢有固定利息，投資報酬沒有。
@@ -207,6 +207,9 @@ cp guide/index.html guide/index.vX.backup.html        # 1. 大檔先備份（*.b
 python3 tools/essay_charts.py --guide                 # 3. 只有動到圖才跑，一定要帶 --guide
 BASE=wip/v63-review/_baseline_v631.html               # 4. v7 的四個檢查
 python3 tools/v7_check.py numbers $BASE guide/index.html --allow-file wip/v63-review/numbers-allow-renumber.json
+# numbers 一定要跑兩次：只對 v6.3.1 會假綠（這一批刪掉的數字，可能剛好被前幾輪補上的同一個數字抵掉）
+git show <這一批開工前的 commit>:guide/index.html > /tmp/base-prev.html
+python3 tools/v7_check.py numbers /tmp/base-prev.html guide/index.html   # 兩個都 LOST 0 才算過
 python3 tools/v7_check.py anchors $BASE guide/index.html
 python3 tools/v7_check.py budget guide/index.html wip/v63-review/budget-v7.json
 python3 tools/v7_check.py planstep guide/index.html
