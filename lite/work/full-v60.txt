@@ -1,4 +1,4 @@
-（抽取時間 2026-09-20 04:17；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
+（抽取時間 2026-09-20 09:51；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
 
 隔離人性｜理財新手完整指南
 
@@ -44,7 +44,7 @@
 
 ## 目錄
 
-點組名展開；想從頭讀，從「開始之前」往下。
+點組名展開；可以從頭讀或挑選有興趣的章節。
 
 【摺疊】開始之前先抓重點，確認自己的錢能不能開始，再看為什麼用這個方法。
 
