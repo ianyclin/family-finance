@@ -874,6 +874,69 @@ R['taiex_drawdowns'] = {
                 '含息、名目，沒有扣物價、費用和稅；只用收盤值'],
 }
 
+
+# ---------- 「從高點跌 N% 就賣」這條規則，在台股這 23 年會發生什麼（第 11 節停損那一段） ----------
+def taiex_stoploss(threshold=0.15):
+    """回測「股票那一塊從最近高點跌 N% 就全部賣掉」。台股含息逐日，2003-01-02～2025-12-31。
+
+    規則（本文自訂，寫出來是為了可以重算；不是任何人的建議做法）：
+    1. 第一個交易日就持有。高點＝「持有期間到當天為止的最高收盤」，每創新高就更新。
+    2. 當天收盤 ≤ 高點 ×(1−N) 就賣出，賣價＝當天收盤，記成一次觸發，之後空手。
+    3. 空手時不重新起算高點：要等收盤「超過當初那個高點」才算創新高；創新高那天買回，
+       並把那一天當成新的高點，回到第 1 步。（規格說的「賣出後以下一次創新高重新起算高點」）
+    4. 「一年後高不高於賣價」＝賣出日起滿 12 個月的同一天、或之前最後一個交易日的收盤，
+       和賣價比。資料不滿一年的觸發會標 short_window=True（這一份資料目前沒有這種）。
+    5. 「兩年內最低」＝賣出當天到滿 24 個月之間（含賣出當天）的最低收盤，和賣價比。
+
+    只用收盤值，含息、名目；沒有扣費用、稅與交易成本——扣了只會對這條規則更不利。
+    賣出後到買回之間的現金報酬也沒有算（算進去會對這條規則稍微有利）。
+    """
+    dates, vals = taiex_series()
+    peak, holding, out = 0, True, []
+    for i in range(1, len(vals)):
+        if holding:
+            if vals[i] >= vals[peak]:
+                peak = i
+            elif vals[i] <= vals[peak] * (1 - threshold):
+                out.append({'peak': peak, 'sell': i}); holding = False
+        elif vals[i] > vals[peak]:
+            holding, peak = True, i
+    eps = []
+    for e in out:
+        p, s = e['peak'], e['sell']
+        sell_v = vals[s]
+        tgt1 = _add_months(dates[s], 12); short = tgt1 > dates[-1]
+        j = len(dates) - 1 if short else _bisect.bisect_right(dates, tgt1) - 1
+        tgt2 = _add_months(dates[s], 24)
+        k = min(_bisect.bisect_right(dates, tgt2) - 1, len(dates) - 1)
+        lo = min(vals[s:k + 1]); lo_i = s + vals[s:k + 1].index(lo)
+        eps.append({'peak_date': dates[p].isoformat(), 'peak_value': round(vals[p], 2),
+                    'sell_date': dates[s].isoformat(), 'sell_value': round(sell_v, 2),
+                    'one_year_date': dates[j].isoformat(), 'one_year_value': round(vals[j], 2),
+                    'one_year_higher': vals[j] > sell_v, 'short_window': short,
+                    'low_within_2y_date': dates[lo_i].isoformat(), 'low_within_2y_value': round(lo, 2),
+                    'low_within_2y_vs_sell_pct': r1((lo / sell_v - 1) * 100)})
+    return eps
+
+
+_sl = taiex_stoploss()
+_sl_2007 = [e for e in _sl if e['sell_date'].startswith('2007-11')]
+R['taiex_stoploss'] = {
+    'source': '證交所發行量加權股價報酬指數（含息）', 'file': os.path.relpath(TAIEX_CSV, ROOT),
+    'from': _td[0].isoformat(), 'to': _td[-1].isoformat(), 'threshold_pct': 15,
+    'rule': taiex_stoploss.__doc__,
+    'n_triggers': len(_sl),
+    'n_one_year_higher': sum(1 for e in _sl if e['one_year_higher']),
+    'n_short_window': sum(1 for e in _sl if e['short_window']),
+    'worst_2007': (_sl_2007[0] if _sl_2007 else None),
+    'episodes': _sl,
+    'caveats': ['一個市場、23 年、一條門檻的紀錄，不是規律；換門檻、換市場、換期間，數字就會變',
+                '沒有扣交易成本與稅（扣了對這條規則更不利），也沒有算空手期間的現金報酬（算了稍微有利）',
+                '「一年後高於賣價」只是說那一天的指數比賣價高，不等於賣出的人實際虧多少'],
+}
+assert (R['taiex_stoploss']['n_triggers'], R['taiex_stoploss']['n_one_year_higher']) == (11, 9)
+assert R['taiex_stoploss']['worst_2007']['low_within_2y_vs_sell_pct'] == -47.9
+
 # ---------- 四類資產逐年輪換（美股、10 年期公債、3 個月國庫券、台股） ----------
 # 美國三類取 Damodaran（紐約大學）公開資料集；台股用本文自己的含息報酬指數。
 # 台股是台幣、美國三類是美元，沒有換成同一種貨幣，所以名次只比「各自市場那一年漲跌多少」。
@@ -1105,6 +1168,9 @@ quotes += ['只有 42.6% 的終身報酬贏過同一段時間的一個月期國�
            '是前面那 5,000 元的 27 倍',
            '它得漲 1,362%']
 # v6.3 批 3 修正：第 5 節滿足點表外那一句補數字；第 7 節兩個分母與名單口徑
+# v7 六位模擬讀者批第二輪（裁判⑥ M2/M3）：第 11 節停損那一段的口徑小字，數字來自 taiex_stoploss
+quotes += ['「從高點跌 15% 就賣」會觸發 11 次，其中 9 次一年後指數高於賣價',
+           '2007 年 11 月那一次賣出後，兩年內指數最低比賣價再低約五成']
 quotes += ['存 15%、低 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']
