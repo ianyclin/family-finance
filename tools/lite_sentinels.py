@@ -234,12 +234,38 @@ def check_toc_order(dom):
 
 
 def check_xref_numbers(dom):
-    """xref_num：每個 <a class="xref" href="#X">純數字</a>，數字＝X 所在節（卡片錨點算所屬節）h2 的 span.num。"""
+    """xref_num：每個 <a class="xref" href="#X">純數字</a>，數字＝X 所在節（卡片錨點算所屬節）h2 的 span.num。
+    v7.0 第四輪（裁判④）：只看「錨文字整串是數字」會漏掉把節號寫進錨文字裡的連結
+    （例如 <a class="xref" href="#plan-table">計畫表在第 11 節</a> 連號後沒跟著改）。
+    所以再加一類：任何 a[href^="#"]（不限 xref）的錨文字裡出現「第 N 節」，N 也要等於目標所在節的 span.num。"""
     bad = []; n_ok = 0
+    IN_TEXT = re.compile(r'第\s*(\d+)\s*節')
     for n in dom.nodes:
-        if n.tag != 'a' or 'xref' not in n.classes():
+        if n.tag != 'a':
             continue
-        txt = B.html_text(dom.inner(n)).strip()
+        href0 = n.attrs.get('href') or ''
+        txt0 = B.html_text(dom.inner(n)).strip()
+        if href0.startswith('#') and not re.fullmatch(r'\d+', txt0):
+            for mm in IN_TEXT.finditer(txt0):
+                num_in_text = mm.group(1)
+                tgt0 = dom.by_id.get(href0[1:])
+                if tgt0 is None:
+                    bad.append('錨文字「%s」的連結 %s 找不到目標' % (txt0[:24], href0)); continue
+                sec0 = dom.section_of(tgt0)
+                num0 = _section_num(dom, sec0) if sec0 is not None else None
+                where0 = dom.section_of(n)
+                loc0 = where0.attrs['id'] if where0 is not None else '封面／節外'
+                if num0 is None:
+                    bad.append('%s 裡錨文字「%s」連到 %s（所在節 %s 沒有節號）'
+                               % (loc0, txt0[:24], href0, sec0.attrs['id'] if sec0 is not None else '無'))
+                elif num0 != num_in_text:
+                    bad.append('%s 裡錨文字「%s」連到 %s，那一節（%s）顯示的是第 %s 節'
+                               % (loc0, txt0[:24], href0, sec0.attrs['id'], num0))
+                else:
+                    n_ok += 1
+        if 'xref' not in n.classes():
+            continue
+        txt = txt0
         if not re.fullmatch(r'\d+', txt):
             continue
         href = n.attrs.get('href') or ''
@@ -257,7 +283,7 @@ def check_xref_numbers(dom):
             bad.append('%s 裡「第 %s 節」連到 %s，那一節（%s）顯示的是第 %s 節' % (loc, txt, href, sec.attrs['id'], num))
         else:
             n_ok += 1
-    return bad, '%d 個數字錨文字的節號連結，數字都等於目標所在節的顯示節號' % n_ok
+    return bad, '%d 個節號連結（錨文字整串是數字，或錨文字裡寫了「第 N 節」），數字都等於目標所在節的顯示節號' % n_ok
 
 
 def check_part_maps(dom):
@@ -808,7 +834,7 @@ def run(m, pdf_info=None, build_report=None):
     if ws and not heads:
         # 工作表沒有人物頁（四個人退場到完整版），所以沒有要聲明的東西；有人物標題時照樣要有聲明（上面那段仍在跑）
         R.skip('fiction', '工作表模式：工作表裡沒有人物頁（%s），沒有虛構聲明要檢查；'
-                          '四個人仍在完整版第十二節與案例節裡' % '、'.join(PEOPLE))
+                          '四個人仍在完整版第十五節與案例節裡' % '、'.join(PEOPLE))
     elif len(heads) < len(PEOPLE):
         R.fail('fiction', '實作版只找到 %d 位人物的標題（應有 %d 位）' % (len(heads), len(PEOPLE))); fbad += 1
     if not fbad and heads:

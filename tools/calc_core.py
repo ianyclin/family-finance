@@ -2,7 +2,7 @@
 """新手實作版（v6.0 候選）案例重算。以 docs/core-edition/calc_core.py 為底，照 spec-v60-stage1 覆蓋：
 - 報酬一律名目：股票 低 4%／中 6%／高 7%；防守 2%（定存 1.7% 只當事實，不進試算）
 - 查表 11 列＝股票比例×4/6/7%＋防守比例×2%，四捨五入一位小數；案例一律用印出來的一位小數
-- 物價倍數沿用完整版第 2 節表（中間年數取年數多的那格）
+- 物價倍數沿用完整版第 5 節表（中間年數取年數多的那格）
 - 陳大哥：今天花費×物價倍數 → 退休那年價錢；勞保不乘倍數；勞退試算直接相減；缺口×12×25/33/40
 - 倍數表：低情境報酬率、按月複利、月底投入
 用法：python3 tools/calc_core.py [--guide guide/index.html] [--out lite/calc-results.json]
@@ -72,7 +72,7 @@ R = {'_meta': {
         'lookup': '股票比例×4/6/7%＋防守比例×2%，四捨五入一位；案例用印出來的數字',
         'compounding': '年率/12 按月複利、每月月底投入',
         'month_1': '2026-10', 'amounts': '元；*_wan 為萬',
-        'cpi': '完整版第 2 節物價倍數表，中間年數取年數多的那格',
+        'cpi': '完整版第 5 節物價倍數表，中間年數取年數多的那格',
         'retirement': '今天花費×物價倍數；勞保不乘倍數；勞退試算為退休那年金額直接相減；缺口×12×25/33/40',
         'stress': '少的錢＝金額×股票比例×跌幅（防守放債券 ETF 時再加 金額×防守比例×10%）',
         'rounding_fix_r4': '到期金額印整數萬時，從原值直接四捨五入（wan），不用 wan1 再捨入',
@@ -427,7 +427,7 @@ ch['labor_pension_two_stage'] = {
 }
 
 # ---------- N1（v6.3）：0.5% 示範費率的扣費結果 ----------
-# 書上規則（第 11 節查表頁表一上面那段小字）：整體報酬率＝表一查到的數字 －總費用率；
+# 書上規則（第 14 節查表頁表一上面那段小字）：整體報酬率＝表一查到的數字 －總費用率；
 #   拿這個數字查表二，剛好沒有那一列就取「比它小的那一列」，再用表二印出來的數字相乘相加（by_book_table2）。
 # 案例本文沿用原本的算法：用同一個扣完費的報酬率、按月複利、每月月底投入算精確值（exact）。
 # 股票 0%、全放台幣定存的桶子沒有內扣費用，呼叫時傳 fee=0。
@@ -458,12 +458,12 @@ def fee_case(rate, years, lump, monthly, target_wan=None, fee=FEE_DEMO):
 
 FD = {'fee_pct': FEE_DEMO,
       'method': '整體報酬率（表一查到的數字）直接減 0.5 個百分點（作者 2026-09-18 拍板 Q1-A）。'
-                '＝把整個組合一起扣的簡化假設，不是按部位加權（v6.3.1：書上第 11 節第 12 格同步寫明）；'
+                '＝把整個組合一起扣的簡化假設，不是按部位加權（v6.3.1：書上第 14 節第 12 格同步寫明）；'
                 'exact＝用扣完費的報酬率按月複利算的精確值，案例本文用這個；'
                 'by_book_table2＝讀者拿印好的表二會算出來的數字（沒有那一列就取比它小的那一列）。',
       'deposit_note': '股票 0%、全放台幣定存的桶子沒有內扣費用，不減示範費率'}
 
-# 小安（第 11 節）：每月 2,000（前 10 個月）→5,000→6,500，八二
+# 小安（第 14 節）：每月 2,000（前 10 個月）→5,000→6,500，八二
 _c65f = lambda m: 2000 if m <= 10 else (5000 if m <= 26 else 6500)
 _xaf = fv(0, after_fee(rt80['low']), 240, _c65f)
 FD['xiaoan'] = {'rate_table1': rt80['low'], 'rate_after_fee': after_fee(rt80['low']), 'target_wan': 200,
@@ -475,7 +475,7 @@ FD['xiaoan'] = {'rate_table1': rt80['low'], 'rate_after_fee': after_fee(rt80['lo
                                           if fv(0, after_fee(rt80['low']), 240,
                                                 (lambda m, x=x: 2000 if m <= 10 else (5000 if m <= 26 else x))) >= 2_000_000)}
 
-# 主線 2026-09-18 拍板：第 11 節的小安也改成扣費後（0.5% 暫估）。以下鏡射上面 xa 的整套算法，只把報酬率換成扣完費的。
+# 主線 2026-09-18 拍板：第 14 節的小安也改成扣費後（0.5% 暫估）。以下鏡射上面 xa 的整套算法，只把報酬率換成扣完費的。
 _rt80f = {k: after_fee(v) for k, v in rt80.items()}
 _xf = FD['xiaoan']
 _xf['rates_after_fee_all'] = _rt80f
@@ -600,11 +600,11 @@ R['fee_demo_0_5pct'] = FD
 
 # ---------- v6.3 批 3（拍板 D02 選 C）：只有「全放定存的桶子」改用當下的一年期定存牌告利率 ----------
 # 其他混合配置一律維持查表的防守 2%。1.7% 是 2026 年 9 月五大銀行一年期定存牌告利率
-# （完整版第 2 節已經引用過同一個數字，不是新來源）。
+# （完整版第 5 節已經引用過同一個數字，不是新來源）。
 # 範圍：小芸與阿哲的頭期款桶（股票 0%、全放台幣定存）、陳大哥「全放定存」那一列。
 DEPOSIT_RATE_NOW = 1.7
 _d02 = {'rate': DEPOSIT_RATE_NOW,
-        'source': '2026 年 9 月五大銀行一年期定存牌告利率（完整版第 2 節已引用）',
+        'source': '2026 年 9 月五大銀行一年期定存牌告利率（完整版第 5 節已引用）',
         'scope': '只用在全放定存的桶子；股債混合的桶子仍用查表的防守 2%',
         'lookup_defense_rate_kept': DEFENSE}
 # 小芸與阿哲 頭期款桶：現有 120 萬、每月存 X、84 個月（2033-09）要 400 萬
@@ -691,7 +691,7 @@ R['xirr_demo'] = {'flows': [[d.isoformat(), a] for d, a in flows], 'xirr': round
 yrs60 = math.log(1 + 600000 * 0.07 / 60000) / math.log(1.07)
 yrs60_low = math.log(1 + 600000 * 0.04 / 60000) / math.log(1.04)
 R['quiet_period'] = {
-    'guide_basis': '第 2 節：每年年底投入 6 萬、一年 7%（第 1 節高情境，樂觀）',
+    'guide_basis': '第 5 節：每年年底投入 6 萬、一年 7%（第 4 節高情境，樂觀）',
     'years_first_60wan_7pct': round(yrs60, 2), 'return_share_7pct_pct': r0((1 - 60000 * yrs60 / 600000) * 100),
     'for_reference_low_4pct': {'years': round(yrs60_low, 2), 'return_share_pct': r0((1 - 60000 * yrs60_low / 600000) * 100),
                                'note': '完整版沒有這組數字；只供作者決定要不要改用低情境'}}
@@ -700,7 +700,7 @@ R['fee_gap'] = {'monthly': 5000, 'months': 360, 'fv_6pct_wan': wan(fv(0, 6, 360,
                 'gap_share_pct': r1(100 * (1 - fv(0, 5, 360, 5000) / fv(0, 6, 360, 5000))),
                 'gap_share_20y_pct': r1(100 * (1 - fv(0, 5, 240, 5000) / fv(0, 6, 240, 5000))),
                 'note': '每年多付 1 個百分點：30 年少 gap_share_pct%、20 年少 gap_share_20y_pct%，兩個都超過一成'
-                        '（完整版第 7 步「寫下目標」與第 3 節的 86 萬用的是同一組）'}
+                        '（完整版第 7 步「寫下目標」與第 6 節的 86 萬用的是同一組）'}
 R['sweet_spot_guide'] = {'rule': '70÷整體報酬率', 'years': {str(k): r1(70 / k) for k in (7, 6, 4, 3.6, 2.8)}}
 
 # ---------- 甜蜜點與滿足點（年複利、投入固定、不扣物價費用稅） ----------
@@ -725,8 +725,8 @@ R['sweet_satisfy'] = {
     'below_table_15pct': {'save_rate': BELOW_TABLE_RATE,
                           'years': {str(r): r1(years_to_point(r, BELOW_TABLE_RATE)) for r in (4, 6, 7)},
                           'extra_years_vs_25pct_at_4pct': r1(years_to_point(4, BELOW_TABLE_RATE) - years_to_point(4, 0.25)),
-                          'note': '完整版第 2 節滿足點表下那一句：存 15%、低 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年'},
-    'guide_rounding': '完整版第 2 節寫的高 7% 約 10 年、中 6% 約 12 年、低 4% 約 18 年，就是這一組四捨五入',
+                          'note': '完整版第 5 節滿足點表下那一句：存 15%、低 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年'},
+    'guide_rounding': '完整版第 5 節寫的高 7% 約 10 年、中 6% 約 12 年、低 4% 約 18 年，就是這一組四捨五入',
     # 滿足點那一年的資產÷年生活費：資產×r＝生活費 → 資產÷生活費＝1÷r，和儲蓄率無關。
     # 也就是這張表隱含「每年把資產的 r 拿出來花」；本書退休目標用的是 25 到 40 倍（一年拿 4% 到 2.5%）。
     'asset_over_living_multiple': {str(r): r1(100 / r) for r in (4, 6, 7)},
@@ -741,7 +741,7 @@ R['sweet_satisfy'] = {
     'after_inflation_and_fee_0_5pct': {'method': '報酬率減 2 個百分點（物價）再減 0.5 個百分點（暫估總費用率）',
                                        'fee_pct': 0.5,
                                        'years_save_half': {str(r): r1(years_to_point(r - 2 - 0.5, 0.5)) for r in (4, 6, 7)},
-                                       'note': '完整版第 2 節滿足點小字：低 4% 只減物價約 35 年；再減 0.5% 費用約 47 年'},
+                                       'note': '完整版第 5 節滿足點小字：低 4% 只減物價約 35 年；再減 0.5% 費用約 47 年'},
 }
 
 # ---------- 滾動視窗：抱多久、賺錢的機率（含息） ----------
@@ -870,7 +870,7 @@ R['taiex_drawdowns'] = {
     'years_min': min(_dd_years), 'years_max': max(_dd_years),
     'episodes': _dd,
     'caveats': ['只有 2003 年以後的含息資料，起點剛好在 2000–2002 年那波大跌之後',
-                '七段全部回到前高，是這 23 年的結果，不是規律；第 4 節那張價格指數的表有 25 到 34 年才回本的例子',
+                '七段全部回到前高，是這 23 年的結果，不是規律；第 7 節那張價格指數的表有 25 到 34 年才回本的例子',
                 '含息、名目，沒有扣物價、費用和稅；只用收盤值'],
 }
 
@@ -930,7 +930,7 @@ import v61_g10_rebalance_drift as _g10
 R['country_recovery'] = _g9.compute()
 R['rebalance_drift'] = _g10.compute()
 
-# G11：在歷史新高買進（第 6 節「現在是歷史新高，會不會太高了？」）
+# G11：在歷史新高買進（第 9 節「現在是歷史新高，會不會太高了？」）
 import v61_g11_ath_returns as _g11
 _ath = _g11.compute()
 # 「任選一天」一律用上面 rolling 的數字；模組的 all 組起點已對齊，這裡確認 n 與整數比例和 rolling 完全一樣，不准出現兩個 n
@@ -940,7 +940,7 @@ for _mk, _rk, _hs in (('taiex_daily', 'taiex', (('1y', '1年'), ('3y', '3年'), 
         _a, _r = _ath[_mk]['horizons'][_hk]['all'], R['rolling'][_rk]['positive_share'][_rl]
         assert (_a['n'], _a['positive_share_int']) == (_r['n'], _r['pct_int']), ('ath_returns 與 rolling 不一致', _mk, _hk, _a, _r)
 _ath['book_table'] = {
-    'note': '第 6 節那張小表：「任選一天」取 rolling.*.positive_share.pct_int（第 5 節同一個數），「只挑創新高那天」取本 key 的 at_high.positive_share_int',
+    'note': '第 9 節那張小表：「任選一天」取 rolling.*.positive_share.pct_int（第 8 節同一個數），「只挑創新高那天」取本 key 的 at_high.positive_share_int',
     'taiex': [{'years': _y, 'any_day': R['rolling']['taiex']['positive_share']['%d年' % _y]['pct_int'],
                'at_high': _ath['taiex_daily']['horizons']['%dy' % _y]['at_high']['positive_share_int']} for _y in (1, 3, 5, 10)],
     'us': [{'years': _y, 'any_month': R['rolling']['us']['positive_share']['%d年' % _y]['pct_int'],
@@ -951,7 +951,7 @@ _ath['book_facts'] = {
     'taiex_3y_losing_at_high_start_years': [int(_nb3[0]), int(_nb3[-1])] if _nb3 else None,
     'us_1929_record_10y_ann_pct': next(c['10y_ann_pct'] for c in _ath['us_monthly_shiller']['cases'] if c['label'] == '1929'),
     'us_1929_record_5y_ann_pct': next(c['5y_ann_pct'] for c in _ath['us_monthly_shiller']['cases'] if c['label'] == '1929'),
-    # 2026-09-17 fix2：第 6 節改稿後新增的句子
+    # 2026-09-17 fix2：第 9 節改稿後新增的句子
     'taiex_5y_losing_at_high_start_years': sorted(int(_k) for _k in _ath['taiex_daily']['sensitivity']['at_high_nonpositive_by_start_year']['5y']),
     'taiex_gap_pp_excluding_windows_spanning_2008_low': {_y: [_ath['taiex_daily']['sensitivity']['excluding_windows_spanning_2008_low'][_y]['gap_pp_full'],
                                                               _ath['taiex_daily']['sensitivity']['excluding_windows_spanning_2008_low'][_y]['gap_pp_excluding']] for _y in ('3y', '5y')},
@@ -976,7 +976,7 @@ R['drag_breakdown'] = _g03.compute()
 R['fee_gap_chart'] = _g04.compute()
 R['safety_steps'] = _g05.compute()
 
-# v6.3 批 3（P2）：個股 vs 市值型指數（第 4 節新卡）、報酬率不等於報酬（第 2 節新卡）
+# v6.3 批 3（P2）：個股 vs 市值型指數（第 7 節新卡）、報酬率不等於報酬（第 5 節新卡）
 # 學術與官方數字是查證過的定值，逐條出處與但書在 wip/v63/stock-vs-index/evidence.md；
 # 這裡只集中存放（書上引用它），並用本檔的 fv() 現算「報酬率不等於報酬」那幾個數字。
 import v63_g07_investor_cycle as _g07
@@ -1025,7 +1025,7 @@ R['stock_vs_index'] = {
     },
     'one_share_vs_plan': {
         'basis': '個股那一邊是一次漲幅；計畫那一邊用本檔 fv()：年率÷12 按月複利、每月月底投入，未扣費用與稅。'
-                 '4% 是第 1 節低情境（股票 100%）',
+                 '4% 是第 4 節低情境（股票 100%）',
         'stock_cost': _one_cost, 'stock_up_pct': _one_up_pct, 'stock_gain': r0(_one_gain),
         'plan_monthly': _plan_m, 'plan_rate_pct': _plan_rate, 'plan_years': _plan_years,
         'plan_fv': r0(_plan_fv), 'plan_fv_wan1': wan1(_plan_fv),
@@ -1053,7 +1053,7 @@ quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '低情境下股票八成約 20 年、四成約 25 年', '低 4% 約 21 年', '| 80% | 3.6% | 5.2% | 6%', '| 40% | 2.8% | 3.6% | 4%',
           '| 物價倍數 | 1.10 | 1.22 | 1.35 | 1.49 | 1.64 | 1.81 | 2.00 | 2.21', '勞保那一層保守起見用今天的投保薪資試算、不乘物價倍數',
           '真實年成本 6.69%',
-          # G11（第 6 節「現在是歷史新高」）：數字來自 ath_returns
+          # G11（第 9 節「現在是歷史新高」）：數字來自 ath_returns
           '大約每十個月就有三個月是新高', '| 台股 3 年 | 95% | 87%', '| 美股 5 年 | 90% | 85%',
           '全部是 2005 到 2007 年買進', '新高月份放五年平均一年 4.5%、其他月份 9.0%；1950 年以後變成 12.0% 對 10.6%',
           '1950 年以前低很多（75% 對 91%），1950 年以後只低一點（91% 對 93%）',
@@ -1088,7 +1088,7 @@ quotes += QUOTES_V63_Q
 quotes += ['股票跌一半以後股票剩 40 萬、總共剩 60 萬，股票占 66.7%',
            '從防守搬 8 萬去買股票（防守從 20 萬剩 12 萬）',
            '要再投入 40 萬新錢才回得到八成']
-# v6.3 批 3（P2）：第 4 節「一家對上整群」、第 2 節「報酬率不等於報酬」
+# v6.3 批 3（P2）：第 7 節「一家對上整群」、第 5 節「報酬率不等於報酬」
 quotes += ['只有 42.6% 的終身報酬贏過同一段時間的一個月期國庫券',
            '中間那一檔的終身報酬是 −2.29%',
            '排在最前面的 1,092 家（4.31%）',
@@ -1100,7 +1100,7 @@ quotes += ['只有 42.6% 的終身報酬贏過同一段時間的一個月期國�
            '到期約 73.6 萬：其中 60 萬是自己存的，13.6 萬是報酬',
            '是前面那 5,000 元的 27 倍',
            '它得漲 1,362%']
-# v6.3 批 3 修正：第 2 節滿足點表外那一句補數字；第 4 節兩個分母與名單口徑
+# v6.3 批 3 修正：第 5 節滿足點表外那一句補數字；第 7 節兩個分母與名單口徑
 quotes += ['存 15%、低 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']

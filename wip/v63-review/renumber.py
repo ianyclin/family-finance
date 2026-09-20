@@ -103,6 +103,9 @@ def run(path, write):
     def fix(m):
         href, txt = m.group(1), m.group(2)
         if not re.fullmatch(r'\d+', txt):
+            # 盲點（v7 第四輪裁判④）：錨文字不是「整串數字」但裡面寫了節號的連結（例如
+            # <a class="xref" href="#plan-table">計畫表在第 11 節</a>）在這裡被原封放過，要人工改。
+            # 補救在哨兵端：tools/lite_sentinels.py 的 check_xref_numbers 現在也查錨文字裡的「第 N 節」。
             return m.group(0)
         home = id_home.get(href)
         if home is None or home not in NUM:
