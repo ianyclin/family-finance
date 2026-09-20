@@ -1,4 +1,7 @@
 {
+  "_comment": "v7 第四輪 R5：帶框標籤退場。practice 的七件事現在靠句首固定前綴 practice_prefix 找（不再靠 span.label-practice），前綴後面必須接該件事 starts 裡的標準開頭之一；完整版七件事一件都不能少。非那七句的地方一律用不帶冒號的形式（「（本指南的做法）」、「…是本指南的做法，你可以自己定」）。principle 改成純文字 principle_prefix，每章最多一個。",
+  "practice_prefix": "本指南的做法：",
+  "principle_prefix": "原則：",
   "practice": [
     {
       "item": "核心放全球市值型",

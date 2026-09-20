@@ -489,53 +489,60 @@ def run(m, pdf_info=None, build_report=None):
         if not nb:
             R.ok('tickers', '%s：%d 個代號只出現在 %s' % (label, len(tk['codes']), '、'.join(allow)))
 
-    # 6. 標籤
+    # 6. 標籤（v7 第四輪 R5：帶框的 span.label-practice／label-principle 退場，改成句內白話。
+    #    不再靠 span 找句子，改用固定的文字前綴：
+    #      practice  句首前綴「本指南的做法：」——全份只准用在七件事那七句上，後面必須接
+    #                labels.json 的標準開頭之一（白名單），而且七件事在完整版一件都不能少。
+    #                非那七句的地方一律用不帶冒號的形式（小卡括號「（本指南的做法）」、
+    #                句內「…是本指南的做法，你可以自己定」），所以不會誤中。
+    #      principle 純文字「原則：」，每章仍然最多一個。
+    #    舊規則會漏的：span 被刪掉就不再檢查（七件事少一件也綠）。新規則用前綴掃全文＋七件事
+    #    覆蓋檢查，少一件會紅。)
     lb = json.load(open(B.rp(P['labels']), encoding='utf-8'))
-    for label, dom, sec_sel in (('實作版', ldom, 'section.lite-ch'), ('完整版', fdom, 'section.part')):
-        ignore = []
-        for sel in lb.get('ignore', []): ignore += B.select(dom, sel)
+    PRACTICE_PREFIX = lb.get('practice_prefix', '本指南的做法：')
+    PRINCIPLE_PREFIX = lb.get('principle_prefix', '原則：')
+    starts = [(B.compact(k), item['item']) for item in lb['practice'] for k in item.get('starts', [])]
+    for label, dom, sec_sel, need_all in (('實作版', ldom, 'section.lite-ch', False),
+                                          ('完整版', fdom, 'section.part', True)):
+        ignore = B.outermost([x for sel in lb.get('ignore', []) for x in B.select(dom, sel)])
         secs = B.select(dom, sec_sel)
         nb = 0; npr = 0; nprin = 0; per_item = {}
         max_item = lb.get('practice_max_per_item')
-        for n in dom.nodes:
-            if n.tag != 'span': continue
-            cl = n.classes()
-            if 'label-practice' not in cl and 'label-principle' not in cl: continue
-            if any(x.start <= n.start and n.end <= x.end for x in ignore): continue
-            if 'label-practice' in cl:
-                npr += 1
-                parent = n.parent
-                after = B.html_text(dom.s[n.end:parent.inner_end])
-                sentence = re.split(r'[。！？]', after, 1)[0]
-                cs = B.compact(sentence)
-                # 句首比對：先去掉開頭的括號小註（例如「（不是唯一答案）」），句子要以 starts 其中一個開頭；
-                # 沒寫 starts 的項目才退回關鍵詞子字串比對（review r2：子字串比對貼錯句子也會過）
-                head = re.sub(r'^[（(][^）)]*[）)]', '', cs)
-                hit = None
-                for item in lb['practice']:
-                    if item.get('starts'):
-                        ok = any(head.startswith(B.compact(k)) for k in item['starts'])
-                    else:
-                        ok = any(B.compact(k) in cs for k in item['keywords'])
-                    if ok:
-                        hit = item['item']; break
-                if hit is None:
-                    R.fail('labels', '%s「本指南的做法」貼在清單以外的句子（要以七件事的標準句開頭）：%s' % (label, sentence[:60])); nb += 1
-                else:
-                    per_item[hit] = per_item.get(hit, 0) + 1
+        keep, pos = [], 0
+        for x in sorted(ignore, key=lambda n: n.start):
+            keep.append(dom.s[pos:x.start]); pos = x.end
+        keep.append(dom.s[pos:])
+        text = B.compact(B.html_text(''.join(keep)))
+        pfx = B.compact(PRACTICE_PREFIX); i = text.find(pfx)
+        while i >= 0:
+            npr += 1
+            tail = text[i + len(pfx):]
+            hit = next((it for k, it in starts if tail.startswith(k)), None)
+            if hit is None:
+                R.fail('labels', '%s「%s」後面接的不是七件事的標準開頭：%s…' % (label, PRACTICE_PREFIX, tail[:30])); nb += 1
             else:
-                nprin += 1
+                per_item[hit] = per_item.get(hit, 0) + 1
+            i = text.find(pfx, i + 1)
         if max_item:
             for it, k in sorted(per_item.items()):
                 if k > int(max_item):
-                    R.fail('labels', '%s「本指南的做法」貼在「%s」%d 次（每份最多 %s 次）' % (label, it, k, max_item)); nb += 1
+                    R.fail('labels', '%s「%s」用在「%s」%d 次（每份最多 %s 次）' % (label, PRACTICE_PREFIX, it, k, max_item)); nb += 1
+        if need_all:
+            missing = [item['item'] for item in lb['practice'] if item['item'] not in per_item]
+            if missing:
+                R.fail('labels', '%s 少了七件事裡的 %d 件（沒有用「%s」寫出來）：%s'
+                       % (label, len(missing), PRACTICE_PREFIX, '、'.join(missing))); nb += 1
+        prin_pfx = B.compact(PRINCIPLE_PREFIX)
         for s in secs:
-            k = len([x for x in dom.nodes if x.tag == 'span' and 'label-principle' in x.classes() and s.start < x.start < s.end
-                     and not any(y.start <= x.start and x.end <= y.end for y in ignore)])
+            k = B.compact(B.html_text(dom.outer(s))).count(prin_pfx)
+            nprin += k
             if k > int(lb.get('principle_max_per_chapter', 1)):
-                R.fail('labels', '%s #%s 有 %d 個「原則」標籤（每章最多 %s 個）' % (label, s.attrs.get('id'), k, lb.get('principle_max_per_chapter', 1))); nb += 1
+                R.fail('labels', '%s #%s 有 %d 個「%s」（每章最多 %s 個）'
+                       % (label, s.attrs.get('id'), k, PRINCIPLE_PREFIX, lb.get('principle_max_per_chapter', 1))); nb += 1
         if not nb:
-            R.ok('labels', '%s：「本指南的做法」%d 個都在七件事上；「原則」%d 個，每章不超過 %s 個' % (label, npr, nprin, lb.get('principle_max_per_chapter', 1)))
+            R.ok('labels', '%s：「%s」%d 句都是七件事的標準開頭%s；「%s」%d 個，每章不超過 %s 個'
+                 % (label, PRACTICE_PREFIX, npr, '（七件事一件不少）' if need_all else '',
+                    PRINCIPLE_PREFIX, nprin, lb.get('principle_max_per_chapter', 1)))
 
     # 7. 頁數與目錄頁碼
     edir = B.rp(P['export_dir'])
