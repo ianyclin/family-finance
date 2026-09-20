@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """G11 研究：在「歷史新高（含息指數）」那天／那個月／那一年底買進，之後的報酬和其他時點比起來如何。
 
-2026-09-17（g11）起由 calc_core.py 呼叫 compute()，結果寫進 lite/calc-results.json 的 ath_returns；指南第 6 節「現在是歷史新高」那段的數字從那裡來。
+2026-09-17（g11）起由 calc_core.py 呼叫 compute()，結果寫進 lite/calc-results.json 的 ath_returns；指南第 9 節「現在是歷史新高」那段的數字從那裡來。
 
 資料（三份，都已在 repo 或本機）
   A. 台股：research/data/taiex_tr_monthly_raw.csv（檔名寫 monthly，內容是逐日收盤）——
@@ -180,7 +180,7 @@ def compute():
     tw_sens['worst5_starts_1y'] = [{'date': dates[i].isoformat(), 'ret_1y_pct': hu(r), 'at_high': at[i]} for r, i in worst]
     nh = [r for r, i in worst if not at[i]]
     tw_sens['worst5_starts_1y_not_at_high_range_pct'] = [hu(min(nh)), hu(max(nh))] if nh else None
-    # (f) 2026-09-17 fix2：第 6 節「三年、五年的差距，主要就是這一次大跌」的程式擔保。
+    # (f) 2026-09-17 fix2：第 9 節「三年、五年的差距，主要就是這一次大跌」的程式擔保。
     #     拿掉「持有期間跨過 2008 年最低點」的視窗（最低點由資料算，不寫死），看新高組和其他日子還差多少。
     #     只拿掉 2006H2–2007 起點（上面 c）對 5 年不夠：2003、2004 年的新高起點也是抱進 2008 年才虧。
     y08 = [t for t in range(len(dates)) if dates[t].year == 2008]

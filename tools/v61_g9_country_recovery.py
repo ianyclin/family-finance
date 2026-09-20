@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""G9 替代方案 A：第 4 節「單一市場可能等很久」三段期間 → 三條共用年份軸的時間軸長條（calc_key: country_recovery）。
+"""G9 替代方案 A：第 7 節「單一市場可能等很久」三段期間 → 三條共用年份軸的時間軸長條（calc_key: country_recovery）。
 
 資料來源（不是新資料，是指南已查核過的三筆事實；寫死成下面的 ROWS 常數，不再讀 guide/index.html）：
   美國：聯準會歷史頁（Federal Reserve History, "Stock Market Crash of 1929"），道瓊工業指數價格。

@@ -262,7 +262,9 @@ def check_xref_numbers(dom):
 
 def check_part_maps(dom):
     """part_maps：group-* 分組節的 ol.part-map 清單要和目錄、目標節逐字一致。第 1 批加入分組節地圖後才啟用；
-    原文還沒有任何 ol.part-map 時回傳 (None, 理由)。"""
+    原文還沒有任何 ol.part-map 時回傳 (None, 理由)。
+    v7.0（全書 28 節連號）：地圖每一行都必須有剛好一個 map-num，且等於目標節 h2 的 span.num。
+    舊規則「目標節沒有節號時不准有 map-num」在每一節都有號之後只會放過漏補的行，改成直接報錯。"""
     maps = [n for n in dom.nodes if n.tag == 'ol' and 'part-map' in n.classes()]
     if not maps:
         return None, '原文還沒有 ol.part-map（施工文件第 1 批才加入分組節地圖），這一支先不查'
@@ -314,9 +316,10 @@ def check_part_maps(dom):
                     gid, tid, txt(ml[0]) if len(ml) == 1 else '（%d 個）' % len(ml), txt(tl) if tl is not None else '無'))
             mn = kids(li, 'span', 'map-num')
             num = _section_num(dom, tgt)
-            if num is None and mn:
-                bad.append('%s 地圖 #%s 沒有節號，卻有 map-num %s' % (gid, tid, txt(mn[0])))
-            elif num is not None and (len(mn) != 1 or txt(mn[0]) != num):
+            if num is None:
+                # v7.0 起全書 28 節連號，每一節都有 h2 span.num；指到沒有節號的節就是漏補。
+                bad.append('%s 地圖 #%s 指到的節沒有節號（v7.0 起每一節都有號）' % (gid, tid))
+            elif len(mn) != 1 or txt(mn[0]) != num:
                 bad.append('%s 地圖 #%s 的 map-num「%s」≠ 那一節的節號 %s' % (gid, tid, txt(mn[0]) if mn else '缺', num))
         if hrefs != toc_ids:
             bad.append('%s 地圖順序 %s ≠ 目錄同組 %s' % (gid, '→'.join(hrefs), '→'.join(toc_ids)))

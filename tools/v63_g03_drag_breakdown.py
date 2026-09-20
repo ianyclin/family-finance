@@ -1,7 +1,7 @@
-"""G03（v6.3 第二批 c）：第 9 節「每年少賺的 3.8 個百分點去哪了」。
+"""G03（v6.3 第二批 c）：第 12 節「每年少賺的 3.8 個百分點去哪了」。
 
 資料來源
-    指南第 9 節既有文字，出自 Barber, Lee, Liu & Odean (2009), Review of Financial Studies
+    指南第 12 節既有文字，出自 Barber, Lee, Liu & Odean (2009), Review of Financial Studies
     「台灣 1995–1999：個人投資人整體因為買賣，每年比買了不動少賺 3.8 個百分點」。
     四個比例也是原文既有：證交稅約 34%、手續費約 32%、買賣價差約 27%、進出時機約 7%。
     這支程式不算任何新數字，只把原文那三行條列畫成一條 100% 的堆疊長條。
@@ -14,7 +14,7 @@
 compute() 只用標準庫；chart(res) 才 lazy import essay_charts。
 """
 
-# 原文第 9 節條列的四項（順序照原文）
+# 原文第 12 節條列的四項（順序照原文）
 PARTS = [
     ('證交稅', 34, 'teal'),
     ('手續費', 32, 'blue'),
@@ -44,7 +44,7 @@ def compute():
         },
         'source': {
             'name': 'Barber, Lee, Liu & Odean (2009), Review of Financial Studies',
-            'via': '指南第 9 節既有文字（數字沒有重算）',
+            'via': '指南第 12 節既有文字（數字沒有重算）',
             'url': 'https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/'
                    'justhowmuchdoindividualinvestorslose_rfs_2009.pdf',
             'quote_in_guide': QUOTE,
@@ -119,7 +119,7 @@ def chart(res):
                 '四個比例都是原文寫的約略值，加起來剛好 100%%。'
                 '資料是台灣證交所當年的完整交易紀錄，算的是全體個人投資人合起來，不是每個人都一樣。'
                 '研究年代久遠，交易稅率和工具都變了。'
-                '出自 Barber、Lee、Liu、Odean 2009 年的研究（連結在第 9 節「直接來源」）。'
+                '出自 Barber、Lee、Liu、Odean 2009 年的研究（連結在第 12 節「直接來源」）。'
                 % (PERIOD, res['total_pp'], res['total_pp']))
     caption = ('每年少賺的 %s 個百分點，%d%% 是證交稅、%d%% 是手續費、%d%% 是買賣價差，'
                '剩下 %d%% 才是進出時機。前兩塊加起來 %d%%，是每買賣一次就要付出去的錢。'

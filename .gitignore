@@ -25,5 +25,6 @@ wip/**/copy-*.html
 wip/**/*.png
 wip/v63-review/_baseline_v63.html
 wip/v63-review/_baseline_v631.html
+wip/v63-review/_baseline_v7_prerenumber.html
 release/
 .claude/

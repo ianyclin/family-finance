@@ -114,7 +114,21 @@
 
 ### 節 id ≠ 顯示的節號（陷阱）
 
-`cases` 顯示第 12 節，所以 **id `s12` 顯示成第 13 節、id `s13` 顯示成第 14 節**。id 一律不動。另有六個沒有節號的分組節 `group-core`／`group-plan`／`group-situations`／`group-howto`／`group-life`／`group-ref`（組地圖，`part_maps` 哨兵逐字比對）。`start`、`why`、`glossary` 沒有節號。
+**v7.0 起全書 28 節連號，每一節都有節號**（作者 2026-09-20 拍板）。id 一律不動，所以 id 和顯示的節號幾乎全部對不上——改「第 N 節」一律照下表，不要從 id 推：
+
+| 節號 | id | 節號 | id | 節號 | id | 節號 | id |
+|---|---|---|---|---|---|---|---|
+| 1 | `ten` | 8 | `s5` | 15 | `cases` | 22 | `costs` |
+| 2 | `start` | 9 | `s6` | 16 | `s12` | 23 | `annual` |
+| 3 | `why` | 10 | `s7` | 17 | `s13` | 24 | `lifecycle` |
+| 4 | `s1` | 11 | `s8` | 18 | `sidepaths` | 25 | `withdraw` |
+| 5 | `s2` | 12 | `s9` | 19 | `firstmonth` | 26 | `glossary` |
+| 6 | `s3` | 13 | `s10` | 20 | `steps` | 27 | `toolbox` |
+| 7 | `s4` | 14 | `s11` | 21 | `products` | 28 | `methods` |
+
+口訣：v6.3.1 有號的那 14 節（`s1`–`s13`、`cases`）一律「舊號＋3」；原本沒有號的 14 節依正文順序補上 1–3、18–28。
+
+沒有節號的只剩六個分組節 `group-core`／`group-plan`／`group-situations`／`group-howto`／`group-life`／`group-ref`（組地圖，`part_maps` 哨兵逐字比對；v7.0 起組地圖每一行都必須有 `map-num`，且等於目標節的 `span.num`）。目錄七組各自用 `ol.toc-from-N` 的 CSS 計數器印號碼，搬節或改組時 `toc-from-N` 要跟著改。
 
 ### 核准的例外（不是錯誤，不要「順手修好」）
 
@@ -138,7 +152,7 @@ cp guide/index.html guide/index.vX.backup.html        # 1. 大檔先備份（*.b
 # 2. 只改 guide/index.html（Edit，或寫一次性 python 做整段替換；不要整檔 Write）
 python3 tools/essay_charts.py --guide                 # 3. 只有動到圖才跑，一定要帶 --guide
 BASE=wip/v63-review/_baseline_v631.html               # 4. v7 的四個檢查
-python3 tools/v7_check.py numbers $BASE guide/index.html --allow-file wip/v63-review/numbers-allow-all.json
+python3 tools/v7_check.py numbers $BASE guide/index.html --allow-file wip/v63-review/numbers-allow-renumber.json
 python3 tools/v7_check.py anchors $BASE guide/index.html
 python3 tools/v7_check.py budget guide/index.html wip/v63-review/budget-v7.json
 python3 tools/v7_check.py planstep guide/index.html
