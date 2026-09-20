@@ -74,7 +74,17 @@ figure.chart table.dca tbody th{text-align:left}
 figure.chart details.orig{margin-top:10px}figure.chart details.orig summary{cursor:pointer;color:var(--green);font-weight:700;font-size:.84rem;list-style:none}figure.chart details.orig summary::before{content:"▸ ";}figure.chart details.orig[open] summary::before{content:"▾ ";}figure.chart details.orig img{display:block;width:100%;height:auto;margin-top:8px;border:1px solid var(--line);border-radius:8px;background:#fff}
 table.prose th,table.prose td{text-align:left;vertical-align:top}table.prose td:first-child{white-space:nowrap;font-weight:700}
 .xref{color:var(--green);text-decoration:none;border-bottom:1px dotted currentColor}.xref:hover{border-bottom-style:solid}@media print{.xref{border-bottom:0}a.term{color:#345f88;border-bottom:1px dotted #345f88}html body mark.key{background:linear-gradient(transparent 50%,#f3d98c 50%);-webkit-print-color-adjust:exact;print-color-adjust:exact}html body mark.key.top{background:linear-gradient(transparent 50%,#f4c9c1 50%);-webkit-print-color-adjust:exact;print-color-adjust:exact}}
-a.term{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blue)}mark.key{background:linear-gradient(transparent 50%,#f3d98c 50%);color:inherit;padding:0 .15em;border-radius:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}mark.key.top{background:linear-gradient(transparent 50%,#f4c9c1 50%);font-weight:800}.checklist li>p{margin:.5em 0}figure.photo .chart-body>img{display:block;width:100%;height:auto;border-radius:8px}figure.photo .credit{display:block;text-align:right;font-size:.84rem;color:var(--line)}.later{display:inline-block;margin:0 0 .4em;padding:2px 9px;background:var(--amber2);color:var(--amber);border-radius:999px;font-size:.84rem}.glossary+h3,section h3+dl.glossary{margin-top:.6em}.label-principle,.label-practice{display:inline-block;margin:0 .45em .2em 0;padding:1px 10px;border-radius:16px;font-size:.84rem;font-weight:700;line-height:1.6;white-space:nowrap;-webkit-print-color-adjust:exact;print-color-adjust:exact}.label-principle{background:#1f4a3d;border:1px solid #1f4a3d;color:#fff}.label-practice{background:transparent;border:1px dashed #7a8894;color:#51606d}@media(prefers-color-scheme:dark){.label-principle{background:#b9d8ca;border-color:#b9d8ca;color:#101713}.label-practice{border-color:#8e9ca8;color:#bcc7d0}}@media print{.label-principle{background:#1f4a3d;border-color:#1f4a3d;color:#fff}.label-practice{border-color:#666;color:#333}}.part code{overflow-wrap:anywhere;word-break:break-all}</style>
+a.term{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blue)}mark.key{background:linear-gradient(transparent 50%,#f3d98c 50%);color:inherit;padding:0 .15em;border-radius:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}mark.key.top{background:linear-gradient(transparent 50%,#f4c9c1 50%);font-weight:800}.checklist li>p{margin:.5em 0}figure.photo .chart-body>img{display:block;width:100%;height:auto;border-radius:8px}figure.photo .credit{display:block;text-align:right;font-size:.84rem;color:var(--line)}.later{display:inline-block;margin:0 0 .4em;padding:2px 9px;background:var(--amber2);color:var(--amber);border-radius:999px;font-size:.84rem}.glossary+h3,section h3+dl.glossary{margin-top:.6em}.label-principle,.label-practice{display:inline-block;margin:0 .45em .2em 0;padding:1px 10px;border-radius:16px;font-size:.84rem;font-weight:700;line-height:1.6;white-space:nowrap;-webkit-print-color-adjust:exact;print-color-adjust:exact}.label-principle{background:#1f4a3d;border:1px solid #1f4a3d;color:#fff}.label-practice{background:transparent;border:1px dashed #7a8894;color:#51606d}@media(prefers-color-scheme:dark){.label-principle{background:#b9d8ca;border-color:#b9d8ca;color:#101713}.label-practice{border-color:#8e9ca8;color:#bcc7d0}}@media print{.label-principle{background:#1f4a3d;border-color:#1f4a3d;color:#fff}.label-practice{border-color:#666;color:#333}}.part code{overflow-wrap:anywhere;word-break:break-all}
+/* v7：手機 app 的閱讀畫面沒有「上一頁」。點了書內連結（節號、名詞、回目錄）以後，用這顆按鈕回到剛才讀的那一行。按鈕由行內 script 建立，沒有 JS 就不會出現。 */
+.backbar{position:fixed;z-index:20;right:16px;bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:6px;max-width:min(70vw,600px)}
+.backbar[hidden]{display:none}
+.backbar button{font:inherit;font-size:.9rem;line-height:1.3;min-height:40px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--green);box-shadow:var(--shadow);cursor:pointer}
+.backbar-go{padding:8px 16px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.backbar-x{width:40px;padding:0;color:var(--muted);font-size:1.1rem}
+.backmark{outline:2px solid var(--amber);outline-offset:3px;background:var(--amber2);border-radius:3px}
+.toc-expand-all button{font:inherit;color:var(--green);background:none;border:0;padding:10px 6px;margin:-10px 0;text-decoration:underline;text-underline-offset:.18em;cursor:pointer}
+@media(prefers-color-scheme:dark){.backbar button{border-color:#4a5a51;box-shadow:0 6px 20px rgba(0,0,0,.45)}}
+@media print{.backbar{display:none}.toc-expand-all{display:none}}</style>
 </head>
 <body>
 <header class="cover" id="top">
@@ -95,7 +105,7 @@ a.term{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blu
 <li>遇到狀況（怕跌、想賣、有人推銷）、要開戶下單、每年檢查、快要用錢：用到再翻目錄裡對應的那一組。看不懂的詞，查「<a class="xref" href="#glossary">先認識這些詞</a>」。</li>
 </ul></details>
 <nav class="toc" id="toc" aria-label="目錄"><h2>目錄</h2>
-<p class="small toc-hint">點組名展開；可以從頭讀或挑選有興趣的章節。</p>
+<p class="small toc-hint">點組名展開<span class="toc-expand-all" hidden>（<button type="button">全部展開</button>）</span>；可以從頭讀或挑選有興趣的章節。</p>
 <h3>第一部分：照順序讀（第 1–16 節）</h3>
 <details class="toc-part" data-print="open"><summary><span class="toc-part-name">開始之前</span><span class="toc-part-range">第 1–3 節</span><span class="toc-part-desc">先抓重點，確認自己的錢能不能開始，再看為什麼用這個方法。</span></summary>
 <ol class="toc-from-1"><li><a href="#ten">十分鐘看完：新手先記住這七件事</a></li><li><a href="#start">投資前的安全順序</a></li><li><a href="#why">為什麼選指數化：得到什麼、要接受什麼</a></li></ol></details>
@@ -136,6 +146,45 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 window.addEventListener('load',later);window.addEventListener('resize',later);
 document.addEventListener('toggle',later,true);})();
 (function(){var opened=[];window.addEventListener('beforeprint',function(){opened=[];Array.prototype.forEach.call(document.querySelectorAll('details[data-print]'),function(d){if(!d.open){d.open=true;opened.push(d);}});});window.addEventListener('afterprint',function(){opened.forEach(function(d){d.open=false;});opened=[];});})();
+(function(){try{/* v7：手機 app 的閱讀畫面沒有「上一頁」。記下讀者在內文裡點過的書內連結，用一顆固定按鈕帶他回去。封面與目錄裡的連結本來就是用來跳出去的，不記。 */
+var MAX=5,stack=[],bar=null;
+function skip(a){return !!(a.closest('#toc')||a.closest('header.cover'));}
+function targetOf(a){var s=a.getAttribute('href')||'';if(s.length<2||s.charAt(0)!=='#'){return null;}
+var id;try{id=decodeURIComponent(s.slice(1));}catch(e){id=s.slice(1);}
+try{return document.getElementById(id);}catch(e){return null;}}
+function render(){if(bar){bar.hidden=(stack.length===0);}}
+function back(){while(stack.length){var el=stack.pop();
+if(!el||!document.contains(el)){continue;}
+var n=el.parentNode;while(n&&n.nodeType===1){if(n.tagName==='DETAILS'&&!n.open){n.open=true;}n=n.parentNode;}
+if(el.scrollIntoView){el.scrollIntoView({block:'center'});}
+el.classList.add('backmark');
+(function(t){setTimeout(function(){t.classList.remove('backmark');},2000);})(el);
+try{el.focus({preventScroll:true});}catch(e){try{el.focus();}catch(e2){}}
+break;}
+render();}
+function build(){if(!document.body){return;}
+bar=document.createElement('div');bar.className='backbar';bar.hidden=true;
+var go=document.createElement('button');go.type='button';go.className='backbar-go';go.textContent='↩ 回到剛才讀的地方';
+var x=document.createElement('button');x.type='button';x.className='backbar-x';x.setAttribute('aria-label','不用回去');x.textContent='×';
+go.addEventListener('click',back);
+x.addEventListener('click',function(){stack.length=0;render();});
+bar.appendChild(go);bar.appendChild(x);document.body.appendChild(bar);}
+document.addEventListener('click',function(e){try{
+var a=e.target&&e.target.closest&&e.target.closest('a[href^="#"]');
+if(!a||skip(a)||!targetOf(a)){return;}
+stack.push(a);while(stack.length>MAX){stack.shift();}
+render();}catch(err){}},true);
+build();render();}catch(e){}})();
+(function(){try{/* v7：目錄「全部展開」。按鈕文字跟著實際狀態走（全部都開著就顯示「全部收起」）。 */
+var wrap=document.querySelector('#toc .toc-expand-all');if(!wrap){return;}
+var btn=wrap.querySelector('button');if(!btn){return;}
+var parts=Array.prototype.slice.call(document.querySelectorAll('#toc details.toc-part'));
+if(!parts.length){return;}
+function allOpen(){for(var i=0;i<parts.length;i++){if(!parts[i].open){return false;}}return true;}
+function sync(){btn.textContent=allOpen()?'全部收起':'全部展開';}
+btn.addEventListener('click',function(){var open=!allOpen();parts.forEach(function(d){d.open=open;});sync();});
+parts.forEach(function(d){d.addEventListener('toggle',sync);});
+wrap.hidden=false;sync();}catch(e){}})();
 </script>
 </header>
 <main>

@@ -1,4 +1,4 @@
-（抽取時間 2026-09-20 14:54；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
+（抽取時間 2026-09-20 15:17；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
 
 隔離人性｜理財新手完整指南
 
@@ -31,7 +31,7 @@
 
 ## 目錄
 
-點組名展開；可以從頭讀或挑選有興趣的章節。
+點組名展開（全部展開）；可以從頭讀或挑選有興趣的章節。
 
 ### 第一部分：照順序讀（第 1–16 節）
 
@@ -100,6 +100,18 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 window.addEventListener('load',later);window.addEventListener('resize',later);
 document.addEventListener('toggle',later,true);})();
 (function(){var opened=[];window.addEventListener('beforeprint',function(){opened=[];Array.prototype.forEach.call(document.querySelectorAll('details[data-print]'),function(d){if(!d.open){d.open=true;opened.push(d);}});});window.addEventListener('afterprint',function(){opened.forEach(function(d){d.open=false;});opened=[];});})();
+(function(){try{/* v7：手機 app 的閱讀畫面沒有「上一頁」。記下讀者在內文裡點過的書內連結，用一顆固定按鈕帶他回去。封面與目錄裡的連結本來就是用來跳出去的，不記。 */
+var MAX=5,stack=[],bar=null;
+function skip(a){return !!(a.closest('#toc')||a.closest('header.cover'));}
+function targetOf(a){var s=a.getAttribute('href')||'';if(s.lengthMAX){stack.shift();}
+render();}catch(err){}},true);
+build();render();}catch(e){}})();
+(function(){try{/* v7：目錄「全部展開」。按鈕文字跟著實際狀態走（全部都開著就顯示「全部收起」）。 */
+var wrap=document.querySelector('#toc .toc-expand-all');if(!wrap){return;}
+var btn=wrap.querySelector('button');if(!btn){return;}
+var parts=Array.prototype.slice.call(document.querySelectorAll('#toc details.toc-part'));
+if(!parts.length){return;}
+function allOpen(){for(var i=0;i
 
 ## 1十分鐘看完：新手先記住這七件事
 其他各節，都是這七件事的理由。
