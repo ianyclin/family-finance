@@ -1,4 +1,4 @@
-（抽取時間 2026-09-20 15:23；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
+（抽取時間 2026-09-20 15:56；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
 
 隔離人性｜理財新手完整指南
 
@@ -111,7 +111,57 @@ var wrap=document.querySelector('#toc .toc-expand-all');if(!wrap){return;}
 var btn=wrap.querySelector('button');if(!btn){return;}
 var parts=Array.prototype.slice.call(document.querySelectorAll('#toc details.toc-part'));
 if(!parts.length){return;}
-function allOpen(){for(var i=0;i
+function allOpen(){for(var i=0;ii;i++){if(hr.cells[i].colSpan!==1){return;}
+labels.push((hr.cells[i].textContent||'').replace(/\s+/g,' ').replace(/^ /,'').replace(/ $/,''));}
+Array.prototype.forEach.call(t.tBodies,function(tb){
+Array.prototype.forEach.call(tb.rows,function(r){
+for(var c=1;r.cells.length>c;c++){if(labels[c]){r.cells[c].setAttribute('data-label',labels[c]);}}});});
+t.className=t.className+' is-stacked';});}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}
+}catch(e){}})();
+(function(){try{/* v7：table.stack-mobile-cols 的主角是欄，窄螢幕一欄一張卡（JS 轉置）。寬螢幕與列印一律看原表格。 */
+var mq=window.matchMedia?window.matchMedia('(max-width:660px)'):null,list=[];
+function host(t){var p=t.parentNode;
+return (p&&typeof p.className==='string'&&(' '+p.className+' ').indexOf(' table-wrap ')>-1)?p:t;}
+function clean(n){if(n.nodeType===1){if(n.getAttribute('id')){n.removeAttribute('id');}
+var k=n.childNodes,i;for(i=0;k.length>i;i++){clean(k[i]);}}}
+function fill(dst,src){var k=src.childNodes,i,n;
+for(i=0;k.length>i;i++){n=k[i].cloneNode(true);clean(n);dst.appendChild(n);}}
+function rowsOf(t){var out=[],i,j;
+if(t.tHead){for(i=0;t.tHead.rows.length>i;i++){out.push(t.tHead.rows[i]);}}
+for(i=0;t.tBodies.length>i;i++){for(j=0;t.tBodies[i].rows.length>j;j++){out.push(t.tBodies[i].rows[j]);}}
+return out;}
+function el(tag,cls){var n=document.createElement(tag);n.className=cls;return n;}
+function build(t){if(t.getAttribute('data-colcards')){return;}
+var rows=rowsOf(t);if(2>rows.length){return;}
+var ncol=rows[0].cells.length;if(2>ncol){return;}
+var box=el('div','col-cards'),c,r,card,cap,line,key,val,lead,top=rows[0].cells[0];
+if(top&&(top.textContent||'').replace(/\s+/g,'')!==''){
+lead=el('p','col-cards-lead');fill(lead,top);box.appendChild(lead);}
+for(c=1;ncol>c;c++){card=el('div','col-card');
+cap=el('p','col-card-head');fill(cap,rows[0].cells[c]);card.appendChild(cap);
+for(r=1;rows.length>r;r++){if(c>=rows[r].cells.length){continue;}
+line=el('div','col-card-row');
+key=el('span','col-card-key');fill(key,rows[r].cells[0]);
+val=el('span','col-card-val');fill(val,rows[r].cells[c]);
+line.appendChild(key);line.appendChild(val);card.appendChild(line);}
+box.appendChild(card);}
+var h=host(t);h.parentNode.insertBefore(box,h.nextSibling);
+h.className=h.className+' stacked-away';t.setAttribute('data-colcards','y');}
+function drop(t){if(!t.getAttribute('data-colcards')){return;}
+var h=host(t),n=h.nextSibling;
+while(n&&!(n.nodeType===1&&typeof n.className==='string'&&n.className.indexOf('col-cards')===0)){n=n.nextSibling;}
+if(n&&n.parentNode){n.parentNode.removeChild(n);}
+h.className=h.className.replace(/\s*stacked-away/g,'');t.removeAttribute('data-colcards');}
+function sync(){var i;for(i=0;list.length>i;i++){if(mq.matches){build(list[i]);}else{drop(list[i]);}}
+try{window.dispatchEvent(new Event('resize'));}catch(e){}}
+function run(){if(!mq){return;}
+list=Array.prototype.slice.call(document.querySelectorAll('table.stack-mobile-cols'));
+if(!list.length){return;}
+if(mq.addEventListener){mq.addEventListener('change',sync);}else if(mq.addListener){mq.addListener(sync);}
+sync();}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}
+}catch(e){}})();
 
 ## 1十分鐘看完：新手先記住這七件事
 其他各節，都是這七件事的理由。
@@ -463,8 +513,15 @@ LINE 上的「老師」或「助理」拉你進群組。
 【摺疊】想深入：物價會吃掉多少、定存這二十年有沒有追上物價
 
 通膨也要算。現金沒有利息、物價每年漲 2% 的話，今天 100 元的購買力，十年後約剩 82 元、二十年後 67 元、三十年後 55 元（假設，不是預測）。反過來說，今天 100 元買得到的東西，十年後要約 122 元、二十年後約 149 元、三十年後約 181 元。替未來定目標時，把今天的價錢乘上下表的物價倍數：今天每月花 5 萬，30 年後約 9 萬。報酬率不扣物價，目標另外乘物價倍數，兩件事分開做。
- | | 幾年後 | 5 | 10 | 15 | 20 | 25 | 30 | 35 | 40
- | 物價倍數 | 1.10 | 1.22 | 1.35 | 1.49 | 1.64 | 1.81 | 2.00 | 2.21
+ | | 幾年後 | 物價倍數
+ | 5 | 1.10
+ | 10 | 1.22
+ | 15 | 1.35
+ | 20 | 1.49
+ | 25 | 1.64
+ | 30 | 1.81
+ | 35 | 2.00
+ | 40 | 2.21
 
 〈小字〉倍數照物價每年漲約 2% 算；年數在兩格中間，取年數多的那一格。物價漲得比 2% 快，倍數會更大，例如一年 3%、30 年約 2.4 倍，所以目標寧可估大一點。
 
@@ -501,7 +558,14 @@ LINE 上的「老師」或「助理」拉你進群組。
 滿足點不等於可以退休。它只是「長出來的錢剛好等於一年生活費」的那一年，算法隱含你每年把資產的 4%、6% 或 7% 拿出來花；退休要存多少，本指南和退休研究用的是一年缺口的 25 到 40 倍，也就是一年只拿出 4% 到 2.5%（〔提領率〕），算法在「年齡、槓桿與退休」第三題。存 25 倍就是一年拿出 25 分之 1（4%），存 40 倍是 40 分之 1（2.5%）；倍數越大，每年拿出來的比例越小。
 甜蜜點和滿足點各要幾年
 早晚由兩件事決定：報酬率，還有儲蓄率（存下來的錢 ÷ 收入）。存一半的人，存進去的錢和生活費一樣多，所以滿足點和甜蜜點是同一天。下面這張表是滿足點要幾年，存一半那一欄同時也是甜蜜點；表上是帳面金額，還沒扣物價。
- | | 一年報酬率〈小字〉（帳面，未扣物價） | 存一半（50%） | 存三分之一（33%） | 存四分之一（25%）
+ | | 一年報酬率
+（帳面，未扣物價） | 存
+一半
+（50%） | 存
+三分之一
+（33%） | 存
+四分之一
+（25%）
  | 4%（低） | 17.7 年 | 28.0 年 | 35.3 年
  | 6%（中） | 11.9 年 | 18.9 年 | 23.8 年
  | 7%（高） | 10.2 年 | 16.2 年 | 20.5 年
@@ -529,7 +593,9 @@ LINE 上的「老師」或「助理」拉你進群組。
 官方原圖（英文）：Four Pillar Freedom，「Money Lessons They Don't Teach You in School」一文「The Concept of Compound Interest」小節裡標題為「Accumulating $1 Million」的圖（每年 1 萬美元、7%）。本文是每年 6 萬元、7% 的台幣版，所以每格年數與原圖相同。本文的數字是自己算的，不是原圖上的數字，也不轉載原圖，原圖請看 原始頁面；圖片版權屬原機構，本文引用的數字以正文為準。
 
 【摺疊】想深入：十格各花幾年、每一格裡有多少是報酬（數字表）
- | | 累積到 | 這一格花多久 | 這一格中報酬占比
+ | | 累積到 | 這一格
+花多久 | 這一格中
+報酬占比
  | 60 萬 | 7.84 年 | 22%
  | 120 萬 | 5.10 年 | 49%
  | 180 萬 | 3.78 年 | 62%
@@ -825,7 +891,9 @@ SPIVA 是指數公司 S&P 每年公布的「主動基金對上指數」成績單
 
 ### 台股 2003–2025：連續放 1、5、10、20 年的報酬區間
 同一個問法換到台股：任選一天買進，抱滿 1 年、5 年、10 年、20 年，換算成平均一年，最好的一段和最差的一段各是多少。
- | | 抱多久 | 最差（平均一年） | 最好（平均一年）
+ | | 抱多久 | 最差
+（平均一年） | 最好
+（平均一年）
  | 1 年 | −52.6% | +99.2%
  | 5 年 | −5.0% | +24.6%
  | 10 年 | +4.6% | +17.6%
@@ -1007,7 +1075,8 @@ J.P. Morgan 的美股同款圖顯示，1980–2025 平均年內跌幅約 14.2%�
 ### 現在是歷史新高，會不會太高了？
 
 「創歷史新高」聽起來像站在山頂，但美股大約每十個月就有三個月是新高。把第 8 節那張「打開來是賺的」表，改成只在新高那天買進：
- | | 抱多久 | 任選一天買，抱滿是賺的比例 | 只挑創新高那天買
+ | | 抱多久 | 任選一天買，抱滿是賺的比例 | 只挑創新高
+那天買
  | 台股 1 年 | 77% | 72%
  | 台股 3 年 | 95% | 87%
  | 台股 5 年 | 96% | 88%
@@ -1082,14 +1151,24 @@ J.P. Morgan 的美股同款圖顯示，1980–2025 平均年內跌幅約 14.2%�
 從每個交易日買一點、到一年買一次，七種頻率算出來平均一年長 12.94% 到 12.99%，差不到 0.1 個百分點。
 
 【摺疊】想深入：七種頻率的數字表，還有為什麼期末金額最多的那一列，平均一年沒有比較高
- | | 投入規則 | 期末資產（元） | 平均一年長
- | 每月分到每個交易日 | 15,197,845 | 12.97%
- | 每月前 10 個交易日 | 15,198,678 | 12.97%
- | 每月前 3 個交易日 | 15,219,088 | 12.98%
- | 每月第 1 個交易日 | 15,234,934 | 12.99%
- | 每月最後 1 個交易日 | 15,138,060 | 12.94%
- | 每季第 1 個交易日投入 3 萬 | 15,349,087 | 12.97%
- | 每年第 1 個交易日投入 12 萬 | 16,013,014 | 12.95%
+ | | 投入規則 | 期末資產
+（元） | 平均一年長
+ | 每月分到
+每個交易日 | 15,197,845 | 12.97%
+ | 每月前 10 個
+交易日 | 15,198,678 | 12.97%
+ | 每月前 3 個
+交易日 | 15,219,088 | 12.98%
+ | 每月第 1 個
+交易日 | 15,234,934 | 12.99%
+ | 每月最後 1 個
+交易日 | 15,138,060 | 12.94%
+ | 每季第 1 個
+交易日
+投入 3 萬 | 15,349,087 | 12.97%
+ | 每年第 1 個
+交易日
+投入 12 萬 | 16,013,014 | 12.95%
 
 每年第一天投入的期末金額較高，主因是一整年的錢較早進場、在市場裡待得比較久，不是「一年買一次有魔法」。就像提早出門比較早到，不代表車開得比較快：〔年化〕（平均一年長多少，也就是表裡那一欄）量的是快慢，錢早進場只是走得比較遠，所以期末金額最多的那一列，平均一年反而沒有比較高。
 
@@ -1550,7 +1629,9 @@ H 改計畫紀錄
 減掉每年被扣的費用（計畫表 C 區寫的那個數字）。
 拿減完的數字去查表二。
 算好的例子：每月投 5,000 元、20 年、股票八成。表一「保守算」那一欄是 3.6%；每年被扣的費用 0.2%，3.6% － 0.2% ＝ 3.4%；查表二 3.4% 的 20 年那一格是 34.3，34.3 × 5 ＝約 172 萬。
- | | 股票比例 | 保守算（做決定用） | 普通算 | 樂觀算（只看大概）
+ | | 股票比例 | 保守算
+（做決定用） | 普通算 | 樂觀算
+（只看大概）
  | 100% | 4.0% | 6.0% | 7.0%
  | 90% | 3.8% | 5.6% | 6.5%
  | 80% | 3.6% | 5.2% | 6.0%
@@ -1637,7 +1718,11 @@ H 改計畫紀錄
 
 ### 壓力測試：大跌那天，實際少多少錢
 你有 100 萬。新聞說「股市跌了一半」。不一定少 50 萬，要看你股票放幾成。這張表算的是大跌那天帳面少多少。台股 2008 年內從高點跌過 53.59%（第 8 節），所以表格列到 60%。
- | | 股票比例 | 防守 | 股票跌 40% | 股票跌 50% | 股票跌 60%
+ | | 股票
+比例 | 防守 | 股票跌
+40% | 股票跌
+50% | 股票跌
+60%
  | 100% | — | 少 40 萬 | 少 50 萬 | 少 60 萬
  | 80% | 不跌 | 少 32 萬 | 少 40 萬 | 少 48 萬
  | 60% | 不跌 | 少 24 萬 | 少 30 萬 | 少 36 萬
@@ -1648,7 +1733,11 @@ H 改計畫紀錄
 本指南的做法：防守那一塊先用台幣定存或活存，大跌那天它不跟著跌，看「不跌」那一列就好。防守放債券 ETF 的人，尤其是長天期（20 年以上）的，先展開下面兩格再算。
 
 【摺疊】如果你防守放債券 ETF：壓力測試看這張表（防守跌 10%），還有怎麼加上去
- | | 股票比例 | 防守 | 股票跌 40% | 股票跌 50% | 股票跌 60%
+ | | 股票
+比例 | 防守 | 股票跌
+40% | 股票跌
+50% | 股票跌
+60%
  | 80% | 跌 10% | 少 34 萬 | 少 42 萬 | 少 50 萬
  | 60% | 跌 10% | 少 28 萬 | 少 34 萬 | 少 40 萬
  | 40% | 跌 10% | 少 22 萬 | 少 26 萬 | 少 30 萬
@@ -1754,7 +1843,8 @@ D 試算（股票八成 → 查表：保守算 3.6%、普通算 5.2%、樂觀算
 ②延後：不多存的話，延後會超過 25 年，目標要重查物價倍數（取 30 年那格）：今天約 134 萬 × 1.81 ≈ 243 萬，要延到 2053 年 6 月左右（多約 6.8 年），超過他最多能延的 5 年，這條走不通；③降低目標：先不用。
 E 風險
 股債比：股票 80%、防守 20%（台幣定存）。暫定。
-壓力測試（防守是定存，不跌）：小安現在已經投資的錢是 0，所以「現在」那一列改填第 5 年。 | | 已經投資的錢 | 股票跌 40% | 跌 50% | 跌 60%
+壓力測試（防守是定存，不跌）：小安現在已經投資的錢是 0，所以「現在」那一列改填第 5 年。 | | 已經投資的錢 | 股票跌
+40% | 跌 50% | 跌 60%
  | 第 5 年約 34 萬 | 少 11 萬 | 少 14 萬 | 少 16 萬
  | 2046 年約 203 萬 | 少 65 萬 | 少 81 萬 | 少 97 萬
 
@@ -1881,7 +1971,8 @@ H 改計畫紀錄：2026-10-01｜第 1 版｜—｜—
 
  | 高（樂觀） | 462 萬 | 526 萬
 
- | | 投資圈 | 股票比例 | 股票跌 40% | 跌 50% | 跌 60%
+ | | 投資圈 | 股票比例 | 股票跌
+40% | 跌 50% | 跌 60%
 
  | 現在 30 萬 | 80% | 少 9.6 萬 | 少 12 萬 | 少 14.4 萬
 
