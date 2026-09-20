@@ -43,10 +43,10 @@
 ## 每批交件前自己跑
 
 ```bash
-python3 tools/v7_check.py numbers wip/v63-review/_baseline_v631.html guide/index.html --allow-file wip/v63-review/numbers-allow-round9.json --section <你的節…>   # LOST 必須 0（或列進 allow 檔並說明）
+python3 tools/v7_check.py numbers wip/v63-review/_baseline_v631.html guide/index.html --allow-file wip/v63-review/numbers-allow-round11.json --section <你的節…>   # LOST 必須 0（或列進 allow 檔並說明）
 # numbers 要跑兩次：只對 v6.3.1 會假綠（這一批刪掉的數字，剛好被前幾輪補上的同一個數字抵掉）
 git show <這一批開工前的 commit>:guide/index.html > /tmp/base-prev.html
-python3 tools/v7_check.py numbers /tmp/base-prev.html guide/index.html --allow-file wip/v63-review/numbers-allow-round9.json          # 兩個都 LOST 0 才算過
+python3 tools/v7_check.py numbers /tmp/base-prev.html guide/index.html --allow-file wip/v63-review/numbers-allow-round11.json          # 兩個都 LOST 0 才算過
 python3 tools/v7_check.py anchors wip/v63-review/_baseline_v631.html guide/index.html
 python3 tools/v7_check.py mainline guide/index.html        # 對照 budget-v7.json 你的節
 python3 tools/v7_check.py planstep guide/index.html
