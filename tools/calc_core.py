@@ -1014,14 +1014,15 @@ R['stock_vs_index'] = {
     },
     'taiwan_listed_counts': {
         'basis': '2003 年底家數出自臺灣證券交易所《證交所 60 週年》專刊 P15〈歷年上市公司家數統計〉；'
-                 '今天的家數與上市日期出自證交所開放資料〈上市公司基本資料〉，出表日 2026-09-17（資料筆數自算）',
-        'listed_end_2003': 669, 'today_total': 1094,
-        'today_listed_on_or_before_2003': 549, 'today_listed_after_2003': 545,
-        'today_listed_after_2003_check': 1094 - 549,
-        'still_listed_share_pct': r1(549 / 669 * 100),
-        'after_2003_share_pct': r1((1094 - 549) / 1094 * 100),
+                 '今天的家數與上市日期出自證交所開放資料〈上市公司基本資料〉，出表日 2026-09-19，'
+                 '不含產業別 91 的存託憑證（TDR）：資料筆數 1,094 扣掉 10 檔 TDR ＝ 1,084 家上市公司（家數自算）',
+        'listed_end_2003': 669, 'today_total': 1084,
+        'today_listed_on_or_before_2003': 547, 'today_listed_after_2003': 537,
+        'today_listed_after_2003_check': 1084 - 547,
+        'still_listed_share_pct': r1(547 / 669 * 100),
+        'after_2003_share_pct': r1((1084 - 547) / 1084 * 100),
         'caveat': '「不在名單上」不等於倒閉（含合併、轉上櫃、收購後下市）；曾下市又重新上市或由上櫃轉上市的，'
-                  '上市日期算後來那一次，所以 549 是下限。不要寫「倒了幾家」',
+                  '上市日期算後來那一次，所以 547 是下限。不要寫「倒了幾家」',
     },
     'one_share_vs_plan': {
         'basis': '個股那一邊是一次漲幅；計畫那一邊用本檔 fv()：年率÷12 按月複利、每月月底投入，未扣費用與稅。'
@@ -1038,7 +1039,7 @@ R['stock_vs_index'] = {
     },
 }
 assert R['stock_vs_index']['us_bessembinder_2018']['below_tbill_pct'] == 57.4
-assert R['stock_vs_index']['taiwan_listed_counts']['today_listed_after_2003_check'] == 545
+assert R['stock_vs_index']['taiwan_listed_counts']['today_listed_after_2003_check'] == 537
 assert (R['stock_vs_index']['one_share_vs_plan']['plan_fv_wan1'],
         R['stock_vs_index']['one_share_vs_plan']['plan_gain_wan1']) == (73.6, 13.6)
 assert (R['stock_vs_index']['one_share_vs_plan']['gain_over_stock_gain_times_int'],
@@ -1094,8 +1095,8 @@ quotes += ['只有 42.6% 的終身報酬贏過同一段時間的一個月期國�
            '排在最前面的 1,092 家（4.31%）',
            '美國股票有 55.2%、非美國股票有 57.4%',
            '表現最好的 2.4% 公司，解釋了全部 75.7 兆美元',
-           '2003 年底台灣有 669 家上市公司，今天名單上還在的是 549 家',
-           '今天的 1,094 家裡，有 545 家是 2004 年以後才上市的',
+           '2003 年底台灣有 669 家上市公司，今天名單上還在的是 547 家',
+           '今天的 1,084 家上市公司裡，有 537 家是 2004 年以後才上市的',
            '漲 50%，賺到 5,000 元',
            '到期約 73.6 萬：其中 60 萬是自己存的，13.6 萬是報酬',
            '是前面那 5,000 元的 27 倍',

@@ -271,10 +271,10 @@ cp guide/index.html guide/index.vX.backup.html        # 1. 大檔先備份（*.b
 # 2. 只改 guide/index.html（Edit，或寫一次性 python 做整段替換；不要整檔 Write）
 python3 tools/essay_charts.py --guide                 # 3. 只有動到圖才跑，一定要帶 --guide
 BASE=wip/v63-review/_baseline_v631.html               # 4. v7 的四個檢查
-python3 tools/v7_check.py numbers $BASE guide/index.html --allow-file wip/v63-review/numbers-allow-renumber.json
+python3 tools/v7_check.py numbers $BASE guide/index.html --allow-file wip/v63-review/numbers-allow-round6.json
 # numbers 一定要跑兩次：只對 v6.3.1 會假綠（這一批刪掉的數字，可能剛好被前幾輪補上的同一個數字抵掉）
 git show <這一批開工前的 commit>:guide/index.html > /tmp/base-prev.html
-python3 tools/v7_check.py numbers /tmp/base-prev.html guide/index.html   # 兩個都 LOST 0 才算過
+python3 tools/v7_check.py numbers /tmp/base-prev.html guide/index.html --allow-file wip/v63-review/numbers-allow-round6.json   # 兩個都 LOST 0 才算過
 python3 tools/v7_check.py anchors $BASE guide/index.html
 python3 tools/v7_check.py budget guide/index.html wip/v63-review/budget-v7.json
 python3 tools/v7_check.py planstep guide/index.html
@@ -354,7 +354,7 @@ python3 tools/calc_core.py                            # 「引用缺漏 []」才
 ### (c) v6.3 時代的已知未做
 
 - S29 Morningstar Mind the Gap **2026 版**要下載 PDF 核對。
-- 台灣上市家數：書上 1,094 家（證交所開放資料，出表日 2026-09-17）和證期局的 971 家對不上，原因沒查完。（舊交班寫「差 11 家」，和這兩個數字算不起來，一併待查。）
+- ~~台灣上市家數：書上 1,094 家（證交所開放資料，出表日 2026-09-17）和證期局的 971 家對不上，原因沒查完。（舊交班寫「差 11 家」，和這兩個數字算不起來，一併待查。）~~ 2026-09-20 結案：**971 是證期局 2022 年底的上市公司家數**（同一張〈上市、櫃各年度家數〉表，2025 年底是 1,063），當初拿 2026 年 9 月的自算去比 2022 年底的官方數字，是比錯年份，不是口徑差。真正的口徑差只有一項：開放資料〈上市公司基本資料〉的 1,094 是**資料筆數**，含 10 檔台灣存託憑證（產業別 91），主管機關公布的家數不含 TDR；扣掉後 1,084 家。書已改成上市公司口徑（第 7 節主線與小字、來源卡、`tools/calc_core.py` 都是 1,084／547／537）。
 - S60（陳大哥錢不夠的情境）沒做。
 - `<title>` 與 PDF 檔名仍是「理財新手完整指南」（和封面書名不一致）；`output/essay.html`、`output/eli5.html` 是舊口徑。
 - ~~`lite/manifest.partA.json`／`partB.json` 跑不起來（引用的短稿已退場），只是第二階段測試檔。~~ 2026-09-20 已搬到 `lite/alt/retired/`（說明見該資料夾 `README.md`）；build 與哨兵都只吃 `lite/manifest.json`，沒有引用它們。
