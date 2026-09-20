@@ -1,4 +1,4 @@
-（抽取時間 2026-09-20 10:16；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
+（抽取時間 2026-09-20 10:29；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
 
 隔離人性｜理財新手完整指南
 
@@ -82,8 +82,17 @@ ETF 與債券檢查表
 去哪查：官方入口與延伸閱讀
 資料口徑與來源
 
-(function(){if(!window.matchMedia||!window.matchMedia('(min-width: 760px)').matches)return;
-document.querySelectorAll('#toc details.toc-part, details.read-how').forEach(function(d){d.open=true;});})();
+(function(){if(window.matchMedia&&window.matchMedia('(min-width: 760px)').matches){
+document.querySelectorAll('details.read-how').forEach(function(d){d.open=true;});}
+function openToc(){if(location.hash==='#toc'){document.querySelectorAll('#toc details.toc-part').forEach(function(d){d.open=true;});}}
+openToc();window.addEventListener('hashchange',openToc);})();
+(function(){var timer=null;
+function mark(){Array.prototype.forEach.call(document.querySelectorAll('.table-wrap'),function(w){
+if(w.scrollWidth>w.clientWidth+2){w.classList.add('is-scrollable');}else{w.classList.remove('is-scrollable');}});}
+function later(){if(timer){clearTimeout(timer);}timer=setTimeout(mark,120);}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',later);}else{later();}
+window.addEventListener('load',later);window.addEventListener('resize',later);
+document.addEventListener('toggle',later,true);})();
 (function(){var opened=[];window.addEventListener('beforeprint',function(){opened=[];Array.prototype.forEach.call(document.querySelectorAll('details[data-print]'),function(d){if(!d.open){d.open=true;opened.push(d);}});});window.addEventListener('afterprint',function(){opened.forEach(function(d){d.open=false;});opened=[];});})();
 
 ## 十分鐘看完：新手先記住這七件事
