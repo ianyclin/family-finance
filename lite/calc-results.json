@@ -2470,7 +2470,33 @@
    "per_year": 69.9,
    "per_year_int": 70,
    "per_year_div23": 69.9,
-   "one_in_trading_days": 3.5
+   "one_in_trading_days": 3.5,
+   "n_years": 23,
+   "years_seen": [
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+   ]
   },
   "down_le": {
    "days": 733,
@@ -2479,17 +2505,262 @@
    "per_year": 31.9,
    "per_year_int": 32,
    "per_year_div23": 31.9,
-   "one_in_trading_days": 7.7
+   "one_in_trading_days": 7.7,
+   "n_years": 23,
+   "years_seen": [
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+   ]
+  },
+  "down_levels": {
+   "1.0": {
+    "days": 733,
+    "share_pct": 12.9,
+    "share_pct_int": 13,
+    "per_year": 31.9,
+    "per_year_int": 32,
+    "per_year_div23": 31.9,
+    "one_in_trading_days": 7.7,
+    "n_years": 23,
+    "years_seen": [
+     2003,
+     2004,
+     2005,
+     2006,
+     2007,
+     2008,
+     2009,
+     2010,
+     2011,
+     2012,
+     2013,
+     2014,
+     2015,
+     2016,
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025
+    ]
+   },
+   "2.0": {
+    "days": 238,
+    "share_pct": 4.2,
+    "share_pct_int": 4,
+    "per_year": 10.3,
+    "per_year_int": 10,
+    "per_year_div23": 10.3,
+    "one_in_trading_days": 23.8,
+    "n_years": 20,
+    "years_seen": [
+     2003,
+     2004,
+     2005,
+     2006,
+     2007,
+     2008,
+     2009,
+     2010,
+     2011,
+     2012,
+     2013,
+     2014,
+     2015,
+     2016,
+     2018,
+     2020,
+     2021,
+     2022,
+     2024,
+     2025
+    ]
+   },
+   "4.0": {
+    "days": 40,
+    "share_pct": 0.7,
+    "share_pct_int": 1,
+    "per_year": 1.7,
+    "per_year_int": 2,
+    "per_year_div23": 1.7,
+    "one_in_trading_days": 141.6,
+    "n_years": 15,
+    "years_seen": [
+     2003,
+     2004,
+     2006,
+     2007,
+     2008,
+     2009,
+     2010,
+     2011,
+     2015,
+     2018,
+     2020,
+     2021,
+     2022,
+     2024,
+     2025
+    ]
+   }
+  },
+  "worst_day": {
+   "date": "2025-04-07",
+   "pct": -9.7
+  },
+  "best_day": {
+   "date": "2025-04-10",
+   "pct": 9.3
   },
   "source": "證交所發行量加權股價報酬指數（含息）",
   "file": "research/data/taiex_tr_monthly_raw.csv",
   "from": "2003-01-02",
   "to": "2025-12-31",
-  "rule": "台股含息逐日的單日報酬：當日收盤 ÷ 前一個交易日收盤 − 1。\n\n    口徑：\n    1. 資料是 2003-01-02 到 2025-12-31 的證交所發行量加權股價報酬指數（含息），共 5,665 個交易日。\n       第一天沒有前一天，所以單日報酬有 5,664 個；**占比的分母是 5,664，不是 5,665**。\n    2. 門檻用「大於或等於」（|r| ≥ 1%、r ≤ −1%）。這份資料沒有剛好等於 ±1.000000% 的日子，\n       所以改成嚴格大於／小於，天數一樣。\n    3. 「平均一年幾天」＝天數 ÷ 年數，年數用實際天數算：(2025-12-31 − 2003-01-02) ÷ 365.25 ＝ 22.995 年。\n       和直接除以整數 23 年算出來的結果相同（69.9 與 31.9），所以口徑選哪一種都不影響書上的數字。\n    4. 「大約每幾個交易日就有一天」＝ 5,664 ÷ 天數。\n    含息、名目，沒有扣物價、費用和稅；只用收盤值。這是這 23 年的紀錄，不是未來的機率。\n    ",
+  "rule": "台股含息逐日的單日報酬：當日收盤 ÷ 前一個交易日收盤 − 1。\n\n    口徑：\n    1. 資料是 2003-01-02 到 2025-12-31 的證交所發行量加權股價報酬指數（含息），共 5,665 個交易日。\n       第一天沒有前一天，所以單日報酬有 5,664 個；**占比的分母是 5,664，不是 5,665**。\n    2. 門檻用「大於或等於」（|r| ≥ N%、r ≤ −N%）。這份資料沒有剛好等於 ±1%、±2%、±4% 的日子，\n       所以改成嚴格大於／小於，天數一樣。\n    3. 「平均一年幾天」＝天數 ÷ 年數，年數用實際天數算：(2025-12-31 − 2003-01-02) ÷ 365.25 ＝ 22.995 年。\n       和直接除以整數 23 年算出來的結果相同（69.9 與 31.9），所以口徑選哪一種都不影響書上的數字。\n    4. 「大約每幾個交易日就有一天」＝ 5,664 ÷ 天數。\n    5. `n_years` ＝這些日子分布在幾個不同的日曆年（23 個年度裡）；跌越深的門檻越集中在少數幾年。\n    6. `worst_day`／`best_day` ＝這段期間單日跌最多／漲最多的那一天。\n    含息、名目，沒有扣物價、費用和稅；只用收盤值。這是這 23 年的紀錄，不是未來的機率。\n    ",
   "caveats": [
    "一個市場、23 年的紀錄，不是規律，也不是未來的機率",
    "占比的分母是 5,664 個單日報酬（5,665 個交易日扣掉沒有前一天的第一天）",
+   "跌 4% 以上的 40 天只出現在 15 個年份，不是每年都平均發生",
    "含息、名目，沒有扣物價、費用和稅；只用收盤值"
+  ]
+ },
+ "salary_multiple_years": {
+  "rule": "每月月底投入「月薪 × 儲蓄率」，問股票那一塊第一次 ≥ 月薪 × multiple 要幾個月。\n\n    口徑（刻意寫得很陽春，因為它要回答的是「大概什麼時候會遇到」，不是「我會有多少錢」）：\n    1. 月薪當成 1，所以結果和月薪多少無關；**假設月薪一路不變**（實際上薪水會漲，會更早到）。\n    2. 月報酬＝(1+年化)^(1/12)−1，月底投入、當月不計息；錢全部在股票那一塊。\n    3. 年化用書上第 4 節的三種情境：低 4%、中 6%、高 7%。**書上的表用中情境 6%。**\n    4. 沒有扣物價、費用和稅；不是預測，是「照這個存法，大約走到第幾年」的量尺。\n    回傳 months（第一次達標的月份數）與換算成年的整數與一位小數。\n    ",
+  "save_rate_pct": 20,
+  "by_rate": {
+   "4.0": {
+    "10": {
+     "multiple": 10,
+     "annual_return_pct": 4.0,
+     "save_rate_pct": 20,
+     "months": 47,
+     "years_1dp": 3.9,
+     "years_int": 4
+    },
+    "25": {
+     "multiple": 25,
+     "annual_return_pct": 4.0,
+     "save_rate_pct": 20,
+     "months": 105,
+     "years_1dp": 8.8,
+     "years_int": 9
+    },
+    "50": {
+     "multiple": 50,
+     "annual_return_pct": 4.0,
+     "save_rate_pct": 20,
+     "months": 183,
+     "years_1dp": 15.3,
+     "years_int": 15
+    },
+    "100": {
+     "multiple": 100,
+     "annual_return_pct": 4.0,
+     "save_rate_pct": 20,
+     "months": 297,
+     "years_1dp": 24.8,
+     "years_int": 25
+    }
+   },
+   "6.0": {
+    "10": {
+     "multiple": 10,
+     "annual_return_pct": 6.0,
+     "save_rate_pct": 20,
+     "months": 45,
+     "years_1dp": 3.8,
+     "years_int": 4
+    },
+    "25": {
+     "multiple": 25,
+     "annual_return_pct": 6.0,
+     "save_rate_pct": 20,
+     "months": 98,
+     "years_1dp": 8.2,
+     "years_int": 8
+    },
+    "50": {
+     "multiple": 50,
+     "annual_return_pct": 6.0,
+     "save_rate_pct": 20,
+     "months": 164,
+     "years_1dp": 13.7,
+     "years_int": 14
+    },
+    "100": {
+     "multiple": 100,
+     "annual_return_pct": 6.0,
+     "save_rate_pct": 20,
+     "months": 255,
+     "years_1dp": 21.3,
+     "years_int": 21
+    }
+   },
+   "7.0": {
+    "10": {
+     "multiple": 10,
+     "annual_return_pct": 7.0,
+     "save_rate_pct": 20,
+     "months": 45,
+     "years_1dp": 3.8,
+     "years_int": 4
+    },
+    "25": {
+     "multiple": 25,
+     "annual_return_pct": 7.0,
+     "save_rate_pct": 20,
+     "months": 95,
+     "years_1dp": 7.9,
+     "years_int": 8
+    },
+    "50": {
+     "multiple": 50,
+     "annual_return_pct": 7.0,
+     "save_rate_pct": 20,
+     "months": 157,
+     "years_1dp": 13.1,
+     "years_int": 13
+    },
+    "100": {
+     "multiple": 100,
+     "annual_return_pct": 7.0,
+     "save_rate_pct": 20,
+     "months": 239,
+     "years_1dp": 19.9,
+     "years_int": 20
+    }
+   }
+  },
+  "guide_table_rate_pct": 6.0,
+  "caveats": [
+   "月薪假設一路不變；薪水會漲的人會更早到",
+   "沒有扣物價、費用和稅，也沒有算這筆錢中途被拿去用掉",
+   "報酬率是第 4 節的情境值，不是預測；真實的路不會每年一樣"
   ]
  },
  "taiex_stoploss": {
@@ -2498,7 +2769,7 @@
   "from": "2003-01-02",
   "to": "2025-12-31",
   "threshold_pct": 15,
-  "rule": "回測「股票那一塊從最近高點跌 N% 就全部賣掉」。台股含息逐日，2003-01-02～2025-12-31。\n\n    規則（本文自訂，寫出來是為了可以重算；不是任何人的建議做法）：\n    1. 第一個交易日就持有。高點＝「持有期間到當天為止的最高收盤」，每創新高就更新。\n    2. 當天收盤 ≤ 高點 ×(1−N) 就賣出，賣價＝當天收盤，記成一次觸發，之後空手。\n    3. 空手時不重新起算高點：要等收盤「超過當初那個高點」才算創新高；創新高那天買回，\n       並把那一天當成新的高點，回到第 1 步。（規格說的「賣出後以下一次創新高重新起算高點」）\n    4. 「一年後高不高於賣價」＝賣出日起滿 12 個月的同一天、或之前最後一個交易日的收盤，\n       和賣價比。資料不滿一年的觸發會標 short_window=True（這一份資料目前沒有這種）。\n    5. 「兩年內最低」＝賣出當天到滿 24 個月之間（含賣出當天）的最低收盤，和賣價比。\n\n    只用收盤值，含息、名目；沒有扣費用、稅與交易成本——扣了只會對這條規則更不利。\n    賣出後到買回之間的現金報酬也沒有算（算進去會對這條規則稍微有利）。\n    ",
+  "rule": "回測「股票那一塊從最近高點跌 N% 就全部賣掉」。台股含息逐日，2003-01-02～2025-12-31。\n\n    規則（本文自訂，寫出來是為了可以重算；不是任何人的建議做法）：\n    1. 第一個交易日就持有。高點＝「持有期間到當天為止的最高收盤」，每創新高就更新。\n    2. 當天收盤 ≤ 高點 ×(1−N) 就賣出，賣價＝當天收盤，記成一次觸發，之後空手。\n    3. 空手時不重新起算高點：要等收盤「超過當初那個高點」才算創新高；創新高那天買回，\n       並把那一天當成新的高點，回到第 1 步。（規格說的「賣出後以下一次創新高重新起算高點」）\n    4. 「一年後高不高於賣價」＝賣出日起滿 12 個月的同一天、或之前最後一個交易日的收盤，\n       和賣價比。資料不滿一年的觸發會標 short_window=True（這一份資料目前沒有這種）。\n    5. 「兩年內最低」＝賣出當天到滿 24 個月之間（含賣出當天）的最低收盤，和賣價比。\n    6. 空手期間的利息（`cash_rate`，預設年 1.5%，按 (1+r)^(天數/365.25) 複利）：賣價當成現金\n       放到買回那天，得到 `cash_at_rebuy`。`rebuy_vs_cash_pct` ＝買回價比這筆現金高幾 %；\n       `cash_vs_rebuy_pct` ＝這筆現金比買回價低幾 %（兩個看的是同一件事，分母不同）。\n       算利息是為了回答「加了利息結論會不會翻」，不是說真的有人會去存定存。\n\n    只用收盤值，含息、名目；沒有扣費用、稅與交易成本——扣了只會對這條規則更不利。\n    書上正文的數字都是「沒有算空手期間利息」的版本；利息只用來做第 6 點那個驗算。\n    ",
   "n_triggers": 11,
   "n_one_year_higher": 9,
   "n_short_window": 0,
@@ -2516,7 +2787,11 @@
    "low_within_2y_vs_sell_pct": -47.9,
    "rebuy_date": "2010-12-09",
    "rebuy_value": 11637.87,
-   "rebuy_vs_sell_pct": 18.9
+   "rebuy_vs_sell_pct": 18.9,
+   "cash_rate_pct": 1.5,
+   "cash_at_rebuy": 10241.6,
+   "rebuy_vs_cash_pct": 13.6,
+   "cash_vs_rebuy_pct": -12.0
   },
   "n_rebought": 11,
   "rebuy_vs_sell_pct_min": 18.2,
@@ -2536,7 +2811,11 @@
     "low_within_2y_vs_sell_pct": -2.8,
     "rebuy_date": "2003-07-02",
     "rebuy_value": 5118.63,
-    "rebuy_vs_sell_pct": 20.1
+    "rebuy_vs_sell_pct": 20.1,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 4280.57,
+    "rebuy_vs_cash_pct": 19.6,
+    "cash_vs_rebuy_pct": -16.4
    },
    {
     "peak_date": "2004-03-04",
@@ -2552,7 +2831,11 @@
     "low_within_2y_vs_sell_pct": -7.6,
     "rebuy_date": "2005-12-29",
     "rebuy_value": 7217.54,
-    "rebuy_vs_sell_pct": 20.6
+    "rebuy_vs_sell_pct": 20.6,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 6133.57,
+    "rebuy_vs_cash_pct": 17.7,
+    "cash_vs_rebuy_pct": -15.0
    },
    {
     "peak_date": "2006-05-08",
@@ -2568,7 +2851,11 @@
     "low_within_2y_vs_sell_pct": 0.0,
     "rebuy_date": "2006-11-07",
     "rebuy_value": 8213.77,
-    "rebuy_vs_sell_pct": 18.2
+    "rebuy_vs_sell_pct": 18.2,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 6994.45,
+    "rebuy_vs_cash_pct": 17.4,
+    "cash_vs_rebuy_pct": -14.8
    },
    {
     "peak_date": "2007-07-25",
@@ -2584,7 +2871,11 @@
     "low_within_2y_vs_sell_pct": -46.5,
     "rebuy_date": "2007-10-02",
     "rebuy_value": 11381.85,
-    "rebuy_vs_sell_pct": 19.4
+    "rebuy_vs_sell_pct": 19.4,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 9552.67,
+    "rebuy_vs_cash_pct": 19.1,
+    "cash_vs_rebuy_pct": -16.1
    },
    {
     "peak_date": "2007-10-29",
@@ -2600,7 +2891,11 @@
     "low_within_2y_vs_sell_pct": -47.9,
     "rebuy_date": "2010-12-09",
     "rebuy_value": 11637.87,
-    "rebuy_vs_sell_pct": 18.9
+    "rebuy_vs_sell_pct": 18.9,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 10241.6,
+    "rebuy_vs_cash_pct": 13.6,
+    "cash_vs_rebuy_pct": -12.0
    },
    {
     "peak_date": "2011-01-28",
@@ -2616,7 +2911,11 @@
     "low_within_2y_vs_sell_pct": -10.9,
     "rebuy_date": "2013-09-16",
     "rebuy_value": 12193.91,
-    "rebuy_vs_sell_pct": 18.4
+    "rebuy_vs_sell_pct": 18.4,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 10629.66,
+    "rebuy_vs_cash_pct": 14.7,
+    "cash_vs_rebuy_pct": -12.8
    },
    {
     "peak_date": "2015-04-27",
@@ -2632,7 +2931,11 @@
     "low_within_2y_vs_sell_pct": -9.3,
     "rebuy_date": "2016-09-07",
     "rebuy_value": 15255.14,
-    "rebuy_vs_sell_pct": 18.6
+    "rebuy_vs_sell_pct": 18.6,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 13070.57,
+    "rebuy_vs_cash_pct": 16.7,
+    "cash_vs_rebuy_pct": -14.3
    },
    {
     "peak_date": "2018-08-29",
@@ -2648,7 +2951,11 @@
     "low_within_2y_vs_sell_pct": -3.1,
     "rebuy_date": "2019-05-03",
     "rebuy_value": 19796.78,
-    "rebuy_vs_sell_pct": 18.3
+    "rebuy_vs_sell_pct": 18.3,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 16820.63,
+    "rebuy_vs_cash_pct": 17.7,
+    "cash_vs_rebuy_pct": -15.0
    },
    {
     "peak_date": "2020-01-14",
@@ -2664,7 +2971,11 @@
     "low_within_2y_vs_sell_pct": -14.1,
     "rebuy_date": "2020-07-06",
     "rebuy_value": 22916.04,
-    "rebuy_vs_sell_pct": 21.3
+    "rebuy_vs_sell_pct": 21.3,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 18978.98,
+    "rebuy_vs_cash_pct": 20.7,
+    "cash_vs_rebuy_pct": -17.2
    },
    {
     "peak_date": "2022-01-17",
@@ -2680,7 +2991,11 @@
     "low_within_2y_vs_sell_pct": -15.4,
     "rebuy_date": "2023-07-14",
     "rebuy_value": 36840.81,
-    "rebuy_vs_sell_pct": 18.6
+    "rebuy_vs_sell_pct": 18.6,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 31606.36,
+    "rebuy_vs_cash_pct": 16.6,
+    "cash_vs_rebuy_pct": -14.2
    },
    {
     "peak_date": "2024-07-11",
@@ -2696,12 +3011,37 @@
     "low_within_2y_vs_sell_pct": -11.5,
     "rebuy_date": "2025-08-05",
     "rebuy_value": 53516.83,
-    "rebuy_vs_sell_pct": 22.8
+    "rebuy_vs_sell_pct": 22.8,
+    "cash_rate_pct": 1.5,
+    "cash_at_rebuy": 44218.85,
+    "rebuy_vs_cash_pct": 21.0,
+    "cash_vs_rebuy_pct": -17.4
    }
   ],
+  "cash_check": {
+   "rates_pct": [
+    1.5,
+    1.7
+   ],
+   "by_rate": {
+    "1.5": {
+     "n_rebuy_above_cash": 11,
+     "rebuy_vs_cash_pct_min": 13.6,
+     "worst_2007_rebuy_vs_cash_pct": 13.6,
+     "worst_2007_cash_vs_rebuy_pct": -12.0
+    },
+    "1.7": {
+     "n_rebuy_above_cash": 11,
+     "rebuy_vs_cash_pct_min": 13.0,
+     "worst_2007_rebuy_vs_cash_pct": 13.0,
+     "worst_2007_cash_vs_rebuy_pct": -11.5
+    }
+   },
+   "note": "書上不印這些數字，只寫「空手期間的利息也沒有算；算進去，結論不變」。2007-11-28 賣、2010-12-09 買回那一次空手 1,107 天：年 1.5% 複利下，買回價仍比這筆現金高 13.6%（換個分母說＝這筆現金比買回價低 12.0%）。"
+  },
   "caveats": [
    "一個市場、23 年、一條門檻的紀錄，不是規律；換門檻、換市場、換期間，數字就會變",
-   "沒有扣交易成本與稅（扣了對這條規則更不利），也沒有算空手期間的現金報酬（算了稍微有利）",
+   "沒有扣交易成本與稅（扣了對這條規則更不利）；正文的數字也沒有算空手期間的現金報酬，算進去 11 次的買回價仍然都高於現金（見 cash_check）",
    "「一年後高於賣價」只是說那一天的指數比賣價高，不等於賣出的人實際虧多少"
   ]
  },

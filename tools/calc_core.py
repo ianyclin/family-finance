@@ -875,34 +875,44 @@ R['taiex_drawdowns'] = {
 }
 
 
-# ---------- 平常一天漲跌多大（第 8 節「錢變多以後：平常的一天」） ----------
-def taiex_daily_moves(threshold=0.01):
+# ---------- 平常一天漲跌多大（第 8 節「錢變多以後：一天的漲跌，會開始超過月薪」） ----------
+def taiex_daily_moves(threshold=0.01, down_levels=(0.01, 0.02, 0.04)):
     """台股含息逐日的單日報酬：當日收盤 ÷ 前一個交易日收盤 − 1。
 
     口徑：
     1. 資料是 2003-01-02 到 2025-12-31 的證交所發行量加權股價報酬指數（含息），共 5,665 個交易日。
        第一天沒有前一天，所以單日報酬有 5,664 個；**占比的分母是 5,664，不是 5,665**。
-    2. 門檻用「大於或等於」（|r| ≥ 1%、r ≤ −1%）。這份資料沒有剛好等於 ±1.000000% 的日子，
+    2. 門檻用「大於或等於」（|r| ≥ N%、r ≤ −N%）。這份資料沒有剛好等於 ±1%、±2%、±4% 的日子，
        所以改成嚴格大於／小於，天數一樣。
     3. 「平均一年幾天」＝天數 ÷ 年數，年數用實際天數算：(2025-12-31 − 2003-01-02) ÷ 365.25 ＝ 22.995 年。
        和直接除以整數 23 年算出來的結果相同（69.9 與 31.9），所以口徑選哪一種都不影響書上的數字。
     4. 「大約每幾個交易日就有一天」＝ 5,664 ÷ 天數。
+    5. `n_years` ＝這些日子分布在幾個不同的日曆年（23 個年度裡）；跌越深的門檻越集中在少數幾年。
+    6. `worst_day`／`best_day` ＝這段期間單日跌最多／漲最多的那一天。
     含息、名目，沒有扣物價、費用和稅；只用收盤值。這是這 23 年的紀錄，不是未來的機率。
     """
     dates, vals = taiex_series()
-    rets = [vals[i] / vals[i - 1] - 1 for i in range(1, len(vals))]
+    rets = [(dates[i], vals[i] / vals[i - 1] - 1) for i in range(1, len(vals))]
     years = (dates[-1] - dates[0]).days / 365.25
 
     def block(sel):
-        n = sum(1 for r in rets if sel(r))
+        hit = [(d, r) for d, r in rets if sel(r)]
+        n = len(hit)
+        ys = sorted({d.year for d, _ in hit})
         return {'days': n, 'share_pct': r1(100 * n / len(rets)), 'share_pct_int': r0(100 * n / len(rets)),
                 'per_year': r1(n / years), 'per_year_int': r0(n / years),
-                'per_year_div23': r1(n / 23), 'one_in_trading_days': r1(len(rets) / n)}
+                'per_year_div23': r1(n / 23), 'one_in_trading_days': r1(len(rets) / n),
+                'n_years': len(ys), 'years_seen': ys}
 
+    worst = min(rets, key=lambda x: x[1])
+    best = max(rets, key=lambda x: x[1])
     return {'trading_days': len(dates), 'daily_returns': len(rets), 'years': round(years, 3),
             'threshold_pct': r1(threshold * 100),
             'abs_ge': block(lambda r: abs(r) >= threshold),
-            'down_le': block(lambda r: r <= -threshold)}
+            'down_le': block(lambda r: r <= -threshold),
+            'down_levels': {str(r1(lv * 100)): block(lambda r, lv=lv: r <= -lv) for lv in down_levels},
+            'worst_day': {'date': worst[0].isoformat(), 'pct': r1(worst[1] * 100)},
+            'best_day': {'date': best[0].isoformat(), 'pct': r1(best[1] * 100)}}
 
 
 _dm = taiex_daily_moves()
@@ -912,18 +922,64 @@ R['taiex_daily_moves'] = dict(_dm, **{
     'rule': taiex_daily_moves.__doc__,
     'caveats': ['一個市場、23 年的紀錄，不是規律，也不是未來的機率',
                 '占比的分母是 5,664 個單日報酬（5,665 個交易日扣掉沒有前一天的第一天）',
+                '跌 4% 以上的 40 天只出現在 15 個年份，不是每年都平均發生',
                 '含息、名目，沒有扣物價、費用和稅；只用收盤值'],
 })
+_dl = R['taiex_daily_moves']['down_levels']
 assert (R['taiex_daily_moves']['trading_days'], R['taiex_daily_moves']['daily_returns']) == (5665, 5664)
 assert (R['taiex_daily_moves']['abs_ge']['days'], R['taiex_daily_moves']['abs_ge']['share_pct'],
         R['taiex_daily_moves']['abs_ge']['per_year_int'], R['taiex_daily_moves']['abs_ge']['one_in_trading_days']) == (1608, 28.4, 70, 3.5)
 assert (R['taiex_daily_moves']['down_le']['days'], R['taiex_daily_moves']['down_le']['share_pct'],
         R['taiex_daily_moves']['down_le']['per_year_int']) == (733, 12.9, 32)
 assert R['taiex_daily_moves']['abs_ge']['per_year_div23'] == R['taiex_daily_moves']['abs_ge']['per_year']
+assert (_dl['1.0']['days'], _dl['1.0']['per_year'], _dl['1.0']['n_years']) == (733, 31.9, 23)
+assert (_dl['2.0']['days'], _dl['2.0']['per_year'], _dl['2.0']['n_years']) == (238, 10.3, 20)
+assert (_dl['4.0']['days'], _dl['4.0']['per_year'], _dl['4.0']['n_years']) == (40, 1.7, 15)
+assert (R['taiex_daily_moves']['worst_day']['date'], R['taiex_daily_moves']['worst_day']['pct']) == ('2025-04-07', -9.7)
+
+
+# ---------- 每月存月薪的一成兩成，股票那一塊要幾年才等於月薪的 N 倍（第 8 節那張表） ----------
+def months_to_salary_multiple(multiple, annual_return=0.06, save_rate=0.2, cap=1200):
+    """每月月底投入「月薪 × 儲蓄率」，問股票那一塊第一次 ≥ 月薪 × multiple 要幾個月。
+
+    口徑（刻意寫得很陽春，因為它要回答的是「大概什麼時候會遇到」，不是「我會有多少錢」）：
+    1. 月薪當成 1，所以結果和月薪多少無關；**假設月薪一路不變**（實際上薪水會漲，會更早到）。
+    2. 月報酬＝(1+年化)^(1/12)−1，月底投入、當月不計息；錢全部在股票那一塊。
+    3. 年化用書上第 4 節的三種情境：低 4%、中 6%、高 7%。**書上的表用中情境 6%。**
+    4. 沒有扣物價、費用和稅；不是預測，是「照這個存法，大約走到第幾年」的量尺。
+    回傳 months（第一次達標的月份數）與換算成年的整數與一位小數。
+    """
+    r = (1 + annual_return) ** (1 / 12) - 1
+    bal = 0.0
+    for m in range(1, cap + 1):
+        bal = bal * (1 + r) + save_rate
+        if bal >= multiple:
+            return {'multiple': multiple, 'annual_return_pct': r1(annual_return * 100),
+                    'save_rate_pct': r0(save_rate * 100), 'months': m,
+                    'years_1dp': r1(m / 12), 'years_int': r0(m / 12)}
+    return {'multiple': multiple, 'annual_return_pct': r1(annual_return * 100),
+            'save_rate_pct': r0(save_rate * 100), 'months': None, 'years_1dp': None, 'years_int': None}
+
+
+R['salary_multiple_years'] = {
+    'rule': months_to_salary_multiple.__doc__,
+    'save_rate_pct': 20,
+    'by_rate': {str(r1(a * 100)): {str(k): months_to_salary_multiple(k, a) for k in (10, 25, 50, 100)}
+                for a in (0.04, 0.06, 0.07)},
+    'guide_table_rate_pct': 6.0,
+    'caveats': ['月薪假設一路不變；薪水會漲的人會更早到',
+                '沒有扣物價、費用和稅，也沒有算這筆錢中途被拿去用掉',
+                '報酬率是第 4 節的情境值，不是預測；真實的路不會每年一樣'],
+}
+_sm = R['salary_multiple_years']['by_rate']
+assert [_sm['6.0'][k]['months'] for k in ('10', '25', '50', '100')] == [45, 98, 164, 255]
+assert [_sm['6.0'][k]['years_int'] for k in ('10', '25', '50', '100')] == [4, 8, 14, 21]
+assert _sm['4.0']['100']['months'] == 297 and _sm['4.0']['100']['years_int'] == 25
+assert _sm['7.0']['100']['months'] == 239 and _sm['7.0']['100']['years_int'] == 20
 
 
 # ---------- 「從高點跌 N% 就賣」這條規則，在台股這 23 年會發生什麼（第 11 節停損那一段） ----------
-def taiex_stoploss(threshold=0.15):
+def taiex_stoploss(threshold=0.15, cash_rate=0.015):
     """回測「股票那一塊從最近高點跌 N% 就全部賣掉」。台股含息逐日，2003-01-02～2025-12-31。
 
     規則（本文自訂，寫出來是為了可以重算；不是任何人的建議做法）：
@@ -934,9 +990,13 @@ def taiex_stoploss(threshold=0.15):
     4. 「一年後高不高於賣價」＝賣出日起滿 12 個月的同一天、或之前最後一個交易日的收盤，
        和賣價比。資料不滿一年的觸發會標 short_window=True（這一份資料目前沒有這種）。
     5. 「兩年內最低」＝賣出當天到滿 24 個月之間（含賣出當天）的最低收盤，和賣價比。
+    6. 空手期間的利息（`cash_rate`，預設年 1.5%，按 (1+r)^(天數/365.25) 複利）：賣價當成現金
+       放到買回那天，得到 `cash_at_rebuy`。`rebuy_vs_cash_pct` ＝買回價比這筆現金高幾 %；
+       `cash_vs_rebuy_pct` ＝這筆現金比買回價低幾 %（兩個看的是同一件事，分母不同）。
+       算利息是為了回答「加了利息結論會不會翻」，不是說真的有人會去存定存。
 
     只用收盤值，含息、名目；沒有扣費用、稅與交易成本——扣了只會對這條規則更不利。
-    賣出後到買回之間的現金報酬也沒有算（算進去會對這條規則稍微有利）。
+    書上正文的數字都是「沒有算空手期間利息」的版本；利息只用來做第 6 點那個驗算。
     """
     dates, vals = taiex_series()
     peak, holding, out = 0, True, []
@@ -958,6 +1018,12 @@ def taiex_stoploss(threshold=0.15):
         tgt2 = _add_months(dates[s], 24)
         k = min(_bisect.bisect_right(dates, tgt2) - 1, len(dates) - 1)
         lo = min(vals[s:k + 1]); lo_i = s + vals[s:k + 1].index(lo)
+        cash = rb_cash = cash_vs = None
+        if 'rebuy' in e:
+            rb = e['rebuy']
+            cash = sell_v * (1 + cash_rate) ** ((dates[rb] - dates[s]).days / 365.25)
+            rb_cash = r1((vals[rb] / cash - 1) * 100)
+            cash_vs = r1((cash / vals[rb] - 1) * 100)
         eps.append({'peak_date': dates[p].isoformat(), 'peak_value': round(vals[p], 2),
                     'sell_date': dates[s].isoformat(), 'sell_value': round(sell_v, 2),
                     'one_year_date': dates[j].isoformat(), 'one_year_value': round(vals[j], 2),
@@ -966,7 +1032,10 @@ def taiex_stoploss(threshold=0.15):
                     'low_within_2y_vs_sell_pct': r1((lo / sell_v - 1) * 100),
                     'rebuy_date': (dates[e['rebuy']].isoformat() if 'rebuy' in e else None),
                     'rebuy_value': (round(vals[e['rebuy']], 2) if 'rebuy' in e else None),
-                    'rebuy_vs_sell_pct': (r1((vals[e['rebuy']] / sell_v - 1) * 100) if 'rebuy' in e else None)})
+                    'rebuy_vs_sell_pct': (r1((vals[e['rebuy']] / sell_v - 1) * 100) if 'rebuy' in e else None),
+                    'cash_rate_pct': r1(cash_rate * 100),
+                    'cash_at_rebuy': (round(cash, 2) if cash is not None else None),
+                    'rebuy_vs_cash_pct': rb_cash, 'cash_vs_rebuy_pct': cash_vs})
     return eps
 
 
@@ -984,14 +1053,35 @@ R['taiex_stoploss'] = {
     'rebuy_vs_sell_pct_min': min(e['rebuy_vs_sell_pct'] for e in _sl if e['rebuy_date']),
     'rebuy_vs_sell_pct_max': max(e['rebuy_vs_sell_pct'] for e in _sl if e['rebuy_date']),
     'episodes': _sl,
+    # 「空手期間的利息也沒有算；算進去，結論不變」——這一條的驗算：
+    # 把賣價當現金放到買回那天，11 次的買回價仍然全部高於這筆現金。年 1.5% 與書上用的
+    # 一年期定存 1.7%（R['deposit_rate_d02']）兩種都試過，結論一樣。
+    'cash_check': {
+        'rates_pct': [1.5, 1.7],
+        'by_rate': {str(r1(cr * 100)): {
+            'n_rebuy_above_cash': sum(1 for e in taiex_stoploss(cash_rate=cr) if e['rebuy_vs_cash_pct'] > 0),
+            'rebuy_vs_cash_pct_min': min(e['rebuy_vs_cash_pct'] for e in taiex_stoploss(cash_rate=cr)),
+            'worst_2007_rebuy_vs_cash_pct': [e for e in taiex_stoploss(cash_rate=cr) if e['sell_date'].startswith('2007-11')][0]['rebuy_vs_cash_pct'],
+            'worst_2007_cash_vs_rebuy_pct': [e for e in taiex_stoploss(cash_rate=cr) if e['sell_date'].startswith('2007-11')][0]['cash_vs_rebuy_pct'],
+        } for cr in (0.015, 0.017)},
+        'note': '書上不印這些數字，只寫「空手期間的利息也沒有算；算進去，結論不變」。'
+                '2007-11-28 賣、2010-12-09 買回那一次空手 1,107 天：年 1.5% 複利下，買回價仍比這筆現金高 13.6%'
+                '（換個分母說＝這筆現金比買回價低 12.0%）。',
+    },
     'caveats': ['一個市場、23 年、一條門檻的紀錄，不是規律；換門檻、換市場、換期間，數字就會變',
-                '沒有扣交易成本與稅（扣了對這條規則更不利），也沒有算空手期間的現金報酬（算了稍微有利）',
+                '沒有扣交易成本與稅（扣了對這條規則更不利）；正文的數字也沒有算空手期間的現金報酬，'
+                '算進去 11 次的買回價仍然都高於現金（見 cash_check）',
                 '「一年後高於賣價」只是說那一天的指數比賣價高，不等於賣出的人實際虧多少'],
 }
 assert (R['taiex_stoploss']['n_triggers'], R['taiex_stoploss']['n_one_year_higher']) == (11, 9)
 assert R['taiex_stoploss']['worst_2007']['low_within_2y_vs_sell_pct'] == -47.9
 assert (R['taiex_stoploss']['n_rebought'], R['taiex_stoploss']['rebuy_vs_sell_pct_min'], R['taiex_stoploss']['rebuy_vs_sell_pct_max']) == (11, 18.2, 22.8)
 assert R['taiex_stoploss']['worst_2007']['rebuy_date'] == '2010-12-09' and R['taiex_stoploss']['worst_2007']['rebuy_vs_sell_pct'] == 18.9
+# 加了空手期間的利息，11 次的買回價仍然全部高於現金（兩種利率都是）——所以「結論不變」站得住
+assert all(v['n_rebuy_above_cash'] == 11 and v['rebuy_vs_cash_pct_min'] > 0
+           for v in R['taiex_stoploss']['cash_check']['by_rate'].values())
+assert (R['taiex_stoploss']['cash_check']['by_rate']['1.5']['worst_2007_rebuy_vs_cash_pct'],
+        R['taiex_stoploss']['cash_check']['by_rate']['1.5']['worst_2007_cash_vs_rebuy_pct']) == (13.6, -12.0)
 
 # ---------- 四類資產逐年輪換（美股、10 年期公債、3 個月國庫券、台股） ----------
 # 美國三類取 Damodaran（紐約大學）公開資料集；台股用本文自己的含息報酬指數。
