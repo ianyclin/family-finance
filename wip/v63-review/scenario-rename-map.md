@@ -146,3 +146,7 @@ N1 把第 14 節查表頁表一的欄名從「低／中／高」改成「保守�
 改完全書 `grep 「低」|「中」|「高」`＝0（指南、`lite/alt/*.html`、`lite/facts.txt`、`lite/index.html` 都是 0）。
 
 同批另外兩處也跟著 N1 的叫法收尾：第 14 節查表頁表一底下小字「股票用保守 4%／普通 6%／樂觀 7%」→「股票用保守算 4%／普通算 6%／樂觀算 7%」（解釋的是上面寫全名的三欄；`lite/alt/lookup-tables.html` 與 `lite/facts.txt` 共同事實那一行逐字同步後 `--stamp`）；`tools/calc_core.py` 五處輸出標籤與口徑字串（檔頭 docstring、`_meta.conventions.returns`、`guide_rounding`、`after_inflation_and_fee_0_5pct.note`、`salary_multiple_years.caveats` 的「第 4 節的情境值」）改成新叫法，數字一個沒動，`lite/calc-results.json` 重生、引用缺漏 `[]`。
+
+## 2026-09-22 補記（批 P 第 6 條）：那句對照刪掉了
+
+上面 s1 那一列「規格指定的對照句」——第 4 節「保守算一年 4%、普通算 6%、樂觀算 7%**（有些地方會叫它低、中、高三種情境）**」——在批 P 刪掉了。理由：N1 改完以後全書（指南、`lite/alt/*.html`、`lite/facts.txt`、`lite/index.html`、`tools/`）已經沒有任何地方用「低／中／高」當這三個數的名字，這句對照指不到東西，讀者讀到反而會去找那個不存在的叫法。s1 主線因此 1,617 → 1,599（−18），`budget-v7.json` 的 s1 上限維持 1,617 沒有跟著調低，留著當警戒線。這一批只刪這一句，N1 其餘的換詞一處都沒有回退。

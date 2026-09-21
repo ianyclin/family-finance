@@ -954,12 +954,19 @@ assert abs(_w['worst_nominal']['real_pct'] - 3.6) <= 0.05, _w['worst_nominal']
 def swr_multiple(rate_pct):
     return round(100.0 / rate_pct, 2)
 
-R['swr_multiples'] = {'2.31%（JPEF 2025，38 國、65 歲夫妻、5% 破產容忍度）': swr_multiple(2.31),
+R['swr_multiples'] = {'2.31%（JPEF 2025，38 國、65 歲夫妻、5% 破產容忍度；基準組合 60% 本國股／40% 本國債）': swr_multiple(2.31),
                       '2.5%（書上 40 倍）': swr_multiple(2.5),
+                      '2.7%（Ben Felix 影片自估：國際分散＋活得更久）': swr_multiple(2.7),
+                      '2.85%（論文未列：股票部位 40% 換國際股）': swr_multiple(2.85),
                       '3%（書上 33 倍）': swr_multiple(3.0),
+                      '3.02%（論文未列：股票部位 90% 換國際股）': swr_multiple(3.02),
                       '4%（書上 25 倍）': swr_multiple(4.0)}
 assert abs(swr_multiple(2.31) - 43.3) <= 0.05, swr_multiple(2.31)
 assert round(swr_multiple(2.31)) == 43
+# 書上第 24 節摺疊那一句：2.85%～3.02% 寫成「約 33 到 35 倍」，2.7% 是 37 倍（只在 calc 留底，書上沒寫倍數）
+assert round(swr_multiple(2.85)) == 35, swr_multiple(2.85)
+assert round(swr_multiple(3.02)) == 33, swr_multiple(3.02)
+assert round(swr_multiple(2.7)) == 37, swr_multiple(2.7)
 
 # ---------- 第 16 節：台灣掛牌 vs 倫敦掛牌，每年差多少（v7 第 20 版 C2） ----------
 # 兩項相加：
@@ -1621,6 +1628,8 @@ quotes += ['這一項是三種裡最重的，一年大約 0.4 到 0.5 個百分�
            '美國掛牌的只少 0.1 個百分點左右',
            '名目一年約 6.7%，扣掉物價約 0.8%',
            '名目最差的是 1999 到 2018（約 5.9%，扣掉物價約 3.6%）']
+# 批 P：第 24 節 2.31% 的口徑（主線那一句）
+quotes += ['這個 2.31% 算的是「只買自己國家的股票和債券」：論文的基準組合就是六成本國股、四成本國債']
 quotes += ['存 15%、保守算 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']
