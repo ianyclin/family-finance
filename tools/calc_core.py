@@ -970,7 +970,8 @@ assert round(swr_multiple(2.31)) == 43
 #      既有口徑「每 100 元美股股息，前兩者先少 30 元，愛爾蘭註冊的少 15 元」），差 15 個百分點，
 #      只落在指數裡的美股那一塊。美股權重用書上來源卡那一筆（Vanguard FTSE All-World 官方揭露
 #      61.68%）；美股股息率用書自己的 Shiller 月資料（年化股利 ÷ 指數，最後一個月與近十年平均）。
-#      和美國掛牌的比，這一項是 0（兩邊都被扣 30%）。
+# 書上第 16 節的頭條數字改用下面 listing_annual_cost() 的基準 A（三腿同一天的發行商官方頁）；
+# 這個函式的費用差與台灣／倫敦股息稅差留作穩健性對照（股息率用到 2023 年的長期資料，是上界）。
 TW_FEE = (0.50, 0.60)      # 台灣掛牌全球型：經理費＋保管費（最大級距 → 最小級距）
 LSE_FEE = (0.14, 0.20)     # 倫敦掛牌（愛爾蘭註冊）
 US_FEE = (0.06, 0.32)      # 美國掛牌
@@ -991,15 +992,13 @@ def tw_vs_lse_annual_gap():
            round(US_WEIGHT * dy['avg10y_pct'] * WHT_GAP, 3))
     fee = (round(TW_FEE[0] - LSE_FEE[1], 3), round(TW_FEE[1] - LSE_FEE[0], 3))
     tot = (round(fee[0] + tax[0], 3), round(fee[1] + tax[1], 3))
-    fee_us = (round(TW_FEE[0] - US_FEE[1], 3), round(TW_FEE[1] - US_FEE[0], 3))
     return {'us_dividend_yield': dy,
             'fee_gap_pp_vs_lse': fee, 'fee_gap_pp_vs_lse_mid': round(sum(fee) / 2, 3),
             'tax_gap_pp_vs_lse': tax,
             'total_pp_vs_lse': tot, 'total_pp_vs_lse_mid': round(sum(tot) / 2, 3),
-            'fee_gap_pp_vs_us': fee_us, 'tax_gap_pp_vs_us': 0.0,
-            'note': '書上第 16 節寫「差大約 0.4 個百分點」（費用；這裡算出來的中位 %s，兩端 %s 到 %s）、'
-                    '「這一項每年再差 0.1 到 0.2 個百分點」（基金層股息稅，只對倫敦掛牌）、'
-                    '兩項加起來「每年大約半個百分點」（中位 %s，兩端 %s 到 %s）。'
+            'note': '書上第 16 節寫「差大約 0.4 個百分點」（費用；這裡算出來的中位 %s，兩端 %s 到 %s）。'
+                    '台灣／倫敦的股息稅差與合計（中位 %s，兩端 %s 到 %s）在這裡只當穩健性上界，'
+                    '書上的頭條數字以 listing_annual_cost() 的基準 A 為準。'
                     % (round(sum(fee) / 2, 2), fee[0], fee[1],
                        round(sum(tot) / 2, 2), tot[0], tot[1])}
 
@@ -1007,10 +1006,6 @@ R['tw_vs_lse_annual_gap'] = tw_vs_lse_annual_gap()
 _g = R['tw_vs_lse_annual_gap']
 # 書上寫「差大約 0.4 個百分點」：用中位數判，兩端（0.30–0.46）另外記在 json 裡
 assert 0.35 <= _g['fee_gap_pp_vs_lse_mid'] <= 0.45, _g['fee_gap_pp_vs_lse']
-assert 0.1 <= _g['tax_gap_pp_vs_lse'][0] and _g['tax_gap_pp_vs_lse'][1] <= 0.2, _g['tax_gap_pp_vs_lse']
-# 書上寫「每年大約半個百分點」＝0.4 到 0.6：中位數與低端都要落在裡面
-assert 0.4 <= _g['total_pp_vs_lse_mid'] <= 0.6, _g['total_pp_vs_lse_mid']
-assert _g['total_pp_vs_lse'][0] >= 0.4, _g['total_pp_vs_lse']
 
 # ---------- 第 16 節：三種註冊地／掛牌地的股息稅與每年總成本（第 20 版裁判後修正 M1） ----------
 # 裁判查 IRS Publication 515 指出，上面 tw_vs_lse_annual_gap() 的口徑把美國註冊那一格放錯層：
@@ -1019,10 +1014,10 @@ assert _g['total_pp_vs_lse'][0] >= 0.4, _g['total_pp_vs_lse']
 #   美國註冊的基金配息給非美國人時，是「整筆」普通配息先被扣 30%，連非美國公司那一塊也算：
 #   美國公司與 RIC 發的股息屬美國來源所得（Pub 515「Source of Income」），
 #   「Dividends paid by U.S. corporations—general (income code 6)」要求
-#   "withhold on the entire amount of the distribution"；RIC 免預扣的例外只有
-#   interest-related dividends 與 short-term capital gain dividends。
+#   "withhold on the entire amount of the distribution"；RIC 幾項免預扣的例外
+#   （利息型、短期資本利得、資本利得分配等）都不含普通配息裡的外國成分。
 # 所以美國註冊那一項的分母是「整筆配息」，要用全球型 ETF 的配息率，不是美股權重 × 美股股息率。
-# 兩套基準一起算，書上只寫兩套都撐得住的量級：
+# 兩套基準：書上的頭條數字只用基準 A（三腿年份一致），基準 B 只當穩健性上界：
 #   基準 A（發行商官方頁，同一天 2026-08-31）：
 #     iShares MSCI ACWI ETF（美國註冊）12m Trailing Yield 1.40%；
 #     Vanguard Total World Stock ETF 最近四次配息合計 2.4135 美元 ÷ 最後一次再投資價 158.55 ＝ 1.52%；
@@ -1061,28 +1056,40 @@ R['listing_annual_cost'] = {
     'basis_A_issuer_pages_2026': listing_annual_cost(US_EQ_YIELD_2026),
     'basis_B_shiller': listing_annual_cost(_shiller_us_div_yield()['avg10y_pct']),
     'basis_B_shiller_last_month': listing_annual_cost(_shiller_us_div_yield()['last_pct']),
-    'note': ('書上第 16 節摺疊寫「台灣註冊的扣 30%，愛爾蘭註冊的扣 15%…這一項台灣掛牌每年比倫敦掛牌'
-             '多差 0.1 到 0.2 個百分點」「美國註冊的…整筆先扣 30%…這一項是三種裡最重的，一年大約 0.4 到 '
-             '0.5 個百分點」「費用加這一項，倫敦掛牌的每年比台灣掛牌少約半個百分點；美國掛牌的只少 0.2 '
-             '個百分點上下」。三句都用兩套基準的區間判，不是單一基準：台灣掛牌減美國掛牌，基準 A 是 0.118、'
-             '基準 B 是 0.214（最後一個月）到 0.264（近十年平均），平均 0.199。')}
-_L = [R['listing_annual_cost']['basis_A_issuer_pages_2026'],
+    'note': ('書上第 16 節摺疊的頭條數字一律以基準 A 為準：三腿都用 2026-08-31 的發行商官方頁，年份一致。'
+             '「台灣註冊的這一項一年約 0.2 個百分點，愛爾蘭註冊的約 0.1」＝基準 A 的 0.196／0.098；'
+             '「多差約 0.1 個百分點」＝兩者相減 0.098；「一年大約 0.4 到 0.5 個百分點」＝美國註冊那一項的 '
+             '0.42 到 0.456；「倫敦掛牌的每年比台灣掛牌少約半個百分點」＝0.478；「美國掛牌的只少 0.1 個百分點'
+             '左右」＝0.118；主線 A 路「和直接買倫敦掛牌的相比，每年約多付半個百分點」也掛在這裡（0.478）。'
+             '基準 B 兩腿年份不同（全球配息率仍是 2026 年官方頁，美股股息率是 Shiller 到 2023 年的長期資料，'
+             '當年股息率較高），所以降為穩健性註腳、只當上界：台灣掛牌減美國掛牌 0.214（最後一個月）到 '
+             '0.264（近十年平均），都比基準 A 大；書上不引基準 B 的數字，只用它確認方向沒有反過來。')}
+_A = R['listing_annual_cost']['basis_A_issuer_pages_2026']
+_L = [_A,
       R['listing_annual_cost']['basis_B_shiller'],
       R['listing_annual_cost']['basis_B_shiller_last_month']]
+# 基準 A：書上每一個數字逐句對
+# 「台灣註冊的這一項一年約 0.2 個百分點，愛爾蘭註冊的約 0.1」
+assert round(_A['dividend_tax_pp_mid']['tw'], 1) == 0.2, _A['dividend_tax_pp_mid']
+assert round(_A['dividend_tax_pp_mid']['lse'], 1) == 0.1, _A['dividend_tax_pp_mid']
+# 「這一項台灣掛牌每年比倫敦掛牌多差約 0.1 個百分點」
+_gap_A = round(_A['dividend_tax_pp_mid']['tw'] - _A['dividend_tax_pp_mid']['lse'], 3)
+assert round(_gap_A, 1) == 0.1, _gap_A
+# 「一年大約 0.4 到 0.5 個百分點」：美國註冊那一項的兩端
+assert 0.4 <= _A['dividend_tax_pp']['us'][0] and _A['dividend_tax_pp']['us'][1] <= 0.5, _A
+# 「倫敦掛牌的每年比台灣掛牌少約半個百分點」＝0.4 到 0.6
+assert 0.4 <= _A['tw_minus_lse_mid'] <= 0.6, _A
+# 「美國掛牌的只少 0.1 個百分點左右」：四捨五入到一位小數要是 0.1
+assert round(_A['tw_minus_us_mid'], 1) == 0.1, _A['tw_minus_us_mid']
+# 基準 B：只判方向與「三種裡最重」，並確認它確實是上界（比基準 A 大）
 for _b in _L:
     # 「這一項是三種裡最重的」：美國註冊那一項在任何基準下都比另外兩種重
     assert _b['dividend_tax_pp']['us'][0] > _b['dividend_tax_pp']['tw'][0] > _b['dividend_tax_pp']['lse'][0], _b
-    # 「台灣掛牌每年比倫敦掛牌多差 0.1 到 0.2 個百分點」
-    _gap = round(_b['dividend_tax_pp_mid']['tw'] - _b['dividend_tax_pp_mid']['lse'], 3)
-    assert 0.095 <= _gap <= 0.2, (_gap, _b)
-    # 「倫敦掛牌的每年比台灣掛牌少約半個百分點」＝0.4 到 0.6
-    assert 0.4 <= _b['tw_minus_lse_mid'] <= 0.6, _b
-    # 「美國掛牌的只少 0.2 個百分點上下」：每套基準都落在 0.1 到 0.3
-    assert 0.1 <= _b['tw_minus_us_mid'] <= 0.3, _b
-# 「一年大約 0.4 到 0.5 個百分點」：美國註冊那一項的兩端
-assert 0.4 <= _L[0]['dividend_tax_pp']['us'][0] and _L[0]['dividend_tax_pp']['us'][1] <= 0.5, _L[0]
-# 「0.2 個百分點上下」：三套基準的平均
-assert 0.15 <= round(sum(b['tw_minus_us_mid'] for b in _L) / len(_L), 3) <= 0.25, [b['tw_minus_us_mid'] for b in _L]
+    # 方向：倫敦掛牌、美國掛牌在任何基準下都比台灣掛牌便宜
+    assert _b['tw_minus_lse_mid'] > 0 and _b['tw_minus_us_mid'] > 0, _b
+for _b in _L[1:]:
+    assert _b['tw_minus_lse_mid'] >= _A['tw_minus_lse_mid'], (_b['tw_minus_lse_mid'], _A['tw_minus_lse_mid'])
+    assert _b['tw_minus_us_mid'] >= _A['tw_minus_us_mid'], (_b['tw_minus_us_mid'], _A['tw_minus_us_mid'])
 
 # ---------- 台股跌 20% 以上的每一段，以及回到前高花多久（含息、逐日） ----------
 # 走法：逐日更新「到今天為止的最高點」；從那個高點跌掉門檻以上就開一段，之後只要再創新高，
@@ -1611,7 +1618,7 @@ quotes += ['最差的二十年（1962 到 1981）一年不到 1%',
            '一年只能拿 2.31%，大約是 43 倍']
 # 第 20 版裁判後修正 M1／S5：第 16 節三方比較與第 8 節口徑小字
 quotes += ['這一項是三種裡最重的，一年大約 0.4 到 0.5 個百分點',
-           '美國掛牌的只少 0.2 個百分點上下',
+           '美國掛牌的只少 0.1 個百分點左右',
            '名目一年約 6.7%，扣掉物價約 0.8%',
            '名目最差的是 1999 到 2018（約 5.9%，扣掉物價約 3.6%）']
 quotes += ['存 15%、低 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',

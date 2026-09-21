@@ -29,6 +29,11 @@ wip/v63-review/_baseline_v7_prerenumber.html
 release/
 .claude/
 
+# 辯證批的原始抓取（jpef.html 是 2.31% 那句的一手依據，另外收進版控）
+wip/v63-review/debate/aqr.html
+wip/v63-review/debate/faj.html
+wip/v63-review/debate/z.out
+
 wip/v63-review/personas/_book-*.txt
 wip/v63-review/making-of/user-msgs-*.txt
 wip/v63-review/panel/_book-*.txt
