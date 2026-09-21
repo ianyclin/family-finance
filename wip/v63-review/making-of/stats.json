@@ -14,7 +14,7 @@
   },
   "f330c746-4fb1-4319-8da3-61dfb142160e.jsonl": {
     "first_timestamp": "2026-09-13T00:01:19.364Z",
-    "last_timestamp": "2026-09-18T21:09:25.750Z",
+    "last_timestamp": "2026-09-21T00:59:01.214Z",
     "user_msg_count": 90,
     "assistant_msg_count": 1396,
     "agent_task_tool_use_count": 65,
@@ -70,15 +70,16 @@
   },
   "ac2cb2bd-824f-4f6e-95ab-a47754a292ee.jsonl": {
     "first_timestamp": "2026-09-18T21:11:02.408Z",
-    "last_timestamp": "2026-09-20T11:40:17.836Z",
-    "user_msg_count": 69,
-    "assistant_msg_count": 634,
-    "agent_task_tool_use_count": 59,
+    "last_timestamp": "2026-09-21T13:29:33.633Z",
+    "user_msg_count": 139,
+    "assistant_msg_count": 1433,
+    "agent_task_tool_use_count": 125,
     "subagent_type_counts": {
-      "judge": 8,
+      "judge": 16,
       "scout": 6,
-      "builder": 26,
-      "claude": 19
+      "builder": 59,
+      "claude": 43,
+      "applier": 1
     },
     "parse_error_count": 0
   }
