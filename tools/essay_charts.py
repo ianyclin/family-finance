@@ -162,11 +162,18 @@ def original_block(cid):
             % (esc(credit), claim, url))
 
 
-def figure(cid, title, sub, svgs, caption, extras="", caption_html=False):
-    """caption_html=True：caption 已經是 HTML（指南模式保留 figcaption 裡的節號連結），不再跳脫。"""
+def figure(cid, title, sub, svgs, caption, extras="", caption_html=False, illustration_only=False):
+    """caption_html=True：caption 已經是 HTML（指南模式保留 figcaption 裡的節號連結），不再跳脫。
+
+    illustration_only=True：純示意圖（圖上沒有任何數字，圖說只會把緊鄰的內文重講一次）。
+    這種圖不印 figcaption，也不該帶 p.note；螢幕閱讀器讀的是 SVG 的 aria-label。
+    只有圖的腳本在 chart() 回傳裡明寫這個旗標才算數，不是每張圖都可以省。
+    """
+    cap = "" if illustration_only else (
+        "<figcaption>%s</figcaption>\n" % (caption if caption_html else esc(caption)))
     return ('<figure class="chart" data-chart="%s">\n<div class="chart-head"><span class="chart-title">%s</span><span class="chart-sub">%s</span></div>\n'
-            '<div class="chart-body">\n%s\n</div>\n%s<figcaption>%s</figcaption>\n%s</figure>'
-            % (cid, esc(title), esc(sub), "\n".join(svgs), extras, caption if caption_html else esc(caption), original_block(cid)))
+            '<div class="chart-body">\n%s\n</div>\n%s%s%s</figure>'
+            % (cid, esc(title), esc(sub), "\n".join(svgs), extras, cap, original_block(cid)))
 
 
 # ======================================================================
@@ -889,8 +896,12 @@ def insert(s, cid, anchor, mode, fig):
 
 def build(cid, fn_chart, caption=None, caption_html=False):
     d = fn_chart()
-    return figure(cid, d["title"], d["sub"], d["svgs"], caption if caption is not None else d["caption"], d["extras"],
-                  caption_html=caption_html)
+    illus = bool(d.get("illustration_only"))
+    if illus and (d.get("extras") or d.get("caption")):
+        # 旗標和內容對不起來就吵，免得「純示意」被拿來當省略圖說的後門
+        print("⚠ %s 標了 illustration_only，卻還帶著 extras 或 caption；圖說已被略過。" % cid)
+    return figure(cid, d["title"], d["sub"], d["svgs"], caption if caption is not None else d.get("caption", ""), d["extras"],
+                  caption_html=caption_html, illustration_only=illus)
 
 
 def do_essay():

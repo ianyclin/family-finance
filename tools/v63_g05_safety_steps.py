@@ -101,16 +101,17 @@ def chart(res):
         return '\n'.join(out)
 
     # v7 批 1：圖說原本把下面那五點整段複述一遍（含 4%、第 14 節、行動句），和正文重複，改成一句指路。
-    nt = E.note('示意圖，沒有新數字：階梯的高低只表示先後順序，不表示哪一階比較難、要花多少錢或多久。'
-                '每一階要做什麼，在下面那五點裡。')
-    caption = ('由低到高五階：%s。五階做完，最上面那一階才是投資。'
-               % '、'.join(s['name'] for s in res['steps']))
+    # v7 第 20 版收尾 G（作者：「這幾句感覺都可以拿掉」）：這是純示意圖，圖上沒有任何數字，
+    # 三句話（chart-sub、p.note、figcaption）講的都是緊鄰的那五點已經寫過的事。
+    # p.note 拿掉、figcaption 不再顯示（illustration_only），chart-sub 縮成一句。
+    # 螢幕閱讀器讀得到的內容沒有少：兩張 SVG 的 aria-label 同樣列了五階與「最上面一階才是投資」。
     lead = '投資前要做的五件事有先後：下面這張圖先把它們排成一道樓梯，最上面那一階才是投資。'
     res['printed'] = {'steps': [s['name'] for s in res['steps']], 'top': res['top'],
                       'lead_sentence': lead}
     return dict(title='投資前的五階：走完才輪到投資',
-                sub='示意：階梯高低只表示先後順序，不表示難易或金額',
-                svgs=[draw_desktop(E.L('d')), draw_mobile(E.L('m'))], extras=nt, caption=caption)
+                sub='示意圖：只表示先後順序',
+                svgs=[draw_desktop(E.L('d')), draw_mobile(E.L('m'))], extras='', caption='',
+                illustration_only=True)
 
 
 if __name__ == '__main__':
