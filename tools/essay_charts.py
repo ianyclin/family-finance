@@ -678,7 +678,7 @@ def control_map():
         return '<rect x="%.1f" y="%.1f" width="5" height="5" rx="1.5" fill="%s"/>' % (x, y, color)
 
     def draw(lay):
-        title = "示意：把和投資有關的事分成三層——控制得了、部分控制、控制不了"
+        title = "示意：把和投資有關的事分成三層，控制得了、部分控制、控制不了"
         if lay.mobile:
             pad, step, hh = 6, 20, 26
             h = int(sum(hh + len(it) * step + 12 for _, _, it in CONTROL_MAP)) + 6

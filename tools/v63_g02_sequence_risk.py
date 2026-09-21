@@ -155,7 +155,7 @@ def chart(res):
                 'A 把三個下跌的年份排在最前面，B 排在最後面，所以兩個人的平均報酬一樣（一年 %s%%）。'
                 '兩個人退休時都有 %d 萬，每年年初各領 %d 萬（固定金額，這張圖沒有隨物價調整），'
                 '沒有扣物價、費用和稅。'
-                '如果完全不提領，同一組報酬不管什麼順序，十年後都是 %d 萬——順序會有差，是因為中途要拿錢出來。'
+                '如果完全不提領，同一組報酬不管什麼順序，十年後都是 %d 萬。順序會有差，是因為中途要拿錢出來。'
                 % (res['mean_return_pct'], res['basis']['start_wan'],
                    res['basis']['withdraw_wan_per_year'], res['no_withdrawal_end_wan_rounded']))
     # 搬去的地方：guide/index.html #lifecycle，sequence-risk 圖後面那個
