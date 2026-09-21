@@ -903,7 +903,8 @@ R['rolling'] = {
 # 物價用同一份檔案的 Consumer Price Index 欄。視窗是 12 月到 12 月的整年視窗，第一個起點
 # 1950 年 12 月（＝1951 到 1970 年），和 J.P. Morgan 那張「1950–2025、整年」的表對齊寫法。
 # 視窗名稱寫成「起點年＋1 到終點年」：1961-12 → 1981-12 記成「1962–1981」。
-# 股利欄只到 2023 年 6 月，所以最後三個視窗（2003– 之後）算不到；那幾段不會是最差的。
+# 股利欄只到 2023 年 6 月，最後一個算得出來的視窗是 2003–2022；所以最後三個視窗
+# （2004–2023、2005–2024、2006–2025）算不到，那幾段不會是最差的。
 def us_20y_windows(first_dec=1950, years=20):
     rows = list(_csv.DictReader(open(SHILLER_CSV, encoding='utf-8')))
     end = next(i for i, r in enumerate(rows) if float(r['Dividend'] or 0) == 0)
@@ -942,6 +943,10 @@ assert abs(_w['worst_real']['nominal_pct'] - 6.68) <= 0.05, _w['worst_real']
 assert _w['worst_nominal']['window'] == '1999–2018', _w['worst_nominal']
 assert abs(_w['worst_nominal']['nominal_pct'] - 5.85) <= 0.05, _w['worst_nominal']
 assert _w['worst_real']['real_pct'] < 1.0
+# 第 20 版裁判後修正 S5：口徑小字要寫出四個數字（6.7／0.8／5.9／3.6）
+assert abs(_w['worst_real']['nominal_pct'] - 6.7) <= 0.05, _w['worst_real']
+assert abs(_w['worst_real']['real_pct'] - 0.8) <= 0.05, _w['worst_real']
+assert abs(_w['worst_nominal']['real_pct'] - 3.6) <= 0.05, _w['worst_nominal']
 
 # ---------- 第 24 節第三題：2.31% 提領率換成幾倍（v7 第 20 版 B5） ----------
 # Anarkulova, Cederburg, O'Doherty & Sias (2025), JPEF 24(3): 38 個已開發國家、
@@ -1006,6 +1011,78 @@ assert 0.1 <= _g['tax_gap_pp_vs_lse'][0] and _g['tax_gap_pp_vs_lse'][1] <= 0.2, 
 # 書上寫「每年大約半個百分點」＝0.4 到 0.6：中位數與低端都要落在裡面
 assert 0.4 <= _g['total_pp_vs_lse_mid'] <= 0.6, _g['total_pp_vs_lse_mid']
 assert _g['total_pp_vs_lse'][0] >= 0.4, _g['total_pp_vs_lse']
+
+# ---------- 第 16 節：三種註冊地／掛牌地的股息稅與每年總成本（第 20 版裁判後修正 M1） ----------
+# 裁判查 IRS Publication 515 指出，上面 tw_vs_lse_annual_gap() 的口徑把美國註冊那一格放錯層：
+#   台灣註冊、愛爾蘭註冊的基金，是「基金收到美股股息」那一關被扣（30%／15%），
+#   只落在指數裡的美股那一塊（約六成）。
+#   美國註冊的基金配息給非美國人時，是「整筆」普通配息先被扣 30%，連非美國公司那一塊也算：
+#   美國公司與 RIC 發的股息屬美國來源所得（Pub 515「Source of Income」），
+#   「Dividends paid by U.S. corporations—general (income code 6)」要求
+#   "withhold on the entire amount of the distribution"；RIC 免預扣的例外只有
+#   interest-related dividends 與 short-term capital gain dividends。
+# 所以美國註冊那一項的分母是「整筆配息」，要用全球型 ETF 的配息率，不是美股權重 × 美股股息率。
+# 兩套基準一起算，書上只寫兩套都撐得住的量級：
+#   基準 A（發行商官方頁，同一天 2026-08-31）：
+#     iShares MSCI ACWI ETF（美國註冊）12m Trailing Yield 1.40%；
+#     Vanguard Total World Stock ETF 最近四次配息合計 2.4135 美元 ÷ 最後一次再投資價 158.55 ＝ 1.52%；
+#     美股股息率用同一天同一家的 iShares Core S&P 500 ETF 12m Trailing Yield 1.06%。
+#   基準 B（書上既有資料）：美股股息率用 Shiller 月資料（最後一個月 1.58%、近十年平均 1.85%），
+#     全球配息率仍用基準 A 的官方頁數字（書裡沒有更早的全球配息率）。
+# 配息率隨行情高低變動，這幾個數字是量級，不是精算。
+GLOBAL_DIST_YIELD = (1.40, 1.52)   # 全球型 ETF 的 12 個月配息率（ACWI 官方頁／VT 官方頁自算）
+US_EQ_YIELD_2026 = 1.06            # iShares Core S&P 500 ETF 官方頁 12m Trailing Yield，2026-08-31
+WHT_US_REGISTERED = 0.30           # 美國註冊：配息給非美國人時整筆先扣
+WHT_TW_REGISTERED = 0.30           # 台灣註冊：基金收到美股股息時扣
+WHT_IE_REGISTERED = 0.15           # 愛爾蘭註冊：基金收到美股股息時扣
+
+def listing_annual_cost(us_equity_yield_pct):
+    """給定美股股息率，算三種掛牌地每年的『內扣費用＋股息稅』區間（百分點）。"""
+    us_part = US_WEIGHT * us_equity_yield_pct          # 指數裡美股那一塊的股息，占整檔的百分之幾
+    tax = {'tw': (round(us_part * WHT_TW_REGISTERED, 3),) * 2,
+           'lse': (round(us_part * WHT_IE_REGISTERED, 3),) * 2,
+           'us': tuple(round(y * WHT_US_REGISTERED, 3) for y in GLOBAL_DIST_YIELD)}
+    fee = {'tw': TW_FEE, 'lse': LSE_FEE, 'us': US_FEE}
+    # 費用低的那一檔配它自己的配息率（VT 0.06%／1.52%），費用高的配 ACWI（0.32%／1.40%）
+    tot = {'tw': (fee['tw'][0] + tax['tw'][0], fee['tw'][1] + tax['tw'][1]),
+           'lse': (fee['lse'][0] + tax['lse'][0], fee['lse'][1] + tax['lse'][1]),
+           'us': (fee['us'][0] + tax['us'][1], fee['us'][1] + tax['us'][0])}
+    mid = lambda p: round((p[0] + p[1]) / 2.0, 3)
+    return {'us_equity_yield_pct': us_equity_yield_pct,
+            'dividend_tax_pp': {k: tuple(round(x, 3) for x in v) for k, v in tax.items()},
+            'dividend_tax_pp_mid': {k: mid(v) for k, v in tax.items()},
+            'total_pp': {k: (round(v[0], 3), round(v[1], 3)) for k, v in tot.items()},
+            'total_pp_mid': {k: mid(v) for k, v in tot.items()},
+            'tw_minus_lse_mid': round(mid(tot['tw']) - mid(tot['lse']), 3),
+            'tw_minus_us_mid': round(mid(tot['tw']) - mid(tot['us']), 3)}
+
+R['listing_annual_cost'] = {
+    'global_distribution_yield_pct': GLOBAL_DIST_YIELD,
+    'basis_A_issuer_pages_2026': listing_annual_cost(US_EQ_YIELD_2026),
+    'basis_B_shiller': listing_annual_cost(_shiller_us_div_yield()['avg10y_pct']),
+    'basis_B_shiller_last_month': listing_annual_cost(_shiller_us_div_yield()['last_pct']),
+    'note': ('書上第 16 節摺疊寫「台灣註冊的扣 30%，愛爾蘭註冊的扣 15%…這一項台灣掛牌每年比倫敦掛牌'
+             '多差 0.1 到 0.2 個百分點」「美國註冊的…整筆先扣 30%…這一項是三種裡最重的，一年大約 0.4 到 '
+             '0.5 個百分點」「費用加這一項，倫敦掛牌的每年比台灣掛牌少約半個百分點；美國掛牌的只少 0.2 '
+             '個百分點上下」。三句都用兩套基準的區間判，不是單一基準：台灣掛牌減美國掛牌，基準 A 是 0.118、'
+             '基準 B 是 0.214（最後一個月）到 0.264（近十年平均），平均 0.199。')}
+_L = [R['listing_annual_cost']['basis_A_issuer_pages_2026'],
+      R['listing_annual_cost']['basis_B_shiller'],
+      R['listing_annual_cost']['basis_B_shiller_last_month']]
+for _b in _L:
+    # 「這一項是三種裡最重的」：美國註冊那一項在任何基準下都比另外兩種重
+    assert _b['dividend_tax_pp']['us'][0] > _b['dividend_tax_pp']['tw'][0] > _b['dividend_tax_pp']['lse'][0], _b
+    # 「台灣掛牌每年比倫敦掛牌多差 0.1 到 0.2 個百分點」
+    _gap = round(_b['dividend_tax_pp_mid']['tw'] - _b['dividend_tax_pp_mid']['lse'], 3)
+    assert 0.095 <= _gap <= 0.2, (_gap, _b)
+    # 「倫敦掛牌的每年比台灣掛牌少約半個百分點」＝0.4 到 0.6
+    assert 0.4 <= _b['tw_minus_lse_mid'] <= 0.6, _b
+    # 「美國掛牌的只少 0.2 個百分點上下」：每套基準都落在 0.1 到 0.3
+    assert 0.1 <= _b['tw_minus_us_mid'] <= 0.3, _b
+# 「一年大約 0.4 到 0.5 個百分點」：美國註冊那一項的兩端
+assert 0.4 <= _L[0]['dividend_tax_pp']['us'][0] and _L[0]['dividend_tax_pp']['us'][1] <= 0.5, _L[0]
+# 「0.2 個百分點上下」：三套基準的平均
+assert 0.15 <= round(sum(b['tw_minus_us_mid'] for b in _L) / len(_L), 3) <= 0.25, [b['tw_minus_us_mid'] for b in _L]
 
 # ---------- 台股跌 20% 以上的每一段，以及回到前高花多久（含息、逐日） ----------
 # 走法：逐日更新「到今天為止的最高點」；從那個高點跌掉門檻以上就開一段，之後只要再創新高，
@@ -1530,8 +1607,13 @@ quotes += ['沒有發生過：台股有單日漲跌幅限制，這份資料最�
            '| 月薪的兩成 | 25 | 21 | 20',
            '| 月薪的三成 | 19 | 17 | 16']
 # v7 第 20 版（辯證批）：兩句新的主線數字
-quotes += ['但扣掉物價，最差的二十年（1962 到 1981）一年只剩不到 1%',
+quotes += ['最差的二十年（1962 到 1981）一年不到 1%',
            '一年只能拿 2.31%，大約是 43 倍']
+# 第 20 版裁判後修正 M1／S5：第 16 節三方比較與第 8 節口徑小字
+quotes += ['這一項是三種裡最重的，一年大約 0.4 到 0.5 個百分點',
+           '美國掛牌的只少 0.2 個百分點上下',
+           '名目一年約 6.7%，扣掉物價約 0.8%',
+           '名目最差的是 1999 到 2018（約 5.9%，扣掉物價約 3.6%）']
 quotes += ['存 15%、低 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']
@@ -1583,5 +1665,9 @@ p('四類資產輪換 %d–%d 第一名次數:' % (ROT_FROM, ROT_TO), R['asset_r
 p('美股 20 年最差（第 20 版 B3）:', R['us_worst_20y_real']['worst_real'], '／名目最差:', R['us_worst_20y_real']['worst_nominal'])
 p('提領率換倍數（第 20 版 B5）:', R['swr_multiples'])
 p('台灣掛牌 vs 倫敦掛牌 每年差（第 20 版 C2）:', R['tw_vs_lse_annual_gap'])
+p('三種掛牌地每年成本（第 20 版裁判後 M1）:',
+  {k: {'股息稅': v['dividend_tax_pp_mid'], '合計': v['total_pp_mid'],
+       '台減倫敦': v['tw_minus_lse_mid'], '台減美國': v['tw_minus_us_mid']}
+   for k, v in R['listing_annual_cost'].items() if isinstance(v, dict) and 'total_pp_mid' in v})
 p('引用缺漏:', R['guide_citations']['missing'])
 p('wrote', OUT)
