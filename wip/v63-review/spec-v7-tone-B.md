@@ -34,3 +34,10 @@
 
 ## 交件
 一個 commit。全套檢查同 `spec-v7-tone.md`。重點句數量會變：黃線 106→105（第 16 筆取消）、淡紅 14 不變——以 `guidetools`／哨兵實測為準，文件裡寫到黃線數量的地方（第 28 節若有、`docs/handoff-guide-2026-09-19.md`、`changes-for-author-v7.md`）同步。工作表／短稿若含上述任一句（第 25 節那句可能在提領卡），同步並 `--stamp`。`changes-for-author-v7.md`「一之十四」補這 22 筆的改前改後；`author-readthrough.md` 第 11 條標已做。回報每筆改前改後的 HTML 片段、哨兵與全套輸出。不發布。
+
+## 五、A 類收尾（Fable 讀完 A 類回報後的裁示；和上面同一個 commit 或另一個 commit 都可以）
+a. A8-1「風險在自己手上」：維持你的做法（與第 4 節一致），不用改。
+b. 全書剩下的破折號（A 類回報列的 9 處，扣掉本規格第 6 筆）：第 3 節表格「這是算術——他們合起來就是市場」、第 3 節兩張 SVG 的 `aria-label`、第 6／7 節兩個摺疊 `summary`、第 8 節 h4「還有一種跌可能回不來——」、第 9 節「低情境）——預估會變」、第 17 節「比一次——儲蓄險的到期金…」：改成句號、逗號或冒號（挑讀起來順的；一句裡已有冒號就不要再用冒號）。`summary`／`h4` 若被目錄、哨兵、`a.xref` 文字或 manifest 盯著，同步；SVG 的 `aria-label` 若由 `tools/` 腳本產生，改腳本那一邊並重跑，不要只手改 HTML。做完 `grep -c "——" guide/index.html` 回報剩幾處、各在哪（黃框「」內的作者原話若有破折號，不動）。
+c. 第 17 節與摺疊 #88 的『已經投資的錢』→「已經投資的錢」。
+d. `lite/alt/app-a-checklist.html`：A23-3／A23-6／A23-9 三句跟著完整版換成新說法（同一句話在兩處應該同文），改後 `--stamp`。`ch4-drill.html` 維持現狀。
+e. `tools/essay_charts.py` 的 `dca-high-low`、`buckets` 兩張圖說和指南分岔：查清楚 `essay_charts.py --guide` 會不會覆寫指南裡的 figcaption。會的話，以指南現行文字為準同步回腳本（數字口徑不得變），並實跑一次 `--guide` 確認 `git diff guide/index.html` 沒有把語氣批改回去；不會的話回報即可。
