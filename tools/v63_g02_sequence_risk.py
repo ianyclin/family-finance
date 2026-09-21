@@ -151,24 +151,26 @@ def chart(res):
     # v7 批 7：圖下 p.note 原本 277 字，害 lifecycle「看得到的小字」超過 350。
     # 沒有被 calc_core quotes 盯著的兩句（年報酬怎麼挑的、正文那組 Vanguard 數字為什麼沒拿來畫）
     # 移到圖後面的 <details class="more">（指南裡那一份，和這裡同一份文字）。
-    nt = E.note('示意圖，不是市場資料。兩條線用的是同一組十個年報酬，只是順序不同：'
-                'A 把三個下跌的年份排在最前面，B 排在最後面，所以兩個人的平均報酬一樣（一年 %s%%）。'
-                '兩個人退休時都有 %d 萬，每年年初各領 %d 萬（固定金額，這張圖沒有隨物價調整），'
-                '沒有扣物價、費用和稅。'
+    # v7 第 20 版 I：「同一組年報酬換順序」在緊鄰內文、chart-sub、p.note、figcaption 出現四次，
+    # 「兩個人都是 100 萬」緊鄰內文已經寫過；這裡刪掉 A、B 怎麼排與 100 萬的重述，
+    # 只留圖上與圖說都沒有的口徑（年初領 5 萬是固定金額、沒扣物價費用稅、平均報酬、不提領的對照）。
+    # 平均報酬那一句與 148 萬那一句被 calc_core 的 quotes 盯著，逐字保留。
+    nt = E.note('示意圖，不是市場資料。兩個人每年年初各領 %d 萬，是固定金額，這張圖沒有隨物價調整，'
+                '也沒有扣物價、費用和稅。'
+                '換個順序不會改變平均，所以兩個人的平均報酬一樣（一年 %s%%）。'
                 '如果完全不提領，同一組報酬不管什麼順序，十年後都是 %d 萬。順序會有差，是因為中途要拿錢出來。'
-                % (res['mean_return_pct'], res['basis']['start_wan'],
-                   res['basis']['withdraw_wan_per_year'], res['no_withdrawal_end_wan_rounded']))
+                % (res['basis']['withdraw_wan_per_year'], res['mean_return_pct'],
+                   res['no_withdrawal_end_wan_rounded']))
     # 搬去的地方：guide/index.html #lifecycle，sequence-risk 圖後面那個
     # 「想深入：1973 和 1974 年退休的兩個真實例子」摺疊的最後一段 p.small——
     #   「上面那張圖用的那十個年報酬是為了畫出「順序不同」挑的，不是任何市場的實際報酬。
     #     正文那組真實的數字（1973 和 1974 年退休的兩個人）出自 Vanguard 的研究，
     #     原文只公布結果、沒有公布逐年資產，所以這張圖沒有用它的數字。」
     # 改那一段時，這裡的註解要跟著改。
-    caption = ('兩個人退休時都是 %d 萬，每年年初都領 %d 萬，十年的年報酬是同一組數字、只是順序不同。'
-               '先跌的那一個第 %d 年剩約 %d 萬，後跌的那一個剩約 %d 萬。'
+    # 條件那一句（都是 100 萬、同一組年報酬）緊鄰內文已經寫過，圖說從新資訊開始。
+    caption = ('先跌的那一個第 %d 年剩約 %d 萬，後跌的那一個剩約 %d 萬。'
                '差別發生在前三年：A 在下跌的時候還要賣股票拿生活費。'
-               % (res['basis']['start_wan'], res['basis']['withdraw_wan_per_year'], years,
-                  a['end_wan_rounded'], b['end_wan_rounded']))
+               % (years, a['end_wan_rounded'], b['end_wan_rounded']))
     lead = ('把 A 和 B 畫出來會長這樣。兩條線的十個年報酬完全一樣，只是順序不同；'
             '兩個人每年拿出來花的錢也一樣。')
     res['printed'] = {'a_end_wan': a['end_wan_rounded'], 'b_end_wan': b['end_wan_rounded'],
@@ -176,8 +178,7 @@ def chart(res):
                       'no_withdrawal_end_wan': res['no_withdrawal_end_wan_rounded'],
                       'lead_sentence': lead}
     return dict(title='一樣的平均、一樣的提領：先跌還是後跌',
-                sub='示意：同一組十個年報酬換順序，每年年初各領 %d 萬（不是真實市場資料）'
-                    % res['basis']['withdraw_wan_per_year'],
+                sub='示意：同一組年報酬，換個順序',
                 svgs=[draw(E.L('d')), draw(E.L('m'))], extras=lg + nt, caption=caption)
 
 

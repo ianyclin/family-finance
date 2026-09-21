@@ -13,6 +13,10 @@
 
 **2026-09-21 收尾 G（規格 `wip/v63-review/spec-v7-r20-g.md`）：** 第 2 節樓梯圖的三句話（`chart-sub`／`p.note`／`figcaption`）照作者的話收掉，`tools/essay_charts.py` 為此多認一個 `illustration_only` 旗標（純示意圖才准省 figcaption，別張圖的檢查沒放寬）；第 24 節作者黃框「比研究保守」→「比 4% 那幾份研究保守」（作者已同意）；第 16 節「本指南的做法」退回兩段、主線 B 條改「美國掛牌裡最便宜的，內扣費用最低」、新摺疊「股息被扣的稅」補一句資料日期的口徑小字。allow 檔仍是 `numbers-allow-round17.json`。
 
+**2026-09-21 裁判複核後修正 H（規格 `wip/v63-review/spec-v7-r20-h.md`，commit 9a09d03）：** 裁判把 G 之後的稿再讀一次，1 must＋幾條 should，7 條全部落地。must 是第 16 節摺疊「你自己要報的稅」末句把 750 萬寫成海外所得的門檻（其實是基本所得額的免稅額），改成「海外所得滿 100 萬、而且加上其他所得以後超過 750 萬，才會真的多繳稅」；同批把第 16 節三方比較的頭條數字改用年份一致的基準 A（三腿都是 2026-08-31 發行商官方頁：「只少 0.1 個百分點左右」「多差約 0.1 個百分點」＋補上台灣／愛爾蘭兩端的水準），`calc_core.listing_annual_cost()` 的 assert 與 note 同步。allow 檔改用 `numbers-allow-round18.json`。
+
+**2026-09-21 圖說減重 I（規格 `wip/v63-review/spec-v7-r20-i.md`，作者：「都照你建議」）：** 第 2 節白話版換成作者挑的比喻（「遠足前要先帶水、穿鞋、看天氣」→「蓋房子先打地基，再一層一層往上蓋，投資是最上面那一層」，和同節 lede 同一個畫面）；接續 G 批的樓梯圖，把 `figure-caption-audit.md` 盤點出來的另外七張圖（sequence-risk、investor-cycle、plan-flow、smooth-vs-jagged、taiex-recovery、human-capital、holding-positive）三句話之間的重複收掉——**只刪重複，數字、出處、口徑、安全但書每節至少留一次**；一律改在 `tools/` 的圖腳本那一邊（`essay_charts.py`、`v63_g01／g02／g06／g07`），`essay_charts.py --guide` 跑兩次 0 ⚠。順手把第 16 節股息稅那一段的推導順序改成先講兩個水準再講差額，並刪掉和口徑小字重複的「配息率會隨行情高低變動」。allow 檔改用 `numbers-allow-round19.json`（round18 的 140 條一字未動，加 5 條）。**這一批只動圖說與兩段文字，SVG 一個點都沒重畫；還沒在瀏覽器量過桌機與手機兩種寬度（主要看 figure 的間距，smooth-vs-jagged 現在沒有 `p.note`）。**
+
 **發布狀態：第 19、20 版因本機網路（醫院 TLS 攔截 `*.frame.claudeusercontent.com`）尚未發到預覽網址；`release/` 兩個副本是最新的，換網路後直接發。**
 
 **待辦（等條件到位才做）：2.7%**（Ben Felix 2022 影片；同一批作者改用全球分散組合另跑的結果）——等換到沒有 TLS 攔截的網路，核對影片說明或 PWL 原文後，才決定要不要補在第 24 節 2.31% 那句後面；查證紀錄 `wip/v63-review/debate/verify-ben-felix-2p7.md`。
