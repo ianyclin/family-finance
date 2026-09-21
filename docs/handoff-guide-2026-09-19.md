@@ -9,7 +9,7 @@
 **2026-09-21 下午：作者進入「逐節閱讀」模式。** 預覽網址現在是**指南第 18 版、工作表第 9 版**（第 17、18 版＝樓梯圖字被切修正、作者逐節閱讀第一批〔規格 `spec-v7-author-r1.md`：第 1 節七件事→八件事且八條黃線是作者逐字定稿、第 7 節「為什麼核心是市值型，不是高股息或其他策略型」搬主線、真實中文人名與示範人物加專名號 `.pn`（英文名不加）〕＋裁判⑥第七輪）。作者原話：「我開始閱讀並跟你討論。沒問題再開工。你可以累積幾筆再一次處理。」清單與每一條的狀態在 **`wip/v63-review/author-readthrough.md`**（接手先讀）。
 **進行中：語氣批**（作者：「除了 ELI5，全篇語氣檢查，減少 ai 味」「黃框也可以檢查，畢竟是你協助整理而不是原句」；看過第 2–4 節樣本後三件事都「照你的建議」：方向與程度可以、第 3 節黃線改問句、套用全書）。規則 `wip/v63-review/tone/_rules.md`、樣本 `tone/sample-s2-s4.md`、五位讀者的逐句清單 `tone/r1…r5-*.md`、全文文字檔 `tone/_book-*.txt`（gitignore，可由 guide 重新產生）。**黃線／淡紅線／黃框的每一處改動要先貼「改前→改後」給作者確認才動**；一般句可直接套用，套完派裁判核意思沒跑掉、請國中生讀者再讀、量版面、才發新版。同一批要做清單第 9 條（預備金不是加碼金）與第 10 條（再平衡照規則，不看行情），句子已和作者談定，寫在 `author-readthrough.md`。
 
-**（以下是較早的狀態說明）** `v7-preview` HEAD 見 `git log`（434e260 之後只有文件）。預覽網址（當時）：指南第 16 版、工作表第 8 版（2026-09-21：ChatGPT 讀完第 15 版後的收尾修正〔規格 `spec-v7-chatgpt-r6.md`〕＋裁判⑥第六輪「有條件可發布、無 must」；ChatGPT 評 8.5／10、「適合收尾，不需要再做架構大改」。下一步是作者繼續逐節看＋真人試讀；不要再由 AI 評閱擴充修改清單）；上一版說明——指南第 15 版、工作表第 7 版（2026-09-21 凌晨：新觀念段「錢變多以後：一天的漲跌會開始超過月薪」、第 5 節儲蓄率兩個參考〔主計總處五等分位，原檔在 `wip/v63-review/sources/`〕與「本金還小的時候，心力放在哪裡最划算」、手機圖出血〔24 張圖 341px〕、封面改成副標＋兩句〔三句都是作者的話，第三句是作者第二版，不得改字〕、後記〔作者的話〕、Podcast、移除版本紀錄卡、文末粉專連結；十二位審核團〔`wip/v63-review/panel/`、`personas/r3-*`〕→修正→裁判⑥共五輪〔`judge-v7-6.md`〕。allow 檔 round14。**沒再過裁判的新句子**：第 8 節 `#s5-fiveyear`。**待作者**：第 16 節黃框 VALU、封面工作表連結登出狀態能不能開、UBS Yearbook 未核、黃線密度〔第 11、13 節〕、真人試讀）；之前的第 12 版說明：（2026-09-20 晚：六位不同投資習慣的模擬讀者→修正→裁判⑥兩輪→讀者第二輪→收尾，紀錄在 `wip/v63-review/judge-v7-6.md` 與 `personas/`；第 28 節新增收合段「這本書做過哪些檢查」；作者更正立場「只推薦市值型指數 ETF」）；之前的第 11 版說明：（回原位按鈕現在對**所有**書內連結都有效，含封面按鈕、「怎麼讀這本書」、目錄——原本刻意不記封面與目錄，作者實測後認為不對；含到該 commit：回原位按鈕、目錄全部展開、封面兩顆按鈕、手機表格整理）、**工作表第 4 版**（這之後工作表沒變）。`release/guide-v7.0-preview.html`、`release/worksheet-v7.0-preview.html` 是發布用的穩定副本（gitignore；每次重建後從 `export/` 複製）。正式網址仍是 v6.3.1，沒動。數字：主線約 47,600 字、完整版 PDF 155 頁、工作表 6 頁、黃線 99＋淡紅 14。
+**（以下是較早的狀態說明）** `v7-preview` HEAD 見 `git log`（434e260 之後只有文件）。預覽網址（當時）：指南第 16 版、工作表第 8 版（2026-09-21：ChatGPT 讀完第 15 版後的收尾修正〔規格 `spec-v7-chatgpt-r6.md`〕＋裁判⑥第六輪「有條件可發布、無 must」；ChatGPT 評 8.5／10、「適合收尾，不需要再做架構大改」。下一步是作者繼續逐節看＋真人試讀；不要再由 AI 評閱擴充修改清單）；上一版說明——指南第 15 版、工作表第 7 版（2026-09-21 凌晨：新觀念段「錢變多以後：一天的漲跌會開始超過月薪」、第 5 節儲蓄率兩個參考〔主計總處五等分位，原檔在 `wip/v63-review/sources/`〕與「本金還小的時候，心力放在哪裡最划算」、手機圖出血〔24 張圖 341px〕、封面改成副標＋兩句〔三句都是作者的話，第三句是作者第二版，不得改字〕、後記〔作者的話〕、Podcast、移除版本紀錄卡、文末粉專連結；十二位審核團〔`wip/v63-review/panel/`、`personas/r3-*`〕→修正→裁判⑥共五輪〔`judge-v7-6.md`〕。allow 檔 round14。**沒再過裁判的新句子**：第 8 節 `#s5-fiveyear`。**待作者**：第 16 節黃框 VALU、封面工作表連結登出狀態能不能開、UBS Yearbook 未核、黃線密度〔第 11、13 節〕、真人試讀）；之前的第 12 版說明：（2026-09-20 晚：六位不同投資習慣的模擬讀者→修正→裁判⑥兩輪→讀者第二輪→收尾，紀錄在 `wip/v63-review/judge-v7-6.md` 與 `personas/`；第 28 節新增收合段「這本書做過哪些檢查」；作者更正立場「只推薦市值型指數 ETF」）；之前的第 11 版說明：（回原位按鈕現在對**所有**書內連結都有效，含封面按鈕、「怎麼讀這本書」、目錄——原本刻意不記封面與目錄，作者實測後認為不對；含到該 commit：回原位按鈕、目錄全部展開、封面兩顆按鈕、手機表格整理）、**工作表第 4 版**（這之後工作表沒變）。`release/guide-v7.0-preview.html`、`release/worksheet-v7.0-preview.html` 是發布用的穩定副本（gitignore；每次重建後從 `export/` 複製）。正式網址仍是 v6.3.1，沒動。數字：主線約 47,600 字、完整版 PDF 155 頁、工作表 6 頁、黃線 105＋淡紅 14（合計 119；`guidetools.py check` 實測）。
 
 **工作方式（作者 2026-09-20 明說，最重要）**
 
@@ -40,7 +40,7 @@
    - 記進真人試讀觀察項：框的種類多（綠框、黃框、警告框、虛線小卡、來源卡），讀者是被幫到還是被打斷。
 9. **（等作者決定）六位不同投資習慣的模擬讀者**（保守、房地產、槓桿、價值投資、高股息、追熱門；作者 2026-09-20 提議）：報告在 `wip/v63-review/personas/`，Fable 的分類與核實在 `_triage.md`——A 寫錯 4 條（已核實）、B 不公平／不一致 6 條（集中在第 18 節）、C 缺一句回應 9 條（Fable 認為最重要：房貸算不算進股債比、日期說不準的看護錢、急救卡把借錢的人送到沒有「今天做什麼」的地方、有紀律的停損）。**都還沒動手。** 另有兩件進行中：書底「這本書是怎麼做的」收合段（事實表在 `wip/v63-review/making-of/`，第 28 節已有「作者與 AI 的分工」卡，新段不要重複）；「每天的波動大於月薪／逐漸習慣／槓桿讓人提早碰到」的新觀念（出處 William Bernstein，Rational Reminder 第 108 集；作者尚未說要不要寫）。
 
-**2026-09-20 最後一批（856ed8c、434e260）**：Morningstar「Mind the Gap」換成 2026 年版（第 12 節主線 9.9%／8.7%／1.2；摺疊另類 1.6、產業型 1.2〔前兩版都最大〕、美國股票型 0.4、配置型 0.7；來源卡換官方文章；第 16 節 0.7／1.2；第 18 節改成不排名的說法）；第 7 節台灣上市家數改成上市公司口徑（1,084／547／537，不含 10 檔 TDR，出表日 2026-09-19，`calc_core.py` 同步）。allow 檔當時是 `numbers-allow-round6.json`（2026-09-20 六位模擬讀者批第一輪改用超集 `round7`，第二輪起用 `numbers-allow-round14.json`）。查證全文：`wip/v63-review/verify-morningstar-twse-2026-09-20.md`。
+**2026-09-20 最後一批（856ed8c、434e260）**：Morningstar「Mind the Gap」換成 2026 年版（第 12 節主線 9.9%／8.7%／1.2；摺疊另類 1.6、產業型 1.2〔前兩版都最大〕、美國股票型 0.4、配置型 0.7；來源卡換官方文章；第 16 節 0.7／1.2；第 18 節改成不排名的說法）；第 7 節台灣上市家數改成上市公司口徑（1,084／547／537，不含 10 檔 TDR，出表日 2026-09-19，`calc_core.py` 同步）。allow 檔當時是 `numbers-allow-round6.json`（2026-09-20 六位模擬讀者批第一輪改用超集 `round7`，第二輪起用 `numbers-allow-round14.json`；語氣批裁判後修正 D 起改用超集 `numbers-allow-round15.json`）。查證全文：`wip/v63-review/verify-morningstar-twse-2026-09-20.md`。
 **這一批留下、沒動手的**：`tools/check_essay.py:79–80` 白名單與 `chapters/08-…html` 仍是舊版 Mind the Gap 數字（專篇那條產品線，本來就沒跟上，見 (e)）；`tools/guide_v41.py:105–106` 是一次性歷史腳本，**不要重跑**（會把 2.6／0.4 寫回去）；Fulkerson 的 0.1 個百分點無法從一手來源核實，書上維持「有爭議」語氣；669（2003 年底家數）未另核。
 
 ---
@@ -180,7 +180,7 @@
 3. 工作表演練卡刻意不和完整版 `#drill` 同步（第一張紙要自足），差異寫在 `lite/alt/ch4-drill.html` 檔頭 note。
 4. 查表頁算例用 0.2% 費用（全書其他算例 0.5%）：換掉會踩到表二沒有那一列的邊界。
 
-### 目前 120 句重點（從 `guide/index.html` 實抽；括號是節 id）
+### 目前 119 句重點（從 `guide/index.html` 實抽；括號是節 id）
 
 **淡紅線 `mark.key.top`（超級重點，14 句）**——「整本書只記得這一句」，一個核心觀念最多一句：
 
@@ -318,10 +318,10 @@ cp guide/index.html guide/index.vX.backup.html        # 1. 大檔先備份（*.b
 # 2. 只改 guide/index.html（Edit，或寫一次性 python 做整段替換；不要整檔 Write）
 python3 tools/essay_charts.py --guide                 # 3. 只有動到圖才跑，一定要帶 --guide
 BASE=wip/v63-review/_baseline_v631.html               # 4. v7 的四個檢查
-python3 tools/v7_check.py numbers $BASE guide/index.html --allow-file wip/v63-review/numbers-allow-round14.json
+python3 tools/v7_check.py numbers $BASE guide/index.html --allow-file wip/v63-review/numbers-allow-round15.json
 # numbers 一定要跑兩次：只對 v6.3.1 會假綠（這一批刪掉的數字，可能剛好被前幾輪補上的同一個數字抵掉）
 git show <這一批開工前的 commit>:guide/index.html > /tmp/base-prev.html
-python3 tools/v7_check.py numbers /tmp/base-prev.html guide/index.html --allow-file wip/v63-review/numbers-allow-round14.json   # 兩個都 LOST 0 才算過
+python3 tools/v7_check.py numbers /tmp/base-prev.html guide/index.html --allow-file wip/v63-review/numbers-allow-round15.json   # 兩個都 LOST 0 才算過
 python3 tools/v7_check.py anchors $BASE guide/index.html
 python3 tools/v7_check.py budget guide/index.html wip/v63-review/budget-v7.json
 python3 tools/v7_check.py planstep guide/index.html
