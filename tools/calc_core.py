@@ -956,6 +956,57 @@ R['swr_multiples'] = {'2.31%（JPEF 2025，38 國、65 歲夫妻、5% 破產容�
 assert abs(swr_multiple(2.31) - 43.3) <= 0.05, swr_multiple(2.31)
 assert round(swr_multiple(2.31)) == 43
 
+# ---------- 第 16 節：台灣掛牌 vs 倫敦掛牌，每年差多少（v7 第 20 版 C2） ----------
+# 兩項相加：
+#   ① 內扣費用差。台灣掛牌的全球型＝經理費＋保管費，隨規模分級（貝萊德投信官方產品頁）：
+#      小規模 0.45＋0.15＝0.60%／年，最大級距 0.40＋0.10＝0.50%／年。
+#      倫敦掛牌（愛爾蘭註冊）的全球市值型 0.14%（Vanguard 官方頁）到 0.20%（iShares 官方頁）。
+#   ② 基金層對美股股息的預扣差。台灣註冊與美國註冊一般 30%、愛爾蘭註冊 15%（書上第 16 節摺疊的
+#      既有口徑「每 100 元美股股息，前兩者先少 30 元，愛爾蘭註冊的少 15 元」），差 15 個百分點，
+#      只落在指數裡的美股那一塊。美股權重用書上來源卡那一筆（Vanguard FTSE All-World 官方揭露
+#      61.68%）；美股股息率用書自己的 Shiller 月資料（年化股利 ÷ 指數，最後一個月與近十年平均）。
+#      和美國掛牌的比，這一項是 0（兩邊都被扣 30%）。
+TW_FEE = (0.50, 0.60)      # 台灣掛牌全球型：經理費＋保管費（最大級距 → 最小級距）
+LSE_FEE = (0.14, 0.20)     # 倫敦掛牌（愛爾蘭註冊）
+US_FEE = (0.06, 0.32)      # 美國掛牌
+US_WEIGHT = 0.6168         # 全球市值型指數裡美股的比重
+WHT_GAP = 0.15             # 30% − 15%
+
+def _shiller_us_div_yield():
+    rows = list(_csv.DictReader(open(SHILLER_CSV, encoding='utf-8')))
+    end = next(i for i, r in enumerate(rows) if float(r['Dividend'] or 0) == 0)
+    rows = rows[:end]
+    y = lambda r: float(r['Dividend']) / float(r['SP500']) * 100
+    last = y(rows[-1]); avg10 = sum(y(r) for r in rows[-120:]) / 120.0
+    return {'last_month': rows[-1]['Date'][:7], 'last_pct': round(last, 2), 'avg10y_pct': round(avg10, 2)}
+
+def tw_vs_lse_annual_gap():
+    dy = _shiller_us_div_yield()
+    tax = (round(US_WEIGHT * dy['last_pct'] * WHT_GAP, 3),
+           round(US_WEIGHT * dy['avg10y_pct'] * WHT_GAP, 3))
+    fee = (round(TW_FEE[0] - LSE_FEE[1], 3), round(TW_FEE[1] - LSE_FEE[0], 3))
+    tot = (round(fee[0] + tax[0], 3), round(fee[1] + tax[1], 3))
+    fee_us = (round(TW_FEE[0] - US_FEE[1], 3), round(TW_FEE[1] - US_FEE[0], 3))
+    return {'us_dividend_yield': dy,
+            'fee_gap_pp_vs_lse': fee, 'fee_gap_pp_vs_lse_mid': round(sum(fee) / 2, 3),
+            'tax_gap_pp_vs_lse': tax,
+            'total_pp_vs_lse': tot, 'total_pp_vs_lse_mid': round(sum(tot) / 2, 3),
+            'fee_gap_pp_vs_us': fee_us, 'tax_gap_pp_vs_us': 0.0,
+            'note': '書上第 16 節寫「差大約 0.4 個百分點」（費用；這裡算出來的中位 %s，兩端 %s 到 %s）、'
+                    '「這一項每年再差 0.1 到 0.2 個百分點」（基金層股息稅，只對倫敦掛牌）、'
+                    '兩項加起來「每年大約半個百分點」（中位 %s，兩端 %s 到 %s）。'
+                    % (round(sum(fee) / 2, 2), fee[0], fee[1],
+                       round(sum(tot) / 2, 2), tot[0], tot[1])}
+
+R['tw_vs_lse_annual_gap'] = tw_vs_lse_annual_gap()
+_g = R['tw_vs_lse_annual_gap']
+# 書上寫「差大約 0.4 個百分點」：用中位數判，兩端（0.30–0.46）另外記在 json 裡
+assert 0.35 <= _g['fee_gap_pp_vs_lse_mid'] <= 0.45, _g['fee_gap_pp_vs_lse']
+assert 0.1 <= _g['tax_gap_pp_vs_lse'][0] and _g['tax_gap_pp_vs_lse'][1] <= 0.2, _g['tax_gap_pp_vs_lse']
+# 書上寫「每年大約半個百分點」＝0.4 到 0.6：中位數與低端都要落在裡面
+assert 0.4 <= _g['total_pp_vs_lse_mid'] <= 0.6, _g['total_pp_vs_lse_mid']
+assert _g['total_pp_vs_lse'][0] >= 0.4, _g['total_pp_vs_lse']
+
 # ---------- 台股跌 20% 以上的每一段，以及回到前高花多久（含息、逐日） ----------
 # 走法：逐日更新「到今天為止的最高點」；從那個高點跌掉門檻以上就開一段，之後只要再創新高，
 # 這一段就結束（那天就是回到前高的日子）。年數用 365.25 天一年。
@@ -1531,5 +1582,6 @@ for _e in R['taiex_drawdowns']['episodes']:
 p('四類資產輪換 %d–%d 第一名次數:' % (ROT_FROM, ROT_TO), R['asset_rotation']['winner_counts'])
 p('美股 20 年最差（第 20 版 B3）:', R['us_worst_20y_real']['worst_real'], '／名目最差:', R['us_worst_20y_real']['worst_nominal'])
 p('提領率換倍數（第 20 版 B5）:', R['swr_multiples'])
+p('台灣掛牌 vs 倫敦掛牌 每年差（第 20 版 C2）:', R['tw_vs_lse_annual_gap'])
 p('引用缺漏:', R['guide_citations']['missing'])
 p('wrote', OUT)
