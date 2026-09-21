@@ -898,6 +898,64 @@ R['rolling'] = {
     },
 }
 
+# ---------- 第 8 節：美股連續 20 年，扣掉物價最差的那一段（v7 第 20 版 B3） ----------
+# 口徑：Shiller 公開月資料，S&P 500 含息（月報酬＝(P_t＋D_t/12)÷P_{t−1}，同 shiller_tr()）；
+# 物價用同一份檔案的 Consumer Price Index 欄。視窗是 12 月到 12 月的整年視窗，第一個起點
+# 1950 年 12 月（＝1951 到 1970 年），和 J.P. Morgan 那張「1950–2025、整年」的表對齊寫法。
+# 視窗名稱寫成「起點年＋1 到終點年」：1961-12 → 1981-12 記成「1962–1981」。
+# 股利欄只到 2023 年 6 月，所以最後三個視窗（2003– 之後）算不到；那幾段不會是最差的。
+def us_20y_windows(first_dec=1950, years=20):
+    rows = list(_csv.DictReader(open(SHILLER_CSV, encoding='utf-8')))
+    end = next(i for i, r in enumerate(rows) if float(r['Dividend'] or 0) == 0)
+    rows = rows[:end]
+    tr = [1.0]
+    for k in range(1, len(rows)):
+        p0 = float(rows[k - 1]['SP500']); p1 = float(rows[k]['SP500']); d = float(rows[k]['Dividend'])
+        tr.append(tr[-1] * ((p1 + d / 12) / p0))
+    idx = {r['Date'][:7]: i for i, r in enumerate(rows)}
+    cpi = {r['Date'][:7]: float(r['Consumer Price Index']) for r in rows}
+    out = []; y = first_dec
+    while ('%d-12' % y) in idx and ('%d-12' % (y + years)) in idx:
+        a = '%d-12' % y; b = '%d-12' % (y + years)
+        g = tr[idx[b]] / tr[idx[a]]
+        out.append({'window': '%d–%d' % (y + 1, y + years), 'from': a, 'to': b,
+                    'nominal_pct': round((g ** (1.0 / years) - 1) * 100, 2),
+                    'real_pct': round(((g * cpi[a] / cpi[b]) ** (1.0 / years) - 1) * 100, 2)})
+        y += 1
+    return out
+
+def us_worst_20y_real():
+    w = us_20y_windows()
+    worst_real = min(w, key=lambda x: x['real_pct'])
+    worst_nom = min(w, key=lambda x: x['nominal_pct'])
+    return {'n_windows': len(w), 'first': w[0]['window'], 'last': w[-1]['window'],
+            'worst_real': worst_real, 'worst_nominal': worst_nom,
+            'note': ('書上第 8 節主線寫「放二十年，最差的那一段平均一年約 6%；但扣掉物價，'
+                     '最差的二十年（1962 到 1981）一年只剩不到 1%」；6% 是 J.P. Morgan 那張表的數字，'
+                     '「不到 1%」是這裡算出來的 ' + format(worst_real['real_pct'], '.2f') + '%。')}
+
+R['us_worst_20y_real'] = us_worst_20y_real()
+_w = R['us_worst_20y_real']
+assert _w['worst_real']['window'] == '1962–1981', _w['worst_real']
+assert 0.7 <= _w['worst_real']['real_pct'] <= 0.8, _w['worst_real']
+assert abs(_w['worst_real']['nominal_pct'] - 6.68) <= 0.05, _w['worst_real']
+assert _w['worst_nominal']['window'] == '1999–2018', _w['worst_nominal']
+assert abs(_w['worst_nominal']['nominal_pct'] - 5.85) <= 0.05, _w['worst_nominal']
+assert _w['worst_real']['real_pct'] < 1.0
+
+# ---------- 第 24 節第三題：2.31% 提領率換成幾倍（v7 第 20 版 B5） ----------
+# Anarkulova, Cederburg, O'Doherty & Sias (2025), JPEF 24(3): 38 個已開發國家、
+# 一對 65 歲夫妻、5% 破產容忍度 → 一年提 2.31%。倍數＝1 ÷ 提領率。
+def swr_multiple(rate_pct):
+    return round(100.0 / rate_pct, 2)
+
+R['swr_multiples'] = {'2.31%（JPEF 2025，38 國、65 歲夫妻、5% 破產容忍度）': swr_multiple(2.31),
+                      '2.5%（書上 40 倍）': swr_multiple(2.5),
+                      '3%（書上 33 倍）': swr_multiple(3.0),
+                      '4%（書上 25 倍）': swr_multiple(4.0)}
+assert abs(swr_multiple(2.31) - 43.3) <= 0.05, swr_multiple(2.31)
+assert round(swr_multiple(2.31)) == 43
+
 # ---------- 台股跌 20% 以上的每一段，以及回到前高花多久（含息、逐日） ----------
 # 走法：逐日更新「到今天為止的最高點」；從那個高點跌掉門檻以上就開一段，之後只要再創新高，
 # 這一段就結束（那天就是回到前高的日子）。年數用 365.25 天一年。
@@ -1420,6 +1478,9 @@ quotes += ['沒有發生過：台股有單日漲跌幅限制，這份資料最�
            '| 月薪的一成 | 37 | 30 | 28',
            '| 月薪的兩成 | 25 | 21 | 20',
            '| 月薪的三成 | 19 | 17 | 16']
+# v7 第 20 版（辯證批）：兩句新的主線數字
+quotes += ['但扣掉物價，最差的二十年（1962 到 1981）一年只剩不到 1%',
+           '一年只能拿 2.31%，大約是 43 倍']
 quotes += ['存 15%、低 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']
@@ -1468,5 +1529,7 @@ for _e in R['taiex_drawdowns']['episodes']:
                                                   _e['trough_value'], _e['drawdown_pct'], _e['recover_date'],
                                                   _e['years_peak_to_recover']))
 p('四類資產輪換 %d–%d 第一名次數:' % (ROT_FROM, ROT_TO), R['asset_rotation']['winner_counts'])
+p('美股 20 年最差（第 20 版 B3）:', R['us_worst_20y_real']['worst_real'], '／名目最差:', R['us_worst_20y_real']['worst_nominal'])
+p('提領率換倍數（第 20 版 B5）:', R['swr_multiples'])
 p('引用缺漏:', R['guide_citations']['missing'])
 p('wrote', OUT)
