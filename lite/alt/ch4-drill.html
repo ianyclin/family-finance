@@ -2,8 +2,8 @@
 id: ch4-drill
 norm: v1
 src: [data-lite-alt~="ch4-drill"]:nth(1) sha256=5c97dcc4ad452b44e106025ed3ff237b1e9d987299031fa55d41c78970a86faa
-src: #s11 div.data-card:contains(起步版：六行，填完就可以開始) sha256=c00645374b82cf9f2f6caa8a6b71b267f8a05da8a7cbfbf6bea2bf1b72c7a9db
-src: #s5 div.planstep[data-plan="E16"] sha256=4cde462162a50af206c86a3ebe697f658641e32457952eed3f9c45c006b326af
+src: #s11 div.data-card:contains(起步版：六行，填完就可以開始) sha256=0b6726c95b44d975ae97a9131aa1d8e2beb47856bc4abd23b44077af3371c668
+src: #s5 div.planstep[data-plan="E16"] sha256=147aed38da6bf8594c3608d17d64ec985ac6dbf4066116bdf67116e13351e4ba
 note: stage3：完整版 s11 大跌演練卡照抄（第 1 步念出幾個月收入，主線決定2）；第 4 步冷卻期括號原本被 data-lite="skip" 拿掉，改用短稿補回
 note: v6.1 工作表：第 4 步冷卻期括號原本指「本書第八章」，實作版十二章退場後改回完整版原文的「看第 10 節」（xref 會轉成完整版節名）
 note: v6.3 批 1（Q4）：第 4 步「降到兩成還是做不到」補第三條路（先不持有股票、把預備金與保障補好、定一個檢查日再回來），和完整版 s11 演練卡逐字同步
@@ -28,5 +28,6 @@ note: v7 語氣批（A14-9／規格三之一）：完整版 #drill 第 1 步結�
 note: v7 作者逐節閱讀第一批（C：人名加專名號）：完整版示範人物的名字外面多包一層 <span class="pn">，兩個 src 區塊（起步版六行卡、第 8 節 planstep E16）的指紋因此變了。去掉標籤以後的文字一字未動（腳本 wip/v63-review/add_pn_spans.py 有 assert 擔保），這一頁本體沒有出現任何人名，內容不動，逐行重看後只是重新 stamp
 note: v7 第 20 版 K3（虛線小卡語氣改寫）：第三個 src（第 8 節 planstep E16）只改了說話的方式——「小安算：」改成「八成是頂到上限的比例，小安想知道真的大跌那天會少多少，所以他把自己的數字代進去算：」，「你算：」改成「換你算：」，句末補主詞「看到這個數字，你還照得了計畫」，末段改成「如果你手上要投的錢已經超過半年收入（例如…）」。公式、算式、每一個數字、「＿＿＿＿萬 × ＿＿成 × 跌一半 ＝ 少＿＿＿＿萬」與粗估法括號一字未動，這一頁第 1 步照抄的就是那個粗估法，仍然對得上。逐行重看後只重新 stamp，本體一個字都沒改
 note: v7 語氣批裁判後修正 D（S6）：完整版 #drill 第 4 步的括號拿掉，改回「做完這些安排，我覺得：三種回答都有下一步，沒有哪一個是「錯」。」，和這一頁本來就一樣，兩邊恢復一致（上一條語氣批 note 裡記那個差異的半句一併刪掉）。這一頁一個字都沒改，只重新 stamp
+note: v7 第 20 版 L（十張小卡裁判後修正）：兩個 src 區塊的指紋又變了。第三個 src（第 8 節 planstep E16）拿掉句首「八成是頂到上限的比例，」（驗算是每個人都要做的，不綁在頂到上限），並把「先做第14 節」補回半形空格；第二個 src（第 14 節起步版六行卡）第 2 行問句末尾補「？」。這一頁第 1 步照抄的粗估法、算式與數字都沒動，第 3 步指的正面第 5、6 行也沒動，本體一個字都沒改，只重新 stamp
 -->
 <div class="data-card"><h3>大跌演練：挑一個平靜的晚上，花十分鐘</h3><ol class="checklist"><li>先粗估這筆錢到時候大概多少：每月<span class="lite-blank" style="min-width:4em;height:1.7em"></span>元 × 12 × 還有<span class="lite-blank" style="min-width:2.5em;height:1.7em"></span>年 ＝ 約<span class="lite-blank" style="min-width:4em;height:1.7em"></span>萬（放二十年以上的，再乘一倍半）。再算：約<span class="lite-blank" style="min-width:4em;height:1.7em"></span>萬 × 股票<span class="lite-blank" style="min-width:2.5em;height:1.7em"></span>成 × 跌一半 ＝ 少<span class="lite-blank" style="min-width:4em;height:1.7em"></span>萬。我每月實拿<span class="lite-blank" style="min-width:3em;height:1.7em"></span>萬，所以等於<span class="lite-blank" style="min-width:3em;height:1.7em"></span>個月的收入。把最後兩個數字念出來。</li><li><strong>我第一個反應會是什麼？</strong>誠實寫（想賣、想停扣、想加碼、不敢看……都正常）：<div class="lite-line"><span class="lite-blank lite-fill" style="height:2.8em"></span></div></li><li><strong>這個反應出現時，我事先安排好的動作是什麼？</strong>（例：關掉漲跌推播、照正面第 5 行「市場下跌時」做、想動的念頭先等第 6 行寫的天數、打給＿＿）<div class="lite-line"><span class="lite-blank lite-fill" style="height:2.8em"></span></div></li><li><strong>做完這些安排，我覺得：</strong>三種回答都有下一步，沒有哪一個是「錯」。<br>□ 還是會賣，或這個損失會影響生活 → 股票比例降一成（10 個百分點），再做一次；不要反過來把安排改成你想做的事。<br>□ 不知道 → 比例維持暫定，先用小金額；第一次真的遇到下跌時，把實際反應記下來，回來對照。<br>□ 目前覺得能照計畫做 → 寫下理由和上面的安排；比例寫暫定，以後拿實際反應來核對。</li><li>寫上日期，把第 1 步的數字念給家人聽一次，真的遇到第一次下跌時拿出來比一比。</li></ol></div>
