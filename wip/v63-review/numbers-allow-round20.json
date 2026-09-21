@@ -1,5 +1,5 @@
 {
- "_comment": "v7 批 N（九件事版面＋16 條內容問題，規格 spec-v7-content-n.md）用的允許清單，是 numbers-allow-round19.json 的超集：round19 的 145 條一字未動，後面加 2 條這一批（N2 第 2 條）刻意收掉的重複 token——四人比較表「陳大哥・目標」那一格原本把算法重講一次（「33 倍再加勞退月退發完以後多缺的 84 萬」），改成指路「算法在上面陳大哥的展開」。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（f75908e）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版 I（白話版比喻＋七張圖的重複圖說，規格 spec-v7-r20-i.md）用的允許清單，是 numbers-allow-round18.json 的超集：round18 的 140 條一字未動，後面加 1 條這一批刻意收掉的重複結論句。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（10ffa8e）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版裁判複核後修正 H（規格 spec-v7-r20-h.md）用的允許清單，是 numbers-allow-round17.json 的超集：round17 的 138 條一字未動，後面加 2 條這一批刻意換掉的 token（第 16 節頭條數字改用年份一致的基準 A）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（932416c）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版裁判後修正（規格 spec-v7-r20-fix.md）用的允許清單，是 numbers-allow-round16.json 的超集：round16 的 133 條一字未動，後面加 6 條這一批刻意換掉或拿掉的 token。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（64bdfcc）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版 B＋C（辯證後的主線修正與第 16 節三條路徑，規格 spec-v7-r20.md）用的允許清單，是 numbers-allow-round15.json 的超集：round15 的 130 條一字未動，後面加 3 條這一批刻意拿掉的 token。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 語氣批裁判後修正 D（規格 spec-v7-tone-D.md 第 12 條，作者 2026-09-21 截圖指示移除第 1 節重複的摺疊）用的允許清單，是 numbers-allow-round14.json 的超集：round14 的條目一字未動，後面加 2 條第 1 節（ten）這一批刻意拿掉的 token。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 十二位審核團批（規格 spec-v7-panel-fixes.md，含追加的 E／F／G）用的允許清單，是 numbers-allow-round12.json 的超集：round12 的條目一字未動，後面加 5 條這一批刻意換掉的數字（A5 的 9.7→−9.7、G1 的連結檢查那一句、G2 的 All Your Worth 年份）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 預覽「錢變多以後：一天的漲跌，會開始超過月薪」第二＋三版（規格 spec-v7-daily-swing-2.md、-3.md）用的允許清單，是 numbers-allow-round9.json 的超集：round9 的 103 條一字未動，後面加 2 條這一批刻意拿掉的數字（都是同一批自己前一版寫進去、這一版被表取代的句子，不是 v6.3.1 就有的事實——對 _baseline_v631.html 跑的那一次本來就 LOST 0）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 六位模擬讀者批第二輪（spec-v7-personas-fix，裁判⑥）用的允許清單，是 numbers-allow-round7.json 的超集：round7 的條目一字未動，後面加 1 條這一批的來源卡筆數變動。原檔的說明如下：v7 六位模擬讀者批（spec-v7-personas）用的允許清單，是 numbers-allow-round6.json 的超集：round6 的條目一字未動，後面加 1 條這一批刻意拿掉的數字（B5）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第六輪（spec：Morningstar Mind the Gap 換 2026 版＋台灣上市家數改上市公司口徑）用的允許清單，是 numbers-allow-round4.json 的超集：88 條一字未動，後面加 11 條這一批刻意換掉的數字（每條寫理由）。這一批是「換版次／換口徑」，不是刪事實：每一個 LOST 都有對應的 ADDED（7.3→9.9、6.3→8.7、1.1→1.2、2.6→改寫、0.4→0.7、1094→1084、549→547、545→537、17→19）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第四輪（spec-v7-round4）用的允許清單，是 numbers-allow-renumber.json 的超集：只把 s10 的 token 11 從 3 改成 4（理由寫在該條 reason 末尾），其餘 87 條一字未動。原檔的說明如下：v7_check.py numbers 的允許清單（v7.0 連號批建立）。內容＝numbers-allow-all.json 的所有條目 ＋ 全書 28 節連號造成的節號 token 差異（由 wip/v63-review/renumber.py --make-allow 產生，沒有手打）。v7.0 以後拿 _baseline_v631.html 當基準時用這一份，取代 numbers-allow-all.json。｜round9＝round8 全部條目＋s8/9 一條（2026-09-20）｜round11＝round10 全部＋s2/5 一條｜round12＝round11＋移除版本紀錄卡的 16 個 token",
+ "_comment": "v7 批 N（九件事版面＋16 條內容問題，規格 spec-v7-content-n.md）用的允許清單，是 numbers-allow-round19.json 的超集：round19 的 145 條一字未動，後面加 8 條（N2 第 2 條 2 條、N3 第 9／10 條 6 條，其中 why／11 那一條是把連號批原本的 count 5 改成 6）這一批（N2 第 2 條）刻意收掉的重複 token——四人比較表「陳大哥・目標」那一格原本把算法重講一次（「33 倍再加勞退月退發完以後多缺的 84 萬」），改成指路「算法在上面陳大哥的展開」。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（f75908e）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版 I（白話版比喻＋七張圖的重複圖說，規格 spec-v7-r20-i.md）用的允許清單，是 numbers-allow-round18.json 的超集：round18 的 140 條一字未動，後面加 1 條這一批刻意收掉的重複結論句。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（10ffa8e）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版裁判複核後修正 H（規格 spec-v7-r20-h.md）用的允許清單，是 numbers-allow-round17.json 的超集：round17 的 138 條一字未動，後面加 2 條這一批刻意換掉的 token（第 16 節頭條數字改用年份一致的基準 A）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（932416c）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版裁判後修正（規格 spec-v7-r20-fix.md）用的允許清單，是 numbers-allow-round16.json 的超集：round16 的 133 條一字未動，後面加 6 條這一批刻意換掉或拿掉的 token。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（64bdfcc）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版 B＋C（辯證後的主線修正與第 16 節三條路徑，規格 spec-v7-r20.md）用的允許清單，是 numbers-allow-round15.json 的超集：round15 的 130 條一字未動，後面加 3 條這一批刻意拿掉的 token。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 語氣批裁判後修正 D（規格 spec-v7-tone-D.md 第 12 條，作者 2026-09-21 截圖指示移除第 1 節重複的摺疊）用的允許清單，是 numbers-allow-round14.json 的超集：round14 的條目一字未動，後面加 2 條第 1 節（ten）這一批刻意拿掉的 token。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 十二位審核團批（規格 spec-v7-panel-fixes.md，含追加的 E／F／G）用的允許清單，是 numbers-allow-round12.json 的超集：round12 的條目一字未動，後面加 5 條這一批刻意換掉的數字（A5 的 9.7→−9.7、G1 的連結檢查那一句、G2 的 All Your Worth 年份）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 預覽「錢變多以後：一天的漲跌，會開始超過月薪」第二＋三版（規格 spec-v7-daily-swing-2.md、-3.md）用的允許清單，是 numbers-allow-round9.json 的超集：round9 的 103 條一字未動，後面加 2 條這一批刻意拿掉的數字（都是同一批自己前一版寫進去、這一版被表取代的句子，不是 v6.3.1 就有的事實——對 _baseline_v631.html 跑的那一次本來就 LOST 0）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 六位模擬讀者批第二輪（spec-v7-personas-fix，裁判⑥）用的允許清單，是 numbers-allow-round7.json 的超集：round7 的條目一字未動，後面加 1 條這一批的來源卡筆數變動。原檔的說明如下：v7 六位模擬讀者批（spec-v7-personas）用的允許清單，是 numbers-allow-round6.json 的超集：round6 的條目一字未動，後面加 1 條這一批刻意拿掉的數字（B5）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第六輪（spec：Morningstar Mind the Gap 換 2026 版＋台灣上市家數改上市公司口徑）用的允許清單，是 numbers-allow-round4.json 的超集：88 條一字未動，後面加 11 條這一批刻意換掉的數字（每條寫理由）。這一批是「換版次／換口徑」，不是刪事實：每一個 LOST 都有對應的 ADDED（7.3→9.9、6.3→8.7、1.1→1.2、2.6→改寫、0.4→0.7、1094→1084、549→547、545→537、17→19）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第四輪（spec-v7-round4）用的允許清單，是 numbers-allow-renumber.json 的超集：只把 s10 的 token 11 從 3 改成 4（理由寫在該條 reason 末尾），其餘 87 條一字未動。原檔的說明如下：v7_check.py numbers 的允許清單（v7.0 連號批建立）。內容＝numbers-allow-all.json 的所有條目 ＋ 全書 28 節連號造成的節號 token 差異（由 wip/v63-review/renumber.py --make-allow 產生，沒有手打）。v7.0 以後拿 _baseline_v631.html 當基準時用這一份，取代 numbers-allow-all.json。｜round9＝round8 全部條目＋s8/9 一條（2026-09-20）｜round11＝round10 全部＋s2/5 一條｜round12＝round11＋移除版本紀錄卡的 16 個 token",
  "allow": [
   {
    "section": "s11",
@@ -882,6 +882,42 @@
    "token": "84",
    "count": 1,
    "reason": "批 N2 第 2 條：同上那一格拿掉的「多缺的 84 萬」。同一節「84 萬」仍出現 5 次，含「8.4 萬×10＝84 萬」的推導與計畫表 A 區那一格。"
+  },
+  {
+   "section": "why",
+   "token": "11",
+   "count": 6,
+   "reason": "這一條取代前面那條 why／11（count 5，v7.0 連號批）：連號的 5 次之外，批 N3 第 10 條再多 1 次——第 3 節兩個摺疊裡逐字重複的那兩段，刪掉內容較少的那一份（「想深入：這張表沒說的兩件事」整個摺疊），它裡面有一個指到第 11 節的 a.xref。同樣那句話（連同指路）在同一節「想深入：優點與局限的完整清單」裡逐字還在。"
+  },
+  {
+   "section": "why",
+   "token": "16",
+   "count": 1,
+   "reason": "批 N3 第 10 條：同上那個摺疊裡「指數也不是『市場本身』…（第 16 節）」的節號。同一節「優點與局限的完整清單」有更完整的一份（多了新興市場、中國與台灣各占多少的小字），指路一樣指到第 16 節。"
+  },
+  {
+   "section": "s9",
+   "token": "34",
+   "count": 1,
+   "reason": "批 N3 第 9 條：第 12 節那張圖的 figcaption 不再把四個比例重唸一次。34% 在同一節的主線（「證交稅約 34%」）、圖上的長條標籤與圖例裡都還在。"
+  },
+  {
+   "section": "s9",
+   "token": "32",
+   "count": 1,
+   "reason": "批 N3 第 9 條：同上。32% 在主線（「手續費約 32%」）、圖上標籤與圖例裡都還在。"
+  },
+  {
+   "section": "s9",
+   "token": "27",
+   "count": 1,
+   "reason": "批 N3 第 9 條：同上。27% 在主線（「買賣本身的價差損失約 27%」）、圖上標籤與圖例裡都還在。"
+  },
+  {
+   "section": "s9",
+   "token": "7",
+   "count": 1,
+   "reason": "批 N3 第 9 條：同上。7% 在主線（「真正因為進出時機而少賺的只有約 7%」）、圖上標籤與圖例裡都還在。"
   }
  ]
 }

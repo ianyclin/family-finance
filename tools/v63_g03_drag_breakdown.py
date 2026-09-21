@@ -121,11 +121,10 @@ def chart(res):
                 '研究年代久遠，交易稅率和工具都變了。'
                 '出自 Barber、Lee、Liu、Odean 2009 年的研究（連結在本節「直接來源」）。'
                 % (PERIOD, res['total_pp'], res['total_pp']))
-    caption = ('每年少賺的 %s 個百分點，%d%% 是證交稅、%d%% 是手續費、%d%% 是買賣價差，'
-               '剩下 %d%% 才是進出時機。前兩塊加起來 %d%%，是每買賣一次就要付出去的錢。'
-               '所以呢：下跌時照常投入、少買賣，這三塊錢就省下來了。'   # v7 批 7：F 區收成一格，不再說「三格」
-               % (res['total_pp'], parts[0]['share_pct'], parts[1]['share_pct'],
-                  parts[2]['share_pct'], parts[3]['share_pct'], trade))
+    # v7 批 N3 第 9 條：圖說不再重唸一次四個比例（圖上的標籤與圖例已經寫著，主線也寫過），只留口徑
+    caption = ('每年少賺的 %s 個百分點，拆成圖上這四塊。前兩塊加起來 %d%%，是每買賣一次就要付出去的錢。'
+               '所以呢：下跌時照常投入、少買賣，稅、手續費、價差這三塊就省下來了。'   # v7 批 7：F 區收成一格，不再說「三格」
+               % (res['total_pp'], trade))
     lead = ('把上面那幾塊畫成一條長條：整條就是那 %s 個百分點，四塊加起來剛好是全部。'
             % res['total_pp'])
     res['printed'] = {'parts': [(p['name'], p['share_pct']) for p in parts],
