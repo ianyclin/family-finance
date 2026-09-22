@@ -32,7 +32,8 @@ import v7_series as S
 PERIODS = (1, 3, 5, 10, 20, 30)
 # v7 批 X：兩張圖的 p.note 各補這一句。1926 年以前那一段資料的來歷，以及它對「最差」的影響——
 # 給讀者的誠實揭露，不是但書。7.6% 由 calc_core 的 us_rolling_post1926 算出來並 assert。
-COWLES_NOTE = ('1926 年以前的月資料是 Shiller 依 Cowles 委員會的指數回推的（那時還沒有 S&P 500）；'
+# 批 AG：這一段現在直接拼進 r['more'] 的 HTML（不再經過 E.note 跳脫），所以 & 要自己寫成 &amp;。
+COWLES_NOTE = ('1926 年以前的月資料是 Shiller 依 Cowles 委員會的指數回推的（那時還沒有 S&amp;P 500）；'
                '把它算進來，30 年最差那一段（結束在 1932 年 6 月）才會出現，'
                '拿掉它 30 年最差會變成 7.6%。本文選擇把最差的留著。')
 # 視窗數少於這個數就不畫那一根：四、五個重疊的視窗畫成箱型，會看起來像「歷史上就是這樣」。
@@ -268,7 +269,13 @@ def compute_box(start=None):
     for y in PERIODS:
         if len(tr) <= y * 12:
             continue
-        rows.append(S.rolling_summary(months, tr, y))
+        row = S.rolling_summary(months, tr, y)
+        # 批 AG：圖說要講「抱 5 年十次裡大約九次是賺的、抱滿 20 年沒有一次是賠的」，
+        # 所以每一根多算一個「負的視窗數」（和 calc_core 的 us_rolling_negative_share 同一個算法）。
+        pts = S.rolling_annualised(months, tr, y)
+        row['neg'] = sum(1 for _m, v, _s in pts if v < 0)
+        row['neg_pct'] = row['neg'] * 100.0 / len(pts)
+        rows.append(row)
     return {'id': 'sp500-holding-box' if not start else 'sp500-holding-box-30y',
             'from': months[0], 'to': months[-1], 'rows': rows,
             'full_period': not start}
@@ -398,7 +405,8 @@ def chart_box(res):
     lg = E.legend([(E.TEAL, '箱＝第 15 到第 85 百分位，中線＝中位數，細鬚＝最差到最好')])
     return dict(title=res['title'], sub=res['sub'],
                 svgs=svgs,
-                extras=lg + E.note(res['note']) + res['more'], caption=res['caption'])
+                extras=lg + (E.note(res['note']) if res['note'] else '') + res['more'],
+                caption=res['caption'])
 
 
 # ---------------------------------------------------------------- 圖 B
@@ -521,7 +529,8 @@ def chart_rolling(res):
                    (E.TEAL, '抱 20 年', LINE_STYLE[20][3]),
                    (E.TEAL, '抱 30 年')])
     return dict(title=res['title'], sub=res['sub'], svgs=svgs,
-                extras=lg + E.note(res['note']) + res['more'], caption=res['caption'])
+                extras=lg + (E.note(res['note']) if res['note'] else '') + res['more'],
+                caption=res['caption'])
 
 
 # ---------------------------------------------------------------- 三個進入點
@@ -532,24 +541,6 @@ def _box_dress(r):
     r['aria'] = '美股 %s，抱 1、3、5、10、20、30 年的年化報酬範圍（箱型）' % span
     r['title'] = '抱幾年，報酬落在哪個範圍'
     r['sub'] = 'S&P 500 含息、名目，資料 %s，每個月都當一次買進日，年化 %%' % span
-    r['note'] = ('每個月都當一次買進日，抱滿 N 年，再換算成平均一年的報酬。'
-                 '1 年那一根有 %s 個視窗%s。視窗彼此重疊，不是互相獨立的樣本。'
-                 '這張圖和下面「想深入」裡 J.P. Morgan 的區間表講的是同一件事，'
-                 '口徑不一樣（起始年、整年 vs 逐月、資料來源），數字不會一致。'
-                 '縱軸畫到 ±50%%，超出的用箭頭收尾。'
-                 % ('{:,}'.format(n1['n']),
-                    '，30 年那一根有 %s 個' % '{:,}'.format(n30[0]['n']) if n30 else '')
-                 + COWLES_NOTE)
-    r['more'] = ('<details class="more" data-print="open">'
-                 '<summary>想深入：這張圖的資料、口徑，和它跟「想深入」裡那張區間表的差別</summary>'
-                 '<p class="note">S&amp;P 500 含息、名目：%s到 2023 年 6 月用 Robert Shiller 公開月資料，'
-                 '2023 年 7 月起用 S&amp;P 500 總報酬指數串接到 %s。沒有扣物價、費用和稅，也不是台幣。'
-                 '箱是第 15 到第 85 百分位（把所有視窗從小排到大，切掉最前面 15%% 和最後面 15%%），'
-                 '中線是中位數，細鬚兩端是這段歷史裡最差和最好的那一次。'
-                 '和「想深入」裡 J.P. Morgan 區間表的口徑差在哪：'
-                 '那張表是 J.P. Morgan 自己的資料、1950 年起、以整年為單位（1 月 1 日到 12 月 31 日）；'
-                 '這張圖是 %s 年起、逐月起算。期間越長、起算方式越細，最好和最差就越極端。</p></details>'
-                 % (_ym(r['from']), _ym(r['to']), r['from'][:4]))
     hi_out, lo_out = _over_range(r['rows'])
     # 縱軸固定（批 Y 定 ±70%、批 AD 收成 ±50%）：落在範圍外的端點用箭頭收尾，圖說要講明白。
     # 同一根的兩端都超出時合成一句，不要一模一樣的句型講兩次（批 AD）。
@@ -562,13 +553,47 @@ def _box_dress(r):
             over = '%s那一根的最好一次超出了圖的範圍，用箭頭表示。' % yrs(hi_out)
         if lo_out:
             over += '%s那一根的最差一次超出了圖的範圍，用箭頭表示。' % yrs(lo_out)
-    r['caption'] = ('往右看，鬚越來越短：抱 1 年最差 %s、最好 %s，%s。'
-                    '中間那條線是中位數，一半的視窗在它上面、一半在下面。%s'
-                    '這是歷史，不是保證；'
-                    '而且每一根的視窗互相重疊，不是獨立的樣本。'
-                    % (_pct(n1['min']), _pct(n1['max']),
-                       ('抱 30 年最差 %s、最好 %s' % (_pct(n30[0]['min']), _pct(n30[0]['max']))) if n30
-                       else '30 年那一根的視窗太少，沒有畫', over))
+    # 批 AG（作者 2026-09-22）：p.note 整段與原圖說整段都搬進「想深入」，圖上只留「這張圖告訴我什麼」。
+    r['note'] = ''
+    r['more'] = ('<details class="more" data-print="open">'
+                 '<summary>想深入：這張圖的資料、口徑，和它跟「想深入」裡那張區間表的差別</summary>'
+                 '<p class="note">'
+                 # 這一段原本是圖下的 p.note
+                 '每個月都當一次買進日，抱滿 N 年，再換算成平均一年的報酬。'
+                 '1 年那一根有 %s 個視窗%s。視窗彼此重疊，不是互相獨立的樣本。'
+                 '這張圖和下面「想深入」裡 J.P. Morgan 的區間表講的是同一件事，'
+                 '口徑不一樣（起始年、整年 vs 逐月、資料來源），數字不會一致。'
+                 '縱軸畫到 ±50%%，超出的用箭頭收尾。%s'
+                 'S&amp;P 500 含息、名目：%s到 2023 年 6 月用 Robert Shiller 公開月資料，'
+                 '2023 年 7 月起用 S&amp;P 500 總報酬指數串接到 %s。沒有扣物價、費用和稅，也不是台幣。'
+                 '箱是第 15 到第 85 百分位（把所有視窗從小排到大，切掉最前面 15%% 和最後面 15%%），'
+                 '中線是中位數，細鬚兩端是這段歷史裡最差和最好的那一次。'
+                 '和「想深入」裡 J.P. Morgan 區間表的口徑差在哪：'
+                 '那張表是 J.P. Morgan 自己的資料、1950 年起、以整年為單位（1 月 1 日到 12 月 31 日）；'
+                 '這張圖是 %s 年起、逐月起算。期間越長、起算方式越細，最好和最差就越極端。'
+                 # 以下是批 AG 從圖說搬下來的，順序照舊（%s 是端點超出縱軸範圍的那一句）
+                 '往右看，鬚越來越短：抱 1 年最差 %s、最好 %s，%s。'
+                 '中間那條線是中位數，一半的視窗在它上面、一半在下面。%s'
+                 '這是歷史，不是保證；'
+                 '而且每一根的視窗互相重疊，不是獨立的樣本。</p></details>'
+                 % ('{:,}'.format(n1['n']),
+                    '，30 年那一根有 %s 個' % '{:,}'.format(n30[0]['n']) if n30 else '',
+                    COWLES_NOTE,
+                    _ym(r['from']), _ym(r['to']), r['from'][:4],
+                    _pct(n1['min']), _pct(n1['max']),
+                    ('抱 30 年最差 %s、最好 %s' % (_pct(n30[0]['min']), _pct(n30[0]['max']))) if n30
+                    else '30 年那一根的視窗太少，沒有畫', over))
+    # 批 AG：作者定稿的兩句。「十次裡大約九次」＝抱 5 年為正的比例（10.23% 是負的，
+    # calc_core 的 us_rolling_negative_share 也 assert 同一個數字）；「這 155 年」＝資料起訖年份相減。
+    n5 = [x for x in r['rows'] if x['years'] == 5][0]
+    n20 = [x for x in r['rows'] if x['years'] == 20][0]
+    span_years = int(r['to'][:4]) - int(r['from'][:4])
+    assert r['full_period'], '批 AG 的圖說只適用全期那一組；別的起點要另外寫圖說'
+    assert round((100.0 - n5['neg_pct']) / 10.0) == 9, n5            # 十次裡大約九次
+    assert n20['neg'] == 0, n20                                       # 抱滿 20 年沒有一次是賠的
+    assert span_years == 155, (span_years, r['from'], r['to'])        # 資料延長就要改圖說的年數
+    r['caption'] = ('抱越久，報酬越穩定。抱 5 年，十次裡大約九次是賺的；'
+                    '抱滿 20 年，這 %d 年裡沒有一次是賠的。' % span_years)
     return r
 
 
@@ -595,47 +620,52 @@ def rolling_30y():
                  % tuple(('%.1f%%' % by[y]['min'][1]).replace('-', '−') for y in (10, 20, 30)))
     r['title'] = '滾動 10、20、30 年的年化報酬：每一個起點各算一次'
     r['sub'] = 'S&P 500 含息、名目，資料 %s；橫軸是抱滿的那個月，年化 %%' % span
-    r['note'] = ('三條線的橫軸都是「抱滿的那個月」；最早的視窗從 %s起算，'
-                 '所以 10 年線從 %s 年開始有點、20 年線 %s 年、30 年線 %s 年。'
-                 '視窗彼此重疊，不是互相獨立的樣本。'
-                 % (_ym(r['data_from']), by[10]['from'][:4], by[20]['from'][:4], by[30]['from'][:4])
-                 + COWLES_NOTE)
+    # 批 AG（作者 2026-09-22）：p.note 整段、圖說末尾扣物價那兩句與「這是歷史，不是保證」都搬進「想深入」。
+    r['note'] = ''
     r['more'] = ('<details class="more" data-print="open">'
                  '<summary>想深入：這張圖的資料和口徑</summary>'
-                 '<p class="note">S&amp;P 500 含息、名目：%s到 2023 年 6 月用 Robert Shiller 公開月資料，'
+                 '<p class="note">'
+                 # 這一段原本是圖下的 p.note
+                 '三條線的橫軸都是「抱滿的那個月」；最早的視窗從 %s起算，'
+                 '所以 10 年線從 %s 年開始有點、20 年線 %s 年、30 年線 %s 年。'
+                 '視窗彼此重疊，不是互相獨立的樣本。%s'
+                 'S&amp;P 500 含息、名目：%s到 2023 年 6 月用 Robert Shiller 公開月資料，'
                  '2023 年 7 月起用 S&amp;P 500 總報酬指數串接到 %s。沒有扣物價、費用和稅，也不是台幣。'
                  '扣掉物價以後，這張圖自己算出來的最差是：'
                  '10 年 %s（%s起）、20 年 %s（%s起）、30 年 %s（%s起）。'
+                 # 批 AG 從圖說搬下來的：同樣的三組數字原本在圖說裡又講了一次，只留這一份，
+                 # 圖說多出來的那兩件事（虧錢的起點比例、所以那句結論）接在後面。
+                 '虧錢的起點也從 %d%% 變成 %d%%，'
+                 '所以「二十年沒有一個起點是虧的」只在不扣物價時成立。'
                  '同一節「二十年扣掉物價最差」那一句算的是 1950 年以後、整年為單位的另一組，'
                  '起點不同，數字也不一樣。'
                  '三條線各自的視窗數：10 年 %s 個、20 年 %s 個、30 年 %s 個。'
                  '10 年線有 %d 個視窗是負的（%.1f%%），最低的那一次結束在 %s；'
                  '20 年線最低 %.1f%%，結束在 %s；'
                  '30 年線最低的那一次結束在 %s，最高的那一次結束在 %s，'
-                 '最後一個算得出來的 30 年視窗從 %s起、結束在 %s，是 %.1f%%。</p></details>'
-                 % (_ym(r['data_from']), _ym(r['data_to']),
+                 '最後一個算得出來的 30 年視窗從 %s起、結束在 %s，是 %.1f%%。'
+                 '這是歷史，不是保證。</p></details>'
+                 % (_ym(r['data_from']), by[10]['from'][:4], by[20]['from'][:4], by[30]['from'][:4],
+                    COWLES_NOTE,
+                    _ym(r['data_from']), _ym(r['data_to']),
                     _pct(rl[10]['worst']), _ym(rl[10]['worst_start']),
                     _pct(rl[20]['worst']), _ym(rl[20]['worst_start']),
                     _pct(rl[30]['worst']), _ym(rl[30]['worst_start']),
+                    round(by[10]['neg_pct']), round(rl[10]['neg_pct']),
                     '{:,}'.format(by[10]['n']), '{:,}'.format(by[20]['n']), '{:,}'.format(by[30]['n']),
                     by[10]['neg'], by[10]['neg_pct'], _ym(by[10]['min'][0]),
                     by[20]['min'][1], _ym(by[20]['min'][0]),
                     _ym(by[30]['min'][0]), _ym(by[30]['max'][0]),
                     _ym(by[30]['last_start']), _ym(by[30]['last'][0]), by[30]['last'][1]))
+    # 批 AG：作者定稿。「沒扣物價」從原本末尾那兩句提到括號裡，扣物價的細節在「想深入」。
     r['caption'] = ('三條線各是從某個月開始、抱滿 10、20、30 年的平均一年報酬。'
                     '抱 10 年，歷史上有大約 %d%% 的起點是虧的，最差一年 %s；'
-                    '抱 20 年，沒有一個起點是虧的，最差一年 %.1f%%；抱 30 年，最差也有 %.1f%%。'
+                    '抱 20 年，沒有一個起點是虧的（沒扣物價），最差一年 %.1f%%；'
+                    '抱 30 年，最差也有 %.1f%%。'
                     '哪一年開始你決定不了，抱多久你決定得了，'
                     '何況多數人是分批投入，起點本來就散在很多個月。'
-                    '上面這些數字都沒扣物價。扣掉物價，最差的十年是 %s（%s起那十年），'
-                    '虧錢的起點從 %d%% 變成 %d%%；最差的二十年是 %s（%s起那二十年），'
-                    '所以「二十年沒有一個起點是虧的」只在不扣物價時成立。'
-                    '這是歷史，不是保證。'
                     % (round(by[10]['neg_pct']), ('%.1f%%' % by[10]['min'][1]).replace('-', '−'),
-                       by[20]['min'][1], by[30]['min'][1],
-                       _pct(rl[10]['worst']), _ym(rl[10]['worst_start']),
-                       round(by[10]['neg_pct']), round(rl[10]['neg_pct']),
-                       _pct(rl[20]['worst']), _ym(rl[20]['worst_start'])))
+                       by[20]['min'][1], by[30]['min'][1]))
     return chart_rolling(r)
 
 
