@@ -877,6 +877,17 @@ def sp500_long_run():
     return _g08.sp500()
 
 
+# v7 批 S6 的 G10／G11：兩張滾動報酬圖，和 G09 同一條美股序列（tools/v7_series.py）。
+def sp500_holding_box():
+    import v7_g09_rolling as _g09
+    return _g09.holding_box()
+
+
+def sp500_rolling_30y():
+    import v7_g09_rolling as _g09
+    return _g09.rolling_30y()
+
+
 CHARTS = [
     ("three-circles", "01-where-return-comes-from.html", "順便講「又穩又高」", "aside", three_circles),
     ("four-people", "02-time.html", "手冊算過四個人", "aside", four_people),
@@ -964,6 +975,8 @@ def do_guide():
     funcs["investor-cycle"] = investor_cycle      # 只在指南
     funcs["taiex-long-run"] = taiex_long_run      # 只在指南
     funcs["sp500-long-run"] = sp500_long_run      # 只在指南
+    funcs["sp500-holding-box"] = sp500_holding_box    # 只在指南
+    funcs["sp500-rolling-30y"] = sp500_rolling_30y    # 只在指南
     n = 0
     diffs = []
     def repl(m):
@@ -999,8 +1012,10 @@ SAMPLES_DIR = ROOT / "wip" / "v63-review" / "samples"
 
 def sample_charts():
     import v7_g08_long_run as _g08
-    out = [("sp500-long-run-1929", "美股長線圖：1929 年起（指南放的是 1950 年起那一版）", _g08.sp500_1929)]
-    return out
+    import v7_g09_rolling as _g09
+    return [("sp500-long-run-1929", "美股長線圖：1929 年起（指南放的是 1950 年起那一版）", _g08.sp500_1929),
+            ("sp500-holding-box-recent30", "抱幾年報酬落在哪個範圍：只用最近 30 年"
+                                           "（指南放的是 1871 年起的全期）", _g09.holding_box_recent30)]
 
 
 def do_samples():

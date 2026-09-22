@@ -1003,6 +1003,34 @@ assert abs(_lr['us_1929']['last_multiple'] - 9898.7) <= 2.0, _lr['us_1929']
 assert (_lr['us_1929']['max_drawdown_peak'], _lr['us_1929']['max_drawdown_trough']) == ('1929-09', '1932-06'), _lr['us_1929']
 assert abs(_lr['us_1929']['max_drawdown_pct'] + 81.76) <= 0.1, _lr['us_1929']
 
+# ---------- 第 8 節：兩張滾動報酬圖的關鍵數字（v7 批 S6） ----------
+# 圖 A「抱幾年，報酬落在哪個範圍」與圖 B「滾動 30 年的年化報酬」都用同一條序列
+# （shiller_tr_extended）。每個月都當一次買進日，抱滿 N 年，換算成平均一年的報酬；
+# 視窗彼此重疊，不是互相獨立的樣本。名目、沒扣物價費用稅。
+def us_rolling_summaries(periods=(1, 3, 5, 10, 20, 30)):
+    months, tr = shiller_tr_extended()
+    return {'%d年' % y: _vs.rolling_summary(months, tr, y) for y in periods}
+
+
+R['us_rolling'] = us_rolling_summaries()
+_rr = R['us_rolling']
+# 圖上寫的三個數字（最差／最好／中位）與視窗數，改資料時這裡會先斷
+_ROLL_EXPECT = {'1年': (1856, -62.28, 139.81, 11.27),
+                '3年': (1832, -40.20, 39.67, 9.92),
+                '5年': (1808, -17.31, 33.66, 9.79),
+                '10年': (1748, -4.02, 21.17, 8.75),
+                '20年': (1628, 2.05, 17.95, 8.17),
+                '30年': (1508, 3.64, 14.32, 9.93)}
+for _k, (_n, _mn, _mx, _md) in _ROLL_EXPECT.items():
+    _r = _rr[_k]
+    assert _r['n'] == _n, (_k, _r['n'], _n)
+    assert abs(_r['min'] - _mn) <= 0.02 and abs(_r['max'] - _mx) <= 0.02, (_k, _r)
+    assert abs(_r['median'] - _md) <= 0.02, (_k, _r)
+# 圖 B 的兩個標註點；縱軸從 0 起的說法要站得住：30 年最差也還是正的
+assert _rr['30年']['min_end'] == '1932-06' and _rr['30年']['max_end'] == '2000-07', _rr['30年']
+assert _rr['30年']['min'] > 0, _rr['30年']
+assert abs(_rr['30年']['p15'] - 6.71) <= 0.02 and abs(_rr['30年']['p85'] - 11.93) <= 0.02, _rr['30年']
+
 # ---------- 第 24 節第三題：2.31% 提領率換成幾倍（v7 第 20 版 B5） ----------
 # Anarkulova, Cederburg, O'Doherty & Sias (2025), JPEF 24(3): 38 個已開發國家、
 # 一對 65 歲夫妻、5% 破產容忍度 → 一年提 2.31%。倍數＝1 ÷ 提領率。
