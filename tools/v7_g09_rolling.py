@@ -183,8 +183,8 @@ def _box_dress(r):
                  '1 年那一根有 %s 個視窗%s。視窗彼此重疊，不是互相獨立的樣本。'
                  % ('{:,}'.format(n1['n']),
                     '，30 年那一根有 %s 個' % '{:,}'.format(n30[0]['n']) if n30 else ''))
-    r['more'] = ('<details class="more"><summary>想深入：這張圖的資料、口徑，和它跟上面那張區間表的差別</summary>'
-                 '<p class="note">S&amp;P 500 含息、名目：%s 到 2023 年 6 月用 Robert Shiller 公開月資料，'
+    r['more'] = ('<details class="more"><summary>想深入：這張圖的資料、口徑，和它跟下面那張區間表的差別</summary>'
+                 '<p class="note">S&amp;P 500 含息、名目：%s到 2023 年 6 月用 Robert Shiller 公開月資料，'
                  '2023 年 7 月起用 S&amp;P 500 總報酬指數串接到 %s。沒有扣物價、費用和稅，也不是台幣。'
                  '箱是第 15 到第 85 百分位（把所有視窗從小排到大，切掉最前面 15%% 和最後面 15%%），'
                  '中線是中位數，細鬚兩端是這段歷史裡最差和最好的那一次。'
@@ -220,7 +220,7 @@ def rolling_30y():
                  '橫軸標的是視窗結束的年份，不是開始的年份。'
                  % ('{:,}'.format(r['n']), _ym(r['data_from']), _ym(r['data_to'])))
     r['more'] = ('<details class="more"><summary>想深入：這張圖的資料和口徑</summary>'
-                 '<p class="note">S&amp;P 500 含息、名目：%s 到 2023 年 6 月用 Robert Shiller 公開月資料，'
+                 '<p class="note">S&amp;P 500 含息、名目：%s到 2023 年 6 月用 Robert Shiller 公開月資料，'
                  '2023 年 7 月起用 S&amp;P 500 總報酬指數串接到 %s。沒有扣物價、費用和稅，也不是台幣；'
                  '扣掉物價以後，最差的那幾段會低很多（同一節「二十年扣掉物價最差」那一句）。'
                  '視窗彼此重疊，不是互相獨立的樣本。最低的那一次結束在 %s，最高的那一次結束在 %s，'
