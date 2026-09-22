@@ -575,3 +575,19 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`--guide` ×2（第二次 0 ⚠）、budget（s10 2069→2073，只因為 N-8 補了「第二道，」四個字，理由在 `budget-v7.json` 的 `_comment_aj`）、anchors、planstep、numbers 對 v6.3.1 與對批 AI 的 `65fb498` 兩個基準都 LOST 0（沿用 `numbers-allow-round33.json`，這一批沒有新增例外，只有 ADDED）、`guidetools check`、`test_guidetools.py`、`test_v7_check.py`、`calc_core.py`（引用缺漏 0）、`build_lite.py` SENTINELS OK。
 
 **沒做**：版面沒有用瀏覽器量過；裁判提到的 essay／chapters 停在舊版（`essay/sections/05-volatility.html` 仍有「平均年內最多跌 17.73%」、`essay/index.html` 仍有「示意，不是承諾」）這一批沒有處理。
+
+## 2026-09-23 批 AL（AI 裁判後修正）
+
+**規格**：`wip/v63-review/spec-v7-content-al.md`。**依據**：`wip/v63-review/judge-ai.md`（judge／opus xhigh，複審批 AI＋AJ，2 must＋5 should＋11 nit）。裁判用全集反掃比對過 `<mark>` 111 則（`key` 97＋`key top` 14）與 `div.story` 26 則，確認批 AI 只動了作者拍板的那一則、批 AJ 只動了 N-6 的外層引號；他自己寫 token 掃描獨立驗證，數字流失 0。
+
+**must**：M-1 第 22 節防詐黃線「上面四條…」的相鄰性——**批 AK 已處理**（黃線搬到四條的 `<ol>` 正下方，`div.warning` 內），這一批只是確認，沒有再動。M-2 第 23 節 `annual` 摺疊裡「淨投入就是今年轉進圈的每一筆錢加起來（上面例子的 10 萬加 2 萬，就是 12 萬）」改成「淨投入的算法在下面：把年底那筆以外的數字全部加起來，再拿掉負號（進圈的錢減掉出圈的錢）」——原句和同句前半「今年才開始投資的人不寫第 1 列」矛盾，也和同摺疊後面的正式定義（**淨**額）不一致。
+
+**should**：S-1 第 17 節「要靠 4% 才算得過」→「要靠股票那一邊的報酬才算得過」（同段上一句已改成「查你自己那一列」，口徑先前只關了一半）；S-2 第 25 節去破折號（全書正文唯一兩個 `——`，違反 `voice/_rules.md`）→「第三層都一樣：就是自己投資的這一桶。」；S-3 第 23 節小字裡兩條條件相同的「如果你…借錢」併成一條（原本排成兩種讀者情況，是假並列）；S-4 第 24 節「那是上面物價上漲那件事」→「那是上面講物價那一段的事」；S-5 第 20 節步驟四把「台灣掛牌的 ETF …定期定額或零股就買得到…自己下零股要用限價單」拆成兩句搬回主線（開戶＋交割戶那句之後、黃線之前），摺疊 summary 改成「想深入：開戶要準備什麼、未成年人怎麼辦、想買國外掛牌的再比什麼」；留在摺疊裡的是「一張是 1,000 股…以券商公告為準」。
+
+**nit（做的四條）**：N-1 `tools/calc_core.py` 的 quote 還原成 `'四個人的試算都已經扣掉 0.5% 的示範費率'`，guide 對應句補回同樣的字讓 quote 對得上（**副作用：那句的 `<strong>0.5% 的示範費率：</strong>` 標籤和句子現在各寫一次同一個詞**，規格只寫「補回四個字」，我沒有另外改標籤）；N-4 第 15 節摺疊 summary 補第四個子標「全放定存那一桶」；N-7 第 18 節「差得越多」→「通常差得越多」；N-8 第 22 節「你的部位記在」→「你買的東西記在」；N-11 `tools/v61_g10_rebalance_drift.py` 的 caption 與 guide 的 `<figcaption>` 都改成「1995 年**底**就衝出」。**`--guide` 不會覆寫 `<figcaption>`**（第三次踩到），畫圖程式改完 guide 要另外改一次。
+
+**nit（只記錄不做）**：N-2、N-3、N-5、N-6、N-9、N-10 照規格寫進 `changes-for-author-v7.md` 一之四十二最後一段。
+
+**檢查**：`--guide` ×2（第二次 0 ⚠）、numbers 對 `_baseline_v631.html` 與對批 AK 交班 `d435898` 兩個基準都 LOST 0（**新開 `numbers-allow-round34.json`**＝round33 的 244 條一字未動＋1 條：`annual` 的 `12`，M-2 收掉那句括號裡重講一次的 10 萬＋2 萬＝12 萬，同節 `12` 仍有 9 次）、anchors OK、budget OK（**sidepaths 1218→1220**，只因為 N-7 補了「通常」兩個字，理由在 `budget-v7.json` 的 `_comment_al`；第 20 節 mainline 988→1051 仍在 1500 以內、沒有調）、planstep OK、`guidetools check` OK、`test_guidetools.py`／`test_v7_check.py` ALL PASS、`calc_core.py` 引用缺漏 `[]`、`build_lite.py` exit 0＋SENTINELS OK（`lite/alt/app-a-checklist.html` 因為 `#annual` 來源區塊改了要重新 stamp，本體一個字沒改，理由寫在檔頭 note）。
+
+**沒做**：沒有開瀏覽器量版面；`release/` 三個副本沒有更新；發布狀態那一行仍寫「批 AA 到 AK」，AL 還沒發布；批 AL 新寫的句子沒有再過裁判。

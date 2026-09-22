@@ -390,7 +390,7 @@ def chart(res):
             % (br_year, m['first_breach_years_after_start'], m['end'], mk['year'], pct(mk['stock_pct']),
                2000, a2000['first_breach_year'], pct(a2000['first_breach_stock_pct']),
                bond_back[0], bond_back[1]))
-    caption = ('不管它，股票占比會一路往上跑：%d 年就衝出 85%% 的門檻，%d 年底變成 %s。'
+    caption = ('不管它，股票占比會一路往上跑：%d 年底就衝出 85%% 的門檻，%d 年底變成 %s。'
                % (br_year, m['end'], pct(end_pct)))
     lead = ('比例不去管它，會跑多遠？下面這張圖用美國的歷史資料，從 %d 年初放股票八成、現金兩成'
             '（美國 3 個月國庫券，接近定存）開始，之後都不買不賣，看每年年底股票占多少，'
