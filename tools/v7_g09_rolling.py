@@ -111,36 +111,138 @@ def _on_line(col, b):
     return n
 
 
-def _place_mark(x, yv, w, bh, prefer_up, W, H, placed, blocked, col, gap=9.0, hard_line=True):
-    """替圖 B 的「最低」標籤找位置（批 AD；和 G08 長線圖的 _place 同一套，簡化成單行標籤）。
+# 批 AE（作者 2026-09-22：「10 年最低」「20 年最低」被推到整張圖的最上方，引線穿過所有線）：
+# 候選不再是「上下九層 × 水平位移」那種只會往上下長的格子，改成以點為圓心的八個方向 × 由近到遠
+# 六個距離。距離是「點到標籤框邊」的空隙，不是到框中心——這樣八個方向上的空隙看起來一樣寬。
+DIRS = ((1.0, 0.0), (0.7071, 0.7071), (0.0, 1.0), (-0.7071, 0.7071),
+        (-1.0, 0.0), (-0.7071, -0.7071), (0.0, -1.0), (0.7071, -0.7071))
+DISTS = (14.0, 22.0, 32.0, 46.0, 64.0, 90.0)
+CROSS_PENALTY = 150.0      # 引線每穿過一條線一次的罰分：大到「寧可拉遠也不要穿過去」
+# 標籤框蓋到線，每蓋住一欄的罰分。抓 20 是讓「蓋住七、八欄」大約等於「引線穿過一次線」：
+# 桌機三個標籤都不必蓋線，這個值用不到；手機三個標籤搶同一條空白帶，只能二選一（見 _place_all）。
+OVER_PENALTY = 20.0
 
-    候選＝上下各九層（由內而外）× 水平位移。每一個候選都要在 viewBox 內、不和已放好的標籤重疊、
-    也不壓到 blocked（y 軸刻度文字、橫軸年份、0% 基準線、三個圓點）；hard_line=True 時，
-    還不准壓到三條線的任何一段。合格的裡面挑代價最小的：代價＝標籤中心到自己那個點的距離
-    （橫向加重）＋放在不偏好那一邊的罰分。一個候選都沒有就回 None（呼叫端會放寬 hard_line 再試一次）。
+
+def _stem(x, yv, box):
+    """引線的另一端＝標籤框上離那個點最近的一點（對角擺放時不再只走上下緣）。"""
+    x0, y0, x1, y1 = box
+    return (min(max(x, x0), x1), min(max(yv, y0), y1))
+
+
+def _seg_hit(p, q, a, b):
+    """兩條線段有沒有交點（共線的情況當作沒交；引線很短，夠用）。"""
+    d = (q[0] - p[0]) * (b[1] - a[1]) - (q[1] - p[1]) * (b[0] - a[0])
+    if abs(d) < 1e-12:
+        return False
+    t = ((a[0] - p[0]) * (b[1] - a[1]) - (a[1] - p[1]) * (b[0] - a[0])) / d
+    u = ((a[0] - p[0]) * (q[1] - p[1]) - (a[1] - p[1]) * (q[0] - p[0])) / d
+    return 0.0 <= t <= 1.0 and 0.0 <= u <= 1.0
+
+
+def _seg_index(polys, W):
+    """把三條線的每一小段依 x 分欄存起來，之後查「這條引線穿過幾次線」只要看它經過的那幾欄。"""
+    segs = []
+    cols = [[] for _ in range(int(W) + 2)]
+    for pts in polys:
+        for i in range(1, len(pts)):
+            k = len(segs)
+            segs.append((pts[i - 1], pts[i]))
+            for c in range(int(min(pts[i - 1][0], pts[i][0])), int(max(pts[i - 1][0], pts[i][0])) + 1):
+                if 0 <= c < len(cols):
+                    cols[c].append(k)
+    return segs, cols
+
+
+def _cross_count(x, yv, box, index, skip=4.5):
+    """引線從點連到標籤框，中間穿過幾次線。起算點退開 skip：點本身就坐在自己那條線上。"""
+    segs, cols = index
+    ex, ey = _stem(x, yv, box)
+    L = math.hypot(ex - x, ey - yv)
+    if L <= skip:
+        return 0
+    t = skip / L
+    p = (x + (ex - x) * t, yv + (ey - yv) * t)
+    q = (ex, ey)
+    n, seen = 0, set()
+    for c in range(max(0, int(min(p[0], q[0])) - 1), min(len(cols) - 1, int(max(p[0], q[0])) + 1) + 1):
+        for k in cols[c]:
+            if k in seen:
+                continue
+            seen.add(k)
+            if _seg_hit(p, q, segs[k][0], segs[k][1]):
+                n += 1
+    return n
+
+
+def _candidates(x, yv, w, bh, W, bottom, blocked, col, index):
+    """列出一個標籤所有合格的位置，照代價由小到大排。
+
+    候選＝八個方向 × 由近到遠幾個距離；距離量的是「點到標籤框邊」的空隙，所以八個方向上的
+    空隙看起來一樣寬。標籤一律夾進畫線的那塊方框裡（左右夾進 viewBox、上下夾到橫軸那條線）——
+    1939 那個點右邊「0% 到 −5%」的空白帶只有四十幾 px 高，不夾就永遠選不到它。
+    硬排除：壓到 blocked（y 軸刻度文字、橫軸年份、0% 基準線、三個圓點）。
+    代價＝標籤中心到自己那個點的距離 ＋ 引線穿線次數 × CROSS_PENALTY ＋ 蓋住線的欄數 × OVER_PENALTY。
+    「蓋到線」在桌機是硬條件（代價一大就不會被選），但不做硬排除：手機三個標籤只有兩個位置放得下，
+    硬排除的話就只剩「把一個標籤丟到 115px 外、引線穿過 9 條線」那種解，那正是批 AE 要修掉的毛病。
     """
-    best = None
-    for lv in range(9):
-        for step in range(-9, 10):
-            dx = step * 0.34 * w
-            x0 = min(max(x + dx - w / 2, 1.5), W - w - 1.5)
-            for up in (True, False):
-                y0 = (yv - gap - lv * (bh + 3.0) - bh) if up else (yv + gap + lv * (bh + 3.0))
-                if y0 < 1.5 or y0 + bh > H - 1.5:
-                    continue
-                if any((x0 < q[2] + 2 and q[0] - 2 < x0 + w and
-                        y0 < q[3] + 2 and q[1] - 2 < y0 + bh) for q in list(placed) + list(blocked)):
-                    continue
-                over = _on_line(col, (x0, y0, x0 + w, y0 + bh))
-                if over and hard_line:
-                    continue
-                d = math.hypot(1.25 * (x0 + w / 2 - x), y0 + bh / 2 - yv)
-                cost = d + 0.012 * d * d + 8.0 * over
-                if up != prefer_up:
-                    cost += 10.0
-                if best is None or cost < best[0]:
-                    best = (cost, x0, y0)
-    return None if best is None else (best[1], best[2])
+    out, seen = [], set()
+    for d in DISTS:
+        for ux, uy in DIRS:
+            sup = abs(ux) * w / 2 + abs(uy) * bh / 2      # 標籤框在這個方向上的「半徑」
+            x0 = min(max(x + ux * (d + sup) - w / 2, 1.5), W - w - 1.5)
+            y0 = min(max(yv + uy * (d + sup) - bh / 2, 1.5), bottom - 1.5 - bh)
+            key = (round(x0, 1), round(y0, 1))
+            if key in seen or bottom - 1.5 - bh < 1.5:
+                continue
+            seen.add(key)
+            box = (x0, y0, x0 + w, y0 + bh)
+            # 對固定物不留額外餘裕：它們的方框本來就含了自己的（0% 線給到 ±1.5、圓點給到半徑＋2.5），
+            # 再多留 2px 會把只有四十幾 px 高的空白帶整條排除掉。
+            if any((box[0] < q[2] and q[0] < box[2] and box[1] < q[3] and q[1] < box[3]) for q in blocked):
+                continue
+            over = _on_line(col, box)
+            cost = (math.hypot(x0 + w / 2 - x, y0 + bh / 2 - yv)
+                    + CROSS_PENALTY * _cross_count(x, yv, box, index)
+                    + OVER_PENALTY * over)
+            out.append((cost, box))
+    out.sort(key=lambda t: t[0])
+    return out
+
+
+def _place_all(items, W, bottom, blocked, col, index, keep=20):
+    """三個標籤一起挑位置：先各自列出合格候選，再找「彼此不重疊、總代價最小」的一組。
+
+    批 AD 是一個一個貪心放的：先放好的「10 年最低」佔掉那條空白帶，後面兩個就被擠到整張圖的
+    最上方，引線一路穿過所有線。三個標籤搶的是同一條帶，只能一起看。
+    每個標籤只留代價最小的 keep 個候選，再配上「已經比目前最好的貴就不用往下試」的剪枝；
+    三個標籤 × 二十個候選，全部組合都試得完。回 None 表示連一組不互相重疊的都排不出來。
+    """
+    lists = [_candidates(x, yv, w, bh, W, bottom, blocked, col, index)[:keep]
+             for (x, yv, w, bh) in items]
+
+    def search(lists):
+        best = [None]
+
+        def rec(i, chosen, cost):
+            if best[0] is not None and cost >= best[0][0]:
+                return
+            if i == len(lists):
+                best[0] = (cost, list(chosen))
+                return
+            for c, box in lists[i]:
+                if best[0] is not None and cost + c >= best[0][0]:
+                    break                               # 已排序，後面只會更貴
+                if any((box[0] < q[2] + 2 and q[0] - 2 < box[2] and
+                        box[1] < q[3] + 2 and q[1] - 2 < box[3]) for q in chosen):
+                    continue                            # 標籤和標籤之間留 2px 才看得出是兩張卡
+                chosen.append(box)
+                rec(i + 1, chosen, cost + c)
+                chosen.pop()
+
+        rec(0, [], 0.0)
+        return None if best[0] is None else best[0][1]
+
+    return search(lists)
 
 
 def _check(cid, kind, boxes, W, H, warn):
@@ -186,7 +288,18 @@ def compute_rolling(years_list=(10, 20, 30)):
             'min': min(pts, key=lambda x: x[1]), 'max': max(pts, key=lambda x: x[1]),
             'last': pts[-1], 'neg': neg, 'neg_pct': neg * 100.0 / len(pts),
         })
-    return {'id': 'sp500-rolling-30y', 'series': series,
+    # 批 AE：同一條序列扣掉物價（÷ 同一份 Shiller 資料的消費者物價指數欄）再算一次，
+    # 圖說和「想深入」各要用一組。物價欄止於 2023-09，所以扣物價的視窗比名目的少幾個。
+    cpi = S.shiller_cpi()
+    real = {}
+    for y in years_list:
+        pts = S.rolling_real(months, tr, cpi, y)
+        worst = min(pts, key=lambda x: x[1])
+        neg = sum(1 for _m, v, _s in pts if v < 0)
+        real[y] = {'n': len(pts), 'worst': worst[1], 'worst_start': worst[2], 'worst_end': worst[0],
+                   'neg': neg, 'neg_pct': neg * 100.0 / len(pts),
+                   'first_end': pts[0][0], 'last_end': pts[-1][0]}
+    return {'id': 'sp500-rolling-30y', 'series': series, 'real': real,
             'data_from': months[0], 'data_to': months[-1]}
 
 
@@ -258,8 +371,9 @@ def chart_box(res):
                 return _pct(v)
             ymaxlab = (ytop - ARROW - 5) if hi_out else (ytop - 5)
             # 下緣超出範圍時（批 AD 把縱軸收到 ±50 之後，全期那一組的 1 年最差 −62.3% 也超出了）：
-            # 數字改標在箭頭右邊、還在橫軸年份的上方，不然會和「1 年」那個字疊在一起。
-            yminlab = (py(AX_LO) + 6) if lo_out else (ybot + fl + 3)
+            # 批 AE（作者：現在標在下箭頭的正下方，貼著「1 年」那個字）改成標在箭頭尖的右邊、
+            # 和箭頭尖垂直置中（上面的 +139.8% 標在上箭頭的上方，維持原樣）。
+            yminlab = ((py(AX_LO) - 1) + fl * 0.36) if lo_out else (ybot + fl + 3)
             xmin, amin = ((cx + 5, 'start') if lo_out else (cx, 'middle'))
             boxes += [_lab(cx, ymaxlab, num(r['max']), fl), _lab(xmin, yminlab, num(r['min']), fl, amin)]
             out.append(E.text(cx, ymaxlab, num(r['max']), fl, 'middle', E.INK, '700'))
@@ -292,7 +406,8 @@ def chart_box(res):
 # 第四欄是線的透明度。批 AD（作者 2026-09-22：10 年和 20 年灰得太像，分不出來）：20 年那條從
 # --muted 改成 --teal、40% 不透明，三條線變成「淡灰最細 → 淡綠中等 → 深綠最粗」，
 # 用同一個顏色的濃淡表示同一件事抱得越久；深色模式沿用同一個變數，自動跟著換。
-LINE_STYLE = {10: ('LINE', 1.2, 1.4, None), 20: ('TEAL', 1.5, 1.7, 0.4), 30: ('TEAL', 1.9, 2.2, None)}
+# 批 AE（作者看 PNG：0.4 還是偏灰）再抬到 0.5；圖例讀的是同一格，自動跟著改。
+LINE_STYLE = {10: ('LINE', 1.2, 1.4, None), 20: ('TEAL', 1.5, 1.7, 0.5), 30: ('TEAL', 1.9, 2.2, None)}
 
 
 def chart_rolling(res):
@@ -343,35 +458,38 @@ def chart_rolling(res):
         pad = 2.6
         lh = fl * 1.16
         bh = 2 * lh + 2 * pad      # 兩行：第一行「N 年最低」，第二行數字與年份（和 G08 同款）
-        col = _cols([[(px(m), py(v)) for m, v, _s in sr['points']] for sr in series], lay.W)
-        marks = [(10, 'min', '10 年最低', True), (20, 'min', '20 年最低', False),
-                 (30, 'min', '30 年最低', True)]
-        pts3 = [(px(by_year[y][k][0]), py(by_year[y][k][1])) for y, k, _l, _u in marks]
+        polys = [[(px(m), py(v)) for m, v, _s in sr['points']] for sr in series]
+        col = _cols(polys, lay.W)
+        index = _seg_index(polys, lay.W)
+        marks = [(10, 'min', '10 年最低'), (20, 'min', '20 年最低'), (30, 'min', '30 年最低')]
+        pts3 = [(px(by_year[y][k][0]), py(by_year[y][k][1])) for y, k, _l in marks]
         dr = 3.6 + 2.5
         fixed = [tuple(b[:4]) for b in boxes]                      # 刻度文字、橫軸年份
         fixed.append((left, py(0) - 1.5, right, py(0) + 1.5))      # 0% 是墨色基準線
         fixed += [(a - dr, b - dr, a + dr, b + dr) for a, b in pts3]
-        placed, drawn = [], []
-        for (yrs, key, label, prefer_up), (x, yy) in zip(marks, pts3):
+        texts, items = [], []
+        for (yrs, key, label), (x, yy) in zip(marks, pts3):
             m, v, _st = by_year[yrs][key]
             l1, l2 = label, '%s（%s）' % (('%.1f%%' % v).replace('-', '−'), m[:4])
-            t = '%s %s' % (l1, l2)
-            w = max(_textw(l1, fl), _textw(l2, fl)) + 2 * pad
-            spot = (_place_mark(x, yy, w, bh, prefer_up, lay.W, h, placed, fixed, col)
-                    or _place_mark(x, yy, w, bh, prefer_up, lay.W, h, placed, fixed, col, hard_line=False))
-            if spot is None:
-                warn.append('%s %s 標籤「%s」排不下' % (res['id'], lay.kind, t))
-                continue
-            x0, y0 = spot
-            placed.append((x0, y0, x0 + w, y0 + bh))
-            drawn.append((x, yy, x0, y0, w, l1, l2))
-            boxes.append((x0, y0, x0 + w, y0 + bh, t))
+            texts.append((l1, l2))
+            items.append((x, yy, max(_textw(l1, fl), _textw(l2, fl)) + 2 * pad, bh))
+        spots = _place_all(items, lay.W, bottom, fixed, col, index)
+        placed, drawn = [], []
+        if spots is None:
+            warn.append('%s %s 三個最低標籤排不下' % (res['id'], lay.kind))
+            spots = []
+        for (x, yy, w, _bh), (l1, l2), box in zip(items, texts, spots):
+            placed.append(box)
+            drawn.append((x, yy, box[0], box[1], w, l1, l2))
+            boxes.append((box[0], box[1], box[2], box[3], '%s %s' % (l1, l2)))
         for x, yy, x0, y0, w, _l1, _l2 in drawn:   # 先畫全部引線，字才不會被別人的引線壓到
-            xc = min(max(x, x0 + 5), x0 + w - 5)
-            ye = (y0 + bh) if (y0 + bh) < yy else y0
+            ex, ey = _stem(x, yy, (x0, y0, x0 + w, y0 + bh))   # 框上離點最近的那一點
+            d = math.hypot(ex - x, ey - yy)
+            if d > 2.0:                                        # 收短 1.5px，虛線不要頂到框邊
+                ex, ey = x + (ex - x) * (d - 1.5) / d, yy + (ey - yy) * (d - 1.5) / d
             out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="0.8" '
                        'stroke-dasharray="2 3" stroke-opacity="0.75"/>'
-                       % (x, yy, xc, ye + (1.5 if ye == y0 else -1.5), E.MUTED))
+                       % (x, yy, ex, ey, E.MUTED))
         for x, yy, x0, y0, w, l1, l2 in drawn:
             out.append(E.rect(x0, y0, w, bh, E.SURFACE, 3, 0.86))
             out.append(E.text(x0 + pad, y0 + pad + fl * 0.88, l1, fl, 'start', E.MUTED))
@@ -380,9 +498,20 @@ def chart_rolling(res):
             out.append(E.dot(x, yy, E.ACCENT, 3.6))
         out.append('</svg>')
         _check(res['id'], lay.kind, boxes, lay.W, h, warn)
+        # 批 AD 起的自檢：標籤不要蓋住線。批 AE 放寬成「蓋住自己寬度的四分之一以上才算不合格」，
+        # 另加一條「引線不准穿過線」。為什麼放寬：手機只有 300 px 寬的畫線區，三個標籤都得擠進
+        # 0% 線以下那條四十幾 px 高的帶子，「20 年最低」會蓋到 10 年線 1974 年那個凹谷 8 欄
+        # （佔自己寬度 12%）。要完全不蓋，就得把「30 年最低」推到 115 px 外、引線穿過 9 條線——
+        # 那正是這一批要修掉的毛病。桌機三個標籤是 0 欄、0 穿線。
         for (x0, y0, x1, y1), d in zip(placed, drawn):
-            if _on_line(col, (x0, y0, x1, y1)):
-                warn.append('%s %s 標籤「%s %s」壓到線' % (res['id'], lay.kind, d[5], d[6]))
+            over = _on_line(col, (x0, y0, x1, y1))
+            if over > 0.25 * (x1 - x0):
+                warn.append('%s %s 標籤「%s %s」蓋住線 %d 欄（標籤寬 %.0f）'
+                            % (res['id'], lay.kind, d[5], d[6], over, x1 - x0))
+            cross = _cross_count(d[0], d[1], (x0, y0, x1, y1), index)
+            if cross:
+                warn.append('%s %s 標籤「%s %s」的引線穿過線 %d 次'
+                            % (res['id'], lay.kind, d[5], d[6], cross))
         return '\n'.join(out)
 
     svgs = [draw(E.L('d')), draw(E.L('m'))]
@@ -407,6 +536,7 @@ def _box_dress(r):
                  '1 年那一根有 %s 個視窗%s。視窗彼此重疊，不是互相獨立的樣本。'
                  '這張圖和下面那張 J.P. Morgan 的區間表講的是同一件事，'
                  '口徑不一樣（起始年、整年 vs 逐月、資料來源），數字不會一致。'
+                 '縱軸畫到 ±50%%，超出的用箭頭收尾。'
                  % ('{:,}'.format(n1['n']),
                     '，30 年那一根有 %s 個' % '{:,}'.format(n30[0]['n']) if n30 else '')
                  + COWLES_NOTE)
@@ -458,6 +588,7 @@ def rolling_30y():
     但兩處引用圖名的句子（第 10 節的指路、第 8 節來源卡）跟著改成新標題。"""
     r = compute_rolling()
     by = {sr['years']: sr for sr in r['series']}
+    rl = r['real']                      # 扣掉物價的同一組（批 AE）
     span = '%s–%s' % (r['data_from'][:4], r['data_to'][:4])
     r['aria'] = ('美股滾動 10、20、30 年的年化報酬：每一個月都當一次買進日，分別抱滿 10、20、30 年；'
                  '抱 10 年最差 %s、抱 20 年最差 %s、抱 30 年最差 %s'
@@ -472,14 +603,20 @@ def rolling_30y():
     r['more'] = ('<details class="more" data-print="open">'
                  '<summary>想深入：這張圖的資料和口徑</summary>'
                  '<p class="note">S&amp;P 500 含息、名目：%s到 2023 年 6 月用 Robert Shiller 公開月資料，'
-                 '2023 年 7 月起用 S&amp;P 500 總報酬指數串接到 %s。沒有扣物價、費用和稅，也不是台幣；'
-                 '扣掉物價以後，最差的那幾段會低很多（同一節「二十年扣掉物價最差」那一句）。'
+                 '2023 年 7 月起用 S&amp;P 500 總報酬指數串接到 %s。沒有扣物價、費用和稅，也不是台幣。'
+                 '扣掉物價以後，這張圖自己算出來的最差是：'
+                 '10 年 %s（%s起）、20 年 %s（%s起）、30 年 %s（%s起）。'
+                 '同一節「二十年扣掉物價最差」那一句算的是 1950 年以後、整年為單位的另一組，'
+                 '起點不同，數字也不一樣。'
                  '三條線各自的視窗數：10 年 %s 個、20 年 %s 個、30 年 %s 個。'
                  '10 年線有 %d 個視窗是負的（%.1f%%），最低的那一次結束在 %s；'
                  '20 年線最低 %.1f%%，結束在 %s；'
                  '30 年線最低的那一次結束在 %s，最高的那一次結束在 %s，'
                  '最後一個算得出來的 30 年視窗從 %s起、結束在 %s，是 %.1f%%。</p></details>'
                  % (_ym(r['data_from']), _ym(r['data_to']),
+                    _pct(rl[10]['worst']), _ym(rl[10]['worst_start']),
+                    _pct(rl[20]['worst']), _ym(rl[20]['worst_start']),
+                    _pct(rl[30]['worst']), _ym(rl[30]['worst_start']),
                     '{:,}'.format(by[10]['n']), '{:,}'.format(by[20]['n']), '{:,}'.format(by[30]['n']),
                     by[10]['neg'], by[10]['neg_pct'], _ym(by[10]['min'][0]),
                     by[20]['min'][1], _ym(by[20]['min'][0]),
@@ -489,10 +626,16 @@ def rolling_30y():
                     '抱 10 年，歷史上有大約 %d%% 的起點是虧的，最差一年 %s；'
                     '抱 20 年，沒有一個起點是虧的，最差一年 %.1f%%；抱 30 年，最差也有 %.1f%%。'
                     '哪一年開始你決定不了，抱多久你決定得了，'
-                    '何況多數人是分批投入，起點本來就散在很多個月。上面這些數字都沒扣物價；扣掉物價，最差的那幾段會再低一截，抱 20 年也有一段接近打平。'
+                    '何況多數人是分批投入，起點本來就散在很多個月。'
+                    '上面這些數字都沒扣物價。扣掉物價，最差的十年是 %s（%s起那十年），'
+                    '虧錢的起點從 %d%% 變成 %d%%；最差的二十年是 %s（%s起那二十年），'
+                    '所以「二十年沒有一個起點是虧的」只在不扣物價時成立。'
                     '這是歷史，不是保證。'
                     % (round(by[10]['neg_pct']), ('%.1f%%' % by[10]['min'][1]).replace('-', '−'),
-                       by[20]['min'][1], by[30]['min'][1]))
+                       by[20]['min'][1], by[30]['min'][1],
+                       _pct(rl[10]['worst']), _ym(rl[10]['worst_start']),
+                       round(by[10]['neg_pct']), round(rl[10]['neg_pct']),
+                       _pct(rl[20]['worst']), _ym(rl[20]['worst_start'])))
     return chart_rolling(r)
 
 

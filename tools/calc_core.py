@@ -1186,6 +1186,42 @@ _rp = R['us_rolling_post1926']
 assert abs(_rp['min'] - 7.63) <= 0.02 and '%.1f' % _rp['min'] == '7.6', _rp
 assert _rp['min_end'] == '1959-09', _rp
 
+# ---------- 第 8 節滾動報酬圖：扣掉物價的同一組（v7 批 AE） ----------
+# 為什麼要有：圖說與「想深入」現在寫出扣物價後的最差，而書上同一節另有一組「1950 年以後、
+# 整年為單位」的 20 年最差（us_worst_20y_real，1962–1981 約 0.8%）。兩組不同源，不能互相引用。
+# 口徑：和圖完全同一條序列（shiller_tr_extended，含息、名目，1871-01 起），逐月視窗；
+# 物價用同一份 Shiller 檔的 Consumer Price Index 欄。起訖兩個月都要有物價，所以視窗止於 2023-09。
+def us_rolling_real(years):
+    months, tr = shiller_tr_extended()
+    pts = _vs.rolling_real(months, tr, _vs.shiller_cpi(), years)
+    worst = min(pts, key=lambda x: x[1])
+    neg = sum(1 for _m, v, _s in pts if v < 0)
+    return {'years': years, 'worst_start': worst[2], 'worst_end': worst[0],
+            'worst_pct': round(worst[1], 2), 'negative': neg, 'n': len(pts),
+            'negative_pct': round(neg * 100.0 / len(pts), 2),
+            'first_end': pts[0][0], 'last_end': pts[-1][0]}
+
+R['us_rolling_real'] = {'%d年' % y: us_rolling_real(y) for y in (10, 20, 30)}
+_rl = R['us_rolling_real']
+# 圖說（10 年、20 年）與「想深入」（三個都寫）印出來的數字：一位小數四捨五入後要正好是這幾個
+assert (_rl['10年']['worst_start'], _rl['10年']['worst_end']) == ('1999-03', '2009-03'), _rl['10年']
+assert (_rl['20年']['worst_start'], _rl['20年']['worst_end']) == ('1901-06', '1921-06'), _rl['20年']
+assert (_rl['30年']['worst_start'], _rl['30年']['worst_end']) == ('1902-06', '1932-06'), _rl['30年']
+assert abs(_rl['10年']['worst_pct'] - -5.92) <= 0.05, _rl['10年']
+assert abs(_rl['20年']['worst_pct'] - -0.22) <= 0.05, _rl['20年']
+assert abs(_rl['30年']['worst_pct'] - 1.89) <= 0.05, _rl['30年']
+assert '%.1f' % _rl['10年']['worst_pct'] == '-5.9' and '%.1f' % _rl['20年']['worst_pct'] == '-0.2', _rl
+assert '%.1f' % _rl['30年']['worst_pct'] == '1.9', _rl['30年']
+# 圖說「虧錢的起點從 3% 變成 11%」：3% 是名目（us_rolling_negative 的 2.92%），11% 是這裡的
+assert (_rl['10年']['negative'], _rl['10年']['n']) == (193, 1713), _rl['10年']
+assert round(_rl['10年']['negative_pct']) == 11 and abs(_rl['10年']['negative_pct'] - 11.27) <= 0.05, _rl['10年']
+assert round(_rn['10年']['negative_pct']) == 3, _rn['10年']
+# 20 年扣掉物價只有一個視窗是負的（就是最差那一個），30 年一個都沒有——圖說「只在不扣物價時成立」
+# 指的是這件事：名目 20 年 0 個，扣物價 1 個。
+assert (_rl['20年']['negative'], _rl['20年']['n']) == (1, 1593), _rl['20年']
+assert (_rl['30年']['negative'], _rl['30年']['n']) == (0, 1473), _rl['30年']
+assert _rl['10年']['last_end'] == _rl['20年']['last_end'] == '2023-09', _rl
+
 # ---------- 第 24 節第三題：2.31% 提領率換成幾倍（v7 第 20 版 B5） ----------
 # Anarkulova, Cederburg, O'Doherty & Sias (2025), JPEF 24(3): 38 個已開發國家、
 # 一對 65 歲夫妻、5% 破產容忍度 → 一年提 2.31%。倍數＝1 ÷ 提領率。
@@ -1880,6 +1916,10 @@ quotes += ['一年大約多 2 個百分點：價格指數平均一年是 −0.1%
 quotes += ['抱 10 年，歷史上有大約 3% 的起點是虧的，最差一年 −4.0%；抱 20 年，沒有一個起點是虧的，'
            '最差一年 2.0%；抱 30 年，最差也有 3.6%',
            '拿掉它 30 年最差會變成 7.6%']
+# v7 批 AE：滾動報酬圖的圖說與「想深入」，扣掉物價的那一組（數字由 us_rolling_real 算並 assert）
+quotes += ['扣掉物價，最差的十年是 −5.9%（1999 年 3 月起那十年），虧錢的起點從 3% 變成 11%',
+           '最差的二十年是 −0.2%（1901 年 6 月起那二十年），所以「二十年沒有一個起點是虧的」只在不扣物價時成立',
+           '10 年 −5.9%（1999 年 3 月起）、20 年 −0.2%（1901 年 6 月起）、30 年 +1.9%（1902 年 6 月起）']
 quotes += ['存 15%、保守算 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']
@@ -1936,5 +1976,7 @@ p('三種掛牌地每年成本（第 20 版裁判後 M1）:',
   {k: {'股息稅': v['dividend_tax_pp_mid'], '合計': v['total_pp_mid'],
        '台減倫敦': v['tw_minus_lse_mid'], '台減美國': v['tw_minus_us_mid']}
    for k, v in R['listing_annual_cost'].items() if isinstance(v, dict) and 'total_pp_mid' in v})
+p('美股滾動扣物價最差（批 AE）:', {k: (v['worst_start'], v['worst_end'], v['worst_pct'],
+                                            v['negative'], v['n']) for k, v in R['us_rolling_real'].items()})
 p('引用缺漏:', R['guide_citations']['missing'])
 p('wrote', OUT)

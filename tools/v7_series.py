@@ -126,6 +126,32 @@ def rolling_annualised(months, tr, years):
     return out
 
 
+def shiller_cpi():
+    """Shiller 那份檔裡的消費者物價指數欄（月）。回傳 {月: 指數}。
+
+    欄位是 0 的月份（檔案更新到的月份之後那幾格）不收，所以扣物價的視窗會比名目的少幾個。
+    """
+    rows = list(csv.DictReader(open(SHILLER, encoding='utf-8')))
+    return {r['Date'][:7]: float(r['Consumer Price Index'])
+            for r in rows if float(r['Consumer Price Index'] or 0) > 0}
+
+
+def rolling_real(months, tr, cpi, years):
+    """扣掉物價的滾動年化報酬（%）：含息月序列 ÷ 同一份資料的消費者物價指數。
+
+    回傳 list of (結束月, 年化%, 起始月)，和 rolling_annualised 同一個形狀；
+    起訖兩個月都要有物價才算得出來，所以最後一個視窗停在物價欄最後一個有值的月份。
+    """
+    k = years * 12
+    out = []
+    for i in range(len(tr) - k):
+        a, b = months[i], months[i + k]
+        if a in cpi and b in cpi:
+            g = (tr[i + k] / tr[i]) * cpi[a] / cpi[b]
+            out.append((b, (g ** (1.0 / years) - 1) * 100, a))
+    return out
+
+
 def quantile(sorted_vals, p):
     """線性內插分位數（和 statistics.quantiles 的 'inclusive' 同一種）。"""
     idx = (len(sorted_vals) - 1) * p
