@@ -15,8 +15,11 @@
     圖上只標最差、最好、中位三個數字，百分位在圖說講。指南放全期（1871 起）那一組；
     起點換成別的年份時（compute_box(start=…)），視窗數少於 30 的那一根不畫，改標「樣本太少」。
     口徑字串一律從資料的起訖年份算出來，不寫死年份。
-圖 B（sp500-rolling-30y）滾動 30 年的年化報酬
-    橫軸是視窗的結束年份，縱軸從 0 起，標最低點與最高點。
+圖 B（sp500-rolling-30y）滾動 10、20、30 年的年化報酬（v7 批 X：作者 2026-09-22 要三條線）
+    同一張圖三條線：10 年（淺灰）、20 年（中灰）、30 年（綠色，最上層、最粗）。橫軸是視窗
+    結束的年份（「抱滿的那個月」），所以 10 年線從 1881 年才開始有點、20 年線 1891、30 年線 1901。
+    縱軸從 −5% 起（10 年最差 −4.0%），0% 是墨色的基準線。圖上只標三個點：10 年線的最低、
+    30 年線的最低與最高；其餘數字在圖說。錨點與 data-chart 名稱沿用 sp500-rolling-30y。
 """
 import os
 import sys
@@ -25,6 +28,11 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import v7_series as S
 
 PERIODS = (1, 3, 5, 10, 20, 30)
+# v7 批 X：兩張圖的 p.note 各補這一句。1926 年以前那一段資料的來歷，以及它對「最差」的影響——
+# 給讀者的誠實揭露，不是但書。7.6% 由 calc_core 的 us_rolling_post1926 算出來並 assert。
+COWLES_NOTE = ('1926 年以前的月資料是 Shiller 依 Cowles 委員會的指數回推的（那時還沒有 S&P 500）；'
+               '把它算進來，30 年最差那一段（結束在 1932 年 6 月）才會出現，'
+               '拿掉它 30 年最差會變成 7.6%。本文選擇把最差的留著。')
 # 視窗數少於這個數就不畫那一根：四、五個重疊的視窗畫成箱型，會看起來像「歷史上就是這樣」。
 MIN_N = 30
 
@@ -87,15 +95,21 @@ def compute_box(start=None):
             'full_period': not start}
 
 
-def compute_rolling30(years=30):
+def compute_rolling(years_list=(10, 20, 30)):
+    """三條滾動年化報酬線。每一條：每個月都當一次買進日，抱滿 N 年。"""
     months, tr = S.shiller_tr_extended()
-    pts = S.rolling_annualised(months, tr, years)
-    lo = min(pts, key=lambda x: x[1])
-    hi = max(pts, key=lambda x: x[1])
-    return {'id': 'sp500-rolling-30y', 'years': years, 'points': pts,
-            'n': len(pts), 'from': pts[0][0], 'to': pts[-1][0],
+    series = []
+    for y in years_list:
+        pts = S.rolling_annualised(months, tr, y)
+        neg = sum(1 for _m, v, _s in pts if v < 0)
+        series.append({
+            'years': y, 'points': pts, 'n': len(pts),
+            'from': pts[0][0], 'to': pts[-1][0],
             'first_start': pts[0][2], 'last_start': pts[-1][2],
-            'min': lo, 'max': hi, 'last': pts[-1],
+            'min': min(pts, key=lambda x: x[1]), 'max': max(pts, key=lambda x: x[1]),
+            'last': pts[-1], 'neg': neg, 'neg_pct': neg * 100.0 / len(pts),
+        })
+    return {'id': 'sp500-rolling-30y', 'series': series,
             'data_from': months[0], 'data_to': months[-1]}
 
 
@@ -186,11 +200,19 @@ def chart_box(res):
 
 
 # ---------------------------------------------------------------- 圖 B
-def chart_rolling30(res):
+# 三條線的顏色都取自既有調色盤（沒有新增顏色）：--line 淺灰、--muted 中灰、--teal 綠。
+LINE_STYLE = {10: ('LINE', 1.2, 1.4), 20: ('MUTED', 1.4, 1.6), 30: ('TEAL', 1.9, 2.2)}
+
+
+def chart_rolling(res):
     import essay_charts as E
-    pts = res['points']
-    t0, t1 = _tnum(pts[0][0]), _tnum(pts[-1][0])
-    vmax = max(x[1] for x in pts)
+
+    series = sorted(res['series'], key=lambda x: x['years'])   # 10 先畫、30 最後畫（壓在最上層）
+    allpts = [p for sr in series for p in sr['points']]
+    t0 = min(_tnum(sr['points'][0][0]) for sr in series)
+    t1 = max(_tnum(sr['points'][-1][0]) for sr in series)
+    lo_v, hi_v = -5.0, max(x[1] for x in allpts) * 1.06
+    by_year = {sr['years']: sr for sr in series}
     warn = []
 
     def draw(lay):
@@ -206,26 +228,36 @@ def chart_rolling30(res):
             return left + (right - left) * (_tnum(m) - t0) / (t1 - t0)
 
         def py(v):
-            return bottom - (bottom - top) * v / (vmax * 1.12)
+            return bottom - (bottom - top) * (v - lo_v) / (hi_v - lo_v)
 
         out = [E.svg_open(lay, h, res['aria'])]
-        out += E.grid(lay, py, (0, 4, 8, 12), lambda v: '%d%%' % v)
-        boxes = [_lab(lay.left - 6, py(t) + lay.fs * 0.36, '%d%%' % t, lay.fs, 'end')
-                 for t in (0, 4, 8, 12)]
-        for y in range(1920, int(pts[-1][0][:4]) + 1, 20 if mob else 20):
+        ticks = (-5, 0, 5, 10, 15, 20)
+        # 0% 用 grid() 預設的墨色實線，其餘是淡虛線：讀者一眼看得出線有沒有掉到 0 以下
+        out += E.grid(lay, py, ticks, lambda v: ('%d%%' % v).replace('-', '−'))
+        boxes = [_lab(lay.left - 6, py(t) + lay.fs * 0.36, ('%d%%' % t).replace('-', '−'), lay.fs, 'end')
+                 for t in ticks]
+        for y in range(1880, int(max(sr['to'] for sr in series)[:4]) + 1, 20):
             m = '%d-01' % y
             if t0 <= _tnum(m) <= t1:
                 out.append(E.text(px(m), bottom + lay.f + 6, str(y), lay.f, 'middle', E.MUTED))
                 boxes.append(_lab(px(m), bottom + lay.f + 6, str(y), lay.f))
-        out.append(E.poly([(px(m), py(v)) for m, v, _s in pts], E.TEAL, 1.8 if mob else 2.0))
-        for key, label, dy, anchor in (('min', '最低', fl + 9, 'middle'), ('max', '最高', -8, 'middle')):
-            m, v, st = res[key]
-            x, y = px(m), py(v)
-            out.append(E.dot(x, y, E.ACCENT, 3.6))
-            tx = min(max(x, left + 34), right - 34)
-            t = '%s %.1f%%（%s）' % (label, v, m[:4])
-            out.append(E.text(tx, y + dy, t, fl, anchor, E.INK, '700'))
-            boxes.append(_lab(tx, y + dy, t, fl, anchor))
+        for sr in series:
+            name, wd, wm = LINE_STYLE[sr['years']]
+            out.append(E.poly([(px(m), py(v)) for m, v, _s in sr['points']],
+                              getattr(E, name), wd if mob else wm))
+        # 只標三個點：10 年線的最低（唯一低於 0 的地方）、30 年線的最低與最高
+        # 10 年最低那個點貼著圖框底部，標籤只能往上放（往下會壓到 x 軸的年份）；
+        # 30 年最低往下、30 年最高往上，兩個都在點的外側。
+        marks = [(10, 'min', '10 年最低', -8), (30, 'min', '30 年最低', fl + 9),
+                 (30, 'max', '30 年最高', -8)]
+        for yrs, key, label, dy in marks:
+            m, v, _st = by_year[yrs][key]
+            x, yy = px(m), py(v)
+            out.append(E.dot(x, yy, E.ACCENT, 3.6))
+            tx = min(max(x, left + 44), right - 44)
+            t = '%s %s（%s）' % (label, ('%.1f%%' % v).replace('-', '−'), m[:4])
+            out.append(E.text(tx, yy + dy, t, fl, 'middle', E.INK, '700'))
+            boxes.append(_lab(tx, yy + dy, t, fl))
         out.append('</svg>')
         _check(res['id'], lay.kind, boxes, lay.W, h, warn)
         return '\n'.join(out)
@@ -233,8 +265,9 @@ def chart_rolling30(res):
     svgs = [draw(E.L('d')), draw(E.L('m'))]
     for w in warn:
         print('⚠ ' + w)
+    lg = E.legend([(E.LINE, '抱 10 年'), (E.MUTED, '抱 20 年'), (E.TEAL, '抱 30 年')])
     return dict(title=res['title'], sub=res['sub'], svgs=svgs,
-                extras=E.note(res['note']) + res['more'], caption=res['caption'])
+                extras=lg + E.note(res['note']) + res['more'], caption=res['caption'])
 
 
 # ---------------------------------------------------------------- 三個進入點
@@ -244,13 +277,14 @@ def _box_dress(r):
     n30 = [x for x in r['rows'] if x['years'] == 30 and x['n'] >= MIN_N]
     r['aria'] = '美股 %s，抱 1、3、5、10、20、30 年的年化報酬範圍（箱型）' % span
     r['title'] = '抱幾年，報酬落在哪個範圍'
-    r['sub'] = 'S&P 500 含息、名目，%s，每個月都當一次買進日，年化 %%' % span
+    r['sub'] = 'S&P 500 含息、名目，資料 %s，每個月都當一次買進日，年化 %%' % span
     r['note'] = ('每個月都當一次買進日，抱滿 N 年，再換算成平均一年的報酬。'
                  '1 年那一根有 %s 個視窗%s。視窗彼此重疊，不是互相獨立的樣本。'
                  '這張圖和下面那張 J.P. Morgan 的區間表講的是同一件事，'
                  '口徑不一樣（起始年、整年 vs 逐月、資料來源），數字不會一致。'
                  % ('{:,}'.format(n1['n']),
-                    '，30 年那一根有 %s 個' % '{:,}'.format(n30[0]['n']) if n30 else ''))
+                    '，30 年那一根有 %s 個' % '{:,}'.format(n30[0]['n']) if n30 else '')
+                 + COWLES_NOTE)
     r['more'] = ('<details class="more" data-print="open">'
                  '<summary>想深入：這張圖的資料、口徑，和它跟下面那張區間表的差別</summary>'
                  '<p class="note">S&amp;P 500 含息、名目：%s到 2023 年 6 月用 Robert Shiller 公開月資料，'
@@ -282,32 +316,51 @@ def holding_box_recent30():
 
 
 def rolling_30y():
-    r = compute_rolling30()
-    r['aria'] = '美股滾動 30 年的年化報酬：每一個月都當一次買進日，抱滿 30 年'
-    r['title'] = '滾動 30 年的年化報酬：每一個起點各算一次'
-    r['sub'] = 'S&P 500 含息、名目，橫軸是抱滿 30 年的那個月，%s–%s，年化 %%' % (r['from'][:4], r['to'][:4])
-    r['note'] = ('%s 個視窗：從 %s起，每一個起始月各算一次（起始月到 %s為止），抱滿 30 年。'
-                 '橫軸標的是視窗結束的年份，不是開始的年份。'
-                 % ('{:,}'.format(r['n']), _ym(r['first_start']), _ym(r['last_start'])))
+    """三條線的滾動報酬圖。函式名、錨點與 data-chart 都沿用 sp500-rolling-30y，所以書裡的連結不用改；
+    但兩處引用圖名的句子（第 10 節的指路、第 8 節來源卡）跟著改成新標題。"""
+    r = compute_rolling()
+    by = {sr['years']: sr for sr in r['series']}
+    span = '%s–%s' % (r['data_from'][:4], r['data_to'][:4])
+    r['aria'] = ('美股滾動 10、20、30 年的年化報酬：每一個月都當一次買進日，分別抱滿 10、20、30 年；'
+                 '抱 10 年最差 %s、抱 20 年最差 %s、抱 30 年最差 %s'
+                 % tuple(('%.1f%%' % by[y]['min'][1]).replace('-', '−') for y in (10, 20, 30)))
+    r['title'] = '滾動 10、20、30 年的年化報酬：每一個起點各算一次'
+    r['sub'] = 'S&P 500 含息、名目，資料 %s；橫軸是抱滿的那個月，年化 %%' % span
+    r['note'] = ('三條線的橫軸都是「抱滿的那個月」；最早的視窗從 %s起算，'
+                 '所以 10 年線從 %s 年開始有點、20 年線 %s 年、30 年線 %s 年。'
+                 '視窗彼此重疊，不是互相獨立的樣本。'
+                 % (_ym(r['data_from']), by[10]['from'][:4], by[20]['from'][:4], by[30]['from'][:4])
+                 + COWLES_NOTE)
     r['more'] = ('<details class="more" data-print="open">'
                  '<summary>想深入：這張圖的資料和口徑</summary>'
                  '<p class="note">S&amp;P 500 含息、名目：%s到 2023 年 6 月用 Robert Shiller 公開月資料，'
                  '2023 年 7 月起用 S&amp;P 500 總報酬指數串接到 %s。沒有扣物價、費用和稅，也不是台幣；'
                  '扣掉物價以後，最差的那幾段會低很多（同一節「二十年扣掉物價最差」那一句）。'
-                 '視窗彼此重疊，不是互相獨立的樣本。最低的那一次結束在 %s，最高的那一次結束在 %s，'
-                 '最後一個算得出來的視窗結束在 %s，是 %.1f%%。</p></details>'
-                 % (_ym(r['data_from']), _ym(r['data_to']), _ym(r['min'][0]), _ym(r['max'][0]),
-                    _ym(r['last'][0]), r['last'][1]))
-    r['caption'] = ('這條線上每一個點，都是從某個月開始、抱滿 30 年的平均一年報酬。'
-                    '最差的那一次也有 %.1f%% 上下，最好的 %.1f%% 上下；哪一年開始你決定不了，但抱多久你決定得了。'
-                    '到 %s為止，這條線沒有低於 0。這是歷史，不是保證。'
-                    % (r['min'][1], r['max'][1], _ym(r['data_to'])))
-    return chart_rolling30(r)
+                 '三條線各自的視窗數：10 年 %s 個、20 年 %s 個、30 年 %s 個。'
+                 '10 年線有 %d 個視窗是負的（%.1f%%），最低的那一次結束在 %s；'
+                 '20 年線最低 %.1f%%，結束在 %s；'
+                 '30 年線最低的那一次結束在 %s，最高的那一次結束在 %s，'
+                 '最後一個算得出來的 30 年視窗從 %s起、結束在 %s，是 %.1f%%。</p></details>'
+                 % (_ym(r['data_from']), _ym(r['data_to']),
+                    '{:,}'.format(by[10]['n']), '{:,}'.format(by[20]['n']), '{:,}'.format(by[30]['n']),
+                    by[10]['neg'], by[10]['neg_pct'], _ym(by[10]['min'][0]),
+                    by[20]['min'][1], _ym(by[20]['min'][0]),
+                    _ym(by[30]['min'][0]), _ym(by[30]['max'][0]),
+                    _ym(by[30]['last_start']), _ym(by[30]['last'][0]), by[30]['last'][1]))
+    r['caption'] = ('三條線各是從某個月開始、抱滿 10、20、30 年的平均一年報酬。'
+                    '抱 10 年，歷史上有大約 %d%% 的起點是虧的，最差一年 %s；'
+                    '抱 20 年，沒有一個起點是虧的，最差一年 %.1f%%；抱 30 年，最差也有 %.1f%%。'
+                    '哪一年開始你決定不了，抱多久你決定得了，'
+                    '何況多數人是分批投入，起點本來就散在很多個月。這是歷史，不是保證。'
+                    % (round(by[10]['neg_pct']), ('%.1f%%' % by[10]['min'][1]).replace('-', '−'),
+                       by[20]['min'][1], by[30]['min'][1]))
+    return chart_rolling(r)
 
 
 if __name__ == '__main__':
     import json
     b = compute_box()
     print(json.dumps(b['rows'], ensure_ascii=False, indent=1))
-    r = compute_rolling30()
-    print(r['n'], r['min'], r['max'], r['last'])
+    r = compute_rolling()
+    for sr in r['series']:
+        print(sr['years'], sr['n'], sr['min'], sr['max'], sr['last'], sr['neg'], round(sr['neg_pct'], 3))

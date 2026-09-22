@@ -1069,10 +1069,56 @@ for _k, (_n, _mn, _mx, _md) in _ROLL_EXPECT.items():
     assert _r['n'] == _n, (_k, _r['n'], _n)
     assert abs(_r['min'] - _mn) <= 0.02 and abs(_r['max'] - _mx) <= 0.02, (_k, _r)
     assert abs(_r['median'] - _md) <= 0.02, (_k, _r)
-# 圖 B 的兩個標註點；縱軸從 0 起的說法要站得住：30 年最差也還是正的
+# 圖 B 的標註點；「30 年沒有一個起點是虧的」要站得住：30 年最差也還是正的
 assert _rr['30年']['min_end'] == '1932-06' and _rr['30年']['max_end'] == '2000-07', _rr['30年']
 assert _rr['30年']['min'] > 0, _rr['30年']
 assert abs(_rr['30年']['p15'] - 6.71) <= 0.02 and abs(_rr['30年']['p85'] - 11.93) <= 0.02, _rr['30年']
+
+
+# ---------- 第 8 節圖 B（v7 批 X：滾動報酬圖改成 10／20／30 年三條線） ----------
+# 圖說寫的三句話各對一個數字：抱 10 年約 3% 的起點是虧的、最差 −4.0%；抱 20 年一個都沒有虧、
+# 最差 +2.0%；抱 30 年最差 +3.6%。另外算「拿掉 1926 年以前那一段，30 年最差會變成多少」，
+# 兩張圖的 p.note 都寫了這個數字（7.6%）。
+def us_rolling_negative_share(periods=(10, 20, 30)):
+    months, tr = shiller_tr_extended()
+    out = {}
+    for y in periods:
+        pts = _vs.rolling_annualised(months, tr, y)
+        neg = sum(1 for _m, v, _s in pts if v < 0)
+        out['%d年' % y] = {'n': len(pts), 'negative': neg, 'negative_pct': round(neg * 100.0 / len(pts), 2),
+                           'first_end': pts[0][0], 'last_end': pts[-1][0]}
+    return out
+
+
+def us_rolling_post1926(start='1926-01', years=30):
+    """拿掉 Shiller 依 Cowles 回推的那一段（1926 年以前），30 年最差變成多少。"""
+    months, tr = shiller_tr_extended()
+    i = months.index(start)
+    r = _vs.rolling_summary(months[i:], tr[i:], years)
+    return {'start': start, 'years': years, 'n': r['n'], 'min': round(r['min'], 2),
+            'min_start': r['min_start'], 'min_end': r['min_end']}
+
+
+R['us_rolling_negative'] = us_rolling_negative_share()
+R['us_rolling_post1926'] = us_rolling_post1926()
+_rn = R['us_rolling_negative']
+# 三條線的起點：最早的視窗從 1871-01 起算，所以 10 年線第一個點在 1881-01、20 年線 1891-01、30 年線 1901-01
+assert (_rn['10年']['first_end'], _rn['20年']['first_end'], _rn['30年']['first_end']) == \
+       ('1881-01', '1891-01', '1901-01'), _rn
+assert _rn['10年']['last_end'] == _rn['30年']['last_end'] == '2026-08', _rn
+assert _rn['10年']['negative'] == 51 and abs(_rn['10年']['negative_pct'] - 2.92) <= 0.02, _rn['10年']
+assert _rn['20年']['negative'] == 0 and _rn['30年']['negative'] == 0, _rn
+# 最差那一次是哪個起點開始的（圖說沒寫起點，但三個最差都落在 1929 年前後，這裡釘住免得換資料沒發現）
+assert _rr['10年']['min_start'] == '1929-08' and _rr['10年']['min_end'] == '1939-08', _rr['10年']
+assert _rr['20年']['min_start'] == '1929-09' and _rr['20年']['min_end'] == '1949-09', _rr['20年']
+assert _rr['30年']['min_start'] == '1902-06', _rr['30年']
+# 圖說四捨五入到一位小數之後要正好是這幾個數字
+assert '%.1f' % _rr['10年']['min'] == '-4.0' and '%.1f' % _rr['20年']['min'] == '2.0', _rr
+assert '%.1f' % _rr['30年']['min'] == '3.6', _rr['30年']
+# 兩張圖 p.note 的 7.6%：1926-01 起算的 30 年最差（最差那一段結束在 1959-09，不再是 1932-06）
+_rp = R['us_rolling_post1926']
+assert abs(_rp['min'] - 7.63) <= 0.02 and '%.1f' % _rp['min'] == '7.6', _rp
+assert _rp['min_end'] == '1959-09', _rp
 
 # ---------- 第 24 節第三題：2.31% 提領率換成幾倍（v7 第 20 版 B5） ----------
 # Anarkulova, Cederburg, O'Doherty & Sias (2025), JPEF 24(3): 38 個已開發國家、
@@ -1760,6 +1806,12 @@ quotes += ['這個 2.31% 算的是「只買自己國家的股票和債券」：�
            '把股票的四成換成國際股，可以拿 2.85%（約 35 倍）；換九成，可以拿 3.02%（約 33 倍）']
 # 批 T：美股長線圖改成 1929 年起，圖說的兩個數字釘在這裡
 quotes += ['1929 年初投進去的 1 元，含息到 2026 年變成大約 9,899 元；中間最深的一次，帳面少掉 82%']
+# v7 批 W：第 8 節台股長線圖的圖說（串接後回到 1990 年高點的那一週）
+quotes += ['算進 2003 年以後的股利，這條線在 2013 年 12 月就回到那個高度']
+# v7 批 X：第 8 節滾動報酬圖的圖說三句，與兩張圖 p.note 的 Cowles 揭露
+quotes += ['抱 10 年，歷史上有大約 3% 的起點是虧的，最差一年 −4.0%；抱 20 年，沒有一個起點是虧的，'
+           '最差一年 2.0%；抱 30 年，最差也有 3.6%',
+           '拿掉它 30 年最差會變成 7.6%']
 quotes += ['存 15%、保守算 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']
