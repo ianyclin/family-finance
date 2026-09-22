@@ -559,3 +559,19 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`--guide` 兩次（第二次 0 ⚠）、budget（s11 4387→4389、cases 2100→2106、lifecycle 4172→4203、sidepaths 1213→1218，理由在 `budget-v7.json` 的 `_comment_ai`）、anchors、planstep、numbers 兩個基準（v6.3.1 與批 AH 的 `d3ebdc4`）都 LOST 0，例外檔 `wip/v63-review/numbers-allow-round33.json`（在 round32 上加 10 條）、`guidetools check`、`test_guidetools.py`、`test_v7_check.py`、`calc_core.py`（引用缺漏 0）、`build_lite.py` SENTINELS OK。
 
 **沒做**：版面沒有用瀏覽器量過；新寫的句子沒有再過裁判。
+
+## 2026-09-23 批 AJ（AG／AH 裁判複審後的修正）
+
+**規格**：`wip/v63-review/spec-v7-content-aj.md`。**依據**：`wip/v63-review/judge-ah.md`（judge／opus xhigh，2 must＋8 should＋10 nit）。裁判逐則比對過 `mark.key` 97 則、`div.story` 25→26，確認 AH 一字未動，屬實。
+
+**must**：M-1 第 3 節「我多做一點，不是應該更好？」的答句由「可以。」改成「就是這麼簡單。」（AH 規格列為做、實際漏做也沒回報）；M-2 箱型圖「想深入」的「期間越長、起算方式越細，最好和最差就越極端」改成「資料從 1871 年起算、又逐月起算，最好和最差才會這麼極端。」——原句主詞是資料期間與起算粒度，去重後被讀成持有期間，和下一句「往右看，鬚越來越短」打架。
+
+**should**：S-1 箱型圖圖說補「（沒扣物價）」（`calc_core.py` quotes 同步）；S-2 滾動圖「虧錢的起點也從 3% 變成 11%」補「十年那條」；S-3 美股圖「想深入」補回「歷史不等於保證：」；S-4 台股圖說補回「2003 年起的」股利口徑、「想深入」補回「逐日的日期在第 7 節那張三個例子的圖」；S-5 `author-readthrough.md` 第 48 條與 `changes-for-author-v7.md` 一之三十五的「一個字沒改」改成「三句作者定稿未改；其餘句子批 AH 依裁判 E1–E5 拆句」；S-6 第 3 節「這是算術，不是意見：」刪掉（前一句粗體已經說「這是算術算得出來的」）；S-7 intra-year 圖新開 `details.more`，把被刪掉的 17.73%／18 年與資料來源句放回去；S-8 第 5 節「才剛好和現在的定存 1.7% 打平」改成「現在一年期定存 1.7%，才剛好比物價高一點點」（1.70 > 1.66，原本的方向被抹平）。
+
+**nit**：N-1／N-2 three-circles 圖說去掉和紅框重複的那一句，安全但書搬回圖說（**摺疊內容照規格不動，所以那句但書現在圖說與摺疊各一次**）；N-3 第 4 節「這一節上面那三個數」重新掛 `#s1-rate`（先前入連結數變 0）；N-6 作者口述那則黃框去掉外層「」（字未動）；N-7 還原「30 天是本指南的做法」（`lite/labels.json` 的慣例）；N-8 第 13 節第二項黃線前補「第二道，」（mark 內不動）；N-9「書裡算出來的是」→「書裡引用的研究算出來的是」；N-10 九個錯第 5 條指路補回「第 11 節」。N-4／N-5 照規格只記錄：G3 甜蜜點那張圖歸「固定報酬的算術，不是預測」（比規格正確）、三個同型摺疊 summary 刻意寫成三種。
+
+**這一批改到的產生器**：`tools/v7_g09_rolling.py`（`_box_dress` 的 more 與 caption、rolling 的 more）、`tools/v7_g08_long_run.py`（台股 caption 與 more、美股 more）、`tools/essay_charts.py`（intra_year 新開摺疊、three_circles 圖說）、`tools/calc_core.py`（quotes 同步 3 條）。**`--guide` 不會覆寫指南裡的 `<figcaption>`，只覆寫 svg／extras／p.note**——箱型圖與台股圖的圖說要在 `guide/index.html` 另外改一次（這一批踩到兩次）。
+
+**檢查**：`--guide` ×2（第二次 0 ⚠）、budget（s10 2069→2073，只因為 N-8 補了「第二道，」四個字，理由在 `budget-v7.json` 的 `_comment_aj`）、anchors、planstep、numbers 對 v6.3.1 與對批 AI 的 `65fb498` 兩個基準都 LOST 0（沿用 `numbers-allow-round33.json`，這一批沒有新增例外，只有 ADDED）、`guidetools check`、`test_guidetools.py`、`test_v7_check.py`、`calc_core.py`（引用缺漏 0）、`build_lite.py` SENTINELS OK。
+
+**沒做**：版面沒有用瀏覽器量過；裁判提到的 essay／chapters 停在舊版（`essay/sections/05-volatility.html` 仍有「平均年內最多跌 17.73%」、`essay/index.html` 仍有「示意，不是承諾」）這一批沒有處理。
