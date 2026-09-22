@@ -2467,6 +2467,23 @@
    "max_drawdown_peak": "1990-01",
    "max_drawdown_trough": "1990-09"
   },
+  "taiex_spliced": {
+   "source": "1990-01-04～2002-12-31 證交所發行量加權股價指數（價格），2003-01-02 起發行量加權股價報酬指數（含股利），接在 2003-01-02",
+   "file": "research/data/taiex_price_daily_1990_2002.csv＋research/data/taiex_tr_monthly_raw.csv",
+   "splice_date": "2003-01-02",
+   "splice_factor": 0.99998895,
+   "from": "1990-01-06",
+   "to": "2025-12-31",
+   "n_weeks": 1859,
+   "first": 9927.06,
+   "last": 65905.25,
+   "high_1990_date": "1990-02-10",
+   "high_1990_close": 12495.34,
+   "low_1990_date": "1990-10-01",
+   "low_1990_close": 2560.47,
+   "back_to_high_month_price": "2020-07",
+   "back_to_high_week_total": "2013-12-27"
+  },
   "us_1950": {
    "source": "S&P 500 含息、名目（Shiller 1871-01～2023-06，之後串接 ^SP500TR）",
    "from": "1950-01",
