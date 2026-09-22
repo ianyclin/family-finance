@@ -2509,6 +2509,26 @@
    "max_drawdown_trough": "1932-06"
   }
  },
+ "taiex_pre2003_dividends": {
+  "source": "證交所發行量加權股價指數（價格）年底收盤，加上證交所「市場交易月報」第 1 表的全市場年底殖利率，殖利率乘 0.74 折算後逐年連乘",
+  "file": "research/data/taiex-price-vs-total-return-1990-2025.csv＋research/data/twse-market-dividend-yield-1994-2025.csv",
+  "from": "1990-12",
+  "to": "2002-12",
+  "years": 12,
+  "haircut": 0.74,
+  "dy_assumed_years": [
+   1991,
+   1992,
+   1993
+  ],
+  "price_close_first": 4530.16,
+  "price_close_last": 4452.45,
+  "price_annualised_pct": -0.14,
+  "total_return_annualised_pct": 2.28,
+  "dividend_contribution_pp": 2.42,
+  "total_return_annualised_pct_no_haircut": 3.13,
+  "index_adj_last": 5936.55
+ },
  "us_rolling": {
   "1年": {
    "years": 1,
@@ -8488,6 +8508,9 @@
     941
    ],
    "算進 2003 年以後的股利，這條線在 2013 年 12 月就回到那個高度": [
+    933
+   ],
+   "一年大約多 2.4 個百分點：那十二年從價格指數的 −0.14% 變成大約 +2%，還是接近打平": [
     933
    ],
    "抱 10 年，歷史上有大約 3% 的起點是虧的，最差一年 −4.0%；抱 20 年，沒有一個起點是虧的，最差一年 2.0%；抱 30 年，最差也有 3.6%": [
