@@ -1046,6 +1046,70 @@ assert (_lr['us_1929']['max_drawdown_peak'], _lr['us_1929']['max_drawdown_trough
 assert abs(_lr['us_1929']['max_drawdown_pct'] + 81.76) <= 0.1, _lr['us_1929']
 assert round(-_lr['us_1929']['max_drawdown_pct']) == 82, _lr['us_1929']
 
+# ---------- 第 8 節台股長線圖：1990–2002 那一段的股利補多少（v7 批 Z） ----------
+# 官方含息指數只有 2003 年以後，1990–2002 沒有，只能回推：
+#     當年含息報酬 ≈ 當年價格報酬 ×（1 ＋ 當年底全市場殖利率 × 0.74）
+# 0.74 是折算係數。證交所公布的殖利率，分子含「盈餘轉增資股票股利」，而配股不改變市值、
+# 加權指數本來就已經完整反映，不折算就是重複計算；係數取自 2003–2008 年官方含息指數隱含的
+# 股利貢獻 ÷ 當年公布殖利率的中位數。1991–1993 證交所線上查不到殖利率，以 2.0% 代入
+# （1994 年實際值 2.24%）。做法、對帳與敏感度見
+# wip/v63-review/debate/verify-taiex-pre2003-dividends.md 第 1.4、1.5、4.5 節。
+TAIEX_DIV_HAIRCUT = 0.74
+TAIEX_ANNUAL_CSV = os.path.join(ROOT, 'research', 'data', 'taiex-price-vs-total-return-1990-2025.csv')
+
+
+def _taiex_annual_rows(path=TAIEX_ANNUAL_CSV):
+    """年底值的逐年表（欄位見 research/data/README.md），略過開頭的 # 註解行。"""
+    import csv
+    with open(path, encoding='utf-8') as f:
+        lines = [l for l in f if not l.startswith('#')]
+    return {int(r['year']): r for r in csv.DictReader(lines)}
+
+
+def taiex_pre2003_dividend_estimate(y0=1990, y1=2002, haircut=TAIEX_DIV_HAIRCUT):
+    rows = _taiex_annual_rows()
+    n = y1 - y0
+    p0, p1 = float(rows[y0]['taiex_close']), float(rows[y1]['taiex_close'])
+    idx_raw = idx_adj = 1.0
+    for y in range(y0 + 1, y1 + 1):
+        gr = float(rows[y]['taiex_close']) / float(rows[y - 1]['taiex_close'])
+        dy = float(rows[y]['market_dy_pct']) / 100.0
+        idx_raw *= gr * (1 + dy)
+        idx_adj *= gr * (1 + dy * haircut)
+    ann = lambda m: (m ** (1.0 / n) - 1) * 100
+    price_ann, tr_adj, tr_raw = ann(p1 / p0), ann(idx_adj), ann(idx_raw)
+    return {
+        'source': ('證交所發行量加權股價指數（價格）年底收盤，加上證交所「市場交易月報」'
+                   '第 1 表的全市場年底殖利率，殖利率乘 %.2f 折算後逐年連乘' % haircut),
+        'file': 'research/data/taiex-price-vs-total-return-1990-2025.csv＋'
+                'research/data/twse-market-dividend-yield-1994-2025.csv',
+        'from': '%d-12' % y0, 'to': '%d-12' % y1, 'years': n,
+        'haircut': haircut,
+        'dy_assumed_years': [y for y in range(y0, y1 + 1) if rows[y]['dy_is_assumed'] == 'Y'],
+        'price_close_first': p0, 'price_close_last': p1,
+        'price_annualised_pct': round(price_ann, 2),
+        'total_return_annualised_pct': round(tr_adj, 2),
+        'dividend_contribution_pp': round(tr_adj - price_ann, 2),
+        'total_return_annualised_pct_no_haircut': round(tr_raw, 2),
+        'index_adj_last': round(p0 * idx_adj, 2),
+    }
+
+
+R['taiex_pre2003_dividends'] = taiex_pre2003_dividend_estimate()
+_pd = R['taiex_pre2003_dividends']
+# 1990 年底 4,530.16 → 2002 年底 4,452.45：價格年化 −0.14%（十二年白做工）。
+# 把股利折算後算進去，年化 +2.28%，股利貢獻 2.42 個百分點——圖說寫「−0.14%」與「大約 +2%」。
+assert _pd['years'] == 12 and _pd['dy_assumed_years'] == [1991, 1992, 1993], _pd
+assert abs(_pd['price_annualised_pct'] - (-0.14)) <= 0.05, _pd
+assert 1.8 <= _pd['total_return_annualised_pct'] <= 2.3, _pd
+assert round(_pd['total_return_annualised_pct']) == 2, _pd
+assert abs(_pd['dividend_contribution_pp'] - 2.42) <= 0.05, _pd
+# 和檔案裡預先算好的那一欄對帳（approx_tr_index_adj 的 2002 年那一格 ＝ 5,936.55）
+assert abs(_pd['index_adj_last'] - 5936.55) <= 0.5, _pd
+# 不折算會算成 +3.1%，那是把配股重複計算的結果，書上不用
+assert abs(_pd['total_return_annualised_pct_no_haircut'] - 3.13) <= 0.05, _pd
+
+
 # ---------- 第 8 節：兩張滾動報酬圖的關鍵數字（v7 批 S6） ----------
 # 圖 A「抱幾年，報酬落在哪個範圍」與圖 B「滾動 30 年的年化報酬」都用同一條序列
 # （shiller_tr_extended）。每個月都當一次買進日，抱滿 N 年，換算成平均一年的報酬；
@@ -1809,6 +1873,8 @@ quotes += ['這個 2.31% 算的是「只買自己國家的股票和債券」：�
 quotes += ['1929 年初投進去的 1 元，含息到 2026 年變成大約 9,899 元；中間最深的一次，帳面少掉 82%']
 # v7 批 W：第 8 節台股長線圖的圖說（串接後回到 1990 年高點的那一週）
 quotes += ['算進 2003 年以後的股利，這條線在 2013 年 12 月就回到那個高度']
+# v7 批 Z：同一張圖的圖說，1990–2002 那一段股利的估算（數字來自 taiex_pre2003_dividend_estimate）
+quotes += ['一年大約多 2.4 個百分點：那十二年從價格指數的 −0.14% 變成大約 +2%，還是接近打平']
 # v7 批 X：第 8 節滾動報酬圖的圖說三句，與兩張圖 p.note 的 Cowles 揭露
 quotes += ['抱 10 年，歷史上有大約 3% 的起點是虧的，最差一年 −4.0%；抱 20 年，沒有一個起點是虧的，'
            '最差一年 2.0%；抱 30 年，最差也有 3.6%',
@@ -1855,6 +1921,7 @@ p('台股 252 日交叉檢查:', {k: (v['positive']['pct'], v['range']['min_pct'
                           for k, v in R['rolling']['taiex']['cross_check_252_trading_days'].items()})
 p('美股為正比例:', R['rolling']['us']['from'], '→', R['rolling']['us']['to'],
   {k: v['pct'] for k, v in R['rolling']['us']['positive_share'].items()})
+p('台股 1990–2002 股利估算:', json.dumps(_pd, ensure_ascii=False))
 p('台股 ≥20% 回檔:', R['taiex_drawdowns']['n'], '段；回本年數', R['taiex_drawdowns']['years_min'], '到', R['taiex_drawdowns']['years_max'])
 for _e in R['taiex_drawdowns']['episodes']:
     p('   %s %.2f → %s %.2f（%s%%）→ %s，%s 年' % (_e['peak_date'], _e['peak_value'], _e['trough_date'],
