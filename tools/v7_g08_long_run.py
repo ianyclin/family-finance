@@ -239,11 +239,28 @@ def _on_line(col, x0, y0, x1, y1):
     return n
 
 
-def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0, blocked=(), last_cx=None):
+def _behind(prev, cur):
+    """時序倒置的程度：後面的標籤中心 x 比前一個小就是倒置，回傳差了幾 px（沒倒置回 0）。
+
+    prev／cur 都是 (中心 x, 右緣 x, 是不是被釘在右邊界)。兩個都貼在右邊界時中心 x 只差在框寬
+    （批 AB：美股桌機「2022/3」和「2023/3」差 3.7px），那不是倒置，改比右緣。
+    """
+    if prev is None:
+        return 0.0
+    if prev[2] and cur[2]:
+        return max(0.0, prev[1] - cur[1])
+    return max(0.0, prev[0] - cur[0])
+
+
+def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0, blocked=(), last_cx=None,
+           dots=()):
     """替一個標籤找位置：在點的附近試一格一格的候選，挑「離點最近、又不撞到別人」的那一個。
 
-    候選＝上下各七層（由內而外）× 水平位移（從正中往兩邊各挪到兩個半標籤寬）。
-    每一個候選都要在 viewBox 內、和已放好的標籤不重疊、也不壓到 y 軸刻度的文字（blocked）；合格的裡面挑代價最小的：
+    候選＝上下各九層（由內而外）× 水平位移（從正中往兩邊各挪到兩個半標籤寬）。
+    （批 AB：事件點變成硬障礙之後，右邊界那一疊排不下，層數從七層加到九層。）
+    每一個候選都要在 viewBox 內、和已放好的標籤不重疊、不壓到 y 軸刻度的文字（blocked），
+    也不壓到任何一個事件的圓點（dots，含後面還沒放標籤的事件；圓點最後才畫，壓上去就蓋住字）；
+    合格的裡面挑代價最小的：
     代價＝標籤中心到事件點的距離（橫向加重，擠在一起的寧可往下排，不要橫著挪到別的年份上面）
     ＋標籤蓋到線的罰分（蓋住就看不出那一年的線長什麼樣）
     ＋引線穿過別人標籤的罰分（穿過就看不出這條線連的是哪一件）
@@ -252,13 +269,15 @@ def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0, blocked=(
       last_cx 記著同一側（上／下）上一個、也就是時間上更早的那個標籤的中心 x；
       事件是照時間順序排的，所以同一側後面的標籤中心 x 不可以比它小。罰分大到實質等於禁止，
       但不直接剔除候選，免得整個標籤排不下。
-      last_cx['any'] 記著上一個標籤（不分上下側）的中心 x：跨側也倒置就給中等罰分（批 AA N8），
-      不硬禁——跨側的兩個標籤本來就分得開，讀起來沒有同一側那麼錯亂。
+      last_cx['any'] 記著上一個標籤（不分上下側）的中心 x：跨側也倒置一樣罰（批 AA N8），
+      但不硬禁。批 AB 把跨側的罰分從 25 抬到 150：事件點變成硬障礙之後，標籤被擠得比以前開，
+      25 已經壓不住倒置（實測美股桌機跨側倒置 2 → 5）。
     ＋橫向漂太遠的罰分（批 AA）：標籤中心 x 離自己的事件點超過 40px 開始罰、超過 60px 重罰。
       只靠距離代價不夠——美股 1930–50 那幾件擠在一起，整排標籤會一路往右漂到別的年代上面。
+      批 AB 把這兩個係數加倍（3→6、8→16）：躲開事件點會多出橫移的誘因，原來的係數壓不住。
     """
     best = None
-    for lv in range(7):
+    for lv in range(9):
         for step in range(-7, 8):
             dx = step * 0.36 * w
             x0 = min(max(x + dx - w / 2, 1.5), lay.W - w - 1.5)
@@ -269,27 +288,31 @@ def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0, blocked=(
                 if any((x0 < q[2] + 2 and q[0] - 2 < x0 + w and
                         y0 < q[3] + 2 and q[1] - 2 < y0 + bh) for q in list(placed) + list(blocked)):
                     continue
+                if any((x0 < q[2] and q[0] < x0 + w and
+                        y0 < q[3] and q[1] < y0 + bh) for q in dots):
+                    continue
                 d = math.hypot(1.25 * (x0 + w / 2 - x), y0 + bh / 2 - yv)
                 cost = d + 0.012 * d * d      # 拉遠一點還好，拉很遠就看不出連的是哪一件
                 over = _on_line(col, x0, y0, x0 + w, y0 + bh)
                 if over:
-                    cost += 18.0 + 1.6 * over
+                    cost += 60.0 + 4.0 * over      # 寧可多退一層，也不要騎在線上（批 AB）
                 cost += 75.0 * _crosses(_stem(x, yv, x0, y0, w, bh), list(placed) + list(blocked))
                 if up != prefer_up:
                     cost += 10.0
                 cx = x0 + w / 2
                 if last_cx is not None:
-                    prev = last_cx.get(up)
-                    if prev is not None and cx < prev:
-                        cost += 400.0 + (prev - cx)
-                    prev_any = last_cx.get('any')
-                    if prev_any is not None and cx < prev_any:
-                        cost += 25.0 + 0.5 * (prev_any - cx)
+                    cur = (cx, x0 + w, x0 + w > lay.W - 3.0)
+                    d_side = _behind(last_cx.get(up), cur)
+                    if d_side > 0:
+                        cost += 400.0 + d_side
+                    d_any = _behind(last_cx.get('any'), cur)
+                    if d_any > 0:
+                        cost += 150.0 + 4.0 * d_any
                 adx = abs(cx - x)
                 if adx > 40.0:
-                    cost += 3.0 * (adx - 40.0)
+                    cost += 6.0 * (adx - 40.0)
                 if adx > 60.0:
-                    cost += 8.0 * (adx - 60.0)
+                    cost += 16.0 * (adx - 60.0)
                 if best is None or cost < best[0]:
                     best = (cost, x0, y0)
     return None if best is None else (best[1], best[2])
@@ -306,6 +329,7 @@ def chart(res):
     lo_log, hi_log = math.log10(ymin * 0.94), math.log10(ymax * 1.06)
     idx = {m: k for k, m in enumerate(months)}
     warnings = []
+    infos = []
 
     def build(lay):
         mob = lay.mobile
@@ -349,21 +373,27 @@ def chart(res):
         out.append(E.poly(pts, E.TEAL, 1.6 if mob else 1.9))
         col = _cols(pts, lay.W)
 
+        # 事件點本身也是障礙物（批 AB）：圓點是最後畫的，壓在標籤上就把字蓋掉
+        # （主線 2026-09-22 在手機上實量到美股「2020/3 疫情」的字被 2022/3 的點壓住）。
+        # 先把全部事件點（含後面還沒放標籤的）算成方框，放標籤時硬性避開。
+        dr = (3.0 if mob else 3.4) + 2.5        # 圓點半徑再留一點空隙
+        epts = [(px(m), py(res['event_y'].get(m, values[idx[m]]))) for m, _lab in evs]
+        dot_box = [(ex - dr, ey - dr, ex + dr, ey + dr) for ex, ey in epts]
+
         # 標籤：直接放在點旁邊，上下交錯
         placed, draw = [], []
         last_cx = {}            # 同一側最後一個（時間上最近的前一個）標籤的中心 x
         for n, (m, name) in enumerate(evs):
-            k = idx[m]
-            x, yv = px(m), py(res['event_y'].get(m, values[k]))
+            x, yv = epts[n]
             l1, l2 = _ev_lines(res.get('label_month', {}).get(m, m), name)
             w = max(_textw(l1, fl), _textw(l2, fl)) + 2 * pad
             spot = _place(x, yv, w, bh, n % 2 == 0, lay, bottom, placed, col,
-                          blocked=blocked, last_cx=last_cx)
+                          blocked=blocked, last_cx=last_cx, dots=dot_box)
             if spot is None:
                 warnings.append('%s %s 標籤「%s %s」排不下' % (res['id'], lay.kind, l1, l2))
                 continue
             x0, y0 = spot
-            last_cx[(y0 + bh) <= yv] = last_cx['any'] = x0 + w / 2
+            last_cx[(y0 + bh) <= yv] = last_cx['any'] = (x0 + w / 2, x0 + w, x0 + w > lay.W - 3.0)
             placed.append((x0, y0, x0 + w, y0 + bh))
             draw.append((x, yv, x0, y0, w, l1, l2))
         # 先畫全部引線，再畫全部標籤：別人的引線才不會壓在字上
@@ -395,11 +425,31 @@ def chart(res):
                 if x0 < q[2] and q[0] < x1 and y0 < q[3] and q[1] < y1:
                     warnings.append('%s %s 標籤「%s」和 y 軸刻度重疊'
                                     % (res['id'], lay.kind, draw[i][6]))
+            for q in dot_box:
+                if x0 < q[2] and q[0] < x1 and y0 < q[3] and q[1] < y1:
+                    warnings.append('%s %s 標籤「%s」壓到事件點'
+                                    % (res['id'], lay.kind, draw[i][6]))
+        # 排不開的時候線還是會穿過標籤，不當警告，只回報數量；量法和裁判一致（批 AB）：
+        # 依繪製順序配對標籤框與事件點，算「線穿過標籤」「中心 x 離自己的點 >40px」「時序倒置」。
+        crossed = sum(1 for r in placed if _on_line(col, r[0], r[1], r[2], r[3]))
+        far = sum(1 for i, r in enumerate(placed) if abs((r[0] + r[2]) / 2 - draw[i][0]) > 40.0)
+        inv_any = inv_side = 0
+        prev_any, prev_side = None, {}
+        for i, r in enumerate(placed):
+            cur = ((r[0] + r[2]) / 2, r[2], r[2] > lay.W - 3.0)
+            up = r[3] <= draw[i][1]
+            inv_side += 1 if _behind(prev_side.get(up), cur) > 0 else 0
+            inv_any += 1 if _behind(prev_any, cur) > 0 else 0
+            prev_any, prev_side[up] = cur, cur
+        infos.append('%s %s 標籤 %d：線穿過 %d、中心離點>40px %d、時序倒置 跨側 %d／同側 %d'
+                     % (res['id'], lay.kind, len(placed), crossed, far, inv_any, inv_side))
         return '\n'.join(out)
 
     svgs = [build(E.L('d')), build(E.L('m'))]
     for w in warnings:
         print('⚠ ' + w)
+    for i in infos:
+        print('· ' + i)
     more = ('<details class="more" data-print="open">'
             '<summary>想深入：這張圖的資料、期間和沒算進去的東西</summary>'
             '<p class="note">%s</p></details>' % E.esc(res['more']))
