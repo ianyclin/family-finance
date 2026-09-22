@@ -1011,11 +1011,10 @@ SAMPLES_DIR = ROOT / "wip" / "v63-review" / "samples"
 
 
 def sample_charts():
-    import v7_g08_long_run as _g08
-    import v7_g09_rolling as _g09
-    return [("sp500-long-run-1929", "美股長線圖：1929 年起（指南放的是 1950 年起那一版）", _g08.sp500_1929),
-            ("sp500-holding-box-recent30", "抱幾年報酬落在哪個範圍：只用最近 30 年"
-                                           "（指南放的是 1871 年起的全期）", _g09.holding_box_recent30)]
+    # 批 T：兩張樣張都作廢了——美股長線圖改成指南直接放 1929 年起那一版（作者選的），
+    # 箱型圖的「只用最近 30 年」那一版 30 年那一根只有 1 個視窗、沒有意義。
+    # 下一次要給作者挑版本時，照上面兩筆的格式加回來就好。
+    return []
 
 
 def do_samples():

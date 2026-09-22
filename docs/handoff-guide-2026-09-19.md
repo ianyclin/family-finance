@@ -12,6 +12,8 @@
 新檔：`research/data/taiex_price_monthend_1990_2025.csv`（證交所逐月抓，432 個月）、`research/data/sp500tr_monthend_2023_2026.csv`（主線抓的，串接用）、`tools/v7_series.py`（兩條月序列，calc_core 與畫圖共用）、`tools/v7_g08_long_run.py`、`tools/v7_g09_rolling.py`。樣張兩份給作者挑：`wip/v63-review/samples/sp500-long-run-1929.html`、`sp500-holding-box-recent30.html`（`python3 tools/essay_charts.py --samples` 重產）。allow 檔開 `numbers-allow-round24.json`（round23 的 161 條一字未動，加 2 條）。`tools/v7_check.py` 的 budget 新增 `_visible_small_overrides`（只放行點名的那一節；第 8 節多了兩張主線上的圖，圖說本身就算小字，377 → 747，通用上限 380 不動）。
 **還沒做**：這一批的新句子還沒過裁判；四張新圖的版面還沒在瀏覽器量（桌機與 375px，看標籤有沒有重疊、有沒有超出 viewBox）；`release/` 三個副本已經更新到這一批，但預覽網址還沒發。
 
+**2026-09-22 批 T 已做（最新）**：規格 `wip/v63-review/spec-v7-content-t.md`。第 8 節美股長線圖改成作者挑的 **1929 年起**（1 元 → 約 9,899 元、最深 −82%，`calc_core` 的 `us_1929` assert 釘住這兩個數字），事件 9 → 21 件、來源卡 29 → 37 筆（新增 8 筆官方一手日期出處）；兩張長線圖的事件標籤改成**不編號、直接標在線上**（兩行：年月＋事件名，細引線連到點，擠的地方上下錯開；圖下編號清單移除，手機版標 13 件、桌機版全標，`aria-label` 兩版都唸全部事件），排版在 `tools/v7_g08_long_run.py` 裡自我檢查重疊與出界，桌機與手機都 0 ⚠；刪掉兩張作廢樣張（`sp500-long-run-1929.html`、`sp500-holding-box-recent30.html`），`essay_charts.py --samples` 目前是空清單。allow 檔 `numbers-allow-round25.json`（與批 U 共用）。**還沒做**：新圖的版面還沒在瀏覽器用 `getBBox` 實量（美股桌機版右邊 2020–2025 那四件的引線最長約 150px，是這張圖最該看的地方）。
+
 ## 2026-09-20 換 session 時的現況（最新，先讀這段；和下文衝突時以這段為準）
 
 **2026-09-21 下午：作者進入「逐節閱讀」模式。** 預覽網址現在是**指南第 18 版、工作表第 9 版**（第 17、18 版＝樓梯圖字被切修正、作者逐節閱讀第一批〔規格 `spec-v7-author-r1.md`：第 1 節七件事→八件事且八條黃線是作者逐字定稿、第 7 節「為什麼核心是市值型，不是高股息或其他策略型」搬主線、真實中文人名與示範人物加專名號 `.pn`（英文名不加）〕＋裁判⑥第七輪）。作者原話：「我開始閱讀並跟你討論。沒問題再開工。你可以累積幾筆再一次處理。」清單與每一條的狀態在 **`wip/v63-review/author-readthrough.md`**（接手先讀）。

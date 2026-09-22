@@ -1,4 +1,4 @@
-"""G08／G09（v7 批 S2）：兩張長線圖——台股 1990 起、美股 1950 起（另做 1929 起的樣張）。
+"""G08／G09（v7 批 S2，批 T 改版）：兩張長線圖——台股 1990 起、美股 1929 起。
 
 為什麼有這兩張圖
     第 8 節「跌的時候、很久沒漲的時候，記得這幾句」之後，讀者需要看見「每一件在當時
@@ -10,14 +10,15 @@
           2025-12。含息的報酬指數官方只從 2003 年起提供，所以 1990 那一段只能用價格指數；
           含息會比這條線更陡。
     美股：S&P 500 含息、名目。1871-01 到 2023-06 用 Shiller 月資料，2023-07 起用
-          S&P 500 總報酬指數串接（見 tools/v7_series.py）。指南放 1950 起那一版，
-          1929 起那一版產成樣張 wip/v63-review/samples/sp500-long-run-1929.html。
+          S&P 500 總報酬指數串接（見 tools/v7_series.py）。指南放 1929 起（作者 2026-09-22 選）。
 
-版式
+版式（批 T：作者「不要用編號，直接標注在編號處」）
     縱軸對數刻度（同樣高度＝同樣的百分比，早期的跌幅才看得到）。
-    事件標在圖上方的標籤帶，細虛線引到線上的圓點；手機版標籤帶只放編號，圖下（同一個
-    SVG 裡）列出編號對應的年月與名稱。標籤帶用貪心排列，同一列不重疊，每一版都會
-    assert 不重疊、不超出 viewBox。
+    每個事件在線上一個圓點，標籤直接放在點的旁邊：第一行年月、第二行事件名，細引線
+    連到點。相鄰的標籤上下錯開（一高一低，必要時再往外一層），排不下才換位置，不編號、
+    圖下也沒有清單。桌機標全部事件，手機只標其中跌得深、讀者記得的那十幾件；
+    aria-label 兩版都唸出全部事件。
+    排完會自我檢查：同一版裡兩兩不重疊、不超出 viewBox，有問題就印 ⚠。
     圖上只寫事件名稱與年月，不寫跌幅；跌幅與每個事件的出處寫在第 8 節的來源卡。
 """
 import math
@@ -29,38 +30,56 @@ import v7_series as S
 
 
 # ---------------------------------------------------------------- 事件表
-# label：圖上的短標籤（年月＋名稱）。month：標在線上的那個月。
-# 每一筆的日期與名稱都有來源，寫在第 8 節來源卡（見 spec-v7-content-s.md S2）。
+# (月份, 事件名)：第一行印年月、第二行印事件名，所以名稱要短（六個中文字以內）。
+# 每一筆的日期都有官方或一手的出處，逐筆寫在第 8 節來源卡（見 spec-v7-content-t.md T1）。
+# *_MOBILE 是手機版要標的那一份子集（跌得深的、讀者記得的），桌機版標全部。
 TAIEX_EVENTS = [
-    ('1990-02', '1990/2 歷史高點'),
-    ('1995-08', '1995/8 台海飛彈危機'),
-    ('1997-10', '1997/10 亞洲金融風暴'),
-    ('1999-09', '1999/9 九二一地震'),
-    ('2000-03', '2000/3 網路泡沫'),
-    ('2001-09', '2001/9 九一一'),
-    ('2003-04', '2003/4 SARS'),
-    ('2004-03', '2004/3 三一九槍擊'),
-    ('2008-09', '2008/9 金融海嘯'),
-    ('2011-08', '2011/8 歐債危機'),
-    ('2015-08', '2015/8 中國股災'),
-    ('2018-10', '2018/10 貿易戰'),
-    ('2020-03', '2020/3 疫情'),
-    ('2022-03', '2022/3 升息'),
-    ('2024-08', '2024/8 單日大跌'),
-    ('2025-04', '2025/4 關稅'),
+    ('1990-02', '歷史高點'),
+    ('1995-08', '台海危機'),
+    ('1997-10', '亞洲風暴'),
+    ('1999-09', '九二一地震'),
+    ('2000-03', '網路泡沫'),
+    ('2001-09', '九一一'),
+    ('2003-04', 'SARS'),
+    ('2004-03', '三一九槍擊'),
+    ('2008-09', '金融海嘯'),
+    ('2011-08', '歐債危機'),
+    ('2015-08', '中國股災'),
+    ('2018-10', '貿易戰'),
+    ('2020-03', '疫情'),
+    ('2022-03', '升息'),
+    ('2024-08', '單日大跌'),
+    ('2025-04', '關稅'),
 ]
+TAIEX_MOBILE = ['1990-02', '1997-10', '1999-09', '2000-03', '2003-04', '2004-03', '2008-09',
+                '2011-08', '2015-08', '2020-03', '2022-03', '2024-08', '2025-04']
 
-US_EVENTS_1929 = [('1929-10', '1929/10 大蕭條')]
 US_EVENTS = [
-    ('1962-10', '1962/10 古巴飛彈危機'),
-    ('1973-10', '1973/10 石油危機'),
-    ('1987-10', '1987/10 黑色星期一'),
-    ('2000-03', '2000/3 網路泡沫'),
-    ('2001-09', '2001/9 九一一'),
-    ('2008-09', '2008/9 金融海嘯'),
-    ('2020-03', '2020/3 疫情'),
-    ('2022-03', '2022/3 升息'),
+    ('1929-10', '華爾街崩盤'),
+    ('1932-07', '大蕭條谷底'),
+    ('1933-03', '銀行休業'),
+    ('1937-05', '二次衰退'),
+    ('1941-12', '珍珠港'),
+    ('1950-06', '韓戰'),
+    ('1962-10', '古巴危機'),
+    ('1973-10', '石油危機'),
+    ('1979-10', '打通膨升息'),
+    ('1987-10', '黑色星期一'),
+    ('1990-08', '波灣戰爭'),
+    ('1997-07', '亞洲風暴'),
+    ('2000-03', '網路泡沫'),
+    ('2001-09', '九一一'),
+    ('2003-03', '伊拉克戰爭'),
+    ('2008-09', '金融海嘯'),
+    ('2011-08', '歐債危機'),
+    ('2020-03', '疫情'),
+    ('2022-03', '升息'),
+    ('2023-03', '銀行倒閉'),
+    ('2025-04', '關稅'),
 ]
+US_MOBILE = ['1929-10', '1932-07', '1941-12', '1962-10', '1973-10', '1987-10', '2000-03',
+             '2001-09', '2008-09', '2011-08', '2020-03', '2022-03', '2025-04']
+
 
 def _tnum(m):
     y, mm = m.split('-')
@@ -86,7 +105,8 @@ def compute_taiex():
         'id': 'taiex-long-run',
         'market': 'taiex',
         'months': months, 'values': values,
-        'events': [(m, lab) for m, lab in TAIEX_EVENTS if m >= months[0] and m <= months[-1]],
+        'events': [(m, lab) for m, lab in TAIEX_EVENTS if months[0] <= m <= months[-1]],
+        'mobile_events': TAIEX_MOBILE,
         'y_ticks': [2000, 3000, 5000, 10000, 20000, 30000],
         'y_fmt': lambda v: ('%d,000' % (v // 1000)),
         'x_ticks': [1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025],
@@ -102,12 +122,12 @@ def compute_taiex():
     }
 
 
-def compute_us(start='1950-01'):
+def compute_us(start='1929-01'):
     months, tr = S.shiller_tr_extended()
     i = months.index(start)
     m2 = months[i:]
     v2 = [v / tr[i] for v in tr[i:]]
-    evs = [(m, lab) for m, lab in (US_EVENTS_1929 + US_EVENTS) if m >= start]
+    evs = [(m, lab) for m, lab in US_EVENTS if m >= start]
     y0 = int(start[:4])
     decade = 20 if (int(m2[-1][:4]) - y0) > 60 else 10
     ticks = list(range(y0 - y0 % decade + (decade if y0 % decade else 0), int(m2[-1][:4]) + 1, decade))
@@ -116,10 +136,11 @@ def compute_us(start='1950-01'):
     while tk[-1] * 10 < hi * 1.2:
         tk.append(tk[-1] * 10)
     return {
-        'id': 'sp500-long-run' if start == '1950-01' else 'sp500-long-run-1929',
+        'id': 'sp500-long-run',
         'market': 'us',
         'months': m2, 'values': v2,
         'events': evs,
+        'mobile_events': [m for m in US_MOBILE if m >= start],
         'y_ticks': tk,
         'y_fmt': lambda v: ('%s 倍' % ('{:,}'.format(int(v)))),
         'x_ticks': ticks,
@@ -143,27 +164,95 @@ def _textw(s, fs):
     return w * fs
 
 
-def _rows(items, gap):
-    """貪心排列：items 是 (左緣, 右緣, 資料)，回傳每一筆的列號（0＝最靠近圖的那一列）。"""
-    ends = []
-    out = []
-    for lo, hi, _ in items:
-        for r, e in enumerate(ends):
-            if lo >= e + gap:
-                ends[r] = hi
-                out.append(r)
+def _ev_lines(month, name):
+    """標籤的兩行：第一行年月，第二行事件名。"""
+    y, m = month.split('-')
+    return ('%s/%d' % (y, int(m)), name)
+
+
+def _stem(x, yv, x0, y0, w, bh):
+    """引線的兩端：從事件點，連到標籤靠近它的那一邊。"""
+    xc = min(max(x, x0 + 5), x0 + w - 5)
+    ye = (y0 + bh) if (y0 + bh) < yv else y0
+    return (x, yv, xc, ye)
+
+
+def _crosses(seg, rects):
+    """引線有沒有穿過別人的標籤（沿線取樣 24 點，夠用）。"""
+    x1, y1, x2, y2 = seg
+    n = 0
+    for r in rects:
+        for i in range(1, 24):
+            px_ = x1 + (x2 - x1) * i / 24.0
+            py_ = y1 + (y2 - y1) * i / 24.0
+            if r[0] - 1 <= px_ <= r[2] + 1 and r[1] - 1 <= py_ <= r[3] + 1:
+                n += 1
                 break
-        else:
-            ends.append(hi)
-            out.append(len(ends) - 1)
-    return out
+    return n
+
+
+def _cols(pts, W):
+    """把線壓成「每一個整數 x 那一欄，線佔到哪一段 y」，用來判斷標籤有沒有蓋到線。"""
+    col = [None] * (int(W) + 2)
+    for i in range(1, len(pts)):
+        x1, y1 = pts[i - 1]
+        x2, y2 = pts[i]
+        for c in range(int(min(x1, x2)), int(max(x1, x2)) + 1):
+            if 0 <= c < len(col):
+                lo, hi = min(y1, y2), max(y1, y2)
+                col[c] = (lo, hi) if col[c] is None else (min(col[c][0], lo), max(col[c][1], hi))
+    return col
+
+
+def _on_line(col, x0, y0, x1, y1):
+    """標籤蓋到線的寬度（有幾欄）：蓋一點點還好，整段蓋住就不行。"""
+    n = 0
+    for c in range(max(0, int(x0)), min(len(col) - 1, int(x1) + 1)):
+        if col[c] is not None and col[c][0] <= y1 and y0 <= col[c][1]:
+            n += 1
+    return n
+
+
+def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0):
+    """替一個標籤找位置：在點的附近試一格一格的候選，挑「離點最近、又不撞到別人」的那一個。
+
+    候選＝上下各七層（由內而外）× 水平位移（從正中往兩邊各挪到兩個半標籤寬）。
+    每一個候選都要在 viewBox 內、和已放好的標籤不重疊；合格的裡面挑代價最小的：
+    代價＝標籤中心到事件點的距離（橫向加重，擠在一起的寧可往下排，不要橫著挪到別的年份上面）
+    ＋標籤蓋到線的罰分（蓋住就看不出那一年的線長什麼樣）
+    ＋引線穿過別人標籤的罰分（穿過就看不出這條線連的是哪一件）
+    ＋放在不偏好那一邊的罰分（相鄰事件一高一低，自然錯開）。
+    """
+    best = None
+    for lv in range(7):
+        for step in range(-7, 8):
+            dx = step * 0.36 * w
+            x0 = min(max(x + dx - w / 2, 1.5), lay.W - w - 1.5)
+            for up in (True, False):
+                y0 = (yv - gap - lv * (bh + 3.0) - bh) if up else (yv + gap + lv * (bh + 3.0))
+                if y0 < 1.5 or y0 + bh > bottom - 1.5:
+                    continue
+                if any((x0 < q[2] + 2 and q[0] - 2 < x0 + w and
+                        y0 < q[3] + 2 and q[1] - 2 < y0 + bh) for q in placed):
+                    continue
+                d = math.hypot(1.25 * (x0 + w / 2 - x), y0 + bh / 2 - yv)
+                cost = d + 0.012 * d * d      # 拉遠一點還好，拉很遠就看不出連的是哪一件
+                over = _on_line(col, x0, y0, x0 + w, y0 + bh)
+                if over:
+                    cost += 18.0 + 1.6 * over
+                cost += 75.0 * _crosses(_stem(x, yv, x0, y0, w, bh), placed)
+                if up != prefer_up:
+                    cost += 10.0
+                if best is None or cost < best[0]:
+                    best = (cost, x0, y0)
+    return None if best is None else (best[1], best[2])
 
 
 # ---------------------------------------------------------------- chart
 def chart(res):
     import essay_charts as E
 
-    months, values, evs = res['months'], res['values'], res['events']
+    months, values = res['months'], res['values']
     t0, t1 = _tnum(months[0]), _tnum(months[-1])
     ymin = min(res['y_ticks'] + [min(values)])
     ymax = max(res['y_ticks'] + [max(values)])
@@ -173,51 +262,28 @@ def chart(res):
 
     def build(lay):
         mob = lay.mobile
-        fl = 9.6 if mob else 10.8            # 標籤帶的字
-        band_h = fl + 4.4                     # 標籤帶一列的高度
-        items = []
-        for m, lab in evs:
-            k = idx.get(m)
-            if k is None:
-                continue
-            text = lab.split(' ', 1)[0] if mob else lab
-            items.append((m, lab, k, text))
-        # 手機版標籤帶只放編號
-        if mob:
-            items = [(m, lab, k, str(n + 1)) for n, (m, lab, k, _t) in enumerate(items)]
+        # 手機版 10.0：viewBox 寬 360 在 375px 的螢幕上大約縮到 0.87 倍，實際渲染約 8.7px
+        # （規格要求不低於 8.5px；確切值等主線在瀏覽器量）。
+        fl = 10.0 if mob else 11.5
+        lh = fl * 1.16
+        pad = 2.6
+        bh = 2 * lh + 2 * pad
+        evs = [(m, lab) for m, lab in res['events']
+               if (not mob or m in res['mobile_events']) and m in idx]
 
         left = lay.left + (6 if mob else 10)
         right = lay.right - 2
+        h = 336 if mob else 436
+        plot_top = lay.top
+        bottom = h - (20 if mob else 24)
 
         def px(m):
             return left + (right - left) * (_tnum(m) - t0) / (t1 - t0)
-
-        # 先排標籤帶，才知道圖要多高
-        boxes = []
-        for m, lab, k, text in items:
-            w = _textw(text, fl)
-            x = px(m)
-            a = x - w / 2
-            a = min(max(a, 0.0), lay.W - w)
-            boxes.append((a, a + w, (m, lab, k, text, x)))
-        rows = _rows(boxes, 5 if mob else 7)
-        nrows = max(rows) + 1
-        band = nrows * band_h + 4
-
-        plot_top = lay.top + band
-        list_h = 0
-        if mob:
-            cols = 2
-            list_rows = (len(items) + cols - 1) // cols
-            list_h = 12 + list_rows * (fl + 3.6)
-        h = int(plot_top + (168 if mob else 232) + 24 + list_h)
-        bottom = h - 20 - list_h
 
         def py(v):
             return bottom - (bottom - plot_top) * (math.log10(v) - lo_log) / (hi_log - lo_log)
 
         out = [E.svg_open(lay, h, res['aria'])]
-        # 橫格線與刻度
         for v in res['y_ticks']:
             out.append(E.hline(left, right, py(v)))
             out.append(E.text(left - 5, py(v) + lay.fs * 0.36, res['y_fmt'](v), lay.fs, 'end', E.MUTED))
@@ -226,40 +292,49 @@ def chart(res):
             if _tnum(mm) < t0 or _tnum(mm) > t1:
                 continue
             out.append(E.text(px(mm), bottom + lay.f + 5, str(y), lay.f, 'middle', E.MUTED))
-        # 線
-        step = 1 if len(months) < 700 else 1
-        pts = [(px(m), py(v)) for m, v in zip(months[::step], values[::step])]
+        pts = [(px(m), py(v)) for m, v in zip(months, values)]
         out.append(E.poly(pts, E.TEAL, 1.6 if mob else 1.9))
-        # 標籤帶＋引線＋圓點
-        placed = []
-        for (a, b, (m, lab, k, text, x)), r in zip(boxes, rows):
-            ty = lay.top + (nrows - 1 - r) * band_h + fl
-            yv = py(values[k])
+        col = _cols(pts, lay.W)
+
+        # 標籤：直接放在點旁邊，上下交錯
+        placed, draw = [], []
+        for n, (m, name) in enumerate(evs):
+            k = idx[m]
+            x, yv = px(m), py(values[k])
+            l1, l2 = _ev_lines(m, name)
+            w = max(_textw(l1, fl), _textw(l2, fl)) + 2 * pad
+            spot = _place(x, yv, w, bh, n % 2 == 0, lay, bottom, placed, col)
+            if spot is None:
+                warnings.append('%s %s 標籤「%s %s」排不下' % (res['id'], lay.kind, l1, l2))
+                continue
+            x0, y0 = spot
+            placed.append((x0, y0, x0 + w, y0 + bh))
+            draw.append((x, yv, x0, y0, w, l1, l2))
+        # 先畫全部引線，再畫全部標籤：別人的引線才不會壓在字上
+        for x, yv, x0, y0, w, l1, l2 in draw:
+            sx1, sy1, sx2, sy2 = _stem(x, yv, x0, y0, w, bh)
             out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="0.8" '
-                       'stroke-dasharray="2 3" stroke-opacity="0.75"/>' % (x, ty + 3.2, x, yv - 4, E.MUTED))
-            out.append(E.dot(x, yv, E.ACCENT, 3.2 if mob else 3.4))
-            out.append(E.text(a, ty, text, fl, 'start', E.INK, '700'))
-            placed.append((a, b, r, text))
-        # 手機版：圖下編號清單（放在同一個 SVG 裡，不佔「看得到的小字」額度）
-        if mob:
-            cols = 2
-            list_rows = (len(items) + cols - 1) // cols
-            cw = (lay.W - 8) / cols
-            for n, (m, lab, k, _t) in enumerate(items):
-                cx = 4 + (n // list_rows) * cw
-                cy = bottom + 30 + (n % list_rows) * (fl + 3.6)
-                out.append(E.text(cx, cy, '%d　%s' % (n + 1, lab), fl, 'start', E.MUTED))
+                       'stroke-dasharray="2 3" stroke-opacity="0.75"/>'
+                       % (sx1, sy1, sx2, sy2 + (1.5 if sy2 == y0 else -1.5), E.MUTED))
+        for x, yv, x0, y0, w, l1, l2 in draw:
+            out.append(E.rect(x0, y0, w, bh, E.SURFACE, 3, 0.86))
+            out.append(E.text(x0 + pad, y0 + pad + fl * 0.88, l1, fl, 'start', E.MUTED))
+            out.append(E.text(x0 + pad, y0 + pad + fl * 0.88 + lh, l2, fl, 'start', E.INK, '700'))
+        # 圓點最後畫：標籤的底色不會把它蓋掉
+        for x, yv, x0, y0, w, l1, l2 in draw:
+            out.append(E.dot(x, yv, E.ACCENT, 3.0 if mob else 3.4))
         out.append('</svg>')
 
-        # 自我檢查：同一列不得重疊、不得超出 viewBox
+        # 自我檢查：同一版裡兩兩不重疊、不超出 viewBox
         for i in range(len(placed)):
-            a1, b1, r1, t1_ = placed[i]
-            if a1 < -0.01 or b1 > lay.W + 0.01:
-                warnings.append('%s %s 標籤「%s」超出 viewBox' % (res['id'], lay.kind, t1_))
+            x0, y0, x1, y1 = placed[i]
+            if x0 < 0 or x1 > lay.W or y0 < 0 or y1 > h:
+                warnings.append('%s %s 標籤「%s」超出 viewBox' % (res['id'], lay.kind, draw[i][6]))
             for j in range(i + 1, len(placed)):
-                a2, b2, r2, t2_ = placed[j]
-                if r1 == r2 and a1 < b2 and a2 < b1:
-                    warnings.append('%s %s 標籤「%s」和「%s」重疊' % (res['id'], lay.kind, t1_, t2_))
+                q = placed[j]
+                if x0 < q[2] and q[0] < x1 and y0 < q[3] and q[1] < y1:
+                    warnings.append('%s %s 標籤「%s」和「%s」重疊'
+                                    % (res['id'], lay.kind, draw[i][6], draw[j][6]))
         return '\n'.join(out)
 
     svgs = [build(E.L('d')), build(E.L('m'))]
@@ -271,11 +346,18 @@ def chart(res):
                 extras=E.note(res['note']) + more, caption=res['caption'])
 
 
-# ---------------------------------------------------------------- 三個進入點
+# ---------------------------------------------------------------- 兩個進入點
+def _aria_events(evs):
+    """aria-label 唸出全部事件（年月＋名稱）：手機版只標其中十幾件，唸的是同一份全表。"""
+    return '、'.join('%s/%d %s' % (m[:4], int(m[5:7]), lab) for m, lab in evs)
+
+
+
 def taiex():
     r = compute_taiex()
     b = r['basis']
-    r['aria'] = '台股 1990 到 2025 年的長期走勢（對數刻度），線上標出十六件當時的大事'
+    r['aria'] = ('台股 1990 到 2025 年的長期走勢（對數刻度），線上標出這 %d 件當時的大事：%s'
+                 % (len(r['events']), _aria_events(r['events'])))
     r['title'] = '台股這 36 年：每一件大事，事後看是線上的一個凹陷'
     r['sub'] = '發行量加權股價指數（不含股利），1990–2025，月底收盤，對數刻度'
     r['note'] = '這是價格指數，不含股利；把股利算進去，這條線會更陡。'
@@ -298,7 +380,8 @@ def taiex():
 def _us_dress(r):
     b = r['basis']
     span = '%s–%s' % (b['from'][:4], b['to'][:4])
-    r['aria'] = '美股 %s 年的長期走勢（對數刻度，含息），線上標出當時的大事' % span
+    r['aria'] = ('美股 %s 年的長期走勢（對數刻度，含息），線上標出這 %d 件當時的大事：%s'
+                 % (span, len(r['events']), _aria_events(r['events'])))
     r['title'] = '美股這 %d 年：每一件大事，事後看是線上的一個凹陷' % round((len(r['months']) - 1) / 12)
     r['sub'] = 'S&P 500 含息、名目，%s，起點當 1 倍，對數刻度' % span
     r['note'] = '含息、名目，起點那個月當 1 倍；沒有扣物價、費用和稅，也不是台幣。'
@@ -318,10 +401,6 @@ def _us_dress(r):
 
 
 def sp500():
-    return chart(_us_dress(compute_us('1950-01')))
-
-
-def sp500_1929():
     return chart(_us_dress(compute_us('1929-01')))
 
 
