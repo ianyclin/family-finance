@@ -72,6 +72,11 @@ def _pct(v):
     return ('%+.1f%%' % v).replace('-', '−')
 
 
+def _tick(v):
+    """箱型圖縱軸的刻度文字：0 只寫「0%」，其餘帶正負號，負號用全形（和 _pct 的資料標籤一致）。"""
+    return ('%+d%%' % v).replace('-', '−') if v else '0%'
+
+
 def _lab(x, y, t, fs, anchor='middle'):
     """一段文字大概佔住的方框（x, y 是 E.text 的座標，y 是基線）。"""
     w = _textw(t, fs)
@@ -152,9 +157,9 @@ def chart_box(res):
 
         out = [E.svg_open(lay, h, res['aria'])]
         ticks = list(range(-60, 61, 20))
-        out += E.grid(lay, py, ticks, lambda v: '%+d%%' % v if v else '0%')
+        out += E.grid(lay, py, ticks, _tick)
         boxes = [_lab(lay.left - 6, py(t) + lay.fs * 0.36,
-                      ('%+d%%' % t) if t else '0%', lay.fs, 'end') for t in ticks]
+                      _tick(t), lay.fs, 'end') for t in ticks]
         for k, r in enumerate(rows):
             cx = left + gw * (k + 0.5)
             col = E.TEAL
@@ -386,7 +391,8 @@ def rolling_30y():
                     '抱 10 年，歷史上有大約 %d%% 的起點是虧的，最差一年 %s；'
                     '抱 20 年，沒有一個起點是虧的，最差一年 %.1f%%；抱 30 年，最差也有 %.1f%%。'
                     '哪一年開始你決定不了，抱多久你決定得了，'
-                    '何況多數人是分批投入，起點本來就散在很多個月。這是歷史，不是保證。'
+                    '何況多數人是分批投入，起點本來就散在很多個月。三個數字都沒扣物價。'
+                    '這是歷史，不是保證。'
                     % (round(by[10]['neg_pct']), ('%.1f%%' % by[10]['min'][1]).replace('-', '−'),
                        by[20]['min'][1], by[30]['min'][1]))
     return chart_rolling(r)
