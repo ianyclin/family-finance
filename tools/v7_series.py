@@ -18,8 +18,15 @@
     taiex：證交所發行量加權股價指數（價格，不含息）各月最後一個交易日收盤，
           1990-01 到 2025-12。含息的報酬指數官方只從 2003 年起提供，所以要看到
           1990 年那一段就只能用價格指數；書上另一張含息的圖（2003 起）是另一份資料。
+    taiex_spliced（v7 批 W）：同一條線、兩個口徑接起來。1990-01-04～2002-12-31 用價格指數
+          逐日收盤（research/data/taiex_price_daily_1990_2002.csv），2003-01-02 起用發行量
+          加權股價報酬指數（含股利）逐日收盤，在 2003-01-02 那一天把報酬指數乘上
+          價格收盤÷報酬指數收盤的比例接上去（那一天兩邊只差 0.05 點：4,524.87 對 4,524.92，
+          比例 0.99999，線不跳動）。
+          畫圖用的是它的逐週收盤（每週最後一個交易日）。
 """
 import csv
+import datetime
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,6 +34,11 @@ DATA = os.path.join(ROOT, 'research', 'data')
 SHILLER = os.path.join(DATA, 'shiller_sp_monthly.csv')
 SP500TR = os.path.join(DATA, 'sp500tr_monthend_2023_2026.csv')
 TAIEX_PRICE = os.path.join(DATA, 'taiex_price_monthend_1990_2025.csv')
+TAIEX_PRICE_DAILY = os.path.join(DATA, 'taiex_price_daily_1990_2002.csv')
+TAIEX_TR_DAILY = os.path.join(DATA, 'taiex_tr_monthly_raw.csv')
+
+# 台股兩個口徑的接點：報酬指數官方第一個交易日。
+TAIEX_SPLICE_DATE = '2003-01-02'
 
 # 串接點：Shiller 股利欄最後一個有值的月份
 SPLICE_MONTH = '2023-06'
@@ -61,6 +73,44 @@ def taiex_price_monthly():
     """台股價格指數月底收盤。回傳 (months, values, rows)；rows 保留月內最高／最低收盤那兩欄。"""
     rows = list(csv.DictReader(open(TAIEX_PRICE, encoding='utf-8')))
     return ([r['month'] for r in rows], [float(r['taiex_close']) for r in rows], rows)
+
+
+def taiex_spliced_daily():
+    """台股逐日：1990 價格指數接上 2003 起的含息報酬指數。回傳 (dates, values, factor)。
+
+    factor＝接點那一天的價格收盤 ÷ 報酬指數收盤（實測 0.99999：4,524.87 對 4,524.92）。
+    乘上去只是把那 0.05 點的差抹平，讓線在接點不跳動。
+    """
+    px = [(r['date'], float(r['close']))
+          for r in csv.DictReader(open(TAIEX_PRICE_DAILY, encoding='utf-8'))]
+    tr = [(r['date'], float(r['taiex_tr_index']))
+          for r in csv.DictReader(open(TAIEX_TR_DAILY, encoding='utf-8'))]
+    factor = dict(px)[TAIEX_SPLICE_DATE] / dict(tr)[TAIEX_SPLICE_DATE]
+    assert tr[0][0] == TAIEX_SPLICE_DATE, tr[0]
+    rows = [(d, v) for d, v in px if d < TAIEX_SPLICE_DATE] + [(d, v * factor) for d, v in tr]
+    assert rows == sorted(rows), '逐日序列沒有排好'
+    return [d for d, _ in rows], [v for _, v in rows], factor
+
+
+def taiex_spliced_weekly():
+    """上面那條逐日序列的逐週收盤：每個日曆週（ISO 週）最後一個交易日。回傳 (dates, values)。"""
+    dates, values, _f = taiex_spliced_daily()
+    last = {}
+    for d, v in zip(dates, values):
+        k = datetime.date.fromisoformat(d).isocalendar()[:2]
+        if k not in last or d > last[k][0]:
+            last[k] = (d, v)
+    rows = sorted(last.values())
+    return [d for d, _ in rows], [v for _, v in rows]
+
+
+def week_of(dates, day):
+    """某一天落在哪一週：回傳那一週的收盤日（dates 是 taiex_spliced_weekly 的日期欄）。"""
+    k = datetime.date.fromisoformat(day).isocalendar()[:2]
+    for d in dates:
+        if datetime.date.fromisoformat(d).isocalendar()[:2] == k:
+            return d
+    return None
 
 
 def rolling_annualised(months, tr, years):

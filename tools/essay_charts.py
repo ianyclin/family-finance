@@ -103,8 +103,12 @@ def hline(x1, x2, y, color=LINE, width=1, dash="3 4"):
     return '<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="%s"%s/>' % (x1, y, x2, y, color, width, d)
 
 
-def grid(lay, py, values, fmt, x1=None, x2=None, zero=INK):
-    """水平格線＋左側刻度；0 用墨色實線。"""
+def grid(lay, py, values, fmt, x1=None, x2=None, zero=INK, zero_dy=0.0):
+    """水平格線＋左側刻度；0 用墨色實線。
+
+    zero_dy（v7 批 W）：只把「0」那個刻度的字往上移幾個單位（負值往上）。原點上的 y 軸「0」和
+    x 軸第一個標籤會擦到（主線在 1024 與 375 實量 getBBox），x 軸標籤挪不動的圖用這個。
+    """
     out = []
     x1 = lay.left if x1 is None else x1
     x2 = lay.right if x2 is None else x2
@@ -113,7 +117,8 @@ def grid(lay, py, values, fmt, x1=None, x2=None, zero=INK):
             out.append(hline(x1, x2, py(v), zero, 1.3, None))
         else:
             out.append(hline(x1, x2, py(v)))
-        out.append(text(x1 - 6, py(v) + lay.fs * 0.36, fmt(v), lay.fs, "end", MUTED))
+        dy = zero_dy if v == 0 else 0.0
+        out.append(text(x1 - 6, py(v) + lay.fs * 0.36 + dy, fmt(v), lay.fs, "end", MUTED))
     return out
 
 
@@ -290,7 +295,8 @@ def milestones():
         def px(y): return left + (right - left) * y / T
         def py(v): return bottom - (bottom - top) * v / 640
         out = [svg_open(lay, h, "每多累積 60 萬要花幾年：前面慢，後面快")]
-        out += grid(lay, py, (0, 200, 400, 600), lambda v: ("%d 萬" % v) if v else "0", x2=right)
+        # 「0」往上移 6：正下方的「花幾年」是左欄的列名，跟著右邊那排年數對齊，挪不動
+        out += grid(lay, py, (0, 200, 400, 600), lambda v: ("%d 萬" % v) if v else "0", x2=right, zero_dy=-6)
         area_total = [(px(0), py(0))] + [(px(y), py(v)) for y, v in total if y <= T] + [(px(T), py(0))]
         area_contrib = [(px(0), py(0))] + [(px(y), py(v)) for y, v in contrib if y <= T] + [(px(T), py(0))]
         out.append('<polygon points="%s" fill="%s" fill-opacity="0.3"/>' % (" ".join("%.1f,%.1f" % p for p in area_total), TEAL))
@@ -529,7 +535,9 @@ def dca_high_low():
         out += grid(lay, py, (0, 500e4, 1000e4, 1500e4), lambda v: ("%d 萬" % (v / 1e4)) if v else "0", x2=right)
         for i, r in enumerate(rows):
             if int(r["month"]) == 1 and int(r["year"]) % 4 == 3:
-                out.append(text(px(i), bottom + lay.f + 4, r["year"], lay.f, "middle", MUTED))
+                # 第一個年份靠左對齊，才不會往左長到 y 軸的「0」上面（v7 批 W）
+                out.append(text(px(i), bottom + lay.f + 4, r["year"], lay.f,
+                                "start" if i == 0 else "middle", MUTED))
         out.append(poly([(px(i), py(v)) for i, v in enumerate(lo)], TEAL, 1.8))
         out.append(poly([(px(i), py(v)) for i, v in enumerate(hi)], ACCENT, 1.8))
         out.append(dot(px(n - 1), py(lo[-1]), TEAL, 3.5))
@@ -615,8 +623,10 @@ def smooth_vs_jagged():
         out = [svg_open(lay, h, "示意：每月投入 5,000 元、年化同為 6%、30 年，平滑假想線與中途下跌的鋸齒線")]
         out += grid(lay, py, (0, 200, 400, 600), lambda v: ("%d 萬" % v) if v else "0")
         for t in (0, 10, 20, 30):
-            # 最右邊那個刻度靠右對齊，手機版才不會超出圖框被切掉
-            out.append(text(px(t), bottom + lay.f + 4, "%d 年" % t, lay.f, "end" if t == 30 else "middle", MUTED))
+            # 最右邊那個刻度靠右對齊，手機版才不會超出圖框被切掉；
+            # 最左邊那個靠左對齊，才不會往左長到 y 軸的「0」上面（v7 批 W）
+            anc = "end" if t == 30 else ("start" if t == 0 else "middle")
+            out.append(text(px(t), bottom + lay.f + 4, "%d 年" % t, lay.f, anc, MUTED))
         out.append(poly([(px(t), py(v)) for t, v in smooth], MUTED, lay.line - 0.4, dash="6 5"))
         out.append(poly([(px(t), py(v)) for t, v in jagged], ACCENT, lay.line))
         out.append(dot(px(jagged[-1][0]), py(jagged[-1][1]), ACCENT))

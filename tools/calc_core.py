@@ -972,6 +972,30 @@ def long_run_key_points():
                      'max_drawdown_pct': round(_vs.max_drawdown(tw_m, tw_v)[0], 2),
                      'max_drawdown_peak': _vs.max_drawdown(tw_m, tw_v)[1],
                      'max_drawdown_trough': _vs.max_drawdown(tw_m, tw_v)[2]}}
+    # v7 批 W：第 8 節台股長線圖改畫這一條——1990 價格指數接 2003 起的含息報酬指數，逐週收盤。
+    sw_d, sw_v = _vs.taiex_spliced_weekly()
+    _dd, _dv, factor = _vs.taiex_spliced_daily()
+    hi_date, hi_close = max(((d, v) for d, v in zip(_dd, _dv) if d < '1991-01-01'), key=lambda r: r[1])
+    lo_date, lo_close = min(((d, v) for d, v in zip(_dd, _dv) if '1991-01-01' > d >= hi_date),
+                            key=lambda r: r[1])
+    out['taiex_spliced'] = {
+        'source': ('1990-01-04～2002-12-31 證交所發行量加權股價指數（價格），'
+                   '2003-01-02 起發行量加權股價報酬指數（含股利），接在 2003-01-02'),
+        'file': ('research/data/taiex_price_daily_1990_2002.csv＋'
+                 'research/data/taiex_tr_monthly_raw.csv'),
+        'splice_date': _vs.TAIEX_SPLICE_DATE, 'splice_factor': round(factor, 8),
+        'from': sw_d[0], 'to': sw_d[-1], 'n_weeks': len(sw_d),
+        'first': round(sw_v[0], 2), 'last': round(sw_v[-1], 2),
+        'high_1990_date': hi_date, 'high_1990_close': round(hi_close, 2),
+        'low_1990_date': lo_date, 'low_1990_close': round(lo_close, 2),
+        # 只看價格（不含股利）什麼時候再收在 1990 年那個高點：用逐月檔的月內最高收盤查
+        'back_to_high_month_price': next(
+            (r['month'] for r in _rows
+             if r['month'] > hi_date[:7] and float(r['month_high_close']) >= hi_close), None),
+        # 算進 2003 年以後的股利以後，第一次收在那個高度的那一週
+        'back_to_high_week_total': next(
+            (d for d, v in zip(sw_d, sw_v) if d > hi_date and v >= hi_close), None),
+    }
     for name, start in (('us_1950', '1950-01'), ('us_1929', '1929-01')):
         i = us_m.index(start)
         m2 = us_m[i:]
@@ -993,6 +1017,17 @@ assert _lr['taiex']['n_months'] == 432, _lr['taiex']
 assert _lr['taiex']['first'] == 12054.35 and _lr['taiex']['last'] == 28963.60, _lr['taiex']
 assert _lr['taiex']['max_drawdown_peak'][:4] == '1990' and _lr['taiex']['max_drawdown_trough'][:4] == '1990', _lr['taiex']
 assert -78.0 <= _lr['taiex']['max_drawdown_pct'] <= -77.0, _lr['taiex']
+# 台股串接序列（批 W）：1990-01-06～2025-12-31 共 1,859 週；1990 年最高的收盤是 1990-02-10 的
+# 12,495.34，同年最低是 1990-10-01 的 2,560.47；只看價格要到 2020-07 才再收在那個高度，
+# 算進 2003 年以後的股利則是 2013-12-27 那一週。圖說寫的就是這幾個數字。
+_ts = _lr['taiex_spliced']
+assert _ts['from'] == '1990-01-06' and _ts['to'] == '2025-12-31', _ts
+assert _ts['n_weeks'] == 1859, _ts
+assert _ts['splice_date'] == '2003-01-02' and abs(_ts['splice_factor'] - 1) < 1e-4, _ts
+assert (_ts['high_1990_date'], _ts['high_1990_close']) == ('1990-02-10', 12495.34), _ts
+assert (_ts['low_1990_date'], _ts['low_1990_close']) == ('1990-10-01', 2560.47), _ts
+assert _ts['back_to_high_month_price'] == '2020-07', _ts
+assert _ts['back_to_high_week_total'] == '2013-12-27', _ts
 # 美股 1950 起（批 T 起指南不畫了，留著當對照）：起點 1 倍 → 2026-08 約 4,598 倍；
 # 最深的一段是 2007-10 → 2009-03（約 −49%）
 assert _lr['us_1950']['to'] == '2026-08' and _lr['us_1950']['n_months'] == 920, _lr['us_1950']

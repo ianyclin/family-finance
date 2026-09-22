@@ -6,15 +6,17 @@
     「那幾年長什麼樣子」。
 
 口徑
-    台股：證交所發行量加權股價指數（價格，不含息）各月最後一個交易日收盤，1990-01 到
-          2025-12。含息的報酬指數官方只從 2003 年起提供，所以 1990 那一段只能用價格指數；
-          含息會比這條線更陡。
+    台股（批 W：作者「台股長線應該要直接用含股利的？有些點沒在線上」）：一條線、兩個口徑接起來。
+          1990-01-04～2002-12-31 用證交所發行量加權股價指數（價格，不含股利）逐日收盤，
+          2003-01-02 起用發行量加權股價報酬指數（含股利）逐日收盤，在 2003-01-02 那一天接上
+          （接點那一天兩個指數的收盤差 0.05 點：4,524.87 對 4,524.92，比例 0.99999，線不跳動）。
+          含息的報酬指數官方只從 2003 年起提供，所以前半段只有價格；序列的實作在 tools/v7_series.py。
     美股：S&P 500 含息、名目。1871-01 到 2023-06 用 Shiller 月資料，2023-07 起用
           S&P 500 總報酬指數串接（見 tools/v7_series.py）。指南放 1929 起（作者 2026-09-22 選）。
-    事件點（批 V 第 5 條）：線是月底收盤，事件點標在「事件當天或當月最低的收盤」——台股有
-          月內最高／最低收盤可查，1990-02 那一件事本身就是高點，標當月最高的收盤
-          （1990-02-10 的 12,495.34），其餘都是跌，標當月最低的收盤（例如 2024-08-05 的
-          19,830.88），比月底收盤貼近凹陷。美股只有月資料，事件點就標在該月的值。
+    事件點（批 W：作者要點在線上）：台股的線改成逐週收盤（每週最後一個交易日，約 1,859 點），
+          事件點就標在事件那一週的收盤，所以點一定落在線上；週線也看得到 2003-04、2024-08
+          這種一個月之內的凹陷。標籤上印的年月是事件本身的年月（例如九二一在 1999-09-27，
+          那一週收在 1999-10-02，標籤仍寫 1999/9）。美股只有月資料，事件點就標在該月的值。
 
 版式（批 T：作者「不要用編號，直接標注在編號處」）
     縱軸對數刻度（同樣高度＝同樣的百分比，早期的跌幅才看得到）。
@@ -25,6 +27,7 @@
     排完會自我檢查：同一版裡兩兩不重疊、不超出 viewBox，有問題就印 ⚠。
     圖上只寫事件名稱與年月，不寫跌幅；跌幅與每個事件的出處寫在第 8 節的來源卡。
 """
+import datetime
 import math
 import os
 import sys
@@ -37,28 +40,29 @@ import v7_series as S
 # (月份, 事件名)：第一行印年月、第二行印事件名，所以名稱要短（六個中文字以內）。
 # 每一筆的日期都有官方或一手的出處，逐筆寫在第 8 節來源卡（見 spec-v7-content-t.md T1）。
 # *_MOBILE 是手機版要標的那一份子集（跌得深的、讀者記得的），桌機版標全部。
+# 台股改成逐日日期（批 W）：點畫在這一天所屬那一週的收盤上。每一個日期都是第 8 節來源卡
+# 已經列過的那一天（1990 年最高的收盤、各事件當天台股大跌的那一天、升息用 FOMC 那一天）。
 TAIEX_EVENTS = [
-    ('1990-02', '歷史高點'),
-    ('1995-08', '台海危機'),
-    ('1997-10', '亞洲風暴'),
-    ('1999-09', '九二一地震'),
-    ('2000-03', '網路泡沫'),
-    ('2001-09', '九一一'),
-    ('2003-04', 'SARS'),
-    ('2004-03', '三一九槍擊'),
-    ('2008-09', '金融海嘯'),
-    ('2011-08', '歐債危機'),
-    ('2015-08', '中國股災'),
-    ('2018-10', '貿易戰'),
-    ('2020-03', '疫情'),
-    ('2022-03', '升息'),
-    ('2024-08', '單日大跌'),
-    ('2025-04', '關稅'),
+    ('1990-02-10', '歷史高點'),
+    ('1995-08-05', '台海危機'),
+    ('1997-10-28', '亞洲風暴'),
+    ('1999-09-27', '九二一地震'),
+    ('2000-03-13', '網路泡沫'),
+    ('2001-09-13', '九一一'),
+    ('2003-04-24', 'SARS'),
+    ('2004-03-22', '三一九槍擊'),
+    ('2008-09-16', '金融海嘯'),
+    ('2011-08-05', '歐債危機'),
+    ('2015-08-24', '中國股災'),
+    ('2018-10-11', '貿易戰'),
+    ('2020-03-19', '疫情'),
+    ('2022-03-16', '升息'),
+    ('2024-08-05', '單日大跌'),
+    ('2025-04-07', '關稅'),
 ]
-# 標在「當月最高的收盤」的事件（它本身就是高點）；其餘標在當月最低的收盤。
-TAIEX_AT_HIGH = {'1990-02'}
-TAIEX_MOBILE = ['1990-02', '1997-10', '1999-09', '2000-03', '2003-04', '2004-03', '2008-09',
-                '2011-08', '2015-08', '2020-03', '2022-03', '2024-08', '2025-04']
+TAIEX_MOBILE = ['1990-02-10', '1997-10-28', '1999-09-27', '2000-03-13', '2003-04-24',
+                '2004-03-22', '2008-09-16', '2011-08-05', '2015-08-24', '2020-03-19',
+                '2022-03-16', '2024-08-05', '2025-04-07']
 
 US_EVENTS = [
     ('1929-10', '華爾街崩盤'),
@@ -87,48 +91,57 @@ US_MOBILE = ['1929-10', '1932-07', '1941-12', '1962-10', '1973-10', '1987-10', '
              '2001-09', '2008-09', '2011-08', '2020-03', '2022-03', '2025-04']
 
 
-def _tnum(m):
-    y, mm = m.split('-')
-    return int(y) + (int(mm) - 1) / 12.0
+def _tnum(k):
+    """把 'YYYY-MM' 或 'YYYY-MM-DD' 換成小數年（兩種都以該年 1 月 1 日為 .0，混用不會錯位）。"""
+    p = k.split('-')
+    if len(p) == 2:
+        return int(p[0]) + (int(p[1]) - 1) / 12.0
+    d = datetime.date(int(p[0]), int(p[1]), int(p[2]))
+    return d.year + (d.toordinal() - datetime.date(d.year, 1, 1).toordinal()) / 365.25
 
 
 # ---------------------------------------------------------------- compute
 def compute_taiex():
-    months, values, rows = S.taiex_price_monthly()
-    # 1990 年那一段：當年收盤最高的那一天、當年收盤最低的那一天，以及收盤再站回那個高點的月份。
+    dates, values = S.taiex_spliced_weekly()
+    _d, _v, factor = S.taiex_spliced_daily()
+    # 1990 年那一段：當年收盤最高的那一天、之後當年收盤最低的那一天。
     # 只有收盤價可查：證交所線上的開高低收（MI_5MINS_HIST）只到 1999-01-05，
     # 常被引用的盤中 12,682 點查不到官方逐日資料、確切日期也查不到，所以本文一律用收盤高點。
-    rowmap = {r['month']: r for r in rows}
-    y1990 = [r for r in rows if r['month'] < '1991-01']
-    hi = max(y1990, key=lambda r: float(r['month_high_close']))
-    lo_after = min((r for r in y1990 if r['month'] >= hi['month']),
-                   key=lambda r: float(r['month_low_close']))
-    lvl = float(hi['month_high_close'])
-    # 只到月：本檔存的是月底收盤與月內最高／最低收盤，查不到「第一天」是哪一天。
-    # 第 7 節那張三個例子的圖有逐日的日期（台灣 1990-02-10 → 2020-07-27，約 30 年），兩邊一致。
-    back = next((r['month'] for r in rows
-                 if r['month'] > hi['month'] and float(r['month_high_close']) >= lvl), None)
+    y1990 = [(d, v) for d, v in zip(_d, _v) if d < '1991-01-01']
+    hi_date, hi_close = max(y1990, key=lambda r: r[1])
+    lo_date, lo_close = min((r for r in y1990 if r[0] >= hi_date), key=lambda r: r[1])
+    # ①價格指數（不含股利）什麼時候再收在那個高度：月內最高收盤的那一份逐月檔還在，用它查。
+    #   對到第 7 節那張三個例子的圖（台灣 1990-02-10 → 2020-07-27，約 30 年）。
+    pm_rows = S.taiex_price_monthly()[2]
+    back_price = next((r['month'] for r in pm_rows
+                       if r['month'] > hi_date[:7] and float(r['month_high_close']) >= hi_close), None)
+    # ②串接後（2003 年起含股利）第一次收在那個高度的那一週。
+    back_tr = next((d for d, v in zip(dates, values) if d > hi_date and v >= hi_close), None)
+    # 事件點：事件那一天所屬那一週的收盤（所以點一定在線上）；標籤上印的仍是事件本身的年月。
+    ev_week = {ev: S.week_of(dates, ev) for ev, _lab in TAIEX_EVENTS}
+    events = [(ev_week[ev], lab) for ev, lab in TAIEX_EVENTS if ev_week.get(ev)]
     return {
         'id': 'taiex-long-run',
         'market': 'taiex',
-        'months': months, 'values': values,
-        'events': [(m, lab) for m, lab in TAIEX_EVENTS if months[0] <= m <= months[-1]],
-        # 事件點的 y：事件當天或當月最低的收盤（見檔頭「事件點」）。
-        'event_y': {m: float(rowmap[m]['month_high_close'] if m in TAIEX_AT_HIGH
-                             else rowmap[m]['month_low_close'])
-                    for m, _lab in TAIEX_EVENTS if m in rowmap},
-        'mobile_events': TAIEX_MOBILE,
-        'y_ticks': [2000, 3000, 5000, 10000, 20000, 30000],
+        'months': dates, 'values': values,
+        'events': events,
+        'label_month': {ev_week[ev]: ev[:7] for ev, _lab in TAIEX_EVENTS if ev_week.get(ev)},
+        'event_y': {},          # 點就在線上：用該週的收盤（chart 裡的預設）
+        'mobile_events': [ev_week[ev] for ev in TAIEX_MOBILE if ev_week.get(ev)],
+        'y_ticks': [2000, 3000, 5000, 10000, 20000, 30000, 50000],
         'y_fmt': lambda v: ('%d,000' % (v // 1000)),
         'x_ticks': [1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025],
         'basis': {
-            'source': '證交所發行量加權股價指數（價格，不含息）',
-            'file': 'research/data/taiex_price_monthend_1990_2025.csv',
-            'from': months[0], 'to': months[-1], 'n_months': len(months),
-            'high_close': float(hi['month_high_close']), 'high_date': hi['month_high_date'],
-            'low_close': float(lo_after['month_low_close']), 'low_date': lo_after['month_low_date'],
-            'back_to_high_month': back,
-            'max_drawdown': S.max_drawdown(months, values),
+            'source': '1990–2002 證交所發行量加權股價指數（價格），2003 起發行量加權股價報酬指數（含股利）',
+            'file': ('research/data/taiex_price_daily_1990_2002.csv＋'
+                     'research/data/taiex_tr_monthly_raw.csv'),
+            'splice_date': S.TAIEX_SPLICE_DATE, 'splice_factor': factor,
+            'from': dates[0], 'to': dates[-1], 'n_weeks': len(dates),
+            'high_close': hi_close, 'high_date': hi_date,
+            'low_close': lo_close, 'low_date': lo_date,
+            'back_to_high_month_price': back_price,
+            'back_to_high_week_total': back_tr,
+            'max_drawdown': S.max_drawdown(dates, values),
         },
     }
 
@@ -176,10 +189,10 @@ def _textw(s, fs):
     return w * fs
 
 
-def _ev_lines(month, name):
-    """標籤的兩行：第一行年月，第二行事件名。"""
-    y, m = month.split('-')
-    return ('%s/%d' % (y, int(m)), name)
+def _ev_lines(key, name):
+    """標籤的兩行：第一行年月，第二行事件名。key 是 'YYYY-MM' 或 'YYYY-MM-DD'。"""
+    p = key.split('-')
+    return ('%s/%d' % (p[0], int(p[1])), name)
 
 
 def _stem(x, yv, x0, y0, w, bh):
@@ -319,7 +332,7 @@ def chart(res):
         for n, (m, name) in enumerate(evs):
             k = idx[m]
             x, yv = px(m), py(res['event_y'].get(m, values[k]))
-            l1, l2 = _ev_lines(m, name)
+            l1, l2 = _ev_lines(res.get('label_month', {}).get(m, m), name)
             w = max(_textw(l1, fl), _textw(l2, fl)) + 2 * pad
             spot = _place(x, yv, w, bh, n % 2 == 0, lay, bottom, placed, col, blocked=blocked)
             if spot is None:
@@ -371,7 +384,10 @@ def chart(res):
 
 # ---------------------------------------------------------------- 兩個進入點
 def _aria_events(evs):
-    """aria-label 唸出全部事件（年月＋名稱）：手機版只標其中十幾件，唸的是同一份全表。"""
+    """aria-label 唸出全部事件（年月＋名稱）：手機版只標其中十幾件，唸的是同一份全表。
+
+    evs 的第一欄是要唸出來的年月 'YYYY-MM'（台股的線是逐週，事件那一週不一定和事件同月）。
+    """
     return '、'.join('%s/%d %s' % (m[:4], int(m[5:7]), lab) for m, lab in evs)
 
 
@@ -379,25 +395,34 @@ def _aria_events(evs):
 def taiex():
     r = compute_taiex()
     b = r['basis']
-    r['aria'] = ('台股 1990 到 2025 年的長期走勢（對數刻度），線上標出這 %d 件當時的大事：%s'
-                 % (len(r['events']), _aria_events(r['events'])))
+    evs = [(r['label_month'][k], lab) for k, lab in r['events']]
+    r['aria'] = ('台股 1990 到 2025 年的長期走勢（對數刻度，逐週收盤；1990 到 2002 年是價格指數，'
+                 '2003 年起含股利），線上標出這 %d 件當時的大事：%s'
+                 % (len(evs), _aria_events(evs)))
     r['title'] = '台股這 36 年：每一件大事，事後看是線上的一個凹陷'
-    r['sub'] = '發行量加權股價指數（不含股利），1990–2025，月底收盤，對數刻度'
-    r['note'] = '這是價格指數，不含股利；把股利算進去，這條線會更陡。'
-    r['more'] = ('證交所發行量加權股價指數，各月最後一個交易日收盤，%s 年 %d 月到 %s 年 %d 月，共 %d 個月。'
-                 '含息的報酬指數官方只從 2003 年起提供，所以要看到 1990 年那一段就只能用價格指數；'
-                 '本節另一張表和另一張圖用的是含息那一份。沒有扣物價、費用和稅。'
+    r['sub'] = '1990–2002 價格指數，2003 起含股利，每週收盤，對數刻度'
+    r['note'] = ('1990 到 2002 年沒有官方的含息指數，那一段只有價格；2003 年起含股利。'
+                 '所以前半段偏低，兩段接在一起看整體方向就好。')
+    r['more'] = ('%s 年 %d 月到 2002 年 12 月用證交所發行量加權股價指數（價格，不含股利）的逐日收盤，'
+                 '2003 年 1 月 2 日起用發行量加權股價報酬指數（含股利）的逐日收盤，兩段在那一天接起來；'
+                 '接點那一天兩個指數的收盤只差 0.05 點（4,524.87 對 4,524.92），線沒有跳動。'
+                 '圖上畫的是每週最後一個交易日的收盤，'
+                 '到 %s 年 %d 月為止共 %s 週。沒有扣物價、費用和稅。'
                  '圖上只標事件的名稱和年月，每一件的日期出處與當時的跌幅寫在本節來源卡。'
-                 % (b['from'][:4], int(b['from'][5:7]), b['to'][:4], int(b['to'][5:7]), b['n_months']))
-    r['caption'] = ('%s 年 %d 月 %d 日收在 %s 點的人，同一年十月就看到 %s 點；要等到 %s 年 %d 月，'
-                    '指數才再收在那個價位以上，中間約三十年（逐日的日期在第 <a class="xref" href="#s4">7</a> 節'
-                    '那張三個例子的圖）。每一件在當時都像世界末日；拉長看，是線上的一個凹陷。這是歷史，不是保證：'
+                 % (b['from'][:4], int(b['from'][5:7]), b['to'][:4], int(b['to'][5:7]),
+                    '{:,}'.format(b['n_weeks'])))
+    r['caption'] = ('%s 年 %d 月 %d 日收在 %s 點的人，同一年十月就看到 %s 點；只算價格、不含股利，'
+                    '要等到 %s 年 %d 月，指數才再收在那個價位以上，中間約三十年'
+                    '（逐日的日期在第 <a class="xref" href="#s4">7</a> 節那張三個例子的圖）。'
+                    '算進 2003 年以後的股利，這條線在 %s 年 %d 月就回到那個高度。'
+                    '每一件在當時都像世界末日；拉長看，是線上的一個凹陷。這是歷史，不是保證：'
                     '下一次不一定回得來得這麼快，也可能像 1990 年這一次一樣等很久。'
                     '縱軸是對數刻度：同樣高度代表同樣的百分比，早期的跌幅才看得到；'
-                    '線是月底收盤，事件點標在事件當天或當月最低的收盤。'
+                    '線是每週最後一個交易日的收盤，事件點標在事件那一週的收盤。'
                     % (b['high_date'][:4], int(b['high_date'][5:7]), int(b['high_date'][8:10]),
                        '{:,}'.format(int(b['high_close'])), '{:,}'.format(int(b['low_close'])),
-                       b['back_to_high_month'][:4], int(b['back_to_high_month'][5:7])))
+                       b['back_to_high_month_price'][:4], int(b['back_to_high_month_price'][5:7]),
+                       b['back_to_high_week_total'][:4], int(b['back_to_high_week_total'][5:7])))
     return chart(r)
 
 
