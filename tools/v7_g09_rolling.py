@@ -18,8 +18,9 @@
 圖 B（sp500-rolling-30y）滾動 10、20、30 年的年化報酬（v7 批 X：作者 2026-09-22 要三條線）
     同一張圖三條線：10 年（淺灰）、20 年（中灰）、30 年（綠色，最上層、最粗）。橫軸是視窗
     結束的年份（「抱滿的那個月」），所以 10 年線從 1881 年才開始有點、20 年線 1891、30 年線 1901。
-    縱軸從 −5% 起（10 年最差 −4.0%），0% 是墨色的基準線。圖上只標三個點：10 年線的最低、
-    30 年線的最低與最高；其餘數字在圖說。錨點與 data-chart 名稱沿用 sp500-rolling-30y。
+    縱軸從 −5% 起（10 年最差 −4.0%），0% 是墨色的基準線。圖上只標三個點（批 Y：作者要三條線各自的
+    最低，拿掉 30 年最高）：10 年最低 −4.0%（1939）、20 年最低 2.0%（1949）、30 年最低 3.6%（1932）；
+    其餘數字在圖說。錨點與 data-chart 名稱沿用 sp500-rolling-30y。
 """
 import os
 import sys
@@ -35,6 +36,11 @@ COWLES_NOTE = ('1926 年以前的月資料是 Shiller 依 Cowles 委員會的指
                '拿掉它 30 年最差會變成 7.6%。本文選擇把最差的留著。')
 # 視窗數少於這個數就不畫那一根：四、五個重疊的視窗畫成箱型，會看起來像「歷史上就是這樣」。
 MIN_N = 30
+# v7 批 Y（作者「縱軸為了兩個極端值而變長」）：縱軸固定 −70%～+70%、格線每 20%，不再跟著極端值伸縮。
+# 10、20、30 年那幾根箱子因此有兩倍的高度可讀。落在範圍外的端點（全期那一組是 1 年的最好 +139.8%）
+# 鬚畫到上緣、以箭頭收尾，數字照樣標在箭頭旁，明示它超出了圖的範圍；圖說也會講一句。
+AX_LO, AX_HI = -70.0, 70.0
+ARROW = 6.0
 
 
 def _tnum(m):
@@ -52,6 +58,13 @@ def _textw(s, fs):
     for ch in s:
         w += 1.0 if ord(ch) > 0x2E7F else 0.56
     return w * fs
+
+
+def _over_range(rows):
+    """哪幾根的端點落在縱軸範圍外（要用箭頭收尾）：回傳 (超出上緣的, 超出下緣的) 兩份年數清單。"""
+    drawn = [r for r in rows if r['n'] >= MIN_N]
+    return ([r['years'] for r in drawn if r['max'] > AX_HI],
+            [r['years'] for r in drawn if r['min'] < AX_LO])
 
 
 def _pct(v):
@@ -117,9 +130,6 @@ def compute_rolling(years_list=(10, 20, 30)):
 def chart_box(res):
     import essay_charts as E
     rows = res['rows']
-    drawn = [r for r in rows if r['n'] >= MIN_N]
-    vmax = max(r['max'] for r in drawn)
-    vmin = min(r['min'] for r in drawn)
     warn = []
 
     def draw(lay):
@@ -132,14 +142,16 @@ def chart_box(res):
         right = lay.right - (12 if mob else 4)   # 最後一組的中位數標在箱的右邊，右邊要留得下
         gw = (right - left) / len(rows)
         bw = gw * (0.40 if mob else 0.36)
-        pad = (vmax - vmin) * 0.09
 
         def py(v):
-            return bottom - (bottom - top) * (v - (vmin - pad)) / ((vmax + pad) - (vmin - pad))
+            return bottom - (bottom - top) * (v - AX_LO) / (AX_HI - AX_LO)
+
+        def pyc(v):
+            """畫圖用的 y：落在縱軸範圍外的值先夾回範圍內（端點另外用箭頭表示超出）。"""
+            return py(min(max(v, AX_LO), AX_HI))
 
         out = [E.svg_open(lay, h, res['aria'])]
-        ticks = [t for t in (-60, -40, -20, 0, 20, 40, 60, 80, 100, 120, 140)
-                 if vmin - pad <= t <= vmax + pad]
+        ticks = list(range(-60, 61, 20))
         out += E.grid(lay, py, ticks, lambda v: '%+d%%' % v if v else '0%')
         boxes = [_lab(lay.left - 6, py(t) + lay.fs * 0.36,
                       ('%+d%%' % t) if t else '0%', lay.fs, 'end') for t in ticks]
@@ -154,37 +166,46 @@ def chart_box(res):
                 boxes.append(_lab(cx, bottom - 4, '樣本太少', lay.f))
                 out.append(E.text(cx, bottom + lay.f + 8, '%d 年' % r['years'], lay.f, 'middle', E.INK, '700'))
                 continue
-            # 鬚：最差到最好
+            # 鬚：最差到最好。超出縱軸範圍的那一端不畫橫槓，改成畫到上（下）緣、以箭頭收尾。
+            hi_out, lo_out = r['max'] > AX_HI, r['min'] < AX_LO
+            ytop = (py(AX_HI) + ARROW + 1.0) if hi_out else pyc(r['max'])
+            ybot = (py(AX_LO) - ARROW - 1.0) if lo_out else pyc(r['min'])
             out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.2"/>'
-                       % (cx, py(r['max']), cx, py(r['min']), E.MUTED))
-            for v in (r['max'], r['min']):
-                out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.2"/>'
-                           % (cx - bw * 0.28, py(v), cx + bw * 0.28, py(v), E.MUTED))
+                       % (cx, ytop, cx, ybot, E.MUTED))
+            for yend, out_of_range, up in ((ytop, hi_out, True), (ybot, lo_out, False)):
+                if out_of_range:
+                    tip = yend - ARROW if up else yend + ARROW
+                    out.append('<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="%s"/>'
+                               % (cx, tip, cx - 3.4, yend, cx + 3.4, yend, E.MUTED))
+                else:
+                    out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.2"/>'
+                               % (cx - bw * 0.28, yend, cx + bw * 0.28, yend, E.MUTED))
             # 箱：第 15 到第 85 百分位
-            y0, y1 = py(r['p85']), py(r['p15'])
+            y0, y1 = pyc(r['p85']), pyc(r['p15'])
             out.append(E.rect(cx - bw / 2, y0, bw, max(2.0, y1 - y0), col, rx=2, opacity=0.35))
             out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" rx="2" fill="none" stroke="%s" stroke-width="1.2"/>'
                        % (cx - bw / 2, y0, bw, max(2.0, y1 - y0), col))
             # 中線
+            ymed = pyc(r['median'])
             out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.2"/>'
-                       % (cx - bw / 2, py(r['median']), cx + bw / 2, py(r['median']), col))
+                       % (cx - bw / 2, ymed, cx + bw / 2, ymed, col))
             # 三個數字。六根的精度一致（都一位小數）：抱久了以後範圍很窄，整數會讓 3.6% 看成 4%。
             def num(v):
                 return _pct(v)
-            bmax = _lab(cx, py(r['max']) - 5, num(r['max']), fl)
-            bmin = _lab(cx, py(r['min']) + fl + 3, num(r['min']), fl)
-            boxes += [bmax, bmin]
-            out.append(E.text(cx, py(r['max']) - 5, num(r['max']), fl, 'middle', E.INK, '700'))
-            out.append(E.text(cx, py(r['min']) + fl + 3, num(r['min']), fl, 'middle', E.INK, '700'))
+            ymaxlab = (ytop - ARROW - 5) if hi_out else (ytop - 5)
+            yminlab = (ybot + ARROW + fl + 3) if lo_out else (ybot + fl + 3)
+            boxes += [_lab(cx, ymaxlab, num(r['max']), fl), _lab(cx, yminlab, num(r['min']), fl)]
+            out.append(E.text(cx, ymaxlab, num(r['max']), fl, 'middle', E.INK, '700'))
+            out.append(E.text(cx, yminlab, num(r['min']), fl, 'middle', E.INK, '700'))
             # 中位數標在箱的右邊；右邊放不下（最後一組）就改標在箱的左邊，不出 viewBox
             med = '%.1f%%' % r['median']
             wmed = len(med) * fl * 0.56 + 3
             if cx + bw / 2 + wmed <= lay.W - 6:
-                out.append(E.text(cx + bw / 2 + 3, py(r['median']) + fl * 0.36, med, fl, 'start', E.TEAL, '800'))
-                boxes.append(_lab(cx + bw / 2 + 3, py(r['median']) + fl * 0.36, med, fl, 'start'))
+                out.append(E.text(cx + bw / 2 + 3, ymed + fl * 0.36, med, fl, 'start', E.TEAL, '800'))
+                boxes.append(_lab(cx + bw / 2 + 3, ymed + fl * 0.36, med, fl, 'start'))
             else:
-                out.append(E.text(cx - bw / 2 - 3, py(r['median']) + fl * 0.36, med, fl, 'end', E.TEAL, '800'))
-                boxes.append(_lab(cx - bw / 2 - 3, py(r['median']) + fl * 0.36, med, fl, 'end'))
+                out.append(E.text(cx - bw / 2 - 3, ymed + fl * 0.36, med, fl, 'end', E.TEAL, '800'))
+                boxes.append(_lab(cx - bw / 2 - 3, ymed + fl * 0.36, med, fl, 'end'))
             out.append(E.text(cx, bottom + lay.f + 8, '%d 年' % r['years'], lay.f, 'middle', E.INK, '700'))
         out.append('</svg>')
         _check(res['id'], lay.kind, boxes, lay.W, h, warn)
@@ -201,7 +222,9 @@ def chart_box(res):
 
 # ---------------------------------------------------------------- 圖 B
 # 三條線的顏色都取自既有調色盤（沒有新增顏色）：--line 淺灰、--muted 中灰、--teal 綠。
-LINE_STYLE = {10: ('LINE', 1.2, 1.4), 20: ('MUTED', 1.4, 1.6), 30: ('TEAL', 1.9, 2.2)}
+# 第四欄是線的透明度（批 Y：作者要 20 年那條再淡一些，落在 10 年淺灰與 20 年中灰之間）：
+# --muted 畫成 45% 不透明（＝55% 透明），深色模式沿用同一個變數，自動跟著換。
+LINE_STYLE = {10: ('LINE', 1.2, 1.4, None), 20: ('MUTED', 1.4, 1.6, 0.45), 30: ('TEAL', 1.9, 2.2, None)}
 
 
 def chart_rolling(res):
@@ -242,14 +265,14 @@ def chart_rolling(res):
                 out.append(E.text(px(m), bottom + lay.f + 6, str(y), lay.f, 'middle', E.MUTED))
                 boxes.append(_lab(px(m), bottom + lay.f + 6, str(y), lay.f))
         for sr in series:
-            name, wd, wm = LINE_STYLE[sr['years']]
+            name, wd, wm, op = LINE_STYLE[sr['years']]
             out.append(E.poly([(px(m), py(v)) for m, v, _s in sr['points']],
-                              getattr(E, name), wd if mob else wm))
-        # 只標三個點：10 年線的最低（唯一低於 0 的地方）、30 年線的最低與最高
-        # 10 年最低那個點貼著圖框底部，標籤只能往上放（往下會壓到 x 軸的年份）；
-        # 30 年最低往下、30 年最高往上，兩個都在點的外側。
-        marks = [(10, 'min', '10 年最低', -8), (30, 'min', '30 年最低', fl + 9),
-                 (30, 'max', '30 年最高', -8)]
+                              getattr(E, name), wd if mob else wm, opacity=op))
+        # 只標三個點（批 Y）：三條線各自的最低。三個點的年份離得近（1932、1939、1949），
+        # 標籤一定會在橫向重疊，所以靠縱向交錯開：30 年最低（y≈3.6%）往上、20 年最低（y≈2.0%）往下、
+        # 10 年最低那個點貼著圖框底部只能往上（往下會壓到 x 軸的年份）。
+        marks = [(10, 'min', '10 年最低', -8), (20, 'min', '20 年最低', fl + 9),
+                 (30, 'min', '30 年最低', -8)]
         for yrs, key, label, dy in marks:
             m, v, _st = by_year[yrs][key]
             x, yy = px(m), py(v)
@@ -265,7 +288,9 @@ def chart_rolling(res):
     svgs = [draw(E.L('d')), draw(E.L('m'))]
     for w in warn:
         print('⚠ ' + w)
-    lg = E.legend([(E.LINE, '抱 10 年'), (E.MUTED, '抱 20 年'), (E.TEAL, '抱 30 年')])
+    lg = E.legend([(E.LINE, '抱 10 年'),
+                   (E.MUTED, '抱 20 年', LINE_STYLE[20][3]),
+                   (E.TEAL, '抱 30 年')])
     return dict(title=res['title'], sub=res['sub'], svgs=svgs,
                 extras=lg + E.note(res['note']) + res['more'], caption=res['caption'])
 
@@ -295,12 +320,22 @@ def _box_dress(r):
                  '那張表是 J.P. Morgan 自己的資料、1950 年起、以整年為單位（1 月 1 日到 12 月 31 日）；'
                  '這張圖是 %s 年起、逐月起算。期間越長、起算方式越細，最好和最差就越極端。</p></details>'
                  % (_ym(r['from']), _ym(r['to']), r['from'][:4]))
+    hi_out, lo_out = _over_range(r['rows'])
+    # 縱軸固定 −70%～+70%（批 Y）：落在範圍外的端點用箭頭收尾，圖說要講明白。
+    over = ''
+    if hi_out:
+        over = ('%s那一根的最好一次超出了圖的範圍，用箭頭表示。'
+                % '、'.join('%d 年' % y for y in hi_out))
+    if lo_out:
+        over += ('%s那一根的最差一次超出了圖的範圍，用箭頭表示。'
+                 % '、'.join('%d 年' % y for y in lo_out))
     r['caption'] = ('往右看，鬚越來越短：抱 1 年最差 %s、最好 %s，%s。'
-                    '中間那條線是中位數，一半的視窗在它上面、一半在下面。這是歷史，不是保證；'
+                    '中間那條線是中位數，一半的視窗在它上面、一半在下面。%s'
+                    '這是歷史，不是保證；'
                     '而且每一根的視窗互相重疊，不是獨立的樣本。'
                     % (_pct(n1['min']), _pct(n1['max']),
                        ('抱 30 年最差 %s、最好 %s' % (_pct(n30[0]['min']), _pct(n30[0]['max']))) if n30
-                       else '30 年那一根的視窗太少，沒有畫'))
+                       else '30 年那一根的視窗太少，沒有畫', over))
     return r
 
 

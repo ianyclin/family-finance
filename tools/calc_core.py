@@ -1069,7 +1069,8 @@ for _k, (_n, _mn, _mx, _md) in _ROLL_EXPECT.items():
     assert _r['n'] == _n, (_k, _r['n'], _n)
     assert abs(_r['min'] - _mn) <= 0.02 and abs(_r['max'] - _mx) <= 0.02, (_k, _r)
     assert abs(_r['median'] - _md) <= 0.02, (_k, _r)
-# 圖 B 的標註點；「30 年沒有一個起點是虧的」要站得住：30 年最差也還是正的
+# 圖 B 的標註點（批 Y 改成三條線各自的最低，30 年最高只留在「想深入」那段）；
+# 「30 年沒有一個起點是虧的」要站得住：30 年最差也還是正的
 assert _rr['30年']['min_end'] == '1932-06' and _rr['30年']['max_end'] == '2000-07', _rr['30年']
 assert _rr['30年']['min'] > 0, _rr['30年']
 assert abs(_rr['30年']['p15'] - 6.71) <= 0.02 and abs(_rr['30年']['p85'] - 11.93) <= 0.02, _rr['30年']

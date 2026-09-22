@@ -123,7 +123,13 @@ def grid(lay, py, values, fmt, x1=None, x2=None, zero=INK, zero_dy=0.0):
 
 
 def legend(items):
-    return '<ul class="legend">' + "".join('<li><span class="swatch" style="background:%s"></span>%s</li>' % (c, esc(t)) for c, t in items) + "</ul>"
+    """items 是 (顏色, 文字) 或 (顏色, 文字, 透明度)；給了透明度，色塊就和線一樣淡。"""
+    out = []
+    for it in items:
+        c, t = it[0], it[1]
+        op = ';opacity:%s' % it[2] if len(it) > 2 else ''
+        out.append('<li><span class="swatch" style="background:%s%s"></span>%s</li>' % (c, op, esc(t)))
+    return '<ul class="legend">' + "".join(out) + "</ul>"
 
 
 def note(s):

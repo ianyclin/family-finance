@@ -82,6 +82,7 @@ US_EVENTS = [
     ('2003-03', '伊拉克戰爭'),
     ('2008-09', '金融海嘯'),
     ('2011-08', '歐債危機'),
+    ('2018-12', '貿易戰'),
     ('2020-03', '疫情'),
     ('2022-03', '升息'),
     ('2023-03', '銀行倒閉'),
@@ -238,7 +239,7 @@ def _on_line(col, x0, y0, x1, y1):
     return n
 
 
-def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0, blocked=()):
+def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0, blocked=(), last_cx=None):
     """替一個標籤找位置：在點的附近試一格一格的候選，挑「離點最近、又不撞到別人」的那一個。
 
     候選＝上下各七層（由內而外）× 水平位移（從正中往兩邊各挪到兩個半標籤寬）。
@@ -246,7 +247,11 @@ def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0, blocked=(
     代價＝標籤中心到事件點的距離（橫向加重，擠在一起的寧可往下排，不要橫著挪到別的年份上面）
     ＋標籤蓋到線的罰分（蓋住就看不出那一年的線長什麼樣）
     ＋引線穿過別人標籤的罰分（穿過就看不出這條線連的是哪一件）
-    ＋放在不偏好那一邊的罰分（相鄰事件一高一低，自然錯開）。
+    ＋放在不偏好那一邊的罰分（相鄰事件一高一低，自然錯開）
+    ＋時序倒置的罰分（批 Y：作者「2025/4 關稅被推到 2023/3 銀行倒閉的左下方，讀起來像時序錯亂」）。
+      last_cx 記著同一側（上／下）上一個、也就是時間上更早的那個標籤的中心 x；
+      事件是照時間順序排的，所以同一側後面的標籤中心 x 不可以比它小。罰分大到實質等於禁止，
+      但不直接剔除候選，免得整個標籤排不下。
     """
     best = None
     for lv in range(7):
@@ -268,6 +273,10 @@ def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0, blocked=(
                 cost += 75.0 * _crosses(_stem(x, yv, x0, y0, w, bh), list(placed) + list(blocked))
                 if up != prefer_up:
                     cost += 10.0
+                if last_cx is not None:
+                    prev = last_cx.get(up)
+                    if prev is not None and (x0 + w / 2) < prev:
+                        cost += 400.0 + (prev - (x0 + w / 2))
                 if best is None or cost < best[0]:
                     best = (cost, x0, y0)
     return None if best is None else (best[1], best[2])
@@ -329,16 +338,19 @@ def chart(res):
 
         # 標籤：直接放在點旁邊，上下交錯
         placed, draw = [], []
+        last_cx = {}            # 同一側最後一個（時間上最近的前一個）標籤的中心 x
         for n, (m, name) in enumerate(evs):
             k = idx[m]
             x, yv = px(m), py(res['event_y'].get(m, values[k]))
             l1, l2 = _ev_lines(res.get('label_month', {}).get(m, m), name)
             w = max(_textw(l1, fl), _textw(l2, fl)) + 2 * pad
-            spot = _place(x, yv, w, bh, n % 2 == 0, lay, bottom, placed, col, blocked=blocked)
+            spot = _place(x, yv, w, bh, n % 2 == 0, lay, bottom, placed, col,
+                          blocked=blocked, last_cx=last_cx)
             if spot is None:
                 warnings.append('%s %s 標籤「%s %s」排不下' % (res['id'], lay.kind, l1, l2))
                 continue
             x0, y0 = spot
+            last_cx[(y0 + bh) <= yv] = x0 + w / 2
             placed.append((x0, y0, x0 + w, y0 + bh))
             draw.append((x, yv, x0, y0, w, l1, l2))
         # 先畫全部引線，再畫全部標籤：別人的引線才不會壓在字上
@@ -400,9 +412,10 @@ def taiex():
                  '2003 年起含股利），線上標出這 %d 件當時的大事：%s'
                  % (len(evs), _aria_events(evs)))
     r['title'] = '台股這 36 年：每一件大事，事後看是線上的一個凹陷'
-    r['sub'] = '1990–2002 價格指數，2003 起含股利，每週收盤，對數刻度'
-    r['note'] = ('1990 到 2002 年沒有官方的含息指數，那一段只有價格；2003 年起含股利。'
-                 '所以前半段偏低，兩段接在一起看整體方向就好。')
+    r['sub'] = '每週收盤，對數刻度；1990–2002 只有價格（證交所的含息指數 2003 年才開始編），2003 起含股利'
+    r['note'] = ('證交所的發行量加權股價報酬指數（含股利）自民國 92 年（2003 年）1 月起才開始提供，'
+                 '所以 1990 到 2002 年沒有官方的含息指數，那一段只有價格；2003 年起含股利。'
+                 '前半段因此偏低，兩段接在一起看整體方向就好。')
     r['more'] = ('%s 年 %d 月到 2002 年 12 月用證交所發行量加權股價指數（價格，不含股利）的逐日收盤，'
                  '2003 年 1 月 2 日起用發行量加權股價報酬指數（含股利）的逐日收盤，兩段在那一天接起來；'
                  '接點那一天兩個指數的收盤只差 0.05 點（4,524.87 對 4,524.92），線沒有跳動。'
