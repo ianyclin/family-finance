@@ -12,7 +12,8 @@
       budget.json 形如 {"ten": 600, "why": 900, "_total_max": 70000}；超過的節列出來，exit 1。
       另支援 "_visible_total_max"（全書 mainline＋small 上限）與
       "_visible_small_per_section_max"（每節 small 上限，不含來源卡；
-      SMALL_EXEMPT 那幾節與 group-* 不查）。
+      SMALL_EXEMPT 那幾節與 group-* 不查），以及 "_visible_small_overrides"
+      （{"節 id": 上限}，只放行點名的那一節；其他節仍照通用上限查，不會被一起放寬）。
       給了 --section 就只檢查指定的節，兩個全書合計改成只印不判（施工中途全書必然超標）。
   python3 tools/v7_check.py planstep <html>
       檢查每個 div.planstep 的結構與位置；結構錯 exit 1。
@@ -381,16 +382,21 @@ def cmd_budget(args):
             over.append((k, m, limit))
 
     smax = budget.get('_visible_small_per_section_max')
+    # 個別放行：只有點名的那一節換上限（例如第 8 節多了兩張主線上的圖，圖說本身就是小字）。
+    # 不動通用上限，其他節的警報照舊。
+    overrides = budget.get('_visible_small_overrides') or {}
     if smax is not None:
         for k, r in rows.items():
             if want is not None and k not in want:
                 continue
             if not small_checked(k):
                 continue
-            mark = 'OVER' if r['small'] > smax else 'ok'
-            print('%-16s small=%-10d limit=%-7d %s' % (k, r['small'], smax, mark))
-            if r['small'] > smax:
-                over.append((k + ' (small)', r['small'], smax))
+            lim = overrides.get(k, smax)
+            mark = 'OVER' if r['small'] > lim else 'ok'
+            print('%-16s small=%-10d limit=%-7d %s%s'
+                  % (k, r['small'], lim, mark, '（個別放行）' if k in overrides else ''))
+            if r['small'] > lim:
+                over.append((k + ' (small)', r['small'], lim))
 
     total = sum(r['mainline'] for r in rows.values())
     vtotal = sum(r['visible'] for r in rows.values())

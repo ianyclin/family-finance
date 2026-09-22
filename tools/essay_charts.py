@@ -865,6 +865,18 @@ def investor_cycle():
     return _g07.chart(calc()["investor_cycle"])
 
 
+# v7 批 S2 的 G08／G09：兩張長線圖。資料直接讀 research/data 的兩份 CSV（序列太長，
+# 不進 calc-results.json），口徑與 calc_core 共用 tools/v7_series.py，所以兩邊不會各算各的。
+def taiex_long_run():
+    import v7_g08_long_run as _g08
+    return _g08.taiex()
+
+
+def sp500_long_run():
+    import v7_g08_long_run as _g08
+    return _g08.sp500()
+
+
 CHARTS = [
     ("three-circles", "01-where-return-comes-from.html", "順便講「又穩又高」", "aside", three_circles),
     ("four-people", "02-time.html", "手冊算過四個人", "aside", four_people),
@@ -950,6 +962,8 @@ def do_guide():
     funcs["safety-steps"] = safety_steps          # 只在指南
     funcs["holding-positive"] = holding_positive  # 只在指南
     funcs["investor-cycle"] = investor_cycle      # 只在指南
+    funcs["taiex-long-run"] = taiex_long_run      # 只在指南
+    funcs["sp500-long-run"] = sp500_long_run      # 只在指南
     n = 0
     diffs = []
     def repl(m):
@@ -978,7 +992,38 @@ def do_guide():
     return 0
 
 
+# v7 批 S2／S6：作者要挑版本的圖，產成獨立 HTML 樣張（不進指南）。
+# 樣張帶指南的 <style>，所以顏色、字級、深色模式和書上完全一樣。
+SAMPLES_DIR = ROOT / "wip" / "v63-review" / "samples"
+
+
+def sample_charts():
+    import v7_g08_long_run as _g08
+    out = [("sp500-long-run-1929", "美股長線圖：1929 年起（指南放的是 1950 年起那一版）", _g08.sp500_1929)]
+    return out
+
+
+def do_samples():
+    global GUIDE_MODE
+    GUIDE_MODE = True
+    css = re.search(r"<style>.*?</style>", GUIDE.read_text(encoding="utf-8"), re.S).group(0)
+    n = 0
+    for cid, title, fn in sample_charts():
+        fig = build(cid, fn, caption_html=True)
+        html = ('<!doctype html><html lang="zh-Hant"><meta charset="utf-8">'
+                '<meta name="viewport" content="width=device-width,initial-scale=1">'
+                '<title>%s</title>%s<body class="part" style="max-width:700px;margin:0 auto;padding:18px">'
+                '<p class="small">樣張：%s。手機看請直接縮放視窗到 375px 寬。</p>\n%s\n</body></html>\n'
+                % (esc(title), css, esc(title), fig))
+        (SAMPLES_DIR / (cid + ".html")).write_text(html, encoding="utf-8")
+        print("樣張 %s → wip/v63-review/samples/%s.html" % (cid, cid))
+        n += 1
+    return 0
+
+
 def main(argv):
+    if "--samples" in argv:
+        return do_samples()
     if "--all" in argv:
         return do_essay() or do_guide()
     if "--guide" in argv:

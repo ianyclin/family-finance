@@ -948,6 +948,61 @@ assert abs(_w['worst_real']['nominal_pct'] - 6.7) <= 0.05, _w['worst_real']
 assert abs(_w['worst_real']['real_pct'] - 0.8) <= 0.05, _w['worst_real']
 assert abs(_w['worst_nominal']['real_pct'] - 3.6) <= 0.05, _w['worst_nominal']
 
+# ---------- 第 8 節：兩張長線圖的關鍵點（v7 批 S2） ----------
+# 兩條月序列的實作在 tools/v7_series.py（畫圖的 tools/v7_g08_long_run.py 匯入同一份，
+# 所以圖上和這裡不會各算各的）。這裡只算關鍵點並 assert：起訖值、最大回撤發生在哪一年。
+# 台股是價格指數（不含息，1990 起，證交所線上只有這一份追得到 1990 年）；
+# 美股是含息、名目，1871-01～2023-06 用 Shiller，2023-07 起串接 S&P 500 總報酬指數。
+sys.path.insert(0, HERE)
+import v7_series as _vs
+
+
+def shiller_tr_extended():
+    """薄包裝：Shiller 含息月序列接上 ^SP500TR，延長到 2026-08。實作見 tools/v7_series.py。"""
+    return _vs.shiller_tr_extended()
+
+
+def long_run_key_points():
+    tw_m, tw_v, _rows = _vs.taiex_price_monthly()
+    us_m, us_tr = shiller_tr_extended()
+    out = {'taiex': {'source': '證交所發行量加權股價指數（價格，不含股利），各月最後一個交易日收盤',
+                     'file': 'research/data/taiex_price_monthend_1990_2025.csv',
+                     'from': tw_m[0], 'to': tw_m[-1], 'n_months': len(tw_m),
+                     'first': round(tw_v[0], 2), 'last': round(tw_v[-1], 2),
+                     'max_drawdown_pct': round(_vs.max_drawdown(tw_m, tw_v)[0], 2),
+                     'max_drawdown_peak': _vs.max_drawdown(tw_m, tw_v)[1],
+                     'max_drawdown_trough': _vs.max_drawdown(tw_m, tw_v)[2]}}
+    for name, start in (('us_1950', '1950-01'), ('us_1929', '1929-01')):
+        i = us_m.index(start)
+        m2 = us_m[i:]
+        v2 = [v / us_tr[i] for v in us_tr[i:]]
+        dd = _vs.max_drawdown(m2, v2)
+        out[name] = {'source': 'S&P 500 含息、名目（Shiller 1871-01～2023-06，之後串接 ^SP500TR）',
+                     'from': m2[0], 'to': m2[-1], 'n_months': len(m2),
+                     'first': 1.0, 'last_multiple': round(v2[-1], 1),
+                     'annualised_pct': round((v2[-1] ** (12.0 / (len(v2) - 1)) - 1) * 100, 2),
+                     'max_drawdown_pct': round(dd[0], 2),
+                     'max_drawdown_peak': dd[1], 'max_drawdown_trough': dd[2]}
+    return out
+
+
+R['long_run'] = long_run_key_points()
+_lr = R['long_run']
+# 台股：1990-01 收 12,054.35 → 2025-12 收 28,963.60；月底收盤最深的一段是 1990-01 → 1990-09
+assert _lr['taiex']['n_months'] == 432, _lr['taiex']
+assert _lr['taiex']['first'] == 12054.35 and _lr['taiex']['last'] == 28963.60, _lr['taiex']
+assert _lr['taiex']['max_drawdown_peak'][:4] == '1990' and _lr['taiex']['max_drawdown_trough'][:4] == '1990', _lr['taiex']
+assert -78.0 <= _lr['taiex']['max_drawdown_pct'] <= -77.0, _lr['taiex']
+# 美股 1950 起：起點 1 倍 → 2026-08 約 4,598 倍；最深的一段是 2007-10 → 2009-03（約 −49%）
+assert _lr['us_1950']['to'] == '2026-08' and _lr['us_1950']['n_months'] == 920, _lr['us_1950']
+assert abs(_lr['us_1950']['last_multiple'] - 4598.2) <= 1.0, _lr['us_1950']
+assert (_lr['us_1950']['max_drawdown_peak'], _lr['us_1950']['max_drawdown_trough']) == ('2007-10', '2009-03'), _lr['us_1950']
+assert abs(_lr['us_1950']['max_drawdown_pct'] + 49.04) <= 0.1, _lr['us_1950']
+# 美股 1929 起（只用在樣張）：約 9,899 倍；最深的一段是 1929-09 → 1932-06（約 −82%）
+assert abs(_lr['us_1929']['last_multiple'] - 9898.7) <= 2.0, _lr['us_1929']
+assert (_lr['us_1929']['max_drawdown_peak'], _lr['us_1929']['max_drawdown_trough']) == ('1929-09', '1932-06'), _lr['us_1929']
+assert abs(_lr['us_1929']['max_drawdown_pct'] + 81.76) <= 0.1, _lr['us_1929']
+
 # ---------- 第 24 節第三題：2.31% 提領率換成幾倍（v7 第 20 版 B5） ----------
 # Anarkulova, Cederburg, O'Doherty & Sias (2025), JPEF 24(3): 38 個已開發國家、
 # 一對 65 歲夫妻、5% 破產容忍度 → 一年提 2.31%。倍數＝1 ÷ 提領率。
