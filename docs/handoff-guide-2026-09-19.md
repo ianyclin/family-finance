@@ -518,3 +518,20 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **作者定稿（不得改字）**：第 3 節白話版末句「跌的時候？一樣會跌，只是全世界陪你。」；「為什麼要投資？…」那句黃線已移除（黃線 97＋淡紅 14）；「為什麼不自己動手？因為不良的投資行為很大一部分來自人性的追高殺低。這也是這本手冊叫「隔離人性」的原因。」；「你得到什麼」卡引言「指數投資是一套簡單、寫得下來、誰照著做都一樣的步驟，不是一種本事。我可以，你可以，未來年老的自己也可以。你不用比別人聰明（很多人都覺得自己就是能打敗大盤的那一個），但要有耐心、守紀律。」
 
 **還沒做**：AE／AF 的新句子（滾動圖扣物價那句、想深入、E16、0.74 來源卡、搬進主線的引言「下面兩張圖用的算法叫…」、三句指路）沒有再過裁判（AC／AD 已過，判決要點：算術全對、扣物價那句報輕→AE 已修）；**待作者拍板**：滾動圖 10 年線對比度 1.46:1（裁判建議 10 年改中灰、20 年淡綠加到六成；作者 9/22 拍的是淡灰／淡綠）；台股桌機 1999–2004 五個標籤離點 45–55px（幾何上排不下，builder 已試過加罰分無效）；作者看 Version 23 的回饋。裁判提到的既有問題：滾動圖「想深入」把讀者指到「二十年扣掉物價最差」那句（1950 起另一套資料），f5bae39 就有，未處理。`release/` 三份是 gitignore，發布前從 `export/隔離人性-理財新手完整指南-v7.0 預覽.html` 複製（md5 要等於 guide/index.html）。
+## 2026-09-22 批 AH（第三輪語氣：難讀與 AI 感，第 1–13 節）
+
+**規格**：`wip/v63-review/spec-v7-content-ah.md`。**依據**：`wip/v63-review/voice/round3-brief.md`（尺）、`voice/round3-a-s1-s7.md`（裁判 A，含末尾補列 E1–E5）、`voice/round3-b-s8-s13.md`（裁判 B）。第 14–25 節的裁判報告是 `voice/round3-c-s14-s25.md`，**還沒施工**。
+
+**做了什麼**（約 70 條，黃線／淡紅線／黃框一字未動，沒有新增事實、數字或來源）：去掉「同一件事講兩三次」16 處；五個「想深入：」摘要改成讀者的問句、三個摺疊刪掉重複的那一層標題；圖外只留「這張圖告訴我什麼」，口徑／樣本／重疊／精確金額收進該圖已有的「想深入」（intra-year、ranges、taiex-recovery、holding-positive、five-people、dca-high-low、missing-days、drag-breakdown）；第 13 節主線三句心魔各補一句「為什麼」（出處是同節摺疊原話）；術語首見補白話（視窗、壓力測試、保管鏈、口徑 a.term 前移到第 5 節、另類基金用主線給的定義）；最長的幾句拆開（第 5 節 143 字、第 7 節 154 字、第 8 節急救卡 212 字）。
+
+**作者定稿（不得改字）新增一則**：第 8 節滾動圖 `figure[data-chart="sp500-rolling-30y"]` 的 `</figure>` 後面那個黃框——「這張圖讓我知道不管什麼時候投入，只要長期持有，就不需要擔心（當然，限大盤）」。黃框總數 25 → **26**（`guidetools check` 的 story 計數跟著變，不是哨兵壞掉）。
+
+**這一批改到的產生器**（圖下 `p.note` 以腳本為正本，改腳本才算數）：`tools/essay_charts.py`（intra_year／ranges／five_people／dca_high_low／taiex_recovery／milestones 的 note）、`tools/v63_g03_drag_breakdown.py`、`tools/v63_g04_fee_gap.py`、`tools/v63_g06_holding_positive.py`、`tools/v7_g09_rolling.py`（箱型圖「想深入」去掉兩句重複；滾動圖的 Cowles 段改成指路上一張圖）。`tools/calc_core.py` 的 quotes 同步 6 條（改到的句子）。
+
+**兩處 G1 沒改，等作者／等全書一起改**：① 第 3 節「這也是這本手冊叫「隔離人性」的原因」在上面「作者定稿（不得改字）」清單裡，G1 不能蓋過定稿；② 第 7 節「本指南的做法：核心放全球市值型」是 `lite/labels.json` 的 `practice_prefix`（哨兵逐字比對），全書八處、其餘七處在第 14 節以後，要改就八處＋白名單一起改。同理，第 9 節小卡「（本指南的做法）」和第 14 節起步版表格那一句逐字相同，留給第 14–25 節那一批一起改。
+
+**等作者拍板（這一批沒動）**：第 7 節黃線後面的「（不是唯一答案）」；第 13 節兩句黃線（「自動投入、預設選項…」四連列舉、「關掉通知：…」）。
+
+**檢查**：`--guide` 跑兩次（第二次 0 ⚠）、budget（s1 2015→2076、s5 3314→3319、s10 2006→2069、`_total_max` 56804→56882，理由寫在 `budget-v7.json` 的 `_comment_ah`）、anchors、planstep、numbers 兩個基準（v6.3.1 與批 AH 開工前的 `58c8cc3`）都 LOST 0，例外檔是新的 `wip/v63-review/numbers-allow-round32.json`（在 round31 上加 36 條，每條寫明另一份還在哪裡）、`guidetools check`、`test_guidetools.py`、`test_v7_check.py`、`calc_core.py`（引用缺漏 0）、`build_lite.py` SENTINELS OK。
+
+**沒做**：版面沒有用瀏覽器量過；新寫的句子沒有再過裁判。
