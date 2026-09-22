@@ -509,7 +509,7 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 
 ## 2026-09-22 關機交班（主線寫，批 AD 施工中）
 
-**發布狀態（2026-09-22 晚）**：指南 Artifact **Version 25**、工作表 **Version 16**——含批 AA 到 AF-2 全部內容（Version 23／14＝AD 後、24／15＝AE 後、25／16＝AF-2 後）。發布前量過版面：1024 與 375 四張圖 0 重疊、0 出界、0 紅點壓字，頁面不橫捲，50 張表 0 溢出；四張圖預覽檔已傳作者。下一次發布＝Version 23／14，發布前先量版面（1024／375）並重產 `wip/v63-review/samples/long-run-charts-preview.html` 給作者（`scratchpad/mkprev.py` 的做法：抽 guide 的 `<style>` 與四個 `figure[data-chart]`）。
+**發布狀態（2026-09-23）**：指南 Artifact **Version 26**、工作表 **Version 17**——含批 AA 到 AK 全部內容（23／14＝AD、24／15＝AE、25／16＝AF-2、26／17＝AK）。第三輪語氣（難讀與 AI 感）：尺 `voice/round3-brief.md`，三份報告 `voice/round3-{a,b,c}-*.md`，修正批 AH（1–13 節）、AI（14–25 節）、AJ（AG/AH 複審修正，`judge-ah.md`）、AK；AI／AJ 的複審報告待落檔為 `judge-ai.md`。版面實量（AK 後）：1024 與 375 全頁 docOverflow 0、50 張表 0 溢出、28 張圖 0 重疊 0 出界；375 下 `p/li` 的 scrollWidth 比 clientWidth 多 3–18px 的有 31 處（改前 22 處，黃線 mark 的內距造成，頁面不橫捲，非回歸）。發布前量過版面：1024 與 375 四張圖 0 重疊、0 出界、0 紅點壓字，頁面不橫捲，50 張表 0 溢出；四張圖預覽檔已傳作者。下一次發布＝Version 23／14，發布前先量版面（1024／375）並重產 `wip/v63-review/samples/long-run-charts-preview.html` 給作者（`scratchpad/mkprev.py` 的做法：抽 guide 的 `<style>` 與四個 `figure[data-chart]`）。
 
 **已 commit（v7-preview）**：`91956dc` 批 AA（T–Z2 裁判後修正 14 條＋作者定稿三處）、`3136352` 批 AA-2（來源卡舊引用句＋「你得到什麼」卡引言作者定稿）、`4fa82a8` 批 AB（事件點變硬障礙，四版點壓標籤全 0）、`41ddc07` 批 AC（裁判 AA 的 M1＋S1–S4＋N1–N3，處置記在 `wip/v63-review/judge-aa.md` 末段）。各批之後都有「產生檔重建」commit。
 
