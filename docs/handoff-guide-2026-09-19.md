@@ -14,6 +14,8 @@
 
 **2026-09-22 批 T 已做（最新）**：規格 `wip/v63-review/spec-v7-content-t.md`。第 8 節美股長線圖改成作者挑的 **1929 年起**（1 元 → 約 9,899 元、最深 −82%，`calc_core` 的 `us_1929` assert 釘住這兩個數字），事件 9 → 21 件、來源卡 29 → 37 筆（新增 8 筆官方一手日期出處）；兩張長線圖的事件標籤改成**不編號、直接標在線上**（兩行：年月＋事件名，細引線連到點，擠的地方上下錯開；圖下編號清單移除，手機版標 13 件、桌機版全標，`aria-label` 兩版都唸全部事件），排版在 `tools/v7_g08_long_run.py` 裡自我檢查重疊與出界，桌機與手機都 0 ⚠；刪掉兩張作廢樣張（`sp500-long-run-1929.html`、`sp500-holding-box-recent30.html`），`essay_charts.py --samples` 目前是空清單。allow 檔 `numbers-allow-round25.json`（與批 U 共用）。**還沒做**：新圖的版面還沒在瀏覽器用 `getBBox` 實量（美股桌機版右邊 2020–2025 那四件的引線最長約 150px，是這張圖最該看的地方）。
 
+**2026-09-22 批 V 已做（最新）**：規格 `wip/v63-review/spec-v7-content-v.md`（S 批裁判後修正，4 must＋9 should，13 條全做）。第 4 節 6% 與 −37%／+52% 補口徑（新錨點 `#s1-rate`）；四張新圖的 `details.more` 加 `data-print="open"`，箱型圖的「和 J.P. Morgan 口徑不一樣」那句移到看得見的 `p.note`；**兩張長線圖的事件點改標在事件當天或當月最低的收盤**（台股用 `month_high_close`／`month_low_close`，美股只有月資料就標當月），並把 y 軸刻度也納入標籤排版的障礙物（主線在 375px 實量到的「1932/7」壓住「1 倍」已修），四張版面自檢 0 ⚠；`v7_g09_rolling.py` 口徑字串改成依資料起訖動態產生、視窗 <30 的那一根不畫標「樣本太少」、加上和 G08 同款的自檢；第 13 節第三個理由改成稅與手續費那一版；三筆來源卡改如實（H.Con.Res.148、FAPA、兩筆呈現方式參考另起小標，筆數宣告 35＋2）；12,682 不再寫日期；`research/data/README.md` 兩列搬回表格內。allow 檔開 `numbers-allow-round26.json`（round25 全留＋8 條）；`budget-v7.json` 照實測調（s1 2,015、s10 2,006、s5 小字 788，理由在 `_comment_v`）。全套檢查綠、`build_lite.py` SENTINELS OK、`release/` 三個副本已更新。**還沒做**：批 V 新寫的句子沒有再過裁判；事件點改標之後的兩張長線圖還沒在瀏覽器用 `getBBox` 再實量一次。
+
 **2026-09-22 批 U 已改好、還沒 commit（最新）**：規格 `wip/v63-review/spec-v7-content-u.md`，第 3 節 lede 與白話版兩句作者拍板替換，`numbers-allow-round25.json`、`budget-v7.json`（why 1,046→1,084）已同步，全套哨兵通過；因為套用員規則不commit，等派工的人核過 diff 後自己補 commit。
 
 ## 2026-09-20 換 session 時的現況（最新，先讀這段；和下文衝突時以這段為準）

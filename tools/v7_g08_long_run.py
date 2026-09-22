@@ -11,6 +11,10 @@
           含息會比這條線更陡。
     美股：S&P 500 含息、名目。1871-01 到 2023-06 用 Shiller 月資料，2023-07 起用
           S&P 500 總報酬指數串接（見 tools/v7_series.py）。指南放 1929 起（作者 2026-09-22 選）。
+    事件點（批 V 第 5 條）：線是月底收盤，事件點標在「事件當天或當月最低的收盤」——台股有
+          月內最高／最低收盤可查，1990-02 那一件事本身就是高點，標當月最高的收盤
+          （1990-02-10 的 12,495.34），其餘都是跌，標當月最低的收盤（例如 2024-08-05 的
+          19,830.88），比月底收盤貼近凹陷。美股只有月資料，事件點就標在該月的值。
 
 版式（批 T：作者「不要用編號，直接標注在編號處」）
     縱軸對數刻度（同樣高度＝同樣的百分比，早期的跌幅才看得到）。
@@ -51,6 +55,8 @@ TAIEX_EVENTS = [
     ('2024-08', '單日大跌'),
     ('2025-04', '關稅'),
 ]
+# 標在「當月最高的收盤」的事件（它本身就是高點）；其餘標在當月最低的收盤。
+TAIEX_AT_HIGH = {'1990-02'}
 TAIEX_MOBILE = ['1990-02', '1997-10', '1999-09', '2000-03', '2003-04', '2004-03', '2008-09',
                 '2011-08', '2015-08', '2020-03', '2022-03', '2024-08', '2025-04']
 
@@ -91,7 +97,8 @@ def compute_taiex():
     months, values, rows = S.taiex_price_monthly()
     # 1990 年那一段：當年收盤最高的那一天、當年收盤最低的那一天，以及收盤再站回那個高點的月份。
     # 只有收盤價可查：證交所線上的開高低收（MI_5MINS_HIST）只到 1999-01-05，
-    # 1990 年 2 月 12 日盤中 12,682 點那個常被引用的數字，官方 API 查不到，所以本文用收盤高點。
+    # 常被引用的盤中 12,682 點查不到官方逐日資料、確切日期也查不到，所以本文一律用收盤高點。
+    rowmap = {r['month']: r for r in rows}
     y1990 = [r for r in rows if r['month'] < '1991-01']
     hi = max(y1990, key=lambda r: float(r['month_high_close']))
     lo_after = min((r for r in y1990 if r['month'] >= hi['month']),
@@ -106,6 +113,10 @@ def compute_taiex():
         'market': 'taiex',
         'months': months, 'values': values,
         'events': [(m, lab) for m, lab in TAIEX_EVENTS if months[0] <= m <= months[-1]],
+        # 事件點的 y：事件當天或當月最低的收盤（見檔頭「事件點」）。
+        'event_y': {m: float(rowmap[m]['month_high_close'] if m in TAIEX_AT_HIGH
+                             else rowmap[m]['month_low_close'])
+                    for m, _lab in TAIEX_EVENTS if m in rowmap},
         'mobile_events': TAIEX_MOBILE,
         'y_ticks': [2000, 3000, 5000, 10000, 20000, 30000],
         'y_fmt': lambda v: ('%d,000' % (v // 1000)),
@@ -140,6 +151,7 @@ def compute_us(start='1929-01'):
         'market': 'us',
         'months': m2, 'values': v2,
         'events': evs,
+        'event_y': {},          # 美股只有月資料：事件點就用該月的值（chart 裡的預設）
         'mobile_events': [m for m in US_MOBILE if m >= start],
         'y_ticks': tk,
         'y_fmt': lambda v: ('%s 倍' % ('{:,}'.format(int(v)))),
@@ -213,11 +225,11 @@ def _on_line(col, x0, y0, x1, y1):
     return n
 
 
-def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0):
+def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0, blocked=()):
     """替一個標籤找位置：在點的附近試一格一格的候選，挑「離點最近、又不撞到別人」的那一個。
 
     候選＝上下各七層（由內而外）× 水平位移（從正中往兩邊各挪到兩個半標籤寬）。
-    每一個候選都要在 viewBox 內、和已放好的標籤不重疊；合格的裡面挑代價最小的：
+    每一個候選都要在 viewBox 內、和已放好的標籤不重疊、也不壓到 y 軸刻度的文字（blocked）；合格的裡面挑代價最小的：
     代價＝標籤中心到事件點的距離（橫向加重，擠在一起的寧可往下排，不要橫著挪到別的年份上面）
     ＋標籤蓋到線的罰分（蓋住就看不出那一年的線長什麼樣）
     ＋引線穿過別人標籤的罰分（穿過就看不出這條線連的是哪一件）
@@ -233,14 +245,14 @@ def _place(x, yv, w, bh, prefer_up, lay, bottom, placed, col, gap=9.0):
                 if y0 < 1.5 or y0 + bh > bottom - 1.5:
                     continue
                 if any((x0 < q[2] + 2 and q[0] - 2 < x0 + w and
-                        y0 < q[3] + 2 and q[1] - 2 < y0 + bh) for q in placed):
+                        y0 < q[3] + 2 and q[1] - 2 < y0 + bh) for q in list(placed) + list(blocked)):
                     continue
                 d = math.hypot(1.25 * (x0 + w / 2 - x), y0 + bh / 2 - yv)
                 cost = d + 0.012 * d * d      # 拉遠一點還好，拉很遠就看不出連的是哪一件
                 over = _on_line(col, x0, y0, x0 + w, y0 + bh)
                 if over:
                     cost += 18.0 + 1.6 * over
-                cost += 75.0 * _crosses(_stem(x, yv, x0, y0, w, bh), placed)
+                cost += 75.0 * _crosses(_stem(x, yv, x0, y0, w, bh), list(placed) + list(blocked))
                 if up != prefer_up:
                     cost += 10.0
                 if best is None or cost < best[0]:
@@ -284,9 +296,15 @@ def chart(res):
             return bottom - (bottom - plot_top) * (math.log10(v) - lo_log) / (hi_log - lo_log)
 
         out = [E.svg_open(lay, h, res['aria'])]
+        # y 軸刻度的文字也是障礙物：標籤壓上去兩邊都看不清楚（主線 2026-09-22 在 375px 實量到
+        # 美股手機版「1932/7」壓住「1 倍」）。文字靠右對齊畫在 left-5，往左長。
+        blocked = []
         for v in res['y_ticks']:
             out.append(E.hline(left, right, py(v)))
-            out.append(E.text(left - 5, py(v) + lay.fs * 0.36, res['y_fmt'](v), lay.fs, 'end', E.MUTED))
+            lab = res['y_fmt'](v)
+            yb = py(v) + lay.fs * 0.36
+            out.append(E.text(left - 5, yb, lab, lay.fs, 'end', E.MUTED))
+            blocked.append((left - 5 - _textw(lab, lay.fs), yb - lay.fs, left - 5, yb + lay.fs * 0.25))
         for y in res['x_ticks']:
             mm = '%d-01' % y
             if _tnum(mm) < t0 or _tnum(mm) > t1:
@@ -300,10 +318,10 @@ def chart(res):
         placed, draw = [], []
         for n, (m, name) in enumerate(evs):
             k = idx[m]
-            x, yv = px(m), py(values[k])
+            x, yv = px(m), py(res['event_y'].get(m, values[k]))
             l1, l2 = _ev_lines(m, name)
             w = max(_textw(l1, fl), _textw(l2, fl)) + 2 * pad
-            spot = _place(x, yv, w, bh, n % 2 == 0, lay, bottom, placed, col)
+            spot = _place(x, yv, w, bh, n % 2 == 0, lay, bottom, placed, col, blocked=blocked)
             if spot is None:
                 warnings.append('%s %s 標籤「%s %s」排不下' % (res['id'], lay.kind, l1, l2))
                 continue
@@ -335,12 +353,17 @@ def chart(res):
                 if x0 < q[2] and q[0] < x1 and y0 < q[3] and q[1] < y1:
                     warnings.append('%s %s 標籤「%s」和「%s」重疊'
                                     % (res['id'], lay.kind, draw[i][6], draw[j][6]))
+            for q in blocked:
+                if x0 < q[2] and q[0] < x1 and y0 < q[3] and q[1] < y1:
+                    warnings.append('%s %s 標籤「%s」和 y 軸刻度重疊'
+                                    % (res['id'], lay.kind, draw[i][6]))
         return '\n'.join(out)
 
     svgs = [build(E.L('d')), build(E.L('m'))]
     for w in warnings:
         print('⚠ ' + w)
-    more = ('<details class="more"><summary>想深入：這張圖的資料、期間和沒算進去的東西</summary>'
+    more = ('<details class="more" data-print="open">'
+            '<summary>想深入：這張圖的資料、期間和沒算進去的東西</summary>'
             '<p class="note">%s</p></details>' % E.esc(res['more']))
     return dict(title=res['title'], sub=res['sub'], svgs=svgs,
                 extras=E.note(res['note']) + more, caption=res['caption'])
@@ -370,7 +393,8 @@ def taiex():
                     '指數才再收在那個價位以上，中間約三十年（逐日的日期在第 <a class="xref" href="#s4">7</a> 節'
                     '那張三個例子的圖）。每一件在當時都像世界末日；拉長看，是線上的一個凹陷。這是歷史，不是保證：'
                     '下一次不一定回得來得這麼快，也可能像 1990 年這一次一樣等很久。'
-                    '縱軸是對數刻度：同樣高度代表同樣的百分比，早期的跌幅才看得到。'
+                    '縱軸是對數刻度：同樣高度代表同樣的百分比，早期的跌幅才看得到；'
+                    '線是月底收盤，事件點標在事件當天或當月最低的收盤。'
                     % (b['high_date'][:4], int(b['high_date'][5:7]), int(b['high_date'][8:10]),
                        '{:,}'.format(int(b['high_close'])), '{:,}'.format(int(b['low_close'])),
                        b['back_to_high_month'][:4], int(b['back_to_high_month'][5:7])))
@@ -394,7 +418,7 @@ def _us_dress(r):
     r['caption'] = ('%s 年初投進去的 1 元，含息到 %s 年變成大約 %s 元；中間最深的一次，帳面少掉 %d%%。'
                     '每一件在當時都像世界末日；拉長看，是線上的一個凹陷。這是歷史，不是保證：'
                     '下一次不一定回得來得這麼快，也可能像第 <a class="xref" href="#s4">7</a> 節那三個例子一樣等很久。'
-                    '縱軸同樣是對數刻度。'
+                    '縱軸同樣是對數刻度；美股只有月資料，事件點標在該月。'
                     % (b['from'][:4], b['to'][:4], '{:,}'.format(int(round(b['end_multiple']))),
                        round(-b['max_drawdown'][0])))
     return r
