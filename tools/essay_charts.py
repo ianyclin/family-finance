@@ -682,7 +682,7 @@ def buckets():
             out.append(text(bx0, by + bh + lay.fs + 6, cond, lay.fs, "start", INK))
         out.append("</svg>")
         return "\n".join(out)
-    return dict(title="按用錢日期分三桶", sub="示意：長度只表示三桶之間的相對大小，不是可以跌幾 %",
+    return dict(title="按用錢日期分三桶", sub="示意：長度只表示三桶的相對大小",
                 svgs=[draw(L("d")), draw(L("m"))], extras="",
                 caption="按「什麼時候要用」分成三桶。橫條越長，代表這一桶的錢越容得下上上下下；第三桶留白，是要你自己填。")
 

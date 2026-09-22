@@ -535,3 +535,27 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`--guide` 跑兩次（第二次 0 ⚠）、budget（s1 2015→2076、s5 3314→3319、s10 2006→2069、`_total_max` 56804→56882，理由寫在 `budget-v7.json` 的 `_comment_ah`）、anchors、planstep、numbers 兩個基準（v6.3.1 與批 AH 開工前的 `58c8cc3`）都 LOST 0，例外檔是新的 `wip/v63-review/numbers-allow-round32.json`（在 round31 上加 36 條，每條寫明另一份還在哪裡）、`guidetools check`、`test_guidetools.py`、`test_v7_check.py`、`calc_core.py`（引用缺漏 0）、`build_lite.py` SENTINELS OK。
 
 **沒做**：版面沒有用瀏覽器量過；新寫的句子沒有再過裁判。
+
+## 2026-09-23 批 AI（第三輪語氣：難讀與 AI 感，第 14–25 節）
+
+**規格**：`wip/v63-review/spec-v7-content-ai.md`。**依據**：`wip/v63-review/voice/round3-c-s14-s25.md`（裁判 C）。通則 G1–G5 與做法照 `spec-v7-content-ah.md`。
+
+**兩條主線裁定（寫在這裡，下一批不要再翻案）**：① **「本指南的做法：」是固定標籤**（`lite/labels.json` 的 `practice_prefix`，哨兵逐字比對），全書八處**都不改**；G1 只改敘述句裡的「本文／本指南／本書」。所以裁判 C 的 S14-17（s11 那四個標籤收成兩次）與 D-4 **不做**。② 第 3 節「這本手冊」是作者定稿，不動。
+
+**做了什麼**（約 50 條，黃線／淡紅線／黃框一字未動，只有作者已拍板的第 22 節黃線換字；沒有新增事實、數字或來源）：兩張圖的圖說只留「這張圖告訴我什麼」（計畫表填表順序圖、比例漂移圖，口徑／起點／Damodaran／債券版本收進圖內新開的「想深入：這張圖的資料和口徑」；史萊姆圖的口訣收成一句）；最長的那幾句拆開（S14-3 再平衡 300 字拆三段、S15-1 四個人共同算法 700 字拆五小段、S22-1 級距 141 字拆三句、S24-1 五組請領條件排成五行）；去重（S16-2／S16-3／S23-1／S23-4／S14-14／D-1／D-5／D-6／D-8）；補理由（S19-3 拍照印一份告訴家人，出處第 14 節 G 區）；術語（口徑在第 14、17 節掛上 `#g-scope`、存續期間掛 `#g-dur`、隱含利率與深度價內就地補括號）；用詞統一（「換標的」→「換商品」4 處；「通膨」→「物價／物價上漲」9 處）。
+
+**作者已拍板、這一批做了**：S22-4 第 22 節黃線改成「上面四條，看到任何一個，先停。」（`mark.key` 標籤位置未動，黃線數不變）；A-M5 第 7 節黃線後面的「（不是唯一答案）」刪掉，黃線本身一字未動。
+
+**S17-2 是內容修正不只是語氣**：儲蓄險兩把尺的第二把原本寫死「表一『保守算』那一欄的 4%」，但 4% 只對應股票 100% 那一列，和前一句「查你自己的比例」矛盾。照主線裁定改成「再用表一你那一列的『保守算』比一次（全放股票那一列是 4%）」。
+
+**「通膨」沒有全部換掉，兩類刻意保留**：1979 年 10 月事件名「打通膨升息」（長線圖標籤、aria-label、來源卡各一，改了會變成歷史事件被改名）、書名《通膨時代，我選擇穩定致富》。
+
+**沒做／做不滿的**：S14-17、D-4 見上面的裁定；D-5「不靠調高股票比例」s11 只收到 4 次（規格寫 3 次），另外三處分別在黃線、欄位表第 14 格、一頁空白版、三問表裡，動它們等於動黃線或計畫表欄位；D-8「不是建議值」在 cases 還有兩處在表格儲存格裡沒動。裁判自己說可留的 S15-7、S20-3、S21-3、S23-6、S24-7、S16-8／9 照規格不做。
+
+**這一批改到的產生器**：`tools/v63_g01_plan_flow.py`（figcaption＋note）、`tools/v61_g10_rebalance_drift.py`（figcaption、note、新增圖內 `details.more`）、`tools/essay_charts.py`（三桶圖 chart-sub）、`tools/calc_core.py`（quotes 同步 3 條）。`lite/alt/` 三份短稿同步並重新 stamp（plan-panic 的自稱詞、lookup-tables 的兩處、app-a-checklist 只是重新 stamp）。
+
+**兩個共同事實擋住了用字**：`lite/facts.txt` 逐字比對「保守算 4%／普通算 6%／樂觀算 7%」與「防守用 2%」，所以查表頁那句的頓號與「防守一律用 2%」都還原回原本的寫法。
+
+**檢查**：`--guide` 兩次（第二次 0 ⚠）、budget（s11 4387→4389、cases 2100→2106、lifecycle 4172→4203、sidepaths 1213→1218，理由在 `budget-v7.json` 的 `_comment_ai`）、anchors、planstep、numbers 兩個基準（v6.3.1 與批 AH 的 `d3ebdc4`）都 LOST 0，例外檔 `wip/v63-review/numbers-allow-round33.json`（在 round32 上加 10 條）、`guidetools check`、`test_guidetools.py`、`test_v7_check.py`、`calc_core.py`（引用缺漏 0）、`build_lite.py` SENTINELS OK。
+
+**沒做**：版面沒有用瀏覽器量過；新寫的句子沒有再過裁判。
