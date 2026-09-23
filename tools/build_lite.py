@@ -687,6 +687,9 @@ def build(m, alt_cache=None):
                     sec = dom.section_of(n)
                     if sec is not None: src_sections.append(sec.attrs['id'])
                     block = dom.outer(n)
+                    if n.tag == 'li':
+                        # 抽出的是清單項目：沒有父清單、沒有外框，包成警示框（內容不動）
+                        block = '<div class="warning">%s</div>' % dom.inner(n)
                     if inner_alts:
                         # 區塊裡面有標了短稿的子區塊：子區塊換成短稿
                         sub = Dom(block)
