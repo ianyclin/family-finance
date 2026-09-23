@@ -349,16 +349,16 @@
    "times5_printed_int_step0": 176
   },
   "usage_example_after_fee": {
-   "text": "每月 5,000 元、20 年、股票八成（表一 3.6%）、總費用率 0.2%",
+   "text": "每月 5,000 元、20 年、股票八成（表一 3.6%）、防守放定存、總費用率 0.8 × 0.5% ＝ 0.4%",
    "lookup_rate": 3.6,
-   "total_fee_pct": 0.2,
-   "rate_after_fee": 3.4,
+   "total_fee_pct": 0.4,
+   "rate_after_fee": 3.2,
    "rate_after_fee_in_table": true,
-   "table_value": 34.3,
-   "times5_wan": 171.5,
-   "printed_int_wan": 172,
+   "table_value": 33.6,
+   "times5_wan": 168.0,
+   "printed_int_wan": 168,
    "no_fee_printed_int_wan": 176,
-   "exact_wan": 171.5
+   "exact_wan": 167.8
   },
   "usage_example_lump": {
    "text": "已經有 30 萬、每月 5,000 元、20 年、3.6%",
@@ -1292,90 +1292,90 @@
  },
  "fee_demo_0_5pct": {
   "fee_pct": 0.5,
-  "method": "整體報酬率（表一查到的數字）直接減 0.5 個百分點（作者 2026-09-18 拍板 Q1-A）。＝把整個組合一起扣的簡化假設，不是按部位加權（v6.3.1：書上第 14 節第 12 格同步寫明）；exact＝用扣完費的報酬率按月複利算的精確值，案例本文用這個；by_book_table2＝讀者拿印好的表二會算出來的數字（沒有那一列就取比它小的那一列）。",
+  "method": "股票比例 × 0.5% ＋ 防守比例 × 防守 ETF 費率（防守放台幣定存是 0）；作者 2026-09-23 拍板。＝照部位加權，不再從整體報酬率一次減（推翻 2026-09-18 的 Q1-A 簡化）；四個案例的防守都是台幣定存，所以扣掉的就是「股票比例 × 0.5%」；exact＝用扣完費的報酬率按月複利算的精確值，案例本文用這個；by_book_table2＝讀者拿印好的表二會算出來的數字（沒有那一列就取比它小的那一列）。",
   "deposit_note": "股票 0%、全放台幣定存的桶子沒有內扣費用，不減示範費率",
   "xiaoan": {
    "rate_table1": 3.6,
-   "rate_after_fee": 3.1,
+   "rate_after_fee": 3.2,
    "target_wan": 200,
    "no_fee_wan": 214,
-   "plan_6500_low_wan": 203,
-   "plan_6500_low_wan1": 203.3,
+   "plan_6500_low_wan": 205,
+   "plan_6500_low_wan1": 205.4,
    "enough_exact": true,
-   "base_plan_low_wan": 160,
+   "base_plan_low_wan": 162,
    "min_enough_step500": 6500,
    "rates_after_fee_all": {
-    "low": 3.1,
-    "mid": 4.7,
-    "high": 5.5
+    "low": 3.2,
+    "mid": 4.8,
+    "high": 5.6
    },
    "base_plan": {
     "low": {
-     "fv_wan": 160,
-     "fv_wan1": 160.5,
-     "vs_target_wan1": -39.5
+     "fv_wan": 162,
+     "fv_wan1": 162.2,
+     "vs_target_wan1": -37.8
     },
     "mid": {
-     "fv_wan": 191,
-     "fv_wan1": 191.0,
-     "vs_target_wan1": -9.0
+     "fv_wan": 193,
+     "fv_wan1": 193.2,
+     "vs_target_wan1": -6.8
     },
     "high": {
-     "fv_wan": 209,
-     "fv_wan1": 209.0,
-     "vs_target_wan1": 9.0
+     "fv_wan": 211,
+     "fv_wan1": 211.4,
+     "vs_target_wan1": 11.4
     }
    },
    "base_principal_wan": 117.0,
    "options_step500": {
     "5500": {
-     "low_fv_wan1": 174.7,
-     "low_fv_wan": 175,
-     "mid_fv_wan1": 207.7,
-     "mid_fv_wan": 208,
-     "high_fv_wan1": 227.2,
-     "high_fv_wan": 227,
+     "low_fv_wan1": 176.6,
+     "low_fv_wan": 177,
+     "mid_fv_wan1": 210.1,
+     "mid_fv_wan": 210,
+     "high_fv_wan1": 229.7,
+     "high_fv_wan": 230,
      "principal_wan": 127.7,
      "enough_low": false
     },
     "6000": {
-     "low_fv_wan1": 189.0,
-     "low_fv_wan": 189,
-     "mid_fv_wan1": 224.4,
-     "mid_fv_wan": 224,
-     "high_fv_wan1": 245.3,
-     "high_fv_wan": 245,
+     "low_fv_wan1": 191.0,
+     "low_fv_wan": 191,
+     "mid_fv_wan1": 226.9,
+     "mid_fv_wan": 227,
+     "high_fv_wan1": 248.0,
+     "high_fv_wan": 248,
      "principal_wan": 138.4,
      "enough_low": false
     },
     "6500": {
-     "low_fv_wan1": 203.3,
-     "low_fv_wan": 203,
-     "mid_fv_wan1": 241.2,
-     "mid_fv_wan": 241,
-     "high_fv_wan1": 263.4,
-     "high_fv_wan": 263,
+     "low_fv_wan1": 205.4,
+     "low_fv_wan": 205,
+     "mid_fv_wan1": 243.8,
+     "mid_fv_wan": 244,
+     "high_fv_wan1": 266.4,
+     "high_fv_wan": 266,
      "principal_wan": 149.1,
      "enough_low": true
     },
     "7000": {
-     "low_fv_wan1": 217.5,
-     "low_fv_wan": 218,
-     "mid_fv_wan1": 257.9,
-     "mid_fv_wan": 258,
-     "high_fv_wan1": 281.5,
-     "high_fv_wan": 282,
+     "low_fv_wan1": 219.8,
+     "low_fv_wan": 220,
+     "mid_fv_wan1": 260.7,
+     "mid_fv_wan": 261,
+     "high_fv_wan1": 284.7,
+     "high_fv_wan": 285,
      "principal_wan": 159.8,
      "enough_low": true
     }
    },
    "plan_6500": {
-    "low_fv_wan1": 203.3,
-    "low_fv_wan": 203,
-    "mid_fv_wan1": 241.2,
-    "mid_fv_wan": 241,
-    "high_fv_wan1": 263.4,
-    "high_fv_wan": 263,
+    "low_fv_wan1": 205.4,
+    "low_fv_wan": 205,
+    "mid_fv_wan1": 243.8,
+    "mid_fv_wan": 244,
+    "high_fv_wan1": 266.4,
+    "high_fv_wan": 266,
     "month60_wan1": 34.3,
     "month60_wan": 34,
     "reach_50wan": {
@@ -1383,8 +1383,8 @@
      "ym": "2033-06"
     },
     "reach_100wan": {
-     "month": 141,
-     "ym": "2038-06"
+     "month": 140,
+     "ym": "2038-05"
     },
     "month240": "2046-09"
    },
@@ -1405,36 +1405,36 @@
      }
     },
     "y2046": {
-     "amount_wan": 203,
+     "amount_wan": 205,
      "loss_wan": {
-      "40": 65,
-      "50": 81,
-      "60": 97
+      "40": 66,
+      "50": 82,
+      "60": 98
      },
      "loss50_today_money": {
       "cpi": 1.49,
       "years": 20,
-      "today_wan": 54,
-      "months_salary_38k": 14.2,
-      "months_salary_38k_unrounded": 14.3
+      "today_wan": 55,
+      "months_salary_38k": 14.5,
+      "months_salary_38k_unrounded": 14.5
      }
     }
    },
    "delay_rescaled": {
-    "month": 321,
-    "years": 26.75,
-    "cpi": 1.81,
-    "target_wan": 243,
-    "target_wan1": 242.5,
-    "ym": "2053-06",
-    "extra_months": 81,
-    "extra_years": 6.8,
+    "month": 298,
+    "years": 24.83,
+    "cpi": 1.64,
+    "target_wan": 220,
+    "target_wan1": 219.8,
+    "ym": "2051-07",
+    "extra_months": 58,
+    "extra_years": 4.8,
     "max_delay_years": 5,
-    "within_max": false
+    "within_max": true
    },
    "section5_2_example": {
     "now_3wan_80pct_loss50_wan": 1.2,
-    "y2046_loss50_wan": 81
+    "y2046_loss50_wan": 82
    }
   },
   "akai": {
@@ -1442,95 +1442,107 @@
    "pct20_10k": {
     "rate_table1": 3.2,
     "fee_pct": 0.5,
-    "rate_after_fee": 2.7,
+    "stock_share": 0.6,
+    "fee_defense_pct": 0.0,
+    "fee_pp_applied": 0.3,
+    "rate_after_fee": 2.9,
     "years": 20,
     "lump": 300000,
     "monthly": 10000,
     "no_fee_wan": 392,
     "exact": {
-     "wan1": 369.2,
-     "wan": 369,
-     "value": 3692118
+     "wan1": 378.3,
+     "wan": 378,
+     "value": 3782840
     },
     "by_book_table2": {
-     "row": 2.6,
-     "lump_cell": 16.8,
-     "monthly_cell": 31.4,
-     "wan1": 364.4,
-     "wan": 364
+     "row": 2.8,
+     "lump_cell": 17.5,
+     "monthly_cell": 32.1,
+     "wan1": 373.5,
+     "wan": 374
     },
     "target_wan": 450,
     "enough_exact": false,
-    "short_wan": 81
+    "short_wan": 72
    },
    "options_step500": {
     "12000": {
      "rate_table1": 3.2,
      "fee_pct": 0.5,
-     "rate_after_fee": 2.7,
+     "stock_share": 0.6,
+     "fee_defense_pct": 0.0,
+     "fee_pp_applied": 0.3,
+     "rate_after_fee": 2.9,
      "years": 20,
      "lump": 300000,
      "monthly": 12000,
      "no_fee_wan": 460,
      "exact": {
-      "wan1": 432.8,
-      "wan": 433,
-      "value": 4327643
+      "wan1": 443.2,
+      "wan": 443,
+      "value": 4432321
      },
      "by_book_table2": {
-      "row": 2.6,
-      "lump_cell": 16.8,
-      "monthly_cell": 31.4,
-      "wan1": 427.2,
-      "wan": 427
+      "row": 2.8,
+      "lump_cell": 17.5,
+      "monthly_cell": 32.1,
+      "wan1": 437.7,
+      "wan": 438
      },
      "target_wan": 450,
      "enough_exact": false,
-     "short_wan": 17
+     "short_wan": 7
     },
     "12500": {
      "rate_table1": 3.2,
      "fee_pct": 0.5,
-     "rate_after_fee": 2.7,
+     "stock_share": 0.6,
+     "fee_defense_pct": 0.0,
+     "fee_pp_applied": 0.3,
+     "rate_after_fee": 2.9,
      "years": 20,
      "lump": 300000,
      "monthly": 12500,
      "no_fee_wan": 476,
      "exact": {
-      "wan1": 448.7,
-      "wan": 449,
-      "value": 4486525
+      "wan1": 459.5,
+      "wan": 459,
+      "value": 4594691
      },
      "by_book_table2": {
-      "row": 2.6,
-      "lump_cell": 16.8,
-      "monthly_cell": 31.4,
-      "wan1": 442.9,
-      "wan": 443
+      "row": 2.8,
+      "lump_cell": 17.5,
+      "monthly_cell": 32.1,
+      "wan1": 453.8,
+      "wan": 454
      },
      "target_wan": 450,
-     "enough_exact": false,
-     "short_wan": 1
+     "enough_exact": true,
+     "short_wan": 0
     },
     "13000": {
      "rate_table1": 3.2,
      "fee_pct": 0.5,
-     "rate_after_fee": 2.7,
+     "stock_share": 0.6,
+     "fee_defense_pct": 0.0,
+     "fee_pp_applied": 0.3,
+     "rate_after_fee": 2.9,
      "years": 20,
      "lump": 300000,
      "monthly": 13000,
      "no_fee_wan": 493,
      "exact": {
-      "wan1": 464.5,
-      "wan": 465,
-      "value": 4645406
+      "wan1": 475.7,
+      "wan": 476,
+      "value": 4757061
      },
      "by_book_table2": {
-      "row": 2.6,
-      "lump_cell": 16.8,
-      "monthly_cell": 31.4,
-      "wan1": 458.6,
-      "wan": 459
+      "row": 2.8,
+      "lump_cell": 17.5,
+      "monthly_cell": 32.1,
+      "wan1": 469.8,
+      "wan": 470
      },
      "target_wan": 450,
      "enough_exact": true,
@@ -1539,120 +1551,123 @@
     "13500": {
      "rate_table1": 3.2,
      "fee_pct": 0.5,
-     "rate_after_fee": 2.7,
+     "stock_share": 0.6,
+     "fee_defense_pct": 0.0,
+     "fee_pp_applied": 0.3,
+     "rate_after_fee": 2.9,
      "years": 20,
      "lump": 300000,
      "monthly": 13500,
      "no_fee_wan": 510,
      "exact": {
-      "wan1": 480.4,
-      "wan": 480,
-      "value": 4804287
+      "wan1": 491.9,
+      "wan": 492,
+      "value": 4919431
      },
      "by_book_table2": {
-      "row": 2.6,
-      "lump_cell": 16.8,
-      "monthly_cell": 31.4,
-      "wan1": 474.3,
-      "wan": 474
+      "row": 2.8,
+      "lump_cell": 17.5,
+      "monthly_cell": 32.1,
+      "wan1": 485.9,
+      "wan": 486
      },
      "target_wan": 450,
      "enough_exact": true,
      "short_wan": 0
     }
    },
-   "min_enough_step500": 13000,
-   "min_integer_pct": 26,
+   "min_enough_step500": 12500,
+   "min_integer_pct": 25,
    "min_integer_pct_monthly": {
-    "avg_50k": 13000,
-    "low_month_30k": 7800,
-    "high_month_80k": 20800,
+    "avg_50k": 12500,
+    "low_month_30k": 7500,
+    "high_month_80k": 20000,
     "prev_pct_24_monthly_low_month_30k": 7200
    },
    "table_2046": {
     "64": {
      "low": {
-      "pct20_10k": 369,
-      "after_gap": 465,
-      "rate_after_fee": 2.7
+      "pct20_10k": 378,
+      "after_gap": 459,
+      "rate_after_fee": 2.9
      },
      "mid": {
-      "pct20_10k": 428,
-      "after_gap": 537,
-      "rate_after_fee": 3.9
+      "pct20_10k": 439,
+      "after_gap": 532,
+      "rate_after_fee": 4.1
      },
      "high": {
-      "pct20_10k": 462,
-      "after_gap": 578,
-      "rate_after_fee": 4.5
+      "pct20_10k": 474,
+      "after_gap": 573,
+      "rate_after_fee": 4.7
      }
     },
     "82": {
      "low": {
-      "pct20_10k": 388,
-      "after_gap": 487,
-      "rate_after_fee": 3.1
+      "pct20_10k": 392,
+      "after_gap": 476,
+      "rate_after_fee": 3.2
      },
      "mid": {
-      "pct20_10k": 474,
-      "after_gap": 593,
-      "rate_after_fee": 4.7
+      "pct20_10k": 480,
+      "after_gap": 580,
+      "rate_after_fee": 4.8
      },
      "high": {
-      "pct20_10k": 526,
-      "after_gap": 656,
-      "rate_after_fee": 5.5
+      "pct20_10k": 532,
+      "after_gap": 643,
+      "rate_after_fee": 5.6
      }
     }
    },
    "drill_2046_low": {
     "80": {
-     "rate_after_fee": 3.1,
-     "amount_wan": 487,
-     "loss_wan": {
-      "40": 156,
-      "50": 195,
-      "60": 234
-     },
-     "loss50_today_wan": 131,
-     "loss50_months_income_50k": 26.2
-    },
-    "70": {
-     "rate_after_fee": 2.9,
+     "rate_after_fee": 3.2,
      "amount_wan": 476,
      "loss_wan": {
-      "40": 133,
-      "50": 167,
-      "60": 200
+      "40": 152,
+      "50": 190,
+      "60": 228
      },
-     "loss50_today_wan": 112,
-     "loss50_months_income_50k": 22.4
+     "loss50_today_wan": 128,
+     "loss50_months_income_50k": 25.6
+    },
+    "70": {
+     "rate_after_fee": 3.1,
+     "amount_wan": 471,
+     "loss_wan": {
+      "40": 132,
+      "50": 165,
+      "60": 198
+     },
+     "loss50_today_wan": 111,
+     "loss50_months_income_50k": 22.2
     },
     "60": {
-     "rate_after_fee": 2.7,
-     "amount_wan": 465,
+     "rate_after_fee": 2.9,
+     "amount_wan": 459,
      "loss_wan": {
-      "40": 112,
-      "50": 140,
-      "60": 167
+      "40": 110,
+      "50": 138,
+      "60": 165
      },
-     "loss50_today_wan": 94,
-     "loss50_months_income_50k": 18.8
+     "loss50_today_wan": 93,
+     "loss50_months_income_50k": 18.6
     }
    },
    "delay_pct20_rescaled": {
-    "month": 328,
-    "years": 27.33,
-    "cpi": 1.81,
-    "target_wan": 547,
-    "target_wan1": 546.6,
-    "ym": "2054-01",
-    "extra_months": 88,
-    "extra_years": 7.3,
+    "month": 298,
+    "years": 24.83,
+    "cpi": 1.64,
+    "target_wan": 495,
+    "target_wan1": 495.3,
+    "ym": "2051-07",
+    "extra_months": 58,
+    "extra_years": 4.8,
     "max_delay_years": 3,
     "within_max": false
    },
-   "lower_target_wan": 360
+   "lower_target_wan": 370
   },
   "xiaoyun_azhe": {
    "down_payment": {
@@ -1661,77 +1676,86 @@
     "note": "股票 0%、全放台幣定存，沒有內扣費用，不減示範費率；金額和未扣費相同",
     "fv_25k_wan1": 363.2,
     "fv_30k_wan1": 408.3,
-    "if_fee_applied_wan1": 398.8
+    "if_fee_applied_wan1": 408.3
    },
    "long_term": {
     "save10k": {
      "rate_table1": 3.6,
      "fee_pct": 0.5,
-     "rate_after_fee": 3.1,
+     "stock_share": 0.8,
+     "fee_defense_pct": 0.0,
+     "fee_pp_applied": 0.4,
+     "rate_after_fee": 3.2,
      "years": 30,
      "lump": 400000,
      "monthly": 10000,
      "no_fee_wan": 764,
      "exact": {
-      "wan1": 694.1,
-      "wan": 694,
-      "value": 6940866
+      "wan1": 707.5,
+      "wan": 707,
+      "value": 7074700
      },
      "by_book_table2": {
-      "row": 3.0,
-      "lump_cell": 24.6,
-      "monthly_cell": 58.3,
-      "wan1": 681.4,
-      "wan": 681
+      "row": 3.2,
+      "lump_cell": 26.1,
+      "monthly_cell": 60.3,
+      "wan1": 707.4,
+      "wan": 707
      },
      "target_wan": 700,
-     "enough_exact": false,
-     "short_wan": 6
+     "enough_exact": true,
+     "short_wan": 0
     },
     "options_step500": {
      "10000": {
       "rate_table1": 3.6,
       "fee_pct": 0.5,
-      "rate_after_fee": 3.1,
+      "stock_share": 0.8,
+      "fee_defense_pct": 0.0,
+      "fee_pp_applied": 0.4,
+      "rate_after_fee": 3.2,
       "years": 30,
       "lump": 400000,
       "monthly": 10000,
       "no_fee_wan": 764,
       "exact": {
-       "wan1": 694.1,
-       "wan": 694,
-       "value": 6940866
+       "wan1": 707.5,
+       "wan": 707,
+       "value": 7074700
       },
       "by_book_table2": {
-       "row": 3.0,
-       "lump_cell": 24.6,
-       "monthly_cell": 58.3,
-       "wan1": 681.4,
-       "wan": 681
+       "row": 3.2,
+       "lump_cell": 26.1,
+       "monthly_cell": 60.3,
+       "wan1": 707.4,
+       "wan": 707
       },
       "target_wan": 700,
-      "enough_exact": false,
-      "short_wan": 6
+      "enough_exact": true,
+      "short_wan": 0
      },
      "10500": {
       "rate_table1": 3.6,
       "fee_pct": 0.5,
-      "rate_after_fee": 3.1,
+      "stock_share": 0.8,
+      "fee_defense_pct": 0.0,
+      "fee_pp_applied": 0.4,
+      "rate_after_fee": 3.2,
       "years": 30,
       "lump": 400000,
       "monthly": 10500,
       "no_fee_wan": 797,
       "exact": {
-       "wan1": 723.7,
-       "wan": 724,
-       "value": 7237280
+       "wan1": 737.6,
+       "wan": 738,
+       "value": 7376268
       },
       "by_book_table2": {
-       "row": 3.0,
-       "lump_cell": 24.6,
-       "monthly_cell": 58.3,
-       "wan1": 710.6,
-       "wan": 711
+       "row": 3.2,
+       "lump_cell": 26.1,
+       "monthly_cell": 60.3,
+       "wan1": 737.6,
+       "wan": 738
       },
       "target_wan": 700,
       "enough_exact": true,
@@ -1740,53 +1764,56 @@
      "11000": {
       "rate_table1": 3.6,
       "fee_pct": 0.5,
-      "rate_after_fee": 3.1,
+      "stock_share": 0.8,
+      "fee_defense_pct": 0.0,
+      "fee_pp_applied": 0.4,
+      "rate_after_fee": 3.2,
       "years": 30,
       "lump": 400000,
       "monthly": 11000,
       "no_fee_wan": 829,
       "exact": {
-       "wan1": 753.4,
-       "wan": 753,
-       "value": 7533694
+       "wan1": 767.8,
+       "wan": 768,
+       "value": 7677836
       },
       "by_book_table2": {
-       "row": 3.0,
-       "lump_cell": 24.6,
-       "monthly_cell": 58.3,
-       "wan1": 739.7,
-       "wan": 740
+       "row": 3.2,
+       "lump_cell": 26.1,
+       "monthly_cell": 60.3,
+       "wan1": 767.7,
+       "wan": 768
       },
       "target_wan": 700,
       "enough_exact": true,
       "short_wan": 0
      }
     },
-    "min_enough_step500": 10500,
-    "extra_monthly": 500,
+    "min_enough_step500": 10000,
+    "extra_monthly": 0,
     "table_2056": {
      "low": {
-      "rate_after_fee": 3.1,
-      "save10k_wan": 694,
-      "after_gap_wan": 724
+      "rate_after_fee": 3.2,
+      "save10k_wan": 707,
+      "after_gap_wan": 707
      },
      "mid": {
-      "rate_after_fee": 4.7,
-      "save10k_wan": 951,
-      "after_gap_wan": 990
+      "rate_after_fee": 4.8,
+      "save10k_wan": 970,
+      "after_gap_wan": 970
      },
      "high": {
-      "rate_after_fee": 5.5,
-      "save10k_wan": 1121,
-      "after_gap_wan": 1167
+      "rate_after_fee": 5.6,
+      "save10k_wan": 1145,
+      "after_gap_wan": 1145
      }
     },
     "stress_2056_low": {
-     "amount_wan": 724,
+     "amount_wan": 707,
      "loss_wan": {
-      "40": 232,
-      "50": 290,
-      "60": 348
+      "40": 226,
+      "50": 283,
+      "60": 339
      }
     }
    }
@@ -1796,29 +1823,29 @@
    "deposit_row_note": "股票 0%、全放台幣定存的桶子沒有內扣費用，不減示範費率",
    "rates_after_fee": {
     "73": {
-     "low": 2.9,
-     "mid": 4.3,
-     "high": 5.0
+     "low": 3.1,
+     "mid": 4.5,
+     "high": 5.2
     },
     "64": {
-     "low": 2.7,
-     "mid": 3.9,
-     "high": 4.5
+     "low": 2.9,
+     "mid": 4.1,
+     "high": 4.7
     },
     "55": {
-     "low": 2.5,
-     "mid": 3.5,
-     "high": 4.0
+     "low": 2.8,
+     "mid": 3.8,
+     "high": 4.3
     },
     "46": {
-     "low": 2.3,
-     "mid": 3.1,
-     "high": 3.5
+     "low": 2.6,
+     "mid": 3.4,
+     "high": 3.8
     },
     "28": {
-     "low": 1.9,
-     "mid": 2.3,
-     "high": 2.5
+     "low": 2.3,
+     "mid": 2.7,
+     "high": 2.9
     },
     "0": {
      "low": 2.0,
@@ -1828,29 +1855,29 @@
    },
    "fv_2031_wan": {
     "73": {
-     "low": 1118,
-     "mid": 1192,
-     "high": 1231
+     "low": 1128,
+     "mid": 1203,
+     "high": 1242
     },
     "64": {
-     "low": 1108,
-     "mid": 1170,
-     "high": 1203
+     "low": 1118,
+     "mid": 1181,
+     "high": 1214
     },
     "55": {
-     "low": 1098,
-     "mid": 1149,
-     "high": 1176
+     "low": 1113,
+     "mid": 1165,
+     "high": 1192
     },
     "46": {
-     "low": 1088,
-     "mid": 1128,
-     "high": 1149
+     "low": 1103,
+     "mid": 1144,
+     "high": 1165
     },
     "28": {
-     "low": 1068,
-     "mid": 1088,
-     "high": 1098
+     "low": 1088,
+     "mid": 1108,
+     "high": 1118
     },
     "0": {
      "low": 1073,
@@ -1859,52 +1886,52 @@
     }
    },
    "by_book_table2_46_low": {
-    "row": 2.2,
-    "lump_cell": 11.2,
-    "monthly_cell": 6.3,
-    "wan1": 1085.0,
-    "wan": 1085
+    "row": 2.6,
+    "lump_cell": 11.4,
+    "monthly_cell": 6.4,
+    "wan1": 1104.0,
+    "wan": 1104
    },
    "drill_2031_low": {
     "70": {
+     "rate_after_fee": 3.1,
+     "amount_wan": 1128,
+     "loss_wan": {
+      "40": 316,
+      "50": 395,
+      "60": 474
+     },
+     "loss50_years_of_gap": 15.7
+    },
+    "60": {
      "rate_after_fee": 2.9,
      "amount_wan": 1118,
      "loss_wan": {
-      "40": 313,
-      "50": 391,
-      "60": 470
+      "40": 268,
+      "50": 335,
+      "60": 402
      },
-     "loss50_years_of_gap": 15.5
-    },
-    "60": {
-     "rate_after_fee": 2.7,
-     "amount_wan": 1108,
-     "loss_wan": {
-      "40": 266,
-      "50": 332,
-      "60": 399
-     },
-     "loss50_years_of_gap": 13.2
+     "loss50_years_of_gap": 13.3
     },
     "50": {
-     "rate_after_fee": 2.5,
-     "amount_wan": 1098,
+     "rate_after_fee": 2.8,
+     "amount_wan": 1113,
      "loss_wan": {
-      "40": 220,
-      "50": 275,
-      "60": 329
+      "40": 223,
+      "50": 278,
+      "60": 334
      },
-     "loss50_years_of_gap": 10.9
+     "loss50_years_of_gap": 11.0
     },
     "40": {
-     "rate_after_fee": 2.3,
-     "amount_wan": 1088,
+     "rate_after_fee": 2.6,
+     "amount_wan": 1103,
      "loss_wan": {
-      "40": 174,
-      "50": 218,
-      "60": 261
+      "40": 176,
+      "50": 221,
+      "60": 265
      },
-     "loss50_years_of_gap": 8.7
+     "loss50_years_of_gap": 8.8
     }
    },
    "stress_800wan_today": {
@@ -1940,15 +1967,15 @@
     "stage2_amount_wan": 33.6
    },
    "vs_two_stage_targets": {
-    "amount_46_low_wan": 1088,
-    "amount_73_low_wan": 1118,
+    "amount_46_low_wan": 1103,
+    "amount_73_low_wan": 1128,
     "46_low_reaches_33x_two_stage": true,
-    "46_low_over_33x_two_stage_wan": 172,
-    "46_low_reaches_40x_two_stage": false,
-    "46_low_vs_40x_two_stage_wan": 4,
+    "46_low_over_33x_two_stage_wan": 187,
+    "46_low_reaches_40x_two_stage": true,
+    "46_low_vs_40x_two_stage_wan": 11,
     "73_low_reaches_40x_two_stage": true,
-    "73_minus_46_low_wan": 30,
-    "extra_loss50_73_vs_46_wan": 173
+    "73_minus_46_low_wan": 25,
+    "extra_loss50_73_vs_46_wan": 174
    },
    "floor_5y_gap_wan": 126.0,
    "deposit_insurance_limit_wan": 300
@@ -2024,9 +2051,9 @@
    "reaches_40x_two_stage": false,
    "vs_40x_two_stage_wan": 33,
    "lookup_2pct_amount_wan": 1073,
-   "stock20_after_fee_rate": 1.9,
-   "stock20_after_fee_amount_wan": 1068,
-   "note": "書上小字的比較對象改成「查表 0% 那一列的 2%」：股票兩成扣完示範費率（1.9%）比查表 2% 那一列少一點，但比全放定存用 1.7% 算的多——這一句講的是扣費率的算法，不是定存利率"
+   "stock20_after_fee_rate": 2.3,
+   "stock20_after_fee_amount_wan": 1088,
+   "note": "書上小字的比較對象是「查表 0% 那一列的 2%」：批 BI 改成照部位扣以後，股票兩成扣掉 0.2 × 0.5% ＝ 0.1 個百分點（2.3%）比查表 2% 那一列多一點（1,088 萬對 1,073 萬），舊版「比全放定存還少」的現象消失；全放定存那一桶另外用 1.7% 算，是 1,059 萬——這一句講的是扣費率的算法，不是定存利率"
   }
  },
  "tw_household_savings": {
@@ -8547,17 +8574,17 @@
    "四個人的試算都已經扣掉 0.5% 的示範費率": [
     2099
    ],
-   "保守算約 369 萬，差 81 萬": [
+   "保守算約 378 萬，差 72 萬": [
     2115
    ],
-   "投入從收入的 20% 調到 26%（25% 只到約 449 萬，不夠），保守算約 465 萬": [
+   "投入從收入的 20% 調到 25%（24% 只到約 443 萬，不夠），保守算約 459 萬": [
     2147
    ],
-   "3 萬的月份投 7,800 元": [
+   "3 萬的月份投 7,500 元": [
     2147
    ],
-   "每月 1 萬改成 1.05 萬，保守算約 724 萬": [
-    2181
+   "每月投 1 萬，保守算約 707 萬，比 700 萬多 7 萬，夠了": [
+    2207
    ],
    "按季發給，領到平均餘命為止": [
     2237
@@ -8565,16 +8592,16 @@
    "33 倍 832＋84＝約 916 萬": [
     2243
    ],
-   "保守算約 1,088 萬，916 萬的目標夠": [
+   "保守算約 1,103 萬，916 萬的目標夠": [
     2272
    ],
    "本息合計最高保 300 萬（中央存保）": [
     2274
    ],
-   "每月改投 6,500 元 → 保守算約 203 萬": [
+   "每月改投 6,500 元 → 保守算約 205 萬": [
     2009
    ],
-   "2046 年約 203 萬、跌 50% 少 81 萬": [
+   "2046 年約 205 萬、跌 50% 少 82 萬": [
     2020
    ],
    "第一段 40 倍約 1,018 萬，加上第二段的 84 萬約 1,102 萬": [
@@ -8583,7 +8610,7 @@
    "同樣這三年，一年期定存平均只有 1.14%、1.55%、1.68%": [
     518
    ],
-   "要到 2054 年 1 月左右（多約 7.3 年）": [
+   "要到 2051 年 7 月左右（多約 4.8 年）": [
     2147
    ],
    "先跌的那一個第 10 年剩約 36 萬，後跌的那一個剩約 106 萬": [
@@ -8600,6 +8627,13 @@
    ],
    "五年多缺 21,297×12×5≈128 萬": [
     3221
+   ],
+   "股票那一塊乘 0.5%，例如股票八成就是減 0.4 個百分點、四成就是減 0.2 個百分點": [
+    2099
+   ],
+   "股票比例 × 股票那一檔的費用率，加上防守比例 × 防守那一檔的費用率": [
+    1711,
+    1787
    ],
    "每月存 2.5 萬，到 2033 年 9 月約 358 萬，差 42 萬": [
     2203
