@@ -894,3 +894,15 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：numbers 對 `_baseline_v631.html` 與對 `06af71d` 都 LOST 0（新檔 `numbers-allow-round39.json` ＝ round38 的 273 條一字未動＋8 條，全在 s12）；anchors／planstep／`guidetools check`／`test_guidetools`／`test_v7_check`／`v7_layout_check`／`build_lite`（SENTINELS OK）全綠；`calc_core.py` 引用缺漏 `[]`。`budget-v7.json` 調 s1 2106→2110、s5 3498→3526 與兩個總量（理由在 `_comment_bm`）。`lite/alt/app-a-checklist`、`ch4-drill` 兩份短稿逐行重看過，本體未改，只重新 stamp。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；這一批的句子還沒過裁判；S1 與 S4 兩題等作者決定；裁判 N2 指出的 4 條「絆線 assert」沒有補強。
+
+## 批 BL（2026-09-23）：畫圖腳本的摺疊標題與指南同步
+
+`tools/v7_g08_long_run.py`、`tools/v7_g09_rolling.py` 裡寫死的 `summary` 字串還停在批 BE 縮短前的長標題，下次跑 `essay_charts.py --guide` 會把舊標題蓋回書上；改成和指南現行標題逐字相同。只動腳本，指南一個字沒改。
+
+## 批 BK（2026-09-24）：借貸——房貸與「不借錢投資」接起來、理財型房貸、作者黃框改句
+
+規格 `wip/v63-review/spec-v7-content-bk.md`（作者 2026-09-23 拍板），全部落在第 24 節第二題。①**作者黃框（第 25 則）第一句換成作者定稿**：「我自己房貸以外沒有槓桿」→「除了房貸和一小筆理財型房貸的額度，我沒有其他槓桿」，其餘一字未動，**沒有寫任何比例或金額**（作者隱私）；黃框哨兵是拿完整版和 `guide/index.html` 逐字比對，改來源就同步，`lite/facts.txt` 沒有這一句、不必動。②「房貸要不要提早還」開頭補一句主線，把「先不借錢投資」和「不必急著還房貸」接起來（規格裡的 `『』` 是被外層「」包住才用的，落到書上改回「」）。③四種借法表加一列「理財型房貸、房屋增貸」，表名改「五種」、導言加一句就地解釋這個名詞；四個條件幾乎都中，但機動利率、銀行可調降或收回額度、擔保品是自己住的房子都寫在同一列裡。④第 24 節來源卡 32→33 筆，新增**華南銀行「智慧靈活房貸」產品頁**（`curl` HTTP 200、全文讀得到；玉山／台新／兆豐 404，國泰世華路徑錯，中信與永豐回 JavaScript 頁）。**3.19% 起沒有寫進表**——同一張卡的「想深入」自己說過廣告的「X% 起」和信貸那格的總費用年百分率不是同一個數字，數字只留在來源卡。
+
+**檢查**：numbers 對 `_baseline_v631.html` 與對 `9d32e06` 都 LOST 0（新檔 `numbers-allow-round40.json` ＝ round39 的 281 條一字未動＋1 條：來源卡筆數宣告 32→33）；anchors／budget／planstep／`guidetools check`／`test_guidetools`／`test_v7_check`／`v7_layout_check`／`build_lite`（SENTINELS OK，黃框 26 個逐字相同）全綠；`calc_core.py` 引用缺漏 `[]`。`budget-v7.json` 把 lifecycle 4220→4523、兩個總量各 +303，理由在 `_comment_bk`。完整版 PDF 180 → 182 頁。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；這一批的財務說法（第 2、3 條）還沒過裁判，主線要派；`連結檢查日期：2026-09-21` 那句的「172 個網址」沒跟著加 1（那是一次檢查的快照）；批 BJ（綠角時間軸）仍只有規格、沒有施工。
