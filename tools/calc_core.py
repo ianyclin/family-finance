@@ -522,6 +522,15 @@ _df = months_to_rescaled(0, _rt80f['low'], base, 134, 241)
 _df.update({'ym': ym(_df['month']), 'extra_months': _df['month'] - 240, 'extra_years': round((_df['month'] - 240) / 12, 1),
             'max_delay_years': 5, 'within_max': _df['month'] - 240 <= 60})
 _xf['delay_rescaled'] = _df
+# 批 BO／should-1：這一條只差 2 個月（58 個月，最多能延 60 個月），對股票那一檔的費率很敏感：
+# 費率從 0.5% 走到 0.6%，扣費後從 3.2% 掉到 3.1%，延後就變成 6.8 年、超過他最多能延的 5 年。
+_df06 = months_to_rescaled(0, after_fee(rt80['low'], 0.8, 0.6), base, 134, 241)
+_df06.update({'ym': ym(_df06['month']), 'extra_months': _df06['month'] - 240,
+              'extra_years': round((_df06['month'] - 240) / 12, 1),
+              'fee_stock_pct': 0.6, 'rate_after_fee': after_fee(rt80['low'], 0.8, 0.6),
+              'within_max': _df06['month'] - 240 <= 60})
+_xf['delay_rescaled_fee06'] = _df06
+_xf['delay_margin_months'] = 60 - _df['extra_months']
 _xf['section5_2_example'] = {'now_3wan_80pct_loss50_wan': r1(3 * 0.8 * 0.5),
                              'y2046_loss50_wan': _xf['stress']['y2046']['loss_wan']['50']}
 
@@ -625,6 +634,11 @@ assert _xf['stress']['y2046']['loss_wan'] == {'40': 66, '50': 82, '60': 98}, _xf
 assert (_xf['delay_rescaled']['ym'], _xf['delay_rescaled']['target_wan'],
         _xf['delay_rescaled']['extra_years'], _xf['delay_rescaled']['within_max']) == ('2051-07', 220, 4.8, True), _xf['delay_rescaled']
 #   ↑ 舊：2053-06、243 萬、6.8 年、超過最多能延的 5 年；新算法下延後回到 5 年以內（書上第 14 節②那一條跟著改寫）
+assert _xf['delay_margin_months'] == 2, _xf['delay_rescaled']          # 批 BO：書上寫「只差 2 個月」
+assert (_xf['delay_rescaled_fee06']['rate_after_fee'], _xf['delay_rescaled_fee06']['ym'],
+        _xf['delay_rescaled_fee06']['extra_years'],
+        _xf['delay_rescaled_fee06']['within_max']) == (3.1, '2053-06', 6.8, False), _xf['delay_rescaled_fee06']
+#   ↑ 批 BO：書上寫「費用只要比 0.5% 高一點，這條就變成延 6.8 年、走不通」的敏感度來源（股票那一檔 0.6%）
 # 阿凱：六四，扣 0.6 × 0.5% ＝ 0.3 個百分點
 assert _akf['pct20_10k']['exact']['wan'] == 378 and _akf['pct20_10k']['short_wan'] == 72, _akf['pct20_10k']   # 舊 369／差 81
 assert _akf['min_integer_pct'] == 25 and _akf['min_enough_step500'] == 12500, _akf['min_integer_pct']          # 舊 26%／13,000
@@ -703,9 +717,10 @@ _d02['chen_all_deposit'] = {
     'lookup_2pct_amount_wan': wan(_ch0tbl),
     'stock20_after_fee_rate': after_fee(lookup[20]['low'], 0.2),
     'stock20_after_fee_amount_wan': wan(fv(8_000_000, after_fee(lookup[20]['low'], 0.2), 60, 30000)),
-    'note': '書上小字的比較對象是「查表 0% 那一列的 2%」：批 BI 改成照部位扣以後，股票兩成扣掉 0.2 × 0.5% ＝ 0.1 個'
-            '百分點（2.3%）比查表 2% 那一列多一點（1,088 萬對 1,073 萬），舊版「比全放定存還少」的現象消失；'
-            '全放定存那一桶另外用 1.7% 算，是 1,059 萬——這一句講的是扣費率的算法，不是定存利率'}
+    'note': '書上小字現在只留「全放定存用當下的一年期定存 1.7% 算約 1,059 萬」這一句。'
+            '批 BI 曾在後面接一句三口徑對照（股票兩成扣 0.2 × 0.5% ＝ 0.1 個百分點、2.3% 約 1,088 萬，'
+            '對查表 0% 那一列的 2% ＝ 1,073 萬），批 BO 照裁判 should-4 整句刪掉：舊版「股票兩成比全放定存還少」'
+            '的現象在照部位扣費以後已經消失，這句話沒有要證明的事。1,088／1,073 兩個值留在這裡備查，書上不再印'}
 R['deposit_rate_d02'] = _d02
 
 # ---------- 台灣家庭實際存多少（第 5 節「存多少算合理？兩個參考」） ----------
@@ -2106,8 +2121,11 @@ quotes = ['第一桶需要 7.84 年，第十桶（600 萬）只需要 1.35 年',
           # v6.3 批 2 修正：退休早於請領年齡的橋接缺口（#lifecycle 第三題）
           '五年多缺 21,297×12×5≈128 萬']
 # 批 BI：照部位扣費這條規則的兩個出處（第 14 節第 12 格、第 15 節四人共同算法）
+# 批 BO（裁判 BI must-1）：C 區填的是「那一檔的費率」，加權是查表時才做的動作——三個出處都要說成同一件事
 quotes += ['股票那一塊乘 0.5%，例如股票八成就是減 0.4 個百分點、四成就是減 0.2 個百分點',
-           '股票比例 × 股票那一檔的費用率，加上防守比例 × 防守那一檔的費用率']
+           '股票比例 × C 區抄的股票那一檔費率，加上防守比例 × 防守那一檔的費率',
+           '股票比例 × C 區股票那一檔的費率，加上防守比例 × 防守那一檔的費率',
+           '把 0.5% 換成你那一檔在 C 區抄的費率，再乘股票比例']
 quotes += QUOTES_V63_Q
 # v6.3 批 3（拍板 D04 選 B）：欄位表第 20 格的八二腰斬例子
 quotes += ['股票跌一半以後股票剩 40 萬、總共剩 60 萬，股票占 66.7%',
