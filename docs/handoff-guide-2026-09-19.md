@@ -44,6 +44,8 @@
 
 **2026-09-22 批 U 已改好、還沒 commit（最新）**：規格 `wip/v63-review/spec-v7-content-u.md`，第 3 節 lede 與白話版兩句作者拍板替換，`numbers-allow-round25.json`、`budget-v7.json`（why 1,046→1,084）已同步，全套哨兵通過；因為套用員規則不commit，等派工的人核過 diff 後自己補 commit。
 
+**2026-09-23 版面收斂三段（批 AY／BA／BB／BC）已做、還沒發布（最新，先看這一段）**：作者 2026-09-23 看完版式稽核後拍板四題，分成三段做完，逐段的細節在本檔最下面四個章節（批 AY、批 BA、批 BB、批 BC）。一句話版：**AY＝只調樣式與純搬動；BA＝結構（卡名 `h3` 降 `h4`、九個長節補 24 個節內小標〔文案待作者定〕、17 張圖搬出卡、摺疊與表格統一）；BB＝皮（容器收成四種、小字 13.4→14.4px、660px 規則 15 塊併 1 塊、死樣式 31 條刪掉）；BC＝收尾（BA 留下的六個只剩卡名的空卡殼刪掉、卡裡的手機堆疊表不再是卡中卡）**。全程 DOM 只改結構不改句子（唯一新增的字是 BA-2 那 24 行小標，標「待作者定」；BC 只刪六個卡名）。哨兵：`v7_layout_check` `LAYOUT OK`，正文左緣種類 375／1024 從 18／14 收到 **9／11**；圖左右緣違規 0／0；要橫捲的表 1／0。PDF：可列印工作表一路 **6 頁**沒變；完整版 178（AY 前）→ 179（BA 後）→ 182（BB 後）→ **180**（BC 後）。數字保全每一批對 `_baseline_v631.html` 與對上一批 commit 都 LOST 0（BC 起用 `numbers-allow-round36.json`）。**等作者看截圖決定的兩件**：① 主線卡只剩一條 1px `var(--line)` 細框，對比 1.46:1，深色 1.58:1——要更明顯得改卡底色或把 `--line` 調深（BB 報告有兩條路）；② BA-2 那 24 行節內小標的文案。**沒做**：沒有發布，`release/` 三個副本沒更新；`.promise` 讀者手冊要補一句介紹紅框與資料卡（只起草在 `changes-for-author-v7.md` 一之五十五，沒改 DOM）。
+
 ## 2026-09-20 換 session 時的現況（最新，先讀這段；和下文衝突時以這段為準）
 
 **2026-09-21 下午：作者進入「逐節閱讀」模式。** 預覽網址現在是**指南第 18 版、工作表第 9 版**（第 17、18 版＝樓梯圖字被切修正、作者逐節閱讀第一批〔規格 `spec-v7-author-r1.md`：第 1 節七件事→八件事且八條黃線是作者逐字定稿、第 7 節「為什麼核心是市值型，不是高股息或其他策略型」搬主線、真實中文人名與示範人物加專名號 `.pn`（英文名不加）〕＋裁判⑥第七輪）。作者原話：「我開始閱讀並跟你討論。沒問題再開工。你可以累積幾筆再一次處理。」清單與每一條的狀態在 **`wip/v63-review/author-readthrough.md`**（接手先讀）。
@@ -796,3 +798,37 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **沒做／偏離規格**：正文左緣 9 種（目標 ≤8）；規格寫「小字 .85rem（14.4px）」兩個數字對不起來，照拍板 2 的 px 值取 .9rem；「正文 1rem」沒套用（會把全書正文從 18px 縮成 16px）；`figure.chart` 負邊距沒能收成一條（BA-5 把三張圖放回摺疊，所以 `details.more>`、`.data-card>details.more>`、`ol.checklist>li>details>` 三條都還要）；`.promise` 讀者手冊補句只起草在 changes-for-author 一之五十五，沒有改 DOM；沒有發布，`release/` 沒更新。
 
 
+
+## 2026-09-23 批 BC（版面收斂收尾：六個空卡殼刪掉、卡內堆疊表不再是卡中卡）
+
+**指示**：主線截圖後交辦的兩條收尾（作者已拍板「圖搬出卡、卡名與圖名同義的合併：保留圖題，刪卡殼」）。沒有獨立規格檔，依據是 `spec-v7-layout-ba.md` BA-3 的後半條與批 BA-5 回報裡列的六張卡。**做完仍不發布。**
+
+**一、六張只剩卡名的卡（唯一改字之處）**：BA-5 之後全書有 6 個 `div.data-card` 的內容只剩一個 `h4`（用 DOM 實測，不是靠 grep：`len(children)==1 and children[0].tag=='h4'` 且卡內沒有其他文字）。逐張把卡名和它下一個兄弟 `figure.chart` 的 `chart-title`／`chart-sub` 對照，六張全部同義，卡殼（含 `h4`）整個刪掉，圖留原位：
+
+| 節 id（顯示節號） | 刪掉的 `h4` | 圖 `data-chart` | 圖題／副題 |
+|---|---|---|---|
+| s2（5） | 四個人，每月 5,000 元 | four-people | 四個人，每月 5,000 元，到 65 歲／一年長 6%，定存 1.7%… |
+| s2（5） | 資產每多一桶要多久 | milestones | 十桶金：每一桶是一年儲蓄的十倍／…第一桶 7.8 年，第十桶 1.4 年 |
+| s5（8） | 美國 1950–2025：連續放 1、5、10、20 年的報酬區間 | ranges | 放 1、5、10、20 年，最好的一段和最差的一段／美國 1950–2025，平均一年報酬區間，% |
+| s6（9） | Schwab 的五個人：每年有 2,000 美元，美股 2005 到 2024 年 | five-people | 20 年後，五個人手上各有多少／Schwab 試算，美元 |
+| s7（10） | 台股含息指數 2003–2025，每月投入 1 萬元 | dca-high-low | 每月 1 萬元：永遠買在最高，對上永遠買在最低／台股含息 2003–2025，自算 |
+| s8（11） | J.P. Morgan 2026：錯過最好的交易日 | missing-days | 全程待著，和少了最好的那幾天／S&P 500 含息，投入 1 萬美元，20 年後 |
+
+**偏離規格一處**：規格說「卡名有圖題沒講到的資訊就併進 `chart-sub`」。five-people（每年 2,000 美元、2005–2024）與 missing-days（J.P. Morgan 2026）這兩張，圖題與副題確實沒寫，但**那些字一字不漏在同一張 `figure` 裡的 `p.note`**（「每年各拿到 2,000 美元、美股 2005 到 2024 年。」「…（J.P. Morgan Guide to Retirement 2026）」）。併進副題等於同一張圖裡講兩次，所以沒改副題、`tools/*.py` 一行沒動。要改是一行字的事，等作者說。
+
+`div.data-card` **86 → 80**；完整版 PDF 書籤 175 → 169（就是這六個卡名）。`guidetools.py`／`build_lite.py`／`v7_check.py`／`v7_layout_check.py` 都沒有以 `data-card` 數當基準（`grep -i card` 查過），不用同步。
+
+**二、卡內的手機堆疊表**：`table.stack-mobile.is-stacked>tbody>tr` 在 660px 以下原本一列一張小卡（1px 框、12px 圓角、`var(--surface)` 底、10px 下外距）。24 張這種表裡 **19 張在 `div.data-card` 裡**（卡中卡），5 張在卡外（s7 圖內 dca 表、s10、s11、lifecycle 各一在 `details.more` 裡、group-situations 的索引表）。新增兩條 CSS（放在 BB-2 那個合併後的 `@media screen and (max-width:660px)` 裡、緊接在 `is-stacked` 那條之後）：
+
+```
+.data-card table.stack-mobile.is-stacked>tbody>tr{margin:0;border:0;border-radius:0;background:transparent;border-bottom:1px solid var(--line);padding:10px 0}
+.data-card table.stack-mobile.is-stacked>tbody>tr:last-child{border-bottom:0}
+```
+
+規格寫的宣告裡沒有 `margin:0`，我加了：基礎規則是 `margin:0 0 10px`，不歸零的話分隔線會離上一列 10px、離下一列 20px，不對稱。`data-label` 的 `::before` 標籤樣式、`stack-inline` 的那條、`>:first-child` 的 `var(--fill)` 底一律沒動（規格只點名 `tr`）。**列印不受影響**：這段在 `@media screen and (max-width:660px)` 裡，兩份 PDF 不經過。
+
+**實測驗證**（375px headless Chrome 讀 computed style，19＋5 張逐張）：卡內 19 張第一列＝四邊 0px／圓角 0／`rgba(0,0,0,0)` 底／`border-bottom:1px`／`padding:10px 0`／`margin:0`，最後一列 `border-bottom:0`；卡外 5 張仍是四邊 1px／圓角 12px／`rgb(255,253,248)` 底／`margin-bottom:10px`。
+
+**檢查**：numbers 對 `_baseline_v631.html` 與對批 BB-2（`80e0633`）都 **LOST 0**，用新的 `wip/v63-review/numbers-allow-round36.json`（＝round35 的 248 條一字未動＋8 條：s2 5000、s5 5、s6 2000／2005／2024、s7 2003／2025、s8 2026，全是六個卡名刪掉後少掉的**重複**出現，每一個數字在對應那張圖的圖題、副題或 `p.note` 裡都還在，逐條寫了理由）；anchors OK（116→140）；budget OK（`_total_max` 58,090／58,191、`_visible_total_max` 64,019／64,120，主線字數減少沒調低上限）；planstep OK（10 個）；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` 引用缺漏 `[]`；`essay_charts.py --guide` exit 0（28 張圖，圖檔內容沒變）；`build_lite.py` exit 0＋`SENTINELS OK`（**工作表 6 頁不變**、完整版 182 → **180 頁**）；`v7_layout_check.py` `LAYOUT OK`，**每一項數字和批 BB-2 完全相同**（375px：圖左右緣違規 0、要橫捲的表 1 張、正文左緣 9 種、summary 續行左突 0、橫向溢出 0；1024px：0／0／11 種／0／0）。
+
+**沒做**：沒有發布；`release/` 三個副本沒更新；five-people／missing-days 的副題沒補口徑（理由見上）；BB 留下的「`--line` 太淡」那題仍等作者看截圖。
