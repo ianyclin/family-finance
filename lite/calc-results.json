@@ -8330,8 +8330,8 @@
  "guide_citations": {
   "guide": "guide/index.html",
   "line_numbers_in_guidetools_text": {
-   "第一桶 7.84 年、第十桶 1.35 年": [
-    624
+   "第一桶需要 7.84 年，第十桶（600 萬）只需要 1.35 年": [
+    623
    ],
    "| 60 萬 | 7.84 年 | 22%": [
     634
