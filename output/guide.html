@@ -121,6 +121,10 @@ table.lite-plan,table.lite-plan>tbody,table.lite-plan>tbody>tr,table.lite-plan>t
 table{min-width:0}.compact{min-width:0}.wide{min-width:0}th,td{padding:8px 6px}body{font-size:17px}.cover{padding-top:42px}.toc ul,.toc ol{columns:1}.part{padding:22px 18px;border-radius:18px}.sources-grid{grid-template-columns:1fr}.source-link{display:block}.source-note{display:block;text-align:left}
 figure.chart svg.d{display:none}figure.chart svg.m{display:block}figure.chart svg.d.m{display:block}
 table.stack-mobile.is-stacked{display:block;min-width:0}table.stack-mobile.is-stacked>thead{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}table.stack-mobile.is-stacked>tbody{display:block}table.stack-mobile.is-stacked>tbody>tr{display:block;margin:0 0 10px;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}table.stack-mobile.is-stacked>tbody>tr:last-child{margin-bottom:0}table.stack-mobile.is-stacked>tbody>tr>td,table.stack-mobile.is-stacked>tbody>tr>th{display:block;width:auto;text-align:left;border:0;padding:2px 12px 8px;overflow-wrap:break-word}table.stack-mobile.is-stacked>tbody>tr>:first-child{padding:8px 12px;background:var(--fill);font-weight:800;white-space:normal}table.stack-mobile.is-stacked>tbody>tr>:first-child:empty{display:none}table.stack-mobile.is-stacked>tbody>tr>[data-label]::before{content:attr(data-label);display:block;color:var(--muted);font-size:.78rem;font-weight:400;line-height:1.35}.table-wrap:has(>table.stack-mobile.is-stacked){overflow-x:hidden;border:0;background:transparent;border-radius:0}
+/* BC：卡內的手機堆疊表本來一列一張小卡（12px 圓角＋框線＋底色），在 div.data-card 裡就變成卡中卡。
+   卡內的列改成用一條下橫線分隔，卡外的堆疊表維持原樣；data-label 標籤樣式不變。 */
+.data-card table.stack-mobile.is-stacked>tbody>tr{margin:0;border:0;border-radius:0;background:transparent;border-bottom:1px solid var(--line);padding:10px 0}
+.data-card table.stack-mobile.is-stacked>tbody>tr:last-child{border-bottom:0}
 table.tight-mobile th,table.tight-mobile td{padding:6px 2px;font-size:.78rem;white-space:nowrap;overflow-wrap:normal}table.tight-mobile .wrapok{white-space:normal}
 table.sticky-first>thead>tr>:first-child,table.sticky-first>tbody>tr>:first-child{position:sticky;left:0;z-index:1;background:var(--surface);box-shadow:1px 0 0 var(--line)}table.sticky-first>thead>tr>:first-child{background:var(--fill)}
 .cover .subtitle{font-size:1.12rem}
@@ -545,7 +549,6 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 <p><mark class="key">現在開始仍然有意義：能算的不是市場，是這筆錢離要用的那天還有幾年。</mark>賺到的錢不領出來，留在裡面繼續投入，這就叫複利。例如 100 元賺了 7 元，隔年你是用 107 元去賺，雪球就這樣一圈一圈變大。前幾年帳戶裡多半是你存進去的錢，越往後，錢自己長出來的那一塊越多。</p>
 <p><mark class="key top">完全不冒險也是一種風險：錢守住了，但長不大。</mark></p>
 <h3>早開始差在哪裡</h3>
-<div class="data-card"><h4>四個人，每月 5,000 元</h4></div>
 <figure class="chart" data-chart="four-people">
 <div class="chart-head"><span class="chart-title">四個人，每月 5,000 元，到 65 歲</span><span class="chart-sub">一年長 6%，定存 1.7%；固定報酬的算術，不是預測</span></div>
 <div class="chart-body">
@@ -666,7 +669,6 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 <p>有一個日子值得等，叫甜蜜點：資產一年長出來的錢，追上你一年存進去的錢。例如你一年存 12 萬，等資產大到平均一年也能自己長出 12 萬，就像多了一個你在幫忙存錢。這一天什麼時候到，由報酬率決定。全部放股票、每年投入固定的話：保守算 4% 約 18 年、普通算 6% 約 12 年、樂觀算 7% 約 10 年。估自己哪一年會到，先照 18 年想；後面那兩個只是順利一點、和最順利的樣子（第 <a class="xref" href="#s1">4</a> 節）。有放定存、債券的人會更晚，例如用保守算，股票八成約 20 年、四成約 25 年；照低估本來就會算得比較久，不代表計畫失敗。這是換來跌得少一點的代價，股票比例還是照第 <a class="xref" href="#s11">14</a> 節先算大跌時實際少多少錢再定，不要為了早點到而多放股票。</p><p>月存三千還是三萬，追上的年數都一樣：存越多，資產長出來的錢越多，但你一年存進去的錢也一樣變多，兩邊同時放大，所以追上的那一年不變。前提是每年投入的金額差不多；照前面說的，有餘裕就把投入每年跟著物價調高約 2%，會再晚幾年（保守算 4% 約 21 年）。</p><p class="small">算法：甜蜜點的年數，剛好等於一筆錢翻一倍要的年數，大約是 70 ÷ 整體報酬率，整體報酬率照第 <a class="xref" href="#s1">4</a> 節的表；例如 70 ÷ 4＝17.5，約 18 年。這是帳面上的錢；物價上漲讓同樣的錢買得比較少，那是上面講物價那一段的事。</p>
 <div class="data-card"><h4>再往前一步：滿足點</h4><p>甜蜜點是資產一年長出來的錢，追上你一年存進去的錢。再往前一步叫滿足點：資產一年長出來的錢，追上你一年的生活費。</p><p>滿足點不等於可以退休。它只是「長出來的錢剛好等於一年生活費」的那一年，算法隱含你每年把資產的 4%、6% 或 7% 拿出來花；退休要存多少，這本書和退休研究用的是一年缺口的 25 到 40 倍，也就是一年只拿出 4% 到 2.5%（<a class="term" href="#g-swr" title="退休後每年從資產拿出來花的比例。">提領率</a>），算法在「<a class="xref" href="#lifecycle-q3">年齡、槓桿與退休</a>」第三題。存 25 倍就是一年拿出 25 分之 1（4%），存 40 倍是 40 分之 1（2.5%）；倍數越大，每年拿出來的比例越小。</p><h5>甜蜜點和滿足點各要幾年</h5><p>早晚由兩件事決定：報酬率，還有儲蓄率（存下來的錢 ÷ 收入）。存一半的人，存進去的錢和生活費一樣多，所以滿足點和甜蜜點是同一天。下面這張表是滿足點要幾年，存一半那一欄同時也是甜蜜點；表上是帳面金額，還沒扣物價。</p><div class="table-wrap"><table class="tight-mobile compact"><thead><tr><th>一年報酬率<br><span class="small wrapok">（帳面，未扣物價）</span></th><th>存<br>一半<br>（50%）</th><th>存<br>三分之一<br>（33%）</th><th>存<br>四分之一<br>（25%）</th></tr></thead><tbody><tr><td>4%（保守）</td><td>17.7 年</td><td>28.0 年</td><td>35.3 年</td></tr><tr><td>6%（普通）</td><td>11.9 年</td><td>18.9 年</td><td>23.8 年</td></tr><tr><td>7%（樂觀）</td><td>10.2 年</td><td>16.2 年</td><td>20.5 年</td></tr></tbody></table></div><p>生活費會跟著物價漲，所以真正要看的是扣掉物價以後的年數：報酬率先減掉物價（每年約 2%），存一半的人用保守算 4% 不是 17.7 年，而是大約 35 年；再減掉 0.5% 的費用，大約 47 年。要判斷「資產長出來的錢夠不夠生活」，看的是後面這兩個數字。</p><p>存一半的人，滿足點和甜蜜點同一天；存三分之一的人，滿足點大約要 1.6 倍的時間；存四分之一的人，大約 2 倍。這個倍數和報酬率無關，只看儲蓄率。所以想早一點到，提高存下來的比例比追高報酬率有效：這就是「<a class="xref" href="#ten">十分鐘看完</a>」第二件事，也是第 <a class="xref" href="#s12">16</a> 節那張七條清單第 3 條的意思，能存多少就投多少；儲蓄率是你控制得了的，報酬率不是。存不到四分之一的人，年數會比最右邊那一欄長很多：存 15%、保守算 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年。這張表要看的不是年數本身，是同一列往左走、年數掉得有多快。</p><p class="small">看不懂可以跳過：算法：n＝ln(1÷儲蓄率)÷ln(1＋報酬率)，試算表寫成 =LN(1/儲蓄率)/LN(1+報酬率)，年複利、每年投入固定，沒有扣物價、費用和稅；表上的 33% 是用三分之一算的。存一半那一欄就是甜蜜點，和上面「樂觀算 7% 約 10 年、普通算 6% 約 12 年、保守算 4% 約 18 年」是同一組數字，只是那裡四捨五入到整年。有放定存、債券的人，報酬率要換成整體報酬率（第 <a class="xref" href="#s1">4</a> 節的表），會到得更晚。表上是帳面金額，生活費會跟著物價漲：要看能不能真的不上班，先把報酬率減掉物價（每年約 2%）和你的總費用率再算一次。這是全書唯一要把物價從報酬率裡減掉的地方，因為這裡比的是「一年長出來的錢」和「會跟著物價漲的一年生活費」；算存多少（D 區）不要減物價，目標那邊乘物價倍數就好。上面那兩個年數就是這樣算的：保守算 4% 減掉物價只剩 2%，存一半約 35 年；再減 0.5% 的費用只剩 1.5%，存一半約 47 年。</p></div>
 </details>
-<div class="data-card"><h4>資產每多一桶要多久</h4></div>
 <figure class="chart" data-chart="milestones">
 <div class="chart-head"><span class="chart-title">十桶金：每一桶是一年儲蓄的十倍</span><span class="chart-sub">每年投一樣的錢、一年長 7%：第一桶 7.8 年，第十桶 1.4 年</span></div>
 <div class="chart-body">
@@ -2498,7 +2500,6 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 </figure>
 <div class="story"><p>這張圖讓我知道不管什麼時候投入，只要長期持有，就不需要擔心（當然，限大盤）</p></div>
 <details class="more" data-print="open"><summary>想深入：美國與台股的區間表，放越久最好和最差會不會靠近</summary>
-<div class="data-card"><h4>美國 1950–2025：連續放 1、5、10、20 年的報酬區間</h4></div>
 <figure class="chart" data-chart="ranges">
 <div class="chart-head"><span class="chart-title">放 1、5、10、20 年，最好的一段和最差的一段（換算成平均一年）</span><span class="chart-sub">美國 1950–2025，平均一年報酬區間，%</span></div>
 <div class="chart-body">
@@ -2888,7 +2889,6 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 <section class="part" id="s6"><h2><span class="num">9</span>要不要等跌下來再買？</h2><p class="lede">猜低點要猜對兩次，等待也有代價。</p>
 <p class="explain"><span class="plain-title">白話版</span><br>像在等公車，想等最空的那一班。你得猜下一班會不會更空，等的時候車一班一班開走。等跌也一樣，你不只要猜「什麼時候開始跌」，還要猜「跌到哪裡會停」。等到大家都知道低點，低點通常已經過了。</p>
 <p>不擇時（不去猜什麼時候買最划算），不會讓你買得比較便宜。<mark class="key top">有錢可投、計畫也允許的時候，就照規則投進去。</mark>它的好處是你不用每次重新猜。</p>
-<div class="data-card"><h4>Schwab 的五個人：每年有 2,000 美元，美股 2005 到 2024 年</h4></div>
 <figure class="chart" data-chart="five-people">
 <div class="chart-head"><span class="chart-title">20 年後，五個人手上各有多少</span><span class="chart-sub">Schwab 試算，美元</span></div>
 <div class="chart-body">
@@ -2981,7 +2981,6 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 
 <section class="part" id="s7"><h2><span class="num">10</span>買在幾號、多久買一次？</h2><p class="lede">買在哪一天確實有差，但比起費用、一直不敢進場、跌了就賣，這個差通常小很多。</p>
 <p class="explain"><span class="plain-title">白話版</span><br>像去菜市場。有人每次都買到當月最便宜的那天，有人每次都買到最貴的那天，二十三年後兩人差得比想像中少。當然，沒有人能永遠買到最便宜。</p>
-<div class="data-card"><h4>台股含息指數 2003–2025，每月投入 1 萬元</h4></div>
 <figure class="chart" data-chart="dca-high-low">
 <div class="chart-head"><span class="chart-title">每月 1 萬元：永遠買在最高，對上永遠買在最低</span><span class="chart-sub">台股含息 2003–2025，自算</span></div>
 <div class="chart-body">
@@ -3060,7 +3059,6 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 <div class="data-card"><h4 id="s8-dividend">高股息 ETF：先看這幾件事</h4><ol class="checklist"><li><strong>高股息 ETF 是一套挑股規則。</strong>它用配息高低挑公司，挑出來的名單不是整個市場。報酬來源一樣是這些公司賺的錢，只是名單不同。為什麼不當核心，看第 <a class="xref" href="#s4-why-cap">7</a> 節「為什麼核心是市值型」。</li><li><strong>配息率不是報酬率。</strong>配出去多少，基金每一份值多少錢（<a class="term" href="#g-nav" title="基金每一份真正值多少錢：把基金持有的東西全部算成今天的價格，除以總共切成幾份。">淨值</a>）就少多少。<mark class="key">比較任何兩檔，用含息總報酬，不用配息率。</mark></li><li><mark class="key"><strong>要現金流可以自己做。</strong></mark>你手上如果是市值型，需要用錢的時候賣一小部分就好，拿到的現金跟配息一樣能花，而且時間和金額都由你自己決定。怕賣到最後沒有了的人，看第 <a class="xref" href="#lifecycle-q3">24</a> 節第三題：每年只拿固定的比例，不會領光；代價是跌的那年拿得少。</li></ol>
 <details class="more"><summary>想深入：配息裡有一部分是大家交進來的錢（收益平準金）、配息型和累積型哪個省稅、自己賣一小部分要付什麼</summary><ul class="checklist"><li><strong>收益平準金是中性的會計項目。</strong>想像班上月底要把班費的結餘分給大家。月底前轉來幾個新同學，如果不處理，每個人分到的就變少。所以新同學加入時要先多交一份，補進要分的那一筆：月底他分到的那份，其實就是自己剛交進去的錢，原本的同學也不會因為人變多而分得比較少。基金向新加入的人多收的這一份，叫<a class="term" href="#g-equal" title="新進場的人付的錢裡，先放進去的一份還沒分出去的收益；它是中性的會計項目，但配息率明顯高過基金實際收到的股息時要留意。">收益平準金</a>。配息多，不代表基金賺得多。</li><li><strong>要留意的用法：</strong>有的基金會動用平準金，把配息率拉到明顯超過它持有的股票實際配給它的股息；多出來的那一塊不是基金新賺的。</li><li><strong>怎麼查：</strong>看那次配息的組成揭露，平準金那一欄占這次配息的幾成。占得越多，配出來的錢裡真正來自股息的就越少。</li><li data-lite-alt="ch6-pick"><strong>配息率怎麼算：</strong>一年配的錢除以價格。配息像從存錢筒拿錢給你，存錢筒就少了同一筆：像上面 100 元變 95 元那樣。<br><span class="small">證交所寫「ETF 配息不代表完整報酬」。</span></li><li><strong>自己賣一小部分的代價：</strong>賣出要付成本，好處是股利所得稅與<a class="term" href="#g-nhi" title="健保在一般保費之外，對股利、利息、租金、高額獎金等收入另外收的一小筆保費：股利、利息單次達 2 萬元才扣；獎金是全年累計超過投保金額 4 倍的部分才扣（以健保署公告為準）。">補充保費</a>比較好控制。台灣<a class="term" href="#g-domicile" title="掛牌地是基金在哪個交易所買賣。">掛牌</a>的股票 ETF 要付 0.1% 證交稅，手續費另算。</li><li><strong>配息型還是累積型：</strong>累積型是基金把配息留在裡面繼續投、不發給你。台股的配息，綜所稅<a class="term" href="#g-bracket" title="所得稅把全年所得切成幾段，越高的那一段稅率越高。">級距</a> 5% 的人抵減後可能退稅，選配息型不吃虧；級距越高，不配息的版本越有利。台灣掛牌的全球型配到的息屬海外所得，沒有這個抵減，另外算。<br><span class="small">股利有 8.5% 可抵減（一戶上限 8 萬），海外所得另有自己的門檻，都見「<a class="xref" href="#costs">費用、稅務與帳戶安全</a>」。</span></li></ul><p class="small">證交所的原文是這樣寫的。它說收益平準金是「中性工具，實際上為基金帳上之會計項目」，錢「源自於投資人申購 ETF 時繳付之部分申購價款」。設計它的目的，是「因應 ETF 規模因短期間大量申購而快速成長時，避免稀釋原有投資人的配息權益」。但「若運用收益平準金之目的，係為增加 ETF 配息率至顯已超出其投資標的所獲配的股息」，這時投資人以為的高股息率，並不是基金實際投資賺到的。證交所自 2023 年 11 月起要求投信揭露每次配息裡股利、利息、收益平準金、已實現資本利得各占多少；金管會的規範則要求標示「基金之配息來源可能為收益平準金」，這句是固定警語，有這個機制的基金都要印。</p><p class="small">配息是基金或公司把現金發給持有人；除息那天，就是開始不再有這次配息的第一天，現金通常幾週後才入帳。除息後的實際市場價格仍由交易決定。有些分配可能來自收益，有些可能是本金返還，稅務<a class="term" href="#g-scope" title="一個數字的算法和範圍：哪段期間、哪種幣別、有沒有含息、有沒有扣費。">口徑</a>也不同。總報酬看的是價格漲跌加上配息。</p></details>
 <p><mark class="key">已經買了高股息的人不用急著賣。</mark>先算含息總報酬，再決定新錢要不要改買市值型、舊的要不要換；也可以照第 <a class="xref" href="#s13">17</a> 節的問題處理。</p></div>
-<div class="data-card"><h4>J.P. Morgan 2026：錯過最好的交易日</h4></div>
 <figure class="chart" data-chart="missing-days">
 <div class="chart-head"><span class="chart-title">全程待著，和少了最好的那幾天</span><span class="chart-sub">S&amp;P 500 含息，投入 1 萬美元，20 年後</span></div>
 <div class="chart-body">
