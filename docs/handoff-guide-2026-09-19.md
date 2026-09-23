@@ -874,3 +874,15 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：numbers 對 `_baseline_v631.html` 與對 `5dabb1c` 都 LOST 0（allow 檔沿用 `numbers-allow-round37.json`，**一條都沒加**）；anchors／budget／planstep／`guidetools check`／`test_guidetools`／`test_v7_check`／`calc_core` 全綠；`v7_layout_check` LAYOUT OK；`build_lite` SENTINELS OK，工作表 6 頁、書籤 164 條、完整版 PDF 178 → **179 頁**（多出來的那一頁是加長的三段字造成的；把列印樣式那條特例還原、只留 HTML 改動重跑一次也是 179 頁）。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；連結沒重測；`.promise` 的「直接來源」「本節行動」兩行仍沒加。
+
+## 批 BH（2026-09-23）：外部複審後的觀念修正（13 條）
+
+規格 `wip/v63-review/spec-v7-content-bh.md`，依據 `queue-2026-09-23-external-reviews.md` 的 {1}（ChatGPT 全書複審）與 {2}（Opus 5.5 全書複審）。**黃框、作者定稿句、圖說一個字沒動**；十三條全做。每一個數字都先進 `tools/calc_core.py`（新區塊「批 BH」，六組函式＋assert），書上才寫。逐條的改前改後在 `wip/v63-review/changes-for-author-v7.md` 一之六十。
+
+1. 第 4 節「規劃時用普通算 6%」改成「4／6／7 各示範一種結果，估自己該存多少先用保守算」（和第 14 節查表頁一致）。2. 第 13 節「把帳面上的虧損賣成真的虧損」改成「會少掉往後參與反彈的部位，也會少掉繼續下跌時的損失」。3. 第 17 節急救卡「是波動還是永久損失」改成三件當場查得到的事（查表頁那一列同步）。4. 第 17 節儲蓄險「兩邊都是保證的」改成「續存利率是假設、保單分保證與非保證」。5. 第 23 節第一年改成只記四件事，並示範有提領時簡算會得到 100%、實際只賺 1 萬（工作表年檢那一頁同步）。6. 第 16 節「金額變大就改買倫敦掛牌／唯一的例外」改成「值得重新比較一次」＋750 萬那句補上「基本稅額和一般所得稅額比一次」。7. 第 16 節「美國掛牌只少 0.1」改成「差 0 到 0.3，看挑哪一檔」。8. 十桶金「報酬占」拆成「這一桶裡」與「累積起來」兩列／兩欄（圖說 51% 對得上累積那一列）。9. 第 8 節補「年化範圍變窄 ≠ 金額差距變小」（20 年 2.0% vs 8.2% ＝ 1.5 倍 vs 4.8 倍）。10. 小卡「一倍半」改成 10 年 1.2、20 年 1.5、30 年 1.9（工作表演練卡同步，全書「一倍半」清空）。11. 第 8 節黃框後加一行小字解釋「大盤」（黃框未動）。12. 計畫第 6 行改「（前半）」「（後半）」。13. 第 28 節「模擬讀者」全部標明是 AI 扮演（數字未改）。
+
+**檢查**：numbers 對 `_baseline_v631.html` 與對 `5c154b6` 都 LOST 0（新檔 `wip/v63-review/numbers-allow-round38.json` ＝ round37 的 263 條一字未動＋10 條，逐條寫理由；注意 `load_allow` 以 (section, token) 為 key，後面的條目會蓋掉前面的，annual／12 那一條因此寫成兩批相加的 3）；anchors／budget／planstep／`guidetools check`／`test_guidetools`／`test_v7_check`／`v7_layout_check`／`build_lite`（SENTINELS OK）全綠；`calc_core.py` 引用缺漏 `[]`。`budget-v7.json` 照實測調高 s1、s2、s5、s10、s13 與兩個總量，理由寫在 `_comment_bh`。`lite/alt/ch4-drill`、`app-a-checklist` 兩份短稿內容同步後重新 stamp。
+
+**兩件要知道的**：①`tools/essay_charts.py` 和指南目前**不同步**——跑 `--guide` 會把三處摺疊標題從批 BE 縮短過的版本改回舊的長標題（「想深入：這張圖的資料和期間」×2、「想深入：這張圖的口徑，和區間表的差別」）。這一批跑完圖以後手動把三處還原了；下一個要跑圖的人要嘛先修 `v7_g08_long_run.py`／`v7_g09_rolling.py` 的標題，要嘛跑完一樣手動還原。②`bot.com.tw`（含 `rate.bot.com.tw`）整站擋自動抓取，只回 JavaScript 驗證頁，所以規格點名的「臺灣銀行定存續存約定」沒有寫進來源卡；那一句改掛中央銀行五大銀行定存利率歷史月資料（新增到「常見的岔路」來源卡，8→9 筆）。第 16 節來源卡加 Vanguard VT 官方頁（Expense ratio 0.06%，as of 2026-02-27），18→19 筆。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；這一批的新句子還沒過裁判（主線要派）；`queue-2026-09-23-external-reviews.md` 裡 {4} 綠角時間軸、{2}1／2／9／10、{3} 但書分級、最短路徑走查都還沒做。

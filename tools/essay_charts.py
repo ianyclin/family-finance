@@ -294,7 +294,12 @@ def four_people():
 # §2 里程碑
 def milestones():
     gaps = [7.84, 5.10, 3.78, 3.01, 2.50, 2.14, 1.87, 1.66, 1.49, 1.35]
+    # 批 BH（外部複審 {2}3）：兩種口徑分開寫。share＝這一桶新增的錢裡報酬占幾成（1 − 這一桶花的年數 ÷ 10）；
+    # cum＝走到這一桶為止，帳戶裡報酬占幾成（1 − 累積年數 ÷ 10k）。作者定稿的圖說「到第四桶時，
+    # 帳戶裡一半是你存的、一半是長出來的」對的是 cum 的第 4 格（51%）。兩排都由 calc_core 的
+    # R['ten_buckets'] 盯著（gain_share_each_bucket_pct／gain_share_cumulative_pct）。
     share = [22, 49, 62, 70, 75, 79, 81, 83, 85, 86]
+    cum = [22, 35, 44, 51, 56, 59, 63, 65, 67, 69]
     yrs, t = [], 0
     for g in gaps:
         t += g
@@ -380,11 +385,13 @@ def milestones():
     # 年數四捨五入到小數點後一位（和 SVG 上那一排一致，完整的兩位數字在下面那張 60 萬版的表）。
     tbl = ('<div class="table-wrap"><table class="compact tight-mobile sticky-first">'
            '<thead><tr><th>第幾桶</th>%s</tr></thead><tbody>'
-           '<tr><td>花幾年</td>%s</tr><tr><td>報酬占</td>%s</tr>'
+           '<tr><td>花幾年</td>%s</tr><tr><td class="wrapok">這一桶裡，<br>報酬占</td>%s</tr>'
+           '<tr><td class="wrapok">累積起來，<br>報酬占</td>%s</tr>'
            '</tbody></table></div>'
            % ("".join("<th>%d</th>" % (i + 1) for i in range(len(gaps))),
               "".join("<td>%.1f</td>" % g for g in gaps),
-              "".join("<td>%d%%</td>" % s for s in share)))
+              "".join("<td>%d%%</td>" % s for s in share),
+              "".join("<td>%d%%</td>" % s for s in cum)))
     # 批 AH（G3）：固定報酬試算的圖一律寫「固定報酬的算術，不是預測」。
     # 批 AO 例外：這張圖用圖說裡那句括號附註（「7% 是為了畫圖簡化的，真實的路一定會上下晃」）
     # 講同一件事。批 AP-3：原本圖下那條 p.note（「每年年底投入同一筆錢…」）和 chart-sub 說的是

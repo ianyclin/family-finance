@@ -1868,6 +1868,114 @@ assert (R['stock_vs_index']['one_share_vs_plan']['plan_fv_wan1'],
 assert (R['stock_vs_index']['one_share_vs_plan']['gain_over_stock_gain_times_int'],
         R['stock_vs_index']['one_share_vs_plan']['stock_up_needed_pct_int']) == (27, 1362)
 
+# ---------- 批 BH：外部複審後的觀念修正（2026-09-23） ----------
+# BH1（第 4 節「合理的期待長什麼樣」）：主線原本只說「這本書規劃時用的是普通算一年 6%」，
+#   和第 14 節「做決定先用保守算」打架。改成三個假設各示範一種結果、估自己該存多少先用保守算。
+#   三個數字就是 STOCK；「美股過去一百多年的平均比 7% 還高」對的是同一節那張卡的 9.8%。
+US_1900_2025_PCT = 9.8      # 第 4 節「長期數字要怎麼讀」：美國股票 1900–2025 年平均一年（含息、美元）
+R['bh_rate_demo'] = {'low': STOCK['low'], 'mid': STOCK['mid'], 'high': STOCK['high'],
+                     'us_1900_2025_pct': US_1900_2025_PCT,
+                     'note': '第 4 節主線：4／6／7 各示範一種結果，做決定用保守算；沒有哪一個是預測。'}
+assert (STOCK['low'], STOCK['mid'], STOCK['high']) == (4, 6, 7), STOCK
+assert US_1900_2025_PCT > STOCK['high'], (US_1900_2025_PCT, STOCK['high'])
+
+# BH5（第 23 節年檢）：第一年用「（年底總值 − 淨投入）÷ 淨投入」簡算報酬率，有提領時會失真。
+#   書上的例子：年初投 10 萬 → 長到 11 萬 → 年底領走 9 萬，年底剩 2 萬。
+#   淨投入＝10 − 9 ＝ 1 萬，簡算＝(2 − 1) ÷ 1 ＝ 100%；實際賺到的錢是 2 ＋ 9 − 10 ＝ 1 萬。
+def first_year_simple_return(put_in, grew_to, took_out):
+    left = grew_to - took_out
+    net_in = put_in - took_out
+    return {'put_in_wan': r1(put_in / 10000), 'grew_to_wan': r1(grew_to / 10000),
+            'took_out_wan': r1(took_out / 10000), 'left_wan': r1(left / 10000),
+            'net_in_wan': r1(net_in / 10000), 'simple_pct': r1((left - net_in) / net_in * 100),
+            'gain_wan': r1((left + took_out - put_in) / 10000)}
+R['bh_first_year'] = first_year_simple_return(100000, 110000, 90000)
+_fy = R['bh_first_year']
+assert (_fy['put_in_wan'], _fy['grew_to_wan'], _fy['took_out_wan']) == (10.0, 11.0, 9.0), _fy
+assert _fy['simple_pct'] == 100.0, _fy          # 書上寫「簡算會得到 100%」
+assert _fy['gain_wan'] == 1.0, _fy              # 書上寫「實際是賺 1 萬」
+
+# BH7（第 16 節摺疊）：「美國掛牌只比台灣掛牌少 0.1 個百分點左右」是把兩檔費率差很多的 ETF
+#   平均掉的說法。改成一檔一檔算：VT（費率 0.06%、配息率 1.52%）與 iShares ACWI（0.32%、1.40%），
+#   兩檔都是整筆配息先扣 30%；台灣掛牌那一端本來就是區間（費用 0.50–0.60 ＋ 股息稅 0.196），
+#   所以每一檔的差距也是區間。
+def listing_gap_by_fund(us_equity_yield_pct=US_EQ_YIELD_2026):
+    tw_tax = US_WEIGHT * us_equity_yield_pct * WHT_TW_REGISTERED
+    tw = (TW_FEE[0] + tw_tax, TW_FEE[1] + tw_tax)
+    funds = {'vt': (US_FEE[0], GLOBAL_DIST_YIELD[1]), 'acwi': (US_FEE[1], GLOBAL_DIST_YIELD[0])}
+    out = {'tw_total_pp': tuple(round(x, 3) for x in tw), 'tw_total_pp_mid': round(sum(tw) / 2, 3),
+           'funds': {}}
+    for k, (fee, yld) in funds.items():
+        tot = fee + yld * WHT_US_REGISTERED
+        out['funds'][k] = {'fee_pct': fee, 'dist_yield_pct': yld, 'total_pp': round(tot, 3),
+                           'tw_minus_fund_pp': (round(tw[0] - tot, 3), round(tw[1] - tot, 3)),
+                           'tw_minus_fund_pp_mid': round(sum(tw) / 2 - tot, 3)}
+    return out
+R['bh_listing_gap_by_fund'] = listing_gap_by_fund()
+R['bh_listing_gap_by_fund']['note'] = (
+    '書上改寫成「差 0 到 0.3 個百分點，看挑哪一檔」：VT 那一檔實算 0.180 到 0.280（中位 0.230），'
+    '兩端四捨五入到一位小數是 0.2 與 0.3；ACWI 那一檔實算 −0.044 到 0.056（中位 0.006），幾乎打平。'
+    '規格原本寫「約差 0.25 到 0.3」，照這個口徑算不出來，書上寫的是實算的 0.2 到 0.3。')
+_bf = R['bh_listing_gap_by_fund']['funds']
+assert (_bf['vt']['fee_pct'], _bf['acwi']['fee_pct']) == (0.06, 0.32), _bf
+# 「用費率 0.06% 的 VT 算，一年差 0.2 到 0.3 個百分點」
+assert ('%.1f' % _bf['vt']['tw_minus_fund_pp'][0], '%.1f' % _bf['vt']['tw_minus_fund_pp'][1]) == ('0.2', '0.3'), _bf['vt']
+assert 0.15 <= _bf['vt']['tw_minus_fund_pp_mid'] <= 0.30, _bf['vt']
+# 「用 0.32% 的 ACWI 算，兩邊幾乎打平」：中位與兩端都落在 ±0.06 個百分點以內
+assert abs(_bf['acwi']['tw_minus_fund_pp_mid']) <= 0.05, _bf['acwi']
+assert all(abs(x) <= 0.06 for x in _bf['acwi']['tw_minus_fund_pp']), _bf['acwi']
+# 「差 0 到 0.3 個百分點」：兩檔合起來的上下界
+_gaps = [x for f in _bf.values() for x in f['tw_minus_fund_pp']]
+assert -0.05 <= min(_gaps) and max(_gaps) <= 0.30, _gaps
+
+# BH8（第 5 節十桶金）：表上的「報酬占」是「這一桶新增的錢裡，報酬占幾成」；作者定稿的圖說
+#   「到第四桶時，帳戶裡一半是你存的、一半是長出來的」講的是累積口徑。兩個都留，欄名寫清楚，
+#   再加一列累積：第 k 桶的資產＝年儲蓄的 10k 倍，自己存進去的＝年數 n_k 份，
+#   所以累積報酬占＝1 − n_k ÷ 10k；單獨一桶＝1 − （這一桶花的年數）÷ 10。
+def buckets_gain_share_each(rate_pct=7):
+    return [r0(100 * (1 - (buckets_years(rate_pct, k) - (buckets_years(rate_pct, k - 1) if k > 1 else 0.0)) / 10.0))
+            for k in range(1, 11)]
+def buckets_gain_share_cumulative(rate_pct=7):
+    return [r0(100 * (1 - buckets_years(rate_pct, k) / (10.0 * k))) for k in range(1, 11)]
+R['ten_buckets']['gain_share_each_bucket_pct'] = buckets_gain_share_each()
+R['ten_buckets']['gain_share_cumulative_pct'] = buckets_gain_share_cumulative()
+assert R['ten_buckets']['gain_share_each_bucket_pct'] == [22, 49, 62, 70, 75, 79, 81, 83, 85, 86], R['ten_buckets']
+assert R['ten_buckets']['gain_share_cumulative_pct'] == [22, 35, 44, 51, 56, 59, 63, 65, 67, 69], R['ten_buckets']
+# 作者定稿圖說對的是累積那一列的第 4 格（51%）；最後一格 69% 是全程走完的累積報酬占比
+assert R['ten_buckets']['gain_share_cumulative_pct'][3] == 51, R['ten_buckets']
+assert R['ten_buckets']['gain_share_cumulative_pct'][9] == 69, R['ten_buckets']
+
+# BH9（第 8 節）：年化的範圍變窄，不代表終點金額的差距變小。抱 20 年最差 2.0%、中位 8.2%
+#   （箱型圖與滾動圖同一組，us_rolling['20年']），換算成一筆錢抱滿 20 年的終點倍數。
+def terminal_multiple(annual_pct, years=20):
+    return round((1 + annual_pct / 100.0) ** years, 4)
+R['bh_hold20_multiple'] = {
+    'worst_pct': round(_rr['20年']['min'], 2), 'median_pct': round(_rr['20年']['median'], 2),
+    'worst_multiple_exact': terminal_multiple(_rr['20年']['min']),
+    'median_multiple_exact': terminal_multiple(_rr['20年']['median']),
+    'worst_multiple_book': terminal_multiple(2.0), 'median_multiple_book': terminal_multiple(8.2),
+    'note': '書上寫 1.5 倍與 4.8 倍：用圖上印的 2.0%／8.2% 算是 1.486／4.837，用沒有四捨五入的 '
+            '2.05%／8.17% 算是 1.501／4.810，兩種都四捨五入到 1.5 與 4.8。名目、沒扣物價費用稅。'}
+_bm = R['bh_hold20_multiple']
+assert r1(_bm['worst_multiple_book']) == 1.5 and r1(_bm['median_multiple_book']) == 4.8, _bm
+assert r1(_bm['worst_multiple_exact']) == 1.5 and r1(_bm['median_multiple_exact']) == 4.8, _bm
+assert ('%.1f' % _bm['worst_pct'], '%.1f' % _bm['median_pct']) == ('2.0', '8.2'), _bm
+
+# BH10（第 8 節小卡第 6 張）：「放二十年以上的再乘一倍半」會被讀成 ×2.5，而且只給一個年數。
+#   改成三個倍數，全部來自第 14 節表二保守算 4% 那一列 ÷ 投入本金（每月 1,000 元）。
+def t2_growth_multiple(rate, years, monthly=1000):
+    return round(fv(0, rate, years * 12, monthly) / (monthly * 12 * years), 4)
+R['bh_rough_multiple'] = {
+    'rate_pct': 4.0, 'monthly': 1000,
+    'by_years': {str(y): {'table2_cell_wan1': t2_monthly_cell(4.0, y),
+                          'principal_wan1': r1(1000 * 12 * y / 10000),
+                          'multiple': t2_growth_multiple(4.0, y),
+                          'multiple_1dp': r1(t2_growth_multiple(4.0, y))} for y in (10, 20, 30)},
+    'note': '書上寫「放 10 年的乘 1.2、20 年乘 1.5、30 年乘 1.9」；「一倍半」那個說法作廢。'}
+_bs = R['bh_rough_multiple']['by_years']
+assert (_bs['10']['multiple_1dp'], _bs['20']['multiple_1dp'], _bs['30']['multiple_1dp']) == (1.2, 1.5, 1.9), _bs
+assert (_bs['10']['table2_cell_wan1'], _bs['20']['table2_cell_wan1'], _bs['30']['table2_cell_wan1']) == (14.7, 36.7, 69.4), _bs
+
 # grep 正式檔：引用數字所在行（guidetools text 行號）
 # 批 AO：chart-sub 的年數改成一位小數（7.8／1.4），原本盯 chart-sub 的那條改盯「想深入」裡
 # 60 萬版那一句（兩位小數的 7.84／1.35 只剩那裡和下面的數字表）
@@ -1952,7 +2060,8 @@ quotes += ['最差的二十年（1962 到 1981）一年不到 1%',
            '一年只能拿 2.31%，大約是 43 倍']
 # 第 20 版裁判後修正 M1／S5：第 16 節三方比較與第 8 節口徑小字
 quotes += ['一年大約 0.4 到 0.5 個百分點，是三種裡最重的',  # 批 AI S16-5 拆句後的語序
-           '美國掛牌的只少 0.1 個百分點左右',
+           # 批 BH 第 7 條：這一句改寫成一檔一檔算，舊句子不再存在
+           '美國掛牌的要看你挑哪一檔，差 0 到 0.3 個百分點',
            '名目一年約 6.7%，扣掉物價約 0.8%',
            '名目最差的是 1999 到 2018（約 5.9%，扣掉物價約 3.6%）']
 # 批 P／批 R：第 24 節 2.31% 的口徑（主線那一句）與摺疊裡的國際分散版本
@@ -1982,6 +2091,14 @@ quotes += ['存 15%、保守算 4% 是 48.4 年，比存四分之一的 35.3 年
 # 批 AN：第 5 節 milestones 改成「十桶金」，圖說與想深入裡的年數（R['ten_buckets']）
 quotes += ['資產到一年儲蓄的 100 倍，不用 100 年，大約 31 年',
            '一年長 4%（保守算）要 41 年、6%（普通算）要 33 年、7% 要 31 年']
+
+# 批 BH：這一批新寫進書的數字（外部複審後的觀念修正）
+quotes += ['用費率 0.06% 的那一檔算，一年差 0.2 到 0.3 個百分點；用 0.32% 的那一檔算，兩邊幾乎打平',
+           '同一筆錢抱 20 年，最差的那一段一年 2.0%、中間那一段 8.2%，換成終點金額，一個是投進去的 1.5 倍，一個是 4.8 倍',
+           '放 10 年的乘 1.2、20 年乘 1.5、30 年乘 1.9',
+           '簡算會算出 100%，實際上只賺 1 萬',
+           '報酬占 | 22% | 35% | 44% | 51% | 56% | 59% | 63% | 65% | 67% | 69%',   # 圖下小表「累積起來，報酬占」那一列（欄名在前一行，因為 <br>）
+           '| 60 萬 | 7.84 年 | 22% | 22%']
 
 found = {}
 try:
