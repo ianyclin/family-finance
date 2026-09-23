@@ -1,0 +1,276 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""版面哨兵（v7 批 AY）：用 headless Chrome 在 375 與 1024 實量指南的版式。
+
+為什麼要有這一支：`tools/v7_check.py` 只看內容（主線字數、數字保全、planstep、錨點），
+CSS 改動在這之前是裸奔的。這一支量的是版式稽核（`wip/v63-review/layout-audit-visual.md`）
+點名的五件事：
+
+  (a) 每張 figure.chart 的左右緣和所在 section.part 的 padding box 對不對齊（手機出血）
+  (b) 每張表在手機上要不要橫向捲（.table-wrap 的 is-scrollable）
+  (c) section.part 底下 p 的左緣有幾種（容器內距不一致的量化指標）
+  (d) 換行的 summary，續行有沒有比首行往左突出（外置 marker 造成的鋸齒）
+  (e) 整份文件有沒有橫向溢出
+
+macOS 的 Chrome 視窗最小寬是 500px，直接 `--window-size=375` 量到的是 500，
+所以照版式審的做法：用一個 file:// 的外框頁把指南放進 width=375 的 iframe 裡量
+（需要 `--allow-file-access-from-files` 才能跨 file:// 讀 iframe 的 DOM）。
+
+量測前會把所有 <details> 打開（否則摺疊裡的表與圖沒有幾何），再觸發一次 resize
+讓指南自己的 JS 重算 .table-wrap 的 is-scrollable／no-scroll。
+
+用法：
+    python3 tools/v7_layout_check.py [guide/index.html] [--json] [--chrome PATH]
+綠燈印一行 LAYOUT OK；紅燈逐條列出違規，exit 1。
+"""
+import json
+import os
+import re
+import subprocess
+import sys
+import tempfile
+
+CHROME_DEFAULT = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+# 門檻。(c) 的目標是 ≤8（版式審 3-A「容器收成四種」做完才到得了）；
+# 在那之前用「不准比現況更糟」的棘輪：這個數字是批 AY-1 的實測值。
+LIMITS = {
+    375: {"p_left_kinds": 18, "scrollable_tables": 1, "summary_outdent": 0, "figure_misaligned": 0},
+    1024: {"p_left_kinds": 14, "scrollable_tables": 0, "summary_outdent": 0, "figure_misaligned": 0},
+}
+P_LEFT_KINDS_GOAL = 8
+
+MEASURE_JS = r"""
+function measure(){
+  var w = document.getElementById('f').contentWindow;
+  var d = w.document;
+  var res = {innerWidth: w.innerWidth, figures: [], tables: [], pLefts: {},
+             summaryOutdent: [], summaryLines: 0, docOverflow: 0, overflowers: []};
+
+  function partOf(el){ var p = el.closest('section.part'); return p; }
+  // padding box＝扣掉框線、含內距的那個盒子。L104 的註解說圖要出血到這裡。
+  function padBox(el){
+    var r = el.getBoundingClientRect(), cs = w.getComputedStyle(el);
+    return {left: r.left + parseFloat(cs.borderLeftWidth),
+            right: r.right - parseFloat(cs.borderRightWidth)};
+  }
+  // (a) 圖
+  Array.prototype.forEach.call(d.querySelectorAll('figure.chart'), function(f, i){
+    var part = partOf(f); if(!part) return;
+    var pb = padBox(part), r = f.getBoundingClientRect();
+    res.figures.push({i: i, id: part.id, cls: f.className,
+                      left: +(r.left - pb.left).toFixed(1), right: +(pb.right - r.right).toFixed(1),
+                      w: +r.width.toFixed(1)});
+  });
+  // (b) 表
+  Array.prototype.forEach.call(d.querySelectorAll('.table-wrap'), function(tw, i){
+    var tb = tw.querySelector('table');
+    var need = tb ? tb.offsetWidth : tw.scrollWidth;
+    var part = partOf(tw);
+    res.tables.push({i: i, id: part ? part.id : '', cls: (tb ? tb.className : ''),
+                     over: +(need - tw.clientWidth).toFixed(1),
+                     scrollable: tw.classList.contains('is-scrollable'),
+                     hint: w.getComputedStyle(tw, '::before').content});
+  });
+  // (c) 正文左緣
+  Array.prototype.forEach.call(d.querySelectorAll('section.part p'), function(p){
+    var r = p.getBoundingClientRect();
+    if(r.width === 0 && r.height === 0) return;
+    var k = Math.round(r.left);
+    res.pLefts[k] = (res.pLefts[k] || 0) + 1;
+  });
+  // (d) summary 續行左突
+  Array.prototype.forEach.call(d.querySelectorAll('summary'), function(s, i){
+    var rg = d.createRange(); rg.selectNodeContents(s);
+    var rects = rg.getClientRects(); if(!rects.length) return;
+    var lines = [];
+    for(var j = 0; j < rects.length; j++){
+      var rc = rects[j]; if(rc.width === 0 && rc.height === 0) continue;
+      var hit = null;
+      for(var k = 0; k < lines.length; k++){ if(Math.abs(lines[k].top - rc.top) < 4){ hit = lines[k]; break; } }
+      if(hit){ hit.left = Math.min(hit.left, rc.left); }
+      else { lines.push({top: rc.top, left: rc.left}); }
+    }
+    if(lines.length < 2) return;
+    res.summaryLines++;
+    var first = lines[0].left, worst = 0;
+    for(var k = 1; k < lines.length; k++){ worst = Math.max(worst, first - lines[k].left); }
+    if(worst > 0.5){
+      var det = s.parentElement;
+      res.summaryOutdent.push({cls: det ? det.className : '', out: +worst.toFixed(1),
+                               text: (s.textContent || '').slice(0, 30)});
+    }
+  });
+  return res;
+}
+// 橫向溢出要量讀者看到的那個狀態（摺疊預設收合），所以在打開摺疊之前先量。
+function overflow(){
+  var w = document.getElementById('f').contentWindow, d = w.document;
+  var out = {docOverflow: Math.max(0, d.documentElement.scrollWidth - w.innerWidth), overflowers: []};
+  if(out.docOverflow > 1){
+    Array.prototype.forEach.call(d.querySelectorAll('body *'), function(el){
+      var r = el.getBoundingClientRect();
+      if(r.width === 0 && r.height === 0) return;
+      if(r.right > w.innerWidth + 1){
+        var par = el.parentElement;
+        var pr = par ? par.getBoundingClientRect() : null;
+        if(pr && pr.right > w.innerWidth + 1) return;  // 只報最外層那一個
+        out.overflowers.push({tag: el.tagName.toLowerCase(),
+                              cls: typeof el.className === 'string' ? el.className : '',
+                              id: el.id, right: +r.right.toFixed(1), w: +r.width.toFixed(1)});
+      }
+    });
+  }
+  return out;
+}
+function go(){
+  var w = document.getElementById('f').contentWindow, d = w.document;
+  var ov = overflow();
+  // 摺疊裡的圖與表收合時沒有幾何，所以量它們之前要全部打開，再觸發一次 resize
+  // 讓指南自己的 JS 重算 .table-wrap 的 is-scrollable／no-scroll。
+  Array.prototype.forEach.call(d.querySelectorAll('details'), function(x){ x.open = true; });
+  w.dispatchEvent(new w.Event('resize'));
+  setTimeout(function(){
+    var out;
+    try { var m = measure(); m.docOverflow = ov.docOverflow; m.overflowers = ov.overflowers;
+          out = JSON.stringify(m); }
+    catch(e){ out = JSON.stringify({error: String(e)}); }
+    document.getElementById('out').textContent = out;
+  }, 400);
+}
+document.getElementById('f').addEventListener('load', function(){ setTimeout(go, 300); });
+"""
+
+WRAPPER = """<!doctype html><meta charset="utf-8">
+<style>html,body{margin:0;padding:0}iframe{border:0;display:block}#out{white-space:pre-wrap}</style>
+<iframe id="f" src="%(src)s" width="%(w)d" height="%(h)d"></iframe>
+<pre id="out">PENDING</pre>
+<script>%(js)s</script>
+"""
+
+
+def run_width(chrome, guide_abspath, width, height=1200, budget=25000):
+    with tempfile.TemporaryDirectory() as td:
+        wrapper = os.path.join(td, "wrap.html")
+        with open(wrapper, "w", encoding="utf-8") as fh:
+            fh.write(WRAPPER % {"src": "file://" + guide_abspath, "w": width,
+                                "h": height, "js": MEASURE_JS})
+        # 不要加 --user-data-dir：這台機器上 headless 會卡住不出東西
+        # （build_lite.py:839 有同一條註解，2026-09-16 實測）。
+        cmd = [chrome, "--headless=new", "--disable-gpu",
+               "--allow-file-access-from-files", "--hide-scrollbars",
+               "--window-size=%d,%d" % (max(width + 40, 900), height),
+               "--virtual-time-budget=%d" % budget,
+               "--dump-dom", "file://" + wrapper]
+        p = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+        dom = p.stdout
+    m = re.search(r'<pre id="out">(.*?)</pre>', dom, flags=re.S)
+    if not m:
+        raise SystemExit("量不到：Chrome 沒有吐出 #out（stderr 前 500 字）\n" + p.stderr[:500])
+    raw = m.group(1).strip()
+    if raw == "PENDING" or not raw:
+        raise SystemExit("量不到：iframe 還沒量完就被 dump（試著把 --virtual-time-budget 調大）")
+    raw = raw.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", '"')
+    return json.loads(raw)
+
+
+def check(width, res, problems, lines):
+    lim = LIMITS[width]
+    if res.get("error"):
+        problems.append("%dpx 量測失敗：%s" % (width, res["error"]))
+        return
+    if res["innerWidth"] != width:
+        problems.append("%dpx：iframe 實際 innerWidth=%s，量到的不是目標寬度" % (width, res["innerWidth"]))
+
+    # (a)
+    if width <= 660:
+        bad = [f for f in res["figures"] if abs(f["left"]) > 1.5 or abs(f["right"]) > 1.5]
+        note = "圖應出血到 section.part 的 padding box（左右各 0）"
+    else:
+        bad = [f for f in res["figures"] if f["left"] < -1.5 or f["right"] < -1.5]
+        note = "圖不得超出 section.part 的 padding box"
+    lines.append("%dpx  figure.chart %d 張，左右緣不對的 %d 張（%s）" % (width, len(res["figures"]), len(bad), note))
+    for f in bad[:20]:
+        lines.append("        #%s %s  左差 %s  右差 %s" % (f["id"], f["cls"], f["left"], f["right"]))
+    if len(bad) > lim["figure_misaligned"]:
+        problems.append("%dpx：%d 張 figure.chart 左右緣不對（上限 %d）" % (width, len(bad), lim["figure_misaligned"]))
+
+    # (b)
+    scroll = [t for t in res["tables"] if t["over"] > 2]
+    hinted = [t for t in res["tables"] if t["scrollable"]]
+    nohint = [t for t in scroll if "滑動" not in (t["hint"] or "")]
+    ghost = [t for t in hinted if t["over"] <= 2]
+    lines.append("%dpx  .table-wrap %d 個，需要橫向捲的 %d 個，顯示提示字的 %d 個"
+                 % (width, len(res["tables"]), len(scroll), len([t for t in res["tables"] if "滑動" in (t["hint"] or "")])))
+    for t in scroll[:20]:
+        lines.append("        #%s table.%s 超出 %spx  提示=%s" % (t["id"], t["cls"], t["over"], t["hint"]))
+    if len(scroll) > lim["scrollable_tables"]:
+        problems.append("%dpx：%d 張表需要橫向捲（上限 %d）" % (width, len(scroll), lim["scrollable_tables"]))
+    if nohint:
+        problems.append("%dpx：%d 張表要橫捲卻沒有提示字（%s）"
+                        % (width, len(nohint), "、".join("#" + t["id"] for t in nohint[:5])))
+    if ghost:
+        problems.append("%dpx：%d 張表不用捲卻被標成 is-scrollable" % (width, len(ghost)))
+
+    # (c)
+    kinds = sorted(int(k) for k in res["pLefts"])
+    lines.append("%dpx  section.part 底下 p 的左緣 %d 種：%s（目標 ≤%d）"
+                 % (width, len(kinds), " ".join("%s(%d)" % (k, res["pLefts"][str(k)]) for k in kinds), P_LEFT_KINDS_GOAL))
+    if len(kinds) > lim["p_left_kinds"]:
+        problems.append("%dpx：正文左緣 %d 種，比棘輪 %d 還多" % (width, len(kinds), lim["p_left_kinds"]))
+
+    # (d)
+    lines.append("%dpx  換行的 summary %d 個，續行往左突出的 %d 個"
+                 % (width, res["summaryLines"], len(res["summaryOutdent"])))
+    for s in res["summaryOutdent"][:10]:
+        lines.append("        details.%s 突出 %spx：%s…" % (s["cls"], s["out"], s["text"]))
+    if len(res["summaryOutdent"]) > lim["summary_outdent"]:
+        problems.append("%dpx：%d 個 summary 續行左突（上限 %d）"
+                        % (width, len(res["summaryOutdent"]), lim["summary_outdent"]))
+
+    # (e)
+    lines.append("%dpx  文件橫向溢出 %spx" % (width, res["docOverflow"]))
+    for o in (res.get("overflowers") or [])[:10]:
+        lines.append("        %s.%s#%s 右緣 %s 寬 %s" % (o["tag"], o["cls"], o["id"], o["right"], o["w"]))
+    if res["docOverflow"] > 1:
+        problems.append("%dpx：文件橫向溢出 %spx" % (width, res["docOverflow"]))
+
+
+def main(argv):
+    chrome = CHROME_DEFAULT
+    as_json = False
+    args = []
+    i = 0
+    while i < len(argv):
+        if argv[i] == "--chrome":
+            chrome = argv[i + 1]; i += 2; continue
+        if argv[i] == "--json":
+            as_json = True; i += 1; continue
+        args.append(argv[i]); i += 1
+    guide = args[0] if args else "guide/index.html"
+    guide = os.path.abspath(guide)
+    if not os.path.exists(guide):
+        raise SystemExit("找不到 " + guide)
+    if not os.path.exists(chrome):
+        raise SystemExit("找不到 Chrome：%s（用 --chrome 指定）" % chrome)
+
+    problems, lines, raw = [], [], {}
+    for width in (375, 1024):
+        res = run_width(chrome, guide, width)
+        raw[width] = res
+        check(width, res, problems, lines)
+
+    if as_json:
+        print(json.dumps(raw, ensure_ascii=False, indent=1))
+        return 0
+    print("\n".join(lines))
+    if problems:
+        for p in problems:
+            print("FAIL [layout] " + p)
+        return 1
+    print("LAYOUT OK")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

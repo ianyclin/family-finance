@@ -391,7 +391,18 @@ python3 tools/build_lite.py                           # 5. 兩份 HTML＋兩份 
 python3 tools/guidetools.py check guide/index.html
 python3 tools/test_guidetools.py tools guide/index.html && python3 tools/test_v7_check.py
 python3 tools/calc_core.py                            # 「引用缺漏 []」才過
+python3 tools/v7_layout_check.py guide/index.html     # 6. 版面哨兵（批 AY-1 新增）：印 LAYOUT OK 才過
 ```
+
+`tools/v7_layout_check.py` 用 headless Chrome 在 **375 與 1024** 各量一次（macOS 的 Chrome 視窗最小寬是 500px，
+所以照版式審的做法把指南放進 width=375 的 iframe 裡量，要 `--allow-file-access-from-files`；**不要加 `--user-data-dir`**，
+這台機器上 headless 會卡住，理由同 `build_lite.py:839`）。量五件事：每張 `figure.chart` 的左右緣對不對得上
+`section.part` 的 padding box、每張表要不要橫向捲（以及要捲的有沒有提示字、不用捲的有沒有被誤標）、
+`section.part` 底下 `p` 的左緣有幾種、換行的 `summary` 續行有沒有往左突、整份文件有沒有橫向溢出。
+橫向溢出量的是摺疊收合（讀者預設看到）的狀態，圖與表則會先把所有 `<details>` 打開再量。
+門檻寫在檔頭的 `LIMITS`：左緣種類數目前是「不准比現況更糟」的棘輪（375px 18 種、1024px 14 種），
+容器收成四種（版面收斂第二段）做完才收得到目標的 8 種。**CSS 改完一定要跑它，再跑 `build_lite.py`**
+（guide 的 `<style>` 是 lite 的來源）。這一支只認得完整版的結構（`section.part`），量 `lite/index.html` 會報假紅。
 
 `tools/v7_check.py mainline guide/index.html` 是看數字用的（逐節 mainline／small／source／摺疊）。**主線預算在 `wip/v63-review/budget-v7.json`：要加主線字就要同步調預算，並在 `_comment` 寫為什麼、抵掉了什麼。** 預算不是建議值，是這一版唯一擋得住「越改越厚」的東西。
 
