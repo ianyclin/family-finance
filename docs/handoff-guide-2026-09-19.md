@@ -926,7 +926,7 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 ## 2026-09-24 換 session 交班（主線寫，BI 已 commit 未發布、BN 施工中、裁判 BI 進行中）
 
 **發布**：指南 Version 39、工作表 Version 30＝批 BK 之後。**批 BI（費用扣法照部位算、四個案例重算，commit `cae1192`＋`a6ce2e3`）已 commit 但未發布**——因為四處結論翻轉（小芸阿哲不用多存、阿凱 26%→25%、陳大哥四成剛好到 40 倍多 11 萬、小安延後 4.8 年變走得通），主線派了裁判獨立重算（judge，本 session 結束時可能未回；**下一 session 若找不到 `wip/v63-review/judge-bi.md`，就重派一次裁判**：用 Python 從頭算四個案例每個印在書上的金額，規格 `spec-v7-content-bi.md`、地圖 `map-fee-method-2026-09-23.md`）。裁判過了才發 Version 40。
-**BN（BK 裁判後修正：橋接句去「只」、理財型房貸列補數字與後果、拿掉「房屋增貸」、h4 不數數、第 8 節來源卡 36→38）builder 施工中**：下一 session 先 `git log --oneline -5` 看有沒有「批 BN」commit；沒有就看工作樹 diff 決定續做或 stash；規格 `spec-v7-content-bn.md`、依據 `judge-bk.md`。
+**BN 已 commit（`8ee3752`＋`57268fe`）**：橋接句去「只」、理財型房貸列補 3.19%／2.55% 與額度被收回的後果、拿掉「房屋增貸」、h4 不數數、來源卡 34 筆。第 8 節來源卡 36＋2＝38 本來就對（裁判誤判），沒改。BN 留下三個小口感（同列兩次「一家銀行公告」、「額度…額度被調降」連用、「不一樣的地方，還有…」沒有先行項），下一輪順手修。**BI＋BN 都未發布**，等裁判 BI 過了一起發 Version 40。
 **BN 已完成並 commit（2026-09-24，未發布）**：M1＋S1–S4＋h4 不數數全部落地，第 24 節「直接來源」33→34 筆（新增華南「定儲利率指數」房貸頁，curl HTTP 200）。`budget-v7.json` lifecycle 4,523→4,653、兩個總量同步（理由寫在 `_comment_bn`），numbers 沿用 round41、兩個基準都 LOST 0，沒開 round42。**規格最後一條「第 8 節來源卡 36→38」沒做，因為是裁判誤判**：那張卡宣告的是「直接來源（36 筆）＋呈現方式的參考（2 筆）」，36＋2 就是 38，宣告本來就對；全書 18 張來源卡的宣告筆數都重數過，全部相符。
 **發布流程**：`cp export/隔離人性-理財新手完整指南-v7.0 預覽.html release/index.html`（與 `release/guide-v7.0-preview.html`）、工作表同理；md5 對 guide/index.html；派 sonnet `claude` 代理用 Artifact publish 帶 url（指南 9WawELoGewi9ecKK32YcfU、工作表 SyGNXbzfPAXVeundB33Wb4），不 force；然後更新本檔「發布狀態」與記憶。
 
