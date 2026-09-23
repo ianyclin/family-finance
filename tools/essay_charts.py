@@ -339,6 +339,8 @@ def milestones():
                      + [(px(y), py(v)) for y, v in reversed(total)])
         out.append('<polygon points="%s" fill="%s" fill-opacity="0.5"/>' % (" ".join("%.1f,%.1f" % p for p in area_contrib), MUTED))
         out.append('<polygon points="%s" fill="%s" fill-opacity="0.5"/>' % (" ".join("%.1f,%.1f" % p for p in area_gain), TEAL))
+        # 批 AV（作者拍板）：沿 contrib 曲線加一條灰虛線，標出本金那條線的位置。
+        out.append(poly([(px(y), py(v)) for y, v in contrib], MUTED, 1.2, dash="4 3"))
         out.append(poly([(px(y), py(v)) for y, v in total], TEAL, lay.line))
         show = {0, 1, 2, 4, 9} if lay.mobile else {0, 1, 2, 3, 4, 5, 9}
         # 批 AP-2（作者追加）：第 10 桶的年數靠右對齊到最右那條虛線，允許往左長到第 9、8 桶
