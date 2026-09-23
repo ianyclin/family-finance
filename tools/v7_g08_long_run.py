@@ -453,7 +453,7 @@ def chart(res):
     # 批 AG：p.note 併進「想深入」以後 res['note'] 是空字串，就不印那一條 p.note；
     # res['more'] 改成 HTML（裡面有 a.xref 的節號連結），所以不再 E.esc。
     more = ('<details class="more" data-print="open">'
-            '<summary>想深入：這張圖的資料、期間和沒算進去的東西</summary>'
+            '<summary>想深入：這張圖的資料和期間</summary>'
             '<p class="note">%s</p></details>' % res['more'])
     return dict(title=res['title'], sub=res['sub'], svgs=svgs,
                 extras=(E.note(res['note']) if res['note'] else '') + more,

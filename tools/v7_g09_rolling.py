@@ -558,7 +558,7 @@ def _box_dress(r):
     # 批 AG（作者 2026-09-22）：p.note 整段與原圖說整段都搬進「想深入」，圖上只留「這張圖告訴我什麼」。
     r['note'] = ''
     r['more'] = ('<details class="more" data-print="open">'
-                 '<summary>想深入：這張圖的資料、口徑，和它跟「想深入」裡那張區間表的差別</summary>'
+                 '<summary>想深入：這張圖的口徑，和區間表的差別</summary>'
                  '<p class="note">'
                  # 這一段原本是圖下的 p.note
                  '每個月都當一次買進日，抱滿 N 年，再換算成平均一年的報酬。'
