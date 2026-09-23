@@ -591,3 +591,25 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`--guide` ×2（第二次 0 ⚠）、numbers 對 `_baseline_v631.html` 與對批 AK 交班 `d435898` 兩個基準都 LOST 0（**新開 `numbers-allow-round34.json`**＝round33 的 244 條一字未動＋1 條：`annual` 的 `12`，M-2 收掉那句括號裡重講一次的 10 萬＋2 萬＝12 萬，同節 `12` 仍有 9 次）、anchors OK、budget OK（**sidepaths 1218→1220**，只因為 N-7 補了「通常」兩個字，理由在 `budget-v7.json` 的 `_comment_al`；第 20 節 mainline 988→1051 仍在 1500 以內、沒有調）、planstep OK、`guidetools check` OK、`test_guidetools.py`／`test_v7_check.py` ALL PASS、`calc_core.py` 引用缺漏 `[]`、`build_lite.py` exit 0＋SENTINELS OK（`lite/alt/app-a-checklist.html` 因為 `#annual` 來源區塊改了要重新 stamp，本體一個字沒改，理由寫在檔頭 note）。
 
 **沒做**：沒有開瀏覽器量版面；`release/` 三個副本沒有更新；發布狀態那一行仍寫「批 AA 到 AK」，AL 還沒發布；批 AL 新寫的句子沒有再過裁判。
+
+## 2026-09-23 批 AM（詞彙表連結＋第三輪語氣收尾）
+
+**規格**：`wip/v63-review/spec-v7-content-am.md`（三次裁判都點名：全書沒有一個名目／部位／標的／視窗／百分位掛到詞彙表）。慣例照舊：`<a class="term" href="#g-xxx" title="一句白話">詞</a>`，每節第一次出現掛一次；不掛在 `span.chart-sub`、`aria-label`、SVG、表格儲存格、`details.source-card`、`mark.key`、`div.story`、`div.planstep` 裡。掛之前每一節的每一次出現都先印出祖先鏈確認。
+
+**名目（→ `#g-annual`，title「沒扣物價、帳面上看到的數字。」）**：s1（`#s1-rate` 摺疊裡「這本書的報酬率都沒扣物價（叫名目數字）」）、s4（asset-rotation 圖下 `p.note`，`tools/essay_charts.py`）、s5（sp500-long-run 的「想深入」，`tools/v7_g08_long_run.py`）、s6（滾動比較表的小字）、s11（rebalance-drift 的「想深入」，`tools/v61_g10_rebalance_drift.py`）各一個。s4／s5／s11 三處在畫圖程式產生的區塊裡，改腳本再 `--guide`；`essay_charts.note()` 會跳脫 HTML，多加一個 `raw=True` 參數（只有這一個呼叫用它）。
+
+**部位**：詞彙表新增 `#g-position`（放在「曝險」下一條）。掛了 8 節：s5、s11、s12、s13、steps、costs、annual、lifecycle。**規格點名但沒掛的 3 節**：s8 唯一一次在 `div.story` 裡（黃框不掛）、cases 與 `group-situations` 唯一一次都在表格儲存格裡。s11 跳過前兩次（第一次在引述第 17 節小標的「處理套牢的舊部位」引號裡、緊接在一個 `a.xref` 後面，第二次在計畫表儲存格），掛在同節「防守放定存或有海外部位的人」。
+
+**標的**：7 處逐一印出，**一處都沒改**。5 處是誤判（`目標的`×2、動詞「標的」×3，其中兩個在來源卡的日期依據裡）；s8 那一次在證交所公告的直接引文「其投資標的所獲配的股息」裡，s11 那一次是證交稅條例的用語「以債券為主要投資標的」，兩處都不能換成「商品」。
+
+**視窗**：`#g-rolling` 的 `dd` 補一句「每一段從買進日到賣出日的期間，叫一個視窗。」；s5 第一次出現（`#s5-rolling`）掛上。**要注意**：同一個句子前半已經有「滾動報酬」掛 `#g-rolling`，所以 s5 現在有兩個 `a.term` 指同一條；`#g-annual` 同樣（s5 的「名目」與後面摺疊裡的「年化」）。和第 7 批「s13 兩個 `a.term` 指 `#g-circle`，留第一個」是同一形狀的問題，兩處都照規格掛了，留給主線裁。
+
+**百分位**：箱型圖圖例「箱＝第 15 到第 85 百分位」→「箱＝中間七成的視窗（第 15 到第 85 百分位）」，圖下「想深入」同步成「箱是中間七成的視窗（第 15 到第 85 百分位，把所有視窗…）」（`tools/v7_g09_rolling.py`）。圖例是看得到的主線字，s5 因此 3,319→3,328，照實測把上限調到剛好（`budget-v7.json` 的 `_comment_am`）。
+
+**兩支畫圖程式的小瑕疵**：`v61_g10_rebalance_drift.py` 圖上標籤「%d 年第一次超過 85%」→「%d 年底第一次超過 85%」（畫的是每年年底的觀測值，圖說與 figcaption 早就寫年底），同檔 `bond_back` 重複賦值刪掉後面那一次；`v7_g09_rolling.py` 圖說的起算年不再寫死，改成 `r['from'][:4]`，另加 `assert r['from'][:4] == '1871'`。
+
+**兩處文件**：`changes-for-author-v7.md` 一之四十二的 S-4 節號從「第 24 節」更正為「第 5 節（甜蜜點算法小字）」（那句在 `#s2` 的甜蜜點算法小字裡，不在 `lifecycle`）；同檔新增「一之四十三、批 AM」。s11「5/25 是這本書用的尺」→「5/25 是本指南的做法」（裁判記下的自稱詞不一致）。
+
+**檢查**：`--guide` ×2（第二次 0 ⚠）、numbers 對 `_baseline_v631.html` 與對批 AL 交班 `0059862` 兩個基準都 LOST 0（沿用 `numbers-allow-round34.json`，沒有新增例外）、anchors OK（id 116→140、`href="#…"` 114）、budget OK（只調 s5 +9）、planstep OK、`guidetools check` OK、`test_guidetools.py`／`test_v7_check.py` ALL PASS、`calc_core.py` 引用缺漏 `[]`、`build_lite.py` exit 0＋SENTINELS OK（`lite/alt/app-a-checklist.html` 因為 `#annual` 來源區塊多了一個詞彙表連結要重新 stamp，本體一個字沒改，理由寫在檔頭 note）。
+
+**沒做**：沒有開瀏覽器量版面；`release/` 三個副本沒有更新；發布狀態那一行仍寫「批 AA 到 AK」，AL、AM 都還沒發布；s5 兩對重複指向的 `a.term` 沒有自行收掉。

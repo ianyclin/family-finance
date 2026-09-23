@@ -344,7 +344,7 @@ def chart(res):
         # 第一次超出：標籤放在 97% 高度（桌面標籤橫跨約 1995–2002，那幾年線都低於 93%），拉一條引線
         bx, by = px(br_year), py(br_pct)
         out.append(E.dot(bx, by, E.ACCENT))
-        blab = ('%d 年 %s' % (br_year, pct(br_pct))) if mob else ('%d 年第一次超過 85%%：%s' % (br_year, pct(br_pct)))
+        blab = ('%d 年 %s' % (br_year, pct(br_pct))) if mob else ('%d 年底第一次超過 85%%：%s' % (br_year, pct(br_pct)))
         ty = py(97)
         out.append(E.text(bx if mob else bx - 4, ty, blab, lay.fl, 'middle' if mob else 'start', E.INK, '800'))
         out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1"/>'
@@ -372,7 +372,6 @@ def chart(res):
     bond_back = bs['summary']['years_back_inside_after_breach'][:2]
     # 批 AI（裁判 C S14-2）：一張圖外面只留「這張圖告訴我什麼」。
     # 起點、口徑、Damodaran、債券版本、門檻怎麼算，全部收進圖內的「想深入」。
-    bond_back = bs['summary']['years_back_inside_after_breach'][:2]
     nt = E.note('%d 年初放股票 80%%、現金 20%%，之後不買不賣，每年年底看一次股票占多少。這只是示意。'
                 % m['start'])
     more = ('<details class="more"><summary>想深入：這張圖的資料和口徑</summary>'
@@ -385,7 +384,7 @@ def chart(res):
             '防守放債券 ETF 的人，線也不一樣：同一個起點、防守改用美國 10 年期公債算，'
             '%d、%d 年比例會自己落回門檻裡。'
             '資料是美國 S&amp;P 500（含息）與美國 3 個月國庫券的年度報酬，出自 Damodaran（紐約大學 Stern）'
-            '公開資料集，名目、以美元計，沒有扣物價、費用和稅，也沒有投入新錢或提領。'
+            '公開資料集，<a class="term" href="#g-annual" title="沒扣物價、帳面上看到的數字。">名目</a>、以美元計，沒有扣物價、費用和稅，也沒有投入新錢或提領。'
             '過去的走法不代表以後會一樣。</p></details>'
             % (br_year, m['first_breach_years_after_start'], m['end'], mk['year'], pct(mk['stock_pct']),
                2000, a2000['first_breach_year'], pct(a2000['first_breach_stock_pct']),

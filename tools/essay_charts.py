@@ -132,8 +132,9 @@ def legend(items):
     return '<ul class="legend">' + "".join(out) + "</ul>"
 
 
-def note(s):
-    return '<p class="note">%s</p>' % esc(s)
+def note(s, raw=False):
+    """raw=True 的字串已經是 HTML（例如夾了 <a class="term">），不再跳脫。"""
+    return '<p class="note">%s</p>' % (s if raw else esc(s))
 
 
 def usd_tick(v, first):
@@ -831,8 +832,8 @@ def asset_rotation():
     lg = legend([(TEAL, "美股（S&P 500 含息，美元）"), (AMBER, "台股（含息報酬指數，台幣）"),
                  (MUTED, "美國 10 年期公債（美元）"), (BLUE, "現金（美國 3 個月國庫券，美元）")])
     nt = note("美國三類出自 Damodaran（紐約大學 Stern）公開的年度報酬資料集，台股是證交所含息報酬指數自算；"
-              "都是名目、含息，沒有扣物價、費用和稅。台股以台幣計、其餘三類以美元計，沒有換成同一種貨幣，"
-              "所以這張表比的是「各自市場那一年漲跌多少」，不是台灣人換回台幣實際拿到的報酬。")
+              '都是<a class="term" href="#g-annual" title="沒扣物價、帳面上看到的數字。">名目</a>、含息，沒有扣物價、費用和稅。台股以台幣計、其餘三類以美元計，沒有換成同一種貨幣，'
+              "所以這張表比的是「各自市場那一年漲跌多少」，不是台灣人換回台幣實際拿到的報酬。", raw=True)
     return dict(title="每一年的第一名是誰：%d 到 %d 年" % (d["from"], d["to"]),
                 sub="美股、台股、美國 10 年期公債、現金，四類各自市場的當年報酬排名",
                 svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
