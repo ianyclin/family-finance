@@ -866,3 +866,11 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：numbers 對 `_baseline_v631.html` 與對 `b30ff47` 都 LOST 0（新檔 `numbers-allow-round37.json`＝round36 的 256 條一字未動＋7 條，逐條寫理由）；anchors／budget／planstep／`guidetools check`／`test_guidetools`／`test_v7_check`／`calc_core` 全綠；`v7_layout_check` LAYOUT OK；`build_lite` SENTINELS OK，工作表 6 頁、完整版 PDF 180 → **178 頁**、書籤 165 → 164。`lite/alt/` 三份短稿（ch4-drill、plan-blank、app-a-checklist）的來源指紋因為摺疊標題變短而變動，逐份看過內容仍對（三份都沒抄標題），各加一條 note 後 `--stamp`。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；`.promise` 的「直接來源」「本節行動」兩行沒加；連結沒重測；s3 那條摺疊原本括號寫「稅、複委託、註冊地都在這裡」，查過內文後發現「註冊地」根本不在那一格（在 s12），括號直接刪掉、沒有改寫成導語——要補指路句得新寫一句，等作者。
+
+## 批 BF（2026-09-23）：BE 裁判後修正
+
+主線裁定七件，照字面做，**沒有重寫任何一段內文**：①`.promise`「資料卡」那一行改成「把一件事的細節和數字集中放在一起；計畫表、急救卡這種是照著做的，其餘讀不完可以先跳過」（紅框那一行不動）；②第 19 節「三件事不用等」從 `div.warning` 改成 `div.data-card`（內容一字未動，它講的是可以先動手、不是先停；紅框 7 → 6、資料卡 80 → 81）；③`tools/build_lite.py` 的 `#annual details:not([open])>summary::after{content:"（紙本未印）"}` 特例刪掉——批 BE 把年檢那條 summary 縮短後，特例的理由已經不在，現在和全書一樣印「（紙本未印，網頁版可展開）」；④七條摺疊標題改字（s5 兩條、s8、s11、cases、s13、lifecycle 各一條），改完 101 條仍全部 ≤20 字，並解掉「想深入：這些數字怎麼算的」在 s2／lifecycle 的重名（s5 兩條「這張圖的資料和期間」、s5／s11「這張圖的資料和口徑」是舊有重複，照裁定不動）；⑤第 28 節改成實情：「全書 51 張表，其中 50 張由版面哨兵在手機寬度（375 像素）逐張量過，另一張隨它所在的圖一起量；29 張圖也在手機寬和電腦寬各量一次」（數字用程式數現況，和 `v7_layout_check` 印出的 `figure.chart 29 張`、`.table-wrap 50 個` 一致）；⑥`changes-for-author-v7.md` 一之五十八第 1 點的前提更正——**上一批說「『註冊地』三個字根本不在 s3 那一格」是我查錯了**，那一格有「美國註冊的 ETF，配息先扣 30%，又牽涉美國遺產稅」，主題在、只是沒用那三個字；括號刪掉不用退回，理由改成「標題已準確，內文也有指路」；⑦新增一之五十九。
+
+**檢查**：numbers 對 `_baseline_v631.html` 與對 `5dabb1c` 都 LOST 0（allow 檔沿用 `numbers-allow-round37.json`，**一條都沒加**）；anchors／budget／planstep／`guidetools check`／`test_guidetools`／`test_v7_check`／`calc_core` 全綠；`v7_layout_check` LAYOUT OK；`build_lite` SENTINELS OK，工作表 6 頁、書籤 164 條、完整版 PDF 178 → **179 頁**（多出來的那一頁是加長的三段字造成的；把列印樣式那條特例還原、只留 HTML 改動重跑一次也是 179 頁）。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；連結沒重測；`.promise` 的「直接來源」「本節行動」兩行仍沒加。

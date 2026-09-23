@@ -569,9 +569,8 @@ LITE_PRINT_CSS = '\n.lite-toc-pg{display:inline}\n'
 FULL_PRINT_CSS = ('\n.toc-pg{margin-left:.5em;color:var(--muted);font-variant-numeric:tabular-nums}@media screen{.toc-pg{display:none}}\n'
                   # fix-r3：s2「資產每增加 60 萬需要多久」十列小表不切成兩頁（cases 的小表試過，會讓陳大哥表尾那頁空一半，不加）
                   '@media print{#s2 .table-wrap{break-inside:avoid}}\n'
-                  # D10＋S6：沒展開的摺疊區，紙本只印 summary，後面補一句提示（年檢那一格的 summary 已寫「網頁版可以展開」，只補「紙本未印」）
-                  '@media print{details:not([open])>summary::after{content:"（紙本未印，網頁版可展開）";font-weight:400;color:#666}'
-                  '#annual details:not([open])>summary::after{content:"（紙本未印）"}}\n'
+                  # 批 BF：annual 的 summary 已縮短，不再特別處理
+                  '@media print{details:not([open])>summary::after{content:"（紙本未印，網頁版可展開）";font-weight:400;color:#666}}\n'
                   # v6.3 批 2 修正：引導句和它下面那張圖不分頁（圖本身仍可整塊落到下一頁）
                   '@media print{figure.chart{break-before:avoid}}\n'
                   # S6＋重排 §10.1：所有 group-* 分組節不在目錄裡、tail_flows 管不到；它們很短，接在上一節的節尾頁排，免得前一頁只剩兩三成。
