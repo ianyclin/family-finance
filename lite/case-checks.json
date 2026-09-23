@@ -2,7 +2,7 @@
  {
   "id": "查表頁 扣費用算例",
   "path": "multiplier_tables.usage_example_after_fee.printed_int_wan",
-  "pattern": "34\\.3×5=約(\\d+)萬",
+  "pattern": "33\\.6×5=約(\\d+)萬",
   "scope": "lite",
   "min_count": 1
  }

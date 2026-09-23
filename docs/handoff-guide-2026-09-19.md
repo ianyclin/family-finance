@@ -906,3 +906,19 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：numbers 對 `_baseline_v631.html` 與對 `9d32e06` 都 LOST 0（新檔 `numbers-allow-round40.json` ＝ round39 的 281 條一字未動＋1 條：來源卡筆數宣告 32→33）；anchors／budget／planstep／`guidetools check`／`test_guidetools`／`test_v7_check`／`v7_layout_check`／`build_lite`（SENTINELS OK，黃框 26 個逐字相同）全綠；`calc_core.py` 引用缺漏 `[]`。`budget-v7.json` 把 lifecycle 4220→4523、兩個總量各 +303，理由在 `_comment_bk`。完整版 PDF 180 → 182 頁。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；這一批的財務說法（第 2、3 條）還沒過裁判，主線要派；`連結檢查日期：2026-09-21` 那句的「172 個網址」沒跟著加 1（那是一次檢查的快照）；批 BJ（綠角時間軸）仍只有規格、沒有施工。
+
+## 批 BI（2026-09-24）：費用扣法統一——整體減 0.5% 改成「股票比例 × 0.5%」
+
+規格 `wip/v63-review/spec-v7-content-bi.md`（作者 2026-09-23 拍板「照你建議」，推翻 9/18 Q1-A 的簡化），地圖 `wip/v63-review/map-fee-method-2026-09-23.md`。**查表一、表二、表三的數字一個沒動；黃框、圖、圖說、來源卡沒動。**
+
+`tools/calc_core.py`：`after_fee(rate, stock_share, fee_stock=FEE_DEMO, fee_defense=0.0)` ＝ `r1(rate − stock_share×fee_stock − (1−stock_share)×fee_defense)`，27 個呼叫點全部帶上部位；`fee_case()` 多一個 `stock_share` 參數並回傳 `fee_pp_applied`。`FD['method']`、`deposit_rate_d02` 的比較註記照新規則改寫。原本這一區一條 assert 都沒有，**補了 44 條**（公式 4 條＋四個案例書上印出來的每一個數字），舊值寫在同一行註解。`quotes` 8 條換新數字、加 2 條釘住「照部位扣」這條規則；`引用缺漏 []`。
+
+書上三個地方寫同一條規則：第 14 節第 12 格、查表頁三步驟＋算好的例子（3.6 − 0.4 ＝ 3.2%，33.6 × 5 ＝約 168 萬，取代原本的 3.4%／34.3／172 萬）、第 15 節「四個人共同的算法」。**四個案例的每一個數字換新**，新舊對照表在 `changes-for-author-v7.md` 一之六十四。
+
+**有四處結論翻了，交件時已逐條標給作者**：①小芸與阿哲長期桶不用多存（694→707 萬，超過 700 萬）；②阿凱補法從投 26% 變 25%；③陳大哥四成從「到不了 40 倍（差 4 萬）」變「到得了（多 11 萬，用未取整缺口算只多 1 萬）」，「40 倍只當對照」的設計決定保留；④小安②延後從「超過 5 年、走不通」變「4.8 年、走得通」（物價倍數整格從 1.81 跳回 1.64 造成，很敏感），順序上仍然選①多存。規格點名的「股票兩成比全放定存還少」整段已刪。
+
+**檢查**：numbers 對 `_baseline_v631.html` 與對 `70c060c` 都 LOST 0（新檔 `wip/v63-review/numbers-allow-round41.json` ＝ round40 的 282 條一字未動＋97 條，每條寫「舊值→新值」；`load_allow` 以 (section, token) 為 key、後面蓋前面，所以和 round40 撞號的 cases 0.5、cases 500 兩條寫成兩批相加，另外 s11 的 34.3／81 與 cases 的 26／62／8.7 是同一批內對兩個基準各跑一次的總和）；anchors ANCHORS OK；mainline s11 4,389＝預算、cases 2,096＜2,121，**budget-v7.json 沒動**；planstep 10 個 0 問題；`guidetools check` CHECK OK；`test_guidetools` ALL PASS；`build_lite.py` SENTINELS OK。
+
+**工作表**：`lite/alt/lookup-tables.html`（第二張紙背面）第 2 步與算好的例子同步、重新 stamp；`lite/case-checks.json` 的算例樣式 `34.3×5` 改 `33.6×5`。查表頁那一頁差點被擠到兩頁，所以工作表那一份的第 2 步寫得比完整版短，完整版「減完只比 2.0% 高一點」補的成因句沒有加進工作表，理由記在該檔 note。`lite/alt/ch4-drill.html` 本體未改，只因為它盯著的第 8 節小卡（203／81 → 205／82）而重新 stamp。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器；規格寫「主線派裁判獨立重算四個案例」還沒派；上面四處結論翻轉與 1,073 萬的口徑（書裡「全放定存」是 1.7% 的 1,059 萬，1,073 萬是查表 0% 那一列）等作者或裁判定。
