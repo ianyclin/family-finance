@@ -742,3 +742,19 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 ## 2026-09-23 批 AW（第 1 節紅框併進「九個最貴的錯」第 1 條、九個錯不再是摺疊）
 
 **規格**：作者 2026-09-23 拍板兩件。**做完仍不發布。** `#ten` 的 `div.warning`（四個立即停止）整塊刪除，四條 `ol` 逐字搬進「九個最貴的錯」第 1 條「被詐騙」成為巢狀 `ol`，收尾句改成「停止匯款、不再回訊息；已經匯了，打 165（詳見「費用、稅務與帳戶安全」的 a.xref）」，原第 1 條「遇到上面紅框那四個情況…」那句刪除；`<details open data-lite-alt="ch1-six" data-print="open">` 改成 `<h3 class="stage-label">`＋`<ol class="checklist" data-lite-alt="ch1-six">`（details 137→136，黃線 97 不變）；`#ten-stop`（s1、s13 兩處連過來）搬到新的 h3 前面；紅框上的 `data-lite="ch1"` 搬到第 1 條 `li`，`lite/manifest.json` 的 cards 那一塊 `"src": "#ten div.warning"` 改成 `"src": "ch1"`（工作表第 2 頁內容不變，但少了 `div.warning` 的紅框樣式，輸出是一個沒有父清單的 `li`，要不要補框待作者決定）；`lite/facts.txt` 那條共同事實跟著改成「停止匯款、不再回訊息；已經匯了，打 165」。**budget**：ten 917→1,748、`_total_max` 57,105→57,938（+833 全部來自 folded 轉 mainline，沒有新句子，理由在 `_comment_aw`）。**檢查**：`essay_charts.py --guide` 兩次 exit 0、0 ⚠、guide 只有本批的 2 行差異；numbers 對 `_baseline_v631.html`（allow round35）與對 HEAD `c157a8c` 都 LOST 0（對 HEAD 是 no differences）；anchors OK（116→140）；budget OK；planstep OK；`guidetools check` OK；兩支測試 ALL PASS；`calc_core.py` exit 0、引用缺漏 `[]`；`build_lite.py` exit 0＋`SENTINELS OK`（工作表仍 6 頁、cards 剛好一頁）。**沒做**：沒開瀏覽器量版面；沒有發布；`release/` 三個副本沒更新。
+
+## 2026-09-23 批 AY（版面收斂第一段：只動 CSS＋純搬動，零改字）
+
+**規格**：`wip/v63-review/spec-v7-layout-ay.md`（依據 `layout-audit-visual.md` P0、`layout-audit-structure.md` P0、`layout-decisions-2026-09-23.md` 第一段）。**做完仍不發布，等作者看截圖。** 分兩個 commit：AY-1（CSS＋哨兵）、AY-2（純搬動）。
+
+**AY-1（`guide/index.html` 的 `<style>`，九條）**：①`details.more`／`details.source-card`／無 class 的 `details` 的 summary 改成 `list-style:none`＋`display:block`＋`position:relative`＋`padding-left:1.4em`＋自繪 `▸`／`▾`（照 L13–16 `.toc details.toc-part`），修掉 375px 84 處、1024px 5 處「換行的 summary 續行往左突 16px」。②補 `h2`／`h3`／`h4` 通則（全書原本一條都沒有）＋`.data-card h3` 1.06rem、`.data-card h4` .95rem。③間距尺規 `--gap-s/m/l/xl`，`section.part>p` 16px、`p.small` 12px、卡／摺疊／圖／表／黃框／紅框／小卡／本節行動一律 24px（用 `margin-block`，不會洗掉 L105 給 `figure.chart` 的左右負邊距）。**②③包在 `@media screen` 裡**：不包的話兩份 PDF 會變厚，實測工作表 6 頁 → 9 頁（`pages`／`worksheet` 全紅）；列印的字級與間距在 L57 與 `build_lite.py` 的 `LITE_CSS` 裡各自校準過，這一批不動它們。④`figure.chart .note` 改全域 `.note`（修 6 個在圖外、被當正文顯示的小字註）。⑤`figure.photo .credit` `var(--line)`→`var(--muted)`（對比 1.46:1）。⑥L65 的 640px 斷點改 660px。⑦`.tag`／`.later` 改 `display:inline`＋`border-radius:8px`＋`padding:3px 8px`。⑧刪掉 L49／L50／L52／L90 四處把「← 表格可左右滑動 →」`content:none` 的互消規則，只留 L46 一條（JS 本來就只在真的要捲時加 `is-scrollable`）。⑨補 `ol.checklist>li>details>figure.chart` 的負邊距（L105 那組出血算式漏掉的那條路，annual 照片左右差 44px）。
+
+**新工具 `tools/v7_layout_check.py`**：版面哨兵，用法與限制寫在上面「改完後的固定流程」那一段。AY-1 前 4 條紅、AY-1 後 `LAYOUT OK`。
+
+**AY-2（純搬動，零改字；字元多重集合與改前逐字相同）**：①`lifecycle` 的來源卡從 idx 32 搬到 `p.decision` 之前（其後不再有正文）。②`s13` 的 `<script>` 搬到 `a.back` 之後（它用 `insertBefore` 插工具列，位置無關）。③`methods` 的 `span.later` 搬到白話版之後。④`s5` 中段那個黃框（「這張圖讓我知道…」，原 idx 21）下放到來源卡之後，和另外兩個黃框相鄰。⑤`costs` 兩個紅框合併成一個，搬到來源卡之前：第一個（「稅率不能決定投資方向」）包成 `<p>`，第二個原封不動接在後面，`data-lite="ch5"` 留在合併後的 div 上。
+
+**規格裡有、但沒做的三條（都要作者或裁判先裁，理由見 `changes-for-author-v7.md` 一之五十三）**：s10 那個 `p`（「六行到這裡就填完了」）前移到來源卡之前會排到「第 6 行」小卡前面，語意矛盾；s5 兩處相鄰圖中間沒有可搬的既有段落（idx 17 那段寫「下面兩張圖」，上移會指錯圖）；`start` 五階圖的 figcaption 是作者在第 20 版收尾 G 刻意拿掉的（`tools/v63_g05_safety_steps.py` 的 `illustration_only=True`），補回去等於推翻那個決定，而且下次跑 `essay_charts.py --guide` 會再被刪掉。
+
+**檢查**：兩批各跑一次全套。numbers 對 `_baseline_v631.html`（allow round35）與對上一批 commit 都 LOST 0；anchors OK（116→140）；budget OK（一個上限都沒動）；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` 引用缺漏 `[]`；`build_lite.py` exit 0＋`SENTINELS OK`（工作表仍 6 頁、完整版仍 178 頁）；`v7_layout_check.py` `LAYOUT OK`。
+
+**沒做**：沒有發布；`release/` 三個副本沒更新；深色模式與 `@media print` 的逐框對比沒量（版式審第六節本來就列為未查證）；`lite/index.html` 用版面哨兵量會報 3 張表要橫捲（改前改後一模一樣，是 lite 沒有 `is-scrollable` 那段 JS，不是這一批造成的）。
