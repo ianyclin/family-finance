@@ -777,4 +777,22 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 
 **沒做**：沒有發布；`release/` 三個副本沒更新；深色模式與 `@media print` 的逐框對比沒量（留給批 BB）。
 
+## 2026-09-23 批 BB（版面收斂第三段：皮。容器收成四種、小字升級、660px 簡化、死樣式）
+
+**規格**：`wip/v63-review/spec-v7-layout-bb.md`（作者 2026-09-23 拍板 1、2）。**只動 `guide/index.html` 的 `<style>`，DOM 一個字元沒動。做完仍不發布。** 兩個 commit，各配一個「產生檔重建」。
+
+**BB-1（容器＋字級）**：四種容器的「框線＋左內距」一律 18px——`.data-card` 1px＋17（`--pad-card`）、提示框 4px＋14、`.story` 4px＋14、兩種摺疊 2px＋16。`.explain`／`.warning`／`.decision`／`.planstep` 的底色與四邊框拿掉，改左色棒（planstep 虛線）；`.warning::before{content:"注意"}`（紅框原本是全書唯一沒有名字的框）；`.story` 是唯一保留底色的框；`.source-card` 的米色底與棕框拿掉，和 `details.more` 同一種長相；兩種摺疊的 summary 一律 .94rem／700／muted。**手機版另外縮內距的兩條刪掉**（不縮才對得齊），三條圖出血負邊距與工具型摺疊的表跟著重算。字級：小字 .84rem→.9rem（13.44→14.4px，拍板 2）、summary .94rem、table .85rem、tight-mobile .78rem＋內距 2px、stack 欄名 .78rem；小字行高一律 1.6。深色：`.data-card`／`.source-card`／`.warning`／`thead` 四條硬寫色刪掉改吃 token。**列印另外補一個 `@media print` 還原字級、行高與容器內距**（不還原工作表 6→8 頁；`.small`／`.source-link` 的 line-height 在列印要用 `inherit`，寫死 1.6 會讓計畫表掉到第二頁）。
+
+**BB-2（660px 合併＋死樣式）**：15 個 660px 區塊合併成一個 `@media screen and (max-width:660px)`（合併前用腳本查過區塊內外的選擇器交集，只有 `figure.chart`、`figure.chart svg.m`、`figure.chart svg.d.m` 三個，而且它們本來就排在非 media 版本之後，所以層疊結果不變；合併前後哨兵每一項數字相同）。`pointer:coarse` 只留觸控熱區。`.wide` 手機取消。死樣式 31 條刪掉（`.audit-*`、`.bars*`、`.chip`、`.tasks`、`.toc-tag`、`.ok`／`.fix`／`.caveat`、`.rules li`、`figure.chart details.orig`、`.label-principle`／`.label-practice`）——逐條在 `guide/index.html`、`lite/index.html`、`output/guide.html`、`output/lite.html`、`output/full-v60-out.html`、`lite/alt/*.html` 裡搜 `class="… x …"`，0 次才刪。`--pad-card` 變數把卡內距和圖出血算式綁起來。
+
+**規則數**：346 條（批 BA 開工前）→ 314（BA 做完）→ **285**（BB 做完）；`@media` 32 → 30 → **12**；`<style>` 28,995 → 25,420 → **23,442** 字。
+
+**版面哨兵（375／1024）**：正文左緣種類 18／14（AY 後）→ 15／13（BA 後）→ **9／11**（BB 後，規格目標 ≤8，差 1 種）；29 張圖左右緣違規 0／0；要橫捲的表 1／0（和 BA 開工前相同）；summary 續行左突 0／0；橫向溢出 0／0。320px：13 張表要橫捲（接受，見 changes-for-author 一之五十五）。
+
+**PDF**：可列印工作表 6 頁（不變）；完整版 178（BA 開工前）→ 179（BA-5 後）→ **182**（BB 後，多的 3 頁主要是 8 個紅框各多一行「注意」）。
+
+**深色模式抽查（對比）**：提示框綠棒 6.21:1／8.96:1（淺／深）、紅棒 5.77／6.89、黃框色棒 3.98／8.60、小字 muted 5.57／7.97、正文 16.24／14.73——都過 3:1。**沒過的兩個**：`.data-card` 的 1px `var(--line)` 框線 1.46／1.58，`details.more`／`.source-card` 的 2px `var(--line)` 色棒 1.46／1.58。這是 `--line` 這個色票本來就淡（BB 之前卡的底色和頁面差 ΔE 3.6，也幾乎看不出來），不是 BB 造成的，但 BB 之後卡只剩這條線可辨識。要改有兩條路：卡底改用 `--fill`，或把 `--line` 調深（會影響全書所有細線與表格框）。**等作者看截圖決定。**
+
+**沒做／偏離規格**：正文左緣 9 種（目標 ≤8）；規格寫「小字 .85rem（14.4px）」兩個數字對不起來，照拍板 2 的 px 值取 .9rem；「正文 1rem」沒套用（會把全書正文從 18px 縮成 16px）；`figure.chart` 負邊距沒能收成一條（BA-5 把三張圖放回摺疊，所以 `details.more>`、`.data-card>details.more>`、`ol.checklist>li>details>` 三條都還要）；`.promise` 讀者手冊補句只起草在 changes-for-author 一之五十五，沒有改 DOM；沒有發布，`release/` 沒更新。
+
 
