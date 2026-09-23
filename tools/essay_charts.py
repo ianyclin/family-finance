@@ -624,7 +624,7 @@ def dca_high_low():
         out.append("</svg>")
         return "\n".join(out)
     lg = legend([(TEAL, "幸運兒：都買在當月最低收盤"), (ACCENT, "倒楣鬼：都買在當月最高收盤")])
-    table = """<table class="stack-mobile-cols dca">
+    table = """<table class="stack-mobile dca">
 <thead><tr><th></th><th>幸運兒</th><th>平凡人</th><th>倒楣鬼</th></tr></thead>
 <tbody>
 <tr><th>買在</th><td>每月最低收盤</td><td>每月平均收盤</td><td>每月最高收盤</td></tr>
