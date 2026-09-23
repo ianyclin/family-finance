@@ -12,7 +12,7 @@ import sys, json, re, difflib
 from collections import Counter
 from html.parser import HTMLParser
 
-TAGS = ['div','p','li','ul','ol','a','strong','h3','h4','section','figure','details','summary','table','tr','td','span','dt','dd','dl','mark']
+TAGS = ['div','p','li','ul','ol','a','strong','h3','h4','h5','section','figure','details','summary','table','tr','td','span','dt','dd','dl','mark']
 
 # 重點句兩級（v7 第五輪）：黃線 <mark class="key">、淡紅線 <mark class="key top">。
 MARK_ANY = r'<mark\b(?=[^>]*?(?<![\w-])class="key(?: top)?")[^>]*>'
@@ -82,7 +82,7 @@ def _forbidden(anc):
     out = []
     for t, c in anc:
         if t == 'details': out.append('details')
-        elif t in ('h1', 'h2', 'h3', 'h4', 'td', 'th', 'figcaption', 'summary'): out.append(t)
+        elif t in ('h1', 'h2', 'h3', 'h4', 'h5', 'td', 'th', 'figcaption', 'summary'): out.append(t)
         elif t == 'div' and 'story' in c: out.append('div.story')
         elif 'source-card' in c: out.append(t + '.source-card')
         elif t == 'p' and 'explain' in c: out.append('p.explain')
@@ -177,7 +177,7 @@ def to_text(path, keep_sources=False):
     h = re.sub(open_tag('a', 'term') + r'(.*?)</a>', r'〔\1〕', h); h = re.sub(MARK_ANY + r'(.*?)</mark>', r'★\1★', h)
     h = re.sub(open_tag('span', 'later') + r'(.*?)</span>', r'［\1］', h); h = h.replace('<br>', '\n')
     h = re.sub(r'<h2[^>]*>', '\n\n## ', h); h = re.sub(r'<h3[^>]*>', '\n### ', h)
-    h = re.sub(r'</(p|li|h2|h3|h4|dd|dt|tr|figcaption|div|summary)>', '\n', h); h = re.sub(r'<t[dh][^>]*>', ' | ', h)
+    h = re.sub(r'</(p|li|h2|h3|h4|h5|dd|dt|tr|figcaption|div|summary)>', '\n', h); h = re.sub(r'<t[dh][^>]*>', ' | ', h)
     h = re.sub(r'<[^>]+>', '', h); h = h.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>')
     h = re.sub(r'[ \t]+', ' ', h); h = re.sub(r'\n\s*\n+', '\n\n', h)
     return h.strip()

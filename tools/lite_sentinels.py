@@ -834,7 +834,7 @@ def run(m, pdf_info=None, build_report=None):
     for h in heads:
         prev = [f for f in fic if f.end <= h.start]
         between = ldom.s[prev[-1].end:h.start] if prev else None
-        if not prev or B.html_text(between) or re.search(r'<h[1-4]\b', between):
+        if not prev or B.html_text(between) or re.search(r'<h[1-5]\b', between):
             R.fail('fiction', '人物標題「%s」前面沒有緊接著虛構聲明' % ldom.text(h)[:20]); fbad += 1
         elif ldom.text(prev[-1]) != B.FICTION_NOTICE:
             R.fail('fiction', '人物標題「%s」前的虛構聲明文字不對' % ldom.text(h)[:20]); fbad += 1

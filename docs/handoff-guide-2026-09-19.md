@@ -851,3 +851,18 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 - 版面第三段（拍板清單第三段）：第 8、14 節要不要拆節；摺疊佔七成的節（15、16、3、6）要不要提內容回主線；78 條想深入標題縮到 20 字（要改字過裁判）；`.promise` 讀者手冊補紅框與資料卡的介紹（草稿在 changes-for-author 一之五十五）。
 - 小事：第 15 節「四位一起比」小標下的卡名「四位示範人物一起比」近義（刪卡名）；正文左緣種類 375 仍 9 種（目標 8）；`tools/guidetools.py` 的 TAGS 沒有 h5；`lite/calc-results.json` 行號噪音；專篇 essay 產品線沒跟上（本來就沒跟）；第 28 節檢查紀錄數字發正式版前重數；J.P. Morgan 區間圖留在第 8 節摺疊（作者未要求搬）。
 - 作者待做：手機通讀 Version 34（尤其第 1、3、5、8、15、22 節）；決定何時把 v7 合併回 main、發正式網址。
+
+## 批 BE（2026-09-23）：版面第三段收尾
+
+規格 `wip/v63-review/spec-v7-content-be.md`（作者：「一次做到底」）。主線裁定第 8、14 節不拆、摺疊佔七成的節不提內容回主線，所以這一批只做剩下的六件，**沒有重寫任何一段內文**。
+
+1. **77 條摺疊標題縮到 20 字以內**（含「想深入：」四字）。全書 101 個 `details.more`，77 個超過，改完最長 20 字、最短 9 字。做法是留「這裡有什麼」的主詞、刪括號裡的逐項列舉；摺疊內文一個字沒動。兩個例外：s24 那條 62 字的照規格在摺疊第一段補一句導語（把括號改寫成一句，沒有新增事實）；s5 匯率那條標題裡的 `span.later` 提醒不是列舉，搬進摺疊第一段句首（寫法和 s11 再平衡那一格已有的一樣）。逐條改前改後在 `changes-for-author-v7.md` 一之五十八。
+2. **封面 `.promise` 補兩行**：紅色的「注意」、細框的「資料卡」。批 BB 草稿裡的「直接來源」「本節行動」規格沒點名，沒加。
+3. **cases 卡名 `<h4>四位示範人物一起比</h4>` 刪掉**，小標「四位一起比」留（批 BD 留的最後一個同義重複）。
+4. **methods 重數**：`<table>` 51 個（50 個在 `.table-wrap` 裡、第 51 個在 s7 那張圖裡）、`figure.chart` 29 張，所以「50 張表」改 51、「每一張圖」改「29 張圖」；資料檢查日期 09-21 → 09-23（methods 與頁尾兩處）。**連結檢查日期沒改**（這一批沒重測 172 個網址）；封面版本日期 `v7.0 預覽／2026-09-19` 是另一個變數，沒動，`version` 哨兵仍綠。
+5. **正文左緣 375px 9 種 → 7 種**：最後一種來源是 `ol.qa{padding-left:1.5em}`（27px），全書其他清單用瀏覽器預設 40px。改成 40px 以後 65／83 兩種併進 79／97。1024px 11 → 9 種。`tools/v7_layout_check.py` 的棘輪 `LIMITS` 從 18／14 收到 7／9（`P_LEFT_KINDS_GOAL` 本來就是 8，沒動）。
+6. **工具補 h5**：`guidetools.py` 的 `TAGS`、`_forbidden` 容器清單、`to_text` 的換行 regex 三處；`lite_sentinels.py` 的 `h[1-4]` → `h[1-5]`；`test_guidetools.py` 加兩條測試。cases 的人物卡有 11 個 `h5`，以前完全不在檢查範圍內。
+
+**檢查**：numbers 對 `_baseline_v631.html` 與對 `b30ff47` 都 LOST 0（新檔 `numbers-allow-round37.json`＝round36 的 256 條一字未動＋7 條，逐條寫理由）；anchors／budget／planstep／`guidetools check`／`test_guidetools`／`test_v7_check`／`calc_core` 全綠；`v7_layout_check` LAYOUT OK；`build_lite` SENTINELS OK，工作表 6 頁、完整版 PDF 180 → **178 頁**、書籤 165 → 164。`lite/alt/` 三份短稿（ch4-drill、plan-blank、app-a-checklist）的來源指紋因為摺疊標題變短而變動，逐份看過內容仍對（三份都沒抄標題），各加一條 note 後 `--stamp`。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；`.promise` 的「直接來源」「本節行動」兩行沒加；連結沒重測；s3 那條摺疊原本括號寫「稅、複委託、註冊地都在這裡」，查過內文後發現「註冊地」根本不在那一格（在 s12），括號直接刪掉、沒有改寫成導語——要補指路句得新寫一句，等作者。

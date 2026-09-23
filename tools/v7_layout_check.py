@@ -33,10 +33,11 @@ import tempfile
 CHROME_DEFAULT = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 # 門檻。(c) 的目標是 ≤8（版式審 3-A「容器收成四種」做完才到得了）；
-# 在那之前用「不准比現況更糟」的棘輪：這個數字是批 AY-1 的實測值。
+# 用「不准比現況更糟」的棘輪：批 BE 把 ol.qa 的縮排收成和其他清單一樣的 40px 以後，
+# 375 實測 7 種（已到 ≤8 的目標）、1024 實測 9 種，棘輪就收到這兩個數字。
 LIMITS = {
-    375: {"p_left_kinds": 18, "scrollable_tables": 1, "summary_outdent": 0, "figure_misaligned": 0},
-    1024: {"p_left_kinds": 14, "scrollable_tables": 0, "summary_outdent": 0, "figure_misaligned": 0},
+    375: {"p_left_kinds": 7, "scrollable_tables": 1, "summary_outdent": 0, "figure_misaligned": 0},
+    1024: {"p_left_kinds": 9, "scrollable_tables": 0, "summary_outdent": 0, "figure_misaligned": 0},
 }
 P_LEFT_KINDS_GOAL = 8
 

@@ -112,6 +112,7 @@ for wrap, label in (('<details><summary>s</summary><p><mark class="key">x</mark>
                     ('<p class="explain"><mark class="key">x</mark></p>', 'p.explain'),
                     ('<p class="small"><mark class="key">x</mark></p>', 'p.small'),
                     ('<h3><mark class="key">x</mark></h3>', 'h3'),
+                    ('<h5><mark class="key">x</mark></h5>', 'h5'),
                     ('<figure><figcaption><mark class="key">x</mark></figcaption></figure>', 'figcaption'),
                     ('<table><tr><td><mark class="key top">x</mark></td></tr></table>', 'td')):
     rc, out = run_check(base.replace('</body>', wrap + '</body>'))
@@ -120,6 +121,13 @@ for wrap, label in (('<details><summary>s</summary><p><mark class="key">x</mark>
 # 放在 strong／li／p 裡是合法的
 rc, out = run_check(base.replace('</body>', '<ul><li><mark class="key"><strong>x</strong></mark></li></ul></body>'))
 expect('mark in li>strong -> OK', rc == 0, out)
+
+# --- v7 批 BE：h5 進 TAGS 與容器清單（第 15 節的人物卡用 h5）
+rc, out = run_check(base.replace('</body>', '<h5>沒關的小標</body>'))
+expect('unbalanced h5 -> FAILED', rc == 1 and 'tag h5' in out, out)
+p5 = os.path.join(tmp, 'h5.html')
+open(p5, 'w', encoding='utf-8').write(base.replace('</body>', '<h5>小標</h5><p>下一段</p></body>'))
+expect('to_text breaks line after </h5>', '小標\n下一段' in gt.to_text(p5))
 
 p2 = os.path.join(tmp, 'two.html')
 open(p2, 'w', encoding='utf-8').write(base.replace('</body>', '<p><mark class="key top">頂級句</mark></p></body>'))
