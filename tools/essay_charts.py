@@ -337,8 +337,8 @@ def milestones():
         area_contrib = [(px(0), py(0))] + [(px(y), py(v)) for y, v in contrib] + [(px(T), py(0))]
         area_gain = ([(px(y), py(v)) for y, v in contrib]
                      + [(px(y), py(v)) for y, v in reversed(total)])
-        out.append('<polygon points="%s" fill="%s" fill-opacity="0.35"/>' % (" ".join("%.1f,%.1f" % p for p in area_contrib), MUTED))
-        out.append('<polygon points="%s" fill="%s" fill-opacity="0.3"/>' % (" ".join("%.1f,%.1f" % p for p in area_gain), TEAL))
+        out.append('<polygon points="%s" fill="%s" fill-opacity="0.5"/>' % (" ".join("%.1f,%.1f" % p for p in area_contrib), MUTED))
+        out.append('<polygon points="%s" fill="%s" fill-opacity="0.5"/>' % (" ".join("%.1f,%.1f" % p for p in area_gain), TEAL))
         out.append(poly([(px(y), py(v)) for y, v in total], TEAL, lay.line))
         show = {0, 1, 2, 4, 9} if lay.mobile else {0, 1, 2, 3, 4, 5, 9}
         # 批 AP-2（作者追加）：第 10 桶的年數靠右對齊到最右那條虛線，允許往左長到第 9、8 桶
@@ -371,7 +371,7 @@ def milestones():
         out.append(text(left - 6, bottom + 16, "花幾年", lay.fs, "end", MUTED))
         out.append("</svg>")
         return "\n".join(out)
-    lg = legend([(MUTED, "自己存進去的", 0.35), (TEAL, "長出來的報酬", 0.3)])
+    lg = legend([(MUTED, "自己存進去的", 0.5), (TEAL, "長出來的報酬", 0.5)])
     # 批 AP-3：「想深入」（作者定稿那兩段）從 figure 裡搬到指南本體，接在 </figure> 之後那段
     # 主線「這張圖要說的其實是兩件事…」後面，所以這裡不再產生 more，figure 的 after 也空著。
     # 批 AO：圖下兩排片段會被視窗壓扁，改成一張可以左右滑的小表；數字由 gaps／share 產生，
