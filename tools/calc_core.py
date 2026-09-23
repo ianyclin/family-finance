@@ -765,6 +765,43 @@ R['quiet_period'] = {
     'years_first_60wan_7pct': round(yrs60, 2), 'return_share_7pct_pct': r0((1 - 60000 * yrs60 / 600000) * 100),
     'for_reference_low_4pct': {'years': round(yrs60_low, 2), 'return_share_pct': r0((1 - 60000 * yrs60_low / 600000) * 100),
                                'note': '完整版沒有這組數字；只供作者決定要不要改用保守算'}}
+# ---------- 批 AN：十桶金（第 5 節 milestones 圖）----------
+# 一桶＝一年儲蓄的十倍。每年年底投入 1 份年儲蓄、年複利 r，資產到第 k 桶（10k 倍）要的年數：
+#   10k = ((1+r)^n − 1) / r  →  n = ln(1 + 10k·r) / ln(1+r)
+# 和金額無關（每年投多少都一樣），所以圖的縱軸可以從「萬」改成「倍」，年數一個字都不用改。
+def buckets_years(rate_pct, k):
+    r = rate_pct / 100
+    return math.log(1 + 10 * k * r) / math.log(1 + r)
+_bk = {str(rate): [round(buckets_years(rate, k), 2) for k in range(1, 11)] for rate in (4, 6, 7)}
+_bk7 = _bk['7']
+R['ten_buckets'] = {
+    'definition': '一桶＝一年儲蓄的十倍；第 k 桶＝資產到年儲蓄的 10k 倍',
+    'formula': 'n = ln(1 + 10k×r) ÷ ln(1+r)；每年年底投入固定金額、年複利，沒扣物價費用稅',
+    'cumulative_years': _bk,
+    # 每一桶花幾年＝相鄰兩個累積年數之差（先相減再四捨五入，不拿四捨五入過的數字相減）
+    'each_bucket_years_7pct': [round(buckets_years(7, k) - (buckets_years(7, k - 1) if k > 1 else 0.0), 2)
+                               for k in range(1, 11)],
+    'guide_rounded': {'7pct_all_ten': r0(buckets_years(7, 10)), '6pct_all_ten': r0(buckets_years(6, 10)),
+                      '4pct_all_ten': r0(buckets_years(4, 10))},
+    # 圖說（作者定稿）說的兩件事：前面約三分之二的時間只走完四桶；到第四桶時，存進去的和長出來的各一半
+    'four_buckets_time_share_7pct': round(buckets_years(7, 4) / buckets_years(7, 10), 3),
+    'four_buckets_contributed_share_pct': r1(100 * buckets_years(7, 4) / 40),
+    'note': '第 5 節 milestones 圖與圖說；60 萬版就是每年投 6 萬、一桶 60 萬（quiet_period 的第一格同一條式子）',
+}
+# 圖上的十個年數（7%）與舊的 60 萬版完全相同
+assert R['ten_buckets']['each_bucket_years_7pct'] == [7.84, 5.10, 3.78, 3.01, 2.50, 2.14, 1.87, 1.66, 1.49, 1.35], R['ten_buckets']
+assert round(buckets_years(7, 1), 2) == 7.84, buckets_years(7, 1)
+assert round(buckets_years(7, 10), 2) == 30.73, buckets_years(7, 10)
+assert round(buckets_years(4, 10), 1) == 41.0, buckets_years(4, 10)
+assert round(buckets_years(6, 10), 1) == 33.4, buckets_years(6, 10)
+# 圖說寫「大約 31 年」「41 年」「33 年」
+assert (R['ten_buckets']['guide_rounded']['7pct_all_ten'],
+        R['ten_buckets']['guide_rounded']['6pct_all_ten'],
+        R['ten_buckets']['guide_rounded']['4pct_all_ten']) == (31, 33, 41), R['ten_buckets']['guide_rounded']
+# 圖說「前面三分之二的時間只走完四桶」「到第四桶時一半是你存的、一半是長出來的」
+assert 0.63 <= R['ten_buckets']['four_buckets_time_share_7pct'] <= 0.69, R['ten_buckets']
+assert 48.0 <= R['ten_buckets']['four_buckets_contributed_share_pct'] <= 52.0, R['ten_buckets']
+
 R['fee_gap'] = {'monthly': 5000, 'months': 360, 'fv_6pct_wan': wan(fv(0, 6, 360, 5000)), 'fv_5pct_wan': wan(fv(0, 5, 360, 5000)),
                 'gap_wan': wan(fv(0, 6, 360, 5000) - fv(0, 5, 360, 5000)),
                 'gap_share_pct': r1(100 * (1 - fv(0, 5, 360, 5000) / fv(0, 6, 360, 5000))),
@@ -1832,7 +1869,7 @@ assert (R['stock_vs_index']['one_share_vs_plan']['gain_over_stock_gain_times_int
         R['stock_vs_index']['one_share_vs_plan']['stock_up_needed_pct_int']) == (27, 1362)
 
 # grep 正式檔：引用數字所在行（guidetools text 行號）
-quotes = ['第一格 7.84 年', '| 60 萬 | 7.84 年 | 22%',
+quotes = ['第一桶 7.84 年', '| 60 萬 | 7.84 年 | 22%',
           '三十年後差約 86 萬', '2008 年跌了 53.59%', '1.7% 是 2026 年 9 月五大銀行一年期定存牌告利率',
           '用 3% 到 2.5%（33 到 40 倍）算，會保守一些', '都落在股票三成到七成五之間', '2026 年最高一級 45,800 元',
           '平均月投保薪資 × 年資 × 1.55%', '2026 年起請領年齡 65 歲', '提前領每年減 4%、最多減 20%',
@@ -1939,6 +1976,9 @@ quotes += ['抱 5 年，十次裡大約九次是賺的；抱滿 20 年，這 155
 quotes += ['存 15%、保守算 4% 是 48.4 年，比存四分之一的 35.3 年多了十三年',
            '買一整群，名單上就有那 1,092 家',
            '前兩項的分母 25,967 是資料庫裡的股票檔數，財富創造那一項的分母 25,332 是公司數']
+# 批 AN：第 5 節 milestones 改成「十桶金」，圖說與想深入裡的年數（R['ten_buckets']）
+quotes += ['資產到一年儲蓄的 100 倍，不用 100 年，大約 31 年',
+           '一年長 4%（保守算）要 41 年、6%（普通算）要 33 年、7% 要 31 年']
 
 found = {}
 try:

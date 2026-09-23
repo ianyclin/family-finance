@@ -152,7 +152,7 @@ ORIGINALS = {
     "ranges": ("J.P. Morgan Asset Management，Guide to Retirement 2026，第 42 頁「Range of stock, bond and blended total returns」。本文的圖是同一頁的數字重畫。", GTR),
     "four-people": ("J.P. Morgan Asset Management，Guide to Retirement 2026，第 15 頁「Benefit of saving and investing early」。2026 年版的例子是每月 250 美元、7.25%；本文的四個人是每月 5,000 元、6% 的台幣版，形狀相同、數字不同。", GTR),
     "intra-year": ("J.P. Morgan Asset Management，Guide to the Markets U.S.（2026 年 6 月 30 日資料），第 17 頁「S&P 500 intra-year declines vs. calendar year returns」。這是美國版；本文的圖是台股同一種畫法。", GTM),
-    "milestones": ("Four Pillar Freedom，「Money Lessons They Don't Teach You in School」一文「The Concept of Compound Interest」小節裡標題為「Accumulating $1 Million」的圖（每年 1 萬美元、7%）。本文是每年 6 萬元、7% 的台幣版，所以每格年數與原圖相同。", "https://fourpillarfreedom.com/money-lessons-they-dont-teach-you-in-school-2/"),
+    "milestones": ("Four Pillar Freedom，「Money Lessons They Don't Teach You in School」一文「The Concept of Compound Interest」小節裡標題為「Accumulating $1 Million」的圖（每年 1 萬美元、7%）。本文改成『年儲蓄的倍數』畫，所以每桶的年數與原圖相同；作者自己用原圖算法重畫過一版。", "https://fourpillarfreedom.com/money-lessons-they-dont-teach-you-in-school-2/"),
     "missing-days": ("J.P. Morgan Asset Management，Guide to Retirement 2026，第 41 頁「Impact of being out of the market」。", GTR),
     "five-people": ("Charles Schwab，「Does Market Timing Work?」，2005–2024 年的五個人。", "https://www.schwab.com/learn/story/does-market-timing-work"),
 }
@@ -288,13 +288,15 @@ def milestones():
         t += g
         yrs.append(t)
     T = yrs[-1]
-    # 每年年底投入 6 萬、年複利 7%：V(t) = 6 萬 × ((1.07^t − 1) / 0.07)，整數年時等於逐年投入的精確值，
-    # 表裡的 7.84／5.10／…／1.35 年就是用這條式子反推的
+    # 批 AN：縱軸的單位從「萬」改成「一年儲蓄的倍數」，一桶＝十倍。
+    # 每年年底投入 1 份年儲蓄、年複利 7%：V(t) = (1.07^t − 1) / 0.07，整數年時等於逐年投入的精確值；
+    # 這是舊的 6 萬版除以 6，所以 7.84／5.10／…／1.35 年一個字都沒變。
+    TOP = 640 / 6      # 版面最上緣對應幾倍（＝舊版的 640 萬 ÷ 每年 6 萬），格線位置照舊
     total, contrib = [], []
     for m in range(0, int(T * 12) + 2):
         t = m / 12
-        total.append((t, 6.0 * ((1.07 ** t - 1) / 0.07)))
-        contrib.append((t, 6.0 * t))
+        total.append((t, (1.07 ** t - 1) / 0.07))
+        contrib.append((t, t))
 
     def draw(lay):
         h = 300 if lay.mobile else 360
@@ -302,10 +304,10 @@ def milestones():
         right = lay.right - (36 if lay.mobile else 44)
         bottom = h - (66 if lay.mobile else 84)
         def px(y): return left + (right - left) * y / T
-        def py(v): return bottom - (bottom - top) * v / 640
-        out = [svg_open(lay, h, "每多累積 60 萬要花幾年：前面慢，後面快")]
+        def py(v): return bottom - (bottom - top) * v / TOP
+        out = [svg_open(lay, h, "十桶金：每一桶是一年儲蓄的十倍，前面慢、後面快")]
         # 「0」往上移 6：正下方的「花幾年」是左欄的列名，跟著右邊那排年數對齊，挪不動
-        out += grid(lay, py, (0, 200, 400, 600), lambda v: ("%d 萬" % v) if v else "0", x2=right, zero_dy=-6)
+        out += grid(lay, py, (0, 20, 40, 60, 80, 100), lambda v: ("%d 倍" % v) if v else "0", x2=right, zero_dy=-6)
         area_total = [(px(0), py(0))] + [(px(y), py(v)) for y, v in total if y <= T] + [(px(T), py(0))]
         area_contrib = [(px(0), py(0))] + [(px(y), py(v)) for y, v in contrib if y <= T] + [(px(T), py(0))]
         out.append('<polygon points="%s" fill="%s" fill-opacity="0.3"/>' % (" ".join("%.1f,%.1f" % p for p in area_total), TEAL))
@@ -314,9 +316,9 @@ def milestones():
         show = {0, 1, 2, 4, 9} if lay.mobile else {0, 1, 2, 3, 4, 5, 9}
         prev = 0
         for i, (y, g) in enumerate(zip(yrs, gaps)):
-            out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%d" stroke="%s" stroke-width="1" stroke-dasharray="3 3"/>' % (px(y), py(60 * (i + 1)), px(y), bottom, INK))
+            out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%d" stroke="%s" stroke-width="1" stroke-dasharray="3 3"/>' % (px(y), py(10 * (i + 1)), px(y), bottom, INK))
             if i in show:
-                out.append(text(px(y) + (6 if i == 9 else -4), py(60 * (i + 1)) - 6, "%d 萬" % (60 * (i + 1)), lay.fl, "start" if i == 9 else "end", INK, "700"))
+                out.append(text(px(y) + (6 if i == 9 else -4), py(10 * (i + 1)) - 6, "%d 倍" % (10 * (i + 1)), lay.fl, "start" if i == 9 else "end", INK, "700"))
             mid = (prev + y) / 2
             row = 0 if lay.mobile else i % 2
             if (not lay.mobile) or i in show:
@@ -328,11 +330,14 @@ def milestones():
         out.append("</svg>")
         return "\n".join(out)
     lg = legend([(MUTED, "自己存進去的"), (TEAL, "長出來的報酬")])
+    # 批 AN：換成「倍」以後，原本那一版圖說（60 萬一格）和 60 萬版的年數都移到這一層；
+    # 這一段在 figure 裡面，--guide 會跟著寫回指南，兩邊不會各走各的。
+    more = ('<details class="more"><summary>想深入：這張圖的算法、60 萬版本，和換成保守算會差多少</summary><p>同樣 60 萬一格，第一格要將近八年，第十格只要一年多。前面慢，是因為錢還沒開始幫忙；越往後，每一格裡有越多是資產自己長出來的。</p><p>同樣走到 100 倍，一年長 4%（保守算）要 41 年、6%（普通算）要 33 年、7% 要 31 年。每年投 6 萬的話，一桶就是 60 萬，第一桶 7.84 年、第十桶 1.35 年。一年 6 萬差不多是每月 5,000 元的量。</p></details>')
     # 批 AH（G3）：圖註免責統一措辭——固定報酬試算的圖一律寫「固定報酬的算術，不是預測」。
-    nt = note("每年年底投入 6 萬元、一年長 7%，每格 60 萬。上排是那一格花幾年，下排是那一格裡有多少是報酬。固定報酬的算術，不是預測。")
-    return dict(title="每多 60 萬要花幾年", sub="固定報酬的算術：第一格 7.84 年，第十格 1.35 年",
-                svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt,
-                caption="同樣 60 萬一格，第一格要將近八年，第十格只要一年多。前面慢，是因為錢還沒開始幫忙；越後面，格子裡越多是它自己長出來的。")
+    nt = note("每年年底投入同一筆錢、一年長 7%，每一桶是那筆錢的十倍。上排是那一桶花幾年，下排是那一桶裡有多少是長出來的報酬。固定報酬的算術，不是預測。")
+    return dict(title="十桶金：每一桶是一年儲蓄的十倍", sub="每年投一樣的錢、一年長 7%：第一桶 7.84 年，第十桶 1.35 年",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt + more,
+                caption='資產到一年儲蓄的 100 倍，不用 100 年，大約 31 年。前面三分之二的時間只走完四桶，到第四桶時，帳戶裡一半是你存的、一半是長出來的；後面三分之一的時間走完剩下六桶，每一桶花的時間越來越短，也越來越不靠你存。所以早一點開始很重要：一個人有工作收入的年數有限，時間是最要緊也最少的資源，錯誤的投資除了賠本金，還賠時間。後期薪水漲了，多投一點也很重要。7% 是為了畫圖簡化的，真實的路一定會上下晃；扣掉預備金以後盡量投進去，現金留太多會拖慢這條線。目標沒有那麼遙不可及，也不是一路平地。')
 
 
 # ======================================================================

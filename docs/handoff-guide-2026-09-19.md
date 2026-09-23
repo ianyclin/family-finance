@@ -613,3 +613,25 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`--guide` ×2（第二次 0 ⚠）、numbers 對 `_baseline_v631.html` 與對批 AL 交班 `0059862` 兩個基準都 LOST 0（沿用 `numbers-allow-round34.json`，沒有新增例外）、anchors OK（id 116→140、`href="#…"` 114）、budget OK（只調 s5 +9）、planstep OK、`guidetools check` OK、`test_guidetools.py`／`test_v7_check.py` ALL PASS、`calc_core.py` 引用缺漏 `[]`、`build_lite.py` exit 0＋SENTINELS OK（`lite/alt/app-a-checklist.html` 因為 `#annual` 來源區塊多了一個詞彙表連結要重新 stamp，本體一個字沒改，理由寫在檔頭 note）。
 
 **沒做**：沒有開瀏覽器量版面；`release/` 三個副本沒有更新；發布狀態那一行仍寫「批 AA 到 AK」，AL、AM 都還沒發布；s5 兩對重複指向的 `a.term` 沒有自行收掉。
+
+## 2026-09-23 批 AN（第 5 節 milestones 改成作者的「十桶金」）
+
+**規格**：`wip/v63-review/spec-v7-content-an.md`（作者 2026-09-23 拍板「都照你建議」）。同一道算術（每年投一樣的錢、一年長 7%），只換講法：縱軸從「萬」改成「一年儲蓄的倍數」，一桶＝十倍。**做完先不發布**，主線要先給作者看預覽。
+
+**圖（`tools/essay_charts.py` 的 `milestones()`）**：資料除以 6（`6.0 * ((1.07**t-1)/0.07)` → `(1.07**t-1)/0.07`），縱軸上限跟著除以 6（`TOP = 640 / 6`），所以格線與每一桶的位置幾何上完全不動、7.84／5.10／…／1.35 年一個字沒變。刻度 `(0, 200, 400, 600)`「萬」→ `(0, 20, 40, 60, 80, 100)`「倍」（0 仍印「0」）；每一格的標籤「60 萬」…「600 萬」→「10 倍」…「100 倍」（手機版仍只顯示第 1、2、3、5、10 桶）；`aria-label` 改「十桶金：每一桶是一年儲蓄的十倍，前面慢、後面快」。下排「花幾年」「報酬占」與圖例沒動。
+
+**chart-title／chart-sub／p.note**（由 `--guide` 寫回）：「每多 60 萬要花幾年」→「十桶金：每一桶是一年儲蓄的十倍」；「固定報酬的算術：第一格 7.84 年，第十格 1.35 年」→「每年投一樣的錢、一年長 7%：第一桶 7.84 年，第十桶 1.35 年」；`p.note` 的「每年年底投入 6 萬元…每格 60 萬」→「每年年底投入同一筆錢…每一桶是那筆錢的十倍」。
+
+**figcaption（作者定稿，一字未改）**：`--guide` 不覆寫 figcaption，所以指南本體改一次、`essay_charts.py` 的預設 caption 也同步改一次（兩份一致）。
+
+**原 figcaption 移層**：舊圖說（「同樣 60 萬一格…資產自己長出來的。」）與 60 萬版的年數移進圖內新開的 `<details class="more">`，摘要「想深入：這張圖的算法、60 萬版本，和換成保守算會差多少」。這一段寫在 `essay_charts.py` 的 `extras` 裡（不是手寫進指南），`--guide` 會跟著寫回，兩邊不會各走各的。
+
+**新數字**：`calc_core.py` 新增 `buckets_years(rate_pct, k) = ln(1+10k·r)/ln(1+r)` 與 `R['ten_buckets']`。assert：7% 第 1 桶 7.84、第 10 桶 30.73；4% 第 10 桶 41.0；6% 第 10 桶 33.4；十桶各花幾年＝舊的 60 萬版一模一樣；圖說的「大約 31 年／33 年／41 年」；圖說另外兩句（前三分之二時間只走完四桶＝64.2%、第四桶時自己存的占 49.3%）也各加一條 assert。`quotes` 的「第一格 7.84 年」改成「第一桶 7.84 年」，另加兩條盯住圖說與想深入的年數。
+
+**跟著改的**：來源卡（`ORIGINALS['milestones']` 與指南裡那條出處 `p.note`，兩份）「本文是每年 6 萬元、7% 的台幣版，所以每格年數與原圖相同」→「本文改成『年儲蓄的倍數』畫，所以每桶的年數與原圖相同；作者自己用原圖算法重畫過一版」；卡名「資產每增加 60 萬需要多久」→「資產每多一桶要多久」（節末「四組試算」小字裡的卡名同步）；卡首那一句改成「每年年底投入同一筆錢…一桶是那筆錢的十倍…後面的每一桶都比前一桶快」；數字表那一層的摘要與表頭「格」→「桶」（表身仍是每年投 6 萬的 60 萬版，一列沒動）；`tools/assemble_eli5.py` 的 ELI5 一句改「一桶是一年儲蓄的十倍。第一桶要快八年…」。
+
+**numbers**：`numbers-allow-round34.json` 的 `s2`／`60` 從 count 1 調到 4（多的 3 次是卡名、卡首、圖標題；60 萬版整組移進想深入與數字表，一個數字沒刪）。**另外冒出一筆舊帳**：`s6`／`60` ×1——v7 第五輪 T2（`9799d60`）把「例如一次拿到 60 萬年終」改寫掉，那次少的 60 一直被 s2 相對 v6.3.1 多出來的 60 吸收（v7_check 的全書層級搬移），批 AN 收掉 s2 的餘額才現形。批 AN 沒動第 9 節任何一個字，照實登記在 allow 檔裡。
+
+**檢查**：`essay_charts.py --guide` exit 0（第二次 0 ⚠）、`calc_core.py` exit 0 且引用缺漏 `[]`、numbers 對 `_baseline_v631.html` 與對批 AM 產生檔 commit `ce48020` 兩個基準都 LOST 0、anchors OK（id 116→140、`href="#…"` 114）、budget OK（**沒調任何上限**：新內容全在摺疊裡，s2 的 mainline 2,213／small 269／visible 2,482 一個字沒變，只有 folded 5,557→5,948）、planstep OK（10 個、0 問題）、`guidetools check` OK、`test_guidetools.py`／`test_v7_check.py` ALL PASS、`build_lite.py` exit 0＋SENTINELS OK。另寫了一支一次性的標籤自檢（把兩版 SVG 的 `<text>` 換算成方框，量兩兩重疊與出界，字寬用 `v7_g08_long_run._textw` 同一套粗估）：桌機 35 個標籤、手機 23 個標籤，**兩版都 0 ⚠**，改前的舊圖也是 0 ⚠。
+
+**沒做**：沒有開瀏覽器量版面；沒有發布（作者要先看預覽）；`essay/`（投資專篇）沒有重跑——`essay_charts.py` 動了 `milestones()`，`essay/sections/02-time.html` 與 `essay/eli5.html` 還是 60 萬版，和批 AM 一樣只跑 `--guide`；`release/` 三個副本沒有更新。
