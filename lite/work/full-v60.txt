@@ -1,4 +1,4 @@
-（抽取時間 2026-09-23 13:01；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
+（抽取時間 2026-09-23 13:14；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
 
 隔離人性｜理財新手完整指南
 
@@ -119,49 +119,6 @@ Array.prototype.forEach.call(t.tBodies,function(tb){
 Array.prototype.forEach.call(tb.rows,function(r){
 for(var c=1;r.cells.length>c;c++){if(labels[c]){r.cells[c].setAttribute('data-label',labels[c]);}}});});
 t.className=t.className+' is-stacked';});}
-if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}
-}catch(e){}})();
-(function(){try{/* v7：table.stack-mobile-cols 的主角是欄，窄螢幕一欄一張卡（JS 轉置）。寬螢幕與列印一律看原表格。 */
-var mq=window.matchMedia?window.matchMedia('(max-width:660px)'):null,list=[];
-function host(t){var p=t.parentNode;
-return (p&&typeof p.className==='string'&&(' '+p.className+' ').indexOf(' table-wrap ')>-1)?p:t;}
-function clean(n){if(n.nodeType===1){if(n.getAttribute('id')){n.removeAttribute('id');}
-var k=n.childNodes,i;for(i=0;k.length>i;i++){clean(k[i]);}}}
-function fill(dst,src){var k=src.childNodes,i,n;
-for(i=0;k.length>i;i++){n=k[i].cloneNode(true);clean(n);dst.appendChild(n);}}
-function rowsOf(t){var out=[],i,j;
-if(t.tHead){for(i=0;t.tHead.rows.length>i;i++){out.push(t.tHead.rows[i]);}}
-for(i=0;t.tBodies.length>i;i++){for(j=0;t.tBodies[i].rows.length>j;j++){out.push(t.tBodies[i].rows[j]);}}
-return out;}
-function el(tag,cls){var n=document.createElement(tag);n.className=cls;return n;}
-function build(t){if(t.getAttribute('data-colcards')){return;}
-var rows=rowsOf(t);if(2>rows.length){return;}
-var ncol=rows[0].cells.length;if(2>ncol){return;}
-var box=el('div','col-cards'),c,r,card,cap,line,key,val,lead,top=rows[0].cells[0];
-if(top&&(top.textContent||'').replace(/\s+/g,'')!==''){
-lead=el('p','col-cards-lead');fill(lead,top);box.appendChild(lead);}
-for(c=1;ncol>c;c++){card=el('div','col-card');
-cap=el('p','col-card-head');fill(cap,rows[0].cells[c]);card.appendChild(cap);
-for(r=1;rows.length>r;r++){if(c>=rows[r].cells.length){continue;}
-line=el('div','col-card-row');
-key=el('span','col-card-key');fill(key,rows[r].cells[0]);
-val=el('span','col-card-val');fill(val,rows[r].cells[c]);
-line.appendChild(key);line.appendChild(val);card.appendChild(line);}
-box.appendChild(card);}
-var h=host(t);h.parentNode.insertBefore(box,h.nextSibling);
-h.className=h.className+' stacked-away';t.setAttribute('data-colcards','y');}
-function drop(t){if(!t.getAttribute('data-colcards')){return;}
-var h=host(t),n=h.nextSibling;
-while(n&&!(n.nodeType===1&&typeof n.className==='string'&&n.className.indexOf('col-cards')===0)){n=n.nextSibling;}
-if(n&&n.parentNode){n.parentNode.removeChild(n);}
-h.className=h.className.replace(/\s*stacked-away/g,'');t.removeAttribute('data-colcards');}
-function sync(){var i;for(i=0;list.length>i;i++){if(mq.matches){build(list[i]);}else{drop(list[i]);}}
-try{window.dispatchEvent(new Event('resize'));}catch(e){}}
-function run(){if(!mq){return;}
-list=Array.prototype.slice.call(document.querySelectorAll('table.stack-mobile-cols'));
-if(!list.length){return;}
-if(mq.addEventListener){mq.addEventListener('change',sync);}else if(mq.addListener){mq.addListener(sync);}
-sync();}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}
 }catch(e){}})();
 
