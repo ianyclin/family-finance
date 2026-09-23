@@ -701,3 +701,17 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`--guide` 三次 exit 0（第一次 1 ⚠＝刻意刪掉的那段 p.note，第二、三次 0 ⚠ 且檔案不再變動）；numbers 對 `_baseline_v631.html` LOST 0、對批 AP-2 產生檔 `0807913` LOST 0（連 ADDED 都沒有）；anchors OK（id 116→140、`href="#…"` 114）；budget OK（**沒調任何上限**，s2 mainline 2,213／small 269／visible 2,482 一字未變，只有 folded 5,981→5,929）；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` exit 0、引用缺漏 `[]`；`build_lite.py` exit 0＋SENTINELS OK。
 
 **沒做**：沒有開瀏覽器量版面（右側留白縮小後的實機效果沒量）；沒有發布；`essay/` 沒重跑——`milestones()` 的 `more` 清空後，essay 版那張圖會少掉「想深入」（指南是靠本體那一份），要重跑 essay 前得先處理；`release/` 三個副本沒更新。
+
+## 2026-09-23 批 AQ（十桶金卡重排：刪卡首兩段、兩個想深入併一個）
+
+**規格**：作者說第 5 節（`s2`）那張 data-card「資產每多一桶要多久」排版亂，主線裁定五條。**做完仍不發布。**
+
+**改了什麼**：①卡開頭 h3 與 `<figure data-chart="milestones">` 之間的兩段（`<p><strong>假設每年年底投入同一筆錢…` 與 `<p class="small">這張表和圖用年底一次投入算…「越來越快」是固定報酬假設下的結果。`）刪掉，其中「這張表和圖用年底一次投入算，下面四個人那張圖用每月投入算，數字不能互相對照。」搬到合併後「想深入」的最後一個 `p.small`。②卡內順序＝h3 → figure → 主線段「這張圖要說的其實是兩件事…」→ 想深入 → `p.note`（官方原圖…）；`p.note` 從主線段後面移到 details 後面（批 AP-3 把 details 插在兩者之間，這一批照規格把出處聲明壓到卡末）。③兩個 `details.more` 併成一個，summary 用作者定稿那句，內容＝作者兩段 → 每年投 6 萬的數字表 → 算法 `p.small` → 口徑句；原第二個 details 與它後面的 `p.small` 移除。④`tools/essay_charts.py` 一個字沒動（figure 內容沒變，`--guide` 跑完檔案不變、0 ⚠）；`calc_core.py` 的 quotes 盯的兩句（figcaption 那句、「一年長 4%（保守算）要 41 年…」）逐字還在，只換行號，沒改腳本。
+
+**規格未定處**：⑴數字表加了「第幾桶」欄（1–10）——規格的表頭字串寫了「第幾桶／到多少／花幾年／報酬占」四個，原表只有三欄，我照字串補上這一欄，資料是列序不是新算的數字。⑵「每年投 6 萬」這個口徑放在「到多少」欄名底下的 `<span class="small wrapok">`（全書沒有用過 `<caption>`，不新開元素）。⑶表的 class 維持 `tight-mobile compact`（沒有跟著圖內小表加 `sticky-first`）。
+
+**allow 檔**：`numbers-allow-round35.json` 沒有新增條目——這一批對 HEAD 只淨少 1 個 `7`（s2），剛好落在既有的 s2／`7` 那一條（`count` 維持 1，沒有調高上限），我把批 AQ 的理由接在那一條的 `reason` 後面，並在 `_comment` 前面加一段。對 `_baseline_v631.html` 這一節的 `7` 是 ADDED，本來就沒有丟失。
+
+**檢查**：`essay_charts.py --guide` exit 0、0 ⚠、檔案零變動；numbers 對 `_baseline_v631.html` 與對批 AP-3 產生檔 `65763f5` 都 LOST 0；anchors OK（id 116→140）；budget OK（沒調任何上限，s2 mainline 2,213／small 269／visible 2,482 一字未變，folded 5,929→5,820）；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` exit 0、引用缺漏 `[]`；`build_lite.py` exit 0＋`SENTINELS OK`。
+
+**沒做**：沒開瀏覽器量版面（四欄表在手機 375 的寬度沒量過）；沒有發布；`essay/` 沒重跑（批 AP-3 起 `milestones()` 的 `more` 是空的，essay 版那張圖會少掉想深入）；`release/` 三個副本沒更新。
