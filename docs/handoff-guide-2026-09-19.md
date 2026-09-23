@@ -685,3 +685,19 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`--guide` 連跑三次 exit 0、0 ⚠、第二次起檔案不再變動；numbers 對 `_baseline_v631.html` LOST 0、對批 AP 產生檔 commit `946f112` LOST 0（s2 只有 ADDED `31`×1、`5000`×1、`600`×1，都是新寫法多出來的）；anchors OK（id 116→140、`href="#…"` 114）；budget OK（**沒調任何上限**，s2 mainline 2,213／small 269／visible 2,482 一字未變，只有 folded 6,025→5,981，因為「想深入」改短）；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` exit 0 且引用缺漏 `[]`；`build_lite.py` exit 0＋SENTINELS OK。
 
 **沒做**：figcaption 的括號附註版（文字沒送到）；沒有開瀏覽器量版面；沒有發布；`essay/` 沒重跑；`release/` 三個副本沒更新。
+
+## 2026-09-23 批 AP-3（十桶金卡收尾：圖說括號附註、刪 p.note、想深入搬出 figure、版面兩處）
+
+**規格**：作者補送的那封（批 AP-2 時沒送達的 (a)(b)(c)）＋(d) 版面兩條。**做完仍不發布。**
+
+**(a) figcaption**：換成作者定稿的括號附註版，結尾加「（7% 是為了畫圖簡化的，真實的路一定會上下晃）」；`milestones()` 的預設 caption 與指南本體的 `<figcaption>` 同步（`--guide` 不覆寫 figcaption，指南那一份要手改）。原本 `after` 裡那行 7% 的 `p.note` 拿掉，`after` 參數整個不再使用（`figure()` 的 `after=` 參數保留，其他圖可用）。
+
+**(b) 刪 `p.note`**：「每年年底投入同一筆錢…」整段刪（`nt` 不再產生，`extras=lg + tbl`），和 chart-sub 重複的口徑只留 chart-sub。**`fig_note()` 的行為**：改完 figure 裡 figcaption 之前只剩 legend 與 table-wrap，`fig_note()` 回 `None`，**沒有抓到別的東西**（指南模式下出處聲明印在 figure 外面，不會被誤抓）。第一次 `--guide` 會如預期吵一次「milestones 的圖下說明和指南原本的不一樣，指南那份已被蓋掉：…→（沒有）」，那正是這次要刪的那段；**第二、三次 0 ⚠**。
+
+**(c) 順序**：`more` 從 figure 的 `after` 搬到指南本體，接在 `</figure>` 之後那段主線「這張圖要說的其實是兩件事…」的正下方（summary 與兩段內容照批 AP-2 的作者定稿，逐字相同），腳本的 `more`／`after` 都清空。**規格未定處**：出處聲明（`p.note` 官方原圖…）原本就排在那段主線之後，規格只寫「主線 → 想深入」，我把 `details` 插在主線與出處聲明之間以符合字面順序，**出處聲明的位置一格沒動**。`calc_core` 的 `quotes` 盯的兩句（「第一桶需要 7.84 年，第十桶（600 萬）只需要 1.35 年」「一年長 4%（保守算）要 41 年…」）字沒變、只換了行號，`引用缺漏 []`。
+
+**(d) 版面**：①指南 `<style>` 裡 660px 以下那條內距規則的清單加 `figure.chart>.table-wrap`（小表不再貼螢幕邊，`overflow-x` 仍在，可橫向捲）。②`right = lay.right - (36 if mobile else 44)` → `- (14 if mobile else 20)`，兩版右側留白縮小。px 位置全部跟著縮放：第 10 條虛線與兩塊底色右緣 578→**602**（桌機）、312→**334**（手機），第 10 桶年數仍 `text-anchor="end"`、`x=px(T)-2`＝600／332，第 10 桶標籤仍靠右對齊在虛線左上角（598／330）。標註到的桶沒變（桌機年數 1、2、3、4、5、10；手機 1、2、10）。**標籤自檢：桌機 20 個、手機 15 個，兩版都 0 ⚠。**
+
+**檢查**：`--guide` 三次 exit 0（第一次 1 ⚠＝刻意刪掉的那段 p.note，第二、三次 0 ⚠ 且檔案不再變動）；numbers 對 `_baseline_v631.html` LOST 0、對批 AP-2 產生檔 `0807913` LOST 0（連 ADDED 都沒有）；anchors OK（id 116→140、`href="#…"` 114）；budget OK（**沒調任何上限**，s2 mainline 2,213／small 269／visible 2,482 一字未變，只有 folded 5,981→5,929）；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` exit 0、引用缺漏 `[]`；`build_lite.py` exit 0＋SENTINELS OK。
+
+**沒做**：沒有開瀏覽器量版面（右側留白縮小後的實機效果沒量）；沒有發布；`essay/` 沒重跑——`milestones()` 的 `more` 清空後，essay 版那張圖會少掉「想深入」（指南是靠本體那一份），要重跑 essay 前得先處理；`release/` 三個副本沒更新。

@@ -323,7 +323,8 @@ def milestones():
         # 收成 24／28；top 和 bottom 的像素位置與批 AN 完全一樣，每一桶的位置一格都沒動。
         h = 258 if lay.mobile else 304
         left, top = lay.left, lay.top + 10
-        right = lay.right - (36 if lay.mobile else 44)
+        # 批 AP-3：右側留白 36／44 → 14／20，圖畫得更滿；第 10 桶的年數仍靠右對齊在 px(T)-2。
+        right = lay.right - (14 if lay.mobile else 20)
         bottom = h - (24 if lay.mobile else 28)
         def px(y): return left + (right - left) * y / T
         def py(v): return bottom - (bottom - top) * v / TOP
@@ -367,12 +368,8 @@ def milestones():
         out.append("</svg>")
         return "\n".join(out)
     lg = legend([(MUTED, "自己存進去的"), (TEAL, "長出來的報酬")])
-    # 批 AN：換成「倍」以後，原本那一版圖說（60 萬一格）和 60 萬版的年數都移到這一層；
-    # 這一段在 figure 裡面，--guide 會跟著寫回指南，兩邊不會各走各的。
-    # 批 AP-2：改成作者定稿的排法——summary 從「這張圖的算法、60 萬版本」改成「用每個月投入
-    # 5,000 元來試算」，兩段從「金額 → 年數」重寫成「每月 5,000 元 → 一年 6 萬 → 一桶 60 萬 →
-    # 各桶年數」，保守／普通／樂觀那一段獨立成第二段。
-    more = ('<details class="more"><summary>想深入：用每個月投入 5,000 元來試算，和換成保守算會差多少</summary><p>每個月投入 5,000 元，一年就是投入 6 萬，一桶就是 60 萬。第一桶需要 7.84 年，第十桶（600 萬）只需要 1.35 年，十桶加起來約 31 年。</p><p>同樣走到 100 倍，一年長 4%（保守算）要 41 年、6%（普通算）要 33 年、7% 要 31 年。</p></details>')
+    # 批 AP-3：「想深入」（作者定稿那兩段）從 figure 裡搬到指南本體，接在 </figure> 之後那段
+    # 主線「這張圖要說的其實是兩件事…」後面，所以這裡不再產生 more，figure 的 after 也空著。
     # 批 AO：圖下兩排片段會被視窗壓扁，改成一張可以左右滑的小表；數字由 gaps／share 產生，
     # 年數四捨五入到小數點後一位（和 SVG 上那一排一致，完整的兩位數字在下面那張 60 萬版的表）。
     tbl = ('<div class="table-wrap"><table class="compact tight-mobile sticky-first">'
@@ -383,17 +380,13 @@ def milestones():
               "".join("<td>%.1f</td>" % g for g in gaps),
               "".join("<td>%d%%</td>" % s for s in share)))
     # 批 AH（G3）：固定報酬試算的圖一律寫「固定報酬的算術，不是預測」。
-    # 批 AO 例外：這張圖改用圖說後面那一行小字（「7% 是為了畫圖簡化的，真實的路一定會上下晃。」）講同一件事。
-    nt = note("每年年底投入同一筆錢、一年長 7%，每一桶是那筆錢的十倍。表裡是每一桶花幾年、那一桶裡有多少是長出來的報酬。")
-    # 批 AP：那一行小字從 p.small 改成 p.note——手機上 figure.chart 的左右內距歸零，只有
-    # .chart-head/.legend/.note/figcaption/table.dca/details.orig 補回 18px，p.small 不在清單裡會貼到最左邊。
-    # 它在 figcaption 之後，fig_note()（抓 figcaption 之前的第一條 p.note）不會誤抓。
-    # 「想深入」也從 extras 移到 after，排在這一行後面，所以整張圖的順序是
-    # 圖 → 圖例 → 表 → p.note → figcaption → 7% 那行 → details.more → 出處聲明。
+    # 批 AO 例外：這張圖用圖說裡那句括號附註（「7% 是為了畫圖簡化的，真實的路一定會上下晃」）
+    # 講同一件事。批 AP-3：原本圖下那條 p.note（「每年年底投入同一筆錢…」）和 chart-sub 說的是
+    # 同一件事，整段刪掉只留 chart-sub；圖說後面那行 7% 的 p.note 也拿掉，附註併進圖說的括號裡。
+    # 所以整張圖現在是：圖 → 圖例 → 表 → figcaption →（出處聲明，指南模式印在 figure 外面）。
     return dict(title="十桶金：每一桶是一年儲蓄的十倍", sub="每年投一樣的錢、一年長 7%：第一桶 7.8 年，第十桶 1.4 年",
-                svgs=[draw(L("d")), draw(L("m"))], extras=lg + tbl + nt,
-                after='<p class="note">7% 是為了畫圖簡化的，真實的路一定會上下晃。</p>' + more,
-                caption='資產到一年儲蓄的 100 倍，不用 100 年，大約 31 年。前面三分之二的時間只走完四桶，到第四桶時，帳戶裡一半是你存的、一半是長出來的；後面三分之一的時間走完剩下六桶，一桶比一桶快，也越來越不靠你存。目標沒有那麼遙不可及，也不是一路平地。')
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + tbl,
+                caption='資產到一年儲蓄的 100 倍，不用 100 年，大約 31 年。前面三分之二的時間只走完四桶，到第四桶時，帳戶裡一半是你存的、一半是長出來的；後面三分之一的時間走完剩下六桶，一桶比一桶快，也越來越不靠你存。目標沒有那麼遙不可及，也不是一路平地（7% 是為了畫圖簡化的，真實的路一定會上下晃）。')
 
 
 # ======================================================================
