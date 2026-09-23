@@ -669,3 +669,19 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`--guide` 連跑三次都 exit 0、0 ⚠、第二次起檔案不再變動；numbers 對 `_baseline_v631.html` LOST 0、對批 AO 產生檔 commit `821373f` 是 `no differences`；anchors OK（id 116→140、`href="#…"` 114）；budget OK（**沒調任何上限**，s2 的 total 9,515／folded 6,025／small 269／mainline 2,213／visible 2,482 全部和改前逐字相同）；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` exit 0 且引用缺漏 `[]`（`guide_citations` 只有三筆行號因為順序調動而位移，`missing` 仍是 `[]`）；`build_lite.py` exit 0＋SENTINELS OK。
 
 **沒做**：沒有開瀏覽器量版面；沒有發布；`essay/` 照批 AN／AO 沒有重跑；`release/` 三個副本沒有更新。**副作用一項**：`guidetools.to_text` 只在 `p.small` 前面加〈小字〉標記，所以純文字版（`lite/work/full-v60.txt`）裡那一行不再有〈小字〉前綴——和書裡其他 `p.note` 一致，HTML 與 PDF 的呈現不受影響。
+
+## 2026-09-23 批 AP-2（十桶金卡照作者排法：想深入定稿、頭尾兩桶一定標、右緣貼齊）
+
+**規格**：作者在批 AP 施工中追加的三則訊息。**其中一則（(a) figcaption 括號附註版、(b)）沒有送達施工端**，所以 figcaption 仍是批 AO 的三句版、一個字沒動；`milestones()` 的預設 caption 也沒動。要補的話只缺那句括號附註的文字。**做完仍不發布。**
+
+**①「想深入」換成作者定稿版**（`tools/essay_charts.py` 的 `more`）：summary「這張圖的算法、60 萬版本，和換成保守算會差多少」→「用每個月投入 5,000 元來試算，和換成保守算會差多少」；兩段改成作者的字（主線只改千分位與 30→31）：「每個月投入 5,000 元，一年就是投入 6 萬，一桶就是 60 萬。第一桶需要 7.84 年，第十桶（600 萬）只需要 1.35 年，十桶加起來約 31 年。」＋「同樣走到 100 倍，一年長 4%（保守算）要 41 年、6%（普通算）要 33 年、7% 要 31 年。」**連帶要改 `calc_core.py`**：批 AO 讓 `quotes` 盯這一段的「第一桶 7.84 年、第十桶 1.35 年」，新寫法不同字，已改成「第一桶需要 7.84 年，第十桶（600 萬）只需要 1.35 年」（盯的還是同一段、同兩個數字）；不改的話 `引用缺漏` 會紅。
+
+**② 圖下「花幾年」那一排：第 1 桶與第 10 桶兩版一律標**，不看寬度。第 10 桶靠右對齊到最右那條虛線（`text-anchor="end"`、`x=px(T)-2`），允許往左長到第 9、8 桶上方（那幾桶本來就沒標）。中間各桶仍是「格子寬 ≥ 字寬＋6 才標」，再加一個條件：標籤框右緣不得超過第 10 桶標籤框的左緣（`last_left = px(T)-2-textw("1.4 年", fs)`），碰到就不標。結果：桌機標第 1、2、3、4、5、10 桶（x=119.1／229.8／305.8／363.9／411.0 middle、576.0 end），手機標第 1、2、10 桶（79.9／135.9 middle、310.0 end）。
+
+**③ 右緣貼齊**：`total`／`contrib` 原本以月為步長取樣再用 `y <= T` 過濾，T=30.74，最後一個保留點是 30.667（差 0.073 年 ≈ 桌機 1.2px），多邊形接著用 `(px(T), py(0))` 收底，右緣就變成一小段斜線，和第 10 桶那條 `px(T)` 的虛線對不上。改成取樣時 `t >= T` 就 break，再把精確終點 `(T, (1.07**T-1)/0.07)`＝100.04 倍與 `(T, T)` 補進兩條序列；`area_total`／`area_contrib`／`poly` 都吃同一組點（`if y <= T` 的過濾拿掉）。驗證：兩塊多邊形與曲線的最後一點 x 都是桌機 578.0／手機 312.0，和第 10 條虛線的 x 完全相同；首點是 `(px(0), py(0))`＝桌機 (52.0, 276.0)／手機 (46.0, 234.0)。線的形狀、每一桶的位置、縱軸刻度、`aria-label` 都沒動。
+
+**標籤自檢**（一次性腳本，把兩版 SVG 的 `<text>` 換算成方框量兩兩重疊與出界，字寬用 `essay_charts.textw`）：桌機 20 個標籤、手機 15 個，**兩版都 0 ⚠**（比批 AP 各多一個，就是新加的第 10 桶年數）。
+
+**檢查**：`--guide` 連跑三次 exit 0、0 ⚠、第二次起檔案不再變動；numbers 對 `_baseline_v631.html` LOST 0、對批 AP 產生檔 commit `946f112` LOST 0（s2 只有 ADDED `31`×1、`5000`×1、`600`×1，都是新寫法多出來的）；anchors OK（id 116→140、`href="#…"` 114）；budget OK（**沒調任何上限**，s2 mainline 2,213／small 269／visible 2,482 一字未變，只有 folded 6,025→5,981，因為「想深入」改短）；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` exit 0 且引用缺漏 `[]`；`build_lite.py` exit 0＋SENTINELS OK。
+
+**沒做**：figcaption 的括號附註版（文字沒送到）；沒有開瀏覽器量版面；沒有發布；`essay/` 沒重跑；`release/` 三個副本沒更新。

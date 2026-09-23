@@ -307,8 +307,16 @@ def milestones():
     total, contrib = [], []
     for m in range(0, int(T * 12) + 2):
         t = m / 12
+        if t >= T:
+            break
         total.append((t, (1.07 ** t - 1) / 0.07))
         contrib.append((t, t))
+    # 批 AP-2（作者追加）：以月為步長取樣，最後一個點落在 T 之前不到一個月（T=30.74，最後一點
+    # 30.667），多邊形再用 (px(T), py(0)) 收底，右緣就變成一小段斜線，和第 10 桶那條 px(T) 的
+    # 虛線對不上。這裡把精確的終點補進兩條序列（total 的 f(T)=(1.07**T−1)/0.07＝100.04 倍，
+    # contrib 的 f(T)=T），曲線和兩塊底色都用同一組點，右緣就正好落在 px(T)。
+    total.append((T, (1.07 ** T - 1) / 0.07))
+    contrib.append((T, T))
 
     def draw(lay):
         # 批 AO：圖下只留「花幾年」一排（「報酬占」移到圖下的小表），所以下方留白從 66／84
@@ -322,12 +330,16 @@ def milestones():
         out = [svg_open(lay, h, "十桶金：每一桶是一年儲蓄的十倍，第 1 桶 10 倍、第 10 桶 100 倍，前面慢、後面快")]
         # 「0」往上移 6：正下方的「花幾年」是左欄的列名，跟著右邊那排年數對齊，挪不動
         out += grid(lay, py, (0, 20, 40, 60, 80, 100), lambda v: ("%d 倍" % v) if v else "0", x2=right, zero_dy=-6)
-        area_total = [(px(0), py(0))] + [(px(y), py(v)) for y, v in total if y <= T] + [(px(T), py(0))]
-        area_contrib = [(px(0), py(0))] + [(px(y), py(v)) for y, v in contrib if y <= T] + [(px(T), py(0))]
+        area_total = [(px(0), py(0))] + [(px(y), py(v)) for y, v in total] + [(px(T), py(0))]
+        area_contrib = [(px(0), py(0))] + [(px(y), py(v)) for y, v in contrib] + [(px(T), py(0))]
         out.append('<polygon points="%s" fill="%s" fill-opacity="0.3"/>' % (" ".join("%.1f,%.1f" % p for p in area_total), TEAL))
         out.append('<polygon points="%s" fill="%s" fill-opacity="0.35"/>' % (" ".join("%.1f,%.1f" % p for p in area_contrib), MUTED))
-        out.append(poly([(px(y), py(v)) for y, v in total if y <= T], TEAL, lay.line))
+        out.append(poly([(px(y), py(v)) for y, v in total], TEAL, lay.line))
         show = {0, 1, 2, 4, 9} if lay.mobile else {0, 1, 2, 3, 4, 5, 9}
+        # 批 AP-2（作者追加）：第 10 桶的年數靠右對齊到最右那條虛線，允許往左長到第 9、8 桶
+        # 上方（那幾桶本來就窄到不標）。先算出它的左緣，中間各桶碰到就不標。
+        last_lab = "%.1f 年" % gaps[-1]
+        last_left = px(T) - 2 - textw(last_lab, lay.fs)
         prev = 0
         for i, (y, g) in enumerate(zip(yrs, gaps)):
             out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%d" stroke="%s" stroke-width="1" stroke-dasharray="3 3"/>' % (px(y), py(10 * (i + 1)), px(y), bottom, INK))
@@ -342,8 +354,13 @@ def milestones():
                 out.append(text(px(y) - 4, py(10 * (i + 1)) - 6, lab_b, lay.fl, "end", INK, "700"))
             # 批 AO：「花幾年」只標放得下的格子（字寬＋6 的餘裕還塞得進這一格才標），
             # 放不下就不標，不再上下錯開兩排。後面幾桶的年數看圖下的小表。
+            # 批 AP-2（作者追加）：第 1 桶與第 10 桶兩版一律要標，不看寬度；第 10 桶靠右對齊
+            # 到最右那條虛線。中間各桶除了放得下，還不能碰到第 10 桶那個標籤框。
             lab = "%.1f 年" % g
-            if px(y) - px(prev) >= textw(lab, lay.fs) + 6:
+            if i == len(gaps) - 1:
+                out.append(text(px(T) - 2, bottom + 16, lab, lay.fs, "end", MUTED))
+            elif i == 0 or (px(y) - px(prev) >= textw(lab, lay.fs) + 6
+                            and px((prev + y) / 2) + textw(lab, lay.fs) / 2 <= last_left):
                 out.append(text(px((prev + y) / 2), bottom + 16, lab, lay.fs, "middle", MUTED))
             prev = y
         out.append(text(left - 6, bottom + 16, "花幾年", lay.fs, "end", MUTED))
@@ -352,7 +369,10 @@ def milestones():
     lg = legend([(MUTED, "自己存進去的"), (TEAL, "長出來的報酬")])
     # 批 AN：換成「倍」以後，原本那一版圖說（60 萬一格）和 60 萬版的年數都移到這一層；
     # 這一段在 figure 裡面，--guide 會跟著寫回指南，兩邊不會各走各的。
-    more = ('<details class="more"><summary>想深入：這張圖的算法、60 萬版本，和換成保守算會差多少</summary><p>同樣 60 萬一格，第一格要將近八年，第十格只要一年多。前面慢，是因為錢還沒開始幫忙；越往後，每一格裡有越多是資產自己長出來的。</p><p>同樣走到 100 倍，一年長 4%（保守算）要 41 年、6%（普通算）要 33 年、7% 要 31 年。每年投 6 萬的話，一桶就是 60 萬，第一桶 7.84 年、第十桶 1.35 年。一年 6 萬差不多是每月 5,000 元的量。</p></details>')
+    # 批 AP-2：改成作者定稿的排法——summary 從「這張圖的算法、60 萬版本」改成「用每個月投入
+    # 5,000 元來試算」，兩段從「金額 → 年數」重寫成「每月 5,000 元 → 一年 6 萬 → 一桶 60 萬 →
+    # 各桶年數」，保守／普通／樂觀那一段獨立成第二段。
+    more = ('<details class="more"><summary>想深入：用每個月投入 5,000 元來試算，和換成保守算會差多少</summary><p>每個月投入 5,000 元，一年就是投入 6 萬，一桶就是 60 萬。第一桶需要 7.84 年，第十桶（600 萬）只需要 1.35 年，十桶加起來約 31 年。</p><p>同樣走到 100 倍，一年長 4%（保守算）要 41 年、6%（普通算）要 33 年、7% 要 31 年。</p></details>')
     # 批 AO：圖下兩排片段會被視窗壓扁，改成一張可以左右滑的小表；數字由 gaps／share 產生，
     # 年數四捨五入到小數點後一位（和 SVG 上那一排一致，完整的兩位數字在下面那張 60 萬版的表）。
     tbl = ('<div class="table-wrap"><table class="compact tight-mobile sticky-first">'
