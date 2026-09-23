@@ -35,7 +35,7 @@
    "one_page": true,
    "blocks": [
     {
-     "src": "#ten div.warning"
+     "src": "ch1"
     },
     {
      "alt": "ch4-drill"
