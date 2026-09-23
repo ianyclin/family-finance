@@ -715,3 +715,15 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`essay_charts.py --guide` exit 0、0 ⚠、檔案零變動；numbers 對 `_baseline_v631.html` 與對批 AP-3 產生檔 `65763f5` 都 LOST 0；anchors OK（id 116→140）；budget OK（沒調任何上限，s2 mainline 2,213／small 269／visible 2,482 一字未變，folded 5,929→5,820）；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` exit 0、引用缺漏 `[]`；`build_lite.py` exit 0＋`SENTINELS OK`。
 
 **沒做**：沒開瀏覽器量版面（四欄表在手機 375 的寬度沒量過）；沒有發布；`essay/` 沒重跑（批 AP-3 起 `milestones()` 的 `more` 是空的，essay 版那張圖會少掉想深入）；`release/` 三個副本沒更新。
+
+## 2026-09-23 批 AS（十桶金卡搬進主線、圖例顏色、手機表格固定欄）
+
+**規格**：`wip/v63-review/spec-v7-content-as.md`（作者拍板三件）。**做完仍不發布。**
+
+**改了什麼**：①`s2` 那張 data-card「資產每多一桶要多久」整塊（36,753 字元、含 figure、主線段、卡內 details.more、來源聲明 `p.note`）從 `<details class="more"><summary>想深入：資產長到一年儲蓄的一百倍要花幾年？…</summary>` 裡剪到該 details 的正前方（同一層、主線），details 其餘內容一格沒動，summary 改成「想深入：這一節幾組試算各用什麼假設？報酬率漂亮，賺到的錢就多嗎？」。②`tools/essay_charts.py` `milestones()`：原本 total 整塊 TEAL 0.3 鋪滿再疊 contrib MUTED 0.35，改成兩塊不重疊——contrib 多邊形照舊，「長出來的報酬」改畫 contrib 與 total 之間的帶狀多邊形（點序：contrib 左→右接 total 右→左，兩版各 740 點），legend 改 `legend([(MUTED, "自己存進去的", 0.35), (TEAL, "長出來的報酬", 0.3)])`。③`<style>` 660px media query：從 padding 清單拿掉 `figure.chart>.table-wrap`，同一個 query 新增 `figure.chart>.table-wrap{margin-left:18px;margin-right:18px}`（內距改外距，`position:sticky;left:0` 的第一欄不再蓋住內容區前 18px）。
+
+**budget**：`budget-v7.json` 照實測抬到剛好——s2 mainline 2,279→2,473、`_visible_small_overrides` 新增 `"s2": 408`（通用上限 380，比照 s5 只放行這一節）、`_total_max` 56,882→57,105；`_visible_total_max` 64,311 沒動（搬完 visible 62,849 仍在上限內）。理由寫在 `_comment_as`。
+
+**檢查**：`essay_charts.py --guide` 連跑兩次 exit 0、0 ⚠、第二次檔案不再變動；numbers 對 `_baseline_v631.html` 與對批 AR 產生檔 `fea932e` 都 LOST 0（對 AR 是 no differences）；anchors OK（id 116→140）；budget OK；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` exit 0、引用缺漏 `[]`；`build_lite.py` exit 0＋`SENTINELS OK`。
+
+**沒做**：沒開瀏覽器量版面（18px 外距與帶狀多邊形的實機效果沒量）；沒有發布；`essay/` 沒重跑；`release/` 三個副本沒更新。

@@ -331,10 +331,14 @@ def milestones():
         out = [svg_open(lay, h, "十桶金：每一桶是一年儲蓄的十倍，第 1 桶 10 倍、第 10 桶 100 倍，前面慢、後面快")]
         # 「0」往上移 6：正下方的「花幾年」是左欄的列名，跟著右邊那排年數對齊，挪不動
         out += grid(lay, py, (0, 20, 40, 60, 80, 100), lambda v: ("%d 倍" % v) if v else "0", x2=right, zero_dy=-6)
-        area_total = [(px(0), py(0))] + [(px(y), py(v)) for y, v in total] + [(px(T), py(0))]
+        # 批 AS（作者拍板）：原本「長出來的報酬」畫的是整塊 total 多邊形，再把 contrib 疊上去，
+        # 下半塊其實是兩色相混，圖例卻是兩個實心色塊，顏色對不上。改成兩塊不重疊：下面那塊還是
+        # contrib（自己存進去的），上面那塊只畫 contrib 曲線和 total 曲線之間的帶狀（長出來的報酬）。
         area_contrib = [(px(0), py(0))] + [(px(y), py(v)) for y, v in contrib] + [(px(T), py(0))]
-        out.append('<polygon points="%s" fill="%s" fill-opacity="0.3"/>' % (" ".join("%.1f,%.1f" % p for p in area_total), TEAL))
+        area_gain = ([(px(y), py(v)) for y, v in contrib]
+                     + [(px(y), py(v)) for y, v in reversed(total)])
         out.append('<polygon points="%s" fill="%s" fill-opacity="0.35"/>' % (" ".join("%.1f,%.1f" % p for p in area_contrib), MUTED))
+        out.append('<polygon points="%s" fill="%s" fill-opacity="0.3"/>' % (" ".join("%.1f,%.1f" % p for p in area_gain), TEAL))
         out.append(poly([(px(y), py(v)) for y, v in total], TEAL, lay.line))
         show = {0, 1, 2, 4, 9} if lay.mobile else {0, 1, 2, 3, 4, 5, 9}
         # 批 AP-2（作者追加）：第 10 桶的年數靠右對齊到最右那條虛線，允許往左長到第 9、8 桶
@@ -367,7 +371,7 @@ def milestones():
         out.append(text(left - 6, bottom + 16, "花幾年", lay.fs, "end", MUTED))
         out.append("</svg>")
         return "\n".join(out)
-    lg = legend([(MUTED, "自己存進去的"), (TEAL, "長出來的報酬")])
+    lg = legend([(MUTED, "自己存進去的", 0.35), (TEAL, "長出來的報酬", 0.3)])
     # 批 AP-3：「想深入」（作者定稿那兩段）從 figure 裡搬到指南本體，接在 </figure> 之後那段
     # 主線「這張圖要說的其實是兩件事…」後面，所以這裡不再產生 more，figure 的 after 也空著。
     # 批 AO：圖下兩排片段會被視窗壓扁，改成一張可以左右滑的小表；數字由 gaps／share 產生，
