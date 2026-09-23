@@ -758,3 +758,23 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：兩批各跑一次全套。numbers 對 `_baseline_v631.html`（allow round35）與對上一批 commit 都 LOST 0；anchors OK（116→140）；budget OK（一個上限都沒動）；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` 引用缺漏 `[]`；`build_lite.py` exit 0＋`SENTINELS OK`（工作表仍 6 頁、完整版仍 178 頁）；`v7_layout_check.py` `LAYOUT OK`。
 
 **沒做**：沒有發布；`release/` 三個副本沒更新；深色模式與 `@media print` 的逐框對比沒量（版式審第六節本來就列為未查證）；`lite/index.html` 用版面哨兵量會報 3 張表要橫捲（改前改後一模一樣，是 lite 沒有 `is-scrollable` 那段 JS，不是這一批造成的）。
+
+## 2026-09-23 批 BA（版面收斂第二段：結構。卡名降級、節內小標、圖搬出卡、摺疊與表格統一）
+
+**規格**：`wip/v63-review/spec-v7-layout-ba.md`（作者 2026-09-23 拍板 3、4）。**做完仍不發布，主線截圖。** 五個 commit，每個各配一個「產生檔重建」：BA-1 卡名降級、BA-2 節內小標、BA-3 圖搬出卡、BA-4 摺疊與表格統一、BA-5 圖搬出卡後恢復原閱讀順序。**正文字零改**，唯一新增的字是 BA-2 那 24 行小標（起草，待作者定）。
+
+**BA-1**：`div.data-card>h3` → `h4`（84 處）、卡內（含卡內 details）的 `h4` → `h5`（14 處）。CSS 四處同步（`.source-card h3`／`.data-card h3` → `h4`；`.data-card h4{.9rem}` → `.data-card h5`；`@media screen` 的 1.06rem／.95rem 各降一級，`h5` 補 `letter-spacing:.02em` 讓外觀不變；`@media print` 的 `break-after` 清單補 `h5`）。`h3` 從此只當節內小標。`lite/alt/ch4-drill`、`plan-panic` 本體的卡名同步改 `h4`，三份短稿重新 stamp。
+
+**BA-2**：九個長節補 24 個節內分組小標（why 2、s2 3、s3 2、s5 3、cases 4、s12 3、costs 3、annual 2 是 `h3`；lifecycle 2 個是 `h4`——那一節的 `h3` 已經是「一、二、三」三個問題，插同級會被讀成多了一題，規格寫 `h3`，這一處偏離）。標題優先從該段既有的卡名／摺疊標題提字，全表在 `changes-for-author-v7.md` 一之五十四，標「待作者定」。budget +185（＝標題本身），`_comment_ba`。
+
+**BA-3**：17 張圖搬出卡／摺疊（規格的「卡搬出圖後只剩 h4 就刪卡殼」實測 0 張符合，所以卡全留）。CSS 刪三條負邊距。**規格說「只剩 figure.chart 直接在 section 下那一條」做不到**：五張原本巢在 `details.more > div.data-card` 的圖搬出來以後父容器是 `details.more`。
+
+**BA-4**：7 個無 class 的 `<details>` 加 `class="more"`（全書 details class 從 5 種收成 4 種、無 class 0 個）；`stack-mobile-cols`（JS 轉置，5 張）改成 `stack-mobile`，刪 `.col-cards` 那一組 CSS（10 條）與對應 JS（2,712 字），`tools/essay_charts.py:627` 同步；`#plan-starter` 表加 `stack-mobile`，刪兩張專用表的手機 CSS 23 條。新增兩條 CSS 修位移：`ol.checklist>li>details>figure.chart` 的 −58 改 −70、`details.more[data-print]>.table-wrap{margin-left:-12px}`（不然第 14 節兩張查表在 375px 被擠到要橫捲）。**規格的「表 class 收成三種」只做到 21→17 種**：`text`／`prose`／`tight`／`wide`／`situations`／`stack-inline`／`dca` 各自帶行為（對齊、第 17 節篩選、圖內表），不是機械改動。五份短稿重新 stamp。
+
+**BA-5（主線交辦）**：BA-3 把圖搬出卡以後，卡裡原本排在圖後面的內容被擠到圖前面（13 處）。這一批把它們搬回圖後面：卡裡原本在圖之前的留在卡裡；在圖之後的拿出卡、排到圖之後（純 `p`／`details.more` 直接放，含表或清單的包一個沒有標題的 `div.data-card`——control-map、ranges 兩處）。**原本裝在摺疊裡的三張圖（human-capital、rebalance-drift、plan-flow）直接搬回摺疊裡的原位，不進主線**（`.data-card>details.more>figure.chart` 那條 CSS 也補回來）。改完 **BA-3 動手前的去標籤正文（含順序）和現在逐字相同，165,663 字**。副作用：六張卡現在只剩一個卡名（第 5 節 ×2、第 8、9、10、11 節各一），要不要把卡殼拿掉要作者點頭（那會刪字）。第 3 節 control-map 的 `chart-sub`「看圖下那三條清單」因此自己對了，BA-3 列的那條待裁取消。budget 退回 BA-2 的數字（`_comment_ba5`）。
+
+**檢查（每一批各跑一次全套）**：numbers 對 `_baseline_v631.html`（allow round35）與對上一批 commit 都 LOST 0；anchors OK（116→140）；budget OK；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` 引用缺漏 `[]`；`essay_charts.py --guide` ×2 exit 0、0 ⚠、第二次檔案不變；`build_lite.py` exit 0＋`SENTINELS OK`（工作表 6 頁、完整版 **179 頁**，開工前 178）；`v7_layout_check.py` `LAYOUT OK`（圖左右緣違規 375／1024 都 0；375 要橫捲的表 1 張，和開工前一樣；**正文左緣 375px 18→15 種、1024px 14→13 種**；summary 續行左突 0；橫向溢出 0）。
+
+**沒做**：沒有發布；`release/` 三個副本沒更新；深色模式與 `@media print` 的逐框對比沒量（留給批 BB）。
+
+
