@@ -922,3 +922,18 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **工作表**：`lite/alt/lookup-tables.html`（第二張紙背面）第 2 步與算好的例子同步、重新 stamp；`lite/case-checks.json` 的算例樣式 `34.3×5` 改 `33.6×5`。查表頁那一頁差點被擠到兩頁，所以工作表那一份的第 2 步寫得比完整版短，完整版「減完只比 2.0% 高一點」補的成因句沒有加進工作表，理由記在該檔 note。`lite/alt/ch4-drill.html` 本體未改，只因為它盯著的第 8 節小卡（203／81 → 205／82）而重新 stamp。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器；規格寫「主線派裁判獨立重算四個案例」還沒派；上面四處結論翻轉與 1,073 萬的口徑（書裡「全放定存」是 1.7% 的 1,059 萬，1,073 萬是查表 0% 那一列）等作者或裁判定。
+
+## 2026-09-24 換 session 交班（主線寫，BI 已 commit 未發布、BN 施工中、裁判 BI 進行中）
+
+**發布**：指南 Version 39、工作表 Version 30＝批 BK 之後。**批 BI（費用扣法照部位算、四個案例重算，commit `cae1192`＋`a6ce2e3`）已 commit 但未發布**——因為四處結論翻轉（小芸阿哲不用多存、阿凱 26%→25%、陳大哥四成剛好到 40 倍多 11 萬、小安延後 4.8 年變走得通），主線派了裁判獨立重算（judge，本 session 結束時可能未回；**下一 session 若找不到 `wip/v63-review/judge-bi.md`，就重派一次裁判**：用 Python 從頭算四個案例每個印在書上的金額，規格 `spec-v7-content-bi.md`、地圖 `map-fee-method-2026-09-23.md`）。裁判過了才發 Version 40。
+**BN（BK 裁判後修正：橋接句去「只」、理財型房貸列補數字與後果、拿掉「房屋增貸」、h4 不數數、第 8 節來源卡 36→38）builder 施工中**：下一 session 先 `git log --oneline -5` 看有沒有「批 BN」commit；沒有就看工作樹 diff 決定續做或 stash；規格 `spec-v7-content-bn.md`、依據 `judge-bk.md`。
+**發布流程**：`cp export/隔離人性-理財新手完整指南-v7.0 預覽.html release/index.html`（與 `release/guide-v7.0-preview.html`）、工作表同理；md5 對 guide/index.html；派 sonnet `claude` 代理用 Artifact publish 帶 url（指南 9WawELoGewi9ecKK32YcfU、工作表 SyGNXbzfPAXVeundB33Wb4），不 force；然後更新本檔「發布狀態」與記憶。
+
+**等作者回答的三題**（都不擋路）：
+1. 第 16 節「本指南的做法」（作者定稿）要不要換成 ChatGPT 的軟化版（changes-for-author 一之六十二）。
+2. 第 24 節黃框「一小筆理財型房貸的額度」要不要改成「動用中的一小筆理財型房貸」（裁判 BK：「額度」讀起來像沒動用）。**不得寫比例或金額。**
+3. 儲蓄險段想引臺銀「續存照轉存日牌告利率」的約定頁，機器打不開，請作者用瀏覽器確認再寫回。
+
+**佇列剩下**（`queue-2026-09-23-external-reviews.md`）：BJ 綠角時間軸圖（規格 `spec-v7-content-bj.md` 已寫）；{2}9 重複段合併（匯率避險兩段、第 24／25 節提領重複）；{2}10 節的稱呼統一（先建地圖，700 多個 xref）；{3} 但書分級；起步版最短路徑走查；第 8 節來源卡計數 36→38（BN 做）；「五種借法」不數數（BN 做）。
+
+**已知小坑**：`v7_check.load_allow` 以 (section, token) 為 key、後蓋前，撞號要寫相加值；`lite/work/*.txt` 第一行時間戳每次 build 都 dirty，`git checkout -- lite/work` 還原；BI 的兩個 commit subject 排版壞（heredoc 少空行），內容正確，不 amend；`essay_charts.py --guide` 已與指南同步（BL）。
