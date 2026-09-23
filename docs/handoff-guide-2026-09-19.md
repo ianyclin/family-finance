@@ -832,3 +832,22 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：numbers 對 `_baseline_v631.html` 與對批 BB-2（`80e0633`）都 **LOST 0**，用新的 `wip/v63-review/numbers-allow-round36.json`（＝round35 的 248 條一字未動＋8 條：s2 5000、s5 5、s6 2000／2005／2024、s7 2003／2025、s8 2026，全是六個卡名刪掉後少掉的**重複**出現，每一個數字在對應那張圖的圖題、副題或 `p.note` 裡都還在，逐條寫了理由）；anchors OK（116→140）；budget OK（`_total_max` 58,090／58,191、`_visible_total_max` 64,019／64,120，主線字數減少沒調低上限）；planstep OK（10 個）；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` 引用缺漏 `[]`；`essay_charts.py --guide` exit 0（28 張圖，圖檔內容沒變）；`build_lite.py` exit 0＋`SENTINELS OK`（**工作表 6 頁不變**、完整版 182 → **180 頁**）；`v7_layout_check.py` `LAYOUT OK`，**每一項數字和批 BB-2 完全相同**（375px：圖左右緣違規 0、要橫捲的表 1 張、正文左緣 9 種、summary 續行左突 0、橫向溢出 0；1024px：0／0／11 種／0／0）。
 
 **沒做**：沒有發布；`release/` 三個副本沒更新；five-people／missing-days 的副題沒補口徑（理由見上）；BB 留下的「`--line` 太淡」那題仍等作者看截圖。
+
+## 2026-09-23 現況整理（主線，作者要求）
+
+**發布**：v7 預覽指南 Version 34、工作表 Version 25（url 不變）。正式版仍是 v6.3.1（main 分支，兩個正式網址未動）。v7-preview 分支 384 個 commit，9/22–23 兩天 83 個（批 AA～BD）。工作樹乾淨。
+
+**指南現況數字**：去標籤 158,922 字；28 張圖、80 張資料卡、136 個摺疊、26 個黃框、黃線 97＋淡紅 14。全套檢查（budget／anchors／planstep／numbers round36／guidetools／test_*／calc_core／build_lite／v7_layout_check）全綠；工作表 6 頁、完整版 PDF 179 頁。
+
+**這兩天做完的（依序）**
+1. 第 8 節四張長線圖：作者回饋七輪（事件點不壓字、箱型圖 ±50、滾動圖 20 年線淡綠與三線粗細、三個最低標籤就近、圖說精簡到一到三句＋共用引言、作者黃框）。
+2. 第三輪語氣（難讀與 AI 感）：三份裁判報告 `voice/round3-*.md`，修正批 AH／AI／AJ／AK／AL（約 150 條），兩輪複審 `judge-ah.md`、`judge-ai.md`。
+3. 第 3 節四句作者定稿；第 1 節紅框併進「九個最貴的錯」第 1 條、九個錯改成一般清單。
+4. 第 5 節「十桶金」卡（作者框架：年儲蓄倍數、六點、5,000 元例子）九輪打磨後進主線。
+5. 術語連結：名目、部位、視窗接詞彙表；「部位」新詞條；「百分位」翻白話。
+6. 版面收斂：兩份出版社視角稽核 `layout-audit-structure.md`、`layout-audit-visual.md`；第一段 AY（CSS 統一、摺疊箭頭修 84 處鋸齒、標題梯度、間距尺規、來源卡歸位、版面哨兵 `tools/v7_layout_check.py`）；第二段 BA～BD（卡名降 h4、22 個節內分組小標作者定稿、17 張圖搬出卡、7 個無類別摺疊與表格統一、容器收成四種、小字 14.4px、660px 規則 15→1、刪 31 條死樣式、六個空卡殼刪、框線對比 1.46→2.0）。
+
+**還沒做、留給下一輪**
+- 版面第三段（拍板清單第三段）：第 8、14 節要不要拆節；摺疊佔七成的節（15、16、3、6）要不要提內容回主線；78 條想深入標題縮到 20 字（要改字過裁判）；`.promise` 讀者手冊補紅框與資料卡的介紹（草稿在 changes-for-author 一之五十五）。
+- 小事：第 15 節「四位一起比」小標下的卡名「四位示範人物一起比」近義（刪卡名）；正文左緣種類 375 仍 9 種（目標 8）；`tools/guidetools.py` 的 TAGS 沒有 h5；`lite/calc-results.json` 行號噪音；專篇 essay 產品線沒跟上（本來就沒跟）；第 28 節檢查紀錄數字發正式版前重數；J.P. Morgan 區間圖留在第 8 節摺疊（作者未要求搬）。
+- 作者待做：手機通讀 Version 34（尤其第 1、3、5、8、15、22 節）；決定何時把 v7 合併回 main、發正式網址。
