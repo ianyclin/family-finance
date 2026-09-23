@@ -635,3 +635,25 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`essay_charts.py --guide` exit 0（第二次 0 ⚠）、`calc_core.py` exit 0 且引用缺漏 `[]`、numbers 對 `_baseline_v631.html` 與對批 AM 產生檔 commit `ce48020` 兩個基準都 LOST 0、anchors OK（id 116→140、`href="#…"` 114）、budget OK（**沒調任何上限**：新內容全在摺疊裡，s2 的 mainline 2,213／small 269／visible 2,482 一個字沒變，只有 folded 5,557→5,948）、planstep OK（10 個、0 問題）、`guidetools check` OK、`test_guidetools.py`／`test_v7_check.py` ALL PASS、`build_lite.py` exit 0＋SENTINELS OK。另寫了一支一次性的標籤自檢（把兩版 SVG 的 `<text>` 換算成方框，量兩兩重疊與出界，字寬用 `v7_g08_long_run._textw` 同一套粗估）：桌機 35 個標籤、手機 23 個標籤，**兩版都 0 ⚠**，改前的舊圖也是 0 ⚠。
 
 **沒做**：沒有開瀏覽器量版面；沒有發布（作者要先看預覽）；`essay/`（投資專篇）沒有重跑——`essay_charts.py` 動了 `milestones()`，`essay/sections/02-time.html` 與 `essay/eli5.html` 還是 60 萬版，和批 AM 一樣只跑 `--guide`；`release/` 三個副本沒有更新。
+
+## 2026-09-23 批 AO（十桶金圖的第二輪：下排收成小表、圖說拆三層）
+
+**規格**：`wip/v63-review/spec-v7-content-ao.md`（作者 2026-09-23 看預覽後的三點），施工中作者又追加兩次修正：①SVG 下方不要全清空，只留「花幾年」一排、放得下才標、「報酬占」交給表；②每桶標籤用橋接寫法「第 1 桶（10 倍）」／「第 N 桶」／「第 10 桶（100 倍）」。**做完仍不發布。**
+
+**SVG（`tools/essay_charts.py` 的 `milestones()`）**：下排「報酬占」整排與左欄列名「報酬占」拿掉；「花幾年」那一排留，但改成**放得下才標**——這一桶的格子寬度 ≥ 字寬（`textw()`，和 `v7_g08_long_run._textw` 同一套粗估）＋6px 才畫，放不下就空著，不再用 `row = i % 2` 上下錯開。年數在圖上改成一位小數（和圖下新表一致）。結果：桌機標到第 5 桶、手機到第 2 桶。每桶標籤「10 倍」…「100 倍」→「第 1 桶（10 倍）」、「第 2 桶」…「第 9 桶」、「第 10 桶（100 倍）」；第 1 桶的括號往左長，手機上會壓到縱軸（`px(y) - 4 - textw(...) < left`），所以手機只寫「第 1 桶」。第 10 桶的標籤帶括號後右邊放不下，改成和其他桶一樣靠右對齊在虛線左上角（原本是 `start` 靠右外側）。縱軸刻度沒動（0、20 倍…100 倍）。`aria-label` → 「十桶金：每一桶是一年儲蓄的十倍，第 1 桶 10 倍、第 10 桶 100 倍，前面慢、後面快」。圖高 300／360 → **258／304**（下方留白 66／84 → 24／28）；`top`、`bottom`、`left`、`right` 的像素位置與批 AN 完全相同，所以每一桶的位置、線的形狀一格沒動。
+
+**新的小表**（在 `extras` 裡，legend 之後、`p.note` 之前，`--guide` 會寫回）：`div.table-wrap` ＋ `table.compact.tight-mobile.sticky-first`，表頭「第幾桶 1…10」、兩列「花幾年」（`%.1f`，由 `gaps` 產生）與「報酬占」（由 `share` 產生）。**規格寫的是 `compact tight sticky-first`，實際用 `tight-mobile`**：`.tight` 在手機上是 `overflow-wrap:anywhere` 且 `.compact` 的 `min-width` 被 `@media(max-width:660px)` 歸零，11 欄會被壓扁折行；規格要的「第一欄固定、其餘橫向捲動」需要 `.tight-mobile` 的 `white-space:nowrap` 才會觸發，書裡另外兩張 `sticky-first` 表也都是這個組合。
+
+**`figure()` 新增 `after=` 參數**：已經是 HTML，放在 `figcaption` 之後、出處聲明之前；`build()` 從 `chart()` 的回傳讀 `d.get("after")`，所以 `--guide` 會跟著寫回。批 AO 用它放圖說後那一行小字「7% 是為了畫圖簡化的，真實的路一定會上下晃。」
+
+**`--guide` 寫回的文字**：chart-sub「第一桶 7.84 年，第十桶 1.35 年」→「第一桶 7.8 年，第十桶 1.4 年」；`p.note` 末句「固定報酬的算術，不是預測。」刪掉，「上排／下排」改成「表裡是每一桶花幾年、那一桶裡有多少是長出來的報酬」。**批 AH（G3）那條「固定報酬試算的圖一律寫『固定報酬的算術，不是預測』」在這張圖是例外**（作者指定），已寫在 `milestones()` 的註解與 `changes-for-author-v7.md` 一之四十五裡。
+
+**指南本體改的兩處**（`--guide` 不覆寫 figcaption）：figcaption 換成作者定稿三句版（後半「所以早一點開始很重要…也不是一路平地」那幾句移走）；`</figure>` 之後緊接著新增一段主線「這張圖要說的其實是兩件事。一是早一點開始…二是後來薪水漲了，記得多投一點…」。`essay_charts.py` 的預設 caption 同步改成同一份三句版。**注意**：這一段放在出處 `p.note`（官方原圖…）之前，是照規格的「緊接 `</figure>` 之後」；整個 figure 本來就在 `<details class="more">` 裡，所以它計入 folded，不是 mainline。
+
+**`calc_core.py`**：`quotes` 的「第一桶 7.84 年」（盯的是 chart-sub）改成「第一桶 7.84 年、第十桶 1.35 年」（改盯圖內「想深入」那一句）。沒有新增或改動任何數字。
+
+**numbers**：新開 `numbers-allow-round35.json`（round34 的 246 條一字未動，加 2 條：`s2`／`7.84` ×1、`s2`／`1.35` ×1，都是 chart-sub 改一位小數少掉的那一次；兩位小數在「想深入」與 60 萬版數字表裡都還在）。
+
+**檢查**：`essay_charts.py --guide` exit 0（第二次 0 ⚠）、`calc_core.py` exit 0 且引用缺漏 `[]`、numbers 對 `_baseline_v631.html` 與對批 AN 產生檔 commit `f8d81e3` 兩個基準都 LOST 0、anchors OK（id 116→140、`href="#…"` 114）、mainline OK（**沒調任何上限**：s2 mainline 2,213／small 269／visible 2,482 一個字沒變，只有 folded 5,948→6,025）、planstep OK、`guidetools check` OK、`test_guidetools.py`／`test_v7_check.py` ALL PASS、`build_lite.py` exit 0＋SENTINELS OK。標籤自檢（批 AN 那支，量兩版 SVG `<text>` 的重疊與出界）：桌機 19 個標籤、手機 14 個，**兩版都 0 ⚠**。
+
+**沒做**：沒有開瀏覽器量版面；沒有發布；`essay/`（投資專篇）照批 AN 的做法沒有重跑，`essay/sections/02-time.html` 與 `essay/eli5.html` 還是 60 萬版；`release/` 三個副本沒有更新。

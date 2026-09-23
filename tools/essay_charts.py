@@ -82,6 +82,15 @@ def text(x, y, s, size, anchor="start", fill=INK, weight=None):
     return '<text x="%.1f" y="%.1f" font-size="%s" text-anchor="%s" fill="%s"%s>%s</text>' % (x, y, size, anchor, fill, w, esc(s))
 
 
+def textw(s, fs):
+    """粗估字串寬度（和 tools/v7_g08_long_run.py 的 _textw 同一套）：中日韓字元算一個字寬，其餘 0.56。
+    用來判斷一個標籤放不放得進某一格；放不下就不標，不上下錯開成兩排。"""
+    w = 0.0
+    for ch in s:
+        w += 1.0 if ord(ch) > 0x2E7F else 0.56
+    return w * fs
+
+
 def poly(points, stroke, width=2.4, dash=None, opacity=None):
     d = ' stroke-dasharray="%s"' % dash if dash else ""
     o = ' stroke-opacity="%s"' % opacity if opacity else ""
@@ -174,18 +183,21 @@ def original_block(cid):
             % (esc(credit), claim, url))
 
 
-def figure(cid, title, sub, svgs, caption, extras="", caption_html=False, illustration_only=False):
+def figure(cid, title, sub, svgs, caption, extras="", caption_html=False, illustration_only=False, after=""):
     """caption_html=True：caption 已經是 HTML（指南模式保留 figcaption 裡的節號連結），不再跳脫。
 
     illustration_only=True：純示意圖（圖上沒有任何數字，圖說只會把緊鄰的內文重講一次）。
     這種圖不印 figcaption，也不該帶 p.note；螢幕閱讀器讀的是 SVG 的 aria-label。
     只有圖的腳本在 chart() 回傳裡明寫這個旗標才算數，不是每張圖都可以省。
+
+    after（批 AO）：已經是 HTML，放在 figcaption 後面、出處聲明前面。給「圖說之後再補一句小字」
+    用的；--guide 會跟著寫回指南，所以它和腳本這一份不會各走各的。
     """
     cap = "" if illustration_only else (
         "<figcaption>%s</figcaption>\n" % (caption if caption_html else esc(caption)))
     return ('<figure class="chart" data-chart="%s">\n<div class="chart-head"><span class="chart-title">%s</span><span class="chart-sub">%s</span></div>\n'
-            '<div class="chart-body">\n%s\n</div>\n%s%s%s</figure>'
-            % (cid, esc(title), esc(sub), "\n".join(svgs), extras, cap, original_block(cid)))
+            '<div class="chart-body">\n%s\n</div>\n%s%s%s%s</figure>'
+            % (cid, esc(title), esc(sub), "\n".join(svgs), extras, cap, after, original_block(cid)))
 
 
 # ======================================================================
@@ -299,13 +311,15 @@ def milestones():
         contrib.append((t, t))
 
     def draw(lay):
-        h = 300 if lay.mobile else 360
+        # 批 AO：圖下只留「花幾年」一排（「報酬占」移到圖下的小表），所以下方留白從 66／84
+        # 收成 24／28；top 和 bottom 的像素位置與批 AN 完全一樣，每一桶的位置一格都沒動。
+        h = 258 if lay.mobile else 304
         left, top = lay.left, lay.top + 10
         right = lay.right - (36 if lay.mobile else 44)
-        bottom = h - (66 if lay.mobile else 84)
+        bottom = h - (24 if lay.mobile else 28)
         def px(y): return left + (right - left) * y / T
         def py(v): return bottom - (bottom - top) * v / TOP
-        out = [svg_open(lay, h, "十桶金：每一桶是一年儲蓄的十倍，前面慢、後面快")]
+        out = [svg_open(lay, h, "十桶金：每一桶是一年儲蓄的十倍，第 1 桶 10 倍、第 10 桶 100 倍，前面慢、後面快")]
         # 「0」往上移 6：正下方的「花幾年」是左欄的列名，跟著右邊那排年數對齊，挪不動
         out += grid(lay, py, (0, 20, 40, 60, 80, 100), lambda v: ("%d 倍" % v) if v else "0", x2=right, zero_dy=-6)
         area_total = [(px(0), py(0))] + [(px(y), py(v)) for y, v in total if y <= T] + [(px(T), py(0))]
@@ -318,26 +332,43 @@ def milestones():
         for i, (y, g) in enumerate(zip(yrs, gaps)):
             out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%d" stroke="%s" stroke-width="1" stroke-dasharray="3 3"/>' % (px(y), py(10 * (i + 1)), px(y), bottom, INK))
             if i in show:
-                out.append(text(px(y) + (6 if i == 9 else -4), py(10 * (i + 1)) - 6, "%d 倍" % (10 * (i + 1)), lay.fl, "start" if i == 9 else "end", INK, "700"))
-            mid = (prev + y) / 2
-            row = 0 if lay.mobile else i % 2
-            if (not lay.mobile) or i in show:
-                out.append(text(px(mid), bottom + 16 + row * 13, "%.2f 年" % g, lay.fs, "middle", MUTED))
-                out.append(text(px(mid), bottom + 46 + row * 13, "%d%%" % share[i], lay.fs, "middle", TEAL, "800"))
+                # 批 AO（作者拍板的橋接版）：頭尾兩桶把舊的倍數寫在括號裡，中間八桶只寫「第 N 桶」。
+                # 第 1 桶的括號往左長，手機上會壓到縱軸，放不下就只寫「第 1 桶」；第 10 桶的括號一定留。
+                lab_b = "第 %d 桶" % (i + 1)
+                if i == 0 and px(y) - 4 - textw(lab_b + "（10 倍）", lay.fl) >= left:
+                    lab_b += "（10 倍）"
+                elif i == 9:
+                    lab_b += "（100 倍）"
+                out.append(text(px(y) - 4, py(10 * (i + 1)) - 6, lab_b, lay.fl, "end", INK, "700"))
+            # 批 AO：「花幾年」只標放得下的格子（字寬＋6 的餘裕還塞得進這一格才標），
+            # 放不下就不標，不再上下錯開兩排。後面幾桶的年數看圖下的小表。
+            lab = "%.1f 年" % g
+            if px(y) - px(prev) >= textw(lab, lay.fs) + 6:
+                out.append(text(px((prev + y) / 2), bottom + 16, lab, lay.fs, "middle", MUTED))
             prev = y
         out.append(text(left - 6, bottom + 16, "花幾年", lay.fs, "end", MUTED))
-        out.append(text(left - 6, bottom + 46, "報酬占", lay.fs, "end", TEAL, "800"))
         out.append("</svg>")
         return "\n".join(out)
     lg = legend([(MUTED, "自己存進去的"), (TEAL, "長出來的報酬")])
     # 批 AN：換成「倍」以後，原本那一版圖說（60 萬一格）和 60 萬版的年數都移到這一層；
     # 這一段在 figure 裡面，--guide 會跟著寫回指南，兩邊不會各走各的。
     more = ('<details class="more"><summary>想深入：這張圖的算法、60 萬版本，和換成保守算會差多少</summary><p>同樣 60 萬一格，第一格要將近八年，第十格只要一年多。前面慢，是因為錢還沒開始幫忙；越往後，每一格裡有越多是資產自己長出來的。</p><p>同樣走到 100 倍，一年長 4%（保守算）要 41 年、6%（普通算）要 33 年、7% 要 31 年。每年投 6 萬的話，一桶就是 60 萬，第一桶 7.84 年、第十桶 1.35 年。一年 6 萬差不多是每月 5,000 元的量。</p></details>')
-    # 批 AH（G3）：圖註免責統一措辭——固定報酬試算的圖一律寫「固定報酬的算術，不是預測」。
-    nt = note("每年年底投入同一筆錢、一年長 7%，每一桶是那筆錢的十倍。上排是那一桶花幾年，下排是那一桶裡有多少是長出來的報酬。固定報酬的算術，不是預測。")
-    return dict(title="十桶金：每一桶是一年儲蓄的十倍", sub="每年投一樣的錢、一年長 7%：第一桶 7.84 年，第十桶 1.35 年",
-                svgs=[draw(L("d")), draw(L("m"))], extras=lg + nt + more,
-                caption='資產到一年儲蓄的 100 倍，不用 100 年，大約 31 年。前面三分之二的時間只走完四桶，到第四桶時，帳戶裡一半是你存的、一半是長出來的；後面三分之一的時間走完剩下六桶，每一桶花的時間越來越短，也越來越不靠你存。所以早一點開始很重要：一個人有工作收入的年數有限，時間是最要緊也最少的資源，錯誤的投資除了賠本金，還賠時間。後期薪水漲了，多投一點也很重要。7% 是為了畫圖簡化的，真實的路一定會上下晃；扣掉預備金以後盡量投進去，現金留太多會拖慢這條線。目標沒有那麼遙不可及，也不是一路平地。')
+    # 批 AO：圖下兩排片段會被視窗壓扁，改成一張可以左右滑的小表；數字由 gaps／share 產生，
+    # 年數四捨五入到小數點後一位（和 SVG 上那一排一致，完整的兩位數字在下面那張 60 萬版的表）。
+    tbl = ('<div class="table-wrap"><table class="compact tight-mobile sticky-first">'
+           '<thead><tr><th>第幾桶</th>%s</tr></thead><tbody>'
+           '<tr><td>花幾年</td>%s</tr><tr><td>報酬占</td>%s</tr>'
+           '</tbody></table></div>'
+           % ("".join("<th>%d</th>" % (i + 1) for i in range(len(gaps))),
+              "".join("<td>%.1f</td>" % g for g in gaps),
+              "".join("<td>%d%%</td>" % s for s in share)))
+    # 批 AH（G3）：固定報酬試算的圖一律寫「固定報酬的算術，不是預測」。
+    # 批 AO 例外：這張圖改用圖說後面那一行小字（「7% 是為了畫圖簡化的，真實的路一定會上下晃。」）講同一件事。
+    nt = note("每年年底投入同一筆錢、一年長 7%，每一桶是那筆錢的十倍。表裡是每一桶花幾年、那一桶裡有多少是長出來的報酬。")
+    return dict(title="十桶金：每一桶是一年儲蓄的十倍", sub="每年投一樣的錢、一年長 7%：第一桶 7.8 年，第十桶 1.4 年",
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + tbl + nt + more,
+                after='<p class="small">7% 是為了畫圖簡化的，真實的路一定會上下晃。</p>',
+                caption='資產到一年儲蓄的 100 倍，不用 100 年，大約 31 年。前面三分之二的時間只走完四桶，到第四桶時，帳戶裡一半是你存的、一半是長出來的；後面三分之一的時間走完剩下六桶，一桶比一桶快，也越來越不靠你存。目標沒有那麼遙不可及，也不是一路平地。')
 
 
 # ======================================================================
@@ -961,7 +992,7 @@ def build(cid, fn_chart, caption=None, caption_html=False):
         # 旗標和內容對不起來就吵，免得「純示意」被拿來當省略圖說的後門
         print("⚠ %s 標了 illustration_only，卻還帶著 extras 或 caption；圖說已被略過。" % cid)
     return figure(cid, d["title"], d["sub"], d["svgs"], caption if caption is not None else d.get("caption", ""), d["extras"],
-                  caption_html=caption_html, illustration_only=illus)
+                  caption_html=caption_html, illustration_only=illus, after=d.get("after", ""))
 
 
 def do_essay():
