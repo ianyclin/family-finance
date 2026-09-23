@@ -657,3 +657,15 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`essay_charts.py --guide` exit 0（第二次 0 ⚠）、`calc_core.py` exit 0 且引用缺漏 `[]`、numbers 對 `_baseline_v631.html` 與對批 AN 產生檔 commit `f8d81e3` 兩個基準都 LOST 0、anchors OK（id 116→140、`href="#…"` 114）、mainline OK（**沒調任何上限**：s2 mainline 2,213／small 269／visible 2,482 一個字沒變，只有 folded 5,948→6,025）、planstep OK、`guidetools check` OK、`test_guidetools.py`／`test_v7_check.py` ALL PASS、`build_lite.py` exit 0＋SENTINELS OK。標籤自檢（批 AN 那支，量兩版 SVG `<text>` 的重疊與出界）：桌機 19 個標籤、手機 14 個，**兩版都 0 ⚠**。
 
 **沒做**：沒有開瀏覽器量版面；沒有發布；`essay/`（投資專篇）照批 AN 的做法沒有重跑，`essay/sections/02-time.html` 與 `essay/eli5.html` 還是 60 萬版；`release/` 三個副本沒有更新。
+
+## 2026-09-23 批 AP（十桶金圖：小字改用 p.note 不再貼邊、「想深入」移到圖說之後）
+
+**規格**：作者 2026-09-23 看手機預覽後的兩點。只動 `tools/essay_charts.py` 的 `milestones()` 最後一段（圖本身、所有數字、圖說三句、圖後那段主線都沒動），再跑 `--guide` 寫回。**做完仍不發布。**
+
+**① 那行小字不再貼到螢幕最左邊**：`guide/index.html` 的 `@media(max-width:660px)` 讓 `figure.chart` 左右 padding 歸零，只有 `.chart-head`／`.legend`／`.note`／`figcaption`／`table.dca`／`details.orig` 補回 18px，`p.small` 不在清單裡。**選了兩個做法裡的第一個**：把「7% 是為了畫圖簡化的，真實的路一定會上下晃。」從 `<p class="small">` 改成 `<p class="note">`（不改 CSS，改的是產生器，`--guide` 會寫回；`.note` 在 `figure.chart` 裡是 `.84rem`＋`var(--muted)`，和 `.small` 同字級同顏色，差別只有 margin `0 0 .5em` → `8px 0 0`）。`fig_note()` 抓的是 `<figcaption` 之前的第一條 `p.note`，這一行在 figcaption 之後，不受影響——`--guide` 跑兩次都 0 ⚠、沒有任何「圖下說明被蓋掉」的警告。`v7_check` 的字數分類把 `p.small`、`p.note`、`figcaption` 都算成 small，所以預算一個字沒變。
+
+**② 元素順序**：`more`（想深入）從 `extras` 移到 `after`，接在那行小字後面。`figure()` 的組裝順序是 chart-head → chart-body → `extras` → `figcaption` → `after` → `original_block`，所以這張圖現在是**圖 → legend → 小表 → `p.note`（每年年底投入…）→ figcaption → 7% 那行 → `details.more` → 來源聲明**。指南本體的 figcaption 沒動（`--guide` 不覆寫）。
+
+**檢查**：`--guide` 連跑三次都 exit 0、0 ⚠、第二次起檔案不再變動；numbers 對 `_baseline_v631.html` LOST 0、對批 AO 產生檔 commit `821373f` 是 `no differences`；anchors OK（id 116→140、`href="#…"` 114）；budget OK（**沒調任何上限**，s2 的 total 9,515／folded 6,025／small 269／mainline 2,213／visible 2,482 全部和改前逐字相同）；planstep OK；`guidetools check` OK；`test_guidetools.py`／`test_v7_check.py` ALL PASS；`calc_core.py` exit 0 且引用缺漏 `[]`（`guide_citations` 只有三筆行號因為順序調動而位移，`missing` 仍是 `[]`）；`build_lite.py` exit 0＋SENTINELS OK。
+
+**沒做**：沒有開瀏覽器量版面；沒有發布；`essay/` 照批 AN／AO 沒有重跑；`release/` 三個副本沒有更新。**副作用一項**：`guidetools.to_text` 只在 `p.small` 前面加〈小字〉標記，所以純文字版（`lite/work/full-v60.txt`）裡那一行不再有〈小字〉前綴——和書裡其他 `p.note` 一致，HTML 與 PDF 的呈現不受影響。

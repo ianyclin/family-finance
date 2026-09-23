@@ -365,9 +365,14 @@ def milestones():
     # 批 AH（G3）：固定報酬試算的圖一律寫「固定報酬的算術，不是預測」。
     # 批 AO 例外：這張圖改用圖說後面那一行小字（「7% 是為了畫圖簡化的，真實的路一定會上下晃。」）講同一件事。
     nt = note("每年年底投入同一筆錢、一年長 7%，每一桶是那筆錢的十倍。表裡是每一桶花幾年、那一桶裡有多少是長出來的報酬。")
+    # 批 AP：那一行小字從 p.small 改成 p.note——手機上 figure.chart 的左右內距歸零，只有
+    # .chart-head/.legend/.note/figcaption/table.dca/details.orig 補回 18px，p.small 不在清單裡會貼到最左邊。
+    # 它在 figcaption 之後，fig_note()（抓 figcaption 之前的第一條 p.note）不會誤抓。
+    # 「想深入」也從 extras 移到 after，排在這一行後面，所以整張圖的順序是
+    # 圖 → 圖例 → 表 → p.note → figcaption → 7% 那行 → details.more → 出處聲明。
     return dict(title="十桶金：每一桶是一年儲蓄的十倍", sub="每年投一樣的錢、一年長 7%：第一桶 7.8 年，第十桶 1.4 年",
-                svgs=[draw(L("d")), draw(L("m"))], extras=lg + tbl + nt + more,
-                after='<p class="small">7% 是為了畫圖簡化的，真實的路一定會上下晃。</p>',
+                svgs=[draw(L("d")), draw(L("m"))], extras=lg + tbl + nt,
+                after='<p class="note">7% 是為了畫圖簡化的，真實的路一定會上下晃。</p>' + more,
                 caption='資產到一年儲蓄的 100 倍，不用 100 年，大約 31 年。前面三分之二的時間只走完四桶，到第四桶時，帳戶裡一半是你存的、一半是長出來的；後面三分之一的時間走完剩下六桶，一桶比一桶快，也越來越不靠你存。目標沒有那麼遙不可及，也不是一路平地。')
 
 
