@@ -1062,3 +1062,19 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 **檢查**：`budget` **BUDGET OK**；`anchors` **ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（524 個節號連結、52 句引用，都比 BR 少 1，就是撤掉的那個括號指路）；`numbers` 對 `_baseline_v631.html` 與對 `962d8c8` 都 **LOST 0**，新開 `wip/v63-review/numbers-allow-round45.json`（round44 的 387 條原封不動，只加 1 條：withdraw 的 `24` ——批 BP 那個括號指路的錨文字，隨撤回一起走；對 v6.3.1 那一邊 round44 本來就 LOST 0）；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`（`lite/calc-results.json` 這一批**零變動**）；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**（新的宣告檢查：書上 51／50／30，實量 `.table-wrap` 50、`figure.chart` 30）；`build_lite.py` exit 0＋**SENTINELS OK**，工作表 **6 頁＝3 張紙**，完整版 PDF **184 頁**；`money-age` 量測腳本 **TOTAL OK**。`git checkout -- lite/work` 已跑。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；**沒開瀏覽器目視**——裁判疑問-4 指出第 8 節那個摺疊在批 BP 之後視覺重量是增加的（純文字量少 30 字，但小字變成主線字級），本批又在摺疊裡加了 19 字，要不要看一眼由主線決定。裁判次要-6 的地圖（`map-duplicates-2026-09-25.md`）沒有回頭改，理由記在處置段。新寫的那兩段話還沒過裁判。
+
+## 批 BT（2026-09-25）：BR／BS 複審後修正——第 8 節錨文字換成圖的功能、箭頭標籤不再說錢長 30 年
+
+依據 `wip/v63-review/judge-br-bs.md`（**0 must**、2 should、13 次要；逐條處置寫在該檔末尾的「## 處置（批 BT，2026-09-25）」）。小批：`guide/index.html` **動 1 行**、`tools/v7_g11_money_age.py` 動 2 行（外加註解）、`tools/v7_layout_check.py` **只加註解**。黃框沒動、金額沒動、來源卡沒動。
+
+**(1) should-1｜第 8 節那個括號的錨文字。** 「（第 24 節「**每一筆錢都有自己的三十年**」那張圖）」→「（第 24 節**那張存錢年齡對花錢年齡的圖**）」，`a.xref` 仍指 `#lifecycle-money-age`，句子其他字一個沒動。裁判的點：批 BR 的 must-2 才把這句全稱話從圖說刪掉，它還是 `chart-title`，被當成錨文字搬回第 8 節——離上一段的「25 年、34 年才回到前高」只隔 45 個字，而且到了那裡就沒有 `chart-sub`「示意：假設 35 歲開始存、65 歲退休、領 30 年」在旁邊限定它；會停在那一句的正是快退休才起步的讀者。中文數字不進 `numbers` 的 token，所以 LOST 0 抓不到這件事。**連帶**：`xrefs` 的「第 N 節「標題」」引用 52→**51**（那個括號不再是「第 N 節「T」」的形式）；s5 的看得到的小字 1,101→1,097。`chart-title` 本身沒動（在圖上它被緊接著的 `chart-sub` 當場限定，裁判認定那是誠實的；圖名要不要改是另一個題目）。**`judge-bj.md` 處置段裡「新句不給任何年數」那句紀錄不實，已改寫成實情**並註明是批 BT 換掉的。
+
+**(2) should-2｜桌機版箭頭標籤第 2 行。** 「30 年／**錢長 30 年**／物價也漲 30 年」→「30 年／**從投入到花掉**／物價也漲 30 年」，`aria-label` 桌機版尾句同步。裁判的點：批 BR 的 must-3 新末句是「快要輪到的那幾筆，退休前幾年就搬到波動小的地方」，而照書自己的規則（`:4264` 頭五年的缺口放台幣定存、`:3709` 不到五年就現在放定存、`:4284` 五年內要用的錢不在股票裡），最早那幾筆大約在退休前五年離開股票，在市場裡 **25–27 年**，不是 30 年——must-3 把「和提領規則卡相反」換成了「和自己的箭頭標籤相反」。「從投入到花掉」講的是那支箭頭真正量的東西（投入年到花掉年的距離），在任何起步年齡下都成立。手機版本來就沒畫那兩行。**幾何零變動**：盒寬由最寬的「物價也漲 30 年」決定（79.64＋左右各 5 ＝ 89.6），桌機盒仍是 `x∈[355.2,444.8] y∈[72.8,129.3]`、對箭身最近 **6.44px**，手機 **6.47px**，量測腳本 TOTAL OK。
+
+**(3) 13 條次要：只做純機械的。** 做了兩件——次要-3 把新哨兵 `CLAIM_RE` 的兩件界線寫進 `tools/v7_layout_check.py` 的註解（(a) 整句字面比對，「全書 51」→「全書共 51」、全形括號改半形、句中插 `<a class="xref">`、「；」改「，」都會變成「找不到」而判紅，未來的語氣批很容易碰到；(b) 只查傳進來的那一個檔，`output/` 那兩份同一句不在範圍內）；次要-6 在處置段更正「撤回不是逐字還原」——批 BS 留的是批 BP 改過的語序「傷得比後面幾年才跌重」，撤回的是內容不是字。**其餘 11 條都要寫新句子或改設計，逐條理由寫在處置段**，主要幾條：次要-1（圖說第 2 句和 chart-sub 幾乎逐字重複，刪掉可省 23 字）、次要-2（盒子右移後蓋到的虛線 2→3 條，桌機 62 線有 0.5px 細縫）、次要-4（「在台灣買的基金」沒把台灣掛牌 ETF 放進哪一邊）、次要-12（「物價也漲 30 年」還在圖上，起算年仍然沒接起來）——這四條都等主線裁定。
+
+**預算**：只調一個總量，`_visible_total_max` 65063→**65059**（＝s5 小字的 −4），`_total_max` **58696 不動**，s5 mainline 3,526 一字未變，理由寫在 `_comment_bt`。
+
+**檢查**：`budget` **BUDGET OK**；`anchors` **ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**；`xrefs` **XREFS OK**（524 個節號連結、51 句引用）；`numbers` 對 `_baseline_v631.html` **LOST 0**、對 `de4d389` **`no differences`**，**沿用 `numbers-allow-round45.json`，沒有開 round46**；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**（宣告檢查：書上 51／50／30，實量 `.table-wrap` 50、`figure.chart` 30）；`build_lite.py` exit 0＋**SENTINELS OK**，工作表 **6 頁＝3 張紙**，完整版 PDF **184 頁**；`money-age` 量測腳本 **TOTAL OK**。`git checkout -- lite/work` 已跑。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；**沒開瀏覽器目視**（次要-2 的虛線遮罩、第 8 節摺疊的視覺重量都還沒有人看過）；裁判疑問-1／2（海外掛牌 ETF 的窮舉否證、境外基金在台的新臺幣避險級別）本批沒有再查；`chart-title`「每一筆錢都有自己的三十年」沒動；上面那 11 條次要等主線裁定。
