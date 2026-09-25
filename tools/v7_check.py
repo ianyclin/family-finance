@@ -19,6 +19,14 @@
       檢查每個 div.planstep 的結構與位置；結構錯 exit 1。
   python3 tools/v7_check.py anchors <before.html> <after.html>
       改前的 id 在改後都還在；改後的 href="#…" 都有對應 id。
+  python3 tools/v7_check.py xrefs <html> [--notes]
+      節的稱呼（批 BQ 起的常設哨兵），三件事：
+      (1) 節號與 href 對得上：<a class="xref" href="#X">N</a> 的 N 是數字時，
+          X 所屬那一節的 <span class="num"> 必須等於 N；
+      (2) 引的標題對得上：第 <a class="xref" href="#X">N</a> 節「T」的 T，必須是那一節
+          h2 標題全形冒號前那一截，或出現在 X 指到的那一段裡；
+      (3) href 指整節、但 T 剛好是節內某個「帶 id」的小標 → 應該改指那個小標的 id。
+      小標沒有 id 的那幾處只記成「注意」，不判紅（要不要加 id 由人決定，--notes 列出來）。
 
 「節」的定義：每個 <section id=…>，另加 header#top.cover（記為 cover）與 nav#toc（記為 toc）。
 分類優先序（互斥，一段文字只算一次）：folded > story > source > small；
@@ -485,6 +493,207 @@ def cmd_anchors(args):
     return 0
 
 
+# ------------------------------------------------------------------- xrefs
+SEC_OPEN_RE = re.compile(r'<section\b[^>]*>')
+SEC_CLOSE_RE = re.compile(r'</section\s*>')
+ID_ATTR_RE = re.compile(r'\bid="([^"]+)"')
+H2_NUM_RE = re.compile(r'<h2>\s*<span class="num">(\d+)</span>(.*?)</h2>', re.S)
+SUBHEAD_RE = re.compile(r'<(h3|h4|h5)\b([^>]*)>(.*?)</\1>', re.S)
+XREF_TAG_RE = re.compile(r'<a class="xref" href="#([^"]+)">([^<]*)</a>')
+# 第 <a class="xref" href="#X">N</a> 節「T」
+XREF_CITE_RE = re.compile(
+    r'第\s*<a class="xref" href="#([^"]+)">(\d+)</a>\s*節\s*「([^」]*)」')
+TAG_RE = re.compile(r'<[^>]+>')
+FULLWIDTH_COLON = '：'
+
+
+def _plain(s):
+    """去標籤、去空白，只留可比對的字。"""
+    return WS_RE.sub('', TAG_RE.sub('', s))
+
+
+def _head_of(title):
+    """h2 標題冒號前那一截（全形冒號切）。"""
+    return title.split(FULLWIDTH_COLON)[0]
+
+
+class _Xrefs(object):
+    """把一份 HTML 拆成：節範圍、節號、節標題、id 位置、節內小標。"""
+
+    def __init__(self, src):
+        self.src = src
+        events = []
+        for m in SEC_OPEN_RE.finditer(src):
+            idm = ID_ATTR_RE.search(m.group(0))
+            events.append((m.start(), 0, idm.group(1) if idm else None, m.end()))
+        for m in SEC_CLOSE_RE.finditer(src):
+            events.append((m.start(), 1, None, m.end()))
+        events.sort()
+        stack, self.ranges = [], []
+        for pos, kind, sid, end in events:
+            if kind == 0:
+                stack.append((pos, sid))
+            elif stack:
+                start, sid2 = stack.pop()
+                self.ranges.append((start, end, sid2))
+
+        self.num = OrderedDict()      # section id -> 節號
+        self.title = {}               # section id -> h2 標題
+        for m in H2_NUM_RE.finditer(src):
+            sid = self.owner(m.start())
+            if sid:
+                self.num[sid] = m.group(1)
+                self.title[sid] = TAG_RE.sub('', m.group(2)).strip()
+
+        self.id_pos = {}              # id -> id="…" 出現位置
+        self.id_end = {}              # id -> 帶著它的那個標籤的 > 後面一格
+        for m in ID_ATTR_RE.finditer(src):
+            if m.group(1) in self.id_pos:
+                continue
+            self.id_pos[m.group(1)] = m.start()
+            gt = src.find('>', m.end())
+            self.id_end[m.group(1)] = (gt + 1) if gt >= 0 else m.end()
+
+        self.subheads = []            # (pos, level, id or None, 標題文字)
+        for m in SUBHEAD_RE.finditer(src):
+            idm = ID_ATTR_RE.search(m.group(2))
+            self.subheads.append((m.start(), m.group(1),
+                                  idm.group(1) if idm else None,
+                                  TAG_RE.sub('', m.group(3)).strip()))
+
+    def owner(self, pos):
+        """最內層包住 pos 的 section id。"""
+        best = None
+        for start, end, sid in self.ranges:
+            if start <= pos < end and sid and (best is None or start > best[0]):
+                best = (start, sid)
+        return best[1] if best else None
+
+    def sec_of(self, target):
+        """一個錨點屬於哪一節（節 id 就是自己）。"""
+        if target in self.num:
+            return target
+        pos = self.id_pos.get(target)
+        return self.owner(pos) if pos is not None else None
+
+    def lineno(self, pos):
+        return self.src.count('\n', 0, pos) + 1
+
+    def segment(self, target):
+        """錨點指到的那一段：從錨點往後到下一個 h3／h4 或本節結束為止。
+        節 id 則是整節。往前再加最近的一個小標，因為有些錨點放在小標後面的段落上。"""
+        pos = self.id_pos.get(target)
+        if pos is None:
+            return ''
+        sid = self.sec_of(target)
+        sec_end = len(self.src)
+        for start, end, s in self.ranges:
+            if s == sid:
+                sec_end = end
+                break
+        if target in self.num:
+            return _plain(self.src[pos:sec_end])
+        start = self.id_end.get(target, pos)
+        # 錨點常常是空的 <span id="…"></span>，後面緊跟著它要指的那張卡或小標；
+        # 兩者之間只有標籤、沒有字的時候，那個小標算這一段的，不是下一段的開頭。
+        nxt = sec_end
+        for hpos, level, _hid, _txt in self.subheads:
+            if hpos <= start or level not in ('h3', 'h4') or hpos >= nxt:
+                continue
+            if not _plain(self.src[start:hpos]):
+                continue
+            nxt = hpos
+        prev = ''
+        for hpos, _level, _hid, txt in self.subheads:
+            if hpos <= pos:
+                prev = txt
+        return _plain(self.src[start:nxt]) + _plain(prev)
+
+
+def cmd_xrefs(args):
+    with open(args.html, encoding='utf-8') as f:
+        src = f.read()
+    x = _Xrefs(src)
+
+    bad_num, bad_title, bad_href, notes = [], [], [], []
+
+    # 一、節號與 href 對得上：連結文字是數字時，它指到的那一節的 num 必須等於它
+    n_numeric = 0
+    for m in XREF_TAG_RE.finditer(src):
+        target, text = m.group(1), m.group(2).strip()
+        if not text.isdigit():
+            continue
+        n_numeric += 1
+        if target not in x.id_pos:
+            bad_num.append((x.lineno(m.start()), target, text, '沒有這個 id'))
+            continue
+        sid = x.sec_of(target)
+        got = x.num.get(sid)
+        if got != text:
+            bad_num.append((x.lineno(m.start()), target, text,
+                            '#%s 在第 %s 節（%s）' % (target, got or '?', sid or '?')))
+
+    # 二、引的標題：第 <xref>N</xref> 節「T」的 T 必須是該節 h2 冒號前那一截，
+    #     或出現在這個錨點指到的那一段裡。
+    # 三、href 指整節、但 T 是節內某個「帶 id」的小標 → 應該改指那個 id（可機械修，判紅）。
+    #     小標沒有 id 的，只記 note，不判紅（要不要加 id 由主線決定）。
+    n_cite = 0
+    for m in XREF_CITE_RE.finditer(src):
+        target, n, t = m.group(1), m.group(2), m.group(3)
+        n_cite += 1
+        line = x.lineno(m.start())
+        sid = x.sec_of(target)
+        h2head = _head_of(x.title.get(sid, ''))
+        if _plain(t) == _plain(h2head):
+            continue
+        if target in x.num:
+            hit = None
+            for hpos, _level, hid, txt in x.subheads:
+                if x.owner(hpos) != sid:
+                    continue
+                if _plain(txt) == _plain(t) or _plain(_head_of(txt)) == _plain(t):
+                    if hid:
+                        hit = hid
+                        break
+            if hit:
+                bad_href.append((line, target, n, t, hit))
+                continue
+            if _plain(t) in x.segment(target):
+                notes.append((line, target, n, t))
+                continue
+            bad_title.append((line, target, n, t, h2head))
+            continue
+        if _plain(t) in x.segment(target):
+            continue
+        bad_title.append((line, target, n, t, h2head))
+
+    print('xref 節號連結 %d 個、「第 N 節「標題」」引用 %d 個' % (n_numeric, n_cite))
+    if bad_num:
+        print('節號與 href 不符（%d）：' % len(bad_num))
+        for line, target, text, why in bad_num:
+            print('  L%d  連結文字 %s → %s' % (line, text, why))
+    if bad_href:
+        print('href 指整節、但引的小標有自己的 id（%d）：' % len(bad_href))
+        for line, target, n, t, hit in bad_href:
+            print('  L%d  第 %s 節「%s」的 href=#%s，應該指 #%s' % (line, n, t, target, hit))
+    if bad_title:
+        print('引的標題在目標那一段裡找不到，也不是 h2 冒號前那一截（%d）：' % len(bad_title))
+        for line, target, n, t, h2head in bad_title:
+            print('  L%d  第 %s 節「%s」 href=#%s，h2 冒號前是「%s」' % (line, n, t, target, h2head))
+    if notes:
+        print('注意（不判紅）：%d 處 href 指整節、引的是節內沒有 id 的小標' % len(notes))
+        if args.notes:
+            for line, target, n, t in notes:
+                print('  L%d  第 %s 節「%s」 href=#%s' % (line, n, t, target))
+        else:
+            print('  （加 --notes 印清單）')
+    if bad_num or bad_href or bad_title:
+        print('XREFS FAILED')
+        return 1
+    print('XREFS OK')
+    return 0
+
+
 # --------------------------------------------------------------------- CLI
 def build_parser():
     ap = argparse.ArgumentParser(prog='v7_check.py', description='v7 改版檢查工具')
@@ -516,6 +725,11 @@ def build_parser():
     p.add_argument('before')
     p.add_argument('after')
     p.set_defaults(func=cmd_anchors)
+
+    p = sub.add_parser('xrefs', help='節號連結與引的標題對不對得上')
+    p.add_argument('html')
+    p.add_argument('--notes', action='store_true', help='把不判紅的那些也列出來')
+    p.set_defaults(func=cmd_xrefs)
     return ap
 
 

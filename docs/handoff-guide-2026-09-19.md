@@ -389,6 +389,7 @@ python3 tools/v7_check.py numbers /tmp/base-prev.html guide/index.html --allow-f
 python3 tools/v7_check.py anchors $BASE guide/index.html
 python3 tools/v7_check.py budget guide/index.html wip/v63-review/budget-v7.json
 python3 tools/v7_check.py planstep guide/index.html
+python3 tools/v7_check.py xrefs guide/index.html      # 批 BQ 新增：節號連結與引的標題（印 XREFS OK 才過）
 python3 tools/build_lite.py                           # 5. 兩份 HTML＋兩份 PDF＋約 28 類哨兵（exit 0 才算過）
 python3 tools/guidetools.py check guide/index.html
 python3 tools/test_guidetools.py tools guide/index.html && python3 tools/test_v7_check.py
@@ -935,7 +936,7 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 2. 第 24 節黃框「一小筆理財型房貸的額度」要不要改成「動用中的一小筆理財型房貸」（裁判 BK：「額度」讀起來像沒動用）。**不得寫比例或金額。**
 3. 儲蓄險段想引臺銀「續存照轉存日牌告利率」的約定頁，機器打不開，請作者用瀏覽器確認再寫回。
 
-**佇列剩下**（`queue-2026-09-23-external-reviews.md`）：~~BJ 綠角時間軸圖~~（**2026-09-25 已做，見本檔最後的「批 BJ」**）；~~{2}9 重複段合併（匯率避險兩段、第 24／25 節提領重複）~~（**2026-09-25 已做，見本檔最後的「批 BP」**）；{2}10 節的稱呼統一（先建地圖，700 多個 xref）；{3} 但書分級；起步版最短路徑走查；「五種借法」不數數（BN 已做）；第 8 節來源卡計數 36→38（BN 查過是裁判誤判，宣告本來就對，這一條銷案）。
+**佇列剩下**（`queue-2026-09-23-external-reviews.md`）：~~BJ 綠角時間軸圖~~（**2026-09-25 已做，見本檔最後的「批 BJ」**）；~~{2}9 重複段合併（匯率避險兩段、第 24／25 節提領重複）~~（**2026-09-25 已做，見本檔最後的「批 BP」**）；~~{2}10 節的稱呼統一（先建地圖，700 多個 xref）~~（**2026-09-25 已做，見本檔最後的「批 BQ」**）；{3} 但書分級；起步版最短路徑走查；「五種借法」不數數（BN 已做）；第 8 節來源卡計數 36→38（BN 查過是裁判誤判，宣告本來就對，這一條銷案）。
 
 **已知小坑**：`v7_check.load_allow` 以 (section, token) 為 key、後蓋前，撞號要寫相加值；`lite/work/*.txt` 第一行時間戳每次 build 都 dirty，`git checkout -- lite/work` 還原；BI 的兩個 commit subject 排版壞（heredoc 少空行），內容正確，不 amend；`essay_charts.py --guide` 已與指南同步（BL）。
 
@@ -992,3 +993,27 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：`budget` **BUDGET OK**，**`budget-v7.json` 一個字沒動**——第 8 節（s5）主線 3,526、小字 1,068 都沒變（三段全在摺疊裡，s5 folded 4,647→4,594），第 24 節（lifecycle）4,694／417 也沒變，只有第 25 節（withdraw）主線 1,636→1,623（−13）；`_total_max` 58,704→58,691、`_visible_total_max` 64,946→64,933，都在原上限以內（原本剛好貼上限，現在有 13 字餘裕）。numbers 對 `_baseline_v631.html` 與對 `2b4b07b` 都 **LOST 0**，沿用 `numbers-allow-round43.json`，**沒有新增例外**（唯一 ADDED 是 withdraw 的 `24`）。`anchors` **ANCHORS OK**（id 141、href 115）；`planstep` 10 個 0 問題；`guidetools check` **CHECK OK**（marks 111 later 13 details 136 data-chart 29 story 26 markstop 14）；`test_guidetools`／`test_v7_check` **ALL PASS**；`calc_core.py` 全部 assert 通過、`引用缺漏 []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` exit 0＋**SENTINELS OK**，工作表 **6 頁＝3 張紙**，完整版 PDF 184 頁。`git checkout -- lite/work` 已跑。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器；新寫的兩段話還沒過裁判。
+
+## 批 BQ（2026-09-25）：節的稱呼統一——〈〉改「」、並列節號補連結、新哨兵 `xrefs`
+
+規格 `wip/v63-review/spec-v7-content-bq.md`，地圖 `wip/v63-review/map-section-naming-2026-09-25.md`（外部複審 {2}10）。純機械批，**沒有改任何一句話的意思，黃框沒動**。實測全書 **525 個數字節號連結、52 句「第 N 節「標題」」**，`guide/index.html` 只動 5 行。
+
+**(1) 〈〉→「」（2 處）**：L3657 `第 <xref #s2>5</xref> 節〈收入不固定的人怎麼投〉`、L4012 `第 <xref #s12>16</xref> 節〈挑產品前三題〉`。全檔 `〈…〉` 共 9 處，其餘 7 處是書名／文章名（來源卡的綠角文章、證交所〈歷年上市公司家數統計〉等）與 lite 版產生的格式，**沒動**。
+
+**(2) 多節並列補連結（1 處、7 個節號）**：L508「這十節裡有七節…（第 5、7、8、9、10、11、13 節）」七個節號原本都沒有連結，補成 `#s2`／`#s4`／`#s5`／`#s6`／`#s7`／`#s8`／`#s10`。**腳本掃過全書**（`第 (xref|數字)(、，到至和與或跟–—-~～)(xref|數字)… 節`）共 52 個並列 span，除了這一處，其他 51 處本來就每個節號都連好了——地圖估的「約 55 處要補」是它自己的分類啟發法誤判，實際只有 1 處。**目錄的 9 個區間標籤（`第 1–16 節`、`第 1–3 節` …）沒有動**（主線未定，我選最小做法）：那是 `nav.toc` 的分組標籤，每一節的連結就在正下方的 `<ol>` 裡，把區間頭尾兩個數字做成 xref 會讀成「只有這兩節」。
+
+**(3) `xrefs` 檢查抓到並改掉的 2 處**：L3851「第 11 節「高股息 ETF：先看這幾件事」」的 href 從 `#s8` 改成 `#s8-dividend`（那張 h4 卡自己有 id，書裡另外兩處引同一張卡本來就指 `#s8-dividend`）；L3640「第 14 節「展開計畫表背面：查表頁」」的引用名與第 14 節任何標題都對不上，改成那個摺疊 summary 的前半截「要試算的人：查表頁」（原 summary 全名是「要試算的人：查表頁（報酬率、倍數、物價）」，那個 `<details>` 沒有 id，所以 href 仍指 `#s11`）。
+
+**新哨兵 `python3 tools/v7_check.py xrefs guide/index.html [--notes]`**（`tools/v7_check.py` 新增 `_Xrefs` 與 `cmd_xrefs`，**沒有動 `cmd_anchors`**）。三件事，全紅才 exit 1：
+1. 節號與 href 對得上：`<a class="xref" href="#X">N</a>` 的 N 是數字時，X 所屬那一節的 `<span class="num">` 必須等於 N（目前 525 個全對）。
+2. 引的標題找得到：`第 <xref #X>N</xref> 節「T」` 的 T 必須是那一節 h2 標題**全形冒號前**那一截，或出現在 X 指到的那一段裡（「那一段」＝從錨點到下一個 h3／h4 為止；錨點是空的 `<span id>` 而後面緊跟著卡或小標時，那個小標算這一段的）。
+3. href 指整節、但 T 剛好是節內某個**帶 id** 的小標 → 判紅，要改指那個 id。
+
+**`xrefs` 留下的 17 處「注意」（不判紅，要主線決定）**——引的是節內小標的名字，但那個小標沒有 id，所以只能指整節；要讓它們點下去直接到那張卡，得先幫卡加 id（那是加東西，不是統一寫法，這一批沒做）：
+L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L3640 第 14 節「壓力測試」、L3640 第 14 節「要試算的人：查表頁」、L4328 第 14 節「我的投資計畫」、L4366 第 14 節「那是不是調得越勤越好？」→`#s11`；L3657 第 5 節「收入不固定的人怎麼投」→`#s2`；L3794／L3941 第 11 節「先看這幾件事」→`#s8`；L3811 第 13 節「做錯了以後，怎麼回來」、L3846 第 13 節「冷卻期」、L3847 第 13 節「捨不得認賠」→`#s10`；L4365 第 8 節「跌兩成以上的那七次」→`#s5`；L4365 第 9 節「現在是歷史新高」→`#s6`；L4366 第 7 節「單一市場可能等很久」→`#s4`。（`--notes` 才印清單，平常只印一行筆數。）
+
+**`tools/test_v7_check.py` 加 5 個 `xrefs` 測試**：對得上→exit 0；節號與 href 不符→exit 1；引的標題與 h2 冒號前不符（而且那一節裡根本沒有這個名字）→exit 1；引的是有 id 的小標卻指整節→exit 1；引的小標沒有 id→只記注意、不判紅。
+
+**檢查**：`xrefs` **XREFS OK**；`budget` **BUDGET OK**（`budget-v7.json` 沒動，總量仍是 58,691／64,933，一個字沒變）；numbers 對 `_baseline_v631.html` 與對批 BP 的 `35b5db9` 都 **LOST 0**（對 BP 是 `no differences`），沿用 `numbers-allow-round43.json`；`anchors` **ANCHORS OK**（id 141、href 115）；`planstep` 10 個 0 問題；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **ALL PASS**；`calc_core.py` 全部 assert 通過、`引用缺漏 []`（`lite/calc-results.json` 這一批零變動）；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` exit 0＋**SENTINELS OK**，工作表 **6 頁＝3 張紙**，完整版 PDF 184 頁。**精簡版連結數沒有增加**：補連結那一句在 `group-core` 分組節裡，不進精簡版，`lite/index.html` 零變動。`git checkout -- lite/work` 已跑。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器；上面那 17 處「要不要幫卡加 id」等主線決定；目錄的 9 個區間標籤沒有動。

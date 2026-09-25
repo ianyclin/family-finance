@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""tools/v7_check.py 的自測。用小段 HTML 字串測五個子命令的核心邏輯。
+"""tools/v7_check.py 的自測。用小段 HTML 字串測六個子命令的核心邏輯。
 用法：python3 tools/test_v7_check.py（不需要參數，也不讀 guide/index.html）
 """
 import importlib.util
@@ -345,6 +345,43 @@ expect('anchors: href="#" 不算壞連結', rc == 0 and 'ANCHORS OK' in out, out
 rc, out = run('anchors', w('anch_b2.html', '<section id="s1"></section>'),
               w('anch_dataid.html', '<section id="s1"><p data-id="x"></p><a href="#x">x</a></section>'))
 expect('anchors: data-id 不算 id → 壞連結照樣紅', rc == 1 and '#x' in out, out)
+
+# ------------------------------------------------------------------- xrefs
+X_HEAD = ('<section class="part" id="a1"><h2><span class="num">1</span>甲標題：副標</h2>'
+          '<div class="data-card"><h4 id="a1-card">甲的小卡</h4><p>卡裡的字。</p></div>'
+          '<h4>沒有 id 的小標</h4><p>這一段提到沒有 id 的小標。</p></section>'
+          '<section class="part" id="a2"><h2><span class="num">2</span>乙標題</h2>%s</section>')
+
+rc, out = run('xrefs', w('xr_ok.html', X_HEAD % (
+    '<p>看第 <a class="xref" href="#a1">1</a> 節「甲標題」，'
+    '也看第 <a class="xref" href="#a1-card">1</a> 節「甲的小卡」。</p>')))
+expect('xrefs: 節號與標題都對得上 → exit 0', rc == 0 and 'XREFS OK' in out, out)
+
+# (1) 節號與 href 不符：href 指第 1 節，連結文字卻寫 2
+rc, out = run('xrefs', w('xr_badnum.html', X_HEAD % (
+    '<p>看第 <a class="xref" href="#a1-card">2</a> 節「甲的小卡」。</p>')))
+expect('xrefs: 節號與 href 不符 → exit 1',
+       rc == 1 and '節號與 href 不符' in out and '#a1-card 在第 1 節' in out
+       and 'XREFS FAILED' in out, out)
+
+# (2) 引的標題與 h2 冒號前那一截不符，而且那一節裡根本沒有這個名字
+rc, out = run('xrefs', w('xr_badtitle.html', X_HEAD % (
+    '<p>看第 <a class="xref" href="#a1">1</a> 節「丙標題」。</p>')))
+expect('xrefs: 引的標題與 h2 冒號前不符 → exit 1',
+       rc == 1 and '引的標題在目標那一段裡找不到' in out and '丙標題' in out
+       and 'h2 冒號前是「甲標題」' in out and 'XREFS FAILED' in out, out)
+
+# (3) href 指整節、但引的小標自己有 id → 應該改指那個 id
+rc, out = run('xrefs', w('xr_shouldpoint.html', X_HEAD % (
+    '<p>看第 <a class="xref" href="#a1">1</a> 節「甲的小卡」。</p>')))
+expect('xrefs: 引的是有 id 的小標卻指整節 → exit 1',
+       rc == 1 and '應該指 #a1-card' in out and 'XREFS FAILED' in out, out)
+
+# 小標沒有 id 的那種只記「注意」，不判紅
+rc, out = run('xrefs', w('xr_note.html', X_HEAD % (
+    '<p>看第 <a class="xref" href="#a1">1</a> 節「沒有 id 的小標」。</p>')))
+expect('xrefs: 引的小標沒有 id → 只記注意，不判紅',
+       rc == 0 and '注意（不判紅）：1 處' in out and 'XREFS OK' in out, out)
 
 print('RESULT', 'ALL PASS' if fails == 0 else '%d FAIL' % fails)
 sys.exit(1 if fails else 0)
