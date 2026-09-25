@@ -1087,11 +1087,11 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 
 **這一天做的**：BJ（圖）→裁判 `judge-bj.md`（4 must）→BR→BP（合併）→裁判 `judge-bp.md`（0 must、4 should）→BS→BQ（稱呼）→複審 `judge-br-bs.md`（0 must、2 should）→BT。三份裁判報告末尾都有處置段。兩份唯讀地圖 `map-duplicates-2026-09-25.md`、`map-section-naming-2026-09-25.md`。規格 `spec-v7-content-bj/bp/bq/br/bs.md`。
 
-**原本等作者回答的三題**（2026-09-25 更新）：第 16 節「本指南的做法」**維持作者原句**（作者拍板，不改）；黃框「額度」→「動用中的」**已改**（批 BU，作者拍板；改完沒有任何比例或金額）；臺銀續存約定頁**主線處理中**。
+**原本等作者回答的三題**（2026-09-25 更新）：第 16 節「本指南的做法」**維持作者原句**（作者拍板，不改）；黃框「額度」→「動用中的」**已改**（批 BU，作者拍板；改完沒有任何比例或金額）；臺銀續存約定頁**已解（BV）**——一手出處是臺灣銀行〈存戶須知重要內容說明書〉（20170126 版）第七條，政府網站有存檔 PDF。
 
 **佇列剩下**：{3} 但書分級；起步版最短路徑走查；第 28 節連結檢查日期停在 09-21（172 個網址）；judge-br-bs 未做的 11 條次要（優先三條：圖說第 2 句與 chart-sub 重複可刪 23 字、「在台灣買的基金」與台灣掛牌 ETF 的邊界、「物價也漲 30 年」起算年沒接正文 1.81）；judge-bj should-1 附帶「94 歲以後怎麼辦」整節 0 字；BQ 列的 17 張沒有 id 的卡（`xrefs --notes`）；`numbers` 只抓阿拉伯數字（中文數字「三十年」在雷達外，這輪兩次溜過）；`v7_layout_check` 的 `P_LEFT_KINDS_GOAL=8` 與 1024 棘輪 9 矛盾；`essay_charts --guide` 四行常態噪音；BN 三個小口感；judge-bi should-3；judge-bk N5。
 
-**已知小坑**（新增）：`test_guidetools.py` 要兩個位置參數 `tools guide/index.html`；`numbers` 的 allow 檔現行 `numbers-allow-round45.json`；`budget-v7.json` 兩個總量慣例貼實測（`_comment_bt` 最新）；money-age 圖的 figcaption 正本在指南、SUB／NOTE／ARIA 正本在 `tools/v7_g11_money_age.py`；scratchpad 的 `measure.py` 量標籤盒與箭身相交，不在 repo 裡（要常設就搬進 tools）。
+**已知小坑**（新增）：`test_guidetools.py` 要兩個位置參數 `tools guide/index.html`；`numbers` 的 allow 檔現行 `numbers-allow-round47.json`；`budget-v7.json` 兩個總量慣例貼實測（`_comment_bu` 最新；批 BV 沒動 budget）；money-age 圖的 figcaption 正本在指南、SUB／NOTE／ARIA 正本在 `tools/v7_g11_money_age.py`；scratchpad 的 `measure.py` 量標籤盒與箭身相交，不在 repo 裡（要常設就搬進 tools）。
 ## 批 BU（2026-09-25，作者拍板的三處小改；未發布）
 
 作者 2026-09-25 對送出去的三題回「照你的建議」，批 BU 只做這三處，`guide/index.html` 動 3 行，主線一個字沒有增加。
@@ -1102,8 +1102,27 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 
 **預算**：只有第 2 處會動字數（figcaption 算小字）。`_visible_small_overrides.lifecycle` 509→486、`_visible_total_max` 65,059→65,036，兩個都照實測貼齊；`_total_max` 58,696 不動。理由寫在 `_comment_bu`。黃框算 story、匯率那段算 folded，都不進主線也不進看得到的字。
 
-**allow 檔換了**：現行是 `wip/v63-review/numbers-allow-round46.json`（round45 的 388 條原封不動，加 3 條：`lifecycle` 的 35、65、30，都是圖說刪句掉的）。其中 30 那一條把 round45 原有的「來源卡 30 筆→31 筆」併進同一條、上限 1→2——`load_allow` 以 (section, token) 為 key、後面蓋前面，不併就會把舊那條蓋掉。上面「已知小坑」寫的 round45 是批 BT 當時的狀態，下一批請用 round46。
+**allow 檔換了**：現行是 `wip/v63-review/numbers-allow-round46.json`（round45 的 388 條原封不動，加 3 條：`lifecycle` 的 35、65、30，都是圖說刪句掉的）。其中 30 那一條把 round45 原有的「來源卡 30 筆→31 筆」併進同一條、上限 1→2——`load_allow` 以 (section, token) 為 key、後面蓋前面，不併就會把舊那條蓋掉。（寫這一段時「已知小坑」那一行還停在 round45；批 BV 已把它更新成 round47。）
 
 **檢查**（每一項的最後一行）：`budget` **BUDGET OK**；`anchors`（對 `dced229` 的 `guide/index.html`）**ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（524 個節號連結、51 句引用）；`numbers` 對 `_baseline_v631.html` **LOST 0**、對 `dced229` **LOST 0**（ALLOWED：`lifecycle` 的 30／35／65 各 1）；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**（宣告：書上 51／50／30，實量 `.table-wrap` 50、`figure.chart` 30）；`build_lite.py` **SENTINELS OK**（工作表 6 頁＝3 張紙、完整版 PDF 184 頁）。產生檔（`output/full-v60-out.html`、`output/guide.html`）同一個 commit；`lite/work` 只是時間戳，已 `git checkout` 還原。
 
 **沒做的**：沒有發布，`release/` 沒更新（線上仍是 Version 41）。這三句新字還沒過裁判。`judge-br-bs.md` 剩下的 11 條次要不變（優先清單少了兩條，剩「物價也漲 30 年」起算年沒接正文 1.81）。
+
+## 批 BV（2026-09-25，第 17 節定存續存機制句放回；未發布）
+
+規格 `wip/v63-review/spec-v7-content-bv.md`（主線自己查證、作者「照你的建議」）。`guide/index.html` 動 2 行，主線一個字沒有增加。
+
+1. **第 17 節 `li#s13-savings-insurance` 的摺疊「想深入：這三個數怎麼比」**（`guide/index.html:3850`）：那句「未來每次續存的利率是假設，不是保證。」後面接回機制句「定存到期自動轉期，是照原來的期別和計息方式再存一次，利率是轉期那一天的牌告，銀行的存戶須知寫得很清楚。」批 BM 當初刪掉它是因為沒有一手出處（`bot.com.tw` 整站擋自動抓取），不是因為它錯。
+2. **來源卡 9 筆 → 10 筆**（`guide/index.html:3948`）：新增「臺灣銀行：〈定期存款等存戶須知重要內容說明書〉（20170126 版，第七條「自動轉息與轉期」）」，網址是政府網站存檔 PDF（`ws.www.gov.tw/Download.ashx?u=…`，`&` 在 HTML 屬性裡寫成 `&amp;`，`%3D%3D` 原樣保留），source-note「政府網站存檔的 PDF；定存到期自動轉期依原期別與計息方式再存一次」。
+
+**這張卡在哪**：規格寫的是「第 17 節來源卡」，但 **`s13`（第 17 節）全書沒有自己的來源卡**；宣告 9 筆的那一張在 `sidepaths`（第 18 節，`:3948`），而且卡裡第 9 筆（中央銀行五大銀行存放款利率）的 note 本來就寫「『未來每次續存的利率是假設，不是保證』那一句的依據（第 17 節「手上有儲蓄險，要不要解」）」——同一句的兩個來源放同一張卡，所以新那筆加在它後面。全書 18 張來源卡的宣告數與實際 `source-link` 數在改後全部相符（`sidepaths` 10／10）。
+
+**寫法**：文件第七條（二）原文是「依原科目期別及計息方式自動轉期續存」，**沒有**逐字寫「照轉存日牌告利率」，所以書上用白話寫機制、不寫成引述；「按牌告年利率單利計算」出自臺銀定期存款網頁（2026-09-25 主線用瀏覽器開過）。文字抽出在 `research/data/bot-deposit-notice-20170126.txt`。
+
+**預算沒動**：新句在 `<details>` 裡算 folded、來源卡自成一欄，都不進主線也不進看得到的字，`budget-v7.json` 一個數都沒改（仍是 58,696／65,036，最新註解是 `_comment_bu`）。
+
+**allow 檔換了**：現行 `wip/v63-review/numbers-allow-round47.json`（round46 的 391 條原封不動，加 1 條：`sidepaths` 的 9，就是被改掉的那個宣告數）。
+
+**檢查**（每一項的最後一行）：`budget` **BUDGET OK**；`anchors`（對 `b51714c`）**ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（524 個節號連結、51 句引用）；`numbers` 對 `_baseline_v631.html` **LOST 0**、對 `b51714c` **LOST 0**（`ALLOWED: 9 x1 in sidepaths`，`ADDED: 10、20170126`）；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` **SENTINELS OK**（工作表 6 頁＝3 張紙、完整版 PDF 184 頁）。產生檔（`output/full-v60-out.html`、`output/guide.html`）同一個 commit；`lite/work` 只是時間戳，已 `git checkout` 還原。
+
+**沒做的**：沒有發布，`release/` 沒更新（線上仍是 Version 41）。這一句新字還沒過裁判。佇列裡「臺銀續存約定頁」可以結案。
