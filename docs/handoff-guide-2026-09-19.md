@@ -935,7 +935,7 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 2. 第 24 節黃框「一小筆理財型房貸的額度」要不要改成「動用中的一小筆理財型房貸」（裁判 BK：「額度」讀起來像沒動用）。**不得寫比例或金額。**
 3. 儲蓄險段想引臺銀「續存照轉存日牌告利率」的約定頁，機器打不開，請作者用瀏覽器確認再寫回。
 
-**佇列剩下**（`queue-2026-09-23-external-reviews.md`）：BJ 綠角時間軸圖（規格 `spec-v7-content-bj.md` 已寫）；{2}9 重複段合併（匯率避險兩段、第 24／25 節提領重複）；{2}10 節的稱呼統一（先建地圖，700 多個 xref）；{3} 但書分級；起步版最短路徑走查；「五種借法」不數數（BN 已做）；第 8 節來源卡計數 36→38（BN 查過是裁判誤判，宣告本來就對，這一條銷案）。
+**佇列剩下**（`queue-2026-09-23-external-reviews.md`）：~~BJ 綠角時間軸圖~~（**2026-09-25 已做，見本檔最後的「批 BJ」**）；{2}9 重複段合併（匯率避險兩段、第 24／25 節提領重複）；{2}10 節的稱呼統一（先建地圖，700 多個 xref）；{3} 但書分級；起步版最短路徑走查；「五種借法」不數數（BN 已做）；第 8 節來源卡計數 36→38（BN 查過是裁判誤判，宣告本來就對，這一條銷案）。
 
 **已知小坑**：`v7_check.load_allow` 以 (section, token) 為 key、後蓋前，撞號要寫相加值；`lite/work/*.txt` 第一行時間戳每次 build 都 dirty，`git checkout -- lite/work` 還原；BI 的兩個 commit subject 排版壞（heredoc 少空行），內容正確，不 amend；`essay_charts.py --guide` 已與指南同步（BL）。
 
@@ -956,3 +956,23 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **檢查**：numbers 對 `_baseline_v631.html` 與對 `efe7f8e` 都 LOST 0，新檔 `wip/v63-review/numbers-allow-round42.json`（round41 原封不動，cases 的 1088、2.3 上限各 +1，另加 cases 的 1073、2.4、0、0.1 共 4 條，全是 should-4 那一句被刪掉造成的）；anchors ANCHORS OK（id 140、href 114）；mainline／budget BUDGET OK（**budget-v7.json 沒動**，改動都在小字與摺疊）；planstep 10 個 0 問題；`guidetools check` CHECK OK；`test_guidetools`／`test_v7_check` ALL PASS；`v7_layout_check` LAYOUT OK；`build_lite.py` SENTINELS OK，**工作表仍是 6 頁＝3 張紙**，完整版 182 頁。`calc_core.py` 全部 assert 通過、`引用缺漏 []`（BI 那條釘住「照部位扣」的 quote 換成新句，另加兩條釘住第 12 格與第 15 節）。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器。裁判 should-3（1,088／1,073／小安 55 萬等印出值沒有 assert 也沒有 quote）規格沒點名，沒補。nit 1（陳大哥 2.6% 剛好在表上，讀者拿表算 1,104 萬比精確值高 1 萬，和第 15 節「會算出少一點」方向相反）、nit 2（扣費後報酬率四捨五入往上進位）、nit 3（`months_salary_38k` 存 14.5、書上印 14）三條都還在。
+
+## 批 BJ（2026-09-25）：綠角時間軸——每一筆錢都有自己的三十年
+
+規格 `wip/v63-review/spec-v7-content-bj.md`（作者 2026-09-23 提，主線判「加」）＋主線施工單的裁定。**黃框、既有句子、既有金額一個字沒動**；這一批只新增一張圖、兩句話、一筆來源。
+
+**新圖**：`tools/v7_g11_money_age.py`（新檔，`compute()`＋`chart(res)`，桌機 640／手機 360 兩版 SVG），在 `tools/essay_charts.py` 新增 `money_age()` 並在 `do_guide()` 註冊 `funcs["money-age"]`（只在指南）。兩排時間軸：上排「存進去的年齡」35–39、…、60–64，下排「拿出來花的年齡」65–69、…、90–94，中段省略號；下排整條往右平移一個固定距離，所以每一條「對到 +30 年」的虛線都是同斜度的斜線，十條互相平行。省略號那一格沒有虛線，粗箭頭（TEAL）就畫在那個空走廊裡，標「30 年」，桌機旁邊再兩行小字「錢長 30 年」「物價也漲 30 年」（手機放不下就只留「30 年」，那個意思圖說裡有）。**圖上沒有金額、沒有倍數。**
+
+**下排停在 94，不是作者示意圖的 104**（主線裁定）：作者的示意圖把提領期本身也畫進去了；這張圖只講「每一筆對到三十年後」，畫到 104 會讓讀者以為 100 歲那年還對應到某一筆存款。
+
+**放哪**：第 24 節第三題 `#lifecycle-q3` 開頭、「常被引用的起點是 4%」那一段之前，錨點 `<span id="lifecycle-money-age">`。圖前不加導言、圖後不加段落（圖說已經是導言）。**第 8 節**滾動圖之後、作者黃框之後那段 `p.small` 的末尾接一句「而且你不是一筆錢放二十年，是每一筆錢各放它自己的二三十年（第 24 節那張時間軸）。」帶 `a.xref` 指過去；黃框與圖說沒動。
+
+**來源卡**：第 24 節「直接來源」34 → **35 筆**，新增綠角 2009-11〈對於長期投資的莫名恐懼（Unfounded Fear for Long-Term Investing）〉，註「概念參考，圖是本文重畫」（`https://greenhornfinancefootnote.blogspot.com/2009/11/unfounded-fear-for-long-term-investing.html`，主線 2026-09-25 curl 開過）。
+
+**檢查**：numbers 對 `_baseline_v631.html` 與對 `0907dff` 都 **LOST 0**，新檔 `wip/v63-review/numbers-allow-round43.json`（round42 的 383 條原封不動，只加 1 條：lifecycle 的 34，來源卡筆數宣告 34→35；新圖帶進來的 35／64／65／94／2009 在 lifecycle 都是 ADDED，第 8 節的 24 在 s5 也是 ADDED，ADDED 不會紅）；`anchors` **ANCHORS OK**（id 116→141、href 115）；`budget` **BUDGET OK**；`planstep` 10 個 0 問題；`guidetools check` **CHECK OK**（data-chart 28→29）；`test_guidetools tools guide/index.html`／`test_v7_check` **ALL PASS**；`calc_core.py` 全部 assert 通過、`引用缺漏 []`；`essay_charts.py --guide` 跑兩次，第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**（375／1024 圖左右緣 0 張不對、橫向溢出 0px）；`build_lite.py` **SENTINELS OK**，**工作表仍是 6 頁＝3 張紙**，完整版 PDF 182 → 184 頁。另外自己量了新圖兩版 SVG：所有 `<text>` 的估算框互不重疊、不出 viewBox；兩排年齡標籤最小中心距桌機 50.2（需 ≥18.0）、手機 28.6（需 ≥16.3）。
+
+**`budget-v7.json` 照實測調**（理由在 `_comment_bj`）：lifecycle mainline 4,653→4,694（＋41，全部是新圖的 chart-title 與 chart-sub）；新增 `_visible_small_overrides` 的 `lifecycle: 420`（主線上的圖，figcaption 與 p.note 都算「看得到的小字」，lifecycle 243→417，通用上限 380 不動，只個別放行這一節，做法和 s5 當初一樣）；`_total_max` 58,663→58,704、`_visible_total_max` 64,691→64,946。s5 小字 1,028→1,068，仍在既有的 1,980 以內，沒調。
+
+**順帶修到的**：`lite/calc-results.json` 重跑時發現它比 `tools/calc_core.py` 舊——批 BO 新加的 `_xf['delay_rescaled_fee06']`、`delay_margin_months` 與改寫過的 `chen_all_deposit.note` 沒有進產生檔。這一批的 commit 把它補上了（其餘差異只是 `quotes` 的行號跟著指南位移）。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器逐節看版；這張圖的圖說與 p.note 兩句新話**還沒過裁判**（規格第 4 條寫「主線派裁判驗圖說口徑」，主線要派）。
