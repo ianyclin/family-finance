@@ -274,3 +274,14 @@ judge-bj 的 must-1～4 與 judge-bp 的 should-1～4，逐條都有實際改動
 ### 檢查（本批實測，最後一行）
 
 `budget` **BUDGET OK**（`_visible_total_max` 65063→65059，照實測貼齊；`_total_max` 58696 不動，s5 mainline 3,526 一字未變，理由在 `_comment_bt`）；`anchors` **ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**；`xrefs` **XREFS OK**（524 個節號連結、**51** 句「第 N 節「標題」」引用，比 BS 少 1 就是換掉的那個錨文字）；`numbers` 對 `_baseline_v631.html` **LOST 0**、對 `de4d389` **`no differences`**（沿用 `numbers-allow-round45.json`，沒有開 round46）；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**（含宣告檢查：書上 51／50／30，實量 `.table-wrap` 50、`figure.chart` 30）；`build_lite.py` **SENTINELS OK**（工作表 6 頁＝3 張紙、完整版 PDF 184 頁）；量測腳本 **TOTAL OK**（桌機盒與箭身不相交、最近 6.44px；手機 6.47px；標籤不重疊、不出界）。不發布，`release/` 沒更新。
+
+
+## 處置補記（批 BU，2026-09-25）
+
+上面那一段「不做」寫的是批 BT 當下的狀態；主線把兩條留給作者的次要條目送出去，作者 2026-09-25 拍板「照你的建議」，批 BU 做掉其中兩條。這一段只補這兩條，其餘 11 條的處置與理由不變。
+
+- **次要-1（圖說第 2 句和 chart-sub 幾乎逐字重複，刪掉可省 23 字）：已做（批 BU）。** `lifecycle` 的 money-age figcaption 刪掉整句「這張圖假設 35 歲開始存、65 歲退休、領 30 年。」，圖說改成從「退休不是一天把錢全部拿出來。」直接接「35 歲投的那筆，是 65 歲那年要花的。」。chart-sub「示意：假設 35 歲開始存、65 歲退休、領 30 年」一字未動，所以 `judge-bj` should-1 要的「前提寫在圖上」仍然成立，拿掉的只是同一張圖上的第二遍。實測 `lifecycle` 看得到的小字 509→486（−23，和裁判算的 23 字一致），全書 visible 65,059→65,036；`numbers` 因此在 `lifecycle` 少一個 35、一個 65、一個 30，開 `numbers-allow-round46.json` 記三條理由（其中 30 那一條把 round45 原有的「來源卡 30 筆→31 筆」併進同一條、上限 1→2，因為 `load_allow` 以 (section, token) 為 key、後面蓋前面）。對 `_baseline_v631.html` 與對 `dced229` 都 **LOST 0**。
+- **次要-4（「是在台灣買的基金才有的級別」沒把台灣掛牌 ETF 放進哪一邊）：已做（批 BU）。** 改成「是在台灣買的基金（不是 ETF）才有的級別」，只補括號三個字，其餘一字不動。裁判查到的事實（證交所＋櫃買全部證券名稱含「避險」＝0 檔）沒有變，這一改只是把讀者落在哪一邊講明白，避免他讀完前一句「海外掛牌的 ETF 沒有鎖台幣的版本」之後去找台灣掛牌的 ETF。這一段在 `<details class="more">` 裡，算 folded，不進主線也不進看得到的字，預算沒有因此動。
+- **同一批另有一處和這份報告無關的改動**：第 24 節黃框「一小筆理財型房貸的額度」→「動用中的一小筆理財型房貸」，**作者本人拍板改自己的話**（黃框全書唯一可以動的情況），句子裡沒有出現任何比例或金額。`stories` 哨兵仍確認完整版 26 個黃框和 `guide/index.html` 逐字相同。
+
+檢查（批 BU 實測）：`budget` **BUDGET OK**（`_visible_small_overrides.lifecycle` 509→486、`_visible_total_max` 65,059→65,036，`_total_max` 58,696 不動，理由在 `_comment_bu`）；`anchors` **ANCHORS OK**（id 141、href 115）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（524 個節號連結、51 句引用）；`numbers` 對 `_baseline_v631.html` 與對 `dced229` 都 **LOST 0**（`numbers-allow-round46.json`）；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` **SENTINELS OK**（工作表 6 頁＝3 張紙、完整版 PDF 184 頁）。不發布，`release/` 沒更新。
