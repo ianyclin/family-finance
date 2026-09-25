@@ -33,3 +33,9 @@ HTML 檔：guide/index.html
 
 ## 總計
 - 非 2xx 網址：15
+
+## 補測（批 BZ 新增兩筆，主線 curl 2026-09-25）
+- **200** | https://fcstock.fbs.com.tw/RegularWeb/Home/Index | 第 20 節（富邦證券：台股定期定額）
+- **200** | https://rich01.com/dollar-cost-averaging-fee/ | 第 20 節（Mr.Market 市場先生：全台券商定期定額總整理）
+
+這兩筆不在上面那次程式全掃的 218 個網址裡（當時還沒加進來源卡），是批 BZ 之後單獨 curl 的。加上這兩筆，來源卡裡的唯一網址是 209 個。
