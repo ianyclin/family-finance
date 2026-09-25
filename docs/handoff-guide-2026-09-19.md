@@ -1126,3 +1126,22 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 **檢查**（每一項的最後一行）：`budget` **BUDGET OK**；`anchors`（對 `b51714c`）**ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（524 個節號連結、51 句引用）；`numbers` 對 `_baseline_v631.html` **LOST 0**、對 `b51714c` **LOST 0**（`ALLOWED: 9 x1 in sidepaths`，`ADDED: 10、20170126`）；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` **SENTINELS OK**（工作表 6 頁＝3 張紙、完整版 PDF 184 頁）。產生檔（`output/full-v60-out.html`、`output/guide.html`）同一個 commit；`lite/work` 只是時間戳，已 `git checkout` 還原。
 
 **沒做的**：沒有發布，`release/` 沒更新（線上仍是 Version 41）。這一句新字還沒過裁判。佇列裡「臺銀續存約定頁」可以結案。
+
+## 批 BW（2026-09-25，BU／BV 裁判後修正；未發布）
+
+裁判 `wip/v63-review/judge-bu-bv.md`（1 must、3 should、8 次要；判決「有條件可用」——BU 三處可發，BV 那一句不能照原寫法發），規格 `wip/v63-review/spec-v7-content-bw.md`。`guide/index.html` 動 3 行、`tools/v7_g11_money_age.py` 動 1 處註解。黃框沒動。逐條處置寫在 `judge-bu-bv.md` 末尾的「## 處置（批 BW，2026-09-25）」。
+
+1. **M1＋S1＋S2＋次要-7／8｜第 17 節那句不再掛文件**（`guide/index.html:3850`）：「……再存一次，**利率跟著那時候的牌告走，不會延續今天這個數**。」原句尾「利率是轉期那一天的牌告，銀行的存戶須知寫得很清楚」拿掉。臺銀那份存戶須知**第七條沒有寫轉期用哪一天的牌告**（中途解約寫「存入當時」、逾期提取寫「提取日」、零存整付寫「每月應存日」，唯獨自動轉期沒寫），掛文件等同引述。「寫得很清楚」全書本來只出現這一次，現在 0 次。
+2. **S2＋S3｜來源卡第 10 筆的 note 改寫**（`:3948`，第 18 節 `sidepaths`）：「臺銀存單式定存的存戶須知，不含綜合存款項下的定存；第七條：到期得申請自動轉期，依原科目期別及計息方式再存一次，加計原年限最長六年。第 17 節「手上有儲蓄險，要不要解」那一句的依據，和第 9 筆一起看。」範圍（存單式、不含綜合存款）、上限（六年）、要申請、指路，全部放在來源那一層，不進正文。標題沒動。
+3. **次要-3｜第 8 節「（不是 ETF）」改寫**（`:2876`）：「名稱寫明「新臺幣避險」的級別，只有在台灣買的基金才有，ETF 沒有。這種級別鎖到的才是台幣匯率。」括號拿掉、斷兩句，避免「基金（不是 ETF）」被讀成「基金裡不是 ETF 的那些」。
+4. **次要-1｜`tools/v7_g11_money_age.py:11` 註解改實情**：假設現在只寫在 chart-sub，批 BU 起圖說不再重複。只動註解。
+
+**沒做（留給主線）**：S3 的另一半——**第 17 節（`s13`）整節 0 張來源卡**，要不要替它新開一張是結構決定；次要-2（圖說引介句）、次要-4（「級別」進不進詞彙表）、次要-6（不 amend BV 的 commit 訊息，但更正兩筆：**全書是 19 張「直接來源」卡、27 張 `source-card`、251 個 `source-link`**，BV 訊息寫的 18 張是我漏數一張；**而且裁判說的「宣告與實際 0 張不符」不成立**——`s5`（第 8 節，`:2895`）宣告 36 筆、實際 38 個連結且不重複，這是 `judge-bk.md` 早就撿到的 pre-existing 問題，這一批不修，留給主線）。
+
+**`lite/work`（次要-5）**：這一批**保留** `lite/work/full-v60.txt` 的內容變動一起 commit——它之前停在批 BU 之前的黃框，因為 BU／BV 都把整個 `lite/work` 還原了。慣例改成：`build_lite.py` 跑完先看 `git diff lite/work/`，**只有抽取時間那一行不同**的檔才 `git checkout --`（這一批是 `lite-v60.txt`），有內容差的留下來（`full-v60.txt`，18 增 12 刪）。
+
+**預算沒動**：三處都在 `<details>` 或來源卡裡，`budget-v7.json` 一個數都沒改（58,696／65,036，最新註解仍是 `_comment_bu`）。**allow 檔沒換**：沿用 `numbers-allow-round47.json`，沒有開 round48（這一批只增不減，對 `00b2725` 只有 `sidepaths` 的 `ADDED: {17, 9}`）。
+
+**檢查**（每一項的最後一行）：`budget` **BUDGET OK**；`anchors`（對 `00b2725`）**ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（524 個節號連結、51 句引用）；`numbers` 對 `_baseline_v631.html` **LOST 0**、對 `00b2725` **LOST 0**；來源卡宣告 10 筆／實際 10 筆相符（全書 19 張卡只有 `s5` 36／38 不符，pre-existing，見下）；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` **SENTINELS OK**（工作表 6 頁＝3 張紙、完整版 PDF 184 頁）。產生檔（`output/full-v60-out.html`、`output/guide.html`、`lite/work/full-v60.txt`）同一個 commit。
+
+**沒做的**：沒有發布，`release/` 沒更新（線上仍是 Version 41，內容停在批 BT）。
