@@ -1,0 +1,1977 @@
+{
+  "test_date": "2026-09-25",
+  "total_urls": 218,
+  "summary": {
+    "status_200": 202,
+    "status_3xx": 0,
+    "status_4xx": 13,
+    "status_5xx": 0,
+    "timeout": 0,
+    "tls_error": 0,
+    "other_error": 2
+  },
+  "results": [
+    {
+      "url": "https://claude.ai/artifact/492iv4AuQeSHVPRN2XEC1E",
+      "http_code": "403",
+      "final_url": "https://claude.ai/artifact/492iv4AuQeSHVPRN2XEC1E",
+      "redirects": "0",
+      "error": null,
+      "line_number": 168,
+      "section": ""
+    },
+    {
+      "url": "https://www.ubs.com/content/dam/assets/wm/static/cio/documents/giry2026-summary-public.pdf",
+      "http_code": "403",
+      "final_url": "https://www.ubs.com/content/dam/assets/wm/static/cio/documents/giry2026-summary-public.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 554,
+      "section": "4"
+    },
+    {
+      "url": "https://www.stat.gov.tw/cp.aspx?n=2665",
+      "http_code": "200",
+      "final_url": "https://www.stat.gov.tw/cp.aspx?n=2665",
+      "redirects": "0",
+      "error": null,
+      "line_number": 792,
+      "section": "5"
+    },
+    {
+      "url": "https://www.fsc.gov.tw/ch/home.jsp?id=96&parentpath=0,2&mcustomize=news_view.jsp&dataserno=202409050002&dtable=News",
+      "http_code": "200",
+      "final_url": "https://www.fsc.gov.tw/ch/home.jsp?id=96&parentpath=0,2&mcustomize=news_view.jsp&dataserno=202409050002&dtable=News",
+      "redirects": "0",
+      "error": null,
+      "line_number": 354,
+      "section": "2"
+    },
+    {
+      "url": "https://ws.dgbas.gov.tw/001/Upload/463/relfile/10315/2677/cpispl.xls",
+      "http_code": "200",
+      "final_url": "https://ws.dgbas.gov.tw/001/Upload/463/relfile/10315/2677/cpispl.xls",
+      "redirects": "0",
+      "error": null,
+      "line_number": 792,
+      "section": "5"
+    },
+    {
+      "url": "https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-return-forecasts.html",
+      "http_code": "200",
+      "final_url": "https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-return-forecasts.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 554,
+      "section": "4"
+    },
+    {
+      "url": "https://www.cbc.gov.tw/tw/np-1166-1.html",
+      "http_code": "200",
+      "final_url": "https://www.cbc.gov.tw/tw/np-1166-1.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 792,
+      "section": "5"
+    },
+    {
+      "url": "https://www.stat.gov.tw/News_Content.aspx?n=3908&s=235198",
+      "http_code": "200",
+      "final_url": "https://www.stat.gov.tw/News_Content.aspx?n=3908&s=235198",
+      "redirects": "0",
+      "error": null,
+      "line_number": 792,
+      "section": "5"
+    },
+    {
+      "url": "https://www.finra.org/investors/investing/investing-basics/financial-foundations",
+      "http_code": "200",
+      "final_url": "https://www.finra.org/investors/investing/investing-basics/financial-foundations",
+      "redirects": "0",
+      "error": null,
+      "line_number": 354,
+      "section": "2"
+    },
+    {
+      "url": "https://rpc.cfainstitute.org/sites/default/files/-/media/documents/book/rf-publication/2007/rf-v2007-n1-4580-pdf.pdf",
+      "http_code": "200",
+      "final_url": "https://rpc.cfainstitute.org/sites/default/files/-/media/documents/book/rf-publication/2007/rf-v2007-n1-4580-pdf.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 792,
+      "section": "5"
+    },
+    {
+      "url": "https://time.com/6916834/how-to-budget-60-30-10/",
+      "http_code": "406",
+      "final_url": "https://time.com/6916834/how-to-budget-60-30-10/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 792,
+      "section": "5"
+    },
+    {
+      "url": "https://www.simonandschuster.com/books/Unconventional-Success/David-F-Swensen/9780743228381",
+      "http_code": "403",
+      "final_url": "https://www.simonandschuster.com/books/Unconventional-Success/David-F-Swensen/9780743228381",
+      "redirects": "0",
+      "error": null,
+      "line_number": 939,
+      "section": "6"
+    },
+    {
+      "url": "https://www.spglobal.com/spdji/en/documents/spiva/spiva-us-year-end-2025.pdf",
+      "http_code": "403",
+      "final_url": "https://www.spglobal.com/spdji/en/documents/spiva/spiva-us-year-end-2025.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 939,
+      "section": "6"
+    },
+    {
+      "url": "https://am.jpmorgan.com/us/en/asset-management/adv/insights/retirement-insights/guide-to-retirement/",
+      "http_code": "200",
+      "final_url": "https://am.jpmorgan.com/us/en/asset-management/adv/insights/retirement-insights/guide-to-retirement/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 628,
+      "section": "5"
+    },
+    {
+      "url": "https://fourpillarfreedom.com/money-lessons-they-dont-teach-you-in-school-2/",
+      "http_code": "200",
+      "final_url": "https://fourpillarfreedom.com/money-lessons-they-dont-teach-you-in-school-2/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 770,
+      "section": "5"
+    },
+    {
+      "url": "https://www.berkshirehathaway.com/letters/2017ltr.pdf",
+      "http_code": "200",
+      "final_url": "https://www.berkshirehathaway.com/letters/2017ltr.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 939,
+      "section": "6"
+    },
+    {
+      "url": "https://www.berkshirehathaway.com/letters/2016ltr.pdf",
+      "http_code": "200",
+      "final_url": "https://www.berkshirehathaway.com/letters/2016ltr.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 939,
+      "section": "6"
+    },
+    {
+      "url": "https://www.berkshirehathaway.com/letters/2013ltr.pdf",
+      "http_code": "200",
+      "final_url": "https://www.berkshirehathaway.com/letters/2013ltr.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 939,
+      "section": "6"
+    },
+    {
+      "url": "https://www.nikkei.co.jp/nikkeiinfo/en/global_services/nikkei-inc/nikkei-225-total-return-hitting-a-record-high.html",
+      "http_code": "200",
+      "final_url": "https://www.nikkei.co.jp/nikkeiinfo/en/global_services/nikkei-inc/nikkei-225-total-return-hitting-a-record-high.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://www.federalreservehistory.org/essays/stock-market-crash-of-1929",
+      "http_code": "200",
+      "final_url": "https://www.federalreservehistory.org/essays/stock-market-crash-of-1929",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://www.twse.com.tw/rwd/zh/afterTrading/FMTQIK?date=19900210&response=json",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/rwd/zh/afterTrading/FMTQIK?date=19900210&response=json",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://web.stanford.edu/~wfsharpe/art/active/active.htm",
+      "http_code": "200",
+      "final_url": "https://web.stanford.edu/~wfsharpe/art/active/active.htm",
+      "redirects": "0",
+      "error": null,
+      "line_number": 939,
+      "section": "6"
+    },
+    {
+      "url": "https://www.nikkei.com/article/DGXZQOFL220S70S4A220C2000000/",
+      "http_code": "200",
+      "final_url": "https://www.nikkei.com/article/DGXZQOFL220S70S4A220C2000000/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://www.longbets.org/362/",
+      "http_code": "200",
+      "final_url": "https://longbets.org/362/",
+      "redirects": "1",
+      "error": null,
+      "line_number": 939,
+      "section": "6"
+    },
+    {
+      "url": "https://www.twse.com.tw/zh/indices/taiex/mfi94u.html",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/zh/indices/taiex/mfi94u.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "http://web.archive.org/web/20250707210638/https://www.spglobal.com/spdji/en/documents/spiva/spiva-asia-ex%20japan-year-end-2024.pdf",
+      "http_code": "200",
+      "final_url": "http://web.archive.org/web/20250707210638/https://www.spglobal.com/spdji/en/documents/spiva/spiva-asia-ex%20japan-year-end-2024.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 939,
+      "section": "6"
+    },
+    {
+      "url": "https://corporate.vanguard.com/content/dam/corp/research/pdf/considerations_for_index_fund_investing.pdf",
+      "http_code": "200",
+      "final_url": "https://corporate.vanguard.com/content/dam/corp/research/pdf/considerations_for_index_fund_investing.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://corporate.vanguard.com/content/dam/corp/research/pdf/setting_the_record_straight_the_truths_about_index_fund_investing.pdf",
+      "http_code": "200",
+      "final_url": "https://corporate.vanguard.com/content/dam/corp/research/pdf/setting_the_record_straight_the_truths_about_index_fund_investing.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://doi.org/10.1080/0015198X.2023.2188870",
+      "http_code": "403",
+      "final_url": "https://www.tandfonline.com/doi/full/10.1080/0015198X.2023.2188870",
+      "redirects": "1",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://www.twse.com.tw/staticFiles/product/publication/twse60/P15.pdf",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/staticFiles/product/publication/twse60/P15.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://www.yuantaetfs.com/product/detail/0056/Basic_information",
+      "http_code": "200",
+      "final_url": "https://www.yuantaetfs.com/product/detail/0056/Basic_information",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://www.yuantaetfs.com/product/detail/0050/Basic_information",
+      "http_code": "200",
+      "final_url": "https://www.yuantaetfs.com/product/detail/0050/Basic_information",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://am.jpmorgan.com/us/en/asset-management/adv/insights/market-insights/guide-to-the-markets/",
+      "http_code": "200",
+      "final_url": "https://am.jpmorgan.com/us/en/asset-management/adv/insights/market-insights/guide-to-the-markets/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2664,
+      "section": "8"
+    },
+    {
+      "url": "https://doi.org/10.1016/j.jfineco.2018.06.004",
+      "http_code": "200",
+      "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0304405X18301521",
+      "redirects": "1",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://www.federalreservehistory.org/essays/stock-market-crash-of-1987",
+      "http_code": "200",
+      "final_url": "https://www.federalreservehistory.org/essays/stock-market-crash-of-1987",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://openapi.twse.com.tw/v1/opendata/t187ap03_L",
+      "http_code": "200",
+      "final_url": "https://openapi.twse.com.tw/v1/opendata/t187ap03_L",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://www.twse.com.tw/zh/statistics/statisticsList?type=02&subType=001",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/page-not-found.html",
+      "redirects": "2",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://shillerdata.com/",
+      "http_code": "200",
+      "final_url": "https://shillerdata.com/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.twse.com.tw/rwd/zh/TAIEX/MI_5MINS_HIST?date=20150801&response=html",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/rwd/zh/TAIEX/MI_5MINS_HIST?date=20150801&response=html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.twse.com.tw/zh/products/system/trading.html",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/zh/products/system/trading.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://web.archive.org/web/20260909171903/https://www.spglobal.com/spdji/en/documents/spiva/spiva-us-year-end-2025.pdf",
+      "http_code": "200",
+      "final_url": "https://web.archive.org/web/20260909171903/https://www.spglobal.com/spdji/en/documents/spiva/spiva-us-year-end-2025.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 939,
+      "section": "6"
+    },
+    {
+      "url": "https://www.cdc.gov.tw/InfectionReport/Info/IiipI0j6fNg74rU1al8E0w?infoId=wTInIZJSawB0PRRubP1unA",
+      "http_code": "200",
+      "final_url": "https://www.cdc.gov.tw/InfectionReport/Info/IiipI0j6fNg74rU1al8E0w?infoId=wTInIZJSawB0PRRubP1unA",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://rationalreminder.ca/podcast/108",
+      "http_code": "200",
+      "final_url": "https://rationalreminder.ca/podcast/108",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.twse.com.tw/zh/trading/historical/fmtqik.html",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/zh/trading/historical/fmtqik.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://fred.stlouisfed.org/series/NASDAQCOM",
+      "http_code": null,
+      "final_url": null,
+      "redirects": null,
+      "error": "curl: (92) HTTP/2 stream 1 was not closed cleanly: INTERNAL_ERROR (err 2)",
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.govinfo.gov/content/pkg/BILLS-104hconres148eh/html/BILLS-104hconres148eh.htm",
+      "http_code": "200",
+      "final_url": "https://www.govinfo.gov/content/pkg/BILLS-104hconres148eh/html/BILLS-104hconres148eh.htm",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.federalreservehistory.org/essays/asian-financial-crisis",
+      "http_code": "200",
+      "final_url": "https://www.federalreservehistory.org/essays/asian-financial-crisis",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://scweb.cwa.gov.tw/zh-tw/liquefaction/details/190125",
+      "http_code": "200",
+      "final_url": "https://scweb.cwa.gov.tw/zh-tw/liquefaction/details/190125",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://finance.yahoo.com/quote/%5ESP500TR/history/",
+      "http_code": "200",
+      "final_url": "https://finance.yahoo.com/quote/%5ESP500TR/history/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.federalreservehistory.org/essays/great-recession-of-200709",
+      "http_code": "200",
+      "final_url": "https://www.federalreservehistory.org/essays/great-recession-of-200709",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.federalreservehistory.org/essays/september-11",
+      "http_code": "200",
+      "final_url": "https://www.federalreservehistory.org/essays/september-11",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20150917a.htm",
+      "http_code": "200",
+      "final_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20150917a.htm",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.who.int/news/item/27-04-2020-who-timeline---covid-19",
+      "http_code": "200",
+      "final_url": "https://www.who.int/news/item/27-04-2020-who-timeline---covid-19",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=A0010030",
+      "http_code": "200",
+      "final_url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=A0010030",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220316a.htm",
+      "http_code": "200",
+      "final_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220316a.htm",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.whitehouse.gov/presidential-actions/2025/04/regulating-imports-with-a-reciprocal-tariff-to-rectify-trade-practices-that-contribute-to-large-and-persistent-annual-united-states-goods-trade-deficits/",
+      "http_code": "200",
+      "final_url": "https://www.whitehouse.gov/presidential-actions/2025/04/regulating-imports-with-a-reciprocal-tariff-to-rectify-trade-practices-that-contribute-to-large-and-persistent-annual-united-states-goods-trade-deficits/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://ustr.gov/about-us/policy-offices/press-office/press-releases/2018/june/ustr-issues-tariffs-chinese-products",
+      "http_code": "200",
+      "final_url": "https://ustr.gov/about-us/policy-offices/press-office/press-releases/2018/june/ustr-issues-tariffs-chinese-products",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.federalreservehistory.org/essays/oil-shock-of-1973-74",
+      "http_code": "200",
+      "final_url": "https://www.federalreservehistory.org/essays/oil-shock-of-1973-74",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.federalreservehistory.org/essays/recession-of-1937-38",
+      "http_code": "200",
+      "final_url": "https://www.federalreservehistory.org/essays/recession-of-1937-38",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://history.state.gov/milestones/1961-1968/cuban-missile-crisis",
+      "http_code": "200",
+      "final_url": "https://history.state.gov/milestones/1961-1968/cuban-missile-crisis",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.federalreservehistory.org/essays/bank-holiday-of-1933",
+      "http_code": "200",
+      "final_url": "https://www.federalreservehistory.org/essays/bank-holiday-of-1933",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.federalreservehistory.org/essays/anti-inflation-measures",
+      "http_code": "200",
+      "final_url": "https://www.federalreservehistory.org/essays/anti-inflation-measures",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://history.state.gov/milestones/1937-1945/pearl-harbor",
+      "http_code": "200",
+      "final_url": "https://history.state.gov/milestones/1937-1945/pearl-harbor",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.ecb.europa.eu/press/pr/date/2011/html/pr110807.en.html",
+      "http_code": "200",
+      "final_url": "https://www.ecb.europa.eu/press/pr/date/2011/html/pr110807.en.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html",
+      "http_code": "200",
+      "final_url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 1631,
+      "section": "7"
+    },
+    {
+      "url": "https://history.state.gov/milestones/1945-1952/korean-war",
+      "http_code": "200",
+      "final_url": "https://history.state.gov/milestones/1945-1952/korean-war",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://am.jpmorgan.com/content/dam/jpm-am-aem/global/en/insights/retirement-insights/guide-to-retirement-us.pdf",
+      "http_code": "200",
+      "final_url": "https://am.jpmorgan.com/content/dam/jpm-am-aem/global/en/insights/retirement-insights/guide-to-retirement-us.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://history.state.gov/milestones/1989-1992/gulf-war",
+      "http_code": "200",
+      "final_url": "https://history.state.gov/milestones/1989-1992/gulf-war",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230312b.htm",
+      "http_code": "200",
+      "final_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230312b.htm",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.twse.com.tw/zh/ETFortune/invest/8a8216d697fc438f019918a1dbdc04bb",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/zh/ETFortune/invest/8a8216d697fc438f019918a1dbdc04bb",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3127,
+      "section": "11"
+    },
+    {
+      "url": "https://www.schwab.com/learn/story/does-market-timing-work",
+      "http_code": "200",
+      "final_url": "https://www.schwab.com/learn/story/does-market-timing-work",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2976,
+      "section": "9"
+    },
+    {
+      "url": "https://www.morningstar.com/funds/winning-formula-fund-investors-why-others-left-money-table",
+      "http_code": "202",
+      "final_url": "https://www.morningstar.com/funds/winning-formula-fund-investors-why-others-left-money-table",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3186,
+      "section": "12"
+    },
+    {
+      "url": "https://georgewbush-whitehouse.archives.gov/news/releases/2003/03/20030319-17.html",
+      "http_code": "200",
+      "final_url": "https://georgewbush-whitehouse.archives.gov/news/releases/2003/03/20030319-17.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.tandfonline.com/doi/full/10.1080/0015198X.2026.2657253",
+      "http_code": "403",
+      "final_url": "https://www.tandfonline.com/doi/full/10.1080/0015198X.2026.2657253",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3186,
+      "section": "12"
+    },
+    {
+      "url": "https://awealthofcommonsense.com/2023/02/deconstructing-10-20-30-year-stock-market-returns/",
+      "http_code": "200",
+      "final_url": "https://awealthofcommonsense.com/2023/02/deconstructing-10-20-30-year-stock-market-returns/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://corporate.vanguard.com/content/dam/corp/research/pdf/cost_averaging_invest_now_or_temporarily_hold_your_cash.pdf",
+      "http_code": "200",
+      "final_url": "https://corporate.vanguard.com/content/dam/corp/research/pdf/cost_averaging_invest_now_or_temporarily_hold_your_cash.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2990,
+      "section": "9"
+    },
+    {
+      "url": "https://ofdollarsanddata.com/even-god-couldnt-beat-dollar-cost-averaging/",
+      "http_code": "200",
+      "final_url": "https://ofdollarsanddata.com/even-god-couldnt-beat-dollar-cost-averaging/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2990,
+      "section": "9"
+    },
+    {
+      "url": "https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/areinvestorsreluctant.pdf",
+      "http_code": "200",
+      "final_url": "https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/areinvestorsreluctant.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3186,
+      "section": "12"
+    },
+    {
+      "url": "https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/justhowmuchdoindividualinvestorslose_rfs_2009.pdf",
+      "http_code": "200",
+      "final_url": "https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/justhowmuchdoindividualinvestorslose_rfs_2009.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3186,
+      "section": "12"
+    },
+    {
+      "url": "https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/individual_investor_performance_final.pdf",
+      "http_code": "200",
+      "final_url": "https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/individual_investor_performance_final.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3186,
+      "section": "12"
+    },
+    {
+      "url": "https://blog.iese.edu/jestrada/files/2012/06/BlackSwans.pdf",
+      "http_code": "200",
+      "final_url": "https://blog.iese.edu/jestrada/files/2012/06/BlackSwans.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3127,
+      "section": "11"
+    },
+    {
+      "url": "https://www.lazyportfolioetf.com/allocation/us-stocks-rolling-returns/",
+      "http_code": "200",
+      "final_url": "https://www.lazyportfolioetf.com/allocation/us-stocks-rolling-returns/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://ideas.repec.org/a/eee/finmar/v18y2014icp1-24.html",
+      "http_code": "200",
+      "final_url": "https://ideas.repec.org/a/eee/finmar/v18y2014icp1-24.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3186,
+      "section": "12"
+    },
+    {
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/jofi.13183",
+      "http_code": "403",
+      "final_url": "https://onlinelibrary.wiley.com/doi/10.1111/jofi.13183",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Fischhoff_1975_Hindsight_is_not_equal_to_foresight.pdf",
+      "http_code": "200",
+      "final_url": "https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Fischhoff_1975_Hindsight_is_not_equal_to_foresight.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://www.nber.org/system/files/working_papers/w7682/w7682.pdf",
+      "http_code": "200",
+      "final_url": "https://www.nber.org/system/files/working_papers/w7682/w7682.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://pluto.huji.ac.il/~msiritov/BarEliAzarRitovKeidarSchein.pdf",
+      "http_code": "200",
+      "final_url": "https://pluto.huji.ac.il/~msiritov/BarEliAzarRitovKeidarSchein.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://www.nber.org/system/files/working_papers/w18686/w18686.pdf",
+      "http_code": "200",
+      "final_url": "https://www.nber.org/system/files/working_papers/w18686/w18686.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://www.nber.org/papers/w24281",
+      "http_code": "200",
+      "final_url": "https://www.nber.org/papers/w24281",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/online%20rfs.pdf",
+      "http_code": "200",
+      "final_url": "https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/online%20rfs.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://www.finrafoundation.org/sites/finrafoundation/files/2026-03/FINRA_Foundation_Research_Brief_Social_Media_Finfluencers.pdf",
+      "http_code": "200",
+      "final_url": "https://www.finrafoundation.org/sites/finrafoundation/files/2026-03/FINRA_Foundation_Research_Brief_Social_Media_Finfluencers.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://collabfund.com/blog/fees-vs-fines/",
+      "http_code": "200",
+      "final_url": "https://collabfund.com/blog/fees-vs-fines/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3634,
+      "section": "14"
+    },
+    {
+      "url": "https://www.cmu.edu/dietrich/sds/docs/loewenstein/SubRelIncomeLottery.pdf",
+      "http_code": "200",
+      "final_url": "https://www.cmu.edu/dietrich/sds/docs/loewenstein/SubRelIncomeLottery.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "http://faculty.haas.berkeley.edu/odean/papers%20current%20versions/learningrfs.pdf",
+      "http_code": "200",
+      "final_url": "https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/learningrfs.pdf",
+      "redirects": "1",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://awealthofcommonsense.com/2014/03/larry-swedroe-525-rebalancing-rule/",
+      "http_code": "200",
+      "final_url": "https://awealthofcommonsense.com/2014/03/larry-swedroe-525-rebalancing-rule/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3634,
+      "section": "14"
+    },
+    {
+      "url": "https://www.vanguardmexico.com/content/dam/intl/americas/documents/latam/en/2022/10/mx-sa-2558523-rational-rebalancing-an-analytical-approach.pdf",
+      "http_code": "200",
+      "final_url": "https://www.vanguardmexico.com/content/dam/intl/americas/documents/latam/en/2022/10/mx-sa-2558523-rational-rebalancing-an-analytical-approach.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3634,
+      "section": "14"
+    },
+    {
+      "url": "https://corporate.vanguard.com/content/dam/corp/research/pdf/vanguards_principles_for_investing_success.pdf",
+      "http_code": "200",
+      "final_url": "https://corporate.vanguard.com/content/dam/corp/research/pdf/vanguards_principles_for_investing_success.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3634,
+      "section": "14"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0019825.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0019825.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3753,
+      "section": "15"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0004856.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0004856.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3753,
+      "section": "15"
+    },
+    {
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0050001&flno=65-4",
+      "http_code": "200",
+      "final_url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0050001&flno=65-4",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3753,
+      "section": "15"
+    },
+    {
+      "url": "https://indexacapital.com/bundles/unaiadvisor/docs/papers/2010-Vanguard-Best-practices-for-portfolio-rebalancing.pdf",
+      "http_code": "200",
+      "final_url": "https://indexacapital.com/bundles/unaiadvisor/docs/papers/2010-Vanguard-Best-practices-for-portfolio-rebalancing.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3634,
+      "section": "14"
+    },
+    {
+      "url": "https://corporate.vanguard.com/content/dam/corp/research/pdf/vanguard_principles_retirement_income.pdf",
+      "http_code": "200",
+      "final_url": "https://corporate.vanguard.com/content/dam/corp/research/pdf/vanguard_principles_retirement_income.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3753,
+      "section": "15"
+    },
+    {
+      "url": "https://law-out.mof.gov.tw/LawContent.aspx?id=FL006079",
+      "http_code": "200",
+      "final_url": "https://law-out.mof.gov.tw/LawContent.aspx?id=FL006079",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3753,
+      "section": "15"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0104047.htm",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0104047.htm",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3753,
+      "section": "15"
+    },
+    {
+      "url": "https://robberger.com/wp-content/uploads/2024/01/retailinvestor.org_pdf_Bengen1.pdf",
+      "http_code": "200",
+      "final_url": "https://robberger.com/wp-content/uploads/2024/01/retailinvestor.org_pdf_Bengen1.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3753,
+      "section": "15"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0019852.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0019852.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3753,
+      "section": "15"
+    },
+    {
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0030020&flno=7",
+      "http_code": "200",
+      "final_url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0030020&flno=7",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3757,
+      "section": "15"
+    },
+    {
+      "url": "https://www.cdic.gov.tw/main_insurance/docdetail.aspx?uid=19&pid=6&docid=279",
+      "http_code": "200",
+      "final_url": "https://www.cdic.gov.tw/main_insurance/docdetail.aspx?uid=19&pid=6&docid=279",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3761,
+      "section": "15"
+    },
+    {
+      "url": "https://static.twentyoverten.com/5b5730126af0247efe4f2066/zT8sbuFanVR/Morningstar-2025-State-of-Retirement-Income.pdf",
+      "http_code": "200",
+      "final_url": "https://static.twentyoverten.com/5b5730126af0247efe4f2066/zT8sbuFanVR/Morningstar-2025-State-of-Retirement-Income.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3753,
+      "section": "15"
+    },
+    {
+      "url": "https://investor.vanguard.com/investment-products/etfs/profile/vt",
+      "http_code": "200",
+      "final_url": "https://investor.vanguard.com/investment-products/etfs/profile/vt",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3797,
+      "section": "16"
+    },
+    {
+      "url": "https://www.nber.org/system/files/working_papers/w4369/w4369.pdf",
+      "http_code": "200",
+      "final_url": "https://www.nber.org/system/files/working_papers/w4369/w4369.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://am.jpmorgan.com/content/dam/jpm-am-aem/global/en/insights/market-insights/guide-to-the-markets/mi-guide-to-the-markets-us.pdf",
+      "http_code": "200",
+      "final_url": "https://am.jpmorgan.com/content/dam/jpm-am-aem/global/en/insights/market-insights/guide-to-the-markets/mi-guide-to-the-markets-us.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 2895,
+      "section": "8"
+    },
+    {
+      "url": "https://www.ishares.com/uk/individual/en/products/253745",
+      "http_code": "200",
+      "final_url": "https://www.ishares.com/uk/individual/en/products/253745",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3797,
+      "section": "16"
+    },
+    {
+      "url": "https://www.govinfo.gov/content/pkg/BILLS-119hr33eh/html/BILLS-119hr33eh.htm",
+      "http_code": "200",
+      "final_url": "https://www.govinfo.gov/content/pkg/BILLS-119hr33eh/html/BILLS-119hr33eh.htm",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3797,
+      "section": "16"
+    },
+    {
+      "url": "https://websys.fsit.com.tw/FubonETF/Fund/Profile.aspx?stkId=006208",
+      "http_code": "200",
+      "final_url": "https://websys.fsit.com.tw/FubonETF/Fund/Profile.aspx?stkId=006208",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3801,
+      "section": "16"
+    },
+    {
+      "url": "https://www.irs.gov/individuals/international-taxpayers/nra-withholding",
+      "http_code": "200",
+      "final_url": "https://www.irs.gov/individuals/international-taxpayers/nra-withholding",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3801,
+      "section": "16"
+    },
+    {
+      "url": "https://www.blackrock.com/tw/ishares/global-allcap-equity-etf",
+      "http_code": "200",
+      "final_url": "https://www.blackrock.com/tw/ishares/global-allcap-equity-etf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3801,
+      "section": "16"
+    },
+    {
+      "url": "https://www.ishares.com/uk/individual/en/products/251850/ishares-msci-acwi-ucits-etf",
+      "http_code": "200",
+      "final_url": "https://www.ishares.com/uk/individual/en/products/251850/ishares-msci-acwi-ucits-etf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3801,
+      "section": "16"
+    },
+    {
+      "url": "https://www.vanguard.co.uk/professional/product/etf/equity/9679/ftse-all-world-ucits-etf-usd-accumulating",
+      "http_code": "200",
+      "final_url": "https://www.vanguard.co.uk/professional/product/etf/equity/9679/ftse-all-world-ucits-etf-usd-accumulating",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3797,
+      "section": "16"
+    },
+    {
+      "url": "https://www.irs.gov/publications/p515",
+      "http_code": "200",
+      "final_url": "https://www.irs.gov/publications/p515",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3801,
+      "section": "16"
+    },
+    {
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340003&flno=4-1",
+      "http_code": "200",
+      "final_url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340003&flno=4-1",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3801,
+      "section": "16"
+    },
+    {
+      "url": "https://twse-regulation.twse.com.tw/m/LawContent.aspx?FID=FL080086",
+      "http_code": "200",
+      "final_url": "https://twse-regulation.twse.com.tw/m/LawContent.aspx?FID=FL080086",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3801,
+      "section": "16"
+    },
+    {
+      "url": "https://www.fsc.gov.tw/ch/home.jsp?id=96&parentpath=0,2&mcustomize=news_view.jsp&dataserno=202406250003&dtable=News",
+      "http_code": "200",
+      "final_url": "https://www.fsc.gov.tw/ch/home.jsp?id=96&parentpath=0,2&mcustomize=news_view.jsp&dataserno=202406250003&dtable=News",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3948,
+      "section": "18"
+    },
+    {
+      "url": "https://www.twse.com.tw/zh/products/securities/etf/products/li.html",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/zh/products/securities/etf/products/li.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3948,
+      "section": "18"
+    },
+    {
+      "url": "https://www.vanguardmexico.com/content/dam/intl/americas/documents/mexico/en/global-equity-investing-diversification-sizing.pdf",
+      "http_code": "200",
+      "final_url": "https://www.vanguardmexico.com/content/dam/intl/americas/documents/mexico/en/global-equity-investing-diversification-sizing.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3797,
+      "section": "16"
+    },
+    {
+      "url": "https://twse-regulation.twse.com.tw/m/LawContent.aspx?FID=FL039943",
+      "http_code": "200",
+      "final_url": "https://twse-regulation.twse.com.tw/m/LawContent.aspx?FID=FL039943",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3948,
+      "section": "18"
+    },
+    {
+      "url": "https://www.ishares.com/us/products/239600/ishares-msci-acwi-etf",
+      "http_code": "200",
+      "final_url": "https://www.ishares.com/us/products/239600/ishares-msci-acwi-etf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3801,
+      "section": "16"
+    },
+    {
+      "url": "https://fapa.org/2026-0623-taiwan-urges-u-s-passage-of-double-tax-relief-legislation-senate-committee-advances-blue-skies-for-taiwan-act/",
+      "http_code": "200",
+      "final_url": "https://fapa.org/2026-0623-taiwan-urges-u-s-passage-of-double-tax-relief-legislation-senate-committee-advances-blue-skies-for-taiwan-act/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3801,
+      "section": "16"
+    },
+    {
+      "url": "https://www.fsc.gov.tw/ch/home.jsp?id=96&parentpath=0,2&mcustomize=news_view.jsp&dataserno=201305240009&toolsflag=Y&dtable=News",
+      "http_code": "200",
+      "final_url": "https://www.fsc.gov.tw/ch/home.jsp?id=96&parentpath=0,2&mcustomize=news_view.jsp&dataserno=201305240009&toolsflag=Y&dtable=News",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3948,
+      "section": "18"
+    },
+    {
+      "url": "https://www.ib.gov.tw/ch/home.jsp?id=239&parentpath=0,2&mcustomize=multimessage_view.jsp&dataserno=202603260003&dtable=News",
+      "http_code": "200",
+      "final_url": "https://www.ib.gov.tw/ch/home.jsp?id=239&parentpath=0,2&mcustomize=multimessage_view.jsp&dataserno=202603260003&dtable=News",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3948,
+      "section": "18"
+    },
+    {
+      "url": "https://ws.www.gov.tw/Download.ashx?u=LzAwMS9VcGxvYWQvMjk1L3JlbGZpbGUvNzcyMS8xNjE4NjAvNjk0OTk5ZWQtYzZkOS00ODdhLTg3NTYtZGMzYWZlODhhZDVjLnBkZg%3D%3D&n=NS7mlrDoh7rluaPlrprmnJ/mgKflrZjllq7lrZjmrL7lrZjmiLbpoIjnn6Xph43opoHlhaflrrnoqqrmmI7mm7gtMjAxNzAxLnBkZg%3D%3D",
+      "http_code": "200",
+      "final_url": "https://ws.www.gov.tw/Download.ashx?u=LzAwMS9VcGxvYWQvMjk1L3JlbGZpbGUvNzcyMS8xNjE4NjAvNjk0OTk5ZWQtYzZkOS00ODdhLTg3NTYtZGMzYWZlODhhZDVjLnBkZg%3D%3D&n=NS7mlrDoh7rluaPlrprmnJ/mgKflrZjllq7lrZjmrL7lrZjmiLbpoIjnn6Xph43opoHlhaflrrnoqqrmmI7mm7gtMjAxNzAxLnBkZg%3D%3D",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3948,
+      "section": "18"
+    },
+    {
+      "url": "https://twse-regulation.twse.com.tw/TW/law/DAT0201.aspx?FLCODE=FL007074",
+      "http_code": "200",
+      "final_url": "https://twse-regulation.twse.com.tw/TW/law/DAT0201.aspx?FLCODE=FL007074",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3994,
+      "section": "20"
+    },
+    {
+      "url": "https://www.dot.gov.tw/singlehtml/ch27?cntId=dot_201708090012_27",
+      "http_code": "200",
+      "final_url": "https://www.dot.gov.tw/singlehtml/ch27?cntId=dot_201708090012_27",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3801,
+      "section": "16"
+    },
+    {
+      "url": "https://www.sfb.gov.tw/ch/home.jsp?dataserno=202402060005&dtable=News&id=2&mcustomize=news_view.jsp&parentpath=0",
+      "http_code": "200",
+      "final_url": "https://www.sfb.gov.tw/ch/home.jsp?dataserno=202402060005&dtable=News&id=2&mcustomize=news_view.jsp&parentpath=0",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3994,
+      "section": "20"
+    },
+    {
+      "url": "https://udn.com/news/story/123006/8613049",
+      "http_code": "200",
+      "final_url": "https://udn.com/news/story/123006/8613049",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3994,
+      "section": "20"
+    },
+    {
+      "url": "https://www.vanguard.co.uk/professional/product/etf/equity/E161/ftse-global-all-cap-ucits-etf-usd-acc.html",
+      "http_code": "200",
+      "final_url": "https://www.vanguard.co.uk/professional/product/etf/equity/E161/ftse-global-all-cap-ucits-etf-usd-acc.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4003,
+      "section": "21"
+    },
+    {
+      "url": "https://www.twse.com.tw/zh/ETFortune/etfInfo/009826",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/zh/ETFortune/etfInfo/009826",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4003,
+      "section": "21"
+    },
+    {
+      "url": "https://websys.fsit.com.tw/FubonETF/Fund/Assets.aspx?stkId=006208",
+      "http_code": "200",
+      "final_url": "https://websys.fsit.com.tw/FubonETF/Fund/Assets.aspx?stkId=006208",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4003,
+      "section": "21"
+    },
+    {
+      "url": "https://advisors.vanguard.com/investments/products/vt/vanguard-total-world-stock-etf",
+      "http_code": "200",
+      "final_url": "https://advisors.vanguard.com/investments/products/vt/vanguard-total-world-stock-etf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4003,
+      "section": "21"
+    },
+    {
+      "url": "https://fund-docs.vanguard.com/FTSE_All-World_UCITS_ETF_USD_Accumulating_9679_NETH_INT_EN.pdf",
+      "http_code": "200",
+      "final_url": "https://fund-docs.vanguard.com/FTSE_All-World_UCITS_ETF_USD_Accumulating_9679_NETH_INT_EN.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4003,
+      "section": "21"
+    },
+    {
+      "url": "https://www.selaw.com.tw/Chinese/LawDetail/LawArticleReference?lawDataid=14007314",
+      "http_code": "200",
+      "final_url": "https://www.selaw.com.tw/Chinese/LawDetail/LawArticleReference?lawDataid=14007314",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3948,
+      "section": "18"
+    },
+    {
+      "url": "https://www.cdic.gov.tw/main_deposit/faq.aspx?uid=57&pid=57",
+      "http_code": "200",
+      "final_url": "https://www.cdic.gov.tw/main_deposit/faq.aspx?uid=57&pid=57",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4003,
+      "section": "21"
+    },
+    {
+      "url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=G0380124",
+      "http_code": "200",
+      "final_url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=G0380124",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4003,
+      "section": "21"
+    },
+    {
+      "url": "https://www.twse.com.tw/downloads/zh/ETF/topic12.pdf",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/downloads/zh/ETF/topic12.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4003,
+      "section": "21"
+    },
+    {
+      "url": "https://finance.yahoo.com/news/record-drawdown-long-dated-bond-143100380.html",
+      "http_code": "200",
+      "final_url": "https://finance.yahoo.com/news/record-drawdown-long-dated-bond-143100380.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4003,
+      "section": "21"
+    },
+    {
+      "url": "https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-us-dollar.html",
+      "http_code": "200",
+      "final_url": "https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-us-dollar.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4003,
+      "section": "21"
+    },
+    {
+      "url": "https://join.gov.tw/policies/detail/e0aa0923-99c6-4a13-92d1-f37cea7a8906",
+      "http_code": "200",
+      "final_url": "https://join.gov.tw/policies/detail/e0aa0923-99c6-4a13-92d1-f37cea7a8906",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.irs.gov/individuals/international-taxpayers/some-nonresidents-with-us-assets-must-file-estate-tax-returns",
+      "http_code": "200",
+      "final_url": "https://www.irs.gov/individuals/international-taxpayers/some-nonresidents-with-us-assets-must-file-estate-tax-returns",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/transfer-certificate-filing-requirements-for-the-estates-of-nonresidents-not-citizens-of-the-united-states",
+      "http_code": "200",
+      "final_url": "https://www.irs.gov/businesses/small-businesses-self-employed/transfer-certificate-filing-requirements-for-the-estates-of-nonresidents-not-citizens-of-the-united-states",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/zZzO3re",
+      "http_code": "200",
+      "final_url": "https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/zZzO3re",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/YmDoYM2",
+      "http_code": "200",
+      "final_url": "https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/YmDoYM2",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.nhi.gov.tw/ch/cp-4516-74b0f-2613-1.html",
+      "http_code": "403",
+      "final_url": "https://www.nhi.gov.tw/ch/cp-4516-74b0f-2613-1.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.irs.gov/publications/p519",
+      "http_code": "200",
+      "final_url": "https://www.irs.gov/publications/p519",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=2066d90cd88547e9954a79490776c88b",
+      "http_code": "200",
+      "final_url": "https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=2066d90cd88547e9954a79490776c88b",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=f2a148bdd1614850be9fa56df8cc9d5c",
+      "http_code": "200",
+      "final_url": "https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=f2a148bdd1614850be9fa56df8cc9d5c",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.deloitte.com/tw/tc/services/tax/perspectives/internal-tax-update-2507-2.html",
+      "http_code": "200",
+      "final_url": "https://www.deloitte.com/tw/tc/services/tax/perspectives/internal-tax-update-2507-2.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://stevenhongisme.com/securities_firms/sub-brokerage-intro/",
+      "http_code": "200",
+      "final_url": "https://stevenhongisme.com/securities_firms/sub-brokerage-intro/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.tdcc.com.tw/portal/zh/equity/custodyQA",
+      "http_code": "200",
+      "final_url": "https://www.tdcc.com.tw/portal/zh/equity/custodyQA",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.journals.uchicago.edu/doi/abs/10.1086/380085",
+      "http_code": "403",
+      "final_url": "https://www.journals.uchicago.edu/doi/abs/10.1086/380085",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4045,
+      "section": "23"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/690806/",
+      "http_code": "200",
+      "final_url": "https://pubmed.ncbi.nlm.nih.gov/690806/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4045,
+      "section": "23"
+    },
+    {
+      "url": "https://www.pm-research.com/content/iijpormgmt/24/4/52",
+      "http_code": "429",
+      "final_url": "https://www.pm-research.com/content/iijpormgmt/24/4/52?implicit-login=true",
+      "redirects": "30",
+      "error": null,
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://www.nber.org/papers/w3954",
+      "http_code": "200",
+      "final_url": "https://www.nber.org/papers/w3954",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=G0400025",
+      "http_code": "200",
+      "final_url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=G0400025",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://workplace.vanguard.com/content/dam/inst/iig-transformation/insights/pdf/2025/231657-02_TDF_PTDF_OTH-TRIGT-Research.pdf",
+      "http_code": "200",
+      "final_url": "https://workplace.vanguard.com/content/dam/inst/iig-transformation/insights/pdf/2025/231657-02_TDF_PTDF_OTH-TRIGT-Research.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.nber.org/papers/w14094",
+      "http_code": "200",
+      "final_url": "https://www.nber.org/papers/w14094",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://workplace.vanguard.com/content/dam/inst/iig-transformation/insights/pdf/2022/Vanguards-approach-to-target-date-funds.pdf",
+      "http_code": "200",
+      "final_url": "https://workplace.vanguard.com/content/dam/inst/iig-transformation/insights/pdf/2022/Vanguards-approach-to-target-date-funds.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.sitca.org.tw/ROC/SITCA_ETF/etf-hub-product.html",
+      "http_code": "200",
+      "final_url": "https://www.sitca.org.tw/ROC/SITCA_ETF/etf-hub-product.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://twse-regulation.twse.com.tw/m/LawContent.aspx?FID=FL007121",
+      "http_code": "200",
+      "final_url": "https://twse-regulation.twse.com.tw/m/LawContent.aspx?FID=FL007121",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.bot.com.tw/Images/File/GetFileId/bc518e56-3341-4de4-ba88-65b0d74df77c",
+      "http_code": "200",
+      "final_url": "https://www.bot.com.tw/Images/File/GetFileId/bc518e56-3341-4de4-ba88-65b0d74df77c",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.npa.gov.tw/ch/app/faq/view?module=faq&id=2144&serno=A1078837",
+      "http_code": "200",
+      "final_url": "https://www.npa.gov.tw/ch/app/faq/view?module=faq&id=2144&serno=A1078837",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4018,
+      "section": "22"
+    },
+    {
+      "url": "https://www.ctbcbank.com/content/dam/minisite/long/loan/leader/loan1.html",
+      "http_code": "200",
+      "final_url": "https://www.ctbcbank.com/content/dam/minisite/long/loan/leader/loan1.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://rpc.cfainstitute.org/sites/default/files/-/media/documents/book/rf-publication/2009/rfv2009n4.pdf",
+      "http_code": "200",
+      "final_url": "https://rpc.cfainstitute.org/sites/default/files/-/media/documents/book/rf-publication/2009/rfv2009n4.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.aaii.com/journal/199802/feature.pdf",
+      "http_code": "403",
+      "final_url": "https://www.aaii.com/journal/199802/feature.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://greenhornfinancefootnote.blogspot.com/2009/11/unfounded-fear-for-long-term-investing.html",
+      "http_code": "200",
+      "final_url": "https://greenhornfinancefootnote.blogspot.com/2009/11/unfounded-fear-for-long-term-investing.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://lawreview.vermontlaw.edu/wp-content/uploads/2012/02/14-Vars-Book-2-Vol.-36.pdf",
+      "http_code": "200",
+      "final_url": "https://lawreview.vermontlaw.edu/wp-content/uploads/2012/02/14-Vars-Book-2-Vol.-36.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=1FwgCRIS0Wg",
+      "http_code": "200",
+      "final_url": "https://www.youtube.com/watch?v=1FwgCRIS0Wg",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0017461.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0017461.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://cemi.ehess.fr/docannexe/file/2780/tversjy_kahneman_advances.pdf",
+      "http_code": null,
+      "final_url": null,
+      "redirects": null,
+      "error": "curl: (28) Operation timed out after 20009 milliseconds with 1589248 out of 4107325 bytes received",
+      "line_number": 3335,
+      "section": "13"
+    },
+    {
+      "url": "https://www.vanguard.co.uk/content/dam/intl/europe/documents/en/whitepapers/safeguarding-retirement-bear-market.pdf",
+      "http_code": "200",
+      "final_url": "https://www.vanguard.co.uk/content/dam/intl/europe/documents/en/whitepapers/safeguarding-retirement-bear-market.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340003&flno=14",
+      "http_code": "200",
+      "final_url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340003&flno=14",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0004857.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0004857.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0030020",
+      "http_code": "200",
+      "final_url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=N0030020",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.books.com.tw/products/0010800817",
+      "http_code": "403",
+      "final_url": "https://www.books.com.tw/products/0010800817",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0102697.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0102697.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0105267.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0105267.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://doi.org/10.24545/00001033",
+      "http_code": "200",
+      "final_url": "https://grips.repo.nii.ac.jp/records/1033",
+      "redirects": "1",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0100091.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0100091.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4287,
+      "section": "25"
+    },
+    {
+      "url": "https://www.cambridge.org/core/journals/journal-of-pension-economics-and-finance/article/abs/safe-withdrawal-rate-evidence-from-a-broad-sample-of-developed-markets/5D6C1EBBAFE135FC27D236C9F46E677F",
+      "http_code": "200",
+      "final_url": "https://www.cambridge.org/core/journals/journal-of-pension-economics-and-finance/article/abs/safe-withdrawal-rate-evidence-from-a-broad-sample-of-developed-markets/5D6C1EBBAFE135FC27D236C9F46E677F",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0007865.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0007865.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4287,
+      "section": "25"
+    },
+    {
+      "url": "https://www.tdcc.com.tw/portal/zh/investor/infoInquiry",
+      "http_code": "200",
+      "final_url": "https://www.tdcc.com.tw/portal/zh/investor/infoInquiry",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4287,
+      "section": "25"
+    },
+    {
+      "url": "https://www.twse.com.tw/zh/products/securities/etf/products/list.html",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/zh/products/securities/etf/products/list.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4353,
+      "section": "27"
+    },
+    {
+      "url": "https://www.fundclear.com.tw/",
+      "http_code": "200",
+      "final_url": "https://www.fundclear.com.tw/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4353,
+      "section": "27"
+    },
+    {
+      "url": "https://www.twse.com.tw/zh/ETFortune/",
+      "http_code": "200",
+      "final_url": "https://www.twse.com.tw/zh/ETFortune/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4353,
+      "section": "27"
+    },
+    {
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340072&flno=8",
+      "http_code": "200",
+      "final_url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340072&flno=8",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4287,
+      "section": "25"
+    },
+    {
+      "url": "https://mops.twse.com.tw/",
+      "http_code": "200",
+      "final_url": "https://mops.twse.com.tw/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4353,
+      "section": "27"
+    },
+    {
+      "url": "https://spinup-000d1a-wp-offload-media.s3.amazonaws.com/faculty/wp-content/uploads/sites/8/2020/12/Diversification-Across-Time.pdf",
+      "http_code": "200",
+      "final_url": "https://spinup-000d1a-wp-offload-media.s3.amazonaws.com/faculty/wp-content/uploads/sites/8/2020/12/Diversification-Across-Time.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.hncb.com.tw/wps/portal/HNCB/per_finance/loan/house/intelli_mortgage",
+      "http_code": "200",
+      "final_url": "https://www.hncb.com.tw/wps/portal/HNCB/per_finance/loan/house/intelli_mortgage",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0109187.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0109187.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4354,
+      "section": "27"
+    },
+    {
+      "url": "https://www.etax.nat.gov.tw/",
+      "http_code": "200",
+      "final_url": "https://www.etax.nat.gov.tw/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4355,
+      "section": "27"
+    },
+    {
+      "url": "https://www.ib.gov.tw/",
+      "http_code": "200",
+      "final_url": "https://www.ib.gov.tw/ch/index.jsp",
+      "redirects": "1",
+      "error": null,
+      "line_number": 4354,
+      "section": "27"
+    },
+    {
+      "url": "https://www.bli.gov.tw/0012942.html",
+      "http_code": "200",
+      "final_url": "https://www.bli.gov.tw/0012942.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4354,
+      "section": "27"
+    },
+    {
+      "url": "https://web.archive.org/web/20240302132404/https://static.vgcontent.info/crp/intl/gas/canada/documents/from-assets-to-income.pdf",
+      "http_code": "200",
+      "final_url": "https://web.archive.org/web/20240302132404/https://static.vgcontent.info/crp/intl/gas/canada/documents/from-assets-to-income.pdf",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.tdcc.com.tw/",
+      "http_code": "200",
+      "final_url": "https://www.tdcc.com.tw/portal/zh/",
+      "redirects": "2",
+      "error": null,
+      "line_number": 4353,
+      "section": "27"
+    },
+    {
+      "url": "https://www.hncb.com.tw/wps/portal/HNCB/per_finance/loan/house/index_mortgage",
+      "http_code": "200",
+      "final_url": "https://www.hncb.com.tw/wps/portal/HNCB/per_finance/loan/house/index_mortgage",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4275,
+      "section": "24"
+    },
+    {
+      "url": "https://www.sfb.gov.tw/",
+      "http_code": "200",
+      "final_url": "https://www.sfb.gov.tw/ch/index.jsp",
+      "redirects": "1",
+      "error": null,
+      "line_number": 4356,
+      "section": "27"
+    },
+    {
+      "url": "https://165.npa.gov.tw/",
+      "http_code": "200",
+      "final_url": "https://165.npa.gov.tw/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4356,
+      "section": "27"
+    },
+    {
+      "url": "https://www.cbc.gov.tw/tw/np-371-1.html",
+      "http_code": "200",
+      "final_url": "https://www.cbc.gov.tw/tw/np-371-1.html",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4356,
+      "section": "27"
+    },
+    {
+      "url": "https://www.fsc.gov.tw/",
+      "http_code": "200",
+      "final_url": "https://www.fsc.gov.tw/ch/index.jsp",
+      "redirects": "1",
+      "error": null,
+      "line_number": 4356,
+      "section": "27"
+    },
+    {
+      "url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=B0000001",
+      "http_code": "200",
+      "final_url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=B0000001",
+      "redirects": "0",
+      "error": null,
+      "line_number": 3994,
+      "section": "20"
+    },
+    {
+      "url": "https://yp-finance.com/",
+      "http_code": "200",
+      "final_url": "https://yp-finance.com/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4359,
+      "section": "27"
+    },
+    {
+      "url": "https://finance.ffaarr.com.tw/",
+      "http_code": "200",
+      "final_url": "https://finance.ffaarr.com.tw/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4359,
+      "section": "27"
+    },
+    {
+      "url": "https://greenhornfinancefootnote.blogspot.com/",
+      "http_code": "200",
+      "final_url": "https://greenhornfinancefootnote.blogspot.com/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4359,
+      "section": "27"
+    },
+    {
+      "url": "https://data.gov.tw/license",
+      "http_code": "200",
+      "final_url": "https://data.gov.tw/license",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4386,
+      "section": "28"
+    },
+    {
+      "url": "https://ofdollarsanddata.com/",
+      "http_code": "200",
+      "final_url": "https://ofdollarsanddata.com/",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4359,
+      "section": "27"
+    },
+    {
+      "url": "https://www.facebook.com/profile.php?id=100084000897269",
+      "http_code": "200",
+      "final_url": "https://www.facebook.com/profile.php?id=100084000897269",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4393,
+      "section": "28"
+    },
+    {
+      "url": "https://podcasts.apple.com/tw/podcast/%E4%BA%BA%E7%94%9F%E4%B8%8D%E9%9B%A3-life-lab/id1554802167",
+      "http_code": "200",
+      "final_url": "https://podcasts.apple.com/tw/podcast/%E4%BA%BA%E7%94%9F%E4%B8%8D%E9%9B%A3-life-lab/id1554802167",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4359,
+      "section": "27"
+    },
+    {
+      "url": "https://data.gov.tw/dataset/11871",
+      "http_code": "200",
+      "final_url": "https://data.gov.tw/dataset/11871",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4386,
+      "section": "28"
+    },
+    {
+      "url": "https://portaly.cc/musclemoney",
+      "http_code": "200",
+      "final_url": "https://portaly.cc/musclemoney",
+      "redirects": "0",
+      "error": null,
+      "line_number": 4359,
+      "section": "27"
+    }
+  ]
+}
