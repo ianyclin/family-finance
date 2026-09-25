@@ -1041,3 +1041,24 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 **檢查**：`budget` **BUDGET OK**；`anchors` **ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（525 個節號連結、53 句引用、17 處不判紅的注意）；`numbers` 對 `_baseline_v631.html` 與對 `fb1bb61` 都 **LOST 0**，新開 `wip/v63-review/numbers-allow-round44.json`（round43 的 384 條原封不動，只加 3 條：lifecycle 的 64、94 各 1——chart-sub 換句以後同一個歲數不再寫兩遍；methods 的 29 ——製作說明改 30）；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`（`lite/calc-results.json` 只有行位移）；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` exit 0＋**SENTINELS OK**，工作表 **6 頁＝3 張紙**，完整版 PDF **184 頁**；量測腳本 **TOTAL OK**（exit 0）。`git checkout -- lite/work` 已跑。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器目視（should-2 一樣是算出來的，只是這次兩版都有機械檢查）；裁判 should-1 附帶指出「94 歲以後怎麼辦」整個第 24 節沒有正面回答（長壽／餘命／活到 0 次）——那是新增題目，不在本批規格，留給主線；「拿錢的順序與規則」那個 `<h4>` 要不要加 id 也留給主線；新寫的 figcaption、p.note 與第 8 節那段 `p.small` 還要再過一次裁判。
+
+## 批 BS（2026-09-25）：BP 裁判後修正——一籃子外幣補回半句、新臺幣避險級別說清楚、第 25 節縮句撤回
+
+規格 `wip/v63-review/spec-v7-content-bs.md`，依據 `wip/v63-review/judge-bp.md`（0 must、4 should、6 次要；逐條處置寫在該檔末尾的「## 處置（批 BS，2026-09-25）」）。**黃框沒動、金額沒動、來源卡沒動**；`guide/index.html` 只動 3 行，另外在 `tools/v7_layout_check.py` 加一條常設檢查。
+
+**(a) 第 8 節摺疊第 1 段（`p#s5-fx`）末尾——次要-3**：「短期的起伏會互相**抵掉**一部分」→「互相**沖淡**一部分」。一百字之內「抵掉」四次，但講的是兩件事：這一句是分批平均，下一段是遠期合約避險。
+
+**(a) 第 8 節摺疊第 2 段——should-1、should-2、次要-1**：第 4 句起整段換掉（前三句不動）。
+- should-1：補回批 BP 漏掉的半句——「全球股票背後是一籃子外幣資產，有歐元、日圓等各國貨幣，**台幣對它們整體升值時才會縮水**。」那是全書唯一一句告訴沒買避險的人「你真正的曝險是台幣對一籃子貨幣，不是只對美元」的話（第 1 段的例子 32→30 只講美元／台幣）。
+- should-2：補上去處——「**海外掛牌的 ETF 沒有鎖台幣的版本。名稱寫明「新臺幣避險」的，是在台灣買的基金才有的級別**，鎖到的才是台幣匯率。」第 20 節那句「要不要買鎖台幣的避險版本，見第 8 節」把讀者送過來，這裡原本沒有答案，他會去搜尋「TWD Hedged ETF」而搜到空集合。**主線 2026-09-25 查證**：新臺幣避險級別出現在台灣銷售的基金上（例如安聯新興債券收益組合基金 HB 類型（月配息）新臺幣（避險）），美國、愛爾蘭掛牌的 ETF 沒有這種級別。分類事實不是數字，規格裁定**不加來源卡**，查證紀錄寫在 `changes-for-author-v7.md` 一之六十八。
+- 次要-1：60 字長句斷成兩句——「…讓它像純美元資產。美元對台幣的漲跌沒有抵掉。」
+
+**(b) 第 25 節那句——should-3、should-4、次要-2**：批 BP 的縮句**撤回**。換成「一退休就遇到大跌，傷得比後面幾年才跌重：跌的時候還得賣股票付生活費，等於用低價賣掉更多。這叫報酬順序風險，也是下面四項準備要先備好現金的原因。」不帶括號指路（兩段之後的摺疊已經指到第 24 節那張卡，BP 等於在去重複的批次裡自己製造一個重複指路）。主線裁定：**(b) 這一條外部複審的「重複」不成立**——第 25 節那兩句不是把第 24 節再講一次，是跳著讀的人需要的摘要（該節 lede 就是「開始拿錢出來花以前」）。「報酬順序風險」這個詞回到正文，Vanguard (2026) 來源卡的 source-note 不用動。
+
+**新哨兵（`tools/v7_layout_check.py` 加 (f)）**：`check_claims()`＋`CLAIM_RE`，把它在 375px 與 1024px 量到的 `figure.chart` 與 `.table-wrap` 張數，對第 28 節製作說明那句「全書 N 張表，其中 N 張由版面哨兵…逐張量過，另一張隨它所在的圖一起量；N 張圖也在手機寬和電腦寬各量一次」裡的三個數字（全書表數、哨兵量過的表數、圖數），不符就 FAIL 並印兩邊的數字；那句話被改寫到 `CLAIM_RE` 找不到也判紅（刻意的：改了句子就要回來對一次）。**負面測試跑過**：把 30 改成 29 → `FAIL [layout] 書上寫 29 張圖，實量 figure.chart 30 張`、exit 1；把「由版面哨兵」改成「由哨兵」→ `FAIL [layout] 找不到第 28 節製作說明的張數宣告句`、exit 1。批 BJ 把圖數從 29 變成 30、沒人補那句話，是靠裁判目視抓到的（BR must-4）；這條哨兵就是補那個洞。
+
+**預算**：`budget-v7.json` 只調兩個總量——`_total_max` 58684→**58696**、`_visible_total_max` 65051→**65063**，都等於 withdraw 的 +12，理由寫在 `_comment_bs`。withdraw mainline 1,623→**1,635**，上限 **1,700 不動**（還有 65 字餘裕）。第 8 節那兩段全部在 `details` 裡算 folded，所以 **s5 的 mainline 3,526 與 small 1,101 一字未變**（folded 7,511→7,556）。
+
+**檢查**：`budget` **BUDGET OK**；`anchors` **ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（524 個節號連結、52 句引用，都比 BR 少 1，就是撤掉的那個括號指路）；`numbers` 對 `_baseline_v631.html` 與對 `962d8c8` 都 **LOST 0**，新開 `wip/v63-review/numbers-allow-round45.json`（round44 的 387 條原封不動，只加 1 條：withdraw 的 `24` ——批 BP 那個括號指路的錨文字，隨撤回一起走；對 v6.3.1 那一邊 round44 本來就 LOST 0）；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`（`lite/calc-results.json` 這一批**零變動**）；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**（新的宣告檢查：書上 51／50／30，實量 `.table-wrap` 50、`figure.chart` 30）；`build_lite.py` exit 0＋**SENTINELS OK**，工作表 **6 頁＝3 張紙**，完整版 PDF **184 頁**；`money-age` 量測腳本 **TOTAL OK**。`git checkout -- lite/work` 已跑。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；**沒開瀏覽器目視**——裁判疑問-4 指出第 8 節那個摺疊在批 BP 之後視覺重量是增加的（純文字量少 30 字，但小字變成主線字級），本批又在摺疊裡加了 19 字，要不要看一眼由主線決定。裁判次要-6 的地圖（`map-duplicates-2026-09-25.md`）沒有回頭改，理由記在處置段。新寫的那兩段話還沒過裁判。

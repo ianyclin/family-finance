@@ -11,6 +11,9 @@ CSS 改動在這之前是裸奔的。這一支量的是版式稽核（`wip/v63-r
   (c) section.part 底下 p 的左緣有幾種（容器內距不一致的量化指標）
   (d) 換行的 summary，續行有沒有比首行往左突出（外置 marker 造成的鋸齒）
   (e) 整份文件有沒有橫向溢出
+  (f) 第 28 節製作說明那句「全書 N 張表…N 張圖也在手機寬和電腦寬各量一次」對不對得上
+      這一支自己量到的 .table-wrap 與 figure.chart 張數（批 BS 加。批 BJ 新增一張圖以後
+      那句話從 29 變成 30，沒有任何哨兵抓得到，是裁判用眼睛看出來的）
 
 macOS 的 Chrome 視窗最小寬是 500px，直接 `--window-size=375` 量到的是 500，
 所以照版式審的做法：用一個 file:// 的外框頁把指南放進 width=375 的 iframe 裡量
@@ -40,6 +43,12 @@ LIMITS = {
     1024: {"p_left_kinds": 9, "scrollable_tables": 0, "summary_outdent": 0, "figure_misaligned": 0},
 }
 P_LEFT_KINDS_GOAL = 8
+
+# (f) 第 28 節製作說明的自我宣告。三個數字依序是：全書表數、哨兵逐張量過的表數、圖數。
+# 句子改寫時這支會找不到而判紅——那是刻意的，改了句子就要回來對一次。
+CLAIM_RE = re.compile(
+    r'全書 (\d+) 張表，其中 (\d+) 張由版面哨兵在手機寬度（375 像素）逐張量過，'
+    r'另一張隨它所在的圖一起量；(\d+) 張圖也在手機寬和電腦寬各量一次')
 
 MEASURE_JS = r"""
 function measure(){
@@ -237,6 +246,35 @@ def check(width, res, problems, lines):
         problems.append("%dpx：文件橫向溢出 %spx" % (width, res["docOverflow"]))
 
 
+def check_claims(guide, raw, problems, lines):
+    """(f) 書上寫的張數 vs 這一支量到的張數。"""
+    with open(guide, encoding="utf-8") as f:
+        src = f.read()
+    m = CLAIM_RE.search(src)
+    if not m:
+        lines.append("宣告  找不到第 28 節製作說明那句「全書 N 張表…N 張圖…」")
+        problems.append("找不到第 28 節製作說明的張數宣告句（句子改寫過就要回來對一次，"
+                        "樣板在 tools/v7_layout_check.py 的 CLAIM_RE）")
+        return
+    tables_all, tables_measured, figs = (int(x) for x in m.groups())
+    got_tables = sorted({len(raw[w]["tables"]) for w in raw if not raw[w].get("error")})
+    got_figs = sorted({len(raw[w]["figures"]) for w in raw if not raw[w].get("error")})
+    lines.append("宣告  書上寫「全書 %d 張表，其中 %d 張由版面哨兵逐張量過；%d 張圖」；"
+                 "實量 .table-wrap %s 個、figure.chart %s 張"
+                 % (tables_all, tables_measured, figs,
+                    "／".join(str(n) for n in got_tables),
+                    "／".join(str(n) for n in got_figs)))
+    if len(got_tables) != 1 or got_tables[0] != tables_measured:
+        problems.append("書上寫版面哨兵量過 %d 張表，實量 .table-wrap %s 個"
+                        % (tables_measured, "／".join(str(n) for n in got_tables)))
+    if len(got_figs) != 1 or got_figs[0] != figs:
+        problems.append("書上寫 %d 張圖，實量 figure.chart %s 張"
+                        % (figs, "／".join(str(n) for n in got_figs)))
+    if tables_all != tables_measured + 1:
+        problems.append("書上寫全書 %d 張表、哨兵量過 %d 張，兩者差的不是句子裡說的那 1 張"
+                        % (tables_all, tables_measured))
+
+
 def main(argv):
     chrome = CHROME_DEFAULT
     as_json = False
@@ -260,6 +298,7 @@ def main(argv):
         res = run_width(chrome, guide, width)
         raw[width] = res
         check(width, res, problems, lines)
+    check_claims(guide, raw, problems, lines)
 
     if as_json:
         print(json.dumps(raw, ensure_ascii=False, indent=1))
