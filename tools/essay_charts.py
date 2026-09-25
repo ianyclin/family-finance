@@ -983,6 +983,12 @@ def sp500_rolling_30y():
     return _g09.rolling_30y()
 
 
+# v7 批 BJ 的 G11：綠角時間軸（只在指南第 24 節），圖上沒有金額，畫法在 tools/v7_g11_money_age.py。
+def money_age():
+    import v7_g11_money_age as _g11
+    return _g11.chart(_g11.compute())
+
+
 CHARTS = [
     ("three-circles", "01-where-return-comes-from.html", "順便講「又穩又高」", "aside", three_circles),
     ("four-people", "02-time.html", "手冊算過四個人", "aside", four_people),
@@ -1072,6 +1078,7 @@ def do_guide():
     funcs["sp500-long-run"] = sp500_long_run      # 只在指南
     funcs["sp500-holding-box"] = sp500_holding_box    # 只在指南
     funcs["sp500-rolling-30y"] = sp500_rolling_30y    # 只在指南
+    funcs["money-age"] = money_age                    # 只在指南
     n = 0
     diffs = []
     def repl(m):

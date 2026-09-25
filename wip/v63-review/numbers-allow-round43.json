@@ -1,0 +1,2309 @@
+{
+ "_comment": "v7 批 BJ（綠角時間軸：第 24 節第三題開頭新增 data-chart=\"money-age\"）用的允許清單，是 numbers-allow-round42.json 的超集：round42 的 383 條原封不動，後面只加 1 條（lifecycle 的 34）。那一條講的是同一件事——第 24 節「直接來源」卡的筆數宣告 34 筆 → 35 筆，因為加了綠角 2009-11〈Unfounded Fear for Long-Term Investing〉那一筆（新圖的概念出處）。這一批沒有刪掉任何事實或數字；新圖帶進來的 35、64、65、94、2009 在 lifecycle 都是 ADDED，第 8 節指路句帶進來的 24 在 s5 也是 ADDED。注意 load_allow 以 (section, token) 為 key、後面蓋前面，所以先查過 round42 沒有 lifecycle／34 這一條才加。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（0907dff）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 BO（裁判 judge-bi.md 後修正：3 must＋4 should＋nit 4）用的允許清單，是 numbers-allow-round41.json 的超集：round41 的 379 條原封不動，其中 cases 的 1088、2.3 兩條上限各 +1，後面再加 4 條（cases 的 1073、2.4、0、0.1）。四條講的是同一件事——should-4 那一句三口徑對照被整句刪掉。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（efe7f8e）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 BI（費用扣法統一：整體減 0.5% 改成股票比例 × 0.5%；作者 2026-09-23 拍板）用的允許清單，是 numbers-allow-round40.json 的超集：round40 的條目一字未動，後面加 82 條。每一條都是同一件事——四個案例的試算換了扣費方式，舊值都有對應的新值（新值在 tools/calc_core.py 的 assert 裡逐條釘住），沒有任何事實或來源從書裡消失。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（70c060c）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 BE（77 條「想深入」摺疊標題縮到 20 字內）用的允許清單，是 numbers-allow-round36.json 的超集：round36 的 256 條一字未動，後面加 5 條。這 5 條都是同一個情形——標題裡的數字被刪掉，同一個數字在那一格的摺疊內文裡原封不動還在，沒有任何事實或數字從書裡消失。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（批 BD 交班＝b30ff47）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 BC（圖搬出卡的收尾：六張只剩卡名的資料卡，卡名與其後那張圖的圖題同義，卡殼刪掉、圖題留下）用的允許清單，是 numbers-allow-round35.json 的超集：round35 的 248 條一字未動，後面加 8 條（六張卡名刪掉後少掉的重複數字：s2 5000、s5 5、s6 2000／2005／2024、s7 2003／2025、s8 2026）。原檔的說明如下：v7 批 AQ（第 5 節十桶金卡重排：刪卡首兩段、兩個「想深入」合併成一個、出處聲明移到卡末）沿用這一份，沒有新增條目，只在 s2 的 7 那一條的 reason 後面接上這一批的理由（上限沒有調）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（批 AP-3＝65763f5）跑都用這一份，兩邊都 LOST 0。原檔的說明如下：v7 批 AG（作者 2026-09-22 拍板：第 8 節四張長線圖外面只留「這張圖告訴我什麼」，其餘收進各圖已有的「想深入」）用的允許清單，是 numbers-allow-round30.json 的超集：round30 的 191 條一字未動，後面加 7 條（都在 s5）——1 條是台股圖說不再寫到「日」，6 條是滾動報酬圖「扣掉物價」那兩句搬進「想深入」時，和那裡原有的同一組數字去重之後少掉的第二次出現。沒有任何事實或數字從書裡消失。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（批 AF-2＝755711e）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 AE（滾動圖三個最低標籤就近、20 年線加深、箱型圖 −62.3% 換位、滾動圖扣物價那句改寫；裁判 AC／AD 報告的 A–G）沿用這一份，在批 AC 那 190 條之後加 1 條（s5 的 2003，理由見該條）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（批 AD＝41a2c24）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 AC（批 AA 的裁判報告 judge-aa.md：1 must＋4 should）沿用這一份，在 round30 的 189 條之後加 1 條（s5 的 500，理由見該條）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（批 AB＝221195e）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 AA（規格 spec-v7-content-aa.md：T–Z2 裁判後修正，1 must＋4 should＋9 nit）用的允許清單，是 numbers-allow-round29.json 的超集：round29 的 184 條一字未動，後面加 3 條這一批改寫圖說與事件月造成的 token 變動（都在 s5）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（f5bae39）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 Z（規格 spec-v7-content-z.md：台股長線圖圖說補 1990–2002 股利的估算句、第 8 節來源卡加證交所市場交易月報一筆）用的允許清單，是 numbers-allow-round28.json 的超集：round28 的 183 條一字未動，後面加 1 條這一批因為來源卡加了一筆而變動的筆數宣告（35→36，在 s5）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（48c6812）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 X（規格 spec-v7-content-x.md：滾動報酬圖加 10 年、20 年兩條線；兩張圖的年份口徑對齊）用的允許清單，是 numbers-allow-round27.json 的超集：round27 的 180 條一字未動，後面加 3 條這一批改寫圖說造成的 token 變動（都在 s5）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（29f8c38）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 W（規格 spec-v7-content-w.md：台股長線圖改含股利、線改逐週、事件點回到線上）用的允許清單，是 numbers-allow-round26.json 的超集：round26 的 178 條一字未動，後面加 2 條這一批換口徑造成的 token 變動（都在 s5）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（d70d72a）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 V（規格 spec-v7-content-v.md：S 批裁判後修正，4 must＋9 should）用的允許清單，是 numbers-allow-round25.json 的超集：round25 的 170 條一字未動，後面加 8 條這一批刻意換掉的數字（箱型圖圖說精度統一 2 條、盤中 12,682 的日期 1 條、第 8 節來源卡筆數宣告 1 條、第 16 節 FAPA 註記 4 條）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（05358d6）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 T（規格 spec-v7-content-t.md：美股長線圖改 1929 起、兩張長線圖的標籤直接標在線上）（與同時在跑的批 U 共用）用的允許清單，是 numbers-allow-round24.json 的超集：round24 的 163 條一字未動，後面加 6 條這一批刻意換掉的數字（美股長線圖起點 1950→1929 帶來的 5 條，加上第 8 節來源卡筆數 29→37）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（0a95846）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 S（規格 spec-v7-content-s.md，S1–S6）用的允許清單，是 numbers-allow-round23.json 的超集：round23 的 161 條一字未動，後面加 2 條這一批刻意換掉的數字（第 16 節來源卡筆數 17→18、H.R.33 那一筆的檢查日 2026-09-18→2026-09-22）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（b6b23be）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 R（P、Q 兩批裁判後修正＋連結重測結果，規格 spec-v7-content-r.md）用的允許清單，是 numbers-allow-round22.json 的超集：round22 的 156 條一字未動，後面加 5 條這一批刻意換掉的數字（連結重測後的 162→172、11→15、連結檢查日期 09-20→09-21，全書表數 46→50，Ben Felix 影片年份 2022 改寫成論文版本年份）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（0ddaee8）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 Q（更新第 28 節「想深入：這本書做過哪些檢查」，規格 spec-v7-content-q.md）用的允許清單，是 numbers-allow-round21.json 的超集：round21 的 154 條一字未動，後面加 2 條這一批刻意換掉的數字（動工天數 12→13、外部評閱 ChatGPT 8→9 份，兩條都是重數之後的更新，理由逐條寫在 reason）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（8a0dcf4）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 P（第 24 節 2.31% 的口徑與 Ben Felix 的 2.7%，規格 spec-v7-content-p.md）用的允許清單，是 numbers-allow-round20.json 的超集：round20 的 153 條一字未動，後面加 1 條這一批的來源卡筆數變動（31→32 筆）。這一批只加數字（2.7、2.85、3.02、33、35、60、40 等會顯示 ADDED），沒有刻意刪掉任何事實。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（a90e804）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 批 N（九件事版面＋16 條內容問題，規格 spec-v7-content-n.md）用的允許清單，是 numbers-allow-round19.json 的超集：round19 的 145 條一字未動，後面加 8 條（N2 第 2 條 2 條、N3 第 9／10 條 6 條，其中 why／11 那一條是把連號批原本的 count 5 改成 6）這一批（N2 第 2 條）刻意收掉的重複 token——四人比較表「陳大哥・目標」那一格原本把算法重講一次（「33 倍再加勞退月退發完以後多缺的 84 萬」），改成指路「算法在上面陳大哥的展開」。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（f75908e）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版 I（白話版比喻＋七張圖的重複圖說，規格 spec-v7-r20-i.md）用的允許清單，是 numbers-allow-round18.json 的超集：round18 的 140 條一字未動，後面加 1 條這一批刻意收掉的重複結論句。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（10ffa8e）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版裁判複核後修正 H（規格 spec-v7-r20-h.md）用的允許清單，是 numbers-allow-round17.json 的超集：round17 的 138 條一字未動，後面加 2 條這一批刻意換掉的 token（第 16 節頭條數字改用年份一致的基準 A）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（932416c）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版裁判後修正（規格 spec-v7-r20-fix.md）用的允許清單，是 numbers-allow-round16.json 的超集：round16 的 133 條一字未動，後面加 6 條這一批刻意換掉或拿掉的 token。對 _baseline_v631.html 跑和對「這一批開工前的 commit」（64bdfcc）跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第 20 版 B＋C（辯證後的主線修正與第 16 節三條路徑，規格 spec-v7-r20.md）用的允許清單，是 numbers-allow-round15.json 的超集：round15 的 130 條一字未動，後面加 3 條這一批刻意拿掉的 token。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 語氣批裁判後修正 D（規格 spec-v7-tone-D.md 第 12 條，作者 2026-09-21 截圖指示移除第 1 節重複的摺疊）用的允許清單，是 numbers-allow-round14.json 的超集：round14 的條目一字未動，後面加 2 條第 1 節（ten）這一批刻意拿掉的 token。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 十二位審核團批（規格 spec-v7-panel-fixes.md，含追加的 E／F／G）用的允許清單，是 numbers-allow-round12.json 的超集：round12 的條目一字未動，後面加 5 條這一批刻意換掉的數字（A5 的 9.7→−9.7、G1 的連結檢查那一句、G2 的 All Your Worth 年份）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 預覽「錢變多以後：一天的漲跌，會開始超過月薪」第二＋三版（規格 spec-v7-daily-swing-2.md、-3.md）用的允許清單，是 numbers-allow-round9.json 的超集：round9 的 103 條一字未動，後面加 2 條這一批刻意拿掉的數字（都是同一批自己前一版寫進去、這一版被表取代的句子，不是 v6.3.1 就有的事實——對 _baseline_v631.html 跑的那一次本來就 LOST 0）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 六位模擬讀者批第二輪（spec-v7-personas-fix，裁判⑥）用的允許清單，是 numbers-allow-round7.json 的超集：round7 的條目一字未動，後面加 1 條這一批的來源卡筆數變動。原檔的說明如下：v7 六位模擬讀者批（spec-v7-personas）用的允許清單，是 numbers-allow-round6.json 的超集：round6 的條目一字未動，後面加 1 條這一批刻意拿掉的數字（B5）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第六輪（spec：Morningstar Mind the Gap 換 2026 版＋台灣上市家數改上市公司口徑）用的允許清單，是 numbers-allow-round4.json 的超集：88 條一字未動，後面加 11 條這一批刻意換掉的數字（每條寫理由）。這一批是「換版次／換口徑」，不是刪事實：每一個 LOST 都有對應的 ADDED（7.3→9.9、6.3→8.7、1.1→1.2、2.6→改寫、0.4→0.7、1094→1084、549→547、545→537、17→19）。對 _baseline_v631.html 跑和對「這一批開工前的 commit」跑都用這一份，兩邊都要 LOST 0。原檔的說明如下：v7 第四輪（spec-v7-round4）用的允許清單，是 numbers-allow-renumber.json 的超集：只把 s10 的 token 11 從 3 改成 4（理由寫在該條 reason 末尾），其餘 87 條一字未動。原檔的說明如下：v7_check.py numbers 的允許清單（v7.0 連號批建立）。內容＝numbers-allow-all.json 的所有條目 ＋ 全書 28 節連號造成的節號 token 差異（由 wip/v63-review/renumber.py --make-allow 產生，沒有手打）。v7.0 以後拿 _baseline_v631.html 當基準時用這一份，取代 numbers-allow-all.json。｜round9＝round8 全部條目＋s8/9 一條（2026-09-20）｜round11＝round10 全部＋s2/5 一條｜round12＝round11＋移除版本紀錄卡的 16 個 token",
+ "allow": [
+  {
+   "section": "s11",
+   "token": "20",
+   "count": 4,
+   "reason": "v7 批 4a：F 區三格（跌 10%／20%／30% 各做什麼）收成一格。原本每寫一次三格就出現一次 20：#plan-panic 指路句、#plan-table 八區條列的 F 條、plan-flow 圖下說明、欄位表第 20 格的欄名、一頁空白版 F 區手寫線、小安全表 F 區。收一格以後只留下兩處：小安仍寫「股票那一塊跌 20% 以上的時候，把當下想做的事寫在紙背面」，F 區「想深入：勾了『我另有規則』的人，跌幅怎麼量」仍寫「例如分成跌 10%、20%、30% 以上各寫一句」。少掉的都是同一個 20 的重複，沒有新的事實或數字被刪掉。"
+  },
+  {
+   "section": "s11",
+   "token": "30",
+   "count": 5,
+   "reason": "同上，F 區三格收一格。原本出現在 #plan-panic、#plan-table 的 F 條、plan-flow 圖下說明、欄位表第 20 格欄名、一頁空白版、小安全表、大跌演練第 3 步小字（「直接看 F 區『跌 30% 以上』那一格」）。收一格後在 F 區的想深入裡仍保留一次（「例如分成跌 10%、20%、30% 以上各寫一句」）；冷卻期 30 天、30 萬等其他 30 都還在。（批 7 補：ten 的兩處三格句也拿掉以後，原本被算成 MOVED 的那兩個會落回 s11 的 LOST，上限從 3 調到 5。s11 的 30 從基準的 20 個變成 15 個，少掉的都是同一條 F 區規則的重複提及；冷卻期 30 天、30 萬、30 年那些 30 都還在。）"
+  },
+  {
+   "section": "s11",
+   "token": "50",
+   "count": 1,
+   "reason": "v7 批 4a：大跌演練第 3 步原本的小字「F 區量的也是股票那一塊，不用換算：這一步的股票跌 50%，直接看 F 區『跌 30% 以上』那一格」隨三格收一格作廢（第 3 步改成抄自己寫的那一行，不必再對照哪一格）。同一個 50 在第 1 步「股票跌 50% 時少＿萬」與壓力測試表裡都還在。"
+  },
+  {
+   "section": "cases",
+   "token": "0.5",
+   "count": 1,
+   "reason": "三個人的『結論』拿掉「扣掉 0.5% 示範費率以後」（扣費細節照批次指示移層）；0.5% 的說明在新的『想深入：四個人共同的算法』與各人試算表、四人比較表裡仍在"
+  },
+  {
+   "section": "cases",
+   "token": "1.7",
+   "count": 1,
+   "reason": "小芸阿哲結論拿掉「報酬率直接用當下的一年期定存 1.7%」；1.7% 在展開的頭期款桶推理與四人比較表裡仍在"
+  },
+  {
+   "section": "cases",
+   "token": "500",
+   "count": 1,
+   "reason": "小芸阿哲結論的「（多 500 元）」和同一句「每月 1 萬改成 1.05 萬」重複；500 元在展開的長期桶推理與四人比較表裡仍在"
+  },
+  {
+   "section": "cases",
+   "token": "2008",
+   "count": 1,
+   "reason": "陳大哥『和小安差在哪』第 2 條整條和新的結論重複，刪掉；2008 年在條件、結論、展開的三問與四人比較表裡仍在"
+  },
+  {
+   "section": "s13",
+   "token": "15",
+   "count": 1,
+   "reason": "分組標題「怕賠（15 題）」→「怕賠（12 題）」：三對重複題合併後的實際題數"
+  },
+  {
+   "section": "s13",
+   "token": "6",
+   "count": 1,
+   "reason": "「等市場跌下來再投入」與「覺得價格太高而等回檔」合併，兩題原本各有一個指向第 6 節的 xref，合併後只留一個"
+  },
+  {
+   "section": "s13",
+   "token": "8",
+   "count": 1,
+   "reason": "「偏好高配息產品」與「已經買了高股息 ETF」合併，兩題原本各有一個指向第 8 節的 xref，合併後只留一個"
+  },
+  {
+   "section": "cover",
+   "token": "6.3.1",
+   "count": 1,
+   "reason": "批 7：封面版本字樣改成「v7.0 預覽／2026-09-19」，6.3.1 這個版本號不再出現在封面（版本紀錄在 methods，v6.3.1 那一條仍在）"
+  },
+  {
+   "section": "ten",
+   "token": "10",
+   "count": 2,
+   "reason": "批 7（F 區收一格同步）：七件事第 4 條與「六個最貴的錯」第 4 條的「股票那一塊從最近高點跌 10%、20%、30% 以上各做什麼」各改成「市場下跌時要怎麼做」。三個跌幅是同一條規則的三個門檻，不是三個事實；10% 在本節「想深入」的「10 到 18 年」仍在，規則本身寫在第 11 節"
+  },
+  {
+   "section": "ten",
+   "token": "20",
+   "count": 2,
+   "reason": "同上：七件事第 4 條與六個最貴的錯第 4 條各少一個 20%"
+  },
+  {
+   "section": "ten",
+   "token": "30",
+   "count": 2,
+   "reason": "同上：七件事第 4 條與六個最貴的錯第 4 條各少一個 30%"
+  },
+  {
+   "section": "s5",
+   "token": "20",
+   "count": 1,
+   "reason": "批 7（F 區收一格同步）：s5 的 p.decision「仍要先寫好跌 20% 時的動作（選項在第 11 節的規則卡）」改成「仍要先寫好市場下跌時怎麼做（第 6 節節尾那一行）」。s5 本節其他地方（台股跌兩成、年內跌幅表）的 20 都還在"
+  },
+  {
+   "section": "s10",
+   "token": "1998",
+   "count": 1,
+   "reason": "批 7：investor-cycle 圖下 p.note 的出處句（形狀借自 Westcore Funds 1998）和圖下「想深入：流傳很廣的那張「經典散戶圖」」逐句重複，note 那一份刪掉；1998 這個年份在那個摺疊裡仍在"
+  },
+  {
+   "section": "s13",
+   "token": "20",
+   "count": 1,
+   "reason": "批 7（F 區收一格同步）：#s13-drop20「今天：照規則卡上「跌 20%」那一格做；跌幅看股票那一塊，從最近的高點算」改成「今天：照計畫上「市場下跌時」那一行做」。同一題標題「市場下跌 20%，或新聞說要崩盤」的 20 還在"
+  },
+  {
+   "section": "s13",
+   "token": "32",
+   "count": 2,
+   "reason": "批 7（第 14 節改名）：h2 改成不數數的「常見情境：我在怕什麼？」，節首說明「原本的 32 種情境…現在是 29 題」與 p.decision「不在這 29 題（原本的 32 種情境）裡」都改成不數數的寫法。題數本來就會隨合併變動，不是事實數字"
+  },
+  {
+   "section": "group-situations",
+   "token": "32",
+   "count": 1,
+   "reason": "同上：狀況索引下的小字「32 題照六種感受分組」改成「那裡照六種感受分組」（合併後其實是 29 題，這個數字只會越報越舊）"
+  },
+  {
+   "section": "s5",
+   "token": "2008",
+   "count": 1,
+   "reason": "v7 第三輪 A（A8-3）：intra-year 那張圖移回主線，圖說壓成一句，原圖說末尾的「最差的 2008 年整年跌 43.07%」拿掉。同一個 2008 在本節仍有多處：移進摺疊的數字串（「2008 年跌了 53.59%」「2008 年約 −43.07%」，後者是 calc_core quotes 盯著的句子，逐字保留）與 23 年逐年完整表。"
+  },
+  {
+   "section": "s5",
+   "token": "43.07",
+   "count": 1,
+   "reason": "同上，圖說壓成一句時少掉一次 43.07。43.07 在摺疊裡的數字串（「2008 年約 −43.07%」）與 23 年逐年完整表（2008 −43.07%）都還在。"
+  },
+  {
+   "section": "s5",
+   "token": "2025",
+   "count": 1,
+   "reason": "v7 第三輪 A（A8-3）：主線那張「年中跌一段有多平常：台股 2003–2025」資料卡的標題隨數字串一起移層後不再需要（圖的 chart-sub 就寫「2003 到 2025 年，含息，%」）。2025 在本節的圖、美國區間表、台股區間表與來源卡裡都還在。"
+  },
+  {
+   "section": "cover",
+   "token": "13",
+   "count": 1,
+   "reason": "v7 封面批：「怎麼讀這本書」裡的內層摺疊『時間不夠，或想換個順序：四十分鐘的走法』整個刪掉（Fable 裁定：它叫人先讀第 11 節的兩把尺、壓力測試、三問與第 13 節的四個原則和七個問題，和 v7『六行就可以開始、完整版用到才補』的路線打架）。那段裡的節號連結「第 13 節的四個原則和七個問題」跟著作廢；同一段裡的 1、10、11、12 都在別處仍然出現（工具判為 MOVED），只有 13 在封面這一節整個消失。第 13 節（id s12）的四個原則與七個問題本身沒有被刪，內文與目錄照舊。"
+  },
+  {
+   "section": "ten",
+   "token": "11",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "ten",
+   "token": "2",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "why",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "why",
+   "token": "11",
+   "count": 5,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "why",
+   "token": "2",
+   "count": 6,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "why",
+   "token": "3",
+   "count": 6,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 3 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "start",
+   "token": "11",
+   "count": 3,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "group-core",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "group-core",
+   "token": "2",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "group-core",
+   "token": "3",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 3 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s1",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s1",
+   "token": "11",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s1",
+   "token": "2",
+   "count": 3,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s1",
+   "token": "3",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 3 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s2",
+   "token": "1",
+   "count": 12,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s2",
+   "token": "11",
+   "count": 2,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s2",
+   "token": "2",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s3",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s3",
+   "token": "11",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s3",
+   "token": "3",
+   "count": 2,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 3 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s4",
+   "token": "3",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 3 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s5",
+   "token": "11",
+   "count": 3,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s6",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s7",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s10",
+   "token": "1",
+   "count": 2,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s10",
+   "token": "11",
+   "count": 4,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。（v7 第四輪：再 +1。renumber.py 的 B2 只改「錨文字整串是數字」的 a.xref，漏掉 s10 冷卻期第四題那個把節號寫進錨文字的連結「計畫表在第 11 節」；裁判④抓到、Fable 手動改成「第 14 節」，所以這一節的 11 又少一個。同樣是節號，不是別的數字；根因已補在 tools/lite_sentinels.py 的 check_xref_numbers。）"
+  },
+  {
+   "section": "s10",
+   "token": "2",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "group-plan",
+   "token": "11",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s11",
+   "token": "10",
+   "count": 5,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 10 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s11",
+   "token": "11",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "cases",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "cases",
+   "token": "10",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 10 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "cases",
+   "token": "11",
+   "count": 8,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "cases",
+   "token": "2",
+   "count": 6,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s12",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s12",
+   "token": "11",
+   "count": 9,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s12",
+   "token": "2",
+   "count": 5,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s12",
+   "token": "3",
+   "count": 3,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 3 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "group-situations",
+   "token": "10",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 10 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "group-situations",
+   "token": "2",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s13",
+   "token": "1",
+   "count": 5,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s13",
+   "token": "10",
+   "count": 7,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 10 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s13",
+   "token": "11",
+   "count": 13,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s13",
+   "token": "2",
+   "count": 3,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s13",
+   "token": "3",
+   "count": 3,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 3 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "sidepaths",
+   "token": "1",
+   "count": 4,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "group-howto",
+   "token": "11",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "firstmonth",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "firstmonth",
+   "token": "10",
+   "count": 3,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 10 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "firstmonth",
+   "token": "11",
+   "count": 8,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "firstmonth",
+   "token": "3",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 3 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "steps",
+   "token": "11",
+   "count": 3,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "steps",
+   "token": "2",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "steps",
+   "token": "3",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 3 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "costs",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "annual",
+   "token": "10",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 10 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "annual",
+   "token": "11",
+   "count": 2,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "annual",
+   "token": "2",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "1",
+   "count": 5,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "11",
+   "count": 2,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "2",
+   "count": 3,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "withdraw",
+   "token": "1",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 1 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "withdraw",
+   "token": "11",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "methods",
+   "token": "11",
+   "count": 2,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 11 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "methods",
+   "token": "2",
+   "count": 1,
+   "reason": "v7.0 全書 28 節連號：這一節裡「第 2 節」的節號變成別的數字。連號只改節號，其餘數字一個沒動——驗證見 wip/v63-review/renumber.py --check-numbers（把兩份的節號都遮成 § 之後，逐節的數字 token 多重集合完全相同）。"
+  },
+  {
+   "section": "s4",
+   "token": "1094",
+   "count": 3,
+   "reason": "v7 第六輪（台灣上市家數改口徑）：〈上市公司基本資料〉的 1,094 是資料筆數，含 10 檔台灣存託憑證（產業別 91）；主管機關公布的上市公司家數不含 TDR。主線、小字、來源卡三處都改成 1,084 家上市公司（2026-09-19 出表日自算：1094 − 10 ＝ 1084）。換口徑，不是刪數字；1084 在同三處 ADDED。"
+  },
+  {
+   "section": "s4",
+   "token": "549",
+   "count": 4,
+   "reason": "同上：549 是含 2 檔 TDR 的筆數，扣掉後 547 家。主線 1 次、小字 2 次（一次是數字本身、一次是「549 家是下限」）、來源卡 1 次，共 4 次改成 547。"
+  },
+  {
+   "section": "s4",
+   "token": "545",
+   "count": 2,
+   "reason": "同上：545 含 8 檔 TDR，扣掉後 537 家。主線 1 次、來源卡 1 次改成 537。"
+  },
+  {
+   "section": "s4",
+   "token": "17",
+   "count": 2,
+   "reason": "同上：重新抓開放資料時出表日期已是 1150919，小字與來源卡的「出表日 2026 年 9 月 17 日」改成 9 月 19 日（1,084／547／537 三個數字是從 9 月 19 日那一份算的）。只有這兩處的 17 被換掉。"
+  },
+  {
+   "section": "s9",
+   "token": "7.3",
+   "count": 1,
+   "reason": "v7 第六輪（Morningstar 換版）：第 12 節主線與摺疊從 Mind the Gap 2024 版（十年到 2023 年底）換成 2026 版（Jeffrey Ptak, The Winning Formula for Fund Investors, and Why Others Left Money on the Table, Morningstar, 2026-08-06，十年到 2025-12-31）。主線「基金本身平均年化約 7.3%」換成 2026 版的 9.9%（官方 9.89%）。7.3% 是 2024 版的數字，已經不是書上引的那一版。"
+  },
+  {
+   "section": "s9",
+   "token": "6.3",
+   "count": 1,
+   "reason": "v7 第六輪（Morningstar 換版）：第 12 節主線與摺疊從 Mind the Gap 2024 版（十年到 2023 年底）換成 2026 版（Jeffrey Ptak, The Winning Formula for Fund Investors, and Why Others Left Money on the Table, Morningstar, 2026-08-06，十年到 2025-12-31）。主線「投資人實際拿到約 6.3%」換成 2026 版的 8.7%（官方 8.72%）。"
+  },
+  {
+   "section": "s9",
+   "token": "1.1",
+   "count": 4,
+   "reason": "v7 第六輪（Morningstar 換版）：第 12 節主線與摺疊從 Mind the Gap 2024 版（十年到 2023 年底）換成 2026 版（Jeffrey Ptak, The Winning Formula for Fund Investors, and Why Others Left Money on the Table, Morningstar, 2026-08-06，十年到 2025-12-31）。整體落差 1.1 換成 1.2（官方 −1.17）。四處：主線一次、摺疊 summary 一次（「這 1.1 個百分點怎麼算的」）、摺疊「重要限制」段兩次。第 3 節「十年平均一年少約 1 個百分點」不受影響（1.1／1.2 都成立，那句沒動）。"
+  },
+  {
+   "section": "s9",
+   "token": "2.6",
+   "count": 1,
+   "reason": "v7 第六輪（Morningstar 換版）：第 12 節主線與摺疊從 Mind the Gap 2024 版（十年到 2023 年底）換成 2026 版（Jeffrey Ptak, The Winning Formula for Fund Investors, and Why Others Left Money on the Table, Morningstar, 2026-08-06，十年到 2025-12-31）。2024 版產業型落差 2.6 在 2026 版是 1.22，而且不再是最大的（最大是另類 1.55）。原句「只買單一產業的產業型基金，落差約 2.6 個百分點；股票債券已經混好的配置型，約 0.4」改成 2026 版成立的說法「落差最大的是另類基金（約 1.6），最小的是美國股票型（約 0.4）；股債已經混好的配置型約 0.7，比平均小」。2.6 這個數字整段不再出現。"
+  },
+  {
+   "section": "s9",
+   "token": "2024",
+   "count": 2,
+   "reason": "v7 第六輪（Morningstar 換版）：第 12 節主線與摺疊從 Mind the Gap 2024 版（十年到 2023 年底）換成 2026 版（Jeffrey Ptak, The Winning Formula for Fund Investors, and Why Others Left Money on the Table, Morningstar, 2026-08-06，十年到 2025-12-31）。兩處：主線「Morningstar 2024 年估算」改成「2026 年估算（到 2025 年底的十年）」；來源卡「Morningstar：Mind the Gap 2024（研究 PDF）」整條換成 2026 版官方文章（標題、作者、2026-08-06、網址）。來源卡筆數仍是 6 筆。Fulkerson 那一條（2025 版、2015–2024）未動。"
+  },
+  {
+   "section": "s12",
+   "token": "0.4",
+   "count": 1,
+   "reason": "v7 第六輪（Morningstar 換版）：第 12 節主線與摺疊從 Mind the Gap 2024 版（十年到 2023 年底）換成 2026 版（Jeffrey Ptak, The Winning Formula for Fund Investors, and Why Others Left Money on the Table, Morningstar, 2026-08-06，十年到 2025-12-31）。第 16 節主線括號「配置型基金，投資人的行為落差約 0.4 個百分點」跟著第 12 節換成 0.7（官方 −0.66）。"
+  },
+  {
+   "section": "s12",
+   "token": "1.1",
+   "count": 1,
+   "reason": "v7 第六輪（Morningstar 換版）：第 12 節主線與摺疊從 Mind the Gap 2024 版（十年到 2023 年底）換成 2026 版（Jeffrey Ptak, The Winning Formula for Fund Investors, and Why Others Left Money on the Table, Morningstar, 2026-08-06，十年到 2025-12-31）。同一個括號裡的「比平均的 1.1 小」換成 1.2。"
+  },
+  {
+   "section": "sidepaths",
+   "token": "3.8",
+   "count": 1,
+   "reason": "v7 六位模擬讀者批 B5：第 18 節個股條目原本用「第 12 節的台灣研究裡，散戶整體因為交易每年少賺 3.8 個百分點」當不持有個股的理由，換成「買賣越頻繁，付掉的稅和手續費越多（第 12 節）」。理由是第 12 節自己已經拆過那 3.8 個百分點：約三分之二是每次買賣付的稅費，隨交易次數縮放，低週轉的選股者不適用；拿它當一句話判決不準確。3.8 這個事實沒有被刪掉，仍完整留在第 12 節（本文兩處、圖說、圖的 aria-label 與來源卡）與 ten 的六個最貴的錯，只是第 18 節不再引用它。"
+  },
+  {
+   "section": "sidepaths",
+   "token": "7",
+   "count": 1,
+   "reason": "v7 六位模擬讀者批 B7：第 18 節來源卡多加一筆官方來源（金管會保險局 2026-03-26「宣告利率並非保證利率」的新聞稿，用來撐儲蓄險黃線句改寫與第 17 節那一句「哪一個是保證的」），摘要的筆數從「直接來源（7 筆）」改成「（8 筆）」。少掉的 7 是那個筆數，不是任何事實或數字。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "28",
+   "count": 1,
+   "reason": "v7 六位模擬讀者批第二輪 S5：第 24 節來源卡多加兩筆官方來源（勞工退休金條例第 7 條、勞保局「職業工會、漁會加退保規定」，用來撐第 24／25 節新的自營者但書），摘要的筆數從「直接來源（28 筆）」改成「（30 筆）」。少掉的 28 是那個筆數，不是任何事實或數字。"
+  },
+  {
+   "section": "s8",
+   "token": "9",
+   "count": 1,
+   "reason": "裁判⑥複驗＋模擬讀者第二輪：停損回測的口徑從「其中 9 次一年後指數高於賣價」改成「11 次的買回價都比賣價高約兩成」（小傑、建宏、裁判都指出原口徑沒交代買回規則，而且這 23 年年化約 13%，「一年後高於賣價」沒有鑑別力）。9 次這個數字仍在 calc-results.json 的 taiex_stoploss.n_one_year_higher，只是不再寫在書上。"
+  },
+  {
+   "section": "s5",
+   "token": "1",
+   "count": 2,
+   "reason": "第三版把 #s5-daily 的主線改成「一張表、一格一格走」：舊稿那兩句「一天漲或跌超過 1% 的日子，大約每三、四個交易日就有一天；光算跌超過 1% 的，一年大約三十天」被表的第三欄取代（表上仍有『100 倍 ｜ 1% ｜ 平均一年約 32 天』這一列，所以 1% 這個事實還在，只是不再寫三次）。兩個都是本批自己前一版加的字，v6.3.1 沒有，對 _baseline_v631.html 跑是 LOST 0。天數與占比仍在 calc-results.json 的 taiex_daily_moves。"
+  },
+  {
+   "section": "s5",
+   "token": "400",
+   "count": 1,
+   "reason": "第三版照作者的意見拿掉「月薪的一百倍（月薪 4 萬，就是 400 萬）」這個舉例——表改成讀者拿自己的金額除以月薪去對號入座，不再預設月薪 4 萬。400 萬只是那個舉例的乘積，不是來源數字；100 倍那一格仍在表上。"
+  },
+  {
+   "section": "s2",
+   "token": "5",
+   "count": 1,
+   "reason": "裁判⑥第四輪 should 4：第 5 節「收入的兩成」補出處（Time 2024-03-15，二手來源），來源卡摘要「直接來源（5 筆）」→「（6 筆）」。少掉的 5 是筆數。"
+  },
+  {
+   "section": "methods",
+   "token": "09",
+   "count": 6,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "14",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "15",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "16",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "17",
+   "count": 2,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "18",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "19",
+   "count": 2,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "2026",
+   "count": 6,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "28",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "3",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "6.0",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "6.1",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "6.2",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "6.3",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "6.3.1",
+   "count": 1,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "methods",
+   "token": "7.0",
+   "count": 2,
+   "reason": "作者 2026-09-20 晚：「版本紀錄可以移除」。第 28 節的版本紀錄卡整張拿掉；少掉的是各版本號與日期，不是任何事實或數字。版本沿革仍在 docs/handoff-guide-*.md 與 git log。"
+  },
+  {
+   "section": "s2",
+   "token": "2005",
+   "count": 1,
+   "reason": "v7 十二位審核團批（G2，來源抽查）：50/30/20 那行小字原寫「《All Your Worth》（2005）」。Time 2024-03-15 的報導寫的是 2006，本文沒有讀原書，年份不該掛在二手來源底下——拿掉括號裡的年份，書名與轉述來源都保留。"
+  },
+  {
+   "section": "s5",
+   "token": "9.7",
+   "count": 1,
+   "reason": "v7 十二位審核團批（A5）：主線表第三格原寫「沒有發生過（單日最大跌幅約 9.7%）」，改成「沒有發生過：台股有單日漲跌幅限制，這份資料最大的一天約 −9.7%」。同一個數字還在同一格，只是補上負號（token 由 9.7 變 -9.7），資料沒有變。"
+  },
+  {
+   "section": "toolbox",
+   "token": "98",
+   "count": 1,
+   "reason": "v7 十二位審核團批（G1，來源抽查）：原寫「全文 98 條都測過」不成立；抽查員 2026-09-20 實測、builder 用 regex 重數 a.source-link 的唯一網址是 157 條（本批新增 5 條後 162）。整句換成新的檢查日期與筆數。"
+  },
+  {
+   "section": "toolbox",
+   "token": "12",
+   "count": 1,
+   "reason": "v7 十二位審核團批（G1）：原句的檢查日期「2026-09-12」換成「2026-09-20」（日期的 12 是這個 token）。"
+  },
+  {
+   "section": "toolbox",
+   "token": "403",
+   "count": 1,
+   "reason": "v7 十二位審核團批（G1）：原句括號裡解釋「回 403，就是網站擋下程式的代號」。新句改寫成「會擋自動程式、要用瀏覽器才打得開」，不再寫 HTTP 代號。"
+  },
+  {
+   "section": "s11",
+   "token": "24",
+   "count": 1,
+   "reason": "裁判⑥第五輪 must：急救卡的例外句從「借錢買的人例外：先看完第 24 節那一段」改成「兩種情況例外：借錢買的，和五年內就要用的錢。先看完下面指的那一段」，少了一個重複的第 24 節連結；下一句的第 24 節連結還在。"
+  },
+  {
+   "section": "ten",
+   "token": "18",
+   "count": 1,
+   "reason": "作者指示移除第 1 節重複的摺疊「想深入：前十幾年為什麼長得這麼慢，還有「放五年也虧過」那段歷史」。那一段寫「全放股票大約 10 到 18 年才追得上你一年投入的錢」，18 只出現在這裡。完整說法在第 5 節（s2）主線：「全部放股票、每年投入固定的話：高 7% 約 10 年、中 6% 約 12 年、低 4% 約 18 年」，以及「70 ÷ 4＝17.5，約 18 年」——s2 的 token 18 共 4 個，一個都沒少。沒有事實被刪掉，只是拿掉第 1 節的重複。"
+  },
+  {
+   "section": "ten",
+   "token": "8",
+   "count": 1,
+   "reason": "同上。那一段第二句寫「各放幾年的結果在第 8 節」，是指路用的節號。被指到的內容留在原地：第 8 節（s5）「各放幾年的報酬區間」表寫著全股票連續 5 年 −2%～+29%，第 14 節（s11）摺疊「想深入：放五年、放一年，歷史上最差的那一段是多少」也寫著「全股票連續放五年最差是平均一年 −2%」。第 1 節其他地方仍有 4 個 token 8（第 8 條、第 6 條的「第 8 節；這是歷史，不是保證」等），指路沒有斷。"
+  },
+  {
+   "section": "costs",
+   "token": "76",
+   "count": 1,
+   "reason": "第 20 版 B1：拿掉配息裡「基金賣掉國內成分股賺到的價差（資本利得，配息通知書上的代碼 76W）」的所得代號 76W。查證報告 debate/verify-tw-listed-vs-overseas.md 第 1a 節：把 76W 講成國內營利所得的來源全是投信、券商、會計師事務所或財經媒體，查不到財政部原文（同 54C 的問題），不足以當書上的事實。事實本身（這一塊依證券交易所得停徵規定不課所得稅）留著，只拿掉代號。"
+  },
+  {
+   "section": "costs",
+   "token": "17",
+   "count": 1,
+   "reason": "第 20 版 B1：第 22 節來源卡從「直接來源（17 筆）」變成「（18 筆）」——新增 IRS transfer certificate 申請要件那一筆。筆數變動，不是事實被刪。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "30",
+   "count": 1,
+   "reason": "第 20 版 B5：第 24 節來源卡從「直接來源（30 筆）」變成「（31 筆）」——新增 Anarkulova, Cederburg, O'Doherty & Sias (2025), JPEF 24(3) 那一筆。筆數變動，不是事實被刪；同節 30 年退休期、股票 30%–50% 那些 30 都還在。"
+  },
+  {
+   "section": "s12",
+   "token": "0.3",
+   "count": 2,
+   "reason": "裁判後修正 N1：第 16 節摺疊「美國掛牌的從 0.06% 到 0.3% 都有」與來源卡裡轉述同一句的註記，兩處的 0.3 都改成 0.32（iShares MSCI ACWI ETF 官方頁 Expense Ratio 0.32%，來源卡本來就列著這個數字）。數字是改精確，不是拿掉。"
+  },
+  {
+   "section": "s12",
+   "token": "16",
+   "count": 1,
+   "reason": "裁判後修正 M1：第 16 節來源卡從「直接來源（16 筆）」變成「（17 筆）」——新增 IRS Publication 515 那一筆。筆數變動，不是事實被刪。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "25",
+   "count": 1,
+   "reason": "裁判後修正 S3：第 24 節刪掉「所以 25 倍是起點；能存到 33 到 40 倍更穩。」（裁判：前文已經講過 33 到 40 倍保守一些，這句是重複的結論）。同段前面「25 倍是 2,700 萬」「25 倍對台灣讀者偏樂觀」都還在，刻度沒有變。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "33",
+   "count": 1,
+   "reason": "同上。同段前面「除以 3% 是 33 倍」「用 3% 到 2.5%（33 到 40 倍）算，會保守一些」都還在。"
+  },
+  {
+   "section": "withdraw",
+   "token": "5",
+   "count": 1,
+   "reason": "裁判後修正 N7：第 25 節來源卡 summary 寫「直接來源（5 筆）」但實際列了 6 筆，改成「（6 筆）」。筆數寫錯，不是事實被刪。"
+  },
+  {
+   "section": "s12",
+   "token": "0.2",
+   "count": 1,
+   "reason": "裁判複核後修正 H 第 2 條：第 16 節摺疊的頭條數字改用年份一致的基準 A（三腿都是 2026-08-31 發行商官方頁），「這一項台灣掛牌每年比倫敦掛牌多差 0.1 到 0.2 個百分點」改成「多差約 0.1 個百分點」、「美國掛牌的只少 0.2 個百分點上下」改成「只少 0.1 個百分點左右」。同一段同時補上「台灣註冊的這一項一年約 0.2 個百分點，愛爾蘭註冊的約 0.1」，所以 0.2 在本節仍在，只是從 2 次變 1 次；這是換基準、不是把事實拿掉。"
+  },
+  {
+   "section": "s12",
+   "token": "2023",
+   "count": 1,
+   "reason": "裁判複核後修正 H 第 2 條：口徑小字從「三種的股息率資料日期不同（美國註冊的用 2026 年 8 月的官方頁，另外兩種用到 2023 年的長期資料），所以只看量級」改成「三種都用 2026 年 8 月發行商官方頁的配息率算；股息率會隨行情變，只看量級」。2023 年那套 Shiller 長期資料降為 calc_core 裡的穩健性上界（基準 B），書上不再引它的數字，所以這個年份不必留在書裡。"
+  },
+  {
+   "section": "s5",
+   "token": "3.1",
+   "count": 1,
+   "reason": "第 20 版 I：taiex-recovery 的 p.note 結尾「這七段都回到了前高，最快 0.5 年、最慢 3.1 年。」是結論、不是口徑，和同一張圖的 figcaption「七次裡最快 0.5 年，最慢 3.1 年」逐字重複，只留 figcaption 那一份。3.1 在同一張圖仍然看得到，從 2 次變 1 次。"
+  },
+  {
+   "section": "s5",
+   "token": "0.5",
+   "count": 1,
+   "reason": "第 20 版 I：同上（taiex-recovery 的 p.note 結尾那一句結論收掉）。0.5 在同一張圖的 figcaption「七次裡最快 0.5 年」仍在，從 2 次變 1 次。只有對開工前 commit（10ffa8e）跑時會出現；對 v6.3.1 基準跑時這個 token 被判成移到 s4。"
+  },
+  {
+   "section": "s11",
+   "token": "14",
+   "count": 2,
+   "reason": "第 20 版 I：plan-flow 的 p.note 刪掉和 chart-sub 重複的開頭「A 到 H 是第 14 節計畫表的八個區…」，以及圖上回頭箭頭旁邊已經寫著的「D 算不夠時的三條路（多存、延後、降低目標）寫在欄位表第 14 格」。這一節本來就是第 14 節，欄位表第 14 格的內容在同一節的欄位表裡逐字都在。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "100",
+   "count": 2,
+   "reason": "第 20 版 I：sequence-risk 的 p.note 與 figcaption 都刪掉「兩個人退休時都是／有 100 萬」的重述。緊鄰內文（#lifecycle-sequence 那張卡的第一句）仍寫著「兩個人退休時都有 100 萬」，本節 100 萬還出現 7 次。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "5",
+   "count": 2,
+   "reason": "第 20 版 I：sequence-risk 的 chart-sub 與 figcaption 都刪掉「每年年初各領 5 萬」，只留圖下 p.note 那一份（那裡同時帶著「固定金額、沒有隨物價調整」的口徑）。同一張圖上這個條件仍看得到一次。"
+  },
+  {
+   "section": "cases",
+   "token": "33",
+   "count": 1,
+   "reason": "批 N2 第 2 條：四人比較表「目標」那一列陳大哥那一格，把算法重講一次的括號改成指路（「算法在上面陳大哥的展開」）。同一節陳大哥的展開裡「33 倍」仍出現 4 次，含逐步算式「33 倍 832＋84＝約 916 萬」。"
+  },
+  {
+   "section": "cases",
+   "token": "84",
+   "count": 1,
+   "reason": "批 N2 第 2 條：同上那一格拿掉的「多缺的 84 萬」。同一節「84 萬」仍出現 5 次，含「8.4 萬×10＝84 萬」的推導與計畫表 A 區那一格。"
+  },
+  {
+   "section": "why",
+   "token": "11",
+   "count": 6,
+   "reason": "這一條取代前面那條 why／11（count 5，v7.0 連號批）：連號的 5 次之外，批 N3 第 10 條再多 1 次——第 3 節兩個摺疊裡逐字重複的那兩段，刪掉內容較少的那一份（「想深入：這張表沒說的兩件事」整個摺疊），它裡面有一個指到第 11 節的 a.xref。同樣那句話（連同指路）在同一節「想深入：優點與局限的完整清單」裡逐字還在。"
+  },
+  {
+   "section": "why",
+   "token": "16",
+   "count": 1,
+   "reason": "批 N3 第 10 條：同上那個摺疊裡「指數也不是『市場本身』…（第 16 節）」的節號。同一節「優點與局限的完整清單」有更完整的一份（多了新興市場、中國與台灣各占多少的小字），指路一樣指到第 16 節。"
+  },
+  {
+   "section": "s9",
+   "token": "34",
+   "count": 1,
+   "reason": "批 N3 第 9 條：第 12 節那張圖的 figcaption 不再把四個比例重唸一次。34% 在同一節的主線（「證交稅約 34%」）、圖上的長條標籤與圖例裡都還在。"
+  },
+  {
+   "section": "s9",
+   "token": "32",
+   "count": 1,
+   "reason": "批 N3 第 9 條：同上。32% 在主線（「手續費約 32%」）、圖上標籤與圖例裡都還在。"
+  },
+  {
+   "section": "s9",
+   "token": "27",
+   "count": 1,
+   "reason": "批 N3 第 9 條：同上。27% 在主線（「買賣本身的價差損失約 27%」）、圖上標籤與圖例裡都還在。"
+  },
+  {
+   "section": "s9",
+   "token": "7",
+   "count": 1,
+   "reason": "批 N3 第 9 條：同上。7% 在主線（「真正因為進出時機而少賺的只有約 7%」）、圖上標籤與圖例裡都還在。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "31",
+   "count": 1,
+   "reason": "批 P（第 24 節 2.31% 的口徑與 Ben Felix 的 2.7%，規格 spec-v7-content-p.md）：第 24 節來源卡從「直接來源（31 筆）」變成「（32 筆）」——新增 Ben Felix《The 2.7% Rule for Retirement Spending》（YouTube，2022-12-22）那一筆。筆數變動，不是事實被刪。"
+  },
+  {
+   "section": "methods",
+   "token": "12",
+   "count": 1,
+   "reason": "批 Q（更新第 28 節「想深入：這本書做過哪些檢查」，規格 spec-v7-content-q.md）：「實際動工 12 天」改成「13 天」。重數的算法寫在 making-of/facts-sessions.md G-2：對話檔本地有訊息的日子（13 天）與 git log --format=%ad --date=short | sort -u 的日子（7 天）取聯集，多出來的一天是 2026-09-21。換數字，不是刪事實。"
+  },
+  {
+   "section": "methods",
+   "token": "8",
+   "count": 1,
+   "reason": "同上：外部評閱「ChatGPT 8 份」改成「9 份」（總數 13 → 14）。新增的那一份是 2026-09-20T15:47 作者貼進來的 ChatGPT 審閱（評 8.5／10），出處記在 facts-sessions.md G-1。換數字，不是刪事實；同節其他 8（SPIVA、主要研究來源 8 筆等）都還在。"
+  },
+  {
+   "section": "toolbox",
+   "token": "162",
+   "count": 1,
+   "reason": "批 R：第 27 節「各節來源卡裡的 162 個網址都測過」改成 172。162 是 2026-09-20 的數，批 P 之後來源卡又新增了幾筆；重測報告 wip/v63-review/link-check-2026-09-21.md 實際抽出的 source-link 唯一網址是 172（grep -o 'class=\"source-link\" href=\"[^\"]*\"' 去重）。換數字，不是刪事實。"
+  },
+  {
+   "section": "toolbox",
+   "token": "11",
+   "count": 1,
+   "reason": "批 R：第 27 節「11 個網站會擋自動程式」改成 15。重測（curl 全掃＋逐條複驗）數出來是 15 個網域、16 條連結：ubs.com、finra.org、fourpillarfreedom.com、facebook.com、doi.org、time.com、web.archive.org、tandfonline.com、onlinelibrary.wiley.com、journals.uchicago.edu、spglobal.com、simonandschuster.com、books.com.tw、nhi.gov.tw、pm-research.com。名單在 link-check-2026-09-21.md。換數字，不是刪事實。"
+  },
+  {
+   "section": "toolbox",
+   "token": "20",
+   "count": 1,
+   "reason": "批 R：第 27 節「連結檢查日期：2026-09-20」改成 2026-09-21（重測日）。少掉的是日期裡的 20。同節其他 20（海外所得 20% 等）都還在。"
+  },
+  {
+   "section": "methods",
+   "token": "46",
+   "count": 1,
+   "reason": "批 R：第 28 節「全書 46 張表都在手機的寬度（375 像素）量過」改成 50 張。46 是批 Q 當時的數；今天發版前量測三次都是全部 50 張表（grep -o '<table' guide/index.html | wc -l = 50）、24 張圖、兩種寬度，零溢出。換數字，不是刪事實。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "2022",
+   "count": 1,
+   "reason": "批 R：第 24 節摺疊 Ben Felix 那一段依裁判意見重寫，開頭從「Ben Felix 2022 年的影片〈2.7% 法則〉講的就是這份研究」改成講論文版本（「影片用的是這份研究較早的版本（當時算出來是 2.26%，正式發表時是 2.31%）」），主詞移到 h4 標題。影片年份仍在同節來源卡：「Ben Felix, The 2.7% Rule for Retirement Spending…2022-12-22」。是句子改寫，不是事實被刪。"
+  },
+  {
+   "section": "s12",
+   "token": "17",
+   "count": 1,
+   "reason": "批 S6：第 16 節來源卡「直接來源（17 筆）」改成 18 筆——加了一筆 FAPA 2026-06-23 的文章，當作同節 H.R.33「參議院還沒通過」那一句的佐證。換數字，不是刪事實。"
+  },
+  {
+   "section": "s12",
+   "token": "18",
+   "count": 1,
+   "reason": "批 S6：第 16 節 H.R.33 那一筆的註記「到本文檢查日（2026-09-18）參議院還沒通過」改成 2026-09-22（本批的重查日）。少掉的是日期裡的 18。換數字，不是刪事實。"
+  },
+  {
+   "section": "s5",
+   "token": "1950",
+   "count": 2,
+   "reason": "批 T：美股長線圖照作者拍板改成 1929 年起（原本是 1950 年起）。圖說「1950 年初投進去的 1 元」改成「1929 年初…」，口徑句「1950 年 1 月到 2023 年 6 月」改成「1929 年 1 月…」。1950 這個年份並沒有從第 8 節消失：圖上新增「1950/6 韓戰」的事件標籤（桌機版、手機版、aria-label 各一次），出處是美國國務院歷史文獻辦公室。換口徑，不是刪事實。"
+  },
+  {
+   "section": "s5",
+   "token": "4598",
+   "count": 1,
+   "reason": "批 T：圖說的倍數換成 1929 年起的實算值——1 元變成大約 9,899 元（tools/calc_core.py 的 us_1929.last_multiple，assert 釘住 9,899 這個寫法）。1950 年起的 4,598 倍仍在 calc_core 的 us_1950 當對照，只是書上不再畫那一版。"
+  },
+  {
+   "section": "s5",
+   "token": "49",
+   "count": 1,
+   "reason": "批 T：圖說的最深回撤換成 1929 年起那條線的實算值——從 −49%（1950 起，2007-10 → 2009-03）換成 −82%（1929-09 → 1932-06）。calc_core 兩個都算、兩個都有 assert。"
+  },
+  {
+   "section": "s5",
+   "token": "77",
+   "count": 1,
+   "reason": "批 T：圖的標題「美股這 77 年」隨起點改成「美股這 98 年」（1929-01 到 2026-08，1,172 個月）。"
+  },
+  {
+   "section": "s5",
+   "token": "920",
+   "count": 1,
+   "reason": "批 T：圖下口徑句的月數隨起點從 920 個月改成 1,172 個月。"
+  },
+  {
+   "section": "s5",
+   "token": "29",
+   "count": 1,
+   "reason": "批 T：第 8 節來源卡「直接來源（29 筆）」改成 37 筆——新增 8 筆美股事件的一手日期出處（1933 銀行休業、1937 二次衰退、1941 珍珠港、1950 韓戰、1979 打通膨升息、1990 波灣戰爭、2003 伊拉克戰爭、2023 銀行倒閉）。換數字，不是刪事實。"
+  },
+  {
+   "section": "why",
+   "token": "80",
+   "count": 1,
+   "reason": "批 U（規格 spec-v7-content-u.md）：第 3 節白話版換成作者的原話「你能想像平時讀個幾分鐘，考試也能考 80 分的快樂嗎？」。80 分是讀書法的比喻，不是投資報酬或統計數字，所以會以 ADDED 出現；列在這裡是為了留紀錄。（批 T 的建造員代填：批 U 的說明文件說這一條寫在本檔，實際不在，補上。）"
+  },
+  {
+   "section": "s5",
+   "token": "-62",
+   "count": 1,
+   "reason": "批 V 第 13 條（nit）：箱型圖六根的精度統一成一位小數，圖說的「-62%」變成「−62.3%」（原值 −62.28%）；同一條也把 ASCII 減號換成全形負號。數字沒有換，是同一個值多寫一位。"
+  },
+  {
+   "section": "s5",
+   "token": "140",
+   "count": 1,
+   "reason": "批 V 第 13 條（nit）：同上，箱型圖圖說「+140%」變成「+139.8%」（原值 +139.81%）。"
+  },
+  {
+   "section": "s5",
+   "token": "12",
+   "count": 1,
+   "reason": "批 V 第 11 條：來源卡不再寫盤中 12,682 點的日期（「1990 年 2 月 12 日」），因為本文查不到官方逐日資料、也查不到確切日期；改成只寫收盤高點 12,495（1990-02-10）。刪掉的是查不到出處的日期，不是有出處的事實。"
+  },
+  {
+   "section": "s5",
+   "token": "37",
+   "count": 1,
+   "reason": "批 V 第 10 條：第 8 節來源卡的筆數宣告從「直接來源（37 筆）」改成「直接來源（35 筆）＋呈現方式的參考（2 筆）」——Lazy Portfolio ETF 與 A Wealth of Common Sense 兩筆只是呈現方式的參考，不是數字來源。source-link 實數仍是 37。"
+  },
+  {
+   "section": "s12",
+   "token": "23",
+   "count": 1,
+   "reason": "批 V 第 9 條：第 16 節 FAPA 那一筆的註記改成如實（非官方；用來佐證到 2026 年 6 月參議院仍未通過），不再寫該篇的日期「6 月 23 日」。"
+  },
+  {
+   "section": "s12",
+   "token": "2026",
+   "count": 1,
+   "reason": "批 V 第 9 條：同上，原註記有兩個 2026（「2026 年 6 月 23 日」與「本文 2026-09-22 再查一次」），新註記只留「到 2026 年 6 月」。"
+  },
+  {
+   "section": "s12",
+   "token": "09",
+   "count": 1,
+   "reason": "批 V 第 9 條：同上，FAPA 註記不再寫本文檢查日「2026-09-22」（官方進度改以 congress.gov 的 Actions 為準）。全書的資料檢查日期在第 28 節與 footer，沒有動。"
+  },
+  {
+   "section": "s12",
+   "token": "22",
+   "count": 1,
+   "reason": "批 V 第 9 條：同上，「2026-09-22」的日。"
+  },
+  {
+   "section": "s5",
+   "token": "2025",
+   "count": 2,
+   "reason": "批 W：台股長線圖換資料檔——來源卡原本寫「長線圖那條台股價格指數（1990 年 1 月到 2025 年 12 月，各月最後一個交易日收盤）」，改成「前半段（價格指數，1990 年 1 月 4 日到 2003 年 1 月 2 日，逐日收盤）」，因為 2003 年以後那一段改用含股利的報酬指數（同一張來源卡的第一筆）。這一句少掉一次 2025。2025 在第 8 節其他地方（圖說、年內跌幅表、台股區間表、含息指數那一筆來源卡）都還在。上限從 round26 的 1 調到 2：原本那 1 是第三輪 A8-3 收掉的資料卡標題。"
+  },
+  {
+   "section": "s5",
+   "token": "432",
+   "count": 1,
+   "reason": "批 W：長線圖的 details.more 原本寫「各月最後一個交易日收盤…共 432 個月」，線改成逐週之後換成「每週最後一個交易日的收盤…共 1,859 週」。432 是舊口徑的點數，不是書上任何一個事實；逐月那一份檔案（research/data/taiex_price_monthend_1990_2025.csv）仍留著，只拿來查「只看價格的話 1990 年那個高點到 2020-07 才再收在它上面」。"
+  },
+  {
+   "section": "s5",
+   "token": "0",
+   "count": 1,
+   "reason": "批 X：滾動報酬圖從一條 30 年線改成 10／20／30 年三條線，原圖說最後那句「到 2026 年 8 月為止，這條線沒有低於 0。」作廢——10 年那條線本來就有 51 個視窗是負的（約 2.9%），留著會變成錯的。新圖說照規格改成「抱 10 年，歷史上有大約 3% 的起點是虧的，最差一年 −4.0%；抱 20 年，沒有一個起點是虧的」，同一件事講得更準。s5 其他地方的 0 都還在。"
+  },
+  {
+   "section": "s5",
+   "token": "14.3",
+   "count": 1,
+   "reason": "批 X：同上。30 年最好 14.3% 原本在滾動圖圖說與箱型圖圖說各寫一次；新的滾動圖圖說改講三條線的「最差」，這個數字留在「想深入」摺疊裡——箱型圖的圖說（「抱 30 年最差 +3.6%、最好 +14.3%」）與圖上的資料標籤，兩張圖都在第 8 節那個「想深入」摺疊內。（批 Y 又把滾動圖上原本標的「30 年最高 14.3%（2000）」拿掉，改標三條線各自的最低，所以這一條的理由在批 AA 改寫成現況。）數字沒有改，只是不再重複寫兩次。"
+  },
+  {
+   "section": "s5",
+   "token": "2026",
+   "count": 1,
+   "reason": "批 X：同上。原圖說「到 2026 年 8 月為止，這條線沒有低於 0」拿掉以後少寫一次 2026；資料的截止年份仍在同一張圖的 chart-sub（「資料 1871–2026」）與圖的 details.more（「串接到 2026 年 8 月」）裡。"
+  },
+  {
+   "section": "s5",
+   "token": "35",
+   "count": 1,
+   "reason": "批 Z：第 8 節來源卡的筆數宣告「直接來源（35 筆）」改成「（36 筆）」——這一批加了一筆證交所「市場交易月報」第 1 表（全市場年底殖利率），是圖說那句 1990–2002 股利估算的依據。35 是舊的筆數宣告，不是書上任何一個事實；卡片裡原有的 35 筆一筆都沒有動。"
+  },
+  {
+   "section": "s5",
+   "token": "-0.14",
+   "count": 1,
+   "reason": "批 AA（must 1）：台股長線圖圖說的年化精度改成和「多 2 個百分點」對得起來的一位小數——「−0.14%」改寫成「−0.1%」（−0.1＋2≈+2，讀者算得回來）。原值 −0.14% 沒有消失，calc_core.py 的 assert 與註解、research/data 的 CSV、debate/verify-taiex-pre2003-dividends.md 都還釘著它。"
+  },
+  {
+   "section": "s5",
+   "token": "2.4",
+   "count": 1,
+   "reason": "批 AA（must 1）：同一句的「一年大約多 2.4 個百分點」改成「一年大約多 2 個百分點」。規格 Z 原本就要「2 個百分點」；2.42 這個實算值仍在 calc_core.py 的 assert 與 changes-for-author-v7.md 一之三十的表裡。"
+  },
+  {
+   "section": "s5",
+   "token": "7",
+   "count": 1,
+   "reason": "批 AA（nit 9）：美股長線圖「大蕭條谷底」的點從 1932-07 改標到序列真正的谷底 1932-06，圖上與 aria 的標籤「1932/7」跟著變成「1932/6」。道瓊的谷底日 1932-07-08 改寫進來源卡註記，那一筆的英文引文（July 8, 1932）一字未動。"
+  },
+  {
+   "section": "s5",
+   "token": "1990",
+   "count": 1,
+   "reason": "批 AA-2：來源卡引用舊版圖說的一句被拿掉，這兩個年份是引文的一部分；圖說本身仍寫『從 1990 年底算起的那十二年（1991 到 2002）』"
+  },
+  {
+   "section": "s5",
+   "token": "2002",
+   "count": 1,
+   "reason": "批 AA-2：來源卡引用舊版圖說的一句被拿掉，這兩個年份是引文的一部分；圖說本身仍寫『從 1990 年底算起的那十二年（1991 到 2002）』"
+  },
+  {
+   "section": "s5",
+   "token": "500",
+   "count": 1,
+   "reason": "批 AC（S4）：美股來源卡 1932 那一筆的口徑句從「本圖用 S&P 500 含息月底口徑」改成「本圖 1932 年那一段用 Shiller 月資料——含息，價格是當月每日收盤的平均」，「S&P 500」這一次出現跟著消失（原句的月底口徑寫錯：那一段是 Shiller 的當月每日收盤平均，和同圖「想深入」自相矛盾）。第 8 節其他地方（圖副標、想深入、來源卡別筆）仍寫 S&P 500。"
+  },
+  {
+   "section": "s5",
+   "token": "2003",
+   "count": 1,
+   "reason": "批 AE（裁判 should D）：台股來源卡 0.74 那一句改寫，括號裡重複的「2003 到 2008 年」拿掉（同一段前面兩句已經寫了兩次「2003 到 2008 年」，括號裡再寫第三次是贅述），改成「六個年度比值的中位數；套回同一段…」並補上適用範圍（1991 到 2002 年配股和這一段一樣多，所以用這一段；2009 年以後配股已少，0.74 折得太多，不適用）。口徑沒有變，2003 與 2008 這兩個年份在同一張來源卡裡仍各出現兩次。"
+  },
+  {
+   "section": "s5",
+   "token": "10",
+   "count": 1,
+   "reason": "v7 批 AG：台股長線圖的圖說（作者口述定稿）從「1990 年 2 月 10 日收在 12,495 點的人」改成「1990 年 2 月收在 12,495 點的人」，少掉的是那個「日」。同一個高點日期 1990-02-10 在第 8 節來源卡還在，12,495 這個點數也還在。"
+  },
+  {
+   "section": "s5",
+   "token": "-5.9",
+   "count": 1,
+   "reason": "v7 批 AG：滾動報酬圖的圖說末尾「扣掉物價，最差的十年是 −5.9%（1999 年 3 月起那十年）…最差的二十年是 −0.2%（1901 年 6 月起那二十年）」整段搬進同一張圖的「想深入」，而那裡本來就有同一組數字（「這張圖自己算出來的最差是：10 年 −5.9%（1999 年 3 月起）、20 年 −0.2%（1901 年 6 月起）、30 年 +1.9%（1902 年 6 月起）」），照作者指示「若重複就只留一份」去重。−5.9% 在「想深入」裡仍在，少掉的是同一個數字的第二次。"
+  },
+  {
+   "section": "s5",
+   "token": "-0.2",
+   "count": 1,
+   "reason": "v7 批 AG：滾動報酬圖的圖說末尾「扣掉物價，最差的十年是 −5.9%（1999 年 3 月起那十年）…最差的二十年是 −0.2%（1901 年 6 月起那二十年）」整段搬進同一張圖的「想深入」，而那裡本來就有同一組數字（「這張圖自己算出來的最差是：10 年 −5.9%（1999 年 3 月起）、20 年 −0.2%（1901 年 6 月起）、30 年 +1.9%（1902 年 6 月起）」），照作者指示「若重複就只留一份」去重。−0.2% 在「想深入」裡仍在，少掉的是同一個數字的第二次。"
+  },
+  {
+   "section": "s5",
+   "token": "1999",
+   "count": 1,
+   "reason": "v7 批 AG：滾動報酬圖的圖說末尾「扣掉物價，最差的十年是 −5.9%（1999 年 3 月起那十年）…最差的二十年是 −0.2%（1901 年 6 月起那二十年）」整段搬進同一張圖的「想深入」，而那裡本來就有同一組數字（「這張圖自己算出來的最差是：10 年 −5.9%（1999 年 3 月起）、20 年 −0.2%（1901 年 6 月起）、30 年 +1.9%（1902 年 6 月起）」），照作者指示「若重複就只留一份」去重。1999 年 3 月 在「想深入」裡仍在，少掉的是同一個數字的第二次。"
+  },
+  {
+   "section": "s5",
+   "token": "1901",
+   "count": 1,
+   "reason": "v7 批 AG：滾動報酬圖的圖說末尾「扣掉物價，最差的十年是 −5.9%（1999 年 3 月起那十年）…最差的二十年是 −0.2%（1901 年 6 月起那二十年）」整段搬進同一張圖的「想深入」，而那裡本來就有同一組數字（「這張圖自己算出來的最差是：10 年 −5.9%（1999 年 3 月起）、20 年 −0.2%（1901 年 6 月起）、30 年 +1.9%（1902 年 6 月起）」），照作者指示「若重複就只留一份」去重。1901 年 6 月 在「想深入」裡仍在，少掉的是同一個數字的第二次。"
+  },
+  {
+   "section": "s5",
+   "token": "3",
+   "count": 1,
+   "reason": "v7 批 AG：滾動報酬圖的圖說末尾「扣掉物價，最差的十年是 −5.9%（1999 年 3 月起那十年）…最差的二十年是 −0.2%（1901 年 6 月起那二十年）」整段搬進同一張圖的「想深入」，而那裡本來就有同一組數字（「這張圖自己算出來的最差是：10 年 −5.9%（1999 年 3 月起）、20 年 −0.2%（1901 年 6 月起）、30 年 +1.9%（1902 年 6 月起）」），照作者指示「若重複就只留一份」去重。1999 年 3 月的「3」 在「想深入」裡仍在，少掉的是同一個數字的第二次。"
+  },
+  {
+   "section": "s5",
+   "token": "6",
+   "count": 1,
+   "reason": "v7 批 AG：滾動報酬圖的圖說末尾「扣掉物價，最差的十年是 −5.9%（1999 年 3 月起那十年）…最差的二十年是 −0.2%（1901 年 6 月起那二十年）」整段搬進同一張圖的「想深入」，而那裡本來就有同一組數字（「這張圖自己算出來的最差是：10 年 −5.9%（1999 年 3 月起）、20 年 −0.2%（1901 年 6 月起）、30 年 +1.9%（1902 年 6 月起）」），照作者指示「若重複就只留一份」去重。1901 年 6 月的「6」 在「想深入」裡仍在，少掉的是同一個數字的第二次。"
+  },
+  {
+   "section": "why",
+   "token": "70",
+   "count": 3,
+   "reason": "v7 批 AH（D1，裁判 A 的 D-1 表）：「想像全班考試平均 70 分。有人考 90，就一定有人低於 70，全班平均還是 70」和第 6 節摺疊（guide/index.html:921「想像全班考試平均 70 分：有人考得高，就有人考得低，平均還是 70」）逐字是同一個比喻，講了兩次。第 6 節是這個論點的主場（同節還有 Sharpe 1991 的完整算式），所以第 3 節那一處改成一句話帶過並指路第 6 節。比喻與數字都還在第 6 節，沒有任何數字從書上消失。"
+  },
+  {
+   "section": "why",
+   "token": "90",
+   "count": 1,
+   "reason": "v7 批 AH（D1）：同上。「有人考 90」是那個比喻的中段，第 6 節那一版寫的是「有人考得高，就有人考得低」，沒有用 90 這個數字；第 3 節改成一句話帶過之後，這個舉例用的數字跟著收掉，沒有任何事實或來源被刪。"
+  },
+  {
+   "section": "s3",
+   "token": "502",
+   "count": 1,
+   "reason": "v7 批 AH（H14，裁判 A）：費用差距圖的 figcaption 前兩句和同節主線（guide/index.html:796「如果一年長 6%，最後約 502 萬…約 416 萬。每年只差 1 個百分點，三十年後差約 86 萬」）逐數字重複，圖說只留「兩條線前幾年幾乎疊在一起…」那一句。502 萬在同一節的主線仍在，少掉的是第二次。"
+  },
+  {
+   "section": "s3",
+   "token": "416",
+   "count": 1,
+   "reason": "v7 批 AH（H14）：同上，416 萬在同一節主線 :796 仍在，少掉的是圖說裡重複的那一次。"
+  },
+  {
+   "section": "s3",
+   "token": "86",
+   "count": 1,
+   "reason": "v7 批 AH（H14）：同上，86 萬在同一節主線 :796 與圖標題「每年差 1 個百分點，三十年差 86 萬」仍在，少掉的是圖說裡重複的那一次。"
+  },
+  {
+   "section": "s5",
+   "token": "17.73",
+   "count": 1,
+   "reason": "v7 批 AH（8-4，裁判 B）：台股年內跌幅圖的圖外小字「平均年內最多跌 17.73%；23 年裡 18 年全年為正」和同節展開（guide/index.html:2644「把每一年…的幅度拿來平均，是 17.73%」）重複，圖外只留資料來源。17.73% 在同節展開仍在。"
+  },
+  {
+   "section": "s9",
+   "token": "3.8",
+   "count": 1,
+   "reason": "v7 批 AH（12-1，裁判 B）：drag-breakdown 圖外小字第一句和圖上面第三段主線 34 字逐字相同，刪掉那一句。3.8 個百分點在同一節的主線、圖副標、圖說、來源卡裡仍各有一份。"
+  },
+  {
+   "section": "s1",
+   "token": "4",
+   "count": 2,
+   "reason": "v7 批 AH（D8，裁判 A 的 D-1 表）：第 4 節摺疊首句「規劃時，股票報酬率用三種算法：保守算 4%、普通算 6%、樂觀算 7%」和它上面同一張卡的主線「本書用三種假設做規劃：保守算一年 4%、普通算 6%、樂觀算 7%」逐字重複，摺疊那一句刪掉，直接從「做決定照保守算」開始。三個數字在同一節主線仍在。 另一個 4 是 E1 那個自指節號：v7 批 AH（E1，裁判 A 補列）：第 4 節「合理的期待」那一句原本寫「（第 4 節上面那三個數…）」，是全書唯一一個指到自己這一節的節號；改成「也就是這一節上面那三個數裡中間那個」。指到的內容沒變，少掉的是那個自指的節號。"
+  },
+  {
+   "section": "s1",
+   "token": "7",
+   "count": 1,
+   "reason": "v7 批 AH（D8，裁判 A 的 D-1 表）：第 4 節摺疊首句「規劃時，股票報酬率用三種算法：保守算 4%、普通算 6%、樂觀算 7%」和它上面同一張卡的主線「本書用三種假設做規劃：保守算一年 4%、普通算 6%、樂觀算 7%」逐字重複，摺疊那一句刪掉，直接從「做決定照保守算」開始。三個數字在同一節主線仍在。"
+  },
+  {
+   "section": "s1",
+   "token": "8",
+   "count": 1,
+   "reason": "v7 批 AH（E2，裁判 A 補列）：同一句裡兩個「第 8 節」併成句末一個（「兩個數字都在第 8 節那張區間表上」）。指路沒有消失，少掉的是重複的那一次。"
+  },
+  {
+   "section": "s2",
+   "token": "2022",
+   "count": 1,
+   "reason": "v7 批 AH（M4，裁判 A）：第 5 節定存那一句 143 字、11 個數字，改成「2022 到 2024 這三年，物價每年漲 2.95%、2.49%、2.18%；同樣這三年，一年期定存平均只有 1.14%、1.55%、1.68%」。百分比一個沒動，少掉的是重複寫出來的年份（原句把 2022／2023／2024 各寫兩次）。這三個年份與對應數字在同節小字與來源卡裡都還在。"
+  },
+  {
+   "section": "s2",
+   "token": "2023",
+   "count": 2,
+   "reason": "v7 批 AH（M4，裁判 A）：第 5 節定存那一句 143 字、11 個數字，改成「2022 到 2024 這三年，物價每年漲 2.95%、2.49%、2.18%；同樣這三年，一年期定存平均只有 1.14%、1.55%、1.68%」。百分比一個沒動，少掉的是重複寫出來的年份（原句把 2022／2023／2024 各寫兩次）。這三個年份與對應數字在同節小字與來源卡裡都還在。"
+  },
+  {
+   "section": "s2",
+   "token": "2024",
+   "count": 1,
+   "reason": "v7 批 AH（M4，裁判 A）：第 5 節定存那一句 143 字、11 個數字，改成「2022 到 2024 這三年，物價每年漲 2.95%、2.49%、2.18%；同樣這三年，一年期定存平均只有 1.14%、1.55%、1.68%」。百分比一個沒動，少掉的是重複寫出來的年份（原句把 2022／2023／2024 各寫兩次）。這三個年份與對應數字在同節小字與來源卡裡都還在。"
+  },
+  {
+   "section": "s2",
+   "token": "10",
+   "count": 1,
+   "reason": "v7 批 AH（H10，裁判 A）：甜蜜點那一段相鄰兩句把「算法＋%＋年」講了兩次（共 12 個數字），改成只講一次、順序改成保守在前。三組數字都還在，少掉的是第二次。"
+  },
+  {
+   "section": "s2",
+   "token": "12",
+   "count": 1,
+   "reason": "v7 批 AH（H10，裁判 A）：甜蜜點那一段相鄰兩句把「算法＋%＋年」講了兩次（共 12 個數字），改成只講一次、順序改成保守在前。三組數字都還在，少掉的是第二次。"
+  },
+  {
+   "section": "s2",
+   "token": "6",
+   "count": 1,
+   "reason": "v7 批 AH（H10，裁判 A）：甜蜜點那一段相鄰兩句把「算法＋%＋年」講了兩次（共 12 個數字），改成只講一次、順序改成保守在前。三組數字都還在，少掉的是第二次。"
+  },
+  {
+   "section": "s2",
+   "token": "7",
+   "count": 1,
+   "reason": "v7 批 AH（H10，裁判 A）：甜蜜點那一段相鄰兩句把「算法＋%＋年」講了兩次（共 12 個數字），改成只講一次、順序改成保守在前。三組數字都還在，少掉的是第二次。／v7 批 AQ（作者說第 5 節「資產每多一桶要多久」那張卡排版亂）：卡開頭 h3 與 figure 之間的兩段刪掉，其中一段寫「每年固定成長 7%…同樣 7% 會長出越多錢」，兩個 7 沒了；同一張卡的 chart-sub、figcaption、合併後的「想深入」（「7% 要 31 年」「7% 還沒扣費用和稅；每年固定 7% 只是教學假設」）都還在講 7%，對 _baseline_v631.html 跑這一節的 7 甚至還是 ADDED，沒有事實消失。對 HEAD（批 AP-3＝65763f5）跑時，這一批淨少的那 1 個 7 就落在這一條裡（上限維持 1，兩個基準都 LOST 0）。"
+  },
+  {
+   "section": "s2",
+   "token": "60",
+   "count": 4,
+   "reason": "v7 批 AH（M3，裁判 A）：摺疊的 summary 和它下一行的 h4「資產每增加 60 萬要花幾年，還有這一節幾組試算的假設」幾乎一樣，h4 刪掉（1 次）。／v7 批 AN（作者 2026-09-23 拍板「十桶金」）：第 5 節 milestones 圖的縱軸從「萬」改成「一年儲蓄的倍數」，一桶＝十倍，所以卡名（資產每增加 60 萬需要多久 → 資產每多一桶要多久）、卡首（每一格 60 萬 → 每一桶）、圖標題（每多 60 萬要花幾年 → 十桶金）各少一次，共 3 次。60 萬版本沒有刪掉，整組移進圖內新開的想深入（「每年投 6 萬的話，一桶就是 60 萬，第一桶 7.84 年、第十桶 1.35 年」）與它下面的數字表（第一列仍是 60 萬），60 在這一節仍有 2 次。"
+  },
+  {
+   "section": "s6",
+   "token": "60",
+   "count": 1,
+   "reason": "不是批 AN 改的，是批 AN 才露出來的舊帳：v7 第五輪 T2（commit 9799d60，第 9 節「一次投入還是分批」給它自己的 h3）把「例如一次拿到 60 萬年終」改寫成「也可能是一次拿到年終、退休金，或者定存到期」，那次少掉的 60 一直被 s2 相對 v6.3.1 多出來的 60 吸收掉（v7_check 的全書層級搬移），所以歷次檢查都是綠的。批 AN 把 s2 的 60 收進想深入以後，s2 沒有餘額可以吸收，這一筆才現形。批 AN 沒有動第 9 節任何一個字。"
+  },
+  {
+   "section": "s3",
+   "token": "5000",
+   "count": 1,
+   "reason": "v7 批 AH（H14，裁判 A）：費用差距圖的圖說前兩句和同節主線 :796 逐數字重複，圖說只留「兩條線前幾年幾乎疊在一起…」。數字都還在主線。"
+  },
+  {
+   "section": "s3",
+   "token": "180",
+   "count": 1,
+   "reason": "v7 批 AH（H14，裁判 A）：費用差距圖的圖說前兩句和同節主線 :796 逐數字重複，圖說只留「兩條線前幾年幾乎疊在一起…」。數字都還在主線。"
+  },
+  {
+   "section": "s3",
+   "token": "30",
+   "count": 2,
+   "reason": "v7 批 AH（H14，裁判 A）：費用差距圖的圖說前兩句和同節主線 :796 逐數字重複，圖說只留「兩條線前幾年幾乎疊在一起…」。數字都還在主線。"
+  },
+  {
+   "section": "s3",
+   "token": "5",
+   "count": 1,
+   "reason": "v7 批 AH（H14，裁判 A）：費用差距圖的圖說前兩句和同節主線 :796 逐數字重複，圖說只留「兩條線前幾年幾乎疊在一起…」。數字都還在主線。"
+  },
+  {
+   "section": "s3",
+   "token": "6",
+   "count": 1,
+   "reason": "v7 批 AH（H14，裁判 A）：費用差距圖的圖說前兩句和同節主線 :796 逐數字重複，圖說只留「兩條線前幾年幾乎疊在一起…」。數字都還在主線。"
+  },
+  {
+   "section": "s3",
+   "token": "15",
+   "count": 1,
+   "reason": "v7 批 AH（H13，裁判 A）：第 6 節「台灣自己的數字」兩段各講一次同一個結論，A 段收在「但這份報告只有五年、樣本只有幾十檔。」；美國小型股 15、20 年那一段留在下一段小字裡（「拉到 15、20 年就回到九成」）。"
+  },
+  {
+   "section": "s3",
+   "token": "20",
+   "count": 1,
+   "reason": "v7 批 AH（H13，裁判 A）：第 6 節「台灣自己的數字」兩段各講一次同一個結論，A 段收在「但這份報告只有五年、樣本只有幾十檔。」；美國小型股 15、20 年那一段留在下一段小字裡（「拉到 15、20 年就回到九成」）。"
+  },
+  {
+   "section": "s5",
+   "token": "1871",
+   "count": 1,
+   "reason": "v7 批 AH（追加：批 AG 之後留下的重複）：sp500-holding-box 的「想深入」裡「和「想深入」裡 J.P. Morgan 區間表的口徑差在哪：那張表是…1950 年起、以整年為單位（1 月 1 日到 12 月 31 日）；這張圖是 1871 年起、逐月起算」和同一段前面那一句（「這張圖和下面「想深入」裡 J.P. Morgan 的區間表講的是同一件事，口徑不一樣（起始年、整年 vs 逐月、資料來源），數字不會一致」）講同一件事，留前者。1871 年、1950 年在同一段其他句子裡仍在。"
+  },
+  {
+   "section": "s5",
+   "token": "31",
+   "count": 1,
+   "reason": "v7 批 AH（追加：批 AG 之後留下的重複）：sp500-holding-box 的「想深入」裡「和「想深入」裡 J.P. Morgan 區間表的口徑差在哪：那張表是…1950 年起、以整年為單位（1 月 1 日到 12 月 31 日）；這張圖是 1871 年起、逐月起算」和同一段前面那一句（「這張圖和下面「想深入」裡 J.P. Morgan 的區間表講的是同一件事，口徑不一樣（起始年、整年 vs 逐月、資料來源），數字不會一致」）講同一件事，留前者。1871 年、1950 年在同一段其他句子裡仍在。"
+  },
+  {
+   "section": "s5",
+   "token": "7.6",
+   "count": 1,
+   "reason": "v7 批 AH（裁判 B 的 D 表）：Cowles 那一整段（1926 年以前怎麼回推、7.6%、1932 年 6 月）原本在兩張長線圖的「想深入」裡逐字重複兩次，滾動圖那一份改成「1926 年以前的資料怎麼來、為什麼留著，見上一張圖的「想深入」」。整段仍在同一節上一張圖（sp500-holding-box）的「想深入」裡。"
+  },
+  {
+   "section": "s5",
+   "token": "1932",
+   "count": 1,
+   "reason": "v7 批 AH（裁判 B 的 D 表）：Cowles 那一整段（1926 年以前怎麼回推、7.6%、1932 年 6 月）原本在兩張長線圖的「想深入」裡逐字重複兩次，滾動圖那一份改成「1926 年以前的資料怎麼來、為什麼留著，見上一張圖的「想深入」」。整段仍在同一節上一張圖（sp500-holding-box）的「想深入」裡。"
+  },
+  {
+   "section": "s5",
+   "token": "30",
+   "count": 2,
+   "reason": "v7 批 AH（裁判 B 的 D 表）：Cowles 那一整段（1926 年以前怎麼回推、7.6%、1932 年 6 月）原本在兩張長線圖的「想深入」裡逐字重複兩次，滾動圖那一份改成「1926 年以前的資料怎麼來、為什麼留著，見上一張圖的「想深入」」。整段仍在同一節上一張圖（sp500-holding-box）的「想深入」裡。"
+  },
+  {
+   "section": "s5",
+   "token": "18",
+   "count": 1,
+   "reason": "v7 批 AH（8-4，裁判 B）：台股年內跌幅圖的圖外小字「平均年內最多跌 17.73%；23 年裡 18 年全年為正」和圖說、同節展開重複三次，圖外只留資料來源。18 年與 23 年在同節圖說與展開仍在。"
+  },
+  {
+   "section": "s5",
+   "token": "23",
+   "count": 1,
+   "reason": "v7 批 AH（8-4，裁判 B）：台股年內跌幅圖的圖外小字「平均年內最多跌 17.73%；23 年裡 18 年全年為正」和圖說、同節展開重複三次，圖外只留資料來源。18 年與 23 年在同節圖說與展開仍在。"
+  },
+  {
+   "section": "s7",
+   "token": "7.3",
+   "count": 1,
+   "reason": "v7 批 AH（10-3，主線拍板）：圖說留「永遠最衰和永遠神準，二十三年下來只差 7.3%。」，圖下主線縮成「永遠買在最高和永遠買在最低，平均一年只差 0.49 個百分點。」7.3% 在圖說裡仍在（圖說寫的是「二十三年」，所以阿拉伯數字的 23 少一個）。"
+  },
+  {
+   "section": "s7",
+   "token": "23",
+   "count": 1,
+   "reason": "v7 批 AH（10-3，主線拍板）：圖說留「永遠最衰和永遠神準，二十三年下來只差 7.3%。」，圖下主線縮成「永遠買在最高和永遠買在最低，平均一年只差 0.49 個百分點。」7.3% 在圖說裡仍在（圖說寫的是「二十三年」，所以阿拉伯數字的 23 少一個）。"
+  },
+  {
+   "section": "s9",
+   "token": "1995",
+   "count": 1,
+   "reason": "v7 批 AH（12-1，裁判 B）：drag-breakdown 圖外小字第一句和圖上面第三段主線 34 字逐字相同，刪掉。「1995 到 1999 年」在同節主線仍在。"
+  },
+  {
+   "section": "s9",
+   "token": "1999",
+   "count": 1,
+   "reason": "v7 批 AH（12-1，裁判 B）：drag-breakdown 圖外小字第一句和圖上面第三段主線 34 字逐字相同，刪掉。「1995 到 1999 年」在同節主線仍在。"
+  },
+  {
+   "section": "s11",
+   "token": "1990",
+   "count": 1,
+   "reason": "批 AI（裁判 C S14-2）：「不管它，比例會自己跑掉」那張圖的圖說只留「這張圖告訴我什麼」一句，原本開頭「1990 年初放股票八成、現金兩成，之後都不動」和圖例、圖下說明、chart-sub 逐字重複。1990 在 s11 仍有 4 處。"
+  },
+  {
+   "section": "s11",
+   "token": "2000",
+   "count": 1,
+   "reason": "同上：圖說末尾的「（圖下說明有 2000 年起點先往下跑的例子）」是自我指路，2000 年起點的例子本身原封不動搬進圖內新開的「想深入：這張圖的資料和口徑」。2000 在 s11 仍有 5 處。"
+  },
+  {
+   "section": "s11",
+   "token": "25",
+   "count": 1,
+   "reason": "同上：圖說末句「線跑出淡色帶，就是 5/25 說該動手的時候」和圖例「淡色帶：5/25 門檻 75% 到 85%」重複。5/25 這把尺在 s11 仍有 20 處（含 rebalance-525 主線那一段）。"
+  },
+  {
+   "section": "s11",
+   "token": "5",
+   "count": 1,
+   "reason": "同上，和前一條是同一個「5/25」。5 在 s11 仍有 51 處。"
+  },
+  {
+   "section": "s11",
+   "token": "3",
+   "count": 1,
+   "reason": "批 AI（裁判 C S14-2）：同一張圖的 p.note 開頭括號「（防守用美國 3 個月國庫券代表定存，不跌價、利息低）」和圖例第一條逐字重複，圖外只留一句，所以拿掉。「3 個月國庫券」在圖例和「想深入」裡都還在。"
+  },
+  {
+   "section": "s11",
+   "token": "4",
+   "count": 1,
+   "reason": "批 AI（裁判 C S14-10）：查表頁「這三欄怎麼來的」那句括號裡又套括號（股票比例 × 4%（或 6%、7%）＋防守比例 × 2%），把重複的「4%（或 6%、7%）」改成「股票那一欄的數字」。同一句前半仍寫「股票用保守算 4%、普通算 6%、樂觀算 7%」，表上三欄的數字一個沒少。"
+  },
+  {
+   "section": "s11",
+   "token": "6",
+   "count": 1,
+   "reason": "同上，和前一條是同一個括號裡的 6%。"
+  },
+  {
+   "section": "s11",
+   "token": "7",
+   "count": 1,
+   "reason": "同上，和前一條是同一個括號裡的 7%。"
+  },
+  {
+   "section": "cases",
+   "token": "916",
+   "count": 1,
+   "reason": "批 AI（裁判 C S15-4）：陳大哥的「結論」改成人話先講、數字放第二句，原本同一段裡「退休要準備約 916 萬」和「也到得了 916 萬」講了兩次，留一次。916 在 cases 仍有 12 處。"
+  },
+  {
+   "section": "s13",
+   "token": "4",
+   "count": 1,
+   "reason": "批 AI（裁判 C S17-2，主線裁定）：儲蓄險兩把尺的第二把原本寫死「表一「保守算」那一欄的 4%」，改成「表一你那一列的「保守算」（全放股票那一列是 4%）」，後面那句「但 4% 不保證、會上下晃」跟著改成「但那個數字不保證」，因為這時的數字不一定是 4%。4% 在同一段仍寫著。"
+  },
+  {
+   "section": "annual",
+   "token": "12",
+   "count": 1,
+   "reason": "批 AL（裁判 judge-ai.md M-2）：第 23 節「淨投入」的口語補述「淨投入就是今年轉進圈的每一筆錢加起來（上面例子的 10 萬加 2 萬，就是 12 萬）」和同一個摺疊後面的正式定義打架（少了「淨」、也和「今年才開始投資的人不寫第 1 列」矛盾），改成指路「淨投入的算法在下面：把年底那筆以外的數字全部加起來，再拿掉負號（進圈的錢減掉出圈的錢）」。被收掉的是那句括號裡重講一次的 10 萬＋2 萬＝12 萬；同一節裡 12 仍有 9 次（12 月 31 日、正式定義那一段的「淨投入就是 12 萬」、年底總值 12.6 萬等），10 仍有 3 次、2 仍有 4 次，三行例子的原始金額一個都沒動。"
+  },
+  {
+   "section": "s2",
+   "token": "7.84",
+   "count": 1,
+   "reason": "v7 批 AO（作者 2026-09-23 看預覽後第二輪）：十桶金圖的 chart-sub「第一桶 7.84 年，第十桶 1.35 年」改成一位小數「第一桶 7.8 年，第十桶 1.4 年」，和圖下新加的小表（花幾年那一列也是一位小數）一致。兩位小數的 7.84 沒有從書裡消失：圖內「想深入」那句（「每年投 6 萬的話，一桶就是 60 萬，第一桶 7.84 年、第十桶 1.35 年」）與它下面 60 萬版的數字表第一列都還在，calc_core 的 quotes 也改成盯那一句。"
+  },
+  {
+   "section": "s2",
+   "token": "1.35",
+   "count": 1,
+   "reason": "同上，和前一條是同一句 chart-sub 裡的第十桶年數。1.35 在這一節的「想深入」與 60 萬版數字表最後一列都還在。"
+  },
+  {
+   "section": "s6",
+   "token": "2005",
+   "count": 1,
+   "reason": "v7 批 BC：第 9 節那張卡只剩卡名「Schwab 的五個人：每年有 2,000 美元，美股 2005 到 2024 年」，講的和它下面那張圖（圖題「20 年後，五個人手上各有多少」、副題「Schwab 試算，美元」、圖下 p.note「每年各拿到 2,000 美元、美股 2005 到 2024 年。」）是同一件事，卡殼刪掉。2005 這個年份在同一張圖的 p.note 裡還在，只是從出現兩次變成一次；期間口徑沒有從書裡消失。同一批刪掉的另外五張卡名裡的數字（5,000、1950–2025、1、5、10、20、2003–2025、1 萬、2,000、2024、2026）都在對應那張圖的圖題、副題或 p.note 裡還有，所以只有這一條要開例外。"
+  },
+  {
+   "section": "s2",
+   "token": "5000",
+   "count": 1,
+   "reason": "v7 批 BC：卡名「四個人，每月 5,000 元」；同一個 5,000 在下一張圖的 chart-title「四個人，每月 5,000 元，到 65 歲」裡還在，只是從兩次變一次。 這一條只在「對批 BB-2（80e0633）跑」時會出現；對 _baseline_v631.html 跑時被全書層級的搬移吸收掉。"
+  },
+  {
+   "section": "s5",
+   "token": "5",
+   "count": 1,
+   "reason": "v7 批 BC：卡名「美國 1950–2025：連續放 1、5、10、20 年的報酬區間」；1、5、10、20 在下一張圖的 chart-title「放 1、5、10、20 年，最好的一段和最差的一段（換算成平均一年）」裡還在，1950／2025 在 chart-sub「美國 1950–2025，平均一年報酬區間，%」裡還在。只有 5 在這一節的餘額剛好不夠抵，其餘都被同節其他出現吸收。 這一條只在「對批 BB-2（80e0633）跑」時會出現；對 _baseline_v631.html 跑時被全書層級的搬移吸收掉。"
+  },
+  {
+   "section": "s6",
+   "token": "2000",
+   "count": 1,
+   "reason": "v7 批 BC：卡名「Schwab 的五個人：每年有 2,000 美元，美股 2005 到 2024 年」；2,000 在同一張圖的 p.note「每年各拿到 2,000 美元、美股 2005 到 2024 年。」裡還在。 這一條只在「對批 BB-2（80e0633）跑」時會出現；對 _baseline_v631.html 跑時被全書層級的搬移吸收掉。"
+  },
+  {
+   "section": "s6",
+   "token": "2024",
+   "count": 1,
+   "reason": "v7 批 BC：同上，2024 在同一張圖的 p.note 裡還在。 這一條只在「對批 BB-2（80e0633）跑」時會出現；對 _baseline_v631.html 跑時被全書層級的搬移吸收掉。"
+  },
+  {
+   "section": "s7",
+   "token": "2003",
+   "count": 1,
+   "reason": "v7 批 BC：卡名「台股含息指數 2003–2025，每月投入 1 萬元」；2003 在下一張圖的 chart-sub「台股含息 2003–2025，自算」與圖下 p.note「證交所發行量加權股價報酬指數 2003 到 2025 年，每月投入 1 萬元，自算。」裡還在。 這一條只在「對批 BB-2（80e0633）跑」時會出現；對 _baseline_v631.html 跑時被全書層級的搬移吸收掉。"
+  },
+  {
+   "section": "s7",
+   "token": "2025",
+   "count": 1,
+   "reason": "v7 批 BC：同上，2025 在同一張圖的 chart-sub 與 p.note 裡還在。 這一條只在「對批 BB-2（80e0633）跑」時會出現；對 _baseline_v631.html 跑時被全書層級的搬移吸收掉。"
+  },
+  {
+   "section": "s8",
+   "token": "2026",
+   "count": 1,
+   "reason": "v7 批 BC：卡名「J.P. Morgan 2026：錯過最好的交易日」；來源與年份在同一張圖的 p.note「（J.P. Morgan Guide to Retirement 2026）」裡還在。 這一條只在「對批 BB-2（80e0633）跑」時會出現；對 _baseline_v631.html 跑時被全書層級的搬移吸收掉。"
+  },
+  {
+   "section": "s6",
+   "token": "1929",
+   "count": 1,
+   "reason": "批 BE：s6「想深入：台股差的那八個百分點是哪一次造成的，還有 1929、2000 年的反例」縮成「想深入：那八個百分點是哪一次造成的」。1929 在同一格摺疊內文「也有慘例：1929 年、2000 年新高時買進美股的人，放十年都還是虧的」裡還在，少掉的只是標題裡的第二次出現。"
+  },
+  {
+   "section": "s11",
+   "token": "2",
+   "count": 1,
+   "reason": "批 BE：s11「想深入：粗篩法（能忍的跌幅乘 2）只能刪掉明顯太高的比例」縮成「想深入：粗篩法只能刪掉太高的比例」。「乘 2」在同一格摺疊的第一句「粗篩：把能忍的跌幅乘 2，大約是股票比例的上限」裡還在。"
+  },
+  {
+   "section": "s12",
+   "token": "14",
+   "count": 1,
+   "reason": "批 BE：s12「想深入：另外五題的通則（和第 14 節的計畫表同一套）」縮成「想深入：另外五題的通則」。第 14 節的指路在同一格的表格「去哪一節」那一欄裡還在。"
+  },
+  {
+   "section": "costs",
+   "token": "750",
+   "count": 1,
+   "reason": "批 BE：costs「想深入：四層的條文細節（停徵到哪一天、修法進度、級距怎麼看、750 萬怎麼算、遺產稅怎麼報）」縮成「想深入：四層的條文細節」。750 萬的算法在同一格摺疊內文出現兩次（基本所得額的門檻與算式），一次都沒少。"
+  },
+  {
+   "section": "annual",
+   "token": "1",
+   "count": 2,
+   "reason": "批 BE：annual「年底算報酬的步驟：…、三行例子、1 月 1 日怎麼寫、…」縮成「年底算報酬的步驟：只記跨過投資圈的錢」。「1 月 1 日」在同一格摺疊內文出現六次（三行例子的第一列、年底怎麼算那一段等），標題裡少掉的是同一個日期的重複。"
+  },
+  {
+   "section": "methods",
+   "token": "21",
+   "count": 1,
+   "reason": "批 BE：第 28 節與頁尾的「資料檢查日期：2026-09-21」改成 2026-09-23（規格第 4 條）。同一句的其他數字沒動；「連結檢查日期：2026-09-21」照留，因為這一批沒有重測連結。"
+  },
+  {
+   "section": "methods",
+   "token": "50",
+   "count": 1,
+   "reason": "批 BE：「全書 50 張表都在手機的寬度量過」重數後改成 51（程式數 <table>＝51，其中 50 張在 .table-wrap 裡由版面哨兵逐張量，第 51 張在第 10 節那張圖裡，隨該圖一起量）。同一句另外把「每一張圖」寫成「29 張圖」（figure.chart＝29）。"
+  },
+  {
+   "section": "s1",
+   "token": "6",
+   "count": 1,
+   "reason": "批 BH 第 1 條（外部複審 {1}2）：第 4 節主線原本寫「這本書規劃時用的是普通算一年 6%…而且 6% 是幾十年的平均」，同一句裡 6 出現兩次；改成「保守算 4%、普通算 6%、樂觀算 7% 這三個數示範不同的結果」之後只剩一次。6% 這個事實沒有消失（同一句、同一節 #s1-rate 卡的三種假設都還在），少掉的是重複的第二次。"
+  },
+  {
+   "section": "s12",
+   "token": "0.1",
+   "count": 1,
+   "reason": "批 BH 第 7 條（外部複審 {2}6）：第 16 節摺疊「美國掛牌的只少 0.1 個百分點左右」是把費率 0.06% 和 0.32% 兩檔平均掉的說法，改成一檔一檔算（差 0 到 0.3；0.06% 那一檔差 0.2 到 0.3，0.32% 那一檔幾乎打平，calc_core listing_gap_by_fund() 有 assert）。同一節「台灣掛牌每年比倫敦掛牌多差約 0.1 個百分點」「賣出時要付 0.1% 的證券交易稅」都還在。"
+  },
+  {
+   "section": "s12",
+   "token": "6",
+   "count": 1,
+   "reason": "批 BH 第 6 條（外部複審 {1}6）：第 16 節「本指南的做法」原本寫「改買倫敦掛牌的，每年省下約半個百分點，放三十年差很多（第 6 節），值得多學這一步」，改成「值得重新比較一次要不要改用海外掛牌」，那個指到第 6 節的 xref 錨文字 6 跟著拿掉。第 6 節在同一節別處仍連得到（三條路徑表 C 路「兩層費用每年都扣（長期差多少在第 6 節）」）。"
+  },
+  {
+   "section": "sidepaths",
+   "token": "8",
+   "count": 1,
+   "reason": "批 BH 第 4 條：「常見的岔路」來源卡加了中央銀行五大銀行存放款利率歷史月資料一筆，筆數宣告 8 → 9。"
+  },
+  {
+   "section": "annual",
+   "token": "-100000",
+   "count": 1,
+   "reason": "批 BH 第 5 條（外部複審 {1}5）：第 23 節「第一年看累積報酬」整段換掉。原本的例子（10 月 1 日轉進 10 萬記 −100,000、11 月 1 日再轉進 2 萬記 −20,000、加起來 −120,000、淨投入 12 萬、年底 12.6 萬、累積報酬 5%）示範的正是有提領時會失真的那個簡算，所以連同例子一起拿掉，改成「第一年只記投入、領出、剩多少、合計賺賠」＋失真的例子（投 10 萬、長到 11 萬、領走 9 萬，簡算 100%，實際賺 1 萬；calc_core first_year_simple_return() 有 assert）。記帳的負數寫法在同一摺疊上面那張三列表（−100,000／−20,000）與旁邊的說明裡都還在。"
+  },
+  {
+   "section": "annual",
+   "token": "-120000",
+   "count": 1,
+   "reason": "同上（批 BH 第 5 條）：−120,000 是舊例子的中間值，整個例子換掉。"
+  },
+  {
+   "section": "annual",
+   "token": "-20000",
+   "count": 1,
+   "reason": "同上（批 BH 第 5 條）：−20,000 是舊例子的第二筆轉入，整個例子換掉；同一摺疊上面那張三列表仍有 −20,000。"
+  },
+  {
+   "section": "annual",
+   "token": "12",
+   "count": 3,
+   "reason": "同上（批 BH 第 5 條）：舊例子的「淨投入就是 12 萬」「（12.6 萬 − 12 萬）÷ 12 萬」隨例子換掉。12 月 31 日、12 萬等其他 12 都還在。（這一條和 round37 裡 annual／12 那一條同 key，v7_check 的 allow 以最後一條為準，所以上限寫成兩條相加的 3：批 AL 那 1 個＋這一批的 2 個。批 AL 原因：批 AL（裁判 judge-ai.md M-2）：第 23 節「淨投入」的口語補述「淨投入就是今年轉進圈的每一筆錢加起來（上面例子的 10 萬加 2 萬，就是 12 萬）」和同一個摺疊後面的正式定義打架（少了「淨」、也和「今年才開始投資的人不寫第 1 列」矛盾），改成指路「淨投入的算法在下面：把年底那筆以外的數字全部加起來，再拿掉負號（進圈的錢減掉出圈的錢）」。被收掉的是那句括號裡重講一次的 10 萬＋2 萬＝12 萬；同一節裡 12 仍有 9 次（12 月 31 日、正式定義那一段的「淨投入就是 12 萬」、年底總值 12.6 萬等），10 仍有 3 次、2 仍有 4 次，三行例子的原始金額一個都沒動。）"
+  },
+  {
+   "section": "annual",
+   "token": "12.6",
+   "count": 2,
+   "reason": "同上（批 BH 第 5 條）：舊例子的年底總值 12.6 萬隨例子換掉，沒有別處引用這個數字。"
+  },
+  {
+   "section": "annual",
+   "token": "5",
+   "count": 1,
+   "reason": "同上（批 BH 第 5 條）：舊例子算出來的累積報酬 5% 隨例子換掉；同一段「10 月 1 日一次投入、年底賺 5%，換算成年化是 21.6%」的 5% 還在。"
+  },
+  {
+   "section": "s12",
+   "token": "0.06",
+   "count": 3,
+   "reason": "批 BM（裁判 N4）：第 16 節「直接來源」卡刪掉重複的 advisors.vanguard.com VT 那一筆（同一檔 VT 的 investor.vanguard.com 官方頁本來就在同一張卡裡，也寫著每年費用率 0.06%）。被刪那一筆的註記裡 0.06 出現三次（Expense ratio 0.06%、「從 0.06% 到 0.32% 都有」的下緣、「用費率 0.06% 的那一檔算」的出處）。刪完 s12 仍有 4 個 0.06，沒有事實消失。"
+  },
+  {
+   "section": "s12",
+   "token": "0.32",
+   "count": 1,
+   "reason": "同上：被刪那一筆的註記裡「從 0.06% 到 0.32% 都有」的 0.32。刪完 s12 仍有 4 個 0.32（含 iShares ACWI 官方頁那一筆的 Expense Ratio 0.32%）。"
+  },
+  {
+   "section": "s12",
+   "token": "30",
+   "count": 1,
+   "reason": "同上：被刪那一筆的註記裡「整筆先扣 30%」。刪完 s12 仍有 11 處 30%，包含 IRS NRA withholding 與 Publication 515 兩筆正牌出處。"
+  },
+  {
+   "section": "s12",
+   "token": "02",
+   "count": 1,
+   "reason": "同上：被刪那一筆的註記寫「Expense ratio 0.06%（as of 2026-02-27）」，日期的月份 token。VT 費率 0.06% 本身在保留的 investor.vanguard.com 那一筆還在，只有這個「官方頁標示日」跟著那一筆一起消失。"
+  },
+  {
+   "section": "s12",
+   "token": "27",
+   "count": 1,
+   "reason": "同上：2026-02-27 的日份 token，理由同「02」那一條。"
+  },
+  {
+   "section": "s12",
+   "token": "19",
+   "count": 1,
+   "reason": "批 BM（裁判 N4）：第 16 節「直接來源」卡的筆數宣告 19 筆 → 18 筆，因為刪掉了重複的那一筆。數到的 <a class=\"source-link\"> 是 18 個，宣告與實際一致。"
+  },
+  {
+   "section": "s12",
+   "token": "100",
+   "count": 1,
+   "reason": "批 BM（裁判 S5）：第 16 節「你自己這一端的稅」那一段，「海外所得一申報戶滿 100 萬要計入基本所得額」原本在三句之內講了兩次，去重後只留一次。事實沒變，只是不再重複。"
+  },
+  {
+   "section": "s12",
+   "token": "750",
+   "count": 1,
+   "reason": "同上：同一段的 750 萬（基本所得額免稅額）原本也出現兩次（「免稅額 113 年度起是 750 萬」與「基本所得額超過 750 萬以後」），合成一句後只留一次；113 年度、750 萬、20% 比一次的流程都還在。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "32",
+   "count": 1,
+   "reason": "批 BK：第 24 節「直接來源」卡的筆數宣告 32 筆 → 33 筆，因為加了一筆華南銀行「智慧靈活房貸」產品頁（理財型房貸那一列的出處）。數到的 <a class=\"source-link\"> 是 33 個，宣告與實際一致；沒有任何事實或數字離開書。"
+  },
+  {
+   "section": "s11",
+   "token": "160",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安保守算到期金額 160 萬→162 萬。"
+  },
+  {
+   "section": "s11",
+   "token": "189",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安「每月 6,000 元只到約 189 萬」→191 萬。"
+  },
+  {
+   "section": "s11",
+   "token": "203",
+   "count": 4,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安多存後的保守算 203 萬→205 萬（D 試算、壓力測試表、大跌演練、三問第 3 題各一次）。"
+  },
+  {
+   "section": "s11",
+   "token": "209",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安樂觀算 209 萬→211 萬。"
+  },
+  {
+   "section": "s11",
+   "token": "3.1",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安扣費後的保守算報酬率 3.1%→3.2%（八成只扣 0.4 個百分點）。"
+  },
+  {
+   "section": "s11",
+   "token": "4.7",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安扣費後的普通算 4.7%→4.8%。"
+  },
+  {
+   "section": "s11",
+   "token": "5.5",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安扣費後的樂觀算 5.5%→5.6%。"
+  },
+  {
+   "section": "s11",
+   "token": "81",
+   "count": 4,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安 2046 年跌 50% 少的錢 81 萬→82 萬。（對「這一批開工前的 commit」70c060c 跑時要再多算幾個，count 取兩次跑的總和）"
+  },
+  {
+   "section": "s11",
+   "token": "97",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安 2046 年跌 60% 少的錢 97 萬→98 萬。"
+  },
+  {
+   "section": "s11",
+   "token": "54",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安少的錢換成今天的錢 54 萬→55 萬。"
+  },
+  {
+   "section": "s11",
+   "token": "1.81",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安②延後：報酬率高了 0.1 個百分點，延後的年數從 26.75 年落回 24.83 年，物價倍數改查 25 年那格（1.64），不再用 30 年那格的 1.81。"
+  },
+  {
+   "section": "s11",
+   "token": "243",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，延後後的目標 243 萬→220 萬。"
+  },
+  {
+   "section": "s11",
+   "token": "2053",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，延後到期從 2053 年 6 月→2051 年 7 月。"
+  },
+  {
+   "section": "s11",
+   "token": "6.8",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，延後年數 6.8 年→4.8 年（新算法下落在他最多能延的 5 年以內，那一條的結論跟著改寫）。"
+  },
+  {
+   "section": "s11",
+   "token": "34.3",
+   "count": 3,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。查表頁「算好的例子」：股票八成的費用從 0.2% 改成 0.8 × 0.5% ＝ 0.4%，查的那一格從表二 3.4% 的 34.3 改成 3.2% 的 33.6（34.3 仍在表二本體裡）。（對「這一批開工前的 commit」70c060c 跑時要再多算幾個，count 取兩次跑的總和）"
+  },
+  {
+   "section": "cases",
+   "token": "0.5",
+   "count": 8,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。四個案例表頭與說明句的「各減 0.5%」改成照部位寫（連 round40 已經允許的那 1 個一起算，所以 count 寫 7）（各減 0.4／0.3／0.35／0.2 個百分點）；0.5% 這個示範費率本身在同幾段裡都還在。（對「這一批開工前的 commit」70c060c 跑時要再多算幾個，count 取兩次跑的總和）"
+  },
+  {
+   "section": "cases",
+   "token": "369",
+   "count": 3,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱保守算 369 萬→378 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "81",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱差的錢 81 萬→72 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "465",
+   "count": 6,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱補完缺口後的保守算 465 萬→459 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "26",
+   "count": 8,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱補法的投入比例 26%→25%（新算法下 25% 就夠）。（對「這一批開工前的 commit」70c060c 跑時要再多算幾個，count 取兩次跑的總和）"
+  },
+  {
+   "section": "cases",
+   "token": "1.3",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱平均月投 1.3 萬→1.25 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "7800",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱淡季月投 7,800 元→7,500 元。"
+  },
+  {
+   "section": "cases",
+   "token": "2.08",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱旺季月投 2.08 萬→2 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "449",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱「25% 只到約 449 萬，不夠」改成「24% 只到約 443 萬，不夠」（25% 現在夠了）。"
+  },
+  {
+   "section": "cases",
+   "token": "388",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱八二、投收入 20% 那一格 388 萬→392 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "62",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，還是差的錢 62 萬→58 萬。（對「這一批開工前的 commit」70c060c 跑時要再多算幾個，count 取兩次跑的總和）"
+  },
+  {
+   "section": "cases",
+   "token": "428",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱六四普通算 428 萬→439 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "462",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱六四樂觀算 462 萬→474 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "526",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱八二樂觀算 526 萬→532 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "487",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱演練八成那一列 487 萬→476 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "195",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，跌 50% 少 195 萬→190 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "156",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，跌 40% 少 156 萬→152 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "234",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，跌 60% 少 234 萬→228 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "167",
+   "count": 3,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱七成跌 50% 少 167 萬→165 萬；六成跌 60% 少 167 萬→165 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "133",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱七成跌 40% 少 133 萬→132 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "200",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱七成跌 60% 少 200 萬→198 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "140",
+   "count": 4,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱六成跌 50% 少 140 萬→138 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "112",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱六成跌 40% 少 112 萬→110 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "94",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱少的錢換成今天的錢 94 萬→93 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "1.81",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱②延後：延後年數落回 24.83 年，物價倍數改查 25 年那格（1.64），不再用 30 年那格的 1.81。"
+  },
+  {
+   "section": "cases",
+   "token": "2054",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，延後到期 2054 年 1 月→2051 年 7 月。"
+  },
+  {
+   "section": "cases",
+   "token": "7.3",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，延後年數 7.3 年→4.8 年（仍然超過他最多能延的 3 年，這一條的結論沒變）。"
+  },
+  {
+   "section": "cases",
+   "token": "360",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱③降低目標 360 萬→370 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "694",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小芸與阿哲長期桶保守算 694 萬→707 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "1.05",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小芸與阿哲長期桶原本要多存 500 元改投 1.05 萬；新算法下每月 1 萬就到得了 700 萬，這一步整段拿掉。"
+  },
+  {
+   "section": "cases",
+   "token": "724",
+   "count": 4,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，多存後的 724 萬改成每月 1 萬的 707 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "290",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，2056 年跌 50% 少 290 萬→283 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "990",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小芸與阿哲長期桶普通算 990 萬→970 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "1167",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小芸與阿哲長期桶樂觀算 1,167 萬→1,145 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "70",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小芸與阿哲「不扣費用 764 萬，差的這 70 萬就是收三十年的結果」→57 萬（八成只扣 0.4 個百分點）。"
+  },
+  {
+   "section": "cases",
+   "token": "1088",
+   "count": 9,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥股票四成 1,088 萬→1,103 萬。（批 BO 補：上限 +1，批 BO（裁判 judge-bi.md 的 should-4）：陳大哥「全放定存」小字後半那一句三口徑對照整句刪掉——「另外一個對照是扣費率的算法：同樣照查表算，股票兩成（2.4% 減 0.1 個百分點＝2.3%）約 1,088 萬，表上 0%、全放防守那一列的 2% 是 1,073 萬。」舊版寫這一句是為了解釋「股票兩成反而比全放定存還少」這個反直覺現象；批 BI 把費用改成照部位扣以後那個現象已經消失，這句話沒有要證明的事，而且三個數字分屬三種口徑（扣費率算法／表上 0% 那一列／當下定存利率），擠在同一句裡會誤導。書上留下的仍是陳大哥實際用的那一條「全放定存用當下的一年期定存 1.7% 算約 1,059 萬：到得了 916 萬，到不了 1,092 萬。」1,088 與 1,073 兩個值留在 tools/calc_core.py 的 _d02['chen_all_deposit'] 裡備查（照裁判裁定不 quote），沒有任何事實或來源從書裡消失。）"
+  },
+  {
+   "section": "cases",
+   "token": "1098",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥股票五成 1,098 萬→1,113 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "1108",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥股票六成 1,108 萬→1,118 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "1118",
+   "count": 3,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥股票七成 1,118 萬→1,128 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "1149",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥四六樂觀算 1,149 萬→1,165 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "1192",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥七三普通算 1,192 萬→1,203 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "1231",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥七三樂觀算 1,231 萬→1,242 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "218",
+   "count": 4,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥四成跌 50% 少 218 萬→221 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "261",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥四成跌 60% 少 261 萬→265 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "275",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥五成跌 50% 少 275 萬→278 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "329",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥五成跌 60% 少 329 萬→334 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "332",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥六成跌 50% 少 332 萬→335 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "266",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥六成跌 40% 少 266 萬→268 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "399",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥六成跌 60% 少 399 萬→402 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "391",
+   "count": 4,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥七成跌 50% 少 391 萬→395 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "313",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥七成跌 40% 少 313 萬→316 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "470",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥七成跌 60% 少 470 萬→474 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "8.7",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥四成跌 50% 等於幾年生活費 8.7 年→8.8 年。（對「這一批開工前的 commit」70c060c 跑時要再多算幾個，count 取兩次跑的總和）"
+  },
+  {
+   "section": "cases",
+   "token": "10.9",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥五成 10.9 年→11.0 年。"
+  },
+  {
+   "section": "cases",
+   "token": "13.2",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥六成 13.2 年→13.3 年。"
+  },
+  {
+   "section": "cases",
+   "token": "15.5",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥七成 15.5 年→15.7 年。"
+  },
+  {
+   "section": "cases",
+   "token": "172",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥四成比目標 916 萬多的錢 172 萬→187 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "173",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥七成比四成多少的那筆 173 萬→174 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "1068",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。股票兩成 1,068 萬→1,088 萬；同一句裡「比全放定存那一列還少」的現象在新算法下消失，整句照規格刪掉，改寫成兩個數字的對照。"
+  },
+  {
+   "section": "cases",
+   "token": "2.3",
+   "count": 3,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥四六扣費後的保守算 2.3%→2.6%（提領率那個 2.3% 還在）。（批 BO 補：上限 +1，批 BO（裁判 judge-bi.md 的 should-4）：陳大哥「全放定存」小字後半那一句三口徑對照整句刪掉——「另外一個對照是扣費率的算法：同樣照查表算，股票兩成（2.4% 減 0.1 個百分點＝2.3%）約 1,088 萬，表上 0%、全放防守那一列的 2% 是 1,073 萬。」舊版寫這一句是為了解釋「股票兩成反而比全放定存還少」這個反直覺現象；批 BI 把費用改成照部位扣以後那個現象已經消失，這句話沒有要證明的事，而且三個數字分屬三種口徑（扣費率算法／表上 0% 那一列／當下定存利率），擠在同一句裡會誤導。書上留下的仍是陳大哥實際用的那一條「全放定存用當下的一年期定存 1.7% 算約 1,059 萬：到得了 916 萬，到不了 1,092 萬。」1,088 與 1,073 兩個值留在 tools/calc_core.py 的 _d02['chen_all_deposit'] 裡備查（照裁判裁定不 quote），沒有任何事實或來源從書裡消失。）"
+  },
+  {
+   "section": "cases",
+   "token": "3.1",
+   "count": 5,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥四六普通算 3.1%→3.4%；小芸與阿哲、阿凱八二的保守算 3.1%→3.2%。"
+  },
+  {
+   "section": "cases",
+   "token": "3.5",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥四六樂觀算 3.5%→3.8%。"
+  },
+  {
+   "section": "cases",
+   "token": "4.3",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥七三普通算 4.3%→4.5%。"
+  },
+  {
+   "section": "cases",
+   "token": "5.0",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥七三樂觀算 5.0%→5.2%。"
+  },
+  {
+   "section": "cases",
+   "token": "4.7",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱／小芸與阿哲八二普通算 4.7%→4.8%。"
+  },
+  {
+   "section": "cases",
+   "token": "5.5",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱／小芸與阿哲八二樂觀算 5.5%→5.6%。"
+  },
+  {
+   "section": "lifecycle",
+   "token": "1088",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。提領規則卡引用陳大哥的數字：1,088 萬→1,103 萬。"
+  },
+  {
+   "section": "s5",
+   "token": "203",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。第 8 節小卡第 4 張引用小安的完整試算 203 萬→205 萬。"
+  },
+  {
+   "section": "s5",
+   "token": "81",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同一張小卡，跌 50% 少 81 萬→82 萬。"
+  },
+  {
+   "section": "s11",
+   "token": "172",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。查表頁「算好的例子」與表二「用法」的 172 萬→168 萬（股票八成的費用從 0.2% 改成 0.4%）。"
+  },
+  {
+   "section": "s11",
+   "token": "3.4",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。同上，例子的扣費後報酬率 3.4%→3.2%。"
+  },
+  {
+   "section": "s11",
+   "token": "65",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安 2046 年跌 40% 少 65 萬→66 萬。"
+  },
+  {
+   "section": "s11",
+   "token": "9",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小安 D 試算「普通算差 9 萬／樂觀算多 9 萬」→差 7 萬／多 11 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "1.9",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。股票兩成扣完費用的報酬率 1.9%→2.3%（兩成只扣 0.1 個百分點）。"
+  },
+  {
+   "section": "cases",
+   "token": "2.7",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱六四扣完費用的保守算 2.7%→2.9%。"
+  },
+  {
+   "section": "cases",
+   "token": "3.9",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱六四普通算 3.9%→4.1%。"
+  },
+  {
+   "section": "cases",
+   "token": "22",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱六四普通算「還是差 22 萬」→差 11 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "30",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥「七成只比四成多 30 萬」→多 25 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "4",
+   "count": 2,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。陳大哥「40 倍的 1,092 萬還差約 4 萬」→新算法下多約 11 萬。"
+  },
+  {
+   "section": "cases",
+   "token": "500",
+   "count": 3,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小芸與阿哲長期桶原本要「多存 500 元」；新算法下不用多存，這一步整段拿掉。（round40 已經允許的那 1 個一起算，所以 count 寫 3）"
+  },
+  {
+   "section": "cases",
+   "token": "547",
+   "count": 1,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。阿凱延後後的目標 547 萬→495 萬（物價倍數改查 25 年那格）。"
+  },
+  {
+   "section": "cases",
+   "token": "6",
+   "count": 3,
+   "reason": "批 BI（作者 2026-09-23 拍板「照你建議」）：示範費用的扣法從「整體報酬率一次減 0.5 個百分點」改成「股票比例 × 0.5% ＋ 防守比例 × 防守那一檔的費率（定存＝0）」，四個案例的每一個數字跟著重算（tools/calc_core.py 有 assert 釘住新值）。小芸與阿哲長期桶原本「差 6 萬」；新算法下多 7 萬，沒有缺口。"
+  },
+  {
+   "section": "cases",
+   "token": "1073",
+   "count": 1,
+   "reason": "批 BO（裁判 judge-bi.md 的 should-4）：陳大哥「全放定存」小字後半那一句三口徑對照整句刪掉——「另外一個對照是扣費率的算法：同樣照查表算，股票兩成（2.4% 減 0.1 個百分點＝2.3%）約 1,088 萬，表上 0%、全放防守那一列的 2% 是 1,073 萬。」舊版寫這一句是為了解釋「股票兩成反而比全放定存還少」這個反直覺現象；批 BI 把費用改成照部位扣以後那個現象已經消失，這句話沒有要證明的事，而且三個數字分屬三種口徑（扣費率算法／表上 0% 那一列／當下定存利率），擠在同一句裡會誤導。書上留下的仍是陳大哥實際用的那一條「全放定存用當下的一年期定存 1.7% 算約 1,059 萬：到得了 916 萬，到不了 1,092 萬。」1,088 與 1,073 兩個值留在 tools/calc_core.py 的 _d02['chen_all_deposit'] 裡備查（照裁判裁定不 quote），沒有任何事實或來源從書裡消失。"
+  },
+  {
+   "section": "cases",
+   "token": "2.4",
+   "count": 1,
+   "reason": "批 BO（裁判 judge-bi.md 的 should-4）：陳大哥「全放定存」小字後半那一句三口徑對照整句刪掉——「另外一個對照是扣費率的算法：同樣照查表算，股票兩成（2.4% 減 0.1 個百分點＝2.3%）約 1,088 萬，表上 0%、全放防守那一列的 2% 是 1,073 萬。」舊版寫這一句是為了解釋「股票兩成反而比全放定存還少」這個反直覺現象；批 BI 把費用改成照部位扣以後那個現象已經消失，這句話沒有要證明的事，而且三個數字分屬三種口徑（扣費率算法／表上 0% 那一列／當下定存利率），擠在同一句裡會誤導。書上留下的仍是陳大哥實際用的那一條「全放定存用當下的一年期定存 1.7% 算約 1,059 萬：到得了 916 萬，到不了 1,092 萬。」1,088 與 1,073 兩個值留在 tools/calc_core.py 的 _d02['chen_all_deposit'] 裡備查（照裁判裁定不 quote），沒有任何事實或來源從書裡消失。"
+  },
+  {
+   "section": "cases",
+   "token": "0",
+   "count": 1,
+   "reason": "批 BO（裁判 judge-bi.md 的 should-4）：陳大哥「全放定存」小字後半那一句三口徑對照整句刪掉——「另外一個對照是扣費率的算法：同樣照查表算，股票兩成（2.4% 減 0.1 個百分點＝2.3%）約 1,088 萬，表上 0%、全放防守那一列的 2% 是 1,073 萬。」舊版寫這一句是為了解釋「股票兩成反而比全放定存還少」這個反直覺現象；批 BI 把費用改成照部位扣以後那個現象已經消失，這句話沒有要證明的事，而且三個數字分屬三種口徑（扣費率算法／表上 0% 那一列／當下定存利率），擠在同一句裡會誤導。書上留下的仍是陳大哥實際用的那一條「全放定存用當下的一年期定存 1.7% 算約 1,059 萬：到得了 916 萬，到不了 1,092 萬。」1,088 與 1,073 兩個值留在 tools/calc_core.py 的 _d02['chen_all_deposit'] 裡備查（照裁判裁定不 quote），沒有任何事實或來源從書裡消失。（這兩個 token 只有對「這一批開工前的 commit」efe7f8e 跑才會掉出來：對 _baseline_v631.html 跑時，同一節別處還有足夠的同值 token 抵銷。0 來自被刪那一句的「表上 0%」，0.1 來自「減 0.1 個百分點」。）"
+  },
+  {
+   "section": "cases",
+   "token": "0.1",
+   "count": 1,
+   "reason": "批 BO（裁判 judge-bi.md 的 should-4）：陳大哥「全放定存」小字後半那一句三口徑對照整句刪掉——「另外一個對照是扣費率的算法：同樣照查表算，股票兩成（2.4% 減 0.1 個百分點＝2.3%）約 1,088 萬，表上 0%、全放防守那一列的 2% 是 1,073 萬。」舊版寫這一句是為了解釋「股票兩成反而比全放定存還少」這個反直覺現象；批 BI 把費用改成照部位扣以後那個現象已經消失，這句話沒有要證明的事，而且三個數字分屬三種口徑（扣費率算法／表上 0% 那一列／當下定存利率），擠在同一句裡會誤導。書上留下的仍是陳大哥實際用的那一條「全放定存用當下的一年期定存 1.7% 算約 1,059 萬：到得了 916 萬，到不了 1,092 萬。」1,088 與 1,073 兩個值留在 tools/calc_core.py 的 _d02['chen_all_deposit'] 裡備查（照裁判裁定不 quote），沒有任何事實或來源從書裡消失。（這兩個 token 只有對「這一批開工前的 commit」efe7f8e 跑才會掉出來：對 _baseline_v631.html 跑時，同一節別處還有足夠的同值 token 抵銷。0 來自被刪那一句的「表上 0%」，0.1 來自「減 0.1 個百分點」。）"
+  },
+  {
+   "section": "lifecycle",
+   "token": "34",
+   "count": 1,
+   "reason": "批 BJ：第 24 節「直接來源」卡的筆數宣告 34 筆 → 35 筆，新增綠角 2009-11〈對於長期投資的莫名恐懼（Unfounded Fear for Long-Term Investing）〉——新圖 money-age 的概念出處，圖是本文重畫。卡內數到的 <a class=\"source-link\"> 是 35 個，宣告與實際一致；沒有任何事實或數字離開書。同節其他的 34 不受影響（round42 已有的 32、33、30 三條是前幾批同一個筆數宣告的歷史）。"
+  }
+ ]
+}
