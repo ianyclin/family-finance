@@ -935,7 +935,7 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 2. 第 24 節黃框「一小筆理財型房貸的額度」要不要改成「動用中的一小筆理財型房貸」（裁判 BK：「額度」讀起來像沒動用）。**不得寫比例或金額。**
 3. 儲蓄險段想引臺銀「續存照轉存日牌告利率」的約定頁，機器打不開，請作者用瀏覽器確認再寫回。
 
-**佇列剩下**（`queue-2026-09-23-external-reviews.md`）：~~BJ 綠角時間軸圖~~（**2026-09-25 已做，見本檔最後的「批 BJ」**）；{2}9 重複段合併（匯率避險兩段、第 24／25 節提領重複）；{2}10 節的稱呼統一（先建地圖，700 多個 xref）；{3} 但書分級；起步版最短路徑走查；「五種借法」不數數（BN 已做）；第 8 節來源卡計數 36→38（BN 查過是裁判誤判，宣告本來就對，這一條銷案）。
+**佇列剩下**（`queue-2026-09-23-external-reviews.md`）：~~BJ 綠角時間軸圖~~（**2026-09-25 已做，見本檔最後的「批 BJ」**）；~~{2}9 重複段合併（匯率避險兩段、第 24／25 節提領重複）~~（**2026-09-25 已做，見本檔最後的「批 BP」**）；{2}10 節的稱呼統一（先建地圖，700 多個 xref）；{3} 但書分級；起步版最短路徑走查；「五種借法」不數數（BN 已做）；第 8 節來源卡計數 36→38（BN 查過是裁判誤判，宣告本來就對，這一條銷案）。
 
 **已知小坑**：`v7_check.load_allow` 以 (section, token) 為 key、後蓋前，撞號要寫相加值；`lite/work/*.txt` 第一行時間戳每次 build 都 dirty，`git checkout -- lite/work` 還原；BI 的兩個 commit subject 排版壞（heredoc 少空行），內容正確，不 amend；`essay_charts.py --guide` 已與指南同步（BL）。
 
@@ -976,3 +976,19 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 **順帶修到的**：`lite/calc-results.json` 重跑時發現它比 `tools/calc_core.py` 舊——批 BO 新加的 `_xf['delay_rescaled_fee06']`、`delay_margin_months` 與改寫過的 `chen_all_deposit.note` 沒有進產生檔。這一批的 commit 把它補上了（其餘差異只是 `quotes` 的行號跟著指南位移）。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器逐節看版；這張圖的圖說與 p.note 兩句新話**還沒過裁判**（規格第 4 條寫「主線派裁判驗圖說口徑」，主線要派）。
+
+## 批 BP（2026-09-25）：重複段合併——第 8 節匯率避險三段併兩段、第 25 節順序風險縮成指路
+
+規格 `wip/v63-review/spec-v7-content-bp.md`，地圖 `wip/v63-review/map-duplicates-2026-09-25.md`（外部複審 {2}9）。**黃框、金額、既有數字一個字沒動**；動的只有第 8 節摺疊三段、第 25 節一段、第 24 節新圖圖說的一個標點。
+
+**(a) 第 8 節 `s5` 摺疊「想深入：匯率的波動、避險，和回不來的跌」三段併兩段**（`guide/index.html` 第 2874–2875 行）：地圖查出外部複審說的「兩段」其實是三段，真正重複的是第 2 段（`<p>`，帶 `#costs` xref）與第 3 段（`<p class="small">`）——兩段都在講「避險版本鎖的是哪一種貨幣」。裁定留第 2 段當骨幹，第 3 段整段刪，它獨有的「全球股票背後是一籃子外幣資產」與「避險有成本、買不買是另一個選擇」併進第 2 段；第 3 段那句「長期分批買、分批領…多年下來的升貶抵不掉」講的是換回台幣的波動不是避險，搬到第 1 段（`#s5-fx`）末尾。新句子照規格逐字抄，沒有潤飾。同一個摺疊裡的黃框（「我投入時不看匯率、當天就換」）沒動。
+
+**(b) 第 25 節 `withdraw` 報酬順序風險縮成指路**（第 4280 行）：第 24 節 data-card `#lifecycle-sequence`（A／B 各 100 萬的敘事＋`sequence-risk` 圖）**不動**；第 25 節「三件事摘要卡」之後那個獨立 `<p>` 換成兩句，把重複的敘事換成一個指回去的節號連結（`第 <a class="xref" href="#lifecycle-sequence">24</a> 節「為什麼提領期怕一開始就跌」`）。兩節來源卡各自列的 Vanguard 2026 p.10 沒動（各節列各節用到的來源，不算重複）。
+
+**(c) 主線另加的一條**：第 24 節新圖 `money-age` 的 `figcaption`，「是 65 歲那年要花的**；**64 歲投的最後一筆」的分號改成句號，其餘一字未動。`essay_charts.py --guide` 是保留指南自己的 figcaption 的（`do_guide()` 只換 SVG），所以改在 `guide/index.html` 就好。
+
+**地圖第三段那四條疑似重複沒有動**：3718、3851 是跨節提醒，2660 是「匯率」詞面命中，4181／4193 兩張來源卡的同一筆 Vanguard 出處是各節自己的引用清單。
+
+**檢查**：`budget` **BUDGET OK**，**`budget-v7.json` 一個字沒動**——第 8 節（s5）主線 3,526、小字 1,068 都沒變（三段全在摺疊裡，s5 folded 4,647→4,594），第 24 節（lifecycle）4,694／417 也沒變，只有第 25 節（withdraw）主線 1,636→1,623（−13）；`_total_max` 58,704→58,691、`_visible_total_max` 64,946→64,933，都在原上限以內（原本剛好貼上限，現在有 13 字餘裕）。numbers 對 `_baseline_v631.html` 與對 `2b4b07b` 都 **LOST 0**，沿用 `numbers-allow-round43.json`，**沒有新增例外**（唯一 ADDED 是 withdraw 的 `24`）。`anchors` **ANCHORS OK**（id 141、href 115）；`planstep` 10 個 0 問題；`guidetools check` **CHECK OK**（marks 111 later 13 details 136 data-chart 29 story 26 markstop 14）；`test_guidetools`／`test_v7_check` **ALL PASS**；`calc_core.py` 全部 assert 通過、`引用缺漏 []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` exit 0＋**SENTINELS OK**，工作表 **6 頁＝3 張紙**，完整版 PDF 184 頁。`git checkout -- lite/work` 已跑。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器；新寫的兩段話還沒過裁判。
