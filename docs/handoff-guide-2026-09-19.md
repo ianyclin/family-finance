@@ -1252,4 +1252,22 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 **沒做的**：沒有發布，`release/` 沒更新（線上仍是 Version 42）。**仍等作者**：走查 R6（第 1 節「五項走完再投錢」三種口徑——這一批的 M6 更說明了為什麼不該由代理動那一節）、N1（封面加「我要開始」入口）。**仍在佇列**：「計畫表」一詞全書統一（50 處，要先建地圖）；但書分級第二批（摺疊層 54 條與委婉句）；走查 N3、N4 只記錄；裁判自己沒查的三件（沒開瀏覽器、14 個非 2xx 只 curl 過新增兩個、BX 沒動的 51 條沒逐條複判）。**CA 這一批本身還沒過裁判**。
 
 
-**主線收尾註（2026-09-25 深夜，Version 43 之後）**：佇列裡「但書分級」「起步版走查」「連結重測」三項都做了第一批並發布。**還等作者的兩題**（`changes-for-author-v7.md` 一之七十三第七節）：R6 第 1 節「五項走完再投錢」／第 2 節「五項都做完」與起步版「還在補的先用小金額」三種口徑要不要統一（第 1 節是作者定稿，主線建議以起步版為準、第 1、2 節各加一句「還在補的，先用小金額」）；N1 封面入口要不要加「我要開始」。**下一輪可做**：但書摺疊層 54 條與委婉句掃描；「計畫表」一詞全書 50 處建地圖；BX 剩 6 處用「那個位置會不會改變決定」再看一次；judge-ca 次要（「第 28 節」其實是第 27 節的稱呼、`plan-l1` 0 入口、`numbers` 兩個 token 靠跨節巧合判 MOVED）；§20 券商門檻數字進年度複查清單（會過期）；純文字「第 N 節」沒有哨兵擋（`xrefs` 只查 a.xref）。**已知小坑新增**：allow 檔現行 `numbers-allow-round50.json`；budget `_comment_ca` 最新；完整版 PDF 185 頁；子代理不准 `git stash`；scratchpad 的 `measure.py` 不在 repo；CPython 3.9 用 stdin 跑含中文的腳本要加 coding 宣告。
+## 批 CB（2026-09-26，作者拍板的最後兩題：走查 R6 與 N1；未發布）
+
+作者 2026-09-26 回「**照你建議**」，把 BY 走查留下、BZ／CA 兩批都沒敢動的兩題做掉。`guide/index.html` 動 **2 行**，其餘一個字沒動。**第 1 節九件事是作者定稿，這一批是作者本人核准的例外**（對照 CA 的 M6：BX 沒經核准動它，被裁判打回）。
+
+1. **R6 第 1 節九件事第一件**（`:283`）句末補一句：「⋯⋯那五項，<strong>再投錢</strong>。**還在補的，先用小金額。**」——讓第 1 節、第 2 節（`:357` 本來就有「想先熟悉流程也可以，用不影響生活的小金額⋯⋯」）、起步版三處同一個口徑：規矩是五項，例外是小金額。**第 2 節沒動**（再補一句就是重複）；九件事其餘八件沒動。派工指定的建議版本是「第 1 節補一句」（一之七十三原本寫的建議是選項 C＝只動第 2 節，交班時改成 B＝第 1 節也補；作者拍的是後者）。
+2. **N1 封面入口**（`:170`）從兩顆變三顆：「我只有十分鐘」／「**我要開始**」（`#plan-starter`）／「正在跌，我很慌」，順序照派工。**CSS 一個字沒改**——`.cover-cta`（`:79`）本來就是 `display:flex;flex-wrap:wrap;gap:10px`、`a.cta` 是 `flex:1 1 150px`。
+
+**版面實測（375 寬）**：headless Chrome 直接下 `--window-size=375,700` 量到的是 **500**（macOS Chrome 視窗最小寬 500px，`v7_layout_check.py` 註解早就寫了），截出來的圖是被裁掉右邊的假象；改用同一支哨兵的做法——`file://` 外框頁放 `width:375px` 的 iframe、`--allow-file-access-from-files`，截 `output/guide.html`。結果：三顆排成兩行（第一行「我只有十分鐘」＋「我要開始」並排，第二行「正在跌，我很慌」整行），**沒有溢出、沒有被切掉**。截圖在 scratchpad（`cover-375-iframe.png`），沒有進 repo。
+
+**預算**：只調一個節上限與兩個總量，加 `_comment_cb`。mainline `ten` 1,748→**1,759**（規格估 +10，實測 **+11**）；`cover` 180→184 落在原有 320 的餘額裡，**不動上限**。`_total_max` 58,799→**58,814**、`_visible_total_max` 65,371→**65,386**。
+**allow 檔沒換**：仍是 `numbers-allow-round50.json`——這一批沒有任何數字被改掉，兩個基準都 LOST 0。
+
+**檢查**（每一項的最後一行）：`budget` **BUDGET OK**；`anchors`（對 `5b5ed93`）**ANCHORS OK**（id 153→153、href 126，沒有新錨點）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（536 個節號連結、52 句引用；「注意（不判紅）」維持 13）；`numbers` 對 `wip/v63-review/_baseline_v631.html` **LOST 0**、對 `5b5ed93` **LOST 0**（round50，兩邊都 `no differences`）；`guidetools check` **CHECK OK**；`test_guidetools`（帶 `tools guide/index.html`）／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` **SENTINELS OK**（工作表 **6 頁＝3 張紙**、完整版 PDF **185 頁**、書籤 164 條、`[xref_num]` 537）。
+
+**產生檔**：`output/full-v60-out.html`、`output/guide.html`、`lite/work/full-v60.txt` 同一個 commit；`lite/calc-results.json` 這一批沒有差；`lite/work/lite-v60.txt` 只有抽取時間那一行不同，已 `git checkout --`。工作表短稿 `lite/alt` **一份都沒被擋**（改到的兩處都不是任何一張紙的來源），沒有 `--stamp`。
+
+**沒做的**：沒有發布，`release/` 沒更新（線上仍是 Version 43）。**這兩句新字還沒過裁判**。
+
+**主線收尾註（2026-09-25 深夜，Version 43 之後）**：佇列裡「但書分級」「起步版走查」「連結重測」三項都做了第一批並發布。~~**還等作者的兩題**（`changes-for-author-v7.md` 一之七十三第七節）：R6 第 1 節「五項走完再投錢」／第 2 節「五項都做完」與起步版「還在補的先用小金額」三種口徑要不要統一（第 1 節是作者定稿，主線建議以起步版為準、第 1、2 節各加一句「還在補的，先用小金額」）；N1 封面入口要不要加「我要開始」。~~ → **已解（CB）**：作者 2026-09-26 回「照你建議」，兩題都做了，見上面「批 CB」；走查六題全部結案。**下一輪可做**：但書摺疊層 54 條與委婉句掃描；「計畫表」一詞全書 50 處建地圖；BX 剩 6 處用「那個位置會不會改變決定」再看一次；judge-ca 次要（「第 28 節」其實是第 27 節的稱呼、`plan-l1` 0 入口、`numbers` 兩個 token 靠跨節巧合判 MOVED）；§20 券商門檻數字進年度複查清單（會過期）；純文字「第 N 節」沒有哨兵擋（`xrefs` 只查 a.xref）。**已知小坑新增**：allow 檔現行 `numbers-allow-round50.json`；budget `_comment_ca` 最新；完整版 PDF 185 頁；子代理不准 `git stash`；scratchpad 的 `measure.py` 不在 repo；CPython 3.9 用 stdin 跑含中文的腳本要加 coding 宣告。
