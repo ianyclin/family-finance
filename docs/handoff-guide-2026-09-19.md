@@ -1091,7 +1091,7 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 
 **原本等作者回答的三題**（2026-09-25 更新）：第 16 節「本指南的做法」**維持作者原句**（作者拍板，不改）；黃框「額度」→「動用中的」**已改**（批 BU，作者拍板；改完沒有任何比例或金額）；臺銀續存約定頁**已解（BV）**——一手出處是臺灣銀行〈存戶須知重要內容說明書〉（20170126 版）第七條，政府網站有存檔 PDF。
 
-**佇列剩下**：{3} 但書分級——**第一批已做**（批 BX，2026-09-25，主線重複的但書 8 處刪或縮，地圖 `map-caveats-2026-09-25.md`）；**摺疊層 54 條與委婉句（或許／也許／不見得）未掃，留**；起步版最短路徑走查；第 28 節連結檢查日期停在 09-21（172 個網址）；judge-br-bs 未做的 11 條次要（優先三條：圖說第 2 句與 chart-sub 重複可刪 23 字、「在台灣買的基金」與台灣掛牌 ETF 的邊界、「物價也漲 30 年」起算年沒接正文 1.81）；judge-bj should-1 附帶「94 歲以後怎麼辦」整節 0 字；BQ 列的 17 張沒有 id 的卡（`xrefs --notes`）；`numbers` 只抓阿拉伯數字（中文數字「三十年」在雷達外，這輪兩次溜過）；`v7_layout_check` 的 `P_LEFT_KINDS_GOAL=8` 與 1024 棘輪 9 矛盾；`essay_charts --guide` 四行常態噪音；BN 三個小口感；judge-bi should-3；judge-bk N5。
+**佇列剩下**：{3} 但書分級——**第一批已做**（批 BX，2026-09-25，主線重複的但書 8 處刪或縮，地圖 `map-caveats-2026-09-25.md`；其中 #63 已於批 BY 撤回）；**摺疊層 54 條與委婉句（或許／也許／不見得）未掃，留**；~~起步版最短路徑走查~~（**2026-09-25 已做，走查報告 `walkthrough-starter-path-2026-09-25.md`、修正批 BY；走查列的六題 R6／R4／R7／N1／N5／N6 等作者拍板，寫在 changes-for-author 一之七十三第七節**）；~~第 28 節連結檢查日期停在 09-21（172 個網址）~~（**2026-09-25 已重測並換句，批 BY；現在是 09-25、207 個網址、0 失效、14 個擋程式**）；judge-br-bs 未做的 11 條次要（優先三條：圖說第 2 句與 chart-sub 重複可刪 23 字、「在台灣買的基金」與台灣掛牌 ETF 的邊界、「物價也漲 30 年」起算年沒接正文 1.81）；judge-bj should-1 附帶「94 歲以後怎麼辦」整節 0 字；BQ 列的 17 張沒有 id 的卡（`xrefs --notes`）；`numbers` 只抓阿拉伯數字（中文數字「三十年」在雷達外，這輪兩次溜過）；`v7_layout_check` 的 `P_LEFT_KINDS_GOAL=8` 與 1024 棘輪 9 矛盾；`essay_charts --guide` 四行常態噪音；BN 三個小口感；judge-bi should-3；judge-bk N5。
 
 **已知小坑**（新增）：`test_guidetools.py` 要兩個位置參數 `tools guide/index.html`；`numbers` 的 allow 檔現行 `numbers-allow-round47.json`；`budget-v7.json` 兩個總量慣例貼實測（`_comment_bu` 最新；批 BV 沒動 budget）；money-age 圖的 figcaption 正本在指南、SUB／NOTE／ARIA 正本在 `tools/v7_g11_money_age.py`；scratchpad 的 `measure.py` 量標籤盒與箭身相交，不在 repo 裡（要常設就搬進 tools）。
 ## 批 BU（2026-09-25，作者拍板的三處小改；未發布）
@@ -1170,3 +1170,32 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 **檢查**（每一項的最後一行）：`budget` **BUDGET OK**；`anchors`（對 `c7ae39a`）**ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（524 個節號連結、51 句引用）；`numbers` 對 `_baseline_v631.html` **LOST 0**、對 `c7ae39a` **LOST 0**；`guidetools check` **CHECK OK**；`test_guidetools`（要帶 `tools guide/index.html`）／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**（也沒改回 `guide/index.html`）；`v7_layout_check` **LAYOUT OK**；`build_lite.py` **SENTINELS OK**（工作表 6 頁＝3 張紙、完整版 PDF 184 頁）。產生檔（`output/full-v60-out.html`、`output/guide.html`、`lite/work/full-v60.txt`）同一個 commit；`lite/work/lite-v60.txt` 只有抽取時間那一行不同，已 `git checkout --` 還原。
 
 **沒做的**：沒有發布，`release/` 沒更新（線上仍是 Version 42）。**第 5、8 兩處是改寫過的新句子，還沒過裁判**（主線要派）。摺疊層的 54 條但書與委婉句（或許／也許／不見得）這一批完全沒掃，留在佇列。作者紀錄寫在 `wip/v63-review/changes-for-author-v7.md` 一之七十二。
+
+## 批 BY（2026-09-25，起步版最短路徑走查後修正＋連結檢查日期；未發布）
+
+依據 `wip/v63-review/walkthrough-starter-path-2026-09-25.md`（judge／opus xhigh，判決「有條件可用——六行本身走得通，但『填完就可以開始』那一段接不上」；擋路 2、繞路 7、小口感 6、疑問 4）與 `wip/v63-review/linkcheck-2026-09-25.md`，規格 `wip/v63-review/spec-v7-content-by.md`。`guide/index.html` 動 17 行。黃框沒動、第 1 節九件事沒動。
+
+**擋路（2，都做了）**
+1. **B1 §20 第 1 步**（`:3990`）末尾加：「填過起步版六行的人，用途和年份直接抄過來，需要金額先空著，第一次年檢再用第 <a>14</a> 節的查表頁補。」（`#s11`——查表頁那個 details 自己沒有 id）。原本的循環：六行 → §19 → §20 第 1 步要「需要金額」→ 算它的查表頁在書剛叫你跳過的完整版區。
+2. **B2 §16 紅框**（`:3796`）在「最後才選產品。」後面加：「還在補預備金的，先用小金額走一次流程就好（第 <a>19</a> 節「三件事不用等」）。」（`#firstmonth`——§19 那張卡沒有 h4、沒有 id）。**加在那一句正後方、不是紅框最後**，因為只讀前半句就停的人正是這句要救的。
+
+**繞路（做了 4）**
+3. **R1 十張小卡加 id**，用既有 `s5-check` 的寫法（卡前放 `<span id="…"></span>`，不動 `div.planstep` 本身）：`plan-l1`(:355)、`plan-l2`(:356)、`plan-l3a`(:794)、`plan-l4a`(:1634)、`plan-l4b`(:2898)、`plan-l5`(:2992)、`plan-l3b`(:3062)、`plan-l6a`(:3130)、`plan-l6b`(:3337)；驗算卡沿用既有 `s5-check`，**不改名、不另開 `plan-check`**，所以新 id 是 **9 個**（規格估 11，實際 10＝9＋`s12-three`）。第 14 節對照表（`:3356`）八個 xref 改指小卡，**連結文字一個字沒動**。
+4. **R2 回程**：九張小卡末尾各加 `<p class="small">填好了，回第 <a class="xref" href="#plan-starter">14</a> 節起步版。</p>`；§13 那張（`:3337`）不加，它下面 `:3338` 本來就有「到第 14 節把六行抄在一起」。
+5. **R3 「挑產品前三題」**：`:3787` 的 `<h4>` 加 `id="s12-three"`，四處「第 16 節「挑產品前三題」」的 href 改指它（`:1634`、`:3354`、`:3356`、`:4013`）。**規格寫「五處」，字面相符的只有四處**——第五處是 `:3974`「先看「挑產品前三題」、選一條新手路徑（第 16 節）」，那個 16 同時承擔「前三題」與「三條新手路徑」兩張卡，改了會把後者指錯，沒動。留給主線。
+6. **R5**（`:794`、`:1634`）：「還不確定也沒關係，先空著，往下讀。」→「⋯⋯先空著，往下讀，到第 14 節抄六行時再回來填。」規格句子逐字，「第 14 節」不掛 xref（全書本來就有 31 處不掛連結的「第 N 節」）。
+
+**小口感（做了 1）**
+7. **N2**（`:3354`）卡尾：「每年＿＿月拿出來檢查一次（小安寫 12 月）。」→「（小安寫 12 月；第 <a href="#annual">23</a> 節）。」規格寫的是「（第 23 節）」，那裡已經有一個括號，併進去、用「；」分隔（全書既有寫法）。
+
+**第 28 節連結那句**（`:4360`）換成 09-25 的重測結果。三個數字 builder 自己重數過：來源卡（`a.source-link`）唯一網址 **207**、全書唯一 http 網址 **218**、15 筆非 2xx 裡有 1 筆（封面 claude.ai Artifact）不在來源卡，所以來源卡裡是 **14**。
+
+**工作表（`lite/alt`）**：`build_lite` 的 `[alt]` 哨兵擋下兩份短稿（來源指紋變了）——`plan-starter`（src＝§14 起步版卡，被 N2 改到）與 `ch4-drill`（src＝§14 起步版卡＋§8 planstep E16，後者被 R2 的回程行改到）。逐行重看過，**兩份本體一個字都沒改**，各加一條 note 說明理由後 `--stamp` 重壓：工作表一律不印節號（指路寫段名或「正面第幾行」），年檢表本來就是三張紙的第三張正面；回程那一行是網頁版用的，拿紙的人正面就是起步版。工作表仍 6 頁＝3 張紙。
+
+**預算**：`budget-v7.json` 照實測調了 **5 個數**並加 `_comment_by`——mainline `s2` 2,519→2,533（R5 第一處）、`s11` 4,389→4,394（N2）；`_visible_small_overrides.s2` 408→421（回程小字）；`_total_max` 58,696→**58,730**、`_visible_total_max` 65,036→**65,198**。落在原有餘額裡沒動上限的：`s4` 2,172→2,186、`s12` 1,988→2,023（B2）、`steps` 1,051→1,097（B1）。**allow 檔換了**：新開 `numbers-allow-round48.json`（round47 的 392 條原封不動＋4 條，全是第 28 節那句被整句換掉掉的 172、15、1、21）。
+
+**檢查**（每一項的最後一行）：`budget` **BUDGET OK**；`anchors`（對 `273b92d`）**ANCHORS OK**（id 141→**151**、href 115→**124**）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（533 個節號連結、52 句引用；「注意（不判紅）」17→14，R3 解掉 4 處、B2 新增 1 處——§19 那張卡沒有 id，規格明寫用 `#firstmonth`）；`numbers` 對 `_baseline_v631.html` **LOST 0**、對 `273b92d` **LOST 0**（round48）；`guidetools check` **CHECK OK**；`test_guidetools`（帶 `tools guide/index.html`）／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` **SENTINELS OK**（工作表 6 頁＝3 張紙、完整版 PDF 184 頁）。產生檔（`output/full-v60-out.html`、`output/guide.html`、`lite/work/full-v60.txt`、`lite/calc-results.json`）同一個 commit；`lite/calc-results.json` 這一批有內容差（`line_numbers_in_guidetools_text` 因為多了九行回程小字而位移），不是時間戳；`lite/work/lite-v60.txt` 只有抽取時間那一行不同，已 `git checkout --`。
+
+**同批撤回**：批 BX 的 **#63 撤回**——第 8 節計畫卡（`:2898`）那句改回「五年內要用的錢不放股票，這是底線；放超過五年，也不代表股票就安全。」主線裁定：當年模擬讀者就是在這一格答錯陷阱題才把後半句放回主線的，這裡是它唯一會改變決定的一次，不算重複。理由補在 changes-for-author 一之七十二那一條底下。
+
+**沒做的**：沒有發布，`release/` 沒更新（線上仍是 Version 42）。**B1、B2 兩句新字還沒過裁判**（主線要派）。走查的 R6（三種「幾項做完才能投錢」口徑，§1 是作者定稿）、R4（§19 第一週 4,391 字）、R7（「計畫表」不分六行版與 24 格版，50 處）、N1（封面沒有「我要開始」入口，手機看不到）、N5（「小金額」17 次沒給量級，要查券商零股／定期定額門檻與來源）、N6（讀者手冊讀序跳過 §3）六題**等作者拍板**，寫成拍板題放在 changes-for-author 一之七十三第七節。走查的 N3（小卡填寫順序非單調）、N4（「超過半年收入做壓力測試」三處三種強度）只記錄，留給但書分級那條線。
