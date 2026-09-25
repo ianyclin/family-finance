@@ -1,4 +1,4 @@
-（抽取時間 2026-09-26 06:44；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
+（抽取時間 2026-09-26 07:11；來源 output/full-v60-out.html，由 tools/build_lite.py 產生；產生方式 guidetools.to_text）
 
 隔離人性｜理財新手完整指南
 
@@ -15,7 +15,7 @@
 
 〈小字〉勞保、勞退那幾段適用受僱勞工，公教、軍職、自營者的退休制度要另外查。
 
-我只有十分鐘我要開始正在跌，我很慌
+我只有十分鐘正在跌，我很慌
 
 【摺疊】怎麼讀這本書
 
