@@ -1017,3 +1017,27 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 **檢查**：`xrefs` **XREFS OK**；`budget` **BUDGET OK**（`budget-v7.json` 沒動，總量仍是 58,691／64,933，一個字沒變）；numbers 對 `_baseline_v631.html` 與對批 BP 的 `35b5db9` 都 **LOST 0**（對 BP 是 `no differences`），沿用 `numbers-allow-round43.json`；`anchors` **ANCHORS OK**（id 141、href 115）；`planstep` 10 個 0 問題；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **ALL PASS**；`calc_core.py` 全部 assert 通過、`引用缺漏 []`（`lite/calc-results.json` 這一批零變動）；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` exit 0＋**SENTINELS OK**，工作表 **6 頁＝3 張紙**，完整版 PDF 184 頁。**精簡版連結數沒有增加**：補連結那一句在 `group-core` 分組節裡，不進精簡版，`lite/index.html` 零變動。`git checkout -- lite/work` 已跑。
 
 **沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器；上面那 17 處「要不要幫卡加 id」等主線決定；目錄的 9 個區間標籤沒有動。
+
+## 批 BR（2026-09-25）：BJ 裁判後修正——假設寫上圖、指路句改方向、圖說末句對齊提領規則
+
+規格 `wip/v63-review/spec-v7-content-br.md`，依據 `wip/v63-review/judge-bj.md`（4 must、5 should、5 nit；逐條處置寫在該檔末尾的「## 處置（批 BR，2026-09-25）」）。**黃框沒動，圖的年齡、+30 對應、來源卡都沒動**；`guide/index.html` 動 3 處（第 8 節、第 24 節那張圖的 figcaption、第 28 節製作說明），`tools/v7_g11_money_age.py` 動 chart-sub／p.note／aria／標籤盒座標。
+
+**(1) must-1＋should-4（第 8 節指路句）**：BJ 加在既有 `p.small` 末尾那一句（「而且你不是一筆錢放二十年，是每一筆錢各放它自己的二三十年（第 24 節那張時間軸）。」）整句刪掉——它接在「單一國家可能等 25／34 年」後面，把警告收回去一半，而且給的「二三十年」比 34 還短。那一段恢復成 BJ 之前的樣子，另起一個新的 `p.small`：「另一個常見的擔心是「快退休才投的錢，來不及放長」。退休不是一天把錢全部花掉，最晚投的錢是最晚才花的（第 24 節「每一筆錢都有自己的三十年」那張圖）。」不給任何年數；「24」帶 `a.xref` 到 `#lifecycle-money-age`。
+
+**(2) must-2＋should-1＋should-5＋nit-5（假設寫在圖上）**：chart-sub 換成「示意：假設 35 歲開始存、65 歲退休、領 30 年」（`SUB`，`--guide` 寫回）。figcaption 整段換掉，第二句就寫假設，並補「你的起步年齡不同，年數就不同，順序不變：最早投的最早花，最晚投的最晚花，快退休才投的錢也不是短期投資。」——全稱句「每一筆錢都有自己的三十年可以長」與「也都要對上三十年後的物價」都拿掉了（後者的起算年和正文 1.81 不同，寫明假設之後這個問題消失）。
+
+**(3) must-3（圖說末句和提領規則卡相反）**：「你要做的，是別在中途把它拿出來」刪掉，換成「快要輪到的那幾筆，退休前幾年就搬到波動小的地方（下面「拿錢的順序與規則」）。還沒輪到的，留在市場裡繼續長。」——「拿錢的順序與規則」是第 24 節的 `<h4>`，**查過沒有 id**，所以只寫純文字、不加 id（加 id 留給主線）。
+
+**(4) must-4（自我宣告的圖數）**：第 28 節製作說明「29 張圖」→「30 張圖」。依據 `v7_layout_check` 本批實測：375px 與 1024px 都是 `figure.chart 30 張`。同一句的「51 張表／50 張」複量仍對（兩個寬度都 `.table-wrap 50 個`），沒改。
+
+**(5) should-3（p.note）**：換成「錢是可以互換的，這是想法上的對應，不是分開的帳戶。退休後整桶錢的股債比，照本節第一題還是要往下降。提領那幾年開頭就跌的風險也不會因此消失（下面「為什麼提領期怕一開始就跌」）。」——第二句從「仍要有股債比」改成寫死方向；第三句把插在主語述語中間的括號移到句尾。
+
+**(6) should-2（桌機版箭身被標籤盒蓋掉約 24px）**：`tools/v7_g11_money_age.py` 新增 `BOX_CLEAR = 6.5`，標籤盒的 `lx` 從固定的「箭身中點右邊 10px」改成由「盒子左下角到箭身的垂直距離 ≥ BOX_CLEAR」反解，盒子整個落在箭身右側。實測（量測腳本從產出的 SVG 解座標）：桌機盒 `x∈[355.2,444.8] y∈[72.8,129.3]` 對箭身 `(274.3,52)→(365.7,150)` **不相交、最近 6.44px**；手機盒 `x∈[195.0,234.5] y∈[73.0,97.0]` 對箭身 `(157.2,48)→(202.8,122)` **不相交、最近 6.47px**。常數取 6.5 是因為 SVG 座標輸出到小數一位，取 6.0 會因為進位量到 5.93。量測腳本（session scratchpad 的 `measure.py`）新增 `seg_rect()`：線段對矩形的相交判定與最近距離，兩版都印數值。
+
+**(7) nit**：nit-1 `_comment_bj` 的拆帳 86／78 改成實測 97／77（97＋77＝174，才對得上 243→417），並新增 `_comment_br`；nit-2 手機版 `aria-label` 拿掉「錢長 30 年，物價也漲 30 年」（`ARIA` 拆成共用前半段＋`ARIA_ARROW` 兩版）；nit-5 `compute()` 的 `'illustrative': True` **加註不改名**（改名會動回傳的 key，規格沒交代），另外「示意」二字由新 chart-sub 處理；nit-3、nit-4 不改，理由記在 `judge-bj.md` 的處置段。
+
+**預算**：`budget-v7.json` 照實測——`_visible_small_overrides.lifecycle` 420→**509**（不留餘額；圖說 97→179、p.note 77→87，+92）、`_total_max` 58704→**58684**、`_visible_total_max` 64946→**65051**。lifecycle 的 mainline 上限 **4694 沒有調低**（實測 4687，chart-sub 從 29 字變 22 字；規格只交代調小字與兩個總量）。全書 mainline −20 ＝ 本批 −7 加上批 BQ 已經減掉、當時沒把上限跟著調下來的 13 字。s5 小字 1,068→1,101（刪 40 字、新段 73 字），仍在既有的 1,980 以內，沒調。
+
+**檢查**：`budget` **BUDGET OK**；`anchors` **ANCHORS OK**（id 141→141、href 115）；`planstep` **PLANSTEP OK**（10 個 0 問題）；`xrefs` **XREFS OK**（525 個節號連結、53 句引用、17 處不判紅的注意）；`numbers` 對 `_baseline_v631.html` 與對 `fb1bb61` 都 **LOST 0**，新開 `wip/v63-review/numbers-allow-round44.json`（round43 的 384 條原封不動，只加 3 條：lifecycle 的 64、94 各 1——chart-sub 換句以後同一個歲數不再寫兩遍；methods 的 29 ——製作說明改 30）；`guidetools check` **CHECK OK**；`test_guidetools`／`test_v7_check` **RESULT ALL PASS**；`calc_core.py` `引用缺漏: []`（`lite/calc-results.json` 只有行位移）；`essay_charts.py --guide` 兩次 exit 0、第二次 **0 ⚠**；`v7_layout_check` **LAYOUT OK**；`build_lite.py` exit 0＋**SENTINELS OK**，工作表 **6 頁＝3 張紙**，完整版 PDF **184 頁**；量測腳本 **TOTAL OK**（exit 0）。`git checkout -- lite/work` 已跑。
+
+**沒做／留著**：沒有發布，`release/` 沒更新；沒開瀏覽器目視（should-2 一樣是算出來的，只是這次兩版都有機械檢查）；裁判 should-1 附帶指出「94 歲以後怎麼辦」整個第 24 節沒有正面回答（長壽／餘命／活到 0 次）——那是新增題目，不在本批規格，留給主線；「拿錢的順序與規則」那個 `<h4>` 要不要加 id 也留給主線；新寫的 figcaption、p.note 與第 8 節那段 `p.small` 還要再過一次裁判。
