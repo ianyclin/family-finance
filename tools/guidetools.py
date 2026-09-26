@@ -165,19 +165,31 @@ def strip_blocks(h, cls, tags=('div', 'details')):
 
 def strip_div(h, cls): return strip_blocks(h, cls, ('div',))
 
+def _term_text(m):
+    """a.term 保留 title：〔詞：title〕；沒有 title 的維持〔詞〕。"""
+    tt = re.search(r'(?<![\w-])title="([^"]*)"', m.group(1))
+    return '〔%s：%s〕' % (m.group(2), tt.group(1)) if tt else '〔%s〕' % m.group(2)
+
+def _ext_link_text(m):
+    """外部連結（source-link 以外）寫成「文字（網址）」；a.xref、a.back、# 開頭的 href 不會進到這裡。"""
+    if re.search(r'(?<![\w-])class="[^"]*\bsource-link\b', m.group(1)): return m.group(0)
+    return '%s（%s）' % (m.group(3), m.group(2))
+
 def to_text(path, keep_sources=False):
     h = read(path)
     h = re.sub(r'<style.*?</style>', '', h, flags=re.S)
+    h = re.sub(r'<script.*?</script>', '', h, flags=re.S)
     if not keep_sources: h = strip_blocks(h, 'source-card')
     h = re.sub(r'<svg.*?</svg>', '', h, flags=re.S)
     h = re.sub(open_tag('details', 'orig') + r'.*?</details>', '', h, flags=re.S)
     h = re.sub(r'<img[^>]*alt="([^"]*)"[^>]*>', r'〔圖：\1〕', h); h = re.sub(r'<img[^>]*>', '', h)
     h = re.sub(open_tag('div', 'story'), '\n【黃框】', h); h = re.sub(open_tag('summary'), '\n【摺疊】', h)
     h = re.sub(open_tag('p', 'small'), '\n〈小字〉', h); h = re.sub(open_tag('span', 'small'), '〈小字〉', h)
-    h = re.sub(open_tag('a', 'term') + r'(.*?)</a>', r'〔\1〕', h); h = re.sub(MARK_ANY + r'(.*?)</mark>', r'★\1★', h)
+    h = re.sub('(' + open_tag('a', 'term') + r')(.*?)</a>', _term_text, h); h = re.sub(MARK_ANY + r'(.*?)</mark>', r'★\1★', h)
     h = re.sub(open_tag('span', 'later') + r'(.*?)</span>', r'［\1］', h); h = h.replace('<br>', '\n')
     h = re.sub(r'<h2[^>]*>', '\n\n## ', h); h = re.sub(r'<h3[^>]*>', '\n### ', h)
     h = re.sub(r'</(p|li|h2|h3|h4|h5|dd|dt|tr|figcaption|div|summary)>', '\n', h); h = re.sub(r'<t[dh][^>]*>', ' | ', h)
+    h = re.sub(r'(<a\b[^>]*?(?<![\w-])href="(https?://[^"]*)"[^>]*>)(.*?)</a>', _ext_link_text, h, flags=re.S)
     h = re.sub(r'<[^>]+>', '', h); h = h.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>')
     h = re.sub(r'[ \t]+', ' ', h); h = re.sub(r'\n\s*\n+', '\n\n', h)
     return h.strip()
