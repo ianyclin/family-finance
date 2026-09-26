@@ -143,5 +143,11 @@ p4 = os.path.join(tmp, 'sc2.html')
 open(p4, 'w', encoding='utf-8').write(base.replace('</body>', '<div class="source-card"><p>舊版來源卡</p></div></body>'))
 expect('to_text still strips div.source-card', '舊版來源卡' not in gt.to_text(p4))
 
+# --- v7 批 CD-2（B17）：to_text 的三個行為（拿掉 script、詞條帶 title、外部連結帶網址）
+tx = gt.to_text(guide)
+expect('to_text strips <script> (no <script / document.)', '<script' not in tx and 'document.' not in tx)
+expect('to_text term keeps title 〔詞：title〕', re.search(r'〔(?!圖：)[^〕\n]+：', tx) is not None)
+expect('to_text external link keeps URL （https://', '（https://' in tx)
+
 print('RESULT', 'ALL PASS' if fails == 0 else '%d FAIL' % fails)
 sys.exit(1 if fails else 0)

@@ -57,3 +57,6 @@
 - budget：mainline／small 只會降，上限不往下調；在 `budget-v7.json` 加 `_comment_ce` 記這一批各節降了多少。
 - 其餘全套照 handoff「批 CC」段：xrefs、planstep、guidetools check、test_guidetools、test_v7_check、`calc_core.py` 引用缺漏 `[]`、`essay_charts.py --guide` 兩次（第二次 0 ⚠；注意它不會把刪掉的箱形圖加回來，跑完 grep `sp500-holding-box` 仍 0）、v7_layout_check、v7_money_age_measure、build_lite SENTINELS OK（工作表仍 6 頁；完整版 PDF 頁數會降，回報新頁數）。
 - 回報照 v7-builder-rules 格式，另加：每個刪掉的摺疊的 summary 逐字、刪掉的來源條目逐筆、calc_core 拿掉的 quote 逐句；不 commit。
+
+## CE-0　順帶一句（複審重整代理指出的 CD 口徑不一，主線裁定 2026-09-26）
+A10 那句用的是表一（未扣費），A6 的第一版目標已改用 D 區（扣費後）。第 24 節「房貸要不要提早還」：「用你自己那一列的數字（第 14 節表一），不是全股票的 4%。」→「用你自己那一列、再減掉費用的數字（第 14 節表一與 D 區），不是全股票的 4%。」（xref 照舊。）
