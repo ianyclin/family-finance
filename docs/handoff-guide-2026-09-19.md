@@ -523,7 +523,9 @@ git branch -D worktree-agent-a31a9a6a9666cfa26 worktree-agent-a4ce74154aaf9f9e3 
 
 ## 2026-09-22 關機交班（主線寫，批 AD 施工中）
 
-**發布狀態（2026-09-26 午）**：指南 Artifact **Version 46**、工作表 **Version 31**——含批 CC（第 24 節提前清償違約金一句〔玉山 FAQ 來源、只講一次清償〕、calc_core 補 19 條 assert 與 8 句 quote、年度複查清單開在本檔、`tools/v7_money_age_measure.py`）。**作者裁定：到此停止新批；接下來是作者通讀與外部 AI 複審**（三份純文字已交作者：全文給 Opus、前後半各一份給兩個獨立 session；prompt 定稿在對話 2026-09-26）。45 是 CB 補。
+**發布狀態（2026-09-26 晚，最新）**：指南 Artifact **Version 47**、工作表 **Version 32**（commit `965ac5e`）——含批 CD／CD-2（外部複審拍板清單 A 13 條＋B 17 條，裁判後修正 17 條）、CE／CE-2（C 類刪八組摺疊與卡、十桶金改摺疊，裁判後修正 11 條）、CF／CF-2（六則複審逐條判對錯後的 11 句，裁判後修正 7 條）。細節在本檔末「## 批 CD–CF」段與 `wip/v63-review/changes-for-author-v7.md` 一之七十八～八十。**作者裁定：到此停止，換作者通讀。**
+
+**發布狀態（2026-09-26 午，較早）**：指南 Artifact **Version 46**、工作表 **Version 31**——含批 CC（第 24 節提前清償違約金一句〔玉山 FAQ 來源、只講一次清償〕、calc_core 補 19 條 assert 與 8 句 quote、年度複查清單開在本檔、`tools/v7_money_age_measure.py`）。**作者裁定：到此停止新批；接下來是作者通讀與外部 AI 複審**（三份純文字已交作者：全文給 Opus、前後半各一份給兩個獨立 session；prompt 定稿在對話 2026-09-26）。45 是 CB 補。
 
 **發布狀態（2026-09-26，較早）**：指南 Artifact **Version 45**（44 加上封面「我要開始」拿掉，作者看過後判多餘：「我只有十分鐘」讀完就會被帶到起步版）；44、工作表 **Version 31**（工作表內容沒變，未重發）——含批 CB（作者拍板：第 1 節九件事第一件補「還在補的，先用小金額」；封面加第三個入口「我要開始」→ 起步版六行）。走查六題全部結案。43／31 是 BX–CA。
 
@@ -1318,3 +1320,20 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 **工具環境**：代理 builder／judge／miller-chapter 的 model 已改成完整 ID `claude-opus-5-5`（Opus 5.5，2026-09-22 發布；本機 `opus` 別名仍指 Opus 5），`~/.claude/settings.json` 子代理預設同步；新 session 生效。`guidetools.to_text()` 沒濾 `<script>`、剝掉 href 與 term title，純文字匯出有兩段 JS（B17 要修）。
 
 **已知小坑**：allow 檔現行 `numbers-allow-round51.json`；budget `_comment_cc`；完整版 PDF 185 頁；子代理不准 `git stash`、不准 `git checkout -- lite/work`（auto mode 會擋，改手動還原時間戳那一行）；CPython 3.9 stdin 跑含中文腳本要加 coding 宣告；zsh 裡 `$c:guide/...` 會被當修飾詞，寫 `"${c}:guide/..."`。
+
+## 批 CD／CD-2／CE／CE-2／CF／CF-2（2026-09-26，外部複審拍板清單全部做完；已發布 Version 47／32）
+
+**依據**：`wip/v63-review/decisions-external-reviews-2026-09-26.md`（作者拍板：A、B 照建議；A13 選 (b)；C 照建議刪；甜蜜點與滿足點刪、十桶金改摺疊；黃框全部不動）。作者另指出六則複審是兩個模型家族、輸入重疊，「幾份提到」不是證據，要主線逐條對全文判對不對；主線判「對、一句話能修」的 11 句成為批 CF（作者「照你的建議」）。
+
+**規格與裁判**：`spec-v7-content-cd.md`（含 CD-2 段）／`judge-cd.md`；`spec-v7-content-ce.md`（含 CE-0、CE-2 段）／`judge-ce.md`；`spec-v7-content-cf.md`／`judge-cf.md`（含 CF-2 處置）。六則複審重整（唯讀代理）：`external-reviews-2026-09-26-reaudit.md`。commit：CD `fee1417`、CD-2 `c50805c`、CE `565e0d5`、CE-2＋CF `7c81ba6`、CF-2 `965ac5e`。
+
+**做了什麼（一句話版）**：A 13 條觀念錯每條一句（賣掉的整筆現金導回第 9 節三處、玩的錢收窄、第 21 格護欄分兩種、「還在補的」限定預備金、用錢前五年全部移出、第一版目標用扣費後算、陳大哥口徑句、高股息與月配拆開、82 萬與 −37% 主詞、房貸對自己那列再減費用、再平衡估法照第 20 格、賣出時的手續費和稅、小安預備金 (b)）；B 17 條會卡住每條一句或一個連結（含 `guidetools.to_text` 濾 script、詞條帶 title、外部連結帶網址）；C 刪第 3 節兩摺疊、巴菲特與 Swensen、學者在吵什麼、做過哪些檢查與連結檢查句、經典散戶圖、集中度、箱形圖／年數表／台股區間表、甜蜜點與滿足點，十桶金改摺疊，來源卡同步少 13 筆（不重複網址 210→197），calc_core 拿掉 20 句只在被刪內容裡的引用、補回 2 句；CF 11 句見 changes-for-author 一之八十。
+
+**裁判抓到的類型（下次要先掃）**：①新句同時套到兩種情況（A3 一次只降一級套到人生狀況改變）；②同一批兩句給相反答案（A4 對 A13）；③二選一的其中一種被寫成人人要照做（A11）；④刪摺疊後**不含關鍵字**的懸空指路（「第 8 節那兩張小表」「（第 5 節）」「上一張圖的想深入」「兩張滾動報酬圖」）——殘留 grep 要掃「那兩張／那張小表／上一張圖／那個展開／那一格／見第」這類指路詞，不能只掃名詞；⑤刪掉的內容在工作表短稿裡還有同一句（A5 的空白版）；⑥「保障」「就會」「已經」這類滑成承諾的字。
+
+**工具環境變化**：`tools/guidetools.py to_text()` 濾 `<script>`、`〔詞：title〕`、外部連結「文字（網址）」（`test_guidetools.py` 補三條）；`tools/v7_layout_check.py` 在書上已無「全書 N 張表」宣告句時放行（殘跡仍判紅）；`tools/v7_g09_rolling.py` `ROLL_COWLES_REF = COWLES_NOTE`；`lite/facts.txt` 刪兩條 full-only；`lite/alt/plan-starter`（A4 同步）、`plan-blank`（A5 同步；「睡不著一次只降一級」照 D04 前例不加，會掉到 7 頁）、`app-a-checklist`（只重 stamp）。allow 現行 `numbers-allow-round55.json`（round51→55：+1、+1、+237、+8 覆寫 3）；budget `_comment_cd`／`_cd2`／`_ce`／`_cf`／`_cf2`。完整版 PDF 185→178 頁；工作表 6 頁；全書主線 58,858→59,206。
+
+**這一輪的代理**：本 session 從空白工作區開始，`~/.claude/agents/` 不在路徑上、專案代理定義（`/Users/linyenchu/Cladue Code/.claude/agents/`）沒載入，改用一般代理帶入 builder／judge 鐵則，模型只能指定「opus」別名（無法指定 `claude-opus-5-5` 完整 ID）。下次從 `/Users/linyenchu/Cladue Code` 開 session 就有 builder／judge。
+
+**留給作者（都不擋，寫在 changes-for-author 一之七十八～八十）**：小安直接挑八成上限；壓力測試重做時機三種說法；費率四名三口徑；0.5% 粗尺對全球型 0.5–0.6%；第 5 節「投多少、要走多久」h3 下只剩一段主線；第 16 節小字「約 18 年」已無算法可對（70 法則隨甜蜜點刪了）；B4 大跌年不補現金會讓預留現金暫時少於五年（拍板清單原句）；judge-ce 次-6 第 24 節段落順序；黃框 D 四條。
+
