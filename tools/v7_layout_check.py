@@ -55,6 +55,8 @@ P_LEFT_KINDS_GOAL = 8
 CLAIM_RE = re.compile(
     r'全書 (\d+) 張表，其中 (\d+) 張由版面哨兵在手機寬度（375 像素）逐張量過，'
     r'另一張隨它所在的圖一起量；(\d+) 張圖也在手機寬和電腦寬各量一次')
+# 批 CE：宣告句的殘跡。CLAIM_RE 對不上、但書上還有這些字，就是句子被改寫了（判紅）；兩個都沒有，才是整句已刪。
+CLAIM_TRACE_RE = re.compile(r'全書\s*\d+\s*張表|版面哨兵')
 
 MEASURE_JS = r"""
 function measure(){
@@ -257,6 +259,12 @@ def check_claims(guide, raw, problems, lines):
     with open(guide, encoding="utf-8") as f:
         src = f.read()
     m = CLAIM_RE.search(src)
+    if not m and not CLAIM_TRACE_RE.search(src):
+        # 批 CE（外部複審 C4，作者 2026-09-26 拍板）把第 28 節「想深入：這本書做過哪些檢查」整個摺疊刪了，
+        # 張數宣告句跟著不在書上：書上沒有宣告，就沒有東西要對。只要書上還留著任何一點宣告的痕跡
+        # （「全書 N 張表」或「版面哨兵」），仍照下面判紅——句子改寫過就要回來對一次的規則不變。
+        lines.append("宣告  書上已經沒有「全書 N 張表…N 張圖…」宣告句（批 CE 刪了第 28 節那個摺疊），不比對")
+        return
     if not m:
         lines.append("宣告  找不到第 28 節製作說明那句「全書 N 張表…N 張圖…」")
         problems.append("找不到第 28 節製作說明的張數宣告句（句子改寫過就要回來對一次，"
