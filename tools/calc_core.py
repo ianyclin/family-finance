@@ -723,6 +723,41 @@ _d02['chen_all_deposit'] = {
             '的現象在照部位扣費以後已經消失，這句話沒有要證明的事。1,088／1,073 兩個值留在這裡備查，書上不再印'}
 R['deposit_rate_d02'] = _d02
 
+# ---------- 批 CC（裁判 BI should-3）：書上印出來、但之前既沒 assert 也沒 quote 的值 ----------
+# 小安 壓力測試那一列，與「少的錢換成幾個月薪水」（第 14 節）
+assert _xf['stress']['year5']['loss_wan'] == {'40': 11, '50': 14, '60': 16}, _xf['stress']['year5']
+assert (_xf['stress']['year5']['loss50_today_money']['today_wan'],
+        _xf['stress']['year5']['loss50_today_money']['months_salary_38k']) == (13, 3.4), _xf['stress']['year5']
+assert _xf['stress']['y2046']['loss50_today_money']['today_wan'] == 55, _xf['stress']['y2046']
+# 書上印「約 14 個月」＝ 55 萬 ÷ 3.8 萬 ＝ 14.47 取整；存在 JSON 的 months_salary_38k 是一位小數的 14.5，
+# 直接對 14.5 取整會變 15（half-up），所以這裡從今天的錢重算一次（裁判 BI nit 3 指的就是這個落差）。
+assert r0(_xf['stress']['y2046']['loss50_today_money']['today_wan'] * 10000 / 38000) == 14, \
+    _xf['stress']['y2046']['loss50_today_money']
+# 阿凱 大跌演練三級（第 14 節）：八成少 190 萬、七成少 165 萬、六成 138 萬≈93 萬≈19 個月
+assert _akf['drill_2046_low']['80']['loss_wan']['50'] == 190, _akf['drill_2046_low']['80']
+assert _akf['drill_2046_low']['70']['loss_wan']['50'] == 165, _akf['drill_2046_low']['70']
+assert r0(_akf['drill_2046_low']['60']['loss50_today_wan'] * 10000 / 50000) == 19, _akf['drill_2046_low']['60']
+# 小芸與阿哲 頭期款桶（股票 0%、全放定存 1.7%）：書上①②三個數字與小字的 2% 對照
+assert (_dp17['fv_25k_wan'], _dp17['gap_wan']) == (358, 42), _dp17
+assert (_dp17['save_more']['30000']['fv_wan'], _dp17['save_more']['29500']['fv_wan'],
+        _dp17['save_more_min_step500']) == (403, 398, 30000), _dp17['save_more']
+assert (_dp17['delay_25k']['ym'], _dp17['delay_25k']['extra_months']) == ('2034-11', 14), _dp17['delay_25k']
+assert (r0(_dp17['vs_2pct']['fv_25k_wan1']), _dp17['vs_2pct']['fv_30k_wan']) == (363, 408), _dp17['vs_2pct']
+assert _dp17['vs_2pct']['fv_30k_wan'] - _dp17['save_more']['30000']['fv_wan'] == 5, '小字「差的這 5 萬」'
+# 小芸與阿哲 反面例子：頭期款放六成股票（照地板規則不能這樣放，書上只示範會少多少）
+assert (dp['counter_example_month72_25k_60pct']['ym'],
+        dp['counter_example_month72_25k_60pct']['amount_wan'],
+        dp['counter_example_month72_25k_60pct']['loss_drop50_wan']) == ('2032-09', 344, 103), \
+    dp['counter_example_month72_25k_60pct']
+# 陳大哥「全放定存」那一列：1,059 萬，到得了 916 萬（33 倍＋第二段）、到不了 1,092 萬（40 倍＋第二段）
+assert _d02['chen_all_deposit']['amount_wan'] == 1059, _d02['chen_all_deposit']
+assert _d02['chen_all_deposit']['reaches_33x_two_stage'] is True, _d02['chen_all_deposit']
+assert _d02['chen_all_deposit']['reaches_40x_two_stage'] is False, _d02['chen_all_deposit']
+# 下面兩個值批 BO 已從書上刪掉（裁判 BI should-4），只留備查；釘住是為了之後有人想改回去時看得到基準。
+assert _d02['chen_all_deposit']['stock20_after_fee_rate'] == 2.3, _d02['chen_all_deposit']
+assert _d02['chen_all_deposit']['stock20_after_fee_amount_wan'] == 1088, _d02['chen_all_deposit']
+assert _d02['chen_all_deposit']['lookup_2pct_amount_wan'] == 1073, _d02['chen_all_deposit']
+
 # ---------- 台灣家庭實際存多少（第 5 節「存多少算合理？兩個參考」） ----------
 # 行政院主計總處「113 年家庭收支調查」統計表，2026-09-20 下載。
 # 原始 ods 存在 wip/v63-review/sources/Year10.ods（第 10 表）、Year12.ods（第 12 表），
@@ -2209,6 +2244,16 @@ quotes += ['用費率 0.06% 的那一檔算，一年差 0.2 到 0.3 個百分點
            '一個是投進去的 1.5 倍，一個是 4.8 倍（名目，沒扣物價；扣掉物價，1.5 倍差不多只是原地踏步）',
            '報酬占 | 22% | 35% | 44% | 51% | 56% | 59% | 63% | 65% | 67% | 69%',   # 圖下小表「累積起來，報酬占」那一列（欄名在前一行，因為 <br>）
            '| 60 萬 | 7.84 年 | 22% | 22%']
+
+# 批 CC（裁判 BI should-3）：assert 之外再釘住書上那幾句，數字和句子配對一起鎖
+quotes += ['| 第 5 年約 34 萬 | 少 11 萬 | 少 14 萬 | 少 16 萬',
+           '第 5 年少 14 萬 ÷ 1.10 ≈ 13 萬，約 3.4 個月；2046 年少 82 萬 ÷ 1.49 ≈ 55 萬，約 14 個月',
+           '138 萬 ÷ 1.49 ≈ 93 萬，約 19 個月的平均收入',
+           '八成約 476 萬，跌 50% 少 190 萬',
+           '七成約 471 萬，少 165 萬',
+           '這一桶約 344 萬，股票跌 50% 就少約 103 萬',
+           '要到 2034 年 11 月左右（多 14 個月）',
+           '同一桶用查表的 2% 算是 363 萬、多存到 3 萬是 408 萬；差的這 5 萬']
 
 found = {}
 try:
