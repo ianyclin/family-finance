@@ -21,3 +21,12 @@
 
 ## 檢查
 全套（budget；numbers 兩基準 `_baseline_v631.html` 與 `1ffde47`，掉 token 開 round57 寫理由——來源標題改格式會掉日期 token；anchors；xrefs；planstep；guidetools check；兩支測試；calc_core 引用缺漏 []；essay_charts 兩次；layout；money_age；build_lite 6 頁）；來源卡 27 張宣告數＝實際數（costs −1）。桌機 1024px 看 9 張補了 grid 的來源卡是兩欄。不 commit。
+
+## 處置（主線 2026-09-28，驗收後）
+- A2 只做 3 處（L843、L2874、L3161）。L2698「第 10 節」、L3750「第 17 節」×2 不做：三處都在 `a.source-link > span.source-note` 裡，補 xref 會變成 a 套 a，HTML 不允許，瀏覽器會切斷外層來源連結。規格說「來源註裡放 xref 全書已有先例」不成立——有 xref 的 why 卡是散文卡、沒有 source-link。
+- A5 自稱：L4151「本書」→「這本書」會被讀成指《舉債致富》本身（緊接在描述 Anderson 那句之後），改為全書主流自稱「本文的立場相近但更保守」。此句在立場句清單「借錢投資」那條，其餘字與 47c8047 逐 byte 相同。
+- B10 cases 的 5 個 h5→h4 退回 h5：那 5 個小標在 data-card 裡的 details 內，卡裡 h4 是卡片標題層級（.data-card h4 1.06rem），改 h4 會比同層的 h5「和小安差在哪」大、和卡片標題同級；s5、lifecycle 的先例不在 data-card 裡。firstmonth 的 strong→h4 維持。
+- A8 Ben Felix 那筆統一標題後尾巴「（YouTube）（2022-12-22）」兩組括號相連，合成「（YouTube，2022-12-22）」。
+- budget：_total_max 59,580→59,603（詞彙表交割戶那句 +41、其他 −18），寫入 `_comment_cn`；numbers 用 `numbers-allow-round57.json` 對兩基準 LOST 0。
+- 維持現狀不改：s7 與 s5 第二個 grid 只有一筆、桌機佔半欄（結構一致優先）；methods 卡「Vanguard 2023：Cost averaging（官方 PDF）」與「Charles Schwab：Does Market Timing Work?」是統一成全書已有的較完整標題；g-circle 滑過說明對齊 dd 第一句後少了「圈外」那句（dd 第二句仍有）；被刪的 165 重複筆帶的通話費備註，正文 4 句提到 165 都不涉通話費。
+- 驗證員報告：`wip/v63-review/judge-cn.md`。

@@ -57,6 +57,11 @@ def esc(s):
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+def minus(s):
+    """批 CN（A7）：圖上的負號用數學減號「−」（U+2212），不用連字號「-」；全書其他圖本來就是「−」。"""
+    return s.replace("-", "−")
+
+
 # ---------- 版面：桌面 d／手機 m ----------
 class L:
     def __init__(self, kind):
@@ -183,7 +188,7 @@ def original_block(cid):
             % (esc(credit), claim, url))
 
 
-def figure(cid, title, sub, svgs, caption, extras="", caption_html=False, illustration_only=False, after=""):
+def figure(cid, title, sub, svgs, caption, extras="", caption_html=False, illustration_only=False, after="", sub_html=False):
     """caption_html=True：caption 已經是 HTML（指南模式保留 figcaption 裡的節號連結），不再跳脫。
 
     illustration_only=True：純示意圖（圖上沒有任何數字，圖說只會把緊鄰的內文重講一次）。
@@ -197,7 +202,7 @@ def figure(cid, title, sub, svgs, caption, extras="", caption_html=False, illust
         "<figcaption>%s</figcaption>\n" % (caption if caption_html else esc(caption)))
     return ('<figure class="chart" data-chart="%s">\n<div class="chart-head"><span class="chart-title">%s</span><span class="chart-sub">%s</span></div>\n'
             '<div class="chart-body">\n%s\n</div>\n%s%s%s%s</figure>'
-            % (cid, esc(title), esc(sub), "\n".join(svgs), extras, cap, after, original_block(cid)))
+            % (cid, esc(title), sub if sub_html else esc(sub), "\n".join(svgs), extras, cap, after, original_block(cid)))
 
 
 # ======================================================================
@@ -266,7 +271,7 @@ def four_people():
         def px(a): return left + (right - left) * (a - 25) / 40
         def py(v): return bottom - (bottom - top) * v / ymax
         out = [svg_open(lay, h, "四個人 25 到 65 歲的資產曲線")]
-        out += grid(lay, py, (0, 250e4, 500e4, 750e4, 1000e4), lambda v: ("%d 萬" % (v / 1e4)) if v else "0", x2=right)
+        out += grid(lay, py, (0, 250e4, 500e4, 750e4, 1000e4), lambda v: ("{:,} 萬".format(int(v / 1e4))) if v else "0", x2=right)
         for a in (25, 35, 45, 55, 65):
             out.append(text(px(a), bottom + lay.f + 6, "%d 歲" % a, lay.f, "middle", MUTED))
         # 端點標籤：避免重疊（502 與 493 太近）
@@ -482,7 +487,7 @@ def intra_year():
         slot = (right - left) / n
         bw = slot * 0.64
         out = [svg_open(lay, h, "台灣含息指數 2003 到 2025 年：每年的全年報酬（長條）與年內最大跌幅（圓點）")]
-        out += grid(lay, py, (-60, -40, -20, 0, 20, 40, 60, 80), lambda v: "%d%%" % v)
+        out += grid(lay, py, (-60, -40, -20, 0, 20, 40, 60, 80), lambda v: minus("%d%%" % v))
         last_dd_label_y = {}
         for i, (yr, ret, dd) in enumerate(ys):
             x = left + i * slot + (slot - bw) / 2
@@ -491,7 +496,7 @@ def intra_year():
             out.append(rect(x, y0, bw, max(1.5, y1 - y0), MUTED))
             show_bar = (not lay.mobile) or abs(ret) >= 25
             if show_bar:
-                out.append(text(cx, (y0 - 4) if ret >= 0 else (y1 + lay.fl), "%d" % round(ret), lay.fl - (1 if lay.mobile else 0), "middle", INK, "700"))
+                out.append(text(cx, (y0 - 4) if ret >= 0 else (y1 + lay.fl), minus("%d" % round(ret)), lay.fl - (1 if lay.mobile else 0), "middle", INK, "700"))
             out.append(dot(cx, py(dd), ACCENT, 3.2 if lay.mobile else 4))
             show_dd = (not lay.mobile) or dd <= -20
             if show_dd:
@@ -503,7 +508,7 @@ def intra_year():
                 if ret < 0 and abs(ly - (y1 + lay.fl)) < lay.fl:
                     ly = y1 + lay.fl * 2 + 2
                 last_dd_label_y[i] = ly
-                out.append(text(cx, ly, "%d" % round(dd), lay.fl - 1, "middle", ACCENT))
+                out.append(text(cx, ly, minus("%d" % round(dd)), lay.fl - 1, "middle", ACCENT))
             if yr % 5 == 0 or yr == 2003:
                 out.append(text(cx, bottom + lay.f + 4, "'%02d" % (yr % 100), lay.f, "middle", MUTED))
         out.append("</svg>")
@@ -540,7 +545,7 @@ def ranges():
             top = rI * rh + lay.top + 8
             bottom = rI * rh + rh - 30
             def py(v, top=top, bottom=bottom): return top + (bottom - top) * (vmax - v) / (vmax - vmin)
-            out += grid(lay, py, (-40, -20, 0, 20, 40), lambda v: "%d%%" % v)
+            out += grid(lay, py, (-40, -20, 0, 20, 40), lambda v: minus("%d%%" % v))
             gw = (right - left) / per
             bw = (gw - 16) / 4 - 4
             for k in range(per):
@@ -550,8 +555,8 @@ def ranges():
                 for j, ((lo, hi), color) in enumerate(zip(cols, tones)):
                     x = gx + j * (bw + 4)
                     out.append(rect(x, py(hi), bw, max(2, py(lo) - py(hi)), color))
-                    out.append(text(x + bw / 2, py(hi) - 4, "%+d" % hi, lay.fl - 1.5, "middle", INK, "700"))
-                    out.append(text(x + bw / 2, py(lo) + lay.fl, "%+d" % lo, lay.fl - 1.5, "middle", INK))
+                    out.append(text(x + bw / 2, py(hi) - 4, minus("%+d" % hi), lay.fl - 1.5, "middle", INK, "700"))
+                    out.append(text(x + bw / 2, py(lo) + lay.fl, minus("%+d" % lo), lay.fl - 1.5, "middle", INK))
                 out.append(text(gx + (gw - 16) / 2, bottom + lay.f + 6, label, lay.f, "middle", INK, "700"))
         out.append("</svg>")
         return "\n".join(out)
@@ -617,7 +622,7 @@ def dca_high_low():
         def px(i): return left + (right - left) * i / (n - 1)
         def py(v): return bottom - (bottom - top) * v / ymax
         out = [svg_open(lay, h, "台股每月投 1 萬元，都買在當月最高與都買在當月最低，資產累積走勢")]
-        out += grid(lay, py, (0, 500e4, 1000e4, 1500e4), lambda v: ("%d 萬" % (v / 1e4)) if v else "0", x2=right)
+        out += grid(lay, py, (0, 500e4, 1000e4, 1500e4), lambda v: ("{:,} 萬".format(int(v / 1e4))) if v else "0", x2=right)
         for i, r in enumerate(rows):
             if int(r["month"]) == 1 and int(r["year"]) % 4 == 3:
                 # 第一個年份靠左對齊，才不會往左長到 y 軸的「0」上面（v7 批 W）
@@ -1030,7 +1035,8 @@ def build(cid, fn_chart, caption=None, caption_html=False):
         # 旗標和內容對不起來就吵，免得「純示意」被拿來當省略圖說的後門
         print("⚠ %s 標了 illustration_only，卻還帶著 extras 或 caption；圖說已被略過。" % cid)
     return figure(cid, d["title"], d["sub"], d["svgs"], caption if caption is not None else d.get("caption", ""), d["extras"],
-                  caption_html=caption_html, illustration_only=illus, after=d.get("after", ""))
+                  caption_html=caption_html, illustration_only=illus, after=d.get("after", ""),
+                  sub_html=bool(d.get("sub_html")))
 
 
 def do_essay():

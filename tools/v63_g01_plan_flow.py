@@ -144,7 +144,8 @@ def chart(res):
                       'loops': [(l['from'], l['to']) for l in res['loops']],
                       'lead_sentence': lead}
     return dict(title='計畫表怎麼填：A 到 H，還有兩條回頭的路',
-                sub='示意：第 14 節計畫表八個區的填寫順序',
+                # 批 CN（A2）：chart-sub 的純文字「第 14 節」補節號連結；sub_html 讓 figure() 不跳脫。
+                sub='示意：第 <a class="xref" href="#s11">14</a> 節計畫表八個區的填寫順序', sub_html=True,
                 svgs=[draw(E.L('d')), draw(E.L('m'))], extras=lg + nt, caption=caption)
 
 
