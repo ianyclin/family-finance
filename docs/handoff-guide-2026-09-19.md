@@ -1422,3 +1422,20 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 | 退休提領 | 25 到 40 倍、書用 33 倍寫計畫；頭五年缺口放定存；大跌那年生活費從預留現金拿、那年不補現金；三條路是減支出、延後、部分工作 | 第 24 節第三題、提領規則卡 |
 | 看盤與年檢 | 平常不看比例，一年年檢一次；每月只對帳；改規則走冷卻期 30 天；年檢也問填得太低要不要往上調一成 | 第 13、19、23 節 |
 
+## 2026-09-28 換 session 交班（主線寫；線上 Version 50／36，本機比線上多兩批未發布）
+
+**狀態**：HEAD `1ffde47`＋這一段。**本機領先線上**：批 CM／CM-2（第 27 節加「退休研究室／王伯達」、《舉債致富》那條統一格式並改對立場句，commit `6a85c83`、`47c8047`）已 commit **未發布**。**批 CN（格式一致性，機械修正 ~60 處）在交班當下由 builder 施工中**：規格 `wip/v63-review/spec-v7-content-cn.md`（A1–A9、B10），依據 `format-audit-2026-09-28.md`。接手時先 `git status`：
+- 工作樹**乾淨**＝CN 沒落地（builder 被中斷）→ 重派 builder 照 CN 規格做（從乾淨的 HEAD 開始）。
+- 工作樹**不乾淨**（guide/index.html、tools/、lite/alt、budget、round57 有改動）＝CN 做到一半或做完沒 commit → **不要 stash、不要 checkout --**；跑全套檢查（handoff 批 CC 段清單），綠了就 `git diff` 對規格逐條看、commit；紅了或看不懂就重派 builder 從 `1ffde47` 重做。
+- CN 綠了之後：派驗證員只驗這一批（格式批也要驗，見「立場句清單」那段的規則），再派 sonnet 發布員把 `output/guide.html`、`output/lite.html` 發到兩個預覽 url（不 force），更新本檔「發布狀態」。
+
+**等作者拍板的三個體例題**（格式檢查員抓的，CN 沒動）：①指路寫法——全書事實上第 4–17 節用「第 N 節」、第 18–25 節用節名，約 30 處破例（清單在 `format-audit-2026-09-28.md` 第 5 類）；主線建議照現狀分工補齊。②工作表怎麼稱呼主文件——「完整版」9、「完整指南」3、全名 1；建議統一「完整指南」（「完整版」和「完整版計畫表」撞名）；節號用國字是作者早先定的，不動。③「×／＝」空格——建議不動（會動到 calc_core 釘住的句子）。
+
+**這三天（09-26～28）的全貌**：批 CD～CL 共 15 個內容 commit，外部複審拍板清單 A／B／C 全做、三份最終審核逐條判對錯、兩個「能不能發」終審（會做錯決定 13→0）、Fable 觀念審四句、工作表封面對齊、延伸閱讀加退休研究室。每批的規格／裁判／處置都在 `wip/v63-review/`（spec-v7-content-cd…cn、judge-cd/ce/cf/cg、coherence-audit、final-review、reviews-final-two、format-audit）；作者版摘要在 `changes-for-author-v7.md` 一之七十八～八十五。
+
+**下一個 session 開場**：從 `/Users/linyenchu/Cladue Code` 或 `family-finance` 開（才有 builder／judge 代理與記憶）；貼：「接手《隔離人性》v7 預覽，專案 `/Users/linyenchu/Cladue Code/family-finance`，分支 v7-preview。先讀 `docs/handoff-guide-2026-09-19.md` 檔尾『2026-09-28 換 session 交班』與『立場句清單』兩段，再 `git status`。線上 Version 50／36，本機多 CM 未發布、CN 施工中。三個體例題我的答案：①…②…③…。」
+
+**作者裁定的大方向（不變）**：書到「會做錯決定 0」了；不開新內容批；下一步是作者通讀與真人試讀（三個任務在「批 CJ＋下一步」段）。再派 AI 審，用「能不能發」prompt；前兩級零就停。
+
+**主線這三天學到、記進記憶的**：多份複審逐條判對錯不看票數；格式批只刪不改寫、立場句先 grep 原句、再小的批都派驗證員；AI 會把作者的話收得比作者嚴（三次：不推薦商品、字數上限、舉債致富）。
+
