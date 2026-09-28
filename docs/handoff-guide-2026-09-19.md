@@ -1423,7 +1423,7 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 | 退休提領 | 25 到 40 倍、書用 33 倍寫計畫；頭五年缺口放定存；大跌那年生活費從預留現金拿、那年不補現金；三條路是減支出、延後、部分工作 | 第 24 節第三題、提領規則卡 |
 | 看盤與年檢 | 平常不看比例，一年年檢一次；每月只對帳；改規則走冷卻期 30 天；年檢也問填得太低要不要往上調一成 | 第 13、19、23 節 |
 
-## 2026-09-28 換 session 交班（主線寫；線上 Version 63／43＝內容 HEAD aa6cc5a（批 CV））
+## 2026-09-28 換 session 交班（主線寫；線上 Version 64／43＝內容 HEAD 6ecd1da（批 CW））
 
 **狀態**（這一段是 CN 施工中當下的紀錄，已過時；現況看本段標題與檔尾「批 CN」「作者 2026-09-28 拍板與下一批」「批 CO-1」「批 CO 第一段」「批 CO-2」「批 CO-2b」「批 CO-3a」「批 CO-3b」「批 CP」「批 CO-3c」「批 CQ」「批 CR／CS 的由來」「批 CR」「作者 2026-09-28 深夜拍板」「批 CS」「批 CT」「批 CU」「批 CV」十八段）：HEAD `1ffde47`＋這一段。**本機領先線上**：批 CM／CM-2（第 27 節加「退休研究室／王伯達」、《舉債致富》那條統一格式並改對立場句，commit `6a85c83`、`47c8047`）已 commit **未發布**。**批 CN（格式一致性，機械修正 ~60 處）在交班當下由 builder 施工中**：規格 `wip/v63-review/spec-v7-content-cn.md`（A1–A9、B10），依據 `format-audit-2026-09-28.md`。接手時先 `git status`：
 - 工作樹**乾淨**＝CN 沒落地（builder 被中斷）→ 重派 builder 照 CN 規格做（從乾淨的 HEAD 開始）。
@@ -1434,7 +1434,7 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 
 **這三天（09-26～28）的全貌**：批 CD～CL 共 15 個內容 commit（09-28 再加 CM、CN、CO-1、CO-2、CO-2b 五批），外部複審拍板清單 A／B／C 全做、三份最終審核逐條判對錯、兩個「能不能發」終審（會做錯決定 13→0）、Fable 觀念審四句、工作表封面對齊、延伸閱讀加退休研究室。每批的規格／裁判／處置都在 `wip/v63-review/`（spec-v7-content-cd…cn、judge-cd/ce/cf/cg、coherence-audit、final-review、reviews-final-two、format-audit）；作者版摘要在 `changes-for-author-v7.md` 一之七十八～九十三。（09-28 一天發九批：CM／CM-2、CN、CO-1、CO-2、CO-2b、CO-3a、CO-3b、CP，指南 50→57、工作表 36→41）
 
-**下一個 session 開場**：從 `/Users/linyenchu/Cladue Code` 或 `family-finance` 開（才有 builder／judge 代理與記憶）；貼：「接手《隔離人性》v7 預覽，專案 `/Users/linyenchu/Cladue Code/family-finance`，分支 v7-preview。線上 Version 63／43。先讀 `docs/handoff-guide-2026-09-19.md` 檔尾『批 CV』『批 CU』『批 CT』『批 CS』『批 CR』『作者 2026-09-28 深夜拍板』『批 CQ』『批 CO-3c』『批 CR／CS 的由來』『批 CP』『批 CO-3b』『批 CO-3a』『批 CO-2b』『批 CO-2』『批 CO-1』『批 CO 第一段』『作者 2026-09-28 拍板與下一批』與『立場句清單』，再看作者對稽核報告三題的答覆有沒有到。CLAUDE.md 新增兩段規則（先判斷再回、防太方便行事三關卡）要遵守。CU（`9c161aa`）、CV（`aa6cc5a`）都已 commit，線上版號見本段標題；剩的是『作者 2026-09-28 拍板與下一批』段狀態行裡「剩給作者」那幾條。」
+**下一個 session 開場**：從 `/Users/linyenchu/Cladue Code` 或 `family-finance` 開（才有 builder／judge 代理與記憶）；貼：「接手《隔離人性》v7 預覽，專案 `/Users/linyenchu/Cladue Code/family-finance`，分支 v7-preview。線上 Version 64／43。先讀 `docs/handoff-guide-2026-09-19.md` 檔尾『批 CW』『批 CV』『批 CU』『批 CT』『批 CS』『批 CR』『作者 2026-09-28 深夜拍板』『批 CQ』『批 CO-3c』『批 CR／CS 的由來』『批 CP』『批 CO-3b』『批 CO-3a』『批 CO-2b』『批 CO-2』『批 CO-1』『批 CO 第一段』『作者 2026-09-28 拍板與下一批』與『立場句清單』，再看作者對稽核報告三題的答覆有沒有到。CLAUDE.md 新增兩段規則（先判斷再回、防太方便行事三關卡）要遵守。CU（`9c161aa`）、CV（`aa6cc5a`）都已 commit，線上版號見本段標題；剩的是『作者 2026-09-28 拍板與下一批』段狀態行裡「剩給作者」那幾條。」
 
 **作者裁定的大方向（2026-09-28 晚已被「通讀前把能修的都修」取代，見檔尾）**：書到「會做錯決定 0」了；不開新內容批；下一步是作者通讀與真人試讀（三個任務在「批 CJ＋下一步」段）。再派 AI 審，用「能不能發」prompt；前兩級零就停。
 
@@ -1486,7 +1486,7 @@ CM（`6a85c83`）、CM-2（`47c8047`）與批 CN 一起發布為指南 **Version
 
 **工作方式**：作者同日對主線再提醒一次「不要迎合，要獨立思考後的建議」，已寫進 `~/Cladue Code/CLAUDE.md`（回覆第一段必須是判斷＋反例）。
 
-**2026-09-28 晚→09-29 凌晨（狀態行，最後更新 CV commit 後）**：作者改裁定通讀前能修的都修。09-28 共十四批：CM／CM-2、CN、CO-1、CO-2、CO-2b、CO-3a、CO-3b、CP、CO-3c、CQ、CR、CS、CT（發到指南 62／工作表 42）；之後 CU（兩張指路圖，`9c161aa`）、CV（插畫位置複審，`aa6cc5a`，09-29）已完成，線上指南 63／工作表 43。剩給作者：(a) 第 28 節插畫署名寫「ChatGPT」是否精確——交接包 manifest（`~/Documents/Codex/2026-09-17/new-chat/output/finance-illustrations/manifest.json` 等）的來源路徑是 `~/.codex/generated_images/`，README 寫「使用內建 imagegen 生成」，工具可能是 Codex 而不是 ChatGPT app；那句還寫「構圖、修改與圖說由作者決定」，圖說是作者在對話裡定的還是 AI 起草的，也請作者說一聲（批 CT judge 疑問、批 CV 裁判再提）；(b) `guide/index.html` 第 3188 行附近（第 13 節「聽到新聞，為什麼不該做些什麼」）「（第 8 節那張圖）」指得不清：第 8 節有 8 張圖表加一組插畫，下一批可指明圖表標題；co3-author-review.md 黃框 8 條只標記、投資人循環圖平均成本算法、受保護句指路授權（可退回）、CS 三處文字改動（可退回）。
+**2026-09-28 晚→09-29 凌晨（狀態行，最後更新 CV commit 後）**：作者改裁定通讀前能修的都修。09-28 共十四批：CM／CM-2、CN、CO-1、CO-2、CO-2b、CO-3a、CO-3b、CP、CO-3c、CQ、CR、CS、CT（發到指南 62／工作表 42）；之後 CU（兩張指路圖，`9c161aa`）、CV（插畫位置複審，`aa6cc5a`，09-29）已完成，線上指南 63／工作表 43。剩給作者：(a) 已於批 CW 改成「OpenAI 的圖像生成工具」與「圖說由 AI 起草、作者核定」（作者 2026-09-29「都照你建議」）；若作者其實是自己逐句寫圖說，「AI 起草」要改回。(b) `guide/index.html` 第 3188 行附近（第 13 節「聽到新聞，為什麼不該做些什麼」）「（第 8 節那張圖）」指得不清：第 8 節有 8 張圖表加一組插畫，下一批可指明圖表標題；co3-author-review.md 黃框 8 條只標記、投資人循環圖平均成本算法、受保護句指路授權（可退回）、CS 三處文字改動（可退回）。
 
 ## 批 CO-1（2026-09-28，第 24 節「每一筆錢都有自己的三十年」圖說；commit eb02df7；指南 Version 52）
 
@@ -2042,3 +2042,20 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 - 新出現一處：第 33 頁一個 h3 在頁底，後面接兩行，主線接受。
 
 **預算**：s9 小字 154→130、firstmonth 小字 136→160（05 圖說跟著搬），s13 摺疊 +7；各節主線與全書合計不變（`_total_max` 62,550、`_visible_total_max` 69,841），理由寫進 `_comment_cv`。
+
+## 批 CW（2026-09-29，第 28 節 AI 標示句：工具名稱與圖說歸屬；commit 6ecd1da）
+
+**由來**：批 CV 裁判再提的疑問——交接包 manifest 路徑是 `~/.codex/generated_images`、README 寫「內建 imagegen」，工具可能是 Codex 而非 ChatGPT；圖說是作者自己定的還是 AI 起草的，也未確認。主線把兩邊選項列給作者，作者 2026-09-29 答「都照你建議」。
+
+**改前**：「由 AI 影像模型生成（ChatGPT，2026-09-28），構圖、修改與圖說由作者決定；」
+**改後**：「由 AI 影像模型生成（OpenAI 的圖像生成工具，2026-09-28），構圖與修改由作者決定，圖說由 AI 起草、作者核定；」
+
+**證據**：交接包 manifest 路徑 `~/.codex/generated_images`；README 寫「內建 imagegen」；九條圖說逐字比對 Codex 輸出 README，完全相同。
+
+**預算**：+16 字，照實測（`_total_max` 62,566、`_visible_total_max` 69,857），理由寫進 `_comment_cw`。
+
+**驗證**：哨兵全綠——numbers（兩個基準）LOST 0、anchors、planstep、xrefs、build_lite（SENTINELS OK）、guidetools、calc_core、embed_illus。這是一句話改動，主線自驗，沒派裁判。
+
+**線上**：指南第 64 版（工作表仍第 43 版未變）。
+
+**留給作者**：若圖說其實是作者自己逐句寫的（不是 AI 起草、作者核定），「AI 起草」四字要改回。
