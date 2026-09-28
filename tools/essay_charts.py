@@ -200,9 +200,11 @@ def figure(cid, title, sub, svgs, caption, extras="", caption_html=False, illust
     """
     cap = "" if illustration_only else (
         "<figcaption>%s</figcaption>\n" % (caption if caption_html else esc(caption)))
-    return ('<figure class="chart" data-chart="%s">\n<div class="chart-head"><span class="chart-title">%s</span><span class="chart-sub">%s</span></div>\n'
+    # 批 CU：sub 是空字串就不輸出空的 <span class="chart-sub"></span>（兩張指路圖沒有 sub）。
+    sub_span = ('<span class="chart-sub">%s</span>' % (sub if sub_html else esc(sub))) if sub else ""
+    return ('<figure class="chart" data-chart="%s">\n<div class="chart-head"><span class="chart-title">%s</span>%s</div>\n'
             '<div class="chart-body">\n%s\n</div>\n%s%s%s%s</figure>'
-            % (cid, esc(title), sub if sub_html else esc(sub), "\n".join(svgs), extras, cap, after, original_block(cid)))
+            % (cid, esc(title), sub_span, "\n".join(svgs), extras, cap, after, original_block(cid)))
 
 
 # ======================================================================
@@ -995,6 +997,21 @@ def money_age():
     return _g11.chart(_g11.compute())
 
 
+# v7 批 CU 的 G12：兩張指路圖（第 14 節急救卡開頭、第 19 節一頁時間表開頭），畫法在 tools/v7_g12_route_maps.py。
+# 圖上的字逐字取自指南內文：compute() 讀 guide/index.html 斷言，對不上就 raise，不畫。
+# compute() 不需要 calc-results.json，所以不經過 calc()。
+def panic_map():
+    import v7_g12_route_maps as _g12
+    _g12.compute()
+    return _g12.chart_panic()
+
+
+def first_route():
+    import v7_g12_route_maps as _g12
+    _g12.compute()
+    return _g12.chart_route()
+
+
 CHARTS = [
     ("three-circles", "01-where-return-comes-from.html", "順便講「又穩又高」", "aside", three_circles),
     ("four-people", "02-time.html", "手冊算過四個人", "aside", four_people),
@@ -1086,6 +1103,8 @@ def do_guide():
     funcs["sp500-holding-box"] = sp500_holding_box    # 只在指南
     funcs["sp500-rolling-30y"] = sp500_rolling_30y    # 只在指南
     funcs["money-age"] = money_age                    # 只在指南
+    funcs["panic-map"] = panic_map                    # 只在指南
+    funcs["first-route"] = first_route                # 只在指南
     n = 0
     diffs = []
     def repl(m):

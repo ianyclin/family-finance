@@ -5,6 +5,10 @@
 用法：python3 tools/v7_money_age_measure.py [--guide guide/index.html]；全過印 TOTAL OK，exit 0。
 批 BR should-2 留下的量測腳本，批 CC 從 scratchpad 收進 tools/（原本是呼叫 v7_g11_money_age 重新產圖，
 現在改成讀落地的 guide，量的就是讀者真的會看到的那一份）。
+批 CU：加 --chart NAME，量別張圖（預設 money-age，輸出與舊版逐字相同）。
+  python3 tools/v7_money_age_measure.py --chart panic-map
+  python3 tools/v7_money_age_measure.py --chart first-route
+別張圖只查前三件事與幾何點；「粗箭頭箭身不碰標籤盒」是 money-age 專有的，其他圖不查。
 """
 import re, sys, os, html
 
@@ -15,6 +19,7 @@ import essay_charts as E
 
 _args = sys.argv[1:]
 GUIDE = _args[_args.index('--guide') + 1] if '--guide' in _args else os.path.join(ROOT, 'guide', 'index.html')
+CHART = _args[_args.index('--chart') + 1] if '--chart' in _args else 'money-age'
 
 T = re.compile(r'<text x="([-\d.]+)" y="([-\d.]+)" font-size="([\d.]+)" text-anchor="(\w+)"[^>]*>(.*?)</text>')
 
@@ -97,8 +102,8 @@ def run(name, svg):
               % (len(row), row[0][0], row[-1][0], worst[0], worst[1], ok))
         if worst[0] < worst[1]: bad += 1
     # 批 BR should-2：粗箭頭的箭身（stroke-width 3.2）不可以和標籤盒（var(--surface) 的 rect）
-    # 相交，最近距離要 ≥ 6px。兩版都算、都印數值。
-    shaft = re.search(r'<line x1="([-\d.]+)" y1="([-\d.]+)" x2="([-\d.]+)" y2="([-\d.]+)"'
+    # 相交，最近距離要 ≥ 6px。兩版都算、都印數值。批 CU：只有 money-age 有這一組，別張圖不查。
+    shaft = None if CHART != 'money-age' else re.search(r'<line x1="([-\d.]+)" y1="([-\d.]+)" x2="([-\d.]+)" y2="([-\d.]+)"'
                       r'[^>]*stroke-width="3\.2"', svg)
     box = re.search(r'<rect x="([-\d.]+)" y="([-\d.]+)" width="([-\d.]+)" height="([-\d.]+)"'
                     r'[^>]*fill="var\(--surface\)"', svg)
@@ -113,7 +118,7 @@ def run(name, svg):
         print('  箭身與標籤盒：%s，最近距離 %.2f px（需要不相交且 ≥ 6.00）  %s'
               % ('相交' if hit else '不相交', d, ok))
         if hit or d < 6.0: bad += 1
-    else:
+    elif CHART == 'money-age':
         print('  找不到箭身或標籤盒'); bad += 1
 
     # 其他幾何：line / polygon / rect / polyline
@@ -131,25 +136,26 @@ def run(name, svg):
     print('  => %s' % ('OK' if bad == 0 else '%d 個問題' % bad))
     return bad
 
-def read_svgs(path):
-    """從 guide/index.html 的 <figure data-chart="money-age"> 裡取出桌機版與手機版兩張 SVG。"""
+def read_svgs(path, name=None):
+    """從 guide/index.html 的 <figure data-chart="money-age">（或 --chart 指定的那張）裡取出桌機版與手機版兩張 SVG。"""
+    name = name or CHART
     doc = open(path, encoding='utf-8').read()
-    i = doc.find('data-chart="money-age"')
+    i = doc.find('data-chart="%s"' % name)
     if i < 0:
-        raise SystemExit('在 %s 找不到 data-chart="money-age"' % path)
+        raise SystemExit('在 %s 找不到 data-chart="%s"' % (path, name))
     j = doc.find('</figure>', i)
     if j < 0:
-        raise SystemExit('money-age 那個 <figure> 沒有收尾')
+        raise SystemExit('%s 那個 <figure> 沒有收尾' % name)
     fig = doc[i:j]
     svgs = re.findall(r'<svg class="([dm])"[^>]*>.*?</svg>', fig, re.S)
     body = re.findall(r'<svg class="[dm]"[^>]*>.*?</svg>', fig, re.S)
     got = dict(zip(svgs, body))
     if set(got) != {'d', 'm'}:
-        raise SystemExit('money-age 應該有 class="d" 與 class="m" 兩張 SVG，實際拿到 %r' % sorted(got))
+        raise SystemExit('%s 應該有 class="d" 與 class="m" 兩張 SVG，實際拿到 %r' % (name, sorted(got)))
     return got['d'], got['m']
 
 
-print('讀 %s' % os.path.relpath(GUIDE, ROOT))
+print('讀 %s' % os.path.relpath(GUIDE, ROOT) + ('' if CHART == 'money-age' else '（data-chart="%s"）' % CHART))
 _d, _m = read_svgs(GUIDE)
 n = run('桌機 640', _d) + run('手機 375（viewBox 360）', _m)
 print('TOTAL', 'OK' if n == 0 else '%d 個問題' % n)

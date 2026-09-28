@@ -2269,8 +2269,16 @@ try:
         found[q] = hit
 except Exception as e:
     found['_error'] = repr(e)
+# 批 CU：兩張指路圖（tools/v7_g12_route_maps.py）圖上每一行字都要逐字在指南內文裡、錨點都要在；
+# 缺的接進「引用缺漏」。不在 calc-results.json 另開鍵（這兩張圖沒有要算的數字）。
+# 不併進上面的 quotes：to_text 會把 a.term 改寫成〔詞：說明〕、而且留著 figcaption，圖的字會被自己的圖說證明。
+try:
+    import v7_g12_route_maps as _g12
+    _route_missing = _g12.missing_labels(GUIDE)
+except Exception as e:
+    _route_missing = ['v7_g12_route_maps：%r' % e]
 R['guide_citations'] = {'guide': os.path.relpath(GUIDE, ROOT), 'line_numbers_in_guidetools_text': found,
-                        'missing': [q for q, v in found.items() if v == []]}
+                        'missing': [q for q, v in found.items() if v == []] + _route_missing}
 
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 json.dump(R, open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
@@ -2315,3 +2323,10 @@ p('美股滾動扣物價最差（批 AE）:', {k: (v['worst_start'], v['worst_en
                                             v['negative'], v['n']) for k, v in R['us_rolling_real'].items()})
 p('引用缺漏:', R['guide_citations']['missing'])
 p('wrote', OUT)
+# 批 CU 裁判後：引用缺漏不再只是印出來，非空就 exit 1（calc-results.json 照樣先寫完，方便查）。
+# 2026-09-28 查過 tools/、docs/：沒有腳本 import 或 subprocess 呼叫 calc_core 再依賴它的 exit code。
+if R['guide_citations']['missing']:
+    print('✗ 引用缺漏 %d 筆：' % len(R['guide_citations']['missing']))
+    for _m in R['guide_citations']['missing']:
+        print('   ' + str(_m))
+    sys.exit(1)

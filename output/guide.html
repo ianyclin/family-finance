@@ -135,7 +135,7 @@ table.tight-mobile th,table.tight-mobile td{padding:6px 2px;font-size:.78rem;whi
 table.sticky-first>thead>tr>:first-child,table.sticky-first>tbody>tr>:first-child{position:sticky;left:0;z-index:1;background:var(--surface);box-shadow:1px 0 0 var(--line)}table.sticky-first>thead>tr>:first-child{background:var(--fill)}
 .cover .subtitle{font-size:1.12rem}
 table.stack-mobile.is-stacked.stack-inline>tbody>tr>[data-label]{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:4px 12px 6px;text-align:right}table.stack-mobile.is-stacked.stack-inline>tbody>tr>[data-label]::before{flex:0 0 auto;text-align:left;white-space:nowrap}
-figure.chart{padding-left:0;padding-right:0;border-left:0;border-right:0;border-radius:0;margin-left:-18px;margin-right:-18px}figure.chart>.chart-body{margin-left:0;margin-right:0}figure.chart>.chart-head,figure.chart>.legend,figure.chart>.note,figure.chart>figcaption,figure.chart>table.dca{padding-left:18px;padding-right:18px}figure.chart>.table-wrap{margin-left:18px;margin-right:18px}figure.chart>figcaption{margin-left:0;margin-right:0}details.more>figure.chart{margin-left:-36px;margin-right:-18px}.data-card>details.more>figure.chart{margin-left:calc(-18px - 1px - var(--pad-card) - 18px);margin-right:calc(-18px - 1px - var(--pad-card))}
+figure.chart{padding-left:0;padding-right:0;border-left:0;border-right:0;border-radius:0;margin-left:-18px;margin-right:-18px}figure.chart>.chart-body{margin-left:0;margin-right:0}figure.chart>.chart-head,figure.chart>.legend,figure.chart>.note,figure.chart>figcaption,figure.chart>table.dca{padding-left:18px;padding-right:18px}figure.chart>.table-wrap{margin-left:18px;margin-right:18px}figure.chart>figcaption{margin-left:0;margin-right:0}details.more>figure.chart{margin-left:-36px;margin-right:-18px}.data-card>details.more>figure.chart{margin-left:calc(-18px - 1px - var(--pad-card) - 18px);margin-right:calc(-18px - 1px - var(--pad-card))}.data-card>figure.chart{margin-left:calc(-18px - 1px - var(--pad-card));margin-right:calc(-18px - 1px - var(--pad-card))}
 ol.checklist>li>details>figure.chart{margin-left:calc(-76px - .25em)}
 details.more[data-print]>.table-wrap{margin-left:-18px}
 .table-wrap:has(>table.situations){overflow-x:hidden}
@@ -3206,7 +3206,118 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 
 <section class="part" id="s11"><h2><span class="num">14</span>把答案寫成一張紙：我的投資計畫</h2><p class="lede">平靜時寫規則，害怕時只照表做。</p>
 <p class="explain"><span class="plain-title">白話版</span><br>消防逃生圖不在失火時才畫。投資規則也一樣。市場很平靜時先寫，真的下跌時才不用重新想。</p>
-<div class="data-card"><h4 id="plan-panic">跌的那一天先看這裡</h4><p>這張卡給照這本書做長期、分散投資的人。<mark class="key">今天先做三件事：不賣、不加碼、關掉 app 的漲跌推播。</mark></p><p>兩種情況例外：借錢買的，和五年內就要用的錢。先看完下面指的那一段，再決定賣不賣。</p><p>這筆錢五年內要用的，看第 <a class="xref" href="#s5-remember">8</a> 節「跌的時候、很久沒漲的時候，記得這幾句」第一條；借錢買的，看「<a class="xref" href="#lifecycle-q2-today">年齡、槓桿與退休</a>」的「已經借錢投資、今天正在跌」。手上是以前買的個股：看第 <a class="xref" href="#s13-loss">17</a> 節「處理套牢的舊部位」。</p><p><mark class="key"><strong>已經寫好計畫的人：</strong>把那張紙拿出來，照「市場下跌時」那一行做。今天不重新想一次。</mark></p><p><strong>還沒寫過計畫的人：</strong>今天不是寫規則的日子。做完上面三件事就好，挑一個平靜的日子回來，填下面的六行。</p><p>如果你想知道以前那些大跌後來怎麼了，第 <a class="xref" href="#s5-longrun">8</a> 節有兩張長線圖，台股和美股每一次的大事都標在線上。</p><p class="small">這張卡不新增規則，只指路。</p></div>
+<div class="data-card"><h4 id="plan-panic">跌的那一天先看這裡</h4>
+<figure class="chart" data-chart="panic-map">
+<div class="chart-head"><span class="chart-title">跌了，先看哪裡</span></div>
+<div class="chart-body">
+<svg class="d" viewBox="0 0 640 308" role="img" aria-label="正在跌，我很慌。這筆錢五年內要用的：「跌的時候、很久沒漲的時候，記得這幾句」第一條。借錢買的：「年齡、槓桿與退休」的「已經借錢投資、今天正在跌」。手上是以前買的個股：「處理套牢的舊部位」。照這本書做長期、分散投資的：今天先做三件事：不賣、不加碼、關掉 app 的漲跌推播；已經寫好計畫的人：把那張紙拿出來，照「市場下跌時」那一行做；還沒寫過計畫的人：今天不是寫規則的日子，挑一個平靜的日子回來，填下面的六行。" font-family="var(--sans)">
+<rect x="6.0" y="73.5" width="105.5" height="30.9" rx="6" fill="var(--ink)" fill-opacity="0.06" stroke="var(--ink)" stroke-width="1.2"/>
+<text x="58.8" y="93.5" font-size="12.5" text-anchor="middle" fill="var(--ink)" font-weight="800">正在跌，我很慌</text>
+<line x1="111.5" y1="89.0" x2="124.5" y2="89.0" stroke="var(--muted)" stroke-width="1.3"/>
+<line x1="124.5" y1="23.4" x2="124.5" y2="154.5" stroke="var(--muted)" stroke-width="1.3"/>
+<line x1="124.5" y1="23.4" x2="131.0" y2="23.4" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="136.5,23.4 131.0,26.6 131.0,20.2" fill="var(--muted)"/>
+<rect x="137.5" y="8.0" width="130.5" height="30.9" rx="6" fill="var(--amber)" fill-opacity="0.12" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="145.5" y="27.9" font-size="12.5" text-anchor="start" fill="var(--ink)" font-weight="800">這筆錢五年內要用的</text>
+<line x1="269.0" y1="23.4" x2="283.5" y2="23.4" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="289.0,23.4 283.5,26.6 283.5,20.2" fill="var(--muted)"/>
+<rect x="290.0" y="9.0" width="344.0" height="28.9" rx="6" fill="none" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="298.0" y="27.4" font-size="11" text-anchor="start" fill="var(--ink)">「跌的時候、很久沒漲的時候，記得這幾句」第一條</text>
+<line x1="124.5" y1="64.3" x2="131.0" y2="64.3" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="136.5,64.3 131.0,67.5 131.0,61.1" fill="var(--muted)"/>
+<rect x="137.5" y="48.9" width="130.5" height="30.9" rx="6" fill="var(--amber)" fill-opacity="0.12" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="145.5" y="68.8" font-size="12.5" text-anchor="start" fill="var(--ink)" font-weight="800">借錢買的</text>
+<line x1="269.0" y1="64.3" x2="283.5" y2="64.3" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="289.0,64.3 283.5,67.5 283.5,61.1" fill="var(--muted)"/>
+<rect x="290.0" y="49.9" width="344.0" height="28.9" rx="6" fill="none" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="298.0" y="68.3" font-size="11" text-anchor="start" fill="var(--ink)">「年齡、槓桿與退休」的「已經借錢投資、今天正在跌」</text>
+<line x1="124.5" y1="105.2" x2="131.0" y2="105.2" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="136.5,105.2 131.0,108.4 131.0,102.0" fill="var(--muted)"/>
+<rect x="137.5" y="89.8" width="130.5" height="30.9" rx="6" fill="var(--amber)" fill-opacity="0.12" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="145.5" y="109.7" font-size="12.5" text-anchor="start" fill="var(--ink)" font-weight="800">手上是以前買的個股</text>
+<line x1="269.0" y1="105.2" x2="283.5" y2="105.2" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="289.0,105.2 283.5,108.4 283.5,102.0" fill="var(--muted)"/>
+<rect x="290.0" y="90.8" width="344.0" height="28.9" rx="6" fill="none" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="298.0" y="109.1" font-size="11" text-anchor="start" fill="var(--ink)">「處理套牢的舊部位」</text>
+<line x1="124.5" y1="154.5" x2="131.0" y2="154.5" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="136.5,154.5 131.0,157.7 131.0,151.3" fill="var(--muted)"/>
+<rect x="137.5" y="130.6" width="130.5" height="47.8" rx="6" fill="var(--teal)" fill-opacity="0.12" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="145.5" y="150.6" font-size="12.5" text-anchor="start" fill="var(--ink)" font-weight="800">照這本書做長期、</text>
+<text x="145.5" y="167.4" font-size="12.5" text-anchor="start" fill="var(--ink)" font-weight="800">分散投資的</text>
+<line x1="269.0" y1="154.5" x2="283.5" y2="154.5" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="289.0,154.5 283.5,157.7 283.5,151.3" fill="var(--muted)"/>
+<rect x="290.0" y="140.1" width="344.0" height="28.9" rx="6" fill="none" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="298.0" y="158.5" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="700">今天先做三件事：不賣、不加碼、關掉 app 的漲跌推播</text>
+<line x1="301.0" y1="168.9" x2="301.0" y2="271.3" stroke="var(--teal)" stroke-width="1.3"/>
+<line x1="301.0" y1="210.2" x2="305.5" y2="210.2" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="311.0,210.2 305.5,213.4 305.5,207.0" fill="var(--teal)"/>
+<rect x="312.0" y="188.4" width="322.0" height="43.7" rx="6" fill="none" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="320.0" y="206.8" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="800">已經寫好計畫的人：</text>
+<text x="320.0" y="221.6" font-size="11" text-anchor="start" fill="var(--ink)">把那張紙拿出來，照「市場下跌時」那一行做</text>
+<line x1="301.0" y1="271.3" x2="305.5" y2="271.3" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="311.0,271.3 305.5,274.5 305.5,268.1" fill="var(--teal)"/>
+<rect x="312.0" y="242.1" width="322.0" height="58.6" rx="6" fill="none" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="320.0" y="260.5" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="800">還沒寫過計畫的人：</text>
+<text x="320.0" y="275.3" font-size="11" text-anchor="start" fill="var(--ink)">今天不是寫規則的日子</text>
+<text x="320.0" y="290.2" font-size="11" text-anchor="start" fill="var(--ink)">挑一個平靜的日子回來，填下面的六行</text>
+</svg>
+<svg class="m" viewBox="0 0 360 445" role="img" aria-label="正在跌，我很慌。這筆錢五年內要用的：「跌的時候、很久沒漲的時候，記得這幾句」第一條。借錢買的：「年齡、槓桿與退休」的「已經借錢投資、今天正在跌」。手上是以前買的個股：「處理套牢的舊部位」。照這本書做長期、分散投資的：今天先做三件事：不賣、不加碼、關掉 app 的漲跌推播；已經寫好計畫的人：把那張紙拿出來，照「市場下跌時」那一行做；還沒寫過計畫的人：今天不是寫規則的日子，挑一個平靜的日子回來，填下面的六行。" font-family="var(--sans)">
+<rect x="6.0" y="6.0" width="95.0" height="28.9" rx="6" fill="var(--ink)" fill-opacity="0.06" stroke="var(--ink)" stroke-width="1.2"/>
+<text x="53.5" y="24.4" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">正在跌，我很慌</text>
+<line x1="20.0" y1="34.9" x2="20.0" y2="284.3" stroke="var(--muted)" stroke-width="1.3"/>
+<line x1="20.0" y1="61.3" x2="25.5" y2="61.3" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="31.0,61.3 25.5,64.5 25.5,58.1" fill="var(--muted)"/>
+<rect x="32.0" y="46.9" width="117.0" height="28.9" rx="6" fill="var(--amber)" fill-opacity="0.12" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="40.0" y="65.2" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="800">這筆錢五年內要用的</text>
+<line x1="44.0" y1="75.7" x2="44.0" y2="95.5" stroke="var(--muted)" stroke-width="1.3"/>
+<line x1="44.0" y1="95.5" x2="49.5" y2="95.5" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="55.0,95.5 49.5,98.7 49.5,92.2" fill="var(--muted)"/>
+<rect x="56.0" y="81.7" width="298.0" height="27.5" rx="6" fill="none" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="64.0" y="99.0" font-size="10" text-anchor="start" fill="var(--ink)">「跌的時候、很久沒漲的時候，記得這幾句」第一條</text>
+<line x1="20.0" y1="135.6" x2="25.5" y2="135.6" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="31.0,135.6 25.5,138.8 25.5,132.4" fill="var(--muted)"/>
+<rect x="32.0" y="121.2" width="62.0" height="28.9" rx="6" fill="var(--amber)" fill-opacity="0.12" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="40.0" y="139.6" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="800">借錢買的</text>
+<line x1="44.0" y1="150.1" x2="44.0" y2="169.8" stroke="var(--muted)" stroke-width="1.3"/>
+<line x1="44.0" y1="169.8" x2="49.5" y2="169.8" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="55.0,169.8 49.5,173.0 49.5,166.6" fill="var(--muted)"/>
+<rect x="56.0" y="156.1" width="298.0" height="27.5" rx="6" fill="none" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="64.0" y="173.4" font-size="10" text-anchor="start" fill="var(--ink)">「年齡、槓桿與退休」的「已經借錢投資、今天正在跌」</text>
+<line x1="20.0" y1="210.0" x2="25.5" y2="210.0" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="31.0,210.0 25.5,213.2 25.5,206.8" fill="var(--muted)"/>
+<rect x="32.0" y="195.6" width="117.0" height="28.9" rx="6" fill="var(--amber)" fill-opacity="0.12" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="40.0" y="213.9" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="800">手上是以前買的個股</text>
+<line x1="44.0" y1="224.4" x2="44.0" y2="244.2" stroke="var(--muted)" stroke-width="1.3"/>
+<line x1="44.0" y1="244.2" x2="49.5" y2="244.2" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="55.0,244.2 49.5,247.3 49.5,241.0" fill="var(--muted)"/>
+<rect x="56.0" y="230.4" width="298.0" height="27.5" rx="6" fill="none" stroke="var(--amber)" stroke-width="1.2"/>
+<text x="64.0" y="247.8" font-size="10" text-anchor="start" fill="var(--ink)">「處理套牢的舊部位」</text>
+<line x1="20.0" y1="284.3" x2="25.5" y2="284.3" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="31.0,284.3 25.5,287.5 25.5,281.1" fill="var(--muted)"/>
+<rect x="32.0" y="269.9" width="161.0" height="28.9" rx="6" fill="var(--teal)" fill-opacity="0.12" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="40.0" y="288.3" font-size="11" text-anchor="start" fill="var(--ink)" font-weight="800">照這本書做長期、分散投資的</text>
+<line x1="44.0" y1="298.8" x2="44.0" y2="318.5" stroke="var(--muted)" stroke-width="1.3"/>
+<line x1="44.0" y1="318.5" x2="49.5" y2="318.5" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="55.0,318.5 49.5,321.7 49.5,315.3" fill="var(--muted)"/>
+<rect x="56.0" y="304.8" width="298.0" height="27.5" rx="6" fill="none" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="64.0" y="322.1" font-size="10" text-anchor="start" fill="var(--ink)" font-weight="700">今天先做三件事：不賣、不加碼、關掉 app 的漲跌推播</text>
+<line x1="68.0" y1="332.2" x2="68.0" y2="412.5" stroke="var(--teal)" stroke-width="1.3"/>
+<line x1="68.0" y1="358.8" x2="73.5" y2="358.8" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="79.0,358.8 73.5,361.9 73.5,355.6" fill="var(--teal)"/>
+<rect x="80.0" y="338.2" width="274.0" height="41.0" rx="6" fill="none" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="88.0" y="355.6" font-size="10" text-anchor="start" fill="var(--ink)" font-weight="800">已經寫好計畫的人：</text>
+<text x="88.0" y="369.1" font-size="10" text-anchor="start" fill="var(--ink)">把那張紙拿出來，照「市場下跌時」那一行做</text>
+<line x1="68.0" y1="412.5" x2="73.5" y2="412.5" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="79.0,412.5 73.5,415.7 73.5,409.3" fill="var(--teal)"/>
+<rect x="80.0" y="385.2" width="274.0" height="54.5" rx="6" fill="none" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="88.0" y="402.6" font-size="10" text-anchor="start" fill="var(--ink)" font-weight="800">還沒寫過計畫的人：</text>
+<text x="88.0" y="416.1" font-size="10" text-anchor="start" fill="var(--ink)">今天不是寫規則的日子</text>
+<text x="88.0" y="429.6" font-size="10" text-anchor="start" fill="var(--ink)">挑一個平靜的日子回來，填下面的六行</text>
+</svg>
+</div>
+<figcaption>先找自己是哪一種錢，再看那一格；圖上的每一條路，急救卡下面都有原文。</figcaption>
+</figure>
+<p>這張卡給照這本書做長期、分散投資的人。<mark class="key">今天先做三件事：不賣、不加碼、關掉 app 的漲跌推播。</mark></p><p>兩種情況例外：借錢買的，和五年內就要用的錢。先看完下面指的那一段，再決定賣不賣。</p><p>這筆錢五年內要用的，看第 <a class="xref" href="#s5-remember">8</a> 節「跌的時候、很久沒漲的時候，記得這幾句」第一條；借錢買的，看「<a class="xref" href="#lifecycle-q2-today">年齡、槓桿與退休</a>」的「已經借錢投資、今天正在跌」。手上是以前買的個股：看第 <a class="xref" href="#s13-loss">17</a> 節「處理套牢的舊部位」。</p><p><mark class="key"><strong>已經寫好計畫的人：</strong>把那張紙拿出來，照「市場下跌時」那一行做。今天不重新想一次。</mark></p><p><strong>還沒寫過計畫的人：</strong>今天不是寫規則的日子。做完上面三件事就好，挑一個平靜的日子回來，填下面的六行。</p><p>如果你想知道以前那些大跌後來怎麼了，第 <a class="xref" href="#s5-longrun">8</a> 節有兩張長線圖，台股和美股每一次的大事都標在線上。</p><p class="small">這張卡不新增規則，只指路。</p></div>
 <div class="data-card"><h4 id="plan-starter">起步版：六行，填完就可以開始</h4><div class="table-wrap"><table class="stack-mobile compact text"><thead><tr><th>要回答的</th><th><span class="pn">小安</span>寫的（虛構示範，不要抄）</th><th>你寫</th></tr></thead><tbody><tr><td>1 這筆錢做什麼用？最快哪一年會用到？</td><td>長期的錢，退休以後才用；最快也是 2046 年以後。2046 年先回頭看一次存了多少</td><td>用途＿＿＿＿，最快＿＿＿＿年會用到</td></tr><tr><td>2 預備金、高利率的債、重大保障，好了嗎？</td><td>預備金還差 3 萬，另外兩項都好了；先補預備金</td><td>□三項都好了　□還差＿＿＿＿，補完的日期＿＿＿＿</td></tr><tr><td>3 每月投多少、哪一天扣</td><td>補預備金的前 10 個月每月 2,000 元，補滿後每月 5,000 元；每月 7 日扣款</td><td>每月＿＿＿＿元，每月＿＿日扣款</td></tr><tr><td>4 五年內不會用到的那部分錢，買哪一類？股票放幾成？（五年內就要用的不放股票；幾成看第 <a class="xref" href="#s5">8</a> 節那把尺，挑的時候看第 <a class="xref" href="#s12-three">16</a> 節「挑產品前三題」）<br><span class="small">到期一定會花掉的錢，最晚在用錢前五年全部移出股票；剩下能放的年數不多，就乾脆不放（像「<a class="xref" href="#cases">另外三個人</a>」的<span class="pn">小芸</span>）。</span></td><td>追蹤全球股票指數的市值型 ETF；股票八成，其餘放台幣定存，暫定</td><td>買＿＿＿＿這一類；股票＿＿成，其餘放＿＿＿＿（定存、活存…），暫定</td></tr><tr><td>5 市場下跌時</td><td>照常投入，什麼都不改</td><td>□收入和用錢計畫沒變，就照常投入，什麼都不改（本指南的做法）　□我另有規則：＿＿＿＿</td></tr><tr><td>6 什麼情況才賣；其他想動的念頭先等幾天</td><td>要用錢、比例跑掉照規則調回、人生狀況改變或已經影響睡眠時把比例長期調低；其他先等 30 天</td><td>這幾種情況才賣：□到了用錢的日子（到期一定花掉的錢，用錢前五年就移出）　□比例跑掉，照規則調回（新錢補不回來才賣）　□人生狀況改變，或已經影響睡眠 → 把股票比例長期調低（怎麼調看第 <a class="xref" href="#s10">13</a> 節）；其他想動的念頭，先等＿＿天<br><span class="small">完整版還有一種：換成同類、費用更低的（先等冷卻期）</span></td></tr></tbody></table></div><p>六行填好，第 2 行的三項也都有了安排，就可以開始：預備金還在補的，先用小金額；高利率的債先還。每年＿＿月拿出來檢查一次（<span class="pn">小安</span>寫 12 月；「<a class="xref" href="#annual">每年一次的檢查表</a>」）。</p></div>
 <p>完整版是同一張紙的長版，八個區、24 格。第一次年檢那天，把完整版拿出來，補當時用得到的格子。已經填好的六行直接抄過去。</p>
 <div class="data-card"><h4>你已經填了哪些</h4><div class="table-wrap"><table class="stack-mobile compact text"><thead><tr><th>起步版這一行</th><th>在哪一節填過</th><th>完整版哪幾格</th></tr></thead><tbody><tr><td>1 用途、最快哪一年會用到</td><td>「<a class="xref" href="#start">投資前的安全順序</a>」</td><td>A 區 1、2 格</td></tr><tr><td>2 預備金、高利率的債、保障</td><td>「<a class="xref" href="#plan-l2">投資前的安全順序</a>」</td><td>B 區 6、7、8 格</td></tr><tr><td>3 每月投多少、哪一天扣</td><td>第 <a class="xref" href="#plan-l3a">5</a> 節、第 <a class="xref" href="#plan-l3b">10</a> 節</td><td>C 區 10 格</td></tr><tr><td>4 五年內不會用到的那部分錢，買哪一類、股票放幾成、其餘放什麼</td><td>第 <a class="xref" href="#plan-l4a">7</a> 節、第 <a class="xref" href="#plan-l4b">8</a> 節；挑的時候看第 <a class="xref" href="#s12-three">16</a> 節「挑產品前三題」</td><td>C 區 11 格、E 區 15 格</td></tr><tr><td>5 市場下跌時</td><td>第 <a class="xref" href="#plan-l5">9</a> 節</td><td>F 區 20 格</td></tr><tr><td>6 什麼情況才賣、先等幾天</td><td>第 <a class="xref" href="#plan-l6a">11</a> 節、第 <a class="xref" href="#plan-l6b">13</a> 節</td><td>F 區 21、22 格</td></tr></tbody></table></div><p>剩下的格子不用一次補完：</p><div class="table-wrap"><table class="stack-mobile compact text"><thead><tr><th>什麼時候</th><th>補哪裡</th></tr></thead><tbody><tr><td>第一次年檢</td><td>再平衡門檻（比例跑掉多少，才調回原本設定）、多久看一次。先定規則，不要等比例跑掉才看行情決定</td></tr><tr><td>有了具體的目標金額和日期</td><td>D 試算（到不到得了）</td></tr><tr><td>已經投資的錢變多了（大約超過半年收入，是提醒不是門檻）</td><td>完整的壓力測試與大跌演練</td></tr><tr><td>有家人要知道</td><td>G 家人、家庭一頁表</td></tr></tbody></table></div><p>這張表不是必修清單，必做的只有每年一次的年檢。每一格怎麼填，下面照順序補。</p></div>
@@ -3818,6 +3929,83 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 
 <section class="part" id="firstmonth"><h2><span class="num">19</span>從第一週到第一年：一頁時間表</h2><p class="lede">動作散在全書各節，這一頁把它們排成順序。做不完沒關係，順序比速度重要。</p>
 <p class="explain"><span class="plain-title">白話版</span><br>像搬家：先量房間有多大，才知道能買什麼，最後才動手擺。投資也一樣：先看自己的錢，再寫下規則，最後才照規則挑商品。</p>
+<figure class="chart" data-chart="first-route">
+<div class="chart-head"><span class="chart-title">從今天到第一筆投資</span></div>
+<div class="chart-body">
+<svg class="d" viewBox="0 0 640 123" role="img" aria-label="投資前的安全順序；到合法券商開證券戶和交割戶；每月投多少？；股票放幾成、驗算一次；起步版：六行；用小金額完成第一次；設成自動，留好紀錄；每年一次的檢查表。" font-family="var(--sans)">
+<rect x="6.0" y="8.0" width="77.7" height="60.6" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="44.9" y="34.8" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">投資前的</text>
+<text x="44.9" y="49.7" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">安全順序</text>
+<line x1="85.7" y1="38.3" x2="90.2" y2="38.3" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="95.7,38.3 90.2,41.5 90.2,35.1" fill="var(--teal)"/>
+<rect x="97.7" y="8.0" width="77.7" height="60.6" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="136.6" y="27.4" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">到合法券商</text>
+<text x="136.6" y="42.2" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">開證券戶</text>
+<text x="136.6" y="57.1" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">和交割戶</text>
+<line x1="177.4" y1="38.3" x2="181.9" y2="38.3" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="187.4,38.3 181.9,41.5 181.9,35.1" fill="var(--teal)"/>
+<rect x="189.4" y="8.0" width="77.7" height="60.6" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="228.3" y="42.2" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">每月投多少？</text>
+<line x1="269.1" y1="38.3" x2="273.6" y2="38.3" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="279.1,38.3 273.6,41.5 273.6,35.1" fill="var(--teal)"/>
+<rect x="281.1" y="8.0" width="77.7" height="60.6" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="320.0" y="34.8" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">股票放幾成</text>
+<text x="320.0" y="49.7" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">驗算一次</text>
+<line x1="360.9" y1="38.3" x2="365.4" y2="38.3" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="370.9,38.3 365.4,41.5 365.4,35.1" fill="var(--teal)"/>
+<rect x="372.9" y="8.0" width="77.7" height="60.6" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="411.7" y="42.2" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">起步版：六行</text>
+<line x1="452.6" y1="38.3" x2="457.1" y2="38.3" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="462.6,38.3 457.1,41.5 457.1,35.1" fill="var(--teal)"/>
+<rect x="464.6" y="8.0" width="77.7" height="60.6" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="503.4" y="34.8" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">用小金額</text>
+<text x="503.4" y="49.7" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">完成第一次</text>
+<line x1="544.3" y1="38.3" x2="548.8" y2="38.3" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="554.3,38.3 548.8,41.5 548.8,35.1" fill="var(--teal)"/>
+<rect x="556.3" y="8.0" width="77.7" height="60.6" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="595.1" y="34.8" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">設成自動，</text>
+<text x="595.1" y="49.7" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">留好紀錄</text>
+<line x1="595.1" y1="70.6" x2="595.1" y2="79.1" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="595.1,84.6 591.9,79.1 598.3,79.1" fill="var(--muted)"/>
+<rect x="526.0" y="86.6" width="108.0" height="28.9" rx="6" fill="none" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="580.0" y="104.9" font-size="11" text-anchor="middle" fill="var(--ink)">每年一次的檢查表</text>
+</svg>
+<svg class="m" viewBox="0 0 360 369" role="img" aria-label="投資前的安全順序；到合法券商開證券戶和交割戶；每月投多少？；股票放幾成、驗算一次；起步版：六行；用小金額完成第一次；設成自動，留好紀錄；每年一次的檢查表。" font-family="var(--sans)">
+<rect x="94.5" y="6.0" width="171.0" height="28.9" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="180.0" y="24.4" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">投資前的安全順序</text>
+<line x1="180.0" y1="36.9" x2="180.0" y2="43.4" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="180.0,48.9 176.8,43.4 183.2,43.4" fill="var(--teal)"/>
+<rect x="94.5" y="50.9" width="171.0" height="28.9" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="180.0" y="69.2" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">到合法券商開證券戶和交割戶</text>
+<line x1="180.0" y1="81.7" x2="180.0" y2="88.2" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="180.0,93.7 176.8,88.2 183.2,88.2" fill="var(--teal)"/>
+<rect x="94.5" y="95.7" width="171.0" height="28.9" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="180.0" y="114.1" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">每月投多少？</text>
+<line x1="180.0" y1="126.6" x2="180.0" y2="133.1" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="180.0,138.6 176.8,133.1 183.2,133.1" fill="var(--teal)"/>
+<rect x="94.5" y="140.6" width="171.0" height="43.7" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="180.0" y="158.9" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">股票放幾成</text>
+<text x="180.0" y="173.8" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">驗算一次</text>
+<line x1="180.0" y1="186.2" x2="180.0" y2="192.8" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="180.0,198.2 176.8,192.8 183.2,192.8" fill="var(--teal)"/>
+<rect x="94.5" y="200.2" width="171.0" height="28.9" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="180.0" y="218.6" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">起步版：六行</text>
+<line x1="180.0" y1="231.1" x2="180.0" y2="237.6" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="180.0,243.1 176.8,237.6 183.2,237.6" fill="var(--teal)"/>
+<rect x="94.5" y="245.1" width="171.0" height="28.9" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="180.0" y="263.5" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">用小金額完成第一次</text>
+<line x1="180.0" y1="275.9" x2="180.0" y2="282.4" stroke="var(--teal)" stroke-width="1.3"/>
+<polygon points="180.0,287.9 176.8,282.4 183.2,282.4" fill="var(--teal)"/>
+<rect x="94.5" y="289.9" width="171.0" height="28.9" rx="6" fill="var(--teal)" fill-opacity="0.1" stroke="var(--teal)" stroke-width="1.2"/>
+<text x="180.0" y="308.3" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="800">設成自動，留好紀錄</text>
+<line x1="180.0" y1="320.8" x2="180.0" y2="327.3" stroke="var(--muted)" stroke-width="1.3"/>
+<polygon points="180.0,332.8 176.8,327.3 183.2,327.3" fill="var(--muted)"/>
+<rect x="94.5" y="334.8" width="171.0" height="28.9" rx="6" fill="none" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="180.0" y="353.2" font-size="11" text-anchor="middle" fill="var(--ink)">每年一次的檢查表</text>
+</svg>
+</div>
+<figcaption>照這個順序走；每一站的細節在括號裡那一節。投資前的安全順序（第 <a class="xref" href="#start">2</a> 節）、開證券戶和交割戶（第 <a class="xref" href="#steps">20</a> 節）、每月投多少（第 <a class="xref" href="#plan-l3a">5</a> 節）、股票放幾成和驗算一次（第 <a class="xref" href="#s5-check">8</a> 節）、起步版六行（第 <a class="xref" href="#plan-starter">14</a> 節）、用小金額完成第一次（第 <a class="xref" href="#steps">20</a> 節）、設成自動，留好紀錄（第 <a class="xref" href="#steps">20</a> 節）；每年一次的檢查表（第 <a class="xref" href="#annual">23</a> 節）。</figcaption>
+</figure>
 <div class="data-card"><h4>第一週：看清楚自己的錢</h4><ol class="checklist">
 <li>列出每月收入、必要支出、債務最低還款；算預備金要幾個月、還差多少（「<a class="xref" href="#start">投資前的安全順序</a>」第 1 到 3 項）。</li>
 <li>把手上的保單拿出來分兩堆：一堆是保障（醫療、意外、壽險、失能），一堆是名字裡有「儲蓄」「還本」「投資型」的保單。</li>
