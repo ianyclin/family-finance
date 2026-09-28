@@ -27,6 +27,6 @@
 - A5 自稱：L4151「本書」→「這本書」會被讀成指《舉債致富》本身（緊接在描述 Anderson 那句之後），改為全書主流自稱「本文的立場相近但更保守」。此句在立場句清單「借錢投資」那條，其餘字與 47c8047 逐 byte 相同。
 - B10 cases 的 5 個 h5→h4 退回 h5：那 5 個小標在 data-card 裡的 details 內，卡裡 h4 是卡片標題層級（.data-card h4 1.06rem），改 h4 會比同層的 h5「和小安差在哪」大、和卡片標題同級；s5、lifecycle 的先例不在 data-card 裡。firstmonth 的 strong→h4 維持。
 - A8 Ben Felix 那筆統一標題後尾巴「（YouTube）（2022-12-22）」兩組括號相連，合成「（YouTube，2022-12-22）」。
-- budget：_total_max 59,580→59,603（詞彙表交割戶那句 +41、其他 −18），寫入 `_comment_cn`；numbers 用 `numbers-allow-round57.json` 對兩基準 LOST 0。
+- budget：_total_max 59,580→59,602（詞彙表交割戶那句 +41、其他 −19，含驗收後「本書」→「本文」−1），寫入 `_comment_cn`；numbers 用 `numbers-allow-round57.json` 對兩基準 LOST 0。
 - 維持現狀不改：s7 與 s5 第二個 grid 只有一筆、桌機佔半欄（結構一致優先）；methods 卡「Vanguard 2023：Cost averaging（官方 PDF）」與「Charles Schwab：Does Market Timing Work?」是統一成全書已有的較完整標題；g-circle 滑過說明對齊 dd 第一句後少了「圈外」那句（dd 第二句仍有）；被刪的 165 重複筆帶的通話費備註，正文 4 句提到 165 都不涉通話費。
 - 驗證員報告：`wip/v63-review/judge-cn.md`。
