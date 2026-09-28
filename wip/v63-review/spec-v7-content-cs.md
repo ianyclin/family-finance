@@ -4,7 +4,7 @@
 
 ## 一、來源（scout 2026-09-28 晚查證，curl 一手）
 1. SEC Investor.gov「Investor Bulletin: How to Select an Investment Professional」（2019-07-01）`https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/investor-0`（要帶 UA 才 200）。Tip 3 原文：「Understand how you'll pay for services and products, and how your investment professional gets paid as well. … even if you don't pay the investment professional directly, … that person is still getting paid. For example, someone else may be paying the investment professional for selling specific products, and those payments may be built into the price you ultimately pay…」
-2. 金管會函釋「有關基金通路報酬揭露之相關建議乙案」金管證投字第 1000025287 號（2011-05-24）`https://law.fsc.gov.tw/LawContent.aspx?id=GL000194`：銷售通路應於對帳單增列基金經理費及其分成費率、提醒投資人持有期間銷售通路仍持續收受經理費分成、於公司網站揭露。
+2. 金管會函釋「有關基金通路報酬揭露之相關建議乙案」金管證投字第 1000025287 號（2011-05-24）`https://law.fsc.gov.tw/LawContent.aspx?id=GL000194`：（更正 2026-09-28 深夜，驗證員指出原摘要寫反）函釋同意銷售通路得無需於對帳單增列經理費及其分成費率，但仍應於對帳單提醒投資人持有期間銷售通路仍持續收受經理費分成、並於公司網站揭露經理費率及分成費率。
 3. 中華民國證券投資信託暨顧問商業同業公會「會員及其銷售機構基金通路報酬揭露施行要點」（2019-08-14 修正版）：第一條「明定基金銷售機構收取之報酬、費用及其他利益，應於銷售前告知投資人」；第三條通路報酬三類（申購手續費分成、經理費分成、贊助或教育訓練等其他報酬）；第四條書面或網路揭露、投資人簽名或電子確認。全文取自法規轉載站 `https://www.rootlaw.com.tw/LawArticle.aspx?LawID=A040390051122800-1080814`（sitca.org.tw 直抓不到內文）；來源卡標題寫公會要點名稱，備註寫「全文引自法規轉載站；金管會函釋 GL000194 佐證第 4 條」。
 - **不寫**保險業務員佣金「沒有規定要告訴你」（只查到佣金上限管制 GL003041，沒查到揭露義務，也沒查到反證）；保險只寫「可以直接問」。
 
