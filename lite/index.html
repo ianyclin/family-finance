@@ -158,6 +158,19 @@ details.more[data-print]>.table-wrap{margin-left:-18px}
 table{font-size:.9rem}
 figure.chart figcaption{line-height:1.7}
 .small,.source-link{line-height:inherit}}
+/* v7 批 CT：繪本插畫（figure.illus）與封面圖。插畫只做比喻與休息，不承載數字或規則；
+   不用 figure.chart／data-chart，圖表哨兵、essay_charts --guide 與版面量測都不會認到。src 由 tools/embed_illus.py 內嵌。 */
+figure.illus{margin:1.4em 0}
+figure.illus img{display:block;width:100%;height:auto;border-radius:10px}
+figure.illus figcaption{margin-top:10px;font-size:.9rem;line-height:1.6;color:var(--ink);overflow-wrap:anywhere}
+figure.illus .illus-label{margin:1em 0 .4em;font-size:.95rem;font-weight:700;line-height:1.5;color:var(--ink)}
+figure.illus .illus-label:first-child{margin-top:0}
+figure.illus img.cover-art{max-height:44vh;width:auto;max-width:100%;margin-inline:auto}
+.cover-byline{margin:.2em 0 0}
+.why-book{margin:26px 0 18px}
+.why-book h3{margin:0 0 .4em;font-size:1.12rem}
+@media(prefers-color-scheme:dark){figure.illus img{filter:brightness(.92)}}
+@media print{figure.illus{break-inside:avoid}figure.illus.illus-pair{break-inside:auto;page-break-inside:auto}figure.illus .illus-label{break-after:avoid;page-break-after:avoid}figure.illus img{max-height:55mm;width:auto;max-width:100%;margin:0 auto}figure.illus img.cover-art{max-height:90mm}}
 
 /* ---- 可列印工作表（build_lite.py 附加） ---- */
 .lite-cover{padding:48px 0 12px}.lite-cover h1{font-size:clamp(2rem,6vw,3.6rem);line-height:1.1;margin:.1em 0}

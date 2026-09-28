@@ -671,6 +671,15 @@ def run(m, pdf_info=None, build_report=None):
         else:
             R.ok('toc', '完整版 PDF %d 頁、書籤 %d 條；目錄 %d 條印出的頁碼＝連結目標頁' % (fcount, fout, len(entries)))
         R.info('完整版 PDF metadata：title=%r author=%r' % (fmeta.get('title'), fmeta.get('author')))
+        # 批 CT：完整版 PDF 大小（插畫印完後由 build_lite.shrink_pdf_images 重壓）；超過 12MB 判 FAIL
+        fb = (pdf_info or {}).get('full_bytes')
+        fsz = os.path.getsize(full_pdf)
+        fmsg = '完整版 %.1f MB%s' % (fsz / 1048576.0,
+                                    '（插畫重壓 %d → %d bytes）' % fb if fb else '（這次沒有重印，讀 export 現有的檔）')
+        if fsz > 12 * 1048576:
+            R.fail('pdf', fmsg + '，超過 12MB 上限')
+        else:
+            R.ok('pdf', fmsg)
         # 近乎空白的頁（主線決定④）：列出來，超過 3 頁 WARN
         pc = B.page_chars(full_pdf)
         low = [(i + 1, c) for i, c in enumerate(pc) if c < B.NEAR_EMPTY_CHARS]

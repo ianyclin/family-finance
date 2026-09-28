@@ -921,6 +921,57 @@ def set_meta(pdf_path, title, author, subject):
     os.replace(tmp, pdf_path)
 
 
+def shrink_pdf_images(pdf_path, dpi_threshold=160, dpi_target=150, quality=80):
+    """批 CT：插畫以 1400px 原解析度、無損 Flate 存進 PDF（10 張約 19MB）。印完以後把寬 600px 以上的圖，
+    照它在紙上實際印出的寬度換算 dpi：超過 dpi_threshold 的降到 dpi_target、重壓成 JPEG（quality）。
+    不用 PyMuPDF 的 Document.rewrite_images：1.26.5 實測會弄壞 Chrome PDF 的字型與 ExtGState 資源
+    （目錄頁文字抽出來變亂碼，[toc] 哨兵 29 條 FAIL）。這裡逐張 Pixmap 縮小再 page.replace_image，
+    只動影像串流；改完核對頁數、書籤數、每一頁抽出的文字都和改之前相同，不同就停。
+    回傳 (前 bytes, 後 bytes)。"""
+    import fitz
+    before = os.path.getsize(pdf_path)
+    d = fitz.open(pdf_path)
+    pages, ntoc = d.page_count, len(d.get_toc(simple=False))
+    text0 = [pg.get_text() for pg in d]
+    done = set()
+    for pg in d:
+        for x in pg.get_images(full=True):
+            xref, smask, w, h = x[0], x[1], x[2], x[3]
+            if xref in done or smask or w < 600:
+                continue
+            done.add(xref)
+            rects = pg.get_image_rects(xref)
+            if not rects:
+                continue
+            inch = max(r.width for r in rects) / 72.0
+            if inch <= 0 or w / inch <= dpi_threshold:
+                continue
+            pix = fitz.Pixmap(d, xref)
+            if pix.alpha or pix.n != 3:
+                pix = fitz.Pixmap(fitz.csRGB, pix)
+            tw = max(1, int(round(inch * dpi_target)))
+            th = max(1, int(round(h * tw / float(w))))
+            pg.replace_image(xref, stream=fitz.Pixmap(pix, tw, th, None).tobytes('jpeg', jpg_quality=quality))
+            # replace_image 會在這一頁的 Resources/XObject 另外留一個 fzImgN 鍵，指向同一份新影像物件，
+            # 內容串流沒有用到它；把鍵設成 null，那個物件就沒人引用，存檔時被清掉，不會多存一份。
+            t, v = d.xref_get_key(pg.xref, 'Resources/XObject')
+            if t == 'dict':
+                for k in re.findall(r'/(fzImg\d+)\b', v):
+                    d.xref_set_key(pg.xref, 'Resources/XObject/' + k, 'null')
+    # garbage=1 只清掉沒有人引用的物件（被換掉的舊影像串流、上面設成 null 的 fzImgN）。
+    # 不用 2、3：實測會合併／重編字型物件，第 85 頁的「：」「；」抽出來變成「+」「,」。
+    tmp = pdf_path + '.tmp'
+    d.save(tmp, garbage=1, deflate=True); d.close()
+    d = fitz.open(tmp)
+    ok = d.page_count == pages and len(d.get_toc(simple=False)) == ntoc and [pg.get_text() for pg in d] == text0
+    d.close()
+    if not ok:
+        os.remove(tmp)
+        raise BuildError('PDF 圖片重壓後頁數、書籤數或文字變了（%s）' % pdf_path)
+    os.replace(tmp, pdf_path)
+    return before, os.path.getsize(pdf_path)
+
+
 def fix_full_outline(pdf_path, full_html):
     """完整版書籤：Chrome 把 h2 的節號 span 和節名黏在一起（「1投資賺的是誰的錢？」），改成「1 投資賺的是誰的錢？」。
     只改和原文 h2（span.num＋節名）完全對得上的書籤。回傳改了幾條。"""
@@ -983,11 +1034,12 @@ def make_pdfs(m, lite, full):
     fix_full_outline(full_pdf, full)  # fix-r3：書籤節號後補空格
     ftitle = re.search(r'<title>(.*?)</title>', full, flags=re.S)
     set_meta(full_pdf, '%s %s' % (html_text(ftitle.group(1)) if ftitle else m['book_title'], m['version']), m['author'], '%s／%s' % (m['version'], m['date']))
+    full_bytes = shrink_pdf_images(full_pdf)  # 批 CT：插畫重壓（只做完整版）
 
     shutil.copyfile(rp(P['lite_html']), os.path.join(edir, ln + '.html'))
     shutil.copyfile(rp(P['full_html']), os.path.join(edir, fn + '.html'))
     return {'lite_pdf': lite_pdf, 'full_pdf': full_pdf, 'lite_pages': ln_pages, 'full_pages': fn_pages,
-            'lite_passes': lpasses, 'full_passes': fpasses, 'full_flows': sorted(flows),
+            'lite_passes': lpasses, 'full_passes': fpasses, 'full_flows': sorted(flows), 'full_bytes': full_bytes,
             'lite_html_export': os.path.join(edir, ln + '.html'), 'full_html_export': os.path.join(edir, fn + '.html'),
             'lite_print_html': os.path.join(pdir, 'print-lite.html'), 'full_print_html': os.path.join(pdir, 'print-full.html')}
 

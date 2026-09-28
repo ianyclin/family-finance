@@ -395,6 +395,7 @@ python3 tools/guidetools.py check guide/index.html
 python3 tools/test_guidetools.py tools guide/index.html && python3 tools/test_v7_check.py
 python3 tools/calc_core.py                            # 「引用缺漏 []」才過
 python3 tools/v7_layout_check.py guide/index.html     # 6. 版面哨兵（批 AY-1 新增）：印 LAYOUT OK 才過
+python3 tools/embed_illus.py --check                  # 7. 插畫哨兵（批 CT 新增）：每個 <img data-illus> 的 src 和 guide/illus/*.webp 一致，印 ILLUS OK 才過；換圖後先跑不帶 --check 的那一次
 ```
 
 `tools/v7_layout_check.py` 用 headless Chrome 在 **375 與 1024** 各量一次（macOS 的 Chrome 視窗最小寬是 500px，

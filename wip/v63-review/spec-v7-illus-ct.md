@@ -23,7 +23,7 @@
 - 深色模式：圖不反轉；可加 `filter:brightness(.92)` 讓米白底不刺眼（builder 看效果決定）。
 
 ## 三、誠實標示
-第 28 節 methods「資料口徑與來源」加一段（主線文字）：「插畫：封面圖與八張章節插畫由 AI 影像模型生成（ChatGPT，2026-09-28），構圖、修改與圖說由作者決定；插畫只做比喻與休息，不承載任何數字或規則。」
+第 28 節 methods「資料口徑與來源」加一段（主線文字）：「插畫：封面圖與九幅章節插畫（第 8 節兩幅一組）由 AI 影像模型生成（ChatGPT，2026-09-28），構圖、修改與圖說由作者決定；插畫只做比喻與休息，不承載任何數字或規則。」
 
 ## 四、檢查
 essay_charts 兩次（不能碰到 figure.illus；記憶體模擬也要）、budget 照實測（`_comment_ct`）、numbers 兩基準（round58；圖說沒有數字）、anchors、xrefs、planstep、guidetools check、兩支測試、calc_core、layout（375／1024 無溢出、圖不撐寬）、money_age、build_lite（工作表 6 頁不變；完整版 PDF 頁數與檔案大小前後回報；插畫在 PDF 裡要出現、封面圖要出現）；`git diff --stat` 裡 guide/index.html 的增量大部分是 base64（回報字元數）；線上 Artifact 上限 16MB，發布前確認 `output/guide.html` 大小。
@@ -50,3 +50,9 @@ essay_charts 兩次（不能碰到 figure.illus；記憶體模擬也要）、bud
 
 ### 七之三：下幅重畫的定案（作者 2026-09-28 深夜）
 同一棵起點樹（不必醒目）、身後一兩個柔和起伏（不畫成規律循環、不每次都回到更高）、眼前坡頂清楚、再下一段路隱入霧雨、人物安靜、遠處較快的騎士保留；**山湖留著、清楚、明亮、在遠處**（作者：終點的期待是往前走的理由；書第 4 節本就寫「指數投資可以期待的結果，是安穩退休」），霧只蓋中間那段路、不蓋山湖，路不畫成直達湖畔。新圖到了只換 `09b-real.webp` 重跑 `embed_illus.py`，圖說不動。
+
+### 施工後記（主線 2026-09-28 深夜）
+- 下幅採用 `output/09b-natural-fog-bright-lake/09b-real-investing-no-text.png` 那版（同一棵樹、前方霧雨、山湖明亮）；alt 已依重畫版改寫。
+- 05「停一下」最後放第 12 節 s9（來源卡之前），不放第 9 節：第 9 節「上面那張圖」會指錯，且「先停一下」在「不擇時」那節會被讀成「先等一下」。
+- 插畫 `<img>` 不加 `decoding="async"`（主線決定，避免遠處圖延遲繪製的疑點）；封面圖 `object-fit:cover` 刪除（無作用）。
+- PDF：build_lite 印完後 `shrink_pdf_images` 逐張重壓成 150dpi JPEG、清掉 replace_image 留下的 fzImg 鍵、garbage=1（2、3 會壞第 85 頁標點）；逐頁文字、頁數、書籤比對不同就不寫回；lite_sentinels `[pdf]` 超過 12MiB 判 FAIL。
