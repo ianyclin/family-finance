@@ -456,10 +456,10 @@ def rewrite_links(s, ctx):
 
     def grp(mm):
         names = [xname(t) for t in re.findall(xref, mm.group(1), flags=re.S)]
-        return '完整版' + '、'.join('〈%s〉' % n for n in names)
+        return '完整指南' + '、'.join('〈%s〉' % n for n in names)
     s = re.sub(r'第\s*((?:%s)(?:\s*、\s*%s)*)\s*節' % (xref, xref), grp, s, flags=re.S)
-    s = re.sub(r'「\s*(%s)\s*」' % xref, lambda mm: '完整版〈%s〉' % xname(mm.group(1), True), s, flags=re.S)
-    s = re.sub(xref, lambda mm: '完整版〈%s〉' % xname(mm.group(0), True), s, flags=re.S)
+    s = re.sub(r'「\s*(%s)\s*」' % xref, lambda mm: '完整指南〈%s〉' % xname(mm.group(1), True), s, flags=re.S)
+    s = re.sub(xref, lambda mm: '完整指南〈%s〉' % xname(mm.group(0), True), s, flags=re.S)
 
     def other(mm):
         attrs, inner = mm.group(1), mm.group(2)
@@ -628,7 +628,7 @@ def verify_table_html(m, names):
     trs = ''.join('<tr><td>%s</td><td>%s</td></tr>' % (esc(lab), '、'.join('〈%s〉' % esc(names.get(s, s)) for s in sids))
                   for _, lab, sids in verify_rows(m))
     return ('<div class="table-wrap"><table class="compact prose" data-lite-verify-table="1"><thead><tr><th>實作版</th>'
-            '<th>完整版的節</th></tr></thead><tbody>%s</tbody></table></div>' % trs)
+            '<th>完整指南的節</th></tr></thead><tbody>%s</tbody></table></div>' % trs)
 
 
 def chapter_heading(ch):
@@ -756,7 +756,7 @@ def build(m, alt_cache=None):
         if verify or ctx.urls or ctx.extra_urls:
             v = '<div class="lite-verify">'
             if verify:
-                v += '<p><strong>想查證</strong>　完整版' + '、'.join('〈%s〉' % esc(names[s]) for s in verify) + '</p>'
+                v += '<p><strong>想查證</strong>　完整指南' + '、'.join('〈%s〉' % esc(names[s]) for s in verify) + '</p>'
             else:
                 v += '<p><strong>本章網址</strong></p>'
             if ctx.urls or ctx.extra_urls:
