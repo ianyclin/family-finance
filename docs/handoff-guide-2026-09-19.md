@@ -1422,18 +1422,18 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 | 退休提領 | 25 到 40 倍、書用 33 倍寫計畫；頭五年缺口放定存；大跌那年生活費從預留現金拿、那年不補現金；三條路是減支出、延後、部分工作 | 第 24 節第三題、提領規則卡 |
 | 看盤與年檢 | 平常不看比例，一年年檢一次；每月只對帳；改規則走冷卻期 30 天；年檢也問填得太低要不要往上調一成 | 第 13、19、23 節 |
 
-## 2026-09-28 換 session 交班（主線寫；線上 Version 56／40＝內容 HEAD 7290764（交班 commit 在其後，看 git log），本機無未發布內容；CP 施工中）
+## 2026-09-28 換 session 交班（主線寫；線上 Version 57／41＝內容 HEAD 642bed9（交班 commit 在其後，看 git log），本機無未發布內容；今日批次全部完成）
 
-**狀態**（這一段是 CN 施工中當下的紀錄，已過時；現況看本段標題與檔尾「批 CN」「作者 2026-09-28 拍板與下一批」「批 CO-1」「批 CO 第一段」「批 CO-2」「批 CO-2b」「批 CO-3a」「批 CO-3b」八段）：HEAD `1ffde47`＋這一段。**本機領先線上**：批 CM／CM-2（第 27 節加「退休研究室／王伯達」、《舉債致富》那條統一格式並改對立場句，commit `6a85c83`、`47c8047`）已 commit **未發布**。**批 CN（格式一致性，機械修正 ~60 處）在交班當下由 builder 施工中**：規格 `wip/v63-review/spec-v7-content-cn.md`（A1–A9、B10），依據 `format-audit-2026-09-28.md`。接手時先 `git status`：
+**狀態**（這一段是 CN 施工中當下的紀錄，已過時；現況看本段標題與檔尾「批 CN」「作者 2026-09-28 拍板與下一批」「批 CO-1」「批 CO 第一段」「批 CO-2」「批 CO-2b」「批 CO-3a」「批 CO-3b」「批 CP」九段）：HEAD `1ffde47`＋這一段。**本機領先線上**：批 CM／CM-2（第 27 節加「退休研究室／王伯達」、《舉債致富》那條統一格式並改對立場句，commit `6a85c83`、`47c8047`）已 commit **未發布**。**批 CN（格式一致性，機械修正 ~60 處）在交班當下由 builder 施工中**：規格 `wip/v63-review/spec-v7-content-cn.md`（A1–A9、B10），依據 `format-audit-2026-09-28.md`。接手時先 `git status`：
 - 工作樹**乾淨**＝CN 沒落地（builder 被中斷）→ 重派 builder 照 CN 規格做（從乾淨的 HEAD 開始）。
 - 工作樹**不乾淨**（guide/index.html、tools/、lite/alt、budget、round57 有改動）＝CN 做到一半或做完沒 commit → **不要 stash、不要 checkout --**；跑全套檢查（handoff 批 CC 段清單），綠了就 `git diff` 對規格逐條看、commit；紅了或看不懂就重派 builder 從 `1ffde47` 重做。
 - CN 綠了之後：派驗證員只驗這一批（格式批也要驗，見「立場句清單」那段的規則），再派 sonnet 發布員把 `output/guide.html`、`output/lite.html` 發到兩個預覽 url（不 force），更新本檔「發布狀態」。
 
 **等作者拍板的三個體例題**（格式檢查員抓的，CN 沒動）：①指路寫法——全書事實上第 4–17 節用「第 N 節」、第 18–25 節用節名，約 30 處破例（清單在 `format-audit-2026-09-28.md` 第 5 類）；主線建議照現狀分工補齊。②工作表怎麼稱呼主文件——「完整版」9、「完整指南」3、全名 1；建議統一「完整指南」（「完整版」和「完整版計畫表」撞名）；節號用國字是作者早先定的，不動。③「×／＝」空格——建議不動（會動到 calc_core 釘住的句子）。
 
-**這三天（09-26～28）的全貌**：批 CD～CL 共 15 個內容 commit（09-28 再加 CM、CN、CO-1、CO-2、CO-2b 五批），外部複審拍板清單 A／B／C 全做、三份最終審核逐條判對錯、兩個「能不能發」終審（會做錯決定 13→0）、Fable 觀念審四句、工作表封面對齊、延伸閱讀加退休研究室。每批的規格／裁判／處置都在 `wip/v63-review/`（spec-v7-content-cd…cn、judge-cd/ce/cf/cg、coherence-audit、final-review、reviews-final-two、format-audit）；作者版摘要在 `changes-for-author-v7.md` 一之七十八～九十二。
+**這三天（09-26～28）的全貌**：批 CD～CL 共 15 個內容 commit（09-28 再加 CM、CN、CO-1、CO-2、CO-2b 五批），外部複審拍板清單 A／B／C 全做、三份最終審核逐條判對錯、兩個「能不能發」終審（會做錯決定 13→0）、Fable 觀念審四句、工作表封面對齊、延伸閱讀加退休研究室。每批的規格／裁判／處置都在 `wip/v63-review/`（spec-v7-content-cd…cn、judge-cd/ce/cf/cg、coherence-audit、final-review、reviews-final-two、format-audit）；作者版摘要在 `changes-for-author-v7.md` 一之七十八～九十三。（09-28 一天發九批：CM／CM-2、CN、CO-1、CO-2、CO-2b、CO-3a、CO-3b、CP，指南 50→57、工作表 36→41）
 
-**下一個 session 開場**：從 `/Users/linyenchu/Cladue Code` 或 `family-finance` 開（才有 builder／judge 代理與記憶）；貼：「接手《隔離人性》v7 預覽，專案 `/Users/linyenchu/Cladue Code/family-finance`，分支 v7-preview。線上 Version 56／40。先讀 `docs/handoff-guide-2026-09-19.md` 檔尾『批 CO-3b』『批 CO-3a』『批 CO-2b』『批 CO-2』『批 CO-1』『批 CO 第一段』『作者 2026-09-28 拍板與下一批』與『立場句清單』，再看作者對稽核報告三題的答覆有沒有到。CLAUDE.md 新增兩段規則（先判斷再回、防太方便行事三關卡）要遵守。若工作樹不乾淨＝CP 做到一半，照批 CN 接手法（不 stash、跑全套、綠了對規格逐條看）。」
+**下一個 session 開場**：從 `/Users/linyenchu/Cladue Code` 或 `family-finance` 開（才有 builder／judge 代理與記憶）；貼：「接手《隔離人性》v7 預覽，專案 `/Users/linyenchu/Cladue Code/family-finance`，分支 v7-preview。線上 Version 57／41。先讀 `docs/handoff-guide-2026-09-19.md` 檔尾『批 CP』『批 CO-3b』『批 CO-3a』『批 CO-2b』『批 CO-2』『批 CO-1』『批 CO 第一段』『作者 2026-09-28 拍板與下一批』與『立場句清單』，再看作者對稽核報告三題的答覆有沒有到。CLAUDE.md 新增兩段規則（先判斷再回、防太方便行事三關卡）要遵守。工作樹應乾淨；下一步是作者通讀 57 版與真人試讀，不開新批。」
 
 **作者裁定的大方向（2026-09-28 晚已被「通讀前把能修的都修」取代，見檔尾）**：書到「會做錯決定 0」了；不開新內容批；下一步是作者通讀與真人試讀（三個任務在「批 CJ＋下一步」段）。再派 AI 審，用「能不能發」prompt；前兩級零就停。
 
@@ -1485,7 +1485,7 @@ CM（`6a85c83`）、CM-2（`47c8047`）與批 CN 一起發布為指南 **Version
 
 **工作方式**：作者同日對主線再提醒一次「不要迎合，要獨立思考後的建議」，已寫進 `~/Cladue Code/CLAUDE.md`（回覆第一段必須是判斷＋反例）。
 
-**2026-09-28 晚**：作者改裁定通讀前能修的都修；CO-3a、CO-3b 發完（56／40），CP 施工中（scout 建圖→builder→judge）。
+**2026-09-28 晚**：作者改裁定通讀前能修的都修；CO-3a、CO-3b、CP 發完（57／41）。今天共九批：CM／CM-2、CN、CO-1、CO-2、CO-2b、CO-3a、CO-3b、CP。剩給作者：co3-author-review.md 的 12 條（B-48、C-34、C-47 有起草改法；其餘黃框只標記）、投資人循環圖平均成本算法、預備金命名已改。
 
 ## 批 CO-1（2026-09-28，第 24 節「每一筆錢都有自己的三十年」圖說；commit eb02df7；指南 Version 52）
 
@@ -1689,4 +1689,49 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 - 新興市場的括號在第 3、4 節各出現一次（第 4 節那個是舊的）。
 
 **教訓**：驗證員抓到 C-71 一格把「會或不知道」收窄成「會」。起草者改欄位表時，要把同一節的三問卡對照著讀。
+
+## 批 CP（2026-09-28，三個體例題；commit 642bed9；指南 Version 57、工作表 41）
+
+依 `wip/v63-review/spec-v7-content-cp.md` 與 scout 地圖。作者 2026-09-28 拍板的三題（見「作者 2026-09-28 拍板與下一批」）：
+
+1. **算式符號前後統一留半形空格**：內文 178 處；`tools/calc_core.py` 釘住的 2 句與 `tools/v7_g08_long_run.py` 同步改。緊貼全形括號的那一側不加；列舉用的「＋」「－」不改。
+2. **指路寫法補齊**：第 4–17 節用數字，第 18–25 節與 start／ten／cases 用節名，共 40 處。
+3. **工作表稱呼主文件統一為「完整指南」**：9 處，含 `tools/build_lite.py` 的 `rewrite_links` 與 `lite/manifest.json`。
+
+另外，「四個立即停止」這個書裡沒有的名字，兩處改寫。
+
+**scout 地圖**：
+- 符號 279 處：兩邊都有空格 133、只有一邊 36、兩邊都沒有 110。
+- 指路：711 個 xref，破例 19＋後補 22。
+- 工作表「完整版」9 處。
+
+**主線拍板四條**：
+1. 緊貼全形括號（含〔〕）的那一側不加空格。
+2. 「完整版還有一種」指的是完整版計畫表，不改。
+3. 分組區塊 group-* 不動。
+4. 列舉用的「＋」「－」11 處不改。
+
+**受保護句的指路隨體例統一（主線授權）**：
+- 涉及兩句：
+  - 第 4 節「指數投資可以期待的結果，是安穩退休…（「年齡、槓桿與退休」第三題）」。
+  - 第 1 節 p.decision「年檢（見「每年一次的檢查表」）」。
+- `wip/v63-review/author-readthrough.md` #48 寫這兩句「一個字不能動」。主線判斷：指路寫法不是作者的字句與立場，所以授權隨體例統一。
+- **作者若不同意**：退回「第 24 節第三題」「第 23 節」，並把 round58 裡 s1/24、ten/23 的 count 下修。
+
+**驗收**（judge／opus xhigh）：十項**八過**。
+- 修：〔〕算全形括號（刪 7 處空格）；逗號後的空格 1 處。
+- 受保護句那兩處照上面的主線授權處理，已寫進本段，作者可退回。
+- 次要：`docs/core-edition/specs/lite-format.md` L139、`tools/build_lite.py:631` 同步；L293 去重複；`lite/facts.txt` 的空格跟上。
+
+**沒做的一條**：plan-blank F 區「（先答第十三節四題）」如果加上「完整指南」，計畫表會跨頁、工作表變 7 頁，維持原樣。
+
+**numbers**：開 `numbers-allow-round58.json`（round57＋24 條，全是指路改名後掉的 xref 節號），兩基準 **LOST 0**。
+**xrefs**：節號連結 524→484、引用 58→54、「注意」16→15。
+**預算**（照實測）：`_total_max` 61,781→**62,003**、`_visible_total_max` 68,566→**68,810**，理由寫進 `_comment_cp`。
+**檢查**：全套綠（工作表 6 頁、PDF 181 頁）。
+
+**待辦**：
+- `lite/facts.txt`、`case-checks.json` 的 pattern 比對前會先去空白，所以這批沒受影響。
+- essay 模式（`do_essay`）沒驗。
+- `docs/core-edition/specs/lite-format.md` 已同步。
 
