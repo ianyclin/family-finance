@@ -154,6 +154,40 @@ table{font-size:.9rem}
 figure.chart figcaption{line-height:1.7}
 .small,.source-link{line-height:inherit}}
 </style>
+<style>
+/* v7 批 CQ：閱讀定位條（#posbar）、目錄抽屜（#posmenu）、桌機左側目錄（#posrail）。
+   三個容器在靜態 HTML 裡是空的，字全部由 body 尾那段 script 從 section.part>h2 讀出來建；沒有 JS 就什麼都不出現。
+   版面只在 JS 把 html[data-posbar]／html[data-posrail] 標上以後才變，所以沒有 JS、以及 1024px 以下的版面都和原本一樣。 */
+:root{--pos-bg:#f6f2e9;--pos-bg-a:rgba(246,242,233,.86);--pos-cur:#fbf0d2}
+@media(prefers-color-scheme:dark){:root{--pos-bg:#101713;--pos-bg-a:rgba(16,23,19,.86);--pos-cur:#3a3119}}
+#posbar{display:none}
+#posbar:not([hidden]){position:fixed;z-index:30;top:0;left:0;right:0;height:44px;display:flex;align-items:center;gap:8px;padding:0 12px;background:var(--pos-bg);border-bottom:1px solid var(--line);font-family:var(--sans);font-size:.9rem;line-height:1.3;color:var(--ink)}
+@supports((backdrop-filter:blur(6px)) or (-webkit-backdrop-filter:blur(6px))){#posbar:not([hidden]){background:var(--pos-bg-a);-webkit-backdrop-filter:saturate(1.2) blur(6px);backdrop-filter:saturate(1.2) blur(6px)}}
+#posbar .pos-where{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#posbar .pos-no,#posmenu .pos-no,#posrail .pos-no{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+#posbar .pos-no{margin-right:.5em}#posbar .pos-no:empty{display:none}
+#posbar button{flex:0 0 auto;font:inherit;line-height:1.2;min-height:32px;max-width:45vw;padding:4px 12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--green);cursor:pointer}
+#posbar button[hidden]{display:none}
+#posbar button[aria-expanded="true"]{background:var(--green2)}
+#posmenu,#posrail{display:none}
+#posmenu:not([hidden]){display:block;position:fixed;z-index:31;top:44px;left:0;right:0;max-height:70vh;overflow-y:auto;overscroll-behavior:contain;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:var(--shadow);font-family:var(--sans);animation:posmenu-in .16s ease-out}
+@keyframes posmenu-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+#posmenu ul,#posrail ul{list-style:none;margin:0;padding:6px 0}
+#posmenu li,#posrail li{margin:0;padding:0}
+#posmenu button,#posrail button{display:flex;gap:.6em;width:100%;padding:8px 16px;border:0;border-left:3px solid transparent;background:none;color:var(--ink);font:inherit;font-size:.9rem;line-height:1.45;text-align:left;cursor:pointer}
+#posmenu button:hover,#posrail button:hover{background:var(--fill)}
+#posmenu .pos-no,#posrail .pos-no{flex:0 0 auto;min-width:3.6em}
+#posmenu button[aria-current="true"],#posrail button[aria-current="true"]{background:var(--pos-cur);border-left-color:var(--amber);font-weight:700}
+html[data-posbar] :is(.part,[id]){scroll-margin-top:56px}
+/* 「回目錄」落在 #toc：#toc 在封面裡，那裡定位條不出現，所以維持原本的 16px */
+html[data-posbar] #toc{scroll-margin-top:16px}
+@media screen and (max-width:660px){#posbar:not([hidden]){height:40px;padding:0 10px;gap:6px}#posmenu:not([hidden]){top:40px}}
+@media screen and (min-width:661px){#posmenu:not([hidden]){left:auto;width:min(420px,100%);border-left:1px solid var(--line);border-bottom-left-radius:12px}}
+@media screen and (min-width:1100px){html[data-posrail] body{padding-left:240px}html[data-posrail] #posrail:not([hidden]){display:block;position:fixed;z-index:29;top:44px;left:0;bottom:0;width:240px;overflow-y:auto;overscroll-behavior:contain;border-right:1px solid var(--line);background:var(--paper);font-family:var(--sans)}#posrail button{padding:6px 14px 6px 12px;font-size:.84rem}}
+@media(prefers-reduced-motion:reduce){#posmenu:not([hidden]){animation:none}}
+@media print{#posbar,#posmenu,#posrail{display:none!important}}
+</style>
+<nav id="posbar" aria-label="閱讀位置" hidden></nav><div id="posmenu" role="dialog" aria-label="全書目錄" hidden></div>
 <header class="cover" id="top">
 <div class="eyebrow">給新手的長期投資與行為紀律指南・v7.0 預覽／2026-09-27</div>
 <h1>隔離人性</h1>
@@ -4168,3 +4202,138 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 <p>我想感謝國內外分享指數投資的先行者。沒有他們的網路文章、書籍、討論和各種資源，我不可能學到指數投資和理財規劃的知識。</p>
 <p class="afterword-sign"><a href="https://www.facebook.com/profile.php?id=100084000897269" target="_blank" rel="noopener">指數三寶飯</a></p></div>
 <p><strong>隔離人性｜理財新手完整指南</strong></p><p class="small">資料檢查日期：2026-09-23。稅、費率和連結都會變；超過兩年，請自己再查一次官方頁面（第 <a class="xref" href="#toolbox">27</a> 節）。</p><p class="small">發現錯誤，或有不同的看法，歡迎到<a href="https://www.facebook.com/profile.php?id=100084000897269" target="_blank" rel="noopener">粉專</a>告訴我。</p><p class="small">© 2026 <a href="https://www.facebook.com/profile.php?id=100084000897269" target="_blank" rel="noopener">指數三寶飯・家庭理財陪跑</a>。保留所有權利。歡迎分享本文連結；轉載、改作或商業使用請先取得作者同意，引用請註明出處與日期。文中引用的研究與官方資料，著作權屬各原機構，僅作教育對照；文中圖表的數字取自各原機構公開報告，本文自行重畫、未轉載原圖。本指南提供一般教育資訊，不構成個人投資、稅務或法律建議。本文由作者與 AI（Anthropic 的 Claude）協作完成，分工寫在「<a class="xref" href="#methods">資料口徑與來源</a>」。</p></footer>
+<nav id="posrail" aria-label="章節" hidden></nav>
+<script defer>
+(function(){try{/* v7 批 CQ：閱讀定位條、目錄抽屜、桌機左側目錄、記住上次位置。
+所有字都在這裡從 section.part>h2（span.num 是節號）讀出來建，靜態 HTML 只有三個空容器。
+上次位置只存在這台裝置這個瀏覽器的 localStorage（鍵 grx-v7-pos），不上傳、不跨裝置；讀寫失敗就當沒有。 */
+var KEY='grx-v7-pos',MARGIN=56;
+function barH(){try{return window.matchMedia('(max-width: 660px)').matches?40:44;}catch(e){return 44;}}
+function lineY(){return MARGIN+8;}
+function txt(el){return (el&&el.textContent||'').replace(/\s+/g,' ').replace(/^ | $/g,'');}
+function load(){try{var v=JSON.parse(window.localStorage.getItem(KEY)||'null');
+if(v&&typeof v.id==='string'&&v.id&&typeof v.y==='number'&&isFinite(v.y)){return v;}}catch(e){}return null;}
+function store(v){try{window.localStorage.setItem(KEY,JSON.stringify(v));}catch(e){}}
+function init(){
+var bar=document.getElementById('posbar'),menu=document.getElementById('posmenu'),rail=document.getElementById('posrail'),
+cover=document.getElementById('top'),toc=document.getElementById('toc');
+if(!bar||!menu||!document.querySelectorAll){return;}
+/* 節清單：34 個 section.part（28 個有節號＋6 個分組摘要）；封面與 #toc 另外處理 */
+var parts=[];
+Array.prototype.forEach.call(document.querySelectorAll('section.part'),function(sec){
+var h2=null,c=sec.firstElementChild;while(c){if(c.tagName==='H2'){h2=c;break;}c=c.nextElementSibling;}
+if(!h2||!sec.id){return;}
+var n=h2.querySelector('span.num'),no=n?txt(n):'',all=txt(h2);
+var title=no&&all.indexOf(no)===0?all.slice(no.length).replace(/^ /,''):all;
+parts.push({id:sec.id,el:sec,h2:h2,no:no,title:title});});
+if(!parts.length){return;}
+var byId={};parts.forEach(function(p){byId[p.id]=p;});
+var saved=load();if(saved&&!byId[saved.id]){saved=null;}
+var cur=null,past=false,resumeDone=!saved,open=false,lastKey=null,lastSig=null,armed=false;
+/* 定位條 */
+var where=document.createElement('span');where.className='pos-where';
+var whereNo=document.createElement('span');whereNo.className='pos-no';
+var whereT=document.createElement('span');whereT.className='pos-t';
+where.appendChild(whereNo);where.appendChild(whereT);
+var tocBtn=document.createElement('button');tocBtn.type='button';
+tocBtn.setAttribute('aria-expanded','false');tocBtn.setAttribute('aria-controls','posmenu');
+tocBtn.appendChild(document.createTextNode('目錄 '));
+var tri=document.createElement('span');tri.setAttribute('aria-hidden','true');tri.textContent='▾';tocBtn.appendChild(tri);
+var backBtn=document.createElement('button');backBtn.type='button';backBtn.hidden=true;
+bar.appendChild(where);bar.appendChild(tocBtn);bar.appendChild(backBtn);
+/* 抽屜與左側目錄用同一份項目：封面「回到最上面」＋有節號的 28 節（分組摘要與 #toc 不列） */
+function list(box){var ul=document.createElement('ul'),btns={};
+function add(id,no,title){var li=document.createElement('li'),b=document.createElement('button');b.type='button';
+if(no){var s=document.createElement('span');s.className='pos-no';s.textContent='第 '+no+' 節';b.appendChild(s);}
+var t=document.createElement('span');t.textContent=title;b.appendChild(t);
+b.setAttribute('data-pos-id',id);li.appendChild(b);ul.appendChild(li);btns[id]=b;}
+if(cover){add('top','','回到最上面');}
+parts.forEach(function(p){if(p.no){add(p.id,p.no,p.title);}});
+box.appendChild(ul);return {box:box,ul:ul,btns:btns};}
+var M=list(menu),R=rail?list(rail):null;
+function label(id){var p=byId[id];return p?(p.no?'第 '+p.no+' 節':'「'+p.title+'」'):'';}
+function render(){
+/* 簽章沒變就不動 DOM（scroll 每幀都會呼叫） */
+var sig=cur+'|'+past+'|'+(!resumeDone&&saved&&saved.id!==cur);if(sig===lastSig){return;}lastSig=sig;
+var p=cur&&byId[cur];
+whereNo.textContent=p&&p.no?'第 '+p.no+' 節':'';
+whereT.textContent=p?p.title:(cur==='toc'&&toc?txt(toc.querySelector('h2'))||'目錄':'');
+var showBack=!resumeDone&&saved&&saved.id!==cur;
+if(showBack){var L=label(saved.id);backBtn.textContent=past?'回上次':'回上次：'+L;
+backBtn.setAttribute('aria-label','回上次：回到上次讀到的'+L);backBtn.title='回到上次讀到的'+L;}
+backBtn.hidden=!showBack;
+/* 封面上平常不顯示（不蓋書名）；有上次位置時例外顯示，讓「回上次」一打開就看得到 */
+var show=past||showBack;
+if(bar.hidden===show){bar.hidden=!show;}
+if(!show&&open){close(false);}
+var key=p&&p.no?cur:(cur==='top'||cur==='toc'||!cur?'top':null);
+[M,R].forEach(function(X){if(!X){return;}
+for(var k in X.btns){var on=(k===key);if(on){X.btns[k].setAttribute('aria-current','true');}else{X.btns[k].removeAttribute('aria-current');}}});
+if(R&&key&&key!==lastKey&&R.btns[key]&&rail.clientHeight>0){nearest(rail,R.btns[key]);}lastKey=key;}
+/* 捲動容器裡把某一項捲到看得見（等於 block:'nearest'，但只捲容器本身，不動頁面） */
+function nearest(box,el){var bt=box.getBoundingClientRect(),et=el.getBoundingClientRect();
+if(bt.top>et.top){box.scrollTop-=bt.top-et.top;}else if(et.bottom>bt.bottom){box.scrollTop+=et.bottom-bt.bottom;}}
+/* 當前節＝最後一個「上緣已經越過定位條下方那條線」的節。線放在錨點落點（scroll-margin 56px）再往下 8px，
+點目錄跳過去的那一節，落地時就算進入。 */
+function compute(){var ly=lineY(),c=null;
+if(cover){var cb=cover.getBoundingClientRect();past=!(cb.bottom>barH());}else{past=true;}
+if(toc&&!(toc.getBoundingClientRect().top>ly)){c='toc';}
+for(var i=0;parts.length>i;i++){if(parts[i].el.getBoundingClientRect().top>ly){break;}c=parts[i].id;}
+if(!c&&cover){c='top';}
+if(saved&&!resumeDone&&c===saved.id){resumeDone=true;}
+cur=c;render();}
+var raf=0;function later(){if(raf){return;}raf=(window.requestAnimationFrame||function(f){return setTimeout(f,16);})(function(){raf=0;try{compute();}catch(e){}});}
+/* 抽屜 */
+function openMenu(){open=true;menu.hidden=false;tocBtn.setAttribute('aria-expanded','true');
+var first=M.ul.querySelector('button');if(first){try{first.focus({preventScroll:true});}catch(e){first.focus();}}
+var c=M.ul.querySelector('button[aria-current="true"]');menu.scrollTop=0;
+if(c){var mb=menu.getBoundingClientRect(),cb=c.getBoundingClientRect();menu.scrollTop=Math.max(0,cb.top-mb.top-(mb.height-cb.height)/2);}}
+function close(refocus){open=false;menu.hidden=true;tocBtn.setAttribute('aria-expanded','false');
+if(refocus){try{tocBtn.focus({preventScroll:true});}catch(e){tocBtn.focus();}}}
+tocBtn.addEventListener('click',function(){if(open){close(true);}else{openMenu();}});
+function go(id){var el=id==='top'?cover:document.getElementById(id);if(!el){return;}
+if(el.scrollIntoView){el.scrollIntoView({block:'start'});}now();
+/* 焦點給目標標題，讀屏位置跟著走 */
+var h=id==='top'?cover.querySelector('h1'):(byId[id]&&byId[id].h2);
+if(h){if(!h.hasAttribute('tabindex')){h.setAttribute('tabindex','-1');}try{h.focus({preventScroll:true});}catch(e){}}}
+function pick(e){var b=e.target&&e.target.closest&&e.target.closest('button[data-pos-id]');if(!b){return null;}return b.getAttribute('data-pos-id');}
+menu.addEventListener('click',function(e){var id=pick(e);if(!id){return;}close(false);go(id);});
+if(R){rail.addEventListener('click',function(e){var id=pick(e);if(id){go(id);}});}
+document.addEventListener('keydown',function(e){if(open&&(e.key==='Escape'||e.key==='Esc')){e.preventDefault();close(true);}});
+document.addEventListener('click',function(e){if(!open){return;}var t=e.target;
+if(t&&(menu.contains(t)||tocBtn.contains(t))){return;}close(false);},true);
+/* 回上次：點了才跳，不自動跳 */
+backBtn.addEventListener('click',function(){if(!saved){return;}var p=byId[saved.id];resumeDone=true;
+if(p){var r=p.el.getBoundingClientRect(),y=Math.max(-MARGIN,Math.min(saved.y,Math.max(0,p.el.offsetHeight-lineY())));
+window.scrollTo(0,Math.round(r.top+(window.pageYOffset||0)+y));}
+try{tocBtn.focus({preventScroll:true});}catch(e){}later();});
+/* 記住位置：捲動停下 500ms 後存；只存在節裡的位置（封面、目錄不存，免得打開書翻一下目錄就把上次的位置蓋掉）。
+讀者第一次自己動手（滾輪、觸控拖動、按鍵、按下指標）以後才開始存：深連結或瀏覽器還原捲動不算，免得一載入就蓋掉上次位置。 */
+var idle=null;
+function arm(){armed=true;}
+['wheel','touchmove','keydown','pointerdown'].forEach(function(t){window.addEventListener(t,arm,{passive:true,capture:true});});
+function save(){try{compute();}catch(e){}if(!armed){return;}var p=cur&&byId[cur];if(!p){return;}
+store({id:p.id,y:Math.round(-p.el.getBoundingClientRect().top),t:Date.now()});}
+window.addEventListener('scroll',function(){if(idle){clearTimeout(idle);}idle=setTimeout(save,500);later();},{passive:true});
+/* 當前節偵測：主力是上面那個 scroll 監聽（requestAnimationFrame 節流，每幀最多算一次；render 有簽章，沒變就不動 DOM）。
+IntersectionObserver 只當加速：每一節（加封面、目錄）碰到或離開定位條下緣到落點線那一帶就多算一次。
+只靠 IO 會漏：背景分頁不送 IO，觀察帶（約 21px）又比節與節的縫（24px）窄，從縫跳到縫不會觸發。 */
+var io=null,ioH=0;
+function watch(){if(!('IntersectionObserver' in window)){io=null;return;}
+var h=window.innerHeight||document.documentElement.clientHeight||0,k=h+'/'+barH();if(io&&k===ioH){return;}ioH=k;
+if(io){io.disconnect();}
+var opt={rootMargin:'-'+barH()+'px 0px -'+Math.max(0,h-lineY()-1)+'px 0px',threshold:0};
+try{io=new IntersectionObserver(later,Object.assign({root:document},opt));}catch(e){try{io=new IntersectionObserver(later,opt);}catch(e2){io=null;return;}}
+if(cover){io.observe(cover);}if(toc){io.observe(toc);}
+parts.forEach(function(p){io.observe(p.el);});}
+watch();
+var rz=null;window.addEventListener('resize',function(){if(rz){clearTimeout(rz);}rz=setTimeout(function(){try{watch();}catch(e){}later();},150);later();});
+function now(){try{compute();}catch(e){}}
+window.addEventListener('hashchange',now);window.addEventListener('load',now);window.addEventListener('pageshow',now);
+document.addEventListener('toggle',later,true);
+document.documentElement.setAttribute('data-posbar','1');
+if(R){rail.hidden=false;document.documentElement.setAttribute('data-posrail','1');}
+compute();}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){try{init();}catch(e){}});}else{init();}
+}catch(e){}})();
+</script>
