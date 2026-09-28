@@ -41,3 +41,9 @@ essay_charts 兩次（不能碰到 figure.illus；記憶體模擬也要）、bud
 - 放：第 8 節 s5，「你以為的複利」那張圖表（`data-chart="smooth-vs-jagged"`）**之後**；圖說（無字版用）：「知道要長期持有，和真的走過那些起伏，是兩回事。」；alt：「上格一個人在平路騎車；下格同一個人在起伏的山路推車上坡，遠方是明亮的山和湖」。
 - 連動調整（每節一張）：「晴雨」（03）改放第 13 節 s10（冷卻期那段附近）；「停一下」（05）改放第 9 節 s6「要不要等跌下來再買？」（想等時機那題附近）；第一段表格以此為準。
 - 縮圖：同法（WebP 寬 1400、品質 80），檔名 `09-long-term-road.webp`；有字版與無字版都先縮，用哪個看施工當下有沒有無字版。
+
+### 七之二：第九張改為無字兩幅（ChatGPT 2026-09-28 深夜交接包）
+- 來源：`/Users/linyenchu/Documents/Codex/2026-09-17/new-chat/output/long-term-investing-handoff/09a-imagined-investing-no-text.png`（上幅：平路騎車）與 `09b-real-investing-no-text.png`（下幅：起伏推車、遠處小騎士、明亮山湖），各 1774×887，**無字**；有字版 `previous-lettered-share.png` 不用。縮成 WebP 寬 1400（`09a-imagined.webp`、`09b-real.webp`），進 `guide/illus/`。
+- 排法：一個 `figure.illus.illus-pair`，兩幅上下疊，各幅上方一行小標（HTML 文字，非圖）：「你以為的長期投資」／「實際走起來的長期投資」（用既有小標樣式，例如 figcaption 上方的 `p.illus-label`，字級 ≥ .95rem）；共用圖說只放一次在下幅之後：「知道要長期持有，和真的走過那些起伏，是兩回事。」
+- alt（取 copy.json）：上「同一位男子輕鬆騎車，平坦道路由近而遠逐漸收窄，通往明亮的山湖景色。」下「男子吃力牽車上坡，道路反覆起伏並隨景深收窄；較遠的窄路上有一位較小的騎士，右方遠處是明亮的山湖景色。」
+- 位置照第七段：第 8 節 `data-chart="smooth-vs-jagged"` 那張圖之後。兩個小標是可見文字，算第 8 節小字，照實測。README 提醒：這是持有體驗的比喻，不是報酬走勢圖——圖說已如此，不另加註。
