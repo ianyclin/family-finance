@@ -3166,3 +3166,7 @@ Fable 判核心觀念沒有錯，錯在「不對稱」：每個環節都怕讀�
 ## 五、檔案
 
 設計：`wip/v63-review/design-v7.md`；寫作規則：`v7-builder-rules.md`；驗收：`judge-v7-1.md`、`judge-v7-2.md`、`readers-v7.md`；交班：`docs/handoff-guide-2026-09-19.md`。分支 `v7-preview`（未合併回 main）。
+
+## 一之一百零五、發布（2026-09-29 下午）
+
+網路恢復後，CX 到 DD 七批一起上線：指南第 65 版、工作表第 44 版。前面幾條寫「還沒發布」的都已經發了。

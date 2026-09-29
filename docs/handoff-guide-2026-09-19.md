@@ -1424,7 +1424,7 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 | 退休提領 | 25 到 40 倍、書用 33 倍寫計畫；頭五年缺口放定存；大跌那年生活費從預留現金拿、那年不補現金；三條路是減支出、延後、部分工作 | 第 24 節第三題、提領規則卡 |
 | 看盤與年檢 | 平常不看比例，一年年檢一次；每月只對帳；改規則走冷卻期 30 天；年檢也問填得太低要不要往上調一成 | 第 13、19、23 節 |
 
-## 2026-09-28 換 session 交班（主線寫；線上仍 Version 64／43＝HEAD 6ecd1da；本機 HEAD a44508e（批 CX、CY）**待發布**——2026-09-29 上午發布時這台機器所在網路對 claude.ai 做 TLS 攔截（curl：self signed certificate in certificate chain），換網路後照固定流程發 output/guide.html 與 output/lite.html）
+## 2026-09-28 換 session 交班（主線寫；線上 Version 65／44＝內容 HEAD 9c6ecb0（批 DD；2026-09-29 下午網路恢復後一次發出 CX～DD 七批；上午的 TLS 攔截是機器所在網路的問題，不是內容被拒））
 
 **狀態**（這一段是 CN 施工中當下的紀錄，已過時；現況看本段標題與檔尾「批 CN」「作者 2026-09-28 拍板與下一批」「批 CO-1」「批 CO 第一段」「批 CO-2」「批 CO-2b」「批 CO-3a」「批 CO-3b」「批 CP」「批 CO-3c」「批 CQ」「批 CR／CS 的由來」「批 CR」「作者 2026-09-28 深夜拍板」「批 CS」「批 CT」「批 CU」「批 CV」「批 CW」「批 CX」「批 CY」二十一段）：HEAD `1ffde47`＋這一段。**本機領先線上**：批 CM／CM-2（第 27 節加「退休研究室／王伯達」、《舉債致富》那條統一格式並改對立場句，commit `6a85c83`、`47c8047`）已 commit **未發布**。**批 CN（格式一致性，機械修正 ~60 處）在交班當下由 builder 施工中**：規格 `wip/v63-review/spec-v7-content-cn.md`（A1–A9、B10），依據 `format-audit-2026-09-28.md`。接手時先 `git status`：
 - 工作樹**乾淨**＝CN 沒落地（builder 被中斷）→ 重派 builder 照 CN 規格做（從乾淨的 HEAD 開始）。
@@ -1435,7 +1435,7 @@ L1634／L3353／L3355／L4012 第 16 節「挑產品前三題」→`#s12`；L364
 
 **這三天（09-26～28）的全貌**：批 CD～CL 共 15 個內容 commit（09-28 再加 CM、CN、CO-1、CO-2、CO-2b 五批），外部複審拍板清單 A／B／C 全做、三份最終審核逐條判對錯、兩個「能不能發」終審（會做錯決定 13→0）、Fable 觀念審四句、工作表封面對齊、延伸閱讀加退休研究室。每批的規格／裁判／處置都在 `wip/v63-review/`（spec-v7-content-cd…cn、judge-cd/ce/cf/cg、coherence-audit、final-review、reviews-final-two、format-audit）；作者版摘要在 `changes-for-author-v7.md` 一之七十八～九十三。（09-28 一天發九批：CM／CM-2、CN、CO-1、CO-2、CO-2b、CO-3a、CO-3b、CP，指南 50→57、工作表 36→41）
 
-**下一個 session 開場**：從 `/Users/linyenchu/Cladue Code` 或 `family-finance` 開（才有 builder／judge 代理與記憶）；貼：「接手《隔離人性》v7 預覽，專案 `/Users/linyenchu/Cladue Code/family-finance`，分支 v7-preview。線上仍 64／43（a44508e 待發布，見標題）。先讀 `docs/handoff-guide-2026-09-19.md` 檔尾『批 CY』『批 CX』『批 CW』『批 CV』『批 CU』『批 CT』『批 CS』『批 CR』『作者 2026-09-28 深夜拍板』『批 CQ』『批 CO-3c』『批 CR／CS 的由來』『批 CP』『批 CO-3b』『批 CO-3a』『批 CO-2b』『批 CO-2』『批 CO-1』『批 CO 第一段』『作者 2026-09-28 拍板與下一批』與『立場句清單』，再看作者對稽核報告三題的答覆有沒有到。CLAUDE.md 新增兩段規則（先判斷再回、防太方便行事三關卡）要遵守。CU（`9c161aa`）、CV（`aa6cc5a`）都已 commit，線上版號見本段標題；剩的是『作者 2026-09-28 拍板與下一批』段狀態行裡「剩給作者」那幾條。」
+**下一個 session 開場**：從 `/Users/linyenchu/Cladue Code` 或 `family-finance` 開（才有 builder／judge 代理與記憶）；貼：「接手《隔離人性》v7 預覽，專案 `/Users/linyenchu/Cladue Code/family-finance`，分支 v7-preview。線上 65／44（HEAD 9c6ecb0）。先讀 `docs/handoff-guide-2026-09-19.md` 檔尾『批 CY』『批 CX』『批 CW』『批 CV』『批 CU』『批 CT』『批 CS』『批 CR』『作者 2026-09-28 深夜拍板』『批 CQ』『批 CO-3c』『批 CR／CS 的由來』『批 CP』『批 CO-3b』『批 CO-3a』『批 CO-2b』『批 CO-2』『批 CO-1』『批 CO 第一段』『作者 2026-09-28 拍板與下一批』與『立場句清單』，再看作者對稽核報告三題的答覆有沒有到。CLAUDE.md 新增兩段規則（先判斷再回、防太方便行事三關卡）要遵守。CU（`9c161aa`）、CV（`aa6cc5a`）都已 commit，線上版號見本段標題；剩的是『作者 2026-09-28 拍板與下一批』段狀態行裡「剩給作者」那幾條。」
 
 **作者裁定的大方向（2026-09-28 晚已被「通讀前把能修的都修」取代，見檔尾）**：書到「會做錯決定 0」了；不開新內容批；下一步是作者通讀與真人試讀（三個任務在「批 CJ＋下一步」段）。再派 AI 審，用「能不能發」prompt；前兩級零就停。
 
@@ -2209,3 +2209,5 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 ## 批 DD（2026-09-29 下午；作者問「為什麼 PDF 有 12MB 上限」→ 拍板「書封那一張豁免降解析、上限提到 14MB」）
 
 12MiB 是主線在批 CT 自訂的回歸守門數字（當時重複圖物件曾把 PDF 撐到 28.9MB；壓回 150dpi 後 10.2MB，上限取 12），不是任何平台的硬限制；CT 交班沒寫理由，是主線疏漏，這次補進哨兵註解。改動：`build_lite.shrink_pdf_images` 第 1 頁寬 ≥1500px 的圖（書封）不降解析、仍轉 JPEG q85（Chrome 原本存無損 Flate 會佔約 10MB）；`lite_sentinels` `[pdf]` 上限 14MiB。結果：第 1 頁書封 2048×3072、294dpi；其他插畫尺寸與串流逐張不變；PDF 12.22MiB（餘 1.78MiB）；196 頁、書籤 172；build ×2 位元組數相同。線上：未發布；下次發布含 CX～DD。
+
+**發布（2026-09-29 下午）**：網路恢復後發布員讀兩份 Artifact 後 publish：指南 Version 65（label「CX～DD 書封、署名、工作表附錄、循環圖」）、工作表 Version 44。CX～DD 各段裡「未發布」的字句自此作廢。
