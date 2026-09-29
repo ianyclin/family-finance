@@ -2201,3 +2201,7 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 
 **預算**：主線與 _total_max 62,612 不動。s1 小字 +27、s10 小字 +26（上限 380 都不動）；lifecycle 小字個別放行 686→726；_visible_total_max 69,870→69,954（`_comment_db`）。
 **線上**：未發布；下次發布含 CX～DB（DC 換 2048 書封接著做）。
+
+## 批 DC（2026-09-29 中午；作者給 2048×3072 書封）
+
+作者給 `~/Documents/Codex/2026-09-17/new-chat/output/cover-plan-and-life/cover-family-five-period-2048.png`；主線先驗它是同一張圖放大（dHash 距離 2、縮回 1024 後平均像素差 2.87），才換。`guide/illus/00-book-cover.webp` 改為 2048×3072（q80、451,550 bytes）、img 的 width／height 同步、`embed_illus.py` 重嵌；`output/guide.html` 4.39MB。**PDF 第 1 頁的書封仍是約 1044×1566**：`shrink_pdf_images` 照既定門檻把高解析圖壓回列印密度，PDF 11.56MiB（上限 12MiB）；要讓 PDF 書封也用 2048 得把上限提到約 13MiB 並讓書封豁免降解析，留給作者決定（網頁版已是 2048）。哨兵：build ×2 等冪、SENTINELS OK、LAYOUT OK、CHECK OK、BUDGET OK、ILLUS OK（11 張）。線上：未發布；下次發布含 CX～DC。
