@@ -2168,3 +2168,7 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 做法：`build_lite.py` 的 `cite()` 附錄分支 〈〉→「」（6 處跟著重產）；guide L3210、L3609 兩處《》→「」。哨兵：build ×3 等冪、SENTINELS OK、xrefs、numbers 兩基準 LOST 0、budget、guidetools、embed_illus 全綠；附錄裡「〈」「〉」0、正文「《可列印工作表》」0；PDF 仍 196 頁、附錄 191–196。
 順帶看到沒動：`build_lite.py` 約 L908「想查證」框寫死「完整指南〈名〉」不經 cite()，目前工作表 0 個想查證框所以不影響輸出；以後若出現要一併改。
 **線上**：仍未發布（網路 TLS 攔截），下次發布含 CX、CY、CZ。
+
+## 批 DA（2026-09-29 中午，作者問「還有未開工的嗎」時順手收掉；commit 見 git log）
+
+第 13 節 `#s10-news`「（第 8 節那張圖）」→「（第 8 節那張「跌下去要多久才回得來」的圖）」——第 8 節有 8 張圖表加一組插畫，指不清（裁判 CV 次要 5）。用「那張「…」的圖」而不是「第 8 節「…」」，避免 xrefs 哨兵當成節標題引用。budget：s10 主線 +13、_total_max 62,612、_visible_total_max 69,870（`_comment_da`）。哨兵全綠；applier 回報「對 v6.3.1 LOST 1278」是它漏帶 `--allow-file`，主線用放行檔重跑為 LOST 0。**線上**：仍未發布；下次發布含 CX、CY、CZ、DA。
