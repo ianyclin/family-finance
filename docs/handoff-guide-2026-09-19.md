@@ -2205,3 +2205,7 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 ## 批 DC（2026-09-29 中午；作者給 2048×3072 書封）
 
 作者給 `~/Documents/Codex/2026-09-17/new-chat/output/cover-plan-and-life/cover-family-five-period-2048.png`；主線先驗它是同一張圖放大（dHash 距離 2、縮回 1024 後平均像素差 2.87），才換。`guide/illus/00-book-cover.webp` 改為 2048×3072（q80、451,550 bytes）、img 的 width／height 同步、`embed_illus.py` 重嵌；`output/guide.html` 4.39MB。**PDF 第 1 頁的書封仍是約 1044×1566**：`shrink_pdf_images` 照既定門檻把高解析圖壓回列印密度，PDF 11.56MiB（上限 12MiB）；要讓 PDF 書封也用 2048 得把上限提到約 13MiB 並讓書封豁免降解析，留給作者決定（網頁版已是 2048）。哨兵：build ×2 等冪、SENTINELS OK、LAYOUT OK、CHECK OK、BUDGET OK、ILLUS OK（11 張）。線上：未發布；下次發布含 CX～DC。
+
+## 批 DD（2026-09-29 下午；作者問「為什麼 PDF 有 12MB 上限」→ 拍板「書封那一張豁免降解析、上限提到 14MB」）
+
+12MiB 是主線在批 CT 自訂的回歸守門數字（當時重複圖物件曾把 PDF 撐到 28.9MB；壓回 150dpi 後 10.2MB，上限取 12），不是任何平台的硬限制；CT 交班沒寫理由，是主線疏漏，這次補進哨兵註解。改動：`build_lite.shrink_pdf_images` 第 1 頁寬 ≥1500px 的圖（書封）不降解析、仍轉 JPEG q85（Chrome 原本存無損 Flate 會佔約 10MB）；`lite_sentinels` `[pdf]` 上限 14MiB。結果：第 1 頁書封 2048×3072、294dpi；其他插畫尺寸與串流逐張不變；PDF 12.22MiB（餘 1.78MiB）；196 頁、書籤 172；build ×2 位元組數相同。線上：未發布；下次發布含 CX～DD。

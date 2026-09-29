@@ -714,13 +714,14 @@ def run(m, pdf_info=None, build_report=None):
         else:
             R.skip('appendix', '指南裡沒有書末附錄（section.worksheet-appendix），這一支不適用')
         R.info('完整版 PDF metadata：title=%r author=%r' % (fmeta.get('title'), fmeta.get('author')))
-        # 批 CT：完整版 PDF 大小（插畫印完後由 build_lite.shrink_pdf_images 重壓）；超過 12MB 判 FAIL
+        # 批 CT：完整版 PDF 大小（插畫印完後由 build_lite.shrink_pdf_images 重壓）；超過 14MB 判 FAIL
+        # 上限是回歸守門（批 CT 時曾因重複圖物件暴增到 28.9MB），不是外部限制；2026-09-29 因書封豁免降解析從 12 提到 14
         fb = (pdf_info or {}).get('full_bytes')
         fsz = os.path.getsize(full_pdf)
         fmsg = '完整版 %.1f MB%s' % (fsz / 1048576.0,
                                     '（插畫重壓 %d → %d bytes）' % fb if fb else '（這次沒有重印，讀 export 現有的檔）')
-        if fsz > 12 * 1048576:
-            R.fail('pdf', fmsg + '，超過 12MB 上限')
+        if fsz > 14 * 1048576:
+            R.fail('pdf', fmsg + '，超過 14MB 上限')
         else:
             R.ok('pdf', fmsg)
         # 近乎空白的頁（主線決定④）：列出來，超過 3 頁 WARN
