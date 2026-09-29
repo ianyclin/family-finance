@@ -40,6 +40,9 @@ import re
 import sys
 from collections import Counter, OrderedDict
 from html.parser import HTMLParser
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from guidetools import strip_appendix  # 批 CX：書末附錄是工作表的複本，解析前拿掉（留 #worksheet 空殼）
 
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
         'link', 'meta', 'param', 'source', 'track', 'wbr'}
@@ -219,7 +222,7 @@ class Doc(HTMLParser):
 def parse(path):
     d = Doc()
     with open(path, encoding='utf-8') as f:
-        d.feed(f.read())
+        d.feed(strip_appendix(f.read()))
     d.close()
     return d
 
@@ -612,7 +615,7 @@ class _Xrefs(object):
 
 def cmd_xrefs(args):
     with open(args.html, encoding='utf-8') as f:
-        src = f.read()
+        src = strip_appendix(f.read())
     x = _Xrefs(src)
 
     bad_num, bad_title, bad_href, notes = [], [], [], []

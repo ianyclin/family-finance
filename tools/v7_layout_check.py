@@ -88,6 +88,7 @@ function measure(){
     res.tables.push({i: i, id: part ? part.id : '', cls: (tb ? tb.className : ''),
                      over: +(need - tw.clientWidth).toFixed(1),
                      scrollable: tw.classList.contains('is-scrollable'),
+                     appx: !!tw.closest('#worksheet'),
                      hint: w.getComputedStyle(tw, '::before').content});
   });
   // (c) 正文左緣
@@ -222,8 +223,13 @@ def check(width, res, problems, lines):
                  % (width, len(res["tables"]), len(scroll), len([t for t in res["tables"] if "滑動" in (t["hint"] or "")])))
     for t in scroll[:20]:
         lines.append("        #%s table.%s 超出 %spx  提示=%s" % (t["id"], t["cls"], t["over"], t["hint"]))
-    if len(scroll) > lim["scrollable_tables"]:
-        problems.append("%dpx：%d 張表需要橫向捲（上限 %d）" % (width, len(scroll), lim["scrollable_tables"]))
+    # 批 CX（主線拍板）：書末附錄（#worksheet）是可列印工作表，表格照紙本排，手機上要橫捲是預期的；
+    # 它們不算進「需要橫向捲」的上限，但一樣要有提示字（下面的 nohint 照樣查附錄的表），整份文件橫向溢出也照樣要是 0。
+    scroll_main = [t for t in scroll if not t.get("appx")]
+    if len(scroll) != len(scroll_main):
+        lines.append("%dpx  其中書末附錄（#worksheet）的表 %d 個，不計入上限、只查提示字" % (width, len(scroll) - len(scroll_main)))
+    if len(scroll_main) > lim["scrollable_tables"]:
+        problems.append("%dpx：%d 張表需要橫向捲（上限 %d）" % (width, len(scroll_main), lim["scrollable_tables"]))
     if nohint:
         problems.append("%dpx：%d 張表要橫捲卻沒有提示字（%s）"
                         % (width, len(nohint), "、".join("#" + t["id"] for t in nohint[:5])))

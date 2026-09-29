@@ -202,6 +202,11 @@ def check_toc_order(dom):
     if nav is None:
         return ['原文找不到 nav#toc'], ''
     toc = re.findall(r'<a href="#([\w-]+)">', dom.outer(nav))
+    # 批 CX（主線 2026-09-29 拍板接受）：目錄最後那一條「附錄：可列印工作表」指到書末附錄（section.worksheet-appendix）。
+    # 附錄不是 section.part、沒有節號，本來就不在「目錄順序＝正文 28 節」的比對對象裡；不排除的話這一條永遠紅「目錄有、正文沒有」。
+    # 附錄連結指得到（#worksheet 存在）由 guidetools check 與 v7_check anchors 把關。
+    appx = set(n.attrs.get('id') for n in dom.nodes if n.tag == 'section' and 'worksheet-appendix' in n.classes())
+    toc = [i for i in toc if i not in appx]
     dups = sorted(set(i for i in toc if toc.count(i) > 1))
     if dups:
         bad.append('目錄同一節出現不只一次：%s' % '、'.join(dups))
@@ -504,7 +509,10 @@ def run(m, pdf_info=None, build_report=None):
     starts = [(B.compact(k), item['item']) for item in lb['practice'] for k in item.get('starts', [])]
     for label, dom, sec_sel, need_all in (('實作版', ldom, 'section.lite-ch', False),
                                           ('完整版', fdom, 'section.part', True)):
-        ignore = B.outermost([x for sel in lb.get('ignore', []) for x in B.select(dom, sel)])
+        # 批 CX（主線 2026-09-29 拍板接受）：完整版書末的附錄是工作表的複本，它的「本指南的做法：」已經在實作版那一份算過；
+        # 完整版再算一次，「每件事每份最多 1 次」就會被複本撞紅（5/25 門檻 2 次）。所以完整版忽略附錄，清單「一件不少」仍只看正文。
+        extra_ignore = ['section.worksheet-appendix'] if label == '完整版' else []
+        ignore = B.outermost([x for sel in lb.get('ignore', []) + extra_ignore for x in B.select(dom, sel)])
         secs = B.select(dom, sec_sel)
         nb = 0; npr = 0; nprin = 0; per_item = {}
         max_item = lb.get('practice_max_per_item')
@@ -659,7 +667,15 @@ def run(m, pdf_info=None, build_report=None):
         first = None
         lp, _ = B.link_pages(full_pdf)
         first = min([lp[s] for s in sec_ids if s in lp] or [None]) if lp else None
-        entries = toc_printed_numbers(full_pdf, names, max_page=first)
+        # 批 CX：目錄最後一條指到書末附錄（section.worksheet-appendix）。附錄的標題 h2 在工作表封面橫幅裡、不是節的直接子元素，
+        # section_names 找不到它，這裡補上（標題取附錄裡第一個 h2），它的印出頁碼＝連結目標頁照樣要查。
+        toc_targets = dict(names)
+        for n in sdom.nodes:
+            if n.tag == 'section' and 'worksheet-appendix' in n.classes() and n.attrs.get('id'):
+                h2 = next((x for x in sdom.nodes if x.tag == 'h2' and n.start < x.start < n.end), None)
+                if h2 is not None:
+                    toc_targets[n.attrs['id']] = sdom.text(h2)
+        entries = toc_printed_numbers(full_pdf, toc_targets, max_page=first)
         toc_ids = set(re.findall(r'<a href="#([\w-]+)">', (re.search(r'<nav class="toc".*?</nav>', full, flags=re.S) or re.search('', '')).group(0)))
         for nd in sorted(toc_ids - set(e[0] for e in entries)):
             R.fail('toc', '完整版 PDF 目錄讀不到 %s 的頁碼' % nd)
@@ -670,6 +686,33 @@ def run(m, pdf_info=None, build_report=None):
             if not entries: R.fail('toc', '完整版 PDF 目錄頁讀不到任何目錄連結')
         else:
             R.ok('toc', '完整版 PDF %d 頁、書籤 %d 條；目錄 %d 條印出的頁碼＝連結目標頁' % (fcount, fout, len(entries)))
+        # 批 CX：書末附錄（可列印工作表）在完整版 PDF 裡要正好 6 頁（書籤「附錄：可列印工作表」那一頁到最後一頁）、
+        # 起頁是奇數頁（雙面印時三張紙正反面對得上）、起步版那一頁的急救卡沒有被擠到下一頁（書籤與附錄起頁同頁）。
+        has_appx = any(n.tag == 'section' and 'worksheet-appendix' in n.classes() for n in sdom.nodes)
+        if has_appx:
+            d = fitz.open(full_pdf); ftoc = d.get_toc(); d.close()
+            at = [e for e in ftoc if e[1] == B.APPENDIX_TITLE]
+            if len(at) != 1:
+                R.fail('appendix', '完整版 PDF 書籤裡「%s」有 %d 條（要剛好 1 條）' % (B.APPENDIX_TITLE, len(at)))
+            else:
+                ast = at[0][2]; npg = fcount - ast + 1
+                card = [e[2] for e in ftoc if e[1] == '跌的那一天先看這裡' and e[2] >= ast]
+                abad = []
+                if npg != 6:
+                    abad.append('附錄 %d 頁（第 %d–%d 頁），要正好 6 頁' % (npg, ast, fcount))
+                if ast % 2 != 1:
+                    abad.append('附錄從第 %d 頁（偶數頁）開始，要從奇數頁開始' % ast)
+                if not card:
+                    abad.append('附錄裡找不到急救卡書籤「跌的那一天先看這裡」')
+                elif card[0] != ast:
+                    abad.append('急救卡在第 %d 頁，沒有和附錄起頁（第 %d 頁）同頁' % (card[0], ast))
+                for x in abad:
+                    R.fail('appendix', x)
+                if not abad:
+                    R.ok('appendix', '完整版 PDF 書末附錄第 %d–%d 頁，正好 6 頁、從奇數頁開始；急救卡和附錄起頁同在第 %d 頁'
+                         % (ast, fcount, card[0]))
+        else:
+            R.skip('appendix', '指南裡沒有書末附錄（section.worksheet-appendix），這一支不適用')
         R.info('完整版 PDF metadata：title=%r author=%r' % (fmeta.get('title'), fmeta.get('author')))
         # 批 CT：完整版 PDF 大小（插畫印完後由 build_lite.shrink_pdf_images 重壓）；超過 12MB 判 FAIL
         fb = (pdf_info or {}).get('full_bytes')
@@ -941,7 +984,7 @@ def run(m, pdf_info=None, build_report=None):
     # 16. 單獨跑時：先在記憶體重建一次，和檔案比，抓「原文改了、HTML 還沒重建」
     if build_report is None:
         try:
-            lite_now, full_now, _ = B.build(m)
+            lite_now, full_now, rep_now = B.build(m)
         except B.BuildError as e:
             R.fail('stale', '記憶體重建失敗：%s' % str(e).splitlines()[0])
         else:
@@ -949,8 +992,12 @@ def run(m, pdf_info=None, build_report=None):
                 R.fail('stale', '%s 和現在的原文、manifest、短稿重建出來的不一樣：先跑 build_lite.py' % P['lite_html'])
             if full_now != full:
                 R.fail('stale', '%s 和重建結果不一樣：先跑 build_lite.py' % P['full_html'])
-            if lite_now == lite and full_now == full:
-                R.ok('stale', '兩份 HTML 和現在的原文重建結果相同')
+            # 批 CX：指南書末的附錄是 build 寫回的；手改附錄、或改了工作表來源沒重跑 build，指南本身就和重建結果不同
+            guide_bad = m['_is_main'] and rep_now.get('guide') != src
+            if guide_bad:
+                R.fail('stale', '指南書末附錄和重建結果不同（%s）：先跑 build_lite.py，不要手改附錄' % P['source'])
+            if lite_now == lite and full_now == full and not guide_bad:
+                R.ok('stale', '兩份 HTML 和現在的原文重建結果相同%s' % ('；指南書末附錄也和重建結果相同' if m['_is_main'] else ''))
 
     # 17. 發布用片段：和兩份輸出去掉外殼後的內容逐字相同
     fragbad = 0; fragdone = []

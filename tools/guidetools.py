@@ -22,6 +22,17 @@ VOID_TAGS = {'area','base','br','col','embed','hr','img','input','link','meta','
 
 def read(p): return open(p, encoding='utf-8').read()
 
+# 批 CX：書末附錄（可列印工作表）由 tools/build_lite.py 產生、夾在這兩個 marker 之間，是工作表的複本，不是正文。
+# 正文哨兵（to_text／check、v7_check 的 Doc 與 xrefs）解析前先拿掉整塊，只留一個空殼，讓 #worksheet 這個 id 還找得到。
+APPENDIX_START = '<!-- worksheet-appendix:start -->'
+APPENDIX_END = '<!-- worksheet-appendix:end -->'
+APPENDIX_SHELL = '<section id="worksheet"></section>'
+APPENDIX_RE = re.compile(re.escape(APPENDIX_START) + r'.*?' + re.escape(APPENDIX_END), re.S)
+
+def strip_appendix(h):
+    """把 marker 之間的附錄換成空殼 <section id="worksheet"></section>；沒有附錄就原樣回傳。"""
+    return APPENDIX_RE.sub(lambda m: APPENDIX_SHELL, h)
+
 # Opening-tag patterns that tolerate extra attributes (e.g. data-lite="ch4") before or after class.
 # The class value itself must match exactly (class="story", not class="story x").
 def open_tag(tag, cls=None):
@@ -124,7 +135,7 @@ def apply(base, out, patches):
     print('applied', len(P), 'patches ->', out)
 
 def check(path):
-    h = read(path); errs = []
+    h = strip_appendix(read(path)); errs = []
     for t in TAGS:
         o = len(re.findall(r'<%s\b[^>]*>' % t, h)); c = len(re.findall(r'</%s>' % t, h))
         if o != c: errs.append('tag %s open=%d close=%d' % (t, o, c))
@@ -176,7 +187,7 @@ def _ext_link_text(m):
     return '%s（%s）' % (m.group(3), m.group(2))
 
 def to_text(path, keep_sources=False):
-    h = read(path)
+    h = strip_appendix(read(path))
     h = re.sub(r'<style.*?</style>', '', h, flags=re.S)
     h = re.sub(r'<script.*?</script>', '', h, flags=re.S)
     if not keep_sources: h = strip_blocks(h, 'source-card')

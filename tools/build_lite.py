@@ -14,6 +14,9 @@ import sys, os, re, json, hashlib, unicodedata, subprocess, shutil, argparse, ti
 import html as htmlmod
 from html.parser import HTMLParser
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import guidetools as GT  # 批 CX：書末附錄的 marker 與 strip_appendix 和正文哨兵共用同一份
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 NORM_VERSION = 'v1'
@@ -414,10 +417,12 @@ def remove_elements(s):
 
 
 class ChapterCtx(object):
-    def __init__(self, ch_id, section_names, section_of_id):
+    def __init__(self, ch_id, section_names, section_of_id, link_ids=False):
         self.ch_id = ch_id; self.urls = []  # [(href, label)]：正文裡有 [n] 的網址，依出現順序編號
         self.extra_urls = []  # [(href, label)]：manifest urls 區塊列出、正文沒有引用的網址（章末不編號）
         self.section_names = section_names; self.section_of_id = section_of_id
+        # 批 CX：link_ids＝這一份是接在指南書末的附錄。「完整指南〈節名〉」知道節 id 時改成站內連結 <a class="xref" href="#節id">節名</a>
+        self.link_ids = link_ids
 
     def url_no(self, href, label):
         for i, (h, _) in enumerate(self.urls):
@@ -444,28 +449,40 @@ def rewrite_links(s, ctx):
     xref = r'<a\b[^>]*class="xref"[^>]*>.*?</a>'
 
     def xname(tag_html, fallback_text=False):
+        """回傳 (節名或連結文字, 那一節的 id 或 None)。"""
         mm = A_RE.match(tag_html)
         target = (_attr(mm.group(1), 'href') or '#').lstrip('#')
         text = html_text(mm.group(2))
+        sec = ctx.section_of_id.get(target, target)
+        sec = sec if sec in ctx.section_names else None
         if fallback_text and not re.fullmatch(r'\d+', text):
-            return text
+            return text, sec
         name = ctx.name_for(target)
         if name is None:
             raise BuildError('xref 指到找不到節名的 id：#%s（%s）' % (target, ctx.ch_id))
-        return name
+        return name, sec
+
+    def cite(items):
+        """items＝[(名, 節 id)]。工作表：完整指南〈名〉、〈名〉；附錄（link_ids）而且每一個都知道節 id：
+        本書〈<a class="xref" href="#節id">名</a>〉（書名號留著，句子才斷得開；附錄在書裡面，稱「本書」不稱「完整指南」；批 CX 主線拍板）。"""
+        if ctx.link_ids and all(sec for _, sec in items):
+            # 先用暫時的 class（xref-cx），免得下一步的 xref 正規式把剛產生的連結再改寫一次；函式最後才換回 xref
+            return '本書' + '、'.join('〈<a class="xref-cx" href="#%s">%s</a>〉' % (esc(sec), n) for n, sec in items)
+        return '完整指南' + '、'.join('〈%s〉' % n for n, _ in items)
 
     def grp(mm):
-        names = [xname(t) for t in re.findall(xref, mm.group(1), flags=re.S)]
-        return '完整指南' + '、'.join('〈%s〉' % n for n in names)
+        return cite([xname(t) for t in re.findall(xref, mm.group(1), flags=re.S)])
     s = re.sub(r'第\s*((?:%s)(?:\s*、\s*%s)*)\s*節' % (xref, xref), grp, s, flags=re.S)
-    s = re.sub(r'「\s*(%s)\s*」' % xref, lambda mm: '完整指南〈%s〉' % xname(mm.group(1), True), s, flags=re.S)
-    s = re.sub(xref, lambda mm: '完整指南〈%s〉' % xname(mm.group(0), True), s, flags=re.S)
+    s = re.sub(r'「\s*(%s)\s*」' % xref, lambda mm: cite([xname(mm.group(1), True)]), s, flags=re.S)
+    s = re.sub(xref, lambda mm: cite([xname(mm.group(0), True)]), s, flags=re.S)
 
     def other(mm):
         attrs, inner = mm.group(1), mm.group(2)
         href = _attr(attrs, 'href') or ''
         if re.search(r'(?<![\w-])class="[^"]*\blite-ref\b', attrs):
             return mm.group(0)
+        if ctx.link_ids and re.search(r'(?<![\w-])class="xref-cx"', attrs):
+            return mm.group(0)  # 上面剛產生的附錄站內連結（原文的 xref 在上面三步已經全部換掉）
         if href.startswith('#') or not href:
             return inner  # 名詞連結、目錄連結、其他站內錨點 → 純文字（title 不保留）
         label = html_text(inner)
@@ -476,6 +493,8 @@ def rewrite_links(s, ctx):
         return inner + ref
     s = A_RE.sub(other, s)
     s = re.sub(r'(<[a-zA-Z][^>]*?)\sid="[^"]*"', r'\1', s)
+    if ctx.link_ids:
+        s = s.replace('<a class="xref-cx" ', '<a class="xref" ')
     return s
 
 
@@ -583,6 +602,138 @@ FULL_PRINT_CSS = ('\n.toc-pg{margin-left:.5em;color:var(--muted);font-variant-nu
                   'section.part[id^="group-"]>h2{break-after:avoid}'
                   'section.part[id^="group-"] .part-map li{break-inside:avoid}}\n')
 
+# ---------------------------------------------------------------- 批 CX：工作表接在指南書末（附錄）
+
+APPENDIX_TITLE = '附錄：可列印工作表'
+# 附錄自己的幾條：工作表裡各塊放在 <main>（網頁寬度跟指南正文一樣），附錄沒有 main，由 #worksheet 擔任；
+# 封面橫幅那一塊是 <header>，指南的 header 規則會再縮一次寬度，附錄裡讓它填滿 #worksheet。列印時附錄從新的一頁開始。
+# 指南的頁邊界是 16mm／14mm，工作表是 13mm 13mm 15mm；附錄用具名頁（page:worksheet）換回工作表的邊界
+# （批 CX 實測：沒有具名頁時附錄印成 10 頁；有具名頁、但另加附錄標題與說明一行時 7 頁——起步版那一頁的急救卡掉到下一頁；
+#   改成把工作表封面的 h1 換成附錄標題 h2、不另加說明以後，6 頁。）
+APPENDIX_BASE_CSS = ('#worksheet{width:min(100% - 32px,860px);margin-inline:auto}#worksheet>header{width:auto}'
+                     '#worksheet .lite-line-text{flex:1 1 auto;min-width:0}'
+                     '@media print{#worksheet{break-before:page;page-break-before:always;page:worksheet}'
+                     '@page worksheet{size:A4;margin:13mm 13mm 15mm;@bottom-center{content:counter(page);font-size:9pt;color:#666}}'
+                     # 附錄標題 h2 取代工作表封面的 h1：列印時照 h1 的窄橫幅樣式（13pt、和版本日期同一行），起步版那一頁才放得下
+                     '#worksheet header.lite-cover>h2{font-size:13pt;display:inline;margin:0}}')
+
+
+def _split_selectors(sel):
+    out, cur, depth = [], '', 0
+    for ch in sel:
+        if ch == '(':
+            depth += 1
+        elif ch == ')':
+            depth -= 1
+        if ch == ',' and depth == 0:
+            out.append(cur); cur = ''
+            continue
+        cur += ch
+    out.append(cur)
+    return [x.strip() for x in out if x.strip()]
+
+
+def scope_css(css, scope='#worksheet'):
+    """把 LITE_CSS 每一條選擇器前面加上 scope（@media 裡面的也加），拿掉 @page。
+    工作表裡的 body（列印字級、行距）與 main（寬度）在附錄裡是 scope 本身，所以這兩個直接換成 scope。"""
+    css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
+    out = []; i = 0; n = len(css)
+    while True:
+        j = css.find('{', i)
+        if j < 0:
+            break
+        head = css[i:j].strip(); depth = 0; k = j
+        while k < n:
+            if css[k] == '{':
+                depth += 1
+            elif css[k] == '}':
+                depth -= 1
+                if depth == 0:
+                    break
+            k += 1
+        body = css[j + 1:k]
+        if head.startswith('@page'):
+            pass
+        elif head.startswith('@'):
+            out.append('%s{%s}' % (head, scope_css(body, scope)))
+        else:
+            sels = [scope if s in ('body', 'main') else '%s %s' % (scope, s) for s in _split_selectors(head)]
+            out.append('%s{%s}' % (','.join(sels), body.strip()))
+        i = k + 1
+    return '\n'.join(out)
+
+
+# 附錄從偶數頁開始時，列印用 HTML 在附錄前面插這一張（make_pdfs；網頁不會出現）
+APPENDIX_BLANK_PAGE = ('<div class="lite-blank-page" style="break-before:page;page-break-before:always;padding-top:110mm;'
+                       'text-align:center;color:#888;font-size:9pt"><p>本頁刻意留白</p></div>')
+
+
+def _x(target, text):
+    return '<a class="xref" href="#%s">%s</a>' % (target, text)
+
+
+# 批 CX 第 6 條（主線拍板）：附錄在書裡面，不該引自己的全名。短稿與接合文字裡手寫的「完整指南…」「《隔離人性｜理財新手完整指南》…」，
+# 附錄版逐處改成「本書」＋書內連結（工作表那一份不變）。原文寫「第X節」的改成「本書第 <a>N</a> 節」，引標題「T」的改成「本書「<a>T</a>」」。
+# 每一條都要在附錄裡剛好出現一次；改完附錄裡不得再有「完整指南」——短稿改了對不上時 build 會停，要回來改這張表。
+APPENDIX_REWRITES = [
+    ('理由和出處在《隔離人性｜理財新手完整指南》第十四節「把答案寫成一張紙：我的投資計畫」。',
+     '理由和出處在本書第 %s 節「把答案寫成一張紙：我的投資計畫」。' % _x('s11', '14')),
+    ('挑的時候看完整指南「挑產品前三題」',
+     '挑的時候看本書「%s」' % _x('s12-three', '挑產品前三題')),
+    ('回完整指南看：這筆錢五年內要用的，「跌的時候、很久沒漲的時候，記得這幾句」第一條；借錢買的，「年齡、槓桿與退休」第二題裡「已經借錢投資、今天正在跌」那一段。',
+     '回本書看：這筆錢五年內要用的，「%s」第一條；借錢買的，「%s」第二題裡「%s」那一段。'
+     % (_x('s5-remember', '跌的時候、很久沒漲的時候，記得這幾句'), _x('lifecycle', '年齡、槓桿與退休'),
+        _x('lifecycle-q2-today', '已經借錢投資、今天正在跌'))),
+    ('照完整指南「手上已經有一筆錢：一次投入，還是分批？」那一段',
+     '照本書「%s」那一段' % _x('s6-lump', '手上已經有一筆錢：一次投入，還是分批？')),
+    ('手上是以前買的個股：「處理套牢的舊部位」。',
+     '手上是以前買的個股：「%s」。' % _x('s13-loss', '處理套牢的舊部位')),  # 指南自己的急救卡（#s11）也連 #s13-loss
+    ('看完整指南第十四節的大跌演練那一段。', '看本書第 %s 節的大跌演練那一段。' % _x('s11', '14')),
+    ('動手前先答完整指南第十三節的四個問題', '動手前先答本書第 %s 節的四個問題' % _x('s10', '13')),
+    ('比完整指南第八節那把粗尺', '比本書第 %s 節那把粗尺' % _x('s5', '8')),
+    ('（欄位清單在完整指南「用錢前的準備與家庭交接」）', '（欄位清單在本書「%s」）' % _x('withdraw', '用錢前的準備與家庭交接')),
+    ('在完整指南「用錢前的準備與家庭交接」那一節。', '在本書「%s」那一節。' % _x('withdraw', '用錢前的準備與家庭交接')),
+]
+
+
+def appendix_rewrite(h):
+    for old, new in APPENDIX_REWRITES:
+        k = h.count(old)
+        if k != 1:
+            raise BuildError('附錄改寫（APPENDIX_REWRITES）對不上：%r 在附錄裡出現 %d 次（要剛好 1 次）' % (old[:40], k))
+        h = h.replace(old, new, 1)
+    # .lite-line 是 flex：行內多了 <a> 時，連結會自成一個 flex 項目、被拆到下一行。附錄裡有連結、沒有手寫格的行，
+    # 整行內容包進 span.lite-line-text，讓連結留在句子裡（工作表那一份沒有連結，不包）
+    h = re.sub(r'<div class="lite-line">((?:(?!</div>|lite-blank).)*?<a\b(?:(?!</div>|lite-blank).)*?)</div>',
+               r'<div class="lite-line"><span class="lite-line-text">\1</span></div>', h, flags=re.S)
+    left = [mm.start() for mm in re.finditer('完整指南', html_text(h))]
+    if left:
+        t = html_text(h)
+        raise BuildError('附錄裡還有「完整指南」%d 處，要補進 APPENDIX_REWRITES：%s' % (
+            len(left), '；'.join(t[max(0, i - 20):i + 20] for i in left[:3])))
+    return h
+
+
+def appendix_block(chapter_html):
+    """附錄整塊（含 marker）：工作表各塊（和 lite/index.html 同來源、同轉換，只有節名改成站內連結、「完整指南」改成「本書」）＋工作表專屬 CSS。"""
+    css = APPENDIX_BASE_CSS + '\n' + scope_css(LITE_CSS)
+    chapter_html = [appendix_rewrite('\n'.join(chapter_html))]
+    return ('%s<section class="worksheet-appendix" id="worksheet" data-generated="build_lite"><style>\n%s\n</style>'
+            '\n%s\n</section>%s'
+            % (GT.APPENDIX_START, css, '\n'.join(chapter_html), GT.APPENDIX_END))
+
+
+def put_appendix(h, block):
+    """附錄放回指南：有空殼（上一次 build 留下的位置，strip_appendix 換成的）就原地換掉；第一次沒有，就放在 </footer> 之後。"""
+    k = h.count(GT.APPENDIX_SHELL)
+    if k > 1:
+        raise BuildError('指南裡有 %d 個附錄位置（%s），要剛好 0 或 1 個' % (k, GT.APPENDIX_SHELL))
+    if k == 1:
+        return h.replace(GT.APPENDIX_SHELL, block, 1)
+    if h.count('</footer>') != 1:
+        raise BuildError('指南裡的 </footer> 有 %d 個，附錄第一次放不進去（要剛好 1 個）' % h.count('</footer>'))
+    return h.replace('</footer>', '</footer>\n' + block, 1)
+
 
 def section_names(dom):
     names = {}
@@ -636,12 +787,9 @@ def chapter_heading(ch):
     return ('%s %s' % (lab, ch['title'])).strip()
 
 
-def build(m, alt_cache=None):
-    P = m['_paths']
-    src_html = read(P['source'])
-    dom = Dom(src_html)
-    names = section_names(dom)
-    sec_of = section_of_ids(dom)
+def render_chapters(m, dom, names, sec_of, link_ids=False):
+    """依 manifest 把每一塊轉成 HTML。回傳 (每塊 HTML 清單, used_sections, report)。
+    link_ids=True 是接在指南書末的附錄版（批 CX）：來源、轉換都一樣，只有「完整指南〈節名〉」改成站內連結。"""
     errors = []
     used_alts = {}
     used_sections = {}  # section id -> [labels]
@@ -653,7 +801,7 @@ def build(m, alt_cache=None):
     report = {'chapters': []}
 
     for ch in m['chapters']:
-        ctx = ChapterCtx(ch['id'], names, sec_of)
+        ctx = ChapterCtx(ch['id'], names, sec_of, link_ids=link_ids)
         parts, actions, verify = [], [], []
         pending_urls = []
         alts_done = set()
@@ -769,9 +917,15 @@ def build(m, alt_cache=None):
             body += '\n' + v
 
         if ch.get('kind') == 'cover':
-            html_ch = ('<header class="lite-cover lite-ch" id="%s">\n<div class="eyebrow">%s</div>\n<h1>%s</h1>\n'
-                       '<p class="lite-version">%s／%s</p>\n%s\n</header>') % (
-                esc(ch['id']), esc(m.get('eyebrow', '')), esc(ch['title']), esc(m['version']), esc(m['date']), body)
+            # 批 CX：附錄版的封面橫幅不再有書名 h1，換成附錄標題 h2（PDF 書籤只剩第 2 層「附錄：可列印工作表」一條）
+            eyebrow = '<div class="eyebrow">%s</div>' % esc(m.get('eyebrow', ''))
+            version = '<p class="lite-version">%s／%s</p>' % (esc(m['version']), esc(m['date']))
+            if link_ids:
+                # 附錄版：附錄標題在第一行（後面接版本日期，列印時兩者同一行），眉標放在它下面（批 CX 主線拍板）
+                top = '<h2>%s</h2>\n%s\n%s' % (esc(APPENDIX_TITLE), version, eyebrow)
+            else:
+                top = '%s\n<h1>%s</h1>\n%s' % (eyebrow, esc(ch['title']), version)
+            html_ch = '<header class="lite-cover lite-ch" id="%s">\n%s\n%s\n</header>' % (esc(ch['id']), top, body)
         else:
             cls = ['lite-ch']
             if ch.get('one_page'): cls.append('lite-onepage')
@@ -790,6 +944,18 @@ def build(m, alt_cache=None):
 
     if errors:
         raise BuildError('\n'.join(errors))
+    return chapter_html, used_sections, report
+
+
+def build(m, alt_cache=None):
+    P = m['_paths']
+    # 批 CX：guide 書末的附錄是上一次 build 產生的複本；抽區塊前先把 marker 之間拿掉（換成空殼），不讓附錄餵自己
+    src_html = GT.strip_appendix(read(P['source']))
+    dom = Dom(src_html)
+    names = section_names(dom)
+    sec_of = section_of_ids(dom)
+    chapter_html, used_sections, report = render_chapters(m, dom, names, sec_of)
+    app_chapters = render_chapters(m, dom, names, sec_of, link_ids=True)[0]
 
     style = re.search(r'<style>(.*?)</style>', src_html, flags=re.S)
     css = (style.group(1) if style else '') + LITE_CSS
@@ -820,6 +986,10 @@ def build(m, alt_cache=None):
             inserts.append((lede.end, line))
     for pos, line in sorted(inserts, key=lambda x: -x[0]):
         full = full[:pos] + line + full[pos:]
+    # 批 CX：工作表接在指南書末（</footer> 之後）；report['guide'] 是要寫回 guide/index.html 的版本（main 只在正式 manifest 寫回）
+    block = appendix_block(app_chapters)
+    full = put_appendix(full, block)
+    report['guide'] = put_appendix(src_html, block)
     report['lede_links'] = used_sections
     return lite, full, report
 
@@ -1031,6 +1201,16 @@ def make_pdfs(m, lite, full):
         if not new:
             break
         flows |= new
+    # 批 CX：書末附錄要從奇數頁開始（雙面印時三張紙的正反面才對得上）。Chrome 不支援 break-before:right（2026-09-29 實測，
+    # 當成 page 處理），所以這裡量附錄起頁：偶數頁就在附錄前面插一張「本頁刻意留白」（只進列印用 HTML）再印一次。
+    appx_blank = False
+    if GT.APPENDIX_START in fpx and fpages.get('worksheet', 1) % 2 == 0:
+        fpx = fpx.replace(GT.APPENDIX_START, APPENDIX_BLANK_PAGE + GT.APPENDIX_START, 1)
+        fpages, fn_pages, np_ = print_with_toc(fpx, os.path.join(pdir, 'print-full.html'), full_pdf,
+                                               r'(<span class="toc-pg" data-for="([^"]+)">)[^<]*(</span>)', 1)
+        fpasses += np_; appx_blank = True
+        if fpages.get('worksheet', 0) % 2 != 1:
+            raise BuildError('書末附錄插了留白頁以後仍從第 %s 頁（偶數頁）開始' % fpages.get('worksheet'))
     fix_full_outline(full_pdf, full)  # fix-r3：書籤節號後補空格
     ftitle = re.search(r'<title>(.*?)</title>', full, flags=re.S)
     set_meta(full_pdf, '%s %s' % (html_text(ftitle.group(1)) if ftitle else m['book_title'], m['version']), m['author'], '%s／%s' % (m['version'], m['date']))
@@ -1040,6 +1220,7 @@ def make_pdfs(m, lite, full):
     shutil.copyfile(rp(P['full_html']), os.path.join(edir, fn + '.html'))
     return {'lite_pdf': lite_pdf, 'full_pdf': full_pdf, 'lite_pages': ln_pages, 'full_pages': fn_pages,
             'lite_passes': lpasses, 'full_passes': fpasses, 'full_flows': sorted(flows), 'full_bytes': full_bytes,
+            'appendix_blank': appx_blank,
             'lite_html_export': os.path.join(edir, ln + '.html'), 'full_html_export': os.path.join(edir, fn + '.html'),
             'lite_print_html': os.path.join(pdir, 'print-lite.html'), 'full_print_html': os.path.join(pdir, 'print-full.html')}
 
@@ -1150,6 +1331,10 @@ def main(argv):
     except BuildError as e:
         print('BUILD FAILED'); print(e); return 1
     P = m['_paths']
+    # 批 CX：附錄寫回指南（只有正式 manifest 寫回；內容沒變就不寫，第二次 build 指南逐 byte 不變）
+    if m['_is_main'] and report['guide'] != read(P['source']):
+        write(P['source'], report['guide'])
+        print('wrote', P['source'], '（書末附錄：可列印工作表）')
     write(P['lite_html'], lite); write(P['full_html'], full)
     print('wrote', P['lite_html'], '(%d bytes)' % len(lite.encode('utf-8')))
     print('wrote', P['full_html'], '(%d bytes)' % len(full.encode('utf-8')))
@@ -1168,6 +1353,8 @@ def main(argv):
             print('PDF FAILED'); print(e); return 1
         print('wrote', os.path.relpath(pdf['lite_pdf'], ROOT), '(%d 頁，印 %d 次)' % (pdf['lite_pages'], pdf['lite_passes']))
         print('wrote', os.path.relpath(pdf['full_pdf'], ROOT), '(%d 頁，印 %d 次)' % (pdf['full_pages'], pdf['full_passes']))
+        if pdf.get('appendix_blank'):
+            print('  書末附錄原本從偶數頁開始：列印時在附錄前面插了一張留白頁')
         if pdf['full_flows']:
             print('  完整版節尾近乎空白、下一節接著排：%s' % '、'.join(pdf['full_flows']))
     try:
