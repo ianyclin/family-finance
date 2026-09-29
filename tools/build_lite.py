@@ -1114,13 +1114,20 @@ def shrink_pdf_images(pdf_path, dpi_threshold=160, dpi_target=150, quality=80):
             if not rects:
                 continue
             inch = max(r.width for r in rects) / 72.0
-            if inch <= 0 or w / inch <= dpi_threshold:
+            if inch <= 0:
                 continue
+            if w / inch <= dpi_threshold:
+                # 批 CY：書封整頁印（約 147dpi）不必縮，但 Chrome 存成無損 Flate（約 2.9MB）；已經是 JPEG 的不動，
+                # 其餘照原尺寸重壓成 JPEG。
+                if x[8] == 'DCTDecode':
+                    continue
+                tw, th = w, h
+            else:
+                tw = max(1, int(round(inch * dpi_target)))
+                th = max(1, int(round(h * tw / float(w))))
             pix = fitz.Pixmap(d, xref)
             if pix.alpha or pix.n != 3:
                 pix = fitz.Pixmap(fitz.csRGB, pix)
-            tw = max(1, int(round(inch * dpi_target)))
-            th = max(1, int(round(h * tw / float(w))))
             pg.replace_image(xref, stream=fitz.Pixmap(pix, tw, th, None).tobytes('jpeg', jpg_quality=quality))
             # replace_image 會在這一頁的 Resources/XObject 另外留一個 fzImgN 鍵，指向同一份新影像物件，
             # 內容串流沒有用到它；把鍵設成 null，那個物件就沒人引用，存檔時被清掉，不會多存一份。
