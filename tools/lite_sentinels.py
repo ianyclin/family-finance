@@ -745,14 +745,15 @@ def run(m, pdf_info=None, build_report=None):
 
     # 8. 版本號
     stamp = '%s／%s' % (m['version'], m['date'])
-    lc = B.select(ldom, 'header.lite-cover'); fc = B.select(fdom, 'header.cover')
+    # 批 DE：完整版的版本行從書名頁移到頁尾（footer 裡一行 p.small，手寫，不由 build 產生），這裡比對它＝manifest
+    lc = B.select(ldom, 'header.lite-cover'); ff = B.select(fdom, 'footer p.small')
     vbad = False
     if not lc or stamp not in ldom.text(lc[0]):
         R.fail('version', '實作版封面沒有「%s」' % stamp); vbad = True
-    if not fc or stamp not in fdom.text(fc[0]):
-        R.fail('version', '完整版封面沒有「%s」' % stamp); vbad = True
+    if not any(fdom.text(n).strip() == stamp for n in ff):
+        R.fail('version', '完整版頁尾沒有一行 p.small 剛好是「%s」' % stamp); vbad = True
     if not vbad:
-        R.ok('version', '兩份封面都是「%s」' % stamp)
+        R.ok('version', '工作表封面與完整版頁尾都是「%s」' % stamp)
 
     # 9. manifest 的節 id
     mbad = 0
