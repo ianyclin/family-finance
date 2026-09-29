@@ -464,10 +464,11 @@ def rewrite_links(s, ctx):
 
     def cite(items):
         """items＝[(名, 節 id)]。工作表：完整指南〈名〉、〈名〉；附錄（link_ids）而且每一個都知道節 id：
-        本書〈<a class="xref" href="#節id">名</a>〉（書名號留著，句子才斷得開；附錄在書裡面，稱「本書」不稱「完整指南」；批 CX 主線拍板）。"""
+        本書「<a class="xref" href="#節id">名</a>」（主線 2026-09-29 拍板：附錄在書內引自己的節用「」，
+        獨立工作表引另一份文件用〈〉）。"""
         if ctx.link_ids and all(sec for _, sec in items):
             # 先用暫時的 class（xref-cx），免得下一步的 xref 正規式把剛產生的連結再改寫一次；函式最後才換回 xref
-            return '本書' + '、'.join('〈<a class="xref-cx" href="#%s">%s</a>〉' % (esc(sec), n) for n, sec in items)
+            return '本書' + '、'.join('「<a class="xref-cx" href="#%s">%s</a>」' % (esc(sec), n) for n, sec in items)
         return '完整指南' + '、'.join('〈%s〉' % n for n, _ in items)
 
     def grp(mm):
