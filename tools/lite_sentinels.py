@@ -21,6 +21,8 @@ SKIPPABLE = {'version', 'unused_marks', 'facts', 'cases', 'pages'}
 #   「每塊一頁」「每塊要有來源」「不得出現章號與附錄」三條沒有放寬，奇偶成對那條從只管前兩頁擴到管每一張紙。
 WORKSHEET_PAGES_MIN = 5
 WORKSHEET_PAGES_MAX = 6
+# 批 DF-2：版本字樣的形狀（「v7.0／2026-09-29」「v7.0 預覽／2026-09-27」「v6.3.1／…」都算）
+VERSION_LEAK_RE = re.compile(r'v\d+\.\d+[^<]{0,6}／\d{4}-\d{2}-\d{2}')
 
 
 def worksheet_mode(m):
@@ -754,6 +756,18 @@ def run(m, pdf_info=None, build_report=None):
         R.fail('version', '完整版頁尾沒有一行 p.small 剛好是「%s」' % stamp); vbad = True
     if not vbad:
         R.ok('version', '工作表封面與完整版頁尾都是「%s」' % stamp)
+    # 批 DF-2：完整版其他地方不得再有版本字樣（批 DE 把書名頁那一行拿掉，這條防它被塞回來或留下舊版號）。
+    # 查原始 HTML，拿掉書末附錄 marker 區（工作表封面有自己的版本行）和頁尾那一行 p.small（上面已比對＝manifest）。
+    body = B.GT.APPENDIX_RE.sub('', full)
+    fm = re.search(r'<footer\b.*?</footer>', body, flags=re.S)
+    if fm:
+        foot = fm.group(0).replace('<p class="small">%s</p>' % stamp, '', 1)
+        body = body[:fm.start()] + foot + body[fm.end():]
+    leaks = [mm.group(0) for mm in VERSION_LEAK_RE.finditer(body)]
+    if leaks:
+        R.fail('version', '完整版正文（不含附錄與頁尾那一行）還有版本字樣 %d 處：%s' % (len(leaks), '、'.join(leaks[:5])))
+    else:
+        R.ok('version', '完整版正文（不含附錄與頁尾那一行）沒有其他版本字樣')
 
     # 9. manifest 的節 id
     mbad = 0

@@ -673,10 +673,11 @@ def _x(target, text):
     return '<a class="xref" href="#%s">%s</a>' % (target, text)
 
 
-def _xn(sid):
+def _xn(sid, href=None):
     """批 DF：附錄改寫表裡的節號不寫死。這裡只放一個佔位，build 時換成
-    <a class="xref" href="#sid">N</a>，N＝指南裡 section#sid 的 h2 span.num（section_nums）；重編號時自動跟。"""
-    return '\x00XN:%s\x00' % sid
+    <a class="xref" href="#sid">N</a>，N＝指南裡 section#sid 的 h2 span.num（section_nums）；重編號時自動跟。
+    批 DF-2：href 可另給（節號仍讀 section#sid，連結指到該節裡的 #href），例如 _xn('s10', href='s10-cooling')。"""
+    return '\x00XN:%s:%s\x00' % (sid, href or sid)
 
 
 # 批 CX 第 6 條（主線拍板）：附錄在書裡面，不該引自己的全名。短稿與接合文字裡手寫的「完整指南…」「《隔離人性｜理財新手完整指南》…」，
@@ -702,7 +703,8 @@ APPENDIX_REWRITES = [
     ('（欄位清單在完整指南「用錢前的準備與家庭交接」）', '（欄位清單在本書「%s」）' % _x('withdraw', '用錢前的準備與家庭交接')),
     ('在完整指南「用錢前的準備與家庭交接」那一節。', '在本書「%s」那一節。' % _x('withdraw', '用錢前的準備與家庭交接')),
     # 批 DF：計畫表 F 區的節號在附錄裡改成書內連結（獨立工作表仍是國字「第十三節」）
-    ('（先答第十三節四題）', '（先答第 %s 節四題）' % _xn('s10')),
+    # 批 DF-2：連到 #s10-cooling（四題所在），和完整版一頁空白版同一句同一個 href；節號仍讀 s10
+    ('（先答第十三節四題）', '（先答第 %s 節四題）' % _xn('s10', href='s10-cooling')),
 ]
 
 
@@ -720,11 +722,11 @@ def section_nums(dom):
 
 def _resolve_nums(s, nums):
     def one(mm):
-        sid = mm.group(1)
+        sid, href = mm.group(1), mm.group(2)
         if not nums.get(sid):
             raise BuildError('附錄改寫（APPENDIX_REWRITES）要的節號：指南裡找不到 section#%s 的 h2 span.num' % sid)
-        return _x(sid, nums[sid])
-    return re.sub(r'\x00XN:([\w-]+)\x00', one, s)
+        return _x(href, nums[sid])
+    return re.sub(r'\x00XN:([\w-]+):([\w-]+)\x00', one, s)
 
 
 def appendix_rewrite(h, nums):

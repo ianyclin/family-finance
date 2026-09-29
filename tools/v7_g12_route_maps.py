@@ -168,8 +168,14 @@ def _scopes(h):
 # （s13-loss 是「怕賠（12 題）」那個 h3，「處理套牢的舊部位」是底下第 4 題）。取 2000，留約 900 字
 # （兩三題問答）的餘量；哪天超過，先回頭看錨點是不是還指對，不要直接把數字調大。
 # 批 DF：兩個分岔改指得更準——#s5-fiveyear（「記得這幾句」第一條那個 li）、#s13-stuck（「處理套牢的舊部位」那一題的 li）。
-# 目的地字寫成「X」第一條的（#s5-fiveyear），X 是那張卡的標題、在錨點前面，「往後 ANCHOR_WINDOW 字」量不到；
-# 這一種改查得更嚴：錨點元素是 <li>、是它那個清單的第一項，而且清單緊接在一個標題後面（中間沒有可見字），標題＝X。
+# 批 DF-2（裁判後）：分岔分兩種，各只有一條路能過，窗口不再當後備——
+#   - 目的地字寫成「X」第一條的（#s5-fiveyear）：X 是那張卡的標題、在錨點前面，窗口量不到，所以只認
+#     _first_item_under：錨點元素是 <li>、是它那個清單的第一項，清單緊接在一個標題後面（中間沒有可見字），標題＝X。
+#     錨點放到卡前面的段落、或放到第二條，都過不了。
+#   - 其他分岔：往後 ANCHOR_WINDOW 字內要有最後一個片段，而且錨點元素本身要對到那一段——
+#     錨點元素的可見文字以最後一個片段開頭（li 是那一題本身、p 以粗體題目開頭），或錨點是標題／段落
+#     （h1–h6、p）而最後一個片段出現在它自己的字裡。只看窗口時，錨點放在前一題也會過（前一題後面就是這一題）；
+#     多這一條，錨點就得是那一題自己。
 ANCHOR_WINDOW = 2000
 
 
@@ -205,6 +211,35 @@ def _first_item_under(h, aid, title):
     return _visible(hd[-1].group(2)).strip() == title and not _visible(between).strip()
 
 
+def _anchor_element(h, aid):
+    """批 DF-2：(錨點元素的標籤名, 錨點元素的可見文字)；h 已經拿掉 figure.chart。
+    從 id 所在的開標籤往後數同名標籤的開與關（巢狀的 li、ol 也算對），取到配對的關標籤為止。找不到回 None。"""
+    m = re.search(r'(?<![\w-])id="%s"' % re.escape(aid), h)
+    if not m:
+        return None
+    i = h.rfind('<', 0, m.start())
+    t = re.match(r'<([a-zA-Z][\w-]*)\b[^>]*>', h[i:])
+    if not t:
+        return None
+    tag = t.group(1).lower()
+    depth, pos = 1, i + t.end()
+    pat = re.compile(r'<(/?)%s\b[^>]*>' % re.escape(tag), flags=re.I)
+    for mm in pat.finditer(h, pos):
+        depth += -1 if mm.group(1) else 1
+        if depth == 0:
+            return tag, _visible(h[pos:mm.start()]).strip()
+    return None
+
+
+def _anchor_is_the_piece(h, aid, piece):
+    """批 DF-2：錨點元素本身就是 piece 那一段：可見文字以 piece 開頭，或錨點是標題／段落而 piece 在它自己的字裡。"""
+    el = _anchor_element(h, aid)
+    if el is None:
+        return False
+    tag, txt = el
+    return txt.startswith(piece) or (re.fullmatch(r'h[1-6]|p', tag) is not None and piece in txt)
+
+
 def _branch_points_ok(h, ids):
     """圖一每個分岔：錨點有沒有指到目的地字寫的那一段。回缺漏清單。"""
     miss = []
@@ -221,10 +256,20 @@ def _branch_points_ok(h, ids):
         for p in pieces:
             if p not in sec:
                 miss.append('panic-map 分岔「%s」的錨點 #%s 所在的那一節沒有「%s」' % (cond, a, p))
-        if pieces[-1] in sec and pieces[-1] not in win \
-                and not (dest.endswith('」第一條') and _first_item_under(h, a, pieces[-1])):
+        if pieces[-1] not in sec:
+            continue            # 上面已經報「那一節沒有」
+        if dest.endswith('」第一條'):
+            # 批 DF-2：「X」第一條只認 _first_item_under，窗口不當後備
+            if not _first_item_under(h, a, pieces[-1]):
+                miss.append('panic-map 分岔「%s」的錨點 #%s 不是「%s」標題下面清單的第一條'
+                            % (cond, a, pieces[-1]))
+            continue
+        if pieces[-1] not in win:
             miss.append('panic-map 分岔「%s」的錨點 #%s 往後 %d 字內沒有「%s」'
                         % (cond, a, ANCHOR_WINDOW, pieces[-1]))
+        elif not _anchor_is_the_piece(h, a, pieces[-1]):
+            miss.append('panic-map 分岔「%s」的錨點 #%s 本身不是「%s」那一段（可見文字不以它開頭，也不是含它的標題／段落）'
+                        % (cond, a, pieces[-1]))
     return miss
 
 
