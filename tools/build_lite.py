@@ -673,36 +673,66 @@ def _x(target, text):
     return '<a class="xref" href="#%s">%s</a>' % (target, text)
 
 
+def _xn(sid):
+    """批 DF：附錄改寫表裡的節號不寫死。這裡只放一個佔位，build 時換成
+    <a class="xref" href="#sid">N</a>，N＝指南裡 section#sid 的 h2 span.num（section_nums）；重編號時自動跟。"""
+    return '\x00XN:%s\x00' % sid
+
+
 # 批 CX 第 6 條（主線拍板）：附錄在書裡面，不該引自己的全名。短稿與接合文字裡手寫的「完整指南…」「《隔離人性｜理財新手完整指南》…」，
 # 附錄版逐處改成「本書」＋書內連結（工作表那一份不變）。原文寫「第X節」的改成「本書第 <a>N</a> 節」，引標題「T」的改成「本書「<a>T</a>」」。
 # 每一條都要在附錄裡剛好出現一次；改完附錄裡不得再有「完整指南」——短稿改了對不上時 build 會停，要回來改這張表。
+# 批 DF：「第 N 節」的 N 用 _xn(節 id) 從指南讀（左邊的舊字是工作表短稿自己的字，照舊寫死）。
 APPENDIX_REWRITES = [
     ('理由和出處在《隔離人性｜理財新手完整指南》第十四節「把答案寫成一張紙：我的投資計畫」。',
-     '理由和出處在本書第 %s 節「把答案寫成一張紙：我的投資計畫」。' % _x('s11', '14')),
+     '理由和出處在本書第 %s 節「把答案寫成一張紙：我的投資計畫」。' % _xn('s11')),
     ('挑的時候看完整指南「挑產品前三題」',
      '挑的時候看本書「%s」' % _x('s12-three', '挑產品前三題')),
     ('回完整指南看：這筆錢五年內要用的，「跌的時候、很久沒漲的時候，記得這幾句」第一條；借錢買的，「年齡、槓桿與退休」第二題裡「已經借錢投資、今天正在跌」那一段。',
      '回本書看：這筆錢五年內要用的，「%s」第一條；借錢買的，「%s」第二題裡「%s」那一段。'
-     % (_x('s5-remember', '跌的時候、很久沒漲的時候，記得這幾句'), _x('lifecycle', '年齡、槓桿與退休'),
+     % (_x('s5-fiveyear', '跌的時候、很久沒漲的時候，記得這幾句'), _x('lifecycle', '年齡、槓桿與退休'),
         _x('lifecycle-q2-today', '已經借錢投資、今天正在跌'))),
     ('照完整指南「手上已經有一筆錢：一次投入，還是分批？」那一段',
      '照本書「%s」那一段' % _x('s6-lump', '手上已經有一筆錢：一次投入，還是分批？')),
     ('手上是以前買的個股：「處理套牢的舊部位」。',
-     '手上是以前買的個股：「%s」。' % _x('s13-loss', '處理套牢的舊部位')),  # 指南自己的急救卡（#s11）也連 #s13-loss
-    ('看完整指南第十四節的大跌演練那一段。', '看本書第 %s 節的大跌演練那一段。' % _x('s11', '14')),
-    ('動手前先答完整指南第十三節的四個問題', '動手前先答本書第 %s 節的四個問題' % _x('s10', '13')),
-    ('比完整指南第八節那把粗尺', '比本書第 %s 節那把粗尺' % _x('s5', '8')),
+     '手上是以前買的個股：「%s」。' % _x('s13-stuck', '處理套牢的舊部位')),  # 指南自己的急救卡（#s11）也連 #s13-stuck（批 DF）
+    ('看完整指南第十四節的大跌演練那一段。', '看本書第 %s 節的大跌演練那一段。' % _xn('s11')),
+    ('動手前先答完整指南第十三節的四個問題', '動手前先答本書第 %s 節的四個問題' % _xn('s10')),
+    ('比完整指南第八節那把粗尺', '比本書第 %s 節那把粗尺' % _xn('s5')),
     ('（欄位清單在完整指南「用錢前的準備與家庭交接」）', '（欄位清單在本書「%s」）' % _x('withdraw', '用錢前的準備與家庭交接')),
     ('在完整指南「用錢前的準備與家庭交接」那一節。', '在本書「%s」那一節。' % _x('withdraw', '用錢前的準備與家庭交接')),
+    # 批 DF：計畫表 F 區的節號在附錄裡改成書內連結（獨立工作表仍是國字「第十三節」）
+    ('（先答第十三節四題）', '（先答第 %s 節四題）' % _xn('s10')),
 ]
 
 
-def appendix_rewrite(h):
+def section_nums(dom):
+    """{節 id: 顯示節號}：section#id 的 h2 裡 span.num 的字（批 DF；和 lite_sentinels._section_num 同一個定義）。"""
+    out = {}
+    for n in dom.nodes:
+        if n.tag == 'section' and n.attrs.get('id'):
+            h2 = next((c for c in n.children if c.tag == 'h2'), None)
+            sp = next((c for c in h2.children if c.tag == 'span' and 'num' in c.classes()), None) if h2 is not None else None
+            if sp is not None:
+                out[n.attrs['id']] = html_text(dom.inner(sp)).strip()
+    return out
+
+
+def _resolve_nums(s, nums):
+    def one(mm):
+        sid = mm.group(1)
+        if not nums.get(sid):
+            raise BuildError('附錄改寫（APPENDIX_REWRITES）要的節號：指南裡找不到 section#%s 的 h2 span.num' % sid)
+        return _x(sid, nums[sid])
+    return re.sub(r'\x00XN:([\w-]+)\x00', one, s)
+
+
+def appendix_rewrite(h, nums):
     for old, new in APPENDIX_REWRITES:
         k = h.count(old)
         if k != 1:
             raise BuildError('附錄改寫（APPENDIX_REWRITES）對不上：%r 在附錄裡出現 %d 次（要剛好 1 次）' % (old[:40], k))
-        h = h.replace(old, new, 1)
+        h = h.replace(old, _resolve_nums(new, nums), 1)
     # .lite-line 是 flex：行內多了 <a> 時，連結會自成一個 flex 項目、被拆到下一行。附錄裡有連結、沒有手寫格的行，
     # 整行內容包進 span.lite-line-text，讓連結留在句子裡（工作表那一份沒有連結，不包）
     h = re.sub(r'<div class="lite-line">((?:(?!</div>|lite-blank).)*?<a\b(?:(?!</div>|lite-blank).)*?)</div>',
@@ -715,10 +745,11 @@ def appendix_rewrite(h):
     return h
 
 
-def appendix_block(chapter_html):
-    """附錄整塊（含 marker）：工作表各塊（和 lite/index.html 同來源、同轉換，只有節名改成站內連結、「完整指南」改成「本書」）＋工作表專屬 CSS。"""
+def appendix_block(chapter_html, nums):
+    """附錄整塊（含 marker）：工作表各塊（和 lite/index.html 同來源、同轉換，只有節名改成站內連結、「完整指南」改成「本書」）＋工作表專屬 CSS。
+    nums＝section_nums(指南)，附錄改寫表裡的節號從這裡讀（批 DF）。"""
     css = APPENDIX_BASE_CSS + '\n' + scope_css(LITE_CSS)
-    chapter_html = [appendix_rewrite('\n'.join(chapter_html))]
+    chapter_html = [appendix_rewrite('\n'.join(chapter_html), nums)]
     return ('%s<section class="worksheet-appendix" id="worksheet" data-generated="build_lite"><style>\n%s\n</style>'
             '\n%s\n</section>%s'
             % (GT.APPENDIX_START, css, '\n'.join(chapter_html), GT.APPENDIX_END))
@@ -988,7 +1019,7 @@ def build(m, alt_cache=None):
     for pos, line in sorted(inserts, key=lambda x: -x[0]):
         full = full[:pos] + line + full[pos:]
     # 批 CX：工作表接在指南書末（</footer> 之後）；report['guide'] 是要寫回 guide/index.html 的版本（main 只在正式 manifest 寫回）
-    block = appendix_block(app_chapters)
+    block = appendix_block(app_chapters, section_nums(dom))
     full = put_appendix(full, block)
     report['guide'] = put_appendix(src_html, block)
     report['lede_links'] = used_sections
@@ -1160,7 +1191,7 @@ def shrink_pdf_images(pdf_path, dpi_threshold=160, dpi_target=150, quality=80):
 
 def fix_full_outline(pdf_path, full_html):
     """完整版書籤：Chrome 把 h2 的節號 span 和節名黏在一起（「1投資賺的是誰的錢？」），改成「1 投資賺的是誰的錢？」。
-    只改和原文 h2（span.num＋節名）完全對得上的書籤。回傳改了幾條。"""
+    只改和原文 h2（span.num＋節名）完全對得上的書籤。另外把書末附錄的書籤降一層、收在附錄標題底下（批 DF）。回傳改了幾條。"""
     import fitz
     want = {}
     for num, rest in re.findall(r'<h2\b[^>]*>\s*<span\b[^>]*class="num"[^>]*>(.*?)</span>(.*?)</h2>', full_html, flags=re.S):
@@ -1174,6 +1205,20 @@ def fix_full_outline(pdf_path, full_html):
         for k, v in want.items():
             if re.sub(r'\s+', '', k) == key and e[1] != v:
                 e[1] = v; changed += 1; break
+    # 批 DF：書末附錄的書籤收在「附錄：可列印工作表」底下。Chrome 產的書籤裡，附錄標題和後面五張表的標題同一層
+    # （都是 h2）；從附錄標題之後第一條同層的書籤起，到附錄結束（遇到比附錄標題更高一層的書籤就停；附錄在全書最後），
+    # 每一條降一層。附錄標題自己原本就有的下一層（急救卡那一條）已經在它底下，不再降——再降會從第 2 層跳到第 4 層，
+    # PDF 書籤不允許跳層。其他書籤層級不動、總數不變。
+    ttl = [i for i, e in enumerate(toc) if e[1] == APPENDIX_TITLE]
+    if len(ttl) == 1:
+        lv = toc[ttl[0]][0]; on = False
+        for e in toc[ttl[0] + 1:]:
+            if e[0] < lv:
+                break
+            if e[0] == lv:
+                on = True
+            if on:
+                e[0] += 1; changed += 1
     if changed:
         d.set_toc(toc)
         tmp = pdf_path + '.tmp'

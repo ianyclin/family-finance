@@ -384,10 +384,10 @@ cp guide/index.html guide/index.vX.backup.html        # 1. 大檔先備份（*.b
 # 2. 只改 guide/index.html（Edit，或寫一次性 python 做整段替換；不要整檔 Write）
 python3 tools/essay_charts.py --guide                 # 3. 只有動到圖才跑，一定要帶 --guide
 BASE=wip/v63-review/_baseline_v631.html               # 4. v7 的四個檢查
-python3 tools/v7_check.py numbers $BASE guide/index.html --allow-file wip/v63-review/numbers-allow-round17.json
+python3 tools/v7_check.py numbers $BASE guide/index.html --allow-file wip/v63-review/numbers-allow-round60.json   # 現行放行檔（2026-09-29 是 round60）
 # numbers 一定要跑兩次：只對 v6.3.1 會假綠（這一批刪掉的數字，可能剛好被前幾輪補上的同一個數字抵掉）
 git show <這一批開工前的 commit>:guide/index.html > /tmp/base-prev.html
-python3 tools/v7_check.py numbers /tmp/base-prev.html guide/index.html --allow-file wip/v63-review/numbers-allow-round17.json   # 兩個都 LOST 0 才算過
+python3 tools/v7_check.py numbers /tmp/base-prev.html guide/index.html --allow-file wip/v63-review/numbers-allow-round60.json   # 現行放行檔（2026-09-29 是 round60）；兩個都 LOST 0 才算過
 python3 tools/v7_check.py anchors $BASE guide/index.html
 python3 tools/v7_check.py budget guide/index.html wip/v63-review/budget-v7.json
 python3 tools/v7_check.py planstep guide/index.html

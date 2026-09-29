@@ -13,7 +13,7 @@ script，再逐行比對，缺就 raise。比對分兩層：
     1. 全書可見文字裡找得到（規格的底線，急救卡在摺疊裡也算）；
     2. 找得到的範圍再收窄到「這句話該在的地方」：急救卡的字要在急救卡那張 div.data-card 裡，
        頂端那句要是某個指到 #plan-panic 的連結文字，各站要在各自那一節。
-另外斷言每個分岔指到的錨點（#s5-remember 等）還在，而且指對（見 ANCHOR_WINDOW 上面的說明）。
+另外斷言每個分岔指到的錨點（#s5-fiveyear 等）還在，而且指對（見 ANCHOR_WINDOW 上面的說明）。
 箭頭上不寫字；SVG 裡不放 xref、不寫「第 N 節」，節號只在 figcaption 用 xref。
 
 calc_core.py 呼叫 missing_labels() 把缺的字接進「引用缺漏」（不在 calc-results.json 另開鍵）。
@@ -40,7 +40,7 @@ PANIC_BRANCHES = [
     ('這筆錢五年內要用的',
      ['「跌的時候、很久沒漲的時候，記得這幾句」第一條'],
      ['「跌的時候、很久沒漲的時候，記得這幾句」第一條'],
-     's5-remember'),
+     's5-fiveyear'),
     ('借錢買的',
      ['「年齡、槓桿與退休」的「已經借錢投資、今天正在跌」'],
      ['「年齡、槓桿與退休」的「已經借錢投資、今天正在跌」'],
@@ -48,7 +48,7 @@ PANIC_BRANCHES = [
     ('手上是以前買的個股',
      ['「處理套牢的舊部位」'],
      ['「處理套牢的舊部位」'],
-     's13-loss'),
+     's13-stuck'),
 ]
 PANIC_MAIN = '照這本書做長期、分散投資的'
 PANIC_MAIN_D = ['照這本書做長期、', '分散投資的']        # 桌機欄窄，拆兩行（兩行各自也是原句的子字串）
@@ -167,6 +167,9 @@ def _scopes(h):
 # ANCHOR_WINDOW：2026-09-28 實測 s5-remember 0 字、lifecycle-q2-today 0 字、s13-loss 1101 字
 # （s13-loss 是「怕賠（12 題）」那個 h3，「處理套牢的舊部位」是底下第 4 題）。取 2000，留約 900 字
 # （兩三題問答）的餘量；哪天超過，先回頭看錨點是不是還指對，不要直接把數字調大。
+# 批 DF：兩個分岔改指得更準——#s5-fiveyear（「記得這幾句」第一條那個 li）、#s13-stuck（「處理套牢的舊部位」那一題的 li）。
+# 目的地字寫成「X」第一條的（#s5-fiveyear），X 是那張卡的標題、在錨點前面，「往後 ANCHOR_WINDOW 字」量不到；
+# 這一種改查得更嚴：錨點元素是 <li>、是它那個清單的第一項，而且清單緊接在一個標題後面（中間沒有可見字），標題＝X。
 ANCHOR_WINDOW = 2000
 
 
@@ -181,6 +184,25 @@ def _anchor_regions(h, aid):
         if s.start() <= i < s.end():
             return _visible(h[s.start():s.end()]), _visible(h[i:s.end()])[:ANCHOR_WINDOW]
     return None
+
+
+def _first_item_under(h, aid, title):
+    """批 DF：錨點元素是 <li>、是它那個清單（ul／ol）的第一項，清單緊接在一個 h1–h6 後面（中間沒有可見字），
+    那個標題的可見文字＝title。h 已經拿掉 figure.chart。"""
+    m = re.search(r'(?<![\w-])id="%s"' % re.escape(aid), h)
+    if not m:
+        return False
+    i = h.rfind('<', 0, m.start())
+    if not re.match(r'<li\b', h[i:]):
+        return False
+    lo = max(h.rfind('<ul', 0, i), h.rfind('<ol', 0, i))
+    if lo < 0 or '<li' in h[lo:i]:
+        return False
+    hd = list(re.finditer(r'<h([1-6])\b[^>]*>(.*?)</h\1>', h[max(0, lo - 4000):lo], flags=re.S))
+    if not hd:
+        return False
+    between = h[max(0, lo - 4000) + hd[-1].end():lo]
+    return _visible(hd[-1].group(2)).strip() == title and not _visible(between).strip()
 
 
 def _branch_points_ok(h, ids):
@@ -199,7 +221,8 @@ def _branch_points_ok(h, ids):
         for p in pieces:
             if p not in sec:
                 miss.append('panic-map 分岔「%s」的錨點 #%s 所在的那一節沒有「%s」' % (cond, a, p))
-        if pieces[-1] in sec and pieces[-1] not in win:
+        if pieces[-1] in sec and pieces[-1] not in win \
+                and not (dest.endswith('」第一條') and _first_item_under(h, a, pieces[-1])):
             miss.append('panic-map 分岔「%s」的錨點 #%s 往後 %d 字內沒有「%s」'
                         % (cond, a, ANCHOR_WINDOW, pieces[-1]))
     return miss
