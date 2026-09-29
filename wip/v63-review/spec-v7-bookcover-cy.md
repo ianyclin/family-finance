@@ -1,6 +1,6 @@
 # v7.0 預覽：CY——書封放全書第一頁、副標改句號、三代人插畫搬到第 1 節（作者 2026-09-29 早上；主線裁定）
 
-作者：ChatGPT（Codex imagegen）做的書封「可用？」→ 主線建議無字版，作者改出 v3（無告示牌、副標句號、三個小孩）並說「也許這張可以放在最前面，其他的不用動」；副標標點作者問「冒號怪怪的」→ 主線改判句號；作者問「原本第一頁散步插圖還有需要嗎」→ 主線建議搬到第 1 節。基準：批 CX 之後的 HEAD。**只動下面列的；黃框、h2、lede、mark.key、p.decision、warning 不動。**
+作者：ChatGPT（Codex imagegen）做的書封「可用？」→ 主線建議無字版，作者改出 v3（無告示牌、副標句號、三個小孩）並說「也許這張可以放在最前面，其他的不用動」；副標標點作者問「冒號怪怪的」→ 主線改判句號；作者問「原本第一頁散步插圖還有需要嗎」→ 主線建議搬到第 1 節。基準：HEAD a13b579（批 CX）。注意 CX 之後書名頁順序是 eyebrow→h1→subtitle→兩個 subtitle-sub→署名→封面插畫→按鈕；刪 04 後署名直接接按鈕。改完指南一定要跑 `build_lite.py`（[stale] 會比對書末附錄）。**只動下面列的；黃框、h2、lede、mark.key、p.decision、warning 不動。**
 
 ## 1. 書封（新插畫 00）
 - 來源檔 `/private/tmp/claude-501/-Users-linyenchu-Cladue-Code/4d496a8a-af22-4959-894e-8aa2d8792c49/scratchpad/cover/d-0857-final.png`（1024×1536，sha256 04e767f0…；原檔在 `~/Documents/Codex/2026-09-17/new-chat/output/cover-plan-and-life/cover-family-five-period.png`）。轉成 `guide/illus/00-book-cover.webp`（照 CT 的做法：長邊不放大，品質與其他十張同；記錄尺寸與位元組數），`embed_illus.py` 不帶 --check 跑一次嵌入。
@@ -28,3 +28,6 @@
 ## 補（作者 2026-09-29 提醒「檢查是否有其他地方重複使用這張圖」，主線已查）
 - `04-time-for-life` 全倉庫只在 `guide/index.html` 一處（書名頁），`lite/`、`tools/`、`docs/` 沒有引用；`output/*.html` 是產生檔會跟著變。搬到第 1 節後，全書仍只出現一次（`embed_illus --check` 的 11 張各一）。
 - 孤兒樣式：`figure.illus img.cover-art{max-height:44vh;…}`（L166）搬圖後沒有元素使用——刪掉，書封用自己的 `figure.book-cover img` 規則；`lite/index.html` 那份由 build_lite 從指南 CSS 複製，會自動跟著。
+
+## 補（驗收項，作者 2026-09-29 要求）
+- 「比圖不比檔名」：把指南裡全部嵌入圖（data: URI）解出來做感知雜湊（dHash 16），和 04 與 00 各比一次；04 只能出現在第 1 節一處、00 只能在書封一處；工作表與短稿沒有嵌入圖。
