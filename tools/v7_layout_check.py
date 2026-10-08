@@ -25,6 +25,7 @@ macOS 的 Chrome 視窗最小寬是 500px，直接 `--window-size=375` 量到的
 用法：
     python3 tools/v7_layout_check.py [guide/index.html] [--json] [--chrome PATH]
 綠燈印一行 LAYOUT OK；紅燈逐條列出違規，exit 1。
+沒給 --chrome 時用 build_lite.find_chrome() 找；找不到（雲端容器）印 LAYOUT SKIPPED（沒有 Chrome），exit 0。
 """
 import json
 import os
@@ -33,7 +34,8 @@ import subprocess
 import sys
 import tempfile
 
-CHROME_DEFAULT = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from build_lite import find_chrome  # CHROME_BIN → Mac 路徑 → PATH；找不到回 None
 
 # 門檻。(c) 的目標是 ≤8（版式審 3-A「容器收成四種」做完才到得了）；
 # 用「不准比現況更糟」的棘輪：批 BE 把 ol.qa 的縮排收成和其他清單一樣的 40px 以後，
@@ -296,7 +298,7 @@ def check_claims(guide, raw, problems, lines):
 
 
 def main(argv):
-    chrome = CHROME_DEFAULT
+    chrome = None
     as_json = False
     args = []
     i = 0
@@ -310,6 +312,11 @@ def main(argv):
     guide = os.path.abspath(guide)
     if not os.path.exists(guide):
         raise SystemExit("找不到 " + guide)
+    if chrome is None:
+        chrome = find_chrome()
+        if chrome is None:
+            print("LAYOUT SKIPPED（沒有 Chrome）")
+            return 0
     if not os.path.exists(chrome):
         raise SystemExit("找不到 Chrome：%s（用 --chrome 指定）" % chrome)
 

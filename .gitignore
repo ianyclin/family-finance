@@ -20,11 +20,10 @@ lite/work/print/
 lite/work/**/print/
 lite/work/*.pre-*.html
 lite/work/build.log
-research/data/damodaran_histret.xls
+# research/data/damodaran_histret.xls — 2026-10-09 改為入庫：calc_core 載入時要讀它，雲端 session 才跑得動（倉庫是私人的）
 wip/**/copy-*.html
 wip/**/*.png
 wip/v63-review/_baseline_v63.html
-wip/v63-review/_baseline_v631.html
 wip/v63-review/_baseline_v7_prerenumber.html
 release/
 .claude/

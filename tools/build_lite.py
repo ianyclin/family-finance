@@ -4,9 +4,13 @@
 用法：
   python3 tools/build_lite.py                                  # 用 lite/manifest.json，產生兩份 HTML、兩份 PDF，最後跑哨兵
   python3 tools/build_lite.py --manifest lite/manifest.sample.json
-  python3 tools/build_lite.py --no-pdf                         # 只產生 HTML；頁數哨兵改讀 export 裡現有的 PDF（比 HTML 舊會 WARN，找不到會 FAIL）
+  python3 tools/build_lite.py --no-pdf                         # 只產生 HTML；頁數哨兵改讀 export 裡現有的 PDF（比 HTML 舊會 WARN，找不到會 FAIL；沒有 Chrome 時找不到改 SKIP）
   python3 tools/build_lite.py --stamp ALT_ID                   # 重算短稿檔頭的 sha256（重看過短稿之後才用）
   python3 tools/build_lite.py --fingerprint "#ten div.warning" # 印出選擇器對到的區塊與 sha256
+
+沒有 Chrome（雲端容器）時：不印 PDF、印一行 WARN [pdf]，相依 PDF 的哨兵（pages／toc／appendix／pdf／blank_pages／工作表頁數）
+印 SKIP；附錄寫回指南、兩份 HTML、片段與其餘哨兵照跑。Chrome 的找法見 find_chrome()（CHROME_BIN 可指定；
+BUILD_LITE_NO_CHROME=1 強制當作沒有，在 Mac 上測用）。
 
 exit code：0＝全部通過；1＝建置錯誤或任何哨兵失敗。
 """
@@ -18,7 +22,32 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import guidetools as GT  # 批 CX：書末附錄的 marker 與 strip_appendix 和正文哨兵共用同一份
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+MAC_CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+CHROME_NAMES = ('google-chrome', 'google-chrome-stable', 'chromium', 'chromium-browser', 'chrome')
+NO_CHROME_WARN = 'WARN [pdf] 沒有 Chrome，略過列印（雲端環境）'
+
+
+def find_chrome():
+    """找 Chrome／Chromium 執行檔，找不到回 None（雲端容器：不印 PDF，相依 PDF 的哨兵印 SKIP）。
+    順序：環境變數 CHROME_BIN（指到不存在的檔就往下找）→ Mac 的固定路徑 → PATH 上的
+    google-chrome、google-chrome-stable、chromium、chromium-browser、chrome。
+    環境變數 BUILD_LITE_NO_CHROME=1 強制當作沒有 Chrome（在 Mac 上測雲端行為用）。"""
+    if os.environ.get('BUILD_LITE_NO_CHROME', '') not in ('', '0'):
+        return None
+    env = os.environ.get('CHROME_BIN')
+    if env:
+        p = env if os.path.isfile(env) else shutil.which(env)
+        if p and os.path.isfile(p) and os.access(p, os.X_OK):
+            return p
+    if os.path.isfile(MAC_CHROME):
+        return MAC_CHROME
+    for n in CHROME_NAMES:
+        p = shutil.which(n)
+        if p:
+            return p
+    return None
+
+
 NORM_VERSION = 'v1'
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'}
 FICTION_NOTICE = '虛構人物，示範怎麼填，不是建議。不要抄比例，抄推理步驟。'
@@ -1041,7 +1070,10 @@ def open_details(s, only_marked=False):
 
 def chrome_pdf(html_path, pdf_path):
     # 注意：加 --user-data-dir 在這台機器上會讓 headless 卡住不出檔（2026-09-16 實測），所以不加。
-    cmd = [CHROME, '--headless=new', '--disable-gpu', '--no-pdf-header-footer', '--generate-pdf-document-outline',
+    chrome = find_chrome()
+    if chrome is None:  # main 已先查過、沒有 Chrome 就不會走到這裡；單獨呼叫時給清楚的錯
+        raise BuildError('沒有 Chrome，不能印 PDF：%s' % pdf_path)
+    cmd = [chrome, '--headless=new', '--disable-gpu', '--no-pdf-header-footer', '--generate-pdf-document-outline',
            '--virtual-time-budget=8000', '--print-to-pdf=' + pdf_path, 'file://' + html_path]
     if os.path.exists(pdf_path): os.remove(pdf_path)
     try:
@@ -1409,7 +1441,11 @@ def main(argv):
     except BuildError as e:
         print('FRAGMENT FAILED'); print(e); return 1
     pdf = None
-    if not a.no_pdf:
+    no_chrome = False
+    if not a.no_pdf and find_chrome() is None:
+        no_chrome = True  # 雲端環境：不印 PDF；附錄寫回、兩份 HTML、片段已經在上面寫完；相依 PDF 的哨兵印 SKIP
+        print(NO_CHROME_WARN)
+    elif not a.no_pdf:
         try:
             pdf = make_pdfs(m, lite, full)
         except BuildError as e:
@@ -1426,10 +1462,10 @@ def main(argv):
     except Exception as e:
         print('TEXT DUMP FAILED'); print(e); return 1
     if not pdf:
-        print('  --no-pdf：%s 沒有重產，可能是舊的' % P['lite_text'])
+        print('  %s：%s 沒有重產，可能是舊的' % ('沒有 Chrome' if no_chrome else '--no-pdf', P['lite_text']))
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import lite_sentinels
-    return lite_sentinels.run(m, pdf_info=pdf, build_report=report)
+    return lite_sentinels.run(m, pdf_info=pdf, build_report=report, no_chrome=no_chrome)
 
 
 if __name__ == '__main__':

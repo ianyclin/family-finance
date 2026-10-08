@@ -1,0 +1,14 @@
+# 雲端 session（沒有 Chrome、沒有 Mac）跑 tools/ 需要的第三方套件。其餘 import 都是標準庫或 tools/ 自己的模組。
+# 版本釘在 Mac 上實際在用的版本（2026-10-09 pip3 show）；改版本前先在 Mac 跑一次 build_lite.py。
+# 用法：pip install -r tools/requirements-cloud.txt
+
+# fitz：build_lite.py（PDF 頁碼、書籤、metadata、圖片重壓、從 PDF 抽字）與 lite_sentinels.py（讀 export/ 的 PDF）
+# 沒有 Chrome 時這兩支不會碰 PDF，但 export/ 裡有 PDF 時 lite_sentinels.py 單獨跑會去讀
+PyMuPDF==1.26.5
+
+# PIL：embed_illus.py --check 比對插畫寬高（沒裝會印一行跳過，不會停）
+Pillow==11.3.0
+
+# xlrd：calc_core.py（asset_rotation，模組載入時就讀）、v61_g10_rebalance_drift.py、v61_g11_ath_returns.py 的 compute()
+# 讀 research/data/damodaran_histret.xls；那個檔不進 repo（.gitignore），雲端要照 research/data/README.md 自己下載
+xlrd==2.0.2

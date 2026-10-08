@@ -362,7 +362,10 @@ def check_part_maps(dom):
     return bad, '%d 個分組節地圖、%d 行：順序＝目錄同組，節名、開場白、節號都和目標節逐字一致；分組節 lede＝目錄說明' % (len(groups), n_li)
 
 
-def run(m, pdf_info=None, build_report=None):
+def run(m, pdf_info=None, build_report=None, no_chrome=False):
+    """no_chrome=True：build_lite 因為找不到 Chrome 這次沒有印 PDF（雲端環境），相依 PDF 的哨兵一律 SKIP，
+    不讀 export 裡可能是舊的 PDF。單獨跑（no_chrome=False）時，找不到 PDF 且這台機器沒有 Chrome 也改 SKIP；
+    有 Chrome 而找不到 PDF 照舊 FAIL。"""
     P = m['_paths']
     skip = m.get('sentinel_skip') or []
     R = Report(skip if not m['_is_main'] else [])
@@ -559,7 +562,18 @@ def run(m, pdf_info=None, build_report=None):
     lite_pdf_pages = None
     lite_pdf = pdf_info['lite_pdf'] if pdf_info else os.path.join(edir, P['lite_export_name'].format(version=m['version']) + '.pdf')
     full_pdf = pdf_info['full_pdf'] if pdf_info else os.path.join(edir, P['full_export_name'].format(version=m['version']) + '.pdf')
-    if not os.path.exists(lite_pdf):
+    # 雲端環境（沒有 Chrome）：相依 PDF 的哨兵印 SKIP 而不是 FAIL
+    chrome_gone = no_chrome or B.find_chrome() is None
+    skip_lite = no_chrome or (chrome_gone and not os.path.exists(lite_pdf))
+    skip_full = no_chrome or (chrome_gone and not os.path.exists(full_pdf))
+    def why_skip(path):
+        return ('沒有 Chrome，這次沒有印 PDF（雲端環境；PDF 回 Mac 產）' if no_chrome
+                else '沒有 Chrome、也找不到 PDF：%s（雲端環境；PDF 回 Mac 產）' % os.path.relpath(path, B.ROOT))
+    if skip_lite:
+        R.skip('pages', '工作表 PDF 頁數與正反面：' + why_skip(lite_pdf))
+        R.skip('toc', '工作表 PDF 目錄頁碼：' + why_skip(lite_pdf))
+        R.skip('pdf', '工作表 PDF metadata 與書籤：' + why_skip(lite_pdf))
+    elif not os.path.exists(lite_pdf):
         R.fail('pages', '找不到實作版 PDF：%s（build_lite.py 不加 --no-pdf 才會產生）' % lite_pdf)
     else:
         if pdf_info is None and os.path.getmtime(lite_pdf) < os.path.getmtime(B.rp(P['lite_html'])):
@@ -660,7 +674,11 @@ def run(m, pdf_info=None, build_report=None):
                 R.fail('toc', '實作版目錄沒有 %s 的連結' % nd)
         else:
             R.ok('toc', '實作版目錄 %d 條：印出的頁碼＝連結目標頁＝書籤頁（%s）' % (len(entries), '、'.join('%s→%s' % (nd, pr) for nd, _, pr in entries)))
-    if not os.path.exists(full_pdf):
+    if skip_full:
+        for cat, what in (('toc', '完整版 PDF 目錄頁碼'), ('appendix', '完整版 PDF 書末附錄頁數與起頁'),
+                          ('pdf', '完整版 PDF 大小'), ('blank_pages', '完整版 PDF 近乎空白頁')):
+            R.skip(cat, '%s：%s' % (what, why_skip(full_pdf)))
+    elif not os.path.exists(full_pdf):
         R.fail('pages', '找不到完整版 PDF：%s' % full_pdf)
     else:
         import fitz
@@ -738,7 +756,7 @@ def run(m, pdf_info=None, build_report=None):
         half = [(i + 1, pct) for i, pct in enumerate(page_last_text_pct(full_pdf)) if pct < 50]
         R.info('完整版 PDF 最後一行文字在頁面上半（< 50%%）的頁 %d 頁：%s' % (
             len(half), '、'.join('第 %d 頁（%d%%）' % x for x in half) or '無'))
-    if os.path.exists(lite_pdf):
+    if not skip_lite and os.path.exists(lite_pdf):
         import fitz
         d = fitz.open(lite_pdf); lm = d.metadata; lo = len(d.get_toc()); d.close()
         R.info('實作版 PDF metadata：title=%r author=%r；書籤 %d 條' % (lm.get('title'), lm.get('author'), lo))
@@ -944,7 +962,9 @@ def run(m, pdf_info=None, build_report=None):
             if not got:
                 R.fail('worksheet', '%s 只有接合文字，沒有任何 src／alt 來源（工作表不得自己寫內容）' % c['id']); wbad += 1
             srcs.append('%s＝%s' % (c['id'], '＋'.join('%s:%s' % g for g in got)))
-        if lite_pdf_pages is None:
+        if lite_pdf_pages is None and skip_lite:
+            R.skip('worksheet', '工作表 PDF 頁數（要 %d 頁）：%s；這一支其餘的檢查照跑' % (want_pages, why_skip(lite_pdf)))
+        elif lite_pdf_pages is None:
             R.fail('worksheet', '沒有工作表 PDF，量不到頁數'); wbad += 1
         elif not (WORKSHEET_PAGES_MIN <= lite_pdf_pages <= WORKSHEET_PAGES_MAX):
             R.fail('worksheet', '工作表 PDF %d 頁，要 %d 到 %d 頁'
@@ -959,7 +979,10 @@ def run(m, pdf_info=None, build_report=None):
             R.fail('worksheet', '工作表出現章號（十二章已退場）：%s' % '、'.join(sorted(set(chap)))); wbad += 1
         if appx:
             R.fail('worksheet', '工作表出現附錄（附 A／附 B 已退場）：%s' % '、'.join(sorted(set(appx)))); wbad += 1
-        if not wbad:
+        if not wbad and lite_pdf_pages is None:  # 只會在 skip_lite 時走到（否則上面已 FAIL）
+            R.ok('worksheet', '工作表 %d 塊各一頁（＋%d 張留白）、沒有章號與附錄（PDF 頁數沒量）；每一塊的來源：%s'
+                 % (len(chs), blanks, '　'.join(srcs)))
+        elif not wbad:
             R.ok('worksheet', '工作表 %d 塊各一頁（＋%d 張留白）、PDF %d 頁＝%d 張紙、沒有章號與附錄；每一塊的來源：%s'
                  % (len(chs), blanks, lite_pdf_pages, (lite_pdf_pages + 1) // 2, '　'.join(srcs)))
 

@@ -2317,3 +2317,24 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 裁判（opus xhigh）可用，四條次要：第 24 節「固定」撞字（已改）、第 18 節截半句的張力（維持）、`_comment_di` 用語、第 23 節「數字」變通則（意思一致，不動）。預算：sidepaths +9、lifecycle +11（+16−5）、products −9、annual +13；實測主線 62,621、看得到的字 69,963；上限 62,623／69,965 留 2 字（見 `_comment_di`）。哨兵全綠。
 
 **發布（2026-09-30）**：批 DI 發布，指南 Version 69；工作表仍 46。
+
+## 雲端 session 能做與不能做（2026-10-09；build_lite 加 find_chrome()）
+
+雲端容器沒有 Chrome、沒有 Mac。`tools/build_lite.py` 找 Chrome 的順序：環境變數 `CHROME_BIN` → Mac 的固定路徑 → PATH 上的 `google-chrome`／`google-chrome-stable`／`chromium`／`chromium-browser`／`chrome`；都找不到就不印 PDF，印一行 `WARN [pdf] 沒有 Chrome，略過列印（雲端環境）`，相依 PDF 的哨兵（`[pages]`、`[toc]`、`[appendix]`、`[pdf]`、`[blank_pages]`、`[worksheet]` 的頁數那一條）印 SKIP，其餘照跑，全綠時 exit 0。在 Mac 上要模擬雲端：`BUILD_LITE_NO_CHROME=1 python3 tools/build_lite.py`。
+
+**能做**：
+- 改字（guide/index.html 用 Edit，規矩照舊）。
+- `tools/v7_check.py` 全套、`tools/guidetools.py`、兩支測試（`test_guidetools.py`、`test_v7_check.py`）。
+- `tools/calc_core.py`——前提：`research/data/damodaran_histret.xls` 不進 repo（.gitignore），模組一載入就讀它；雲端要先照 `research/data/README.md` 下載放好，否則 calc_core 會停。
+- `tools/essay_charts.py --guide`、`tools/embed_illus.py`（`--check` 的寬高比對要 Pillow）。
+- `tools/build_lite.py` 的兩份 HTML、發布用片段（output/guide.html、output/lite.html）、書末附錄寫回指南，以及 `[stale]`、`[fragments]`、`[version]`、`[alt]`、`[labels]`、`[order]`、`[xref_num]`、`[check]` 等不靠 PDF 的哨兵。
+- 發布 Artifact。
+
+**不能做**：
+- PDF 列印（export/ 的兩份 PDF；`lite/work/lite-v60.txt` 是從工作表 PDF 抽的，雲端不會重產）。
+- `tools/v7_layout_check.py`（沒有 Chrome 時印 `LAYOUT SKIPPED（沒有 Chrome）`，exit 0——這不是綠燈，版面沒量）。
+- 其他需要 Chrome 的截圖（感知雜湊比對以外）。
+
+**PDF 一律回 Mac 產**；雲端改過指南，回 Mac 後先跑一次 `python3 tools/build_lite.py`（不加參數）與 `python3 tools/v7_layout_check.py`，PDF 相依的哨兵與版面才算驗過。
+
+**第一次在雲端**：先跑 `pip install -r tools/requirements-cloud.txt`，再跑 `python3 tools/build_lite.py`，確認輸出有那行 `WARN [pdf]` 和上面列的 SKIP 行、最後是 `SENTINELS OK`。
