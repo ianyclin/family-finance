@@ -2344,7 +2344,7 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 
 **第一次在雲端**：先跑 `pip install -r tools/requirements-cloud.txt`，再跑 `python3 tools/build_lite.py`，確認輸出有那行 `WARN [pdf]` 和上面列的 SKIP 行、最後是 `SENTINELS OK`。
 
-## 批 DJ（2026-10-11；第 24 節「要不要自提」，作者核定文字；未 commit）
+## 批 DJ（2026-10-11；第 24 節「要不要自提」，作者核定文字；commit 7c4f75b）
 
 規格：`wip/v63-review/spec-v7-content-dj.md`（草稿 `-draft.md` 已刪）。由來：作者 2026-10-11 問勞退自提，兩位裁判查證後作者拍板（記憶 laotui-self-contribution.md）。
 
@@ -2383,3 +2383,4 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 
 **未決（保留）**：(a) `research/tw-social-insurance.md` §2.5 寫「近 10 年（105–114）平均收益率 8.58%」，與表 2 的 7.24／7.48 都不符，來源待查，該檔沒動。(b) 盈虧分配辦法第 8、9 條「單利」措辭，repo 內無佐證檔；本輪兩位裁判讀過法條，出處是當時 session 逐字稿，不是 repo 檔案。(c) 自己投的報酬高於 7.5% 時粗規則失效（8% 就不成立），現在只寫「年數也要再縮」，是否在工具加 9% 選項，已列拍板題（changes-for-author-v7 一之一百一十二）。
 
+**發布（2026-10-11 深夜）**：批 DJ 發布，指南 Version 70（version id 1791731910-5240）；工作表仍 46（附錄沒變）。試算工具 Artifact `https://claude.ai/artifact/PF21JSy8748skZ8wieZELz` Version 2（第七版）。作者只能用瀏覽器開工具：app 的檔案預覽不跑 JavaScript，熱圖和數字會空白（作者 2026-10-11 實際遇到）。指南 HTML 與完整版 PDF（198 頁）已用 SendUserFile 送作者。
