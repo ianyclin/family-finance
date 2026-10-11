@@ -2386,3 +2386,5 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 **發布（2026-10-11 深夜）**：批 DJ 發布，指南 Version 70（version id 1791731910-5240）；工作表仍 46（附錄沒變）。試算工具 Artifact `https://claude.ai/artifact/PF21JSy8748skZ8wieZELz` Version 2（第七版）。作者只能用瀏覽器開工具：app 的檔案預覽不跑 JavaScript，熱圖和數字會空白（作者 2026-10-11 實際遇到）。指南 HTML 與完整版 PDF（198 頁）已用 SendUserFile 送作者。
 
 **作者核定（2026-10-11 深夜）**：五句（條件句二、粗規則、小字、例子段、稅段）作者回「照你建議」，視同核定；立場句清單已改標。
+
+**工具 9% 版發布（2026-10-11 深夜，commit 3067ca1）**：Artifact `PF21JSy8748skZ8wieZELz` Version 3（version id 1791733756-157d）；書用熱圖仍固定 7.5%，指南沒改、線上仍 Version 70。
