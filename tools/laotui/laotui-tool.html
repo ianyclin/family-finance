@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>要不要自提：試算工具</title>
+<style>
+:root{--ink:#1f2a26;--muted:#5d6a64;--green:#176c5a;--amber:#b8731c;--surface:#fffdf8;--paper:#f4f2eb;--line:#d8d4ca;--grid:#e6e2d8;
+--wwin:rgba(23,108,90,.08);--wlose:rgba(184,115,28,.10);--zero:#3d4a44;
+--s0:#69a0d7;--s1:#5087bc;--s2:#376ea1;--s3:#1e5688;--s4:#023f6e;
+--sans:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#edf2ef;--muted:#aab6b0;--green:#71cfb3;--amber:#f0ad59;--surface:#17201b;--paper:#101713;--line:#415249;--grid:#2c3832;
+--wwin:rgba(113,207,179,.10);--wlose:rgba(240,173,89,.10);--zero:#c9d3ce;
+--s0:#3a6d9a;--s1:#5488b6;--s2:#6fa4d4;--s3:#8bc0f2;--s4:#b7dcff;color-scheme:dark}}
+:root[data-theme="dark"]{--ink:#edf2ef;--muted:#aab6b0;--green:#71cfb3;--amber:#f0ad59;--surface:#17201b;--paper:#101713;--line:#415249;--grid:#2c3832;
+--wwin:rgba(113,207,179,.10);--wlose:rgba(240,173,89,.10);--zero:#c9d3ce;
+--s0:#3a6d9a;--s1:#5488b6;--s2:#6fa4d4;--s3:#8bc0f2;--s4:#b7dcff;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7}
+main{width:min(100% - 32px,760px);margin:24px auto 60px}
+.proto{font-size:.82rem;color:var(--muted);margin:0 0 10px}
+figure.chart{margin:0;padding:18px 0 14px;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--green);border-radius:16px}
+.pad{padding-left:18px;padding-right:18px}
+.chart-title{font-weight:800;font-size:1.05rem;line-height:1.4;margin:0 0 2px}
+.chart-sub{font-size:.86rem;line-height:1.6;color:var(--muted);margin:0}
+.ctl{display:flex;flex-wrap:wrap;gap:10px 18px;margin:14px 0 6px}
+.grp{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.gl{font-size:.8rem;color:var(--muted);margin-right:2px;white-space:nowrap}
+.grp button{font:inherit;font-size:.8rem;line-height:1.4;padding:2px 9px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;white-space:nowrap}
+.grp button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.grp button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.scale{font-size:.8rem;line-height:1.55;color:var(--muted);margin:4px 0 0}
+.read{font-size:.9rem;line-height:1.6;margin:14px 0 10px;padding:8px 12px;border-left:3px solid var(--green);background:transparent}
+.sec{font-size:.92rem;font-weight:700;margin:18px 0 8px}
+.sec span{font-weight:400;color:var(--muted);font-size:.84rem;margin-left:.4em}
+.box svg{display:block;width:100%;height:auto;margin:0 auto;font-family:var(--sans);overflow:visible}
+.box svg.d{max-width:640px}.box svg.m{display:none;max-width:360px}
+@media (max-width:640px){main{width:100%;margin:0 0 40px}figure.chart{border-radius:0;border-left:0;border-right:0}.proto{padding:10px 16px 0}.box svg.d{display:none}.box svg.m{display:block}.pad{padding-left:14px;padding-right:14px}.ctl{gap:8px 14px}}
+.pt{font-size:13px;font-weight:700;fill:var(--ink)}
+.ax{font-size:11px;fill:var(--muted);font-variant-numeric:tabular-nums}
+.rl{font-size:12px;fill:var(--ink);font-variant-numeric:tabular-nums}
+.cv{font-size:12px;fill:var(--ink);font-variant-numeric:tabular-nums;pointer-events:none}
+.rg{font-size:11px;fill:var(--muted)}
+.cx{font-size:11px;fill:var(--ink);font-variant-numeric:tabular-nums;paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
+.el{font-size:12px;font-weight:700;fill:var(--ink);font-variant-numeric:tabular-nums}
+.cell rect{fill:var(--c)}stop{stop-color:var(--c)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cell rect{fill:var(--cd)}:root:not([data-theme="light"]) stop{stop-color:var(--cd)}}
+:root[data-theme="dark"] .cell rect{fill:var(--cd)}:root[data-theme="dark"] stop{stop-color:var(--cd)}
+.cell{outline:none}.cell:hover rect,.cell:focus rect{stroke:var(--ink);stroke-width:1.5}
+.tk{stroke:var(--muted);stroke-width:1}
+.wwin{fill:var(--wwin)}.wlose{fill:var(--wlose)}
+.grid{stroke:var(--grid);stroke-width:1}.base{stroke:var(--line);stroke-width:1}
+.zero{stroke:var(--zero);stroke-width:2}
+polyline{fill:none;stroke-linejoin:round;stroke-linecap:round}
+polyline.case{stroke:var(--surface);stroke-width:5}
+polyline.s{stroke-width:2}polyline.s.c0{stroke-width:2.5}
+polyline.c0{stroke:var(--s0)}polyline.c1{stroke:var(--s1)}polyline.c2{stroke:var(--s2)}polyline.c3{stroke:var(--s3)}polyline.c4{stroke:var(--s4)}
+circle.c0{fill:var(--s0)}circle.c1{fill:var(--s1)}circle.c2{fill:var(--s2)}circle.c3{fill:var(--s3)}circle.c4{fill:var(--s4)}
+circle{stroke:var(--surface);stroke-width:2}
+.ld{fill:none;stroke:var(--muted);stroke-width:1}
+.hit{fill:transparent;outline:none;cursor:crosshair}
+.guide{stroke:var(--muted);stroke-width:1}
+polygon.band{fill-opacity:.16;stroke:none}polygon.c1{fill:var(--s1)}polygon.c2{fill:var(--s2)}polygon.c3{fill:var(--s3)}polygon.c4{fill:var(--s4)}
+polyline.be{stroke-width:2}
+.bn{font-size:11px;fill:var(--muted);paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
+#backlink{margin:12px 0 0}#backlink a{color:var(--green)}
+.bz{font-size:11px;font-weight:700;fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
+figcaption{margin-top:14px;padding-top:10px;border-top:1px solid var(--line);font-size:.88rem;line-height:1.65}
+figcaption p{margin:.4em 0}.small{color:var(--muted);font-size:.82rem}
+details.tv{margin-top:10px}details.tv>summary{cursor:pointer;font-weight:700;font-size:.9rem;color:var(--green)}
+details.tv h4{font-size:.88rem;margin:1em 0 .3em}details.tv p,details.tv li{font-size:.86rem;line-height:1.7}
+details.tv ul{padding-left:1.2em;margin:.3em 0}details.tv a{color:var(--green)}.fl{font-size:12px;fill:var(--ink);font-variant-numeric:tabular-nums}.flh{font-size:11px;fill:var(--muted);font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:8px}
+caption{text-align:left;font-weight:700;font-size:.84rem;padding-bottom:4px}
+th,td{padding:2px 4px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+thead th{font-weight:700}tbody th{text-align:left;font-weight:400;color:var(--muted)}
+.ph{color:var(--amber);font-weight:700}
+#tip{position:fixed;z-index:9;pointer-events:none;max-width:270px;padding:7px 10px;border-radius:8px;background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:0 4px 14px rgba(0,0,0,.14);font-size:12px;line-height:1.55;font-variant-numeric:tabular-nums;display:none;white-space:pre-line}
+</style>
+</head>
+<body>
+<main>
+<p class="proto">這是《隔離人性》第 24 節「要不要自提」的試算工具；數字怎麼算、來源在哪，見頁尾。</p>
+<figure class="chart" id="fig">
+<div class="pad">
+<p class="chart-title">要不要自提：自提比自己投指數多拿或少拿幾成</p>
+<p class="chart-sub">60 歲那天一次領，兩條路各剩多少稅後的錢</p>
+<div class="ctl" id="ctl">
+<div class="grp" role="group" aria-label="勞退報酬"><span class="gl">勞退報酬</span><button type="button" data-k="rl" data-v="0.017">1.7%（115 年 10 月保證收益率）</button><button type="button" data-k="rl" data-v="0.021">2.1% 最差十年</button><button type="button" data-k="rl" data-v="0.0465">4.65% 2006–2025</button></div>
+<div class="grp" role="group" aria-label="自己投的報酬"><span class="gl">自己投的報酬</span><button type="button" data-k="gi" data-v="0.06">6%</button><button type="button" data-k="gi" data-v="0.075">7.5%</button></div>
+</div>
+<p class="read">每個數字＝自提那條路 60 歲一次領、繳完稅剩下的錢 ÷ 不自提、把稅後的錢自己投的那條路 − 1。<b>正的是自提多拿，負的是自提少拿。</b></p>
+</div>
+
+<p class="sec pad">一眼看全部<span>綠＝自提贏，琥珀＝自提輸；越深差越多；最右欄是自提第幾年起轉輸</span></p>
+<div class="box" id="heat"></div>
+
+
+<figcaption class="pad">
+<p id="now"></p>
+<p>固定假設：每月提繳＝薪水的 6%（自提上限），薪水用各級距常見的水準、雇主同額、25 歲開始工作 60 歲一次領（年資 35 年）、退休那年沒有薪水、自己投台股 ETF 並繳配息稅；每一條為什麼這樣定，見「怎麼算」。</p>
+<p>圖上已經把 60 歲一次領要補的稅算進去；誰要補、會差多少，見下面「補繳的稅差多少」。</p>
+</figcaption>
+
+<details class="tv pad" id="gapd"><summary>補繳的稅差多少</summary>
+<p>要補繳的只有同時符合這幾點的人：60 歲一次領、年資長、月薪到上限所以雇主也提到頂、帳戶總額超過免稅額。年資 35 年時，一次領 <span data-g="ex1"></span> 萬以內免稅，<span data-g="ex1"></span> 萬到 <span data-g="ex2"></span> 萬之間一半計入所得，超過的全數計入（115 年度數字）。年資滿 15 年改按月領，每年 89.4 萬以內免稅，多數人零稅。</p>
+<p>圖上已經把補繳算進去，而且假設免稅額和級距每年隨物價調 1.5%。下面這張圖是：熱圖每一格的數字，往上最多再加多少（完全不用補的人），往下最多再減多少（免稅額和級距一直不調）。5% 級距是零；12% 級距最多差 <span data-g="b12"></span> 個百分點；20% 以上的人，不用補最多再加 <span data-g="X"></span> 個百分點，免稅額和級距若都不調，存越久差越多，最多再減 <span data-g="Y"></span> 個百分點。</p>
+<div class="box" id="band"></div>
+<p id="flipnote"></p>
+<p class="small">以上百分點是目前設定的數字；六種報酬組合裡差最多的是 <span data-g="M"></span> 個百分點（<span data-g="Mside"></span>，勞退 <span data-g="Mrl"></span>、自己投 <span data-g="Mgi"></span>，<span data-g="Mk"></span>% 級距、自提 <span data-g="Mn"></span> 年）。</p>
+</details>
+<details class="tv pad"><summary>怎麼算</summary>
+<h4>兩條路</h4>
+<p><b>自提：</b>每月從薪水撥一筆進勞退個人專戶。這筆錢不算當年的所得，所以一毛都不用先繳所得稅，整筆用勞退基金的報酬滾到 60 歲。</p>
+<p><b>不自提、自己投：</b>同樣的錢留在薪水裡，先被扣所得稅（你現在的級距），剩下的才每月月底投進台股 ETF，60 歲那天全部賣掉。</p>
+<h4>兩個開關各改什麼</h4>
+<ul>
+<li><b>勞退報酬：</b>自提那份和雇主那份每年的報酬。三個數字都來自勞動基金運用局表 2（連結在下方來源）：4.65%＝新制勞退基金 2006–2025 年化；2.1%＝2006–2015 年化 2.12%，是最差的十年；1.7%＝115 年 10 月的保證收益率（1.7108%）。法定保證是浮動的二年期定存利率，2006–2025 平均約 1.4%。</li>
+<li><b>自己投的報酬：</b>不自提那條路扣稅前的年報酬，其中 3% 是配息。配息稅照你的級距扣：合併計稅可抵減 8.5%，抵減超過應繳稅額的部分會退稅（所得稅法第 100 條），所以級距 5% 反而小賺；級距 40% 改用 28% 分開計稅。再扣二代健保補充保費 2.11%。賣出沒有所得稅，只有 0.1% 證交稅（圖裡沒算，約 0.1 個百分點）。</li>
+</ul>
+<h4>稅怎麼算（固定做法）</h4>
+<p>60 歲一次領，自提的錢、雇主提撥的錢（含各自的收益）合成一筆「退職所得」來算稅。每一年年資有一段免稅額：206,000 元以內不算所得；206,000 到 414,000 元的部分一半算所得；超過 414,000 元的部分全部算所得。年資幾年，這兩條線就乘幾（這裡固定 35 年）。算出來的所得扣掉退休那年的免稅額與標準扣除額（合計 23.7 萬），再照 115 年度的綜所稅累進稅率算稅（0–61 萬 5%、61–138 萬 12%、138–277 萬 20%、277–519 萬 30%、以上 40%）。雇主那份和自提那份<b>共用同一段免稅額</b>，雇主那份滾滿 35 年，比自提長，先把免稅額用掉一部分，所以自提那份要負擔的稅＝（含自提的稅）−（只有雇主那份的稅）。</p>
+<p>免稅額和級距隨物價調：自提 n 年後，免稅額（206,000／414,000）和稅率級距的上下限、累進差額都乘 1.015 的 n 次方。法條是物價累計漲滿 3% 才調一次，這裡用每年連續調整來近似。</p>
+<h4>固定假設，和為什麼這樣定</h4>
+<ul>
+<li><b>每月提繳＝薪水的 6%（自提上限），薪水用各級距常見的水準：</b>5% 級距月薪 45,000（每月提 2,700）、12% 級距 100,000（6,000）、20%、30%、40% 級距 150,000（9,000）。115 年度（單身、只有薪資、標準扣除）各級距的月薪範圍約是：5% 級距 3.9–9 萬、12% 級距 9–15.4 萬、20% 以上 15.4 萬起；這裡取 4.5 萬、10 萬為代表，20% 以上超過勞退提繳工資上限 15 萬，一律以 15 萬提繳。級距低的人薪水低、提得少，一次領多半落在免稅額內。12% 級距的月薪約 <span data-g="s12"></span> 萬起，翻盤年提早到第 <span data-g="s12a"></span>–<span data-g="s12b"></span> 年（帳戶總額大、免稅額吃得多）。</li>
+<li><b>雇主同額：</b>雇主每月也提薪水的 6%，和自提同額，用同樣的報酬滾。多數受僱者的雇主就是提 6%。自營者沒有雇主那份，免稅額被吃得少，結果會比圖上好。</li>
+<li><b>25 歲開始工作、60 歲一次領，年資 35 年：</b>年資決定免稅額（每一年年資 20.6 萬），這裡用一般人的職涯長度。橫軸是自提幾年，也就是離 60 歲還有幾年；在那之前的年資都只有雇主在提。雇主那份滾滿 35 年，自提那份只滾自提的年數。30 歲後才就業、或中途離開職場多年的人，雇主那份被高估、自提的好處被低估。</li>
+<li><b>退休那年沒有薪水：</b>多數人領的那年已經沒有薪水，其他所得當作 0，退職所得從 5% 開始往上累進。還在工作就領的人，稅會比圖上多。已扣退休那年的免稅額與標準扣除額（合計 23.7 萬，115 年度）；薪資特別扣除額退休那年沒薪水用不到。</li>
+<li><b>台股 ETF 配息課稅：</b>台灣掛牌的指數 ETF 都配息，配息照級距繳稅（殖利率 3%）。用不配息的 ETF 的人，結果會比圖上好一點。</li>
+<li><b>60 歲一次領：</b>兩條路要在同一天變成稅後的錢才能比。改按月領多半是零稅，但錢留在基金裡，用的是基金的報酬。</li>
+</ul>
+<h4>沒算進去的</h4>
+<ul class="small">
+<li>隨物價調整的 3% 門檻（用連續調整近似）、賣出的 0.1% 證交稅、勞退基金每年報酬高低起伏與保證收益的補足。</li>
+<li>股利單次未達 2 萬元不扣補充保費，圖裡一律扣了，自己投那條路最多被低估約 1.5 個百分點。</li>
+<li>股利 8.5% 抵減每戶 8 萬上限，這裡的金額碰不到。</li>
+</ul>
+<h4>數字從哪裡來</h4>
+<ul class="small">
+<li><a href="https://www.bli.gov.tw/0108501.html">勞動部勞工保險局：個人自願提繳退休金</a></li>
+<li><a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0030020&amp;flno=14">勞工退休金條例第 14 條（雇主提撥與個人自願提繳）</a></li>
+<li><a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340003&amp;flno=14">所得稅法第 14 條第一項第九類（退職所得）</a></li>
+<li><a href="https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=34b463dc8f1b49f29d440d92a6fd5139">財政部：115 年度綜合所得稅課稅級距與累進差額、退職所得定額免稅金額公告</a></li>
+<li><a href="https://www.blf.gov.tw/media/ch3lc5dv/2-%E6%96%B0%E5%88%B6%E5%8B%9E%E5%B7%A5%E9%80%80%E4%BC%91%E5%9F%BA%E9%87%91%E7%B6%93%E7%87%9F%E6%A6%82%E6%B3%81.pdf">勞動部勞動基金運用局：新制勞工退休基金經營概況（表 2 歷年收益率）</a></li>
+</ul>
+<p class="small">參數：勞退報酬 4.65%＝新制勞退基金 2006–2025 年化（可切 2.1%＝2006–2015 最差的十年、1.7%＝115 年 10 月保證收益率）；自己投的報酬是扣配息稅前的年化報酬（可切 6%、7.5%），其中台股 ETF 殖利率 3%，配息稅與補充保費 2.11% 已在圖裡扣掉；一次領的免稅額以 115 年度為準：免稅線 206,000 元、半數課稅到 414,000 元（每年資）。</p>
+</details>
+<details class="tv" id="yby"><summary class="pad">逐年細看：折線與表格</summary>
+<p class="sec pad">隨年數怎麼變<span>線尾數字是現在的所得稅級距；圓點是翻盤的那一年</span></p>
+<div class="box" id="line"></div>
+<div class="pad" id="tbl"></div>
+</details>
+<p class="small pad" id="backlink">這是《隔離人性》第 24 節的附屬工具；回到書：<a href="https://claude.ai/artifact/9WawELoGewi9ecKK32YcfU#pension" target="_blank" rel="noopener">第 24 節「勞保和勞退先算」</a>。</p>
+</figure>
+</main>
+<div id="tip" role="status"></div>
+<script>
+(function(){
+'use strict';
+var KS=[5,12,20,30,40],YRS=[5,10,15,20,25,30,35],MINUS='−',NS='http://www.w3.org/2000/svg';
+var S={rl:0.0465,gi:0.075};
+var PK={5:2700,12:6000,20:9000,30:9000,40:9000},CAREER=35;/* 固定：每月提繳＝各級距代表月薪的 6%（5%→45,000、12%→100,000、20% 以上→150,000 上限），雇主同額、25 歲開始工作 60 歲一次領（年資 35 年，已工作年數＝35−n）、退休那年沒有薪水、台股 ETF 配息課稅 */
+var LBL={rl:{0.017:'勞退報酬 1.7%（115 年 10 月保證收益率）',0.021:'勞退報酬 2.1%（最差十年）',0.0465:'勞退報酬 4.65%（2006–2025）'},gi:{0.06:'自己投的報酬 6%（配息稅另扣）',0.075:'自己投的報酬 7.5%（配息稅另扣）'}};
+/* ---------- model ---------- */
+function fv(p,r,n){if(n<=0)return 0;var m=Math.pow(1+r,1/12)-1;return p*(Math.pow(1+m,12*n)-1)/m;}
+function tau(t){return t>=0.40?0.28:t-0.085;}/* M2：抵減超過退稅，允許負值 */
+function ri(t,gi){return gi-0.03*(tau(t)+0.0211);}/* 台股 ETF：殖利率 3% 的配息課稅＋補充保費 */
+function taxable(L,Y,g){var lo=206000*Y*g,hi=414000*Y*g;return 0.5*Math.max(Math.min(L,hi)-lo,0)+Math.max(L-hi,0);}
+/* 115 年度綜所稅：級距上限、稅率、累進差額 */
+var DED=101000+136000;/* 退休那年的免稅額＋標準扣除額（115 年度，單身），乘 g */
+var BR=[[610000,0.05,0],[1380000,0.12,42700],[2770000,0.20,153100],[5190000,0.30,430100],[Infinity,0.40,949100]];
+function taxT(x,g){var y=x/g;for(var i=0;i<BR.length;i++)if(y<=BR[i][0])return g*Math.max(y*BR[i][1]-BR[i][2],0);}/* 級距上下限與累進差額同乘 g */
+/* 稅固定為「一次領、免稅額隨物價調」；tax 參數只給「補繳的稅差多少」（帶狀圖、flipnote、M 系列）比較用 */
+function cell(s,k,n,tax){var tm=tax||'idx',t=k/100,Y=CAREER,A=fv(PK[k],s.rl,n),E=fv(PK[k],s.rl,Y),B=fv(PK[k]*(1-t),ri(t,s.gi),n),tx=0;
+  if(tm!=='none'){var g=tm==='idx'?Math.pow(1.015,n):1;tx=taxT(Math.max(taxable(A+E,Y,g)-DED*g,0),g)-taxT(Math.max(taxable(E,Y,g)-DED*g,0),g);}
+  return {v:(A-tx)/B-1,A:A,B:B,tx:tx,Y:Y};}
+function flip(arr){for(var i=0;i<arr.length;i++)if(arr[i].v<0)return i+1;return 0;}
+function grid(s){var o={};KS.forEach(function(k){o[k]=[];for(var n=1;n<=35;n++)o[k].push(cell(s,k,n));});return o;}
+/* ---------- color (OKLab mix) ---------- */
+function s2l(c){return c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4);}
+function l2s(c){return c<=0.0031308?12.92*c:1.055*Math.pow(c,1/2.4)-0.055;}
+function toLab(h){var r=s2l(parseInt(h.substr(1,2),16)/255),g=s2l(parseInt(h.substr(3,2),16)/255),b=s2l(parseInt(h.substr(5,2),16)/255);
+  var l=Math.cbrt(0.4122214708*r+0.5363325363*g+0.0514459929*b),m=Math.cbrt(0.2119034982*r+0.6806995451*g+0.1073969566*b),s=Math.cbrt(0.0883024619*r+0.2817188376*g+0.6299787005*b);
+  return [0.2104542553*l+0.7936177850*m-0.0040720468*s,1.9779984951*l-2.4285922050*m+0.4505937099*s,0.0259040371*l+0.7827717662*m-0.8086757660*s];}
+function toHex(L){var l=Math.pow(L[0]+0.3963377774*L[1]+0.2158037573*L[2],3),m=Math.pow(L[0]-0.1055613458*L[1]-0.0638541728*L[2],3),s=Math.pow(L[0]-0.0894841775*L[1]-1.2914855480*L[2],3);
+  var rgb=[4.0767416621*l-3.3077115913*m+0.2309699292*s,-1.2684380046*l+2.6097574011*m-0.3413193965*s,-0.0041960863*l-0.7034186147*m+1.7076147010*s];
+  return '#'+rgb.map(function(x){var v=Math.round(Math.max(0,Math.min(1,l2s(Math.max(0,Math.min(1,x)))))*255);return(v<16?'0':'')+v.toString(16);}).join('');}
+var PAL={light:{n:toLab('#f4f2eb'),w:toLab('#53b69e'),l:toLab('#dd974a')},dark:{n:toLab('#2b2f2c'),w:toLab('#057c5d'),l:toLab('#935a03')}};
+var DOM=0.75;
+function heat(v,mode){var p=PAL[mode],t=Math.max(-1,Math.min(1,v/DOM)),e=t>=0?p.w:p.l,a=Math.abs(t);return toHex([0,1,2].map(function(i){return p.n[i]+(e[i]-p.n[i])*a;}));}
+/* ---------- format ---------- */
+function pct(v,d){var s=Math.abs(v*100).toFixed(d||0);if(+s===0)return'0%';return(v>0?'+':MINUS)+s+'%';}
+function yen(x){return Math.round(x).toLocaleString('en-US');}
+function T(x,y,cls,txt,anchor){return '<text class="'+cls+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'"'+(anchor?' text-anchor="'+anchor+'"':'')+'>'+txt+'</text>';}
+/* ---------- heatmap ---------- */
+function heatSVG(G,kind){
+  var d=kind==='d',W=d?640:360,x0=d?0:6,labW=d?48:28,cw=d?76:42,ch=d?32:30,top=24,H=d?246:230,fx=x0+labW+7*cw+(d?36:16);
+  var o=['<svg class="'+kind+'" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" role="img" aria-label="熱圖：五個級距乘七個年數，每格印自提多拿或少拿的百分比">'];
+  o.push(T(x0,16,'ax','級距'));
+  YRS.forEach(function(n,j){o.push(T(x0+labW+j*cw+cw/2,16,'ax',n+'年','middle'));});
+  o.push(T(fx,16,'flh',d?'翻盤年':'翻盤','middle'));
+  KS.forEach(function(k,i){var y=top+i*ch,f=flip(G[k]);o.push(T(x0,y+ch/2+4,'rl',k+'%'));
+    o.push('<g><title>級距 '+k+'%：'+(f?'自提第 '+f+' 年起轉輸':'35 年內都沒有轉輸')+'</title>'+T(fx,y+ch/2+4,'fl',f?f+'年':'—','middle')+'</g>');
+    YRS.forEach(function(n,j){var v=G[k][n-1].v,x=x0+labW+j*cw;
+      o.push('<g class="cell" tabindex="0" data-k="'+k+'" data-n="'+n+'"><rect x="'+(x+1)+'" y="'+(y+1)+'" width="'+(cw-2)+'" height="'+(ch-2)+'" rx="2" style="--c:'+heat(v,'light')+';--cd:'+heat(v,'dark')+'"/>'+T(x+cw/2,y+ch/2+4,'cv',pct(v),'middle')+'</g>');});});
+  var cx=x0+labW+7*cw/2,bw=d?260:200,bx=cx-bw/2,ly=top+5*ch+20,id='g'+kind,st='';
+  for(var i=0;i<=20;i++){var v=-DOM+2*DOM*i/20;st+='<stop offset="'+(i/20)+'" style="--c:'+heat(v,'light')+';--cd:'+heat(v,'dark')+'"/>';}
+  o.push('<linearGradient id="'+id+'" x1="0" x2="1">'+st+'</linearGradient>');
+  o.push(T(bx-8,ly+9,'ax','自提輸','end')+'<rect x="'+bx+'" y="'+ly+'" width="'+bw+'" height="10" rx="2" fill="url(#'+id+')"/>'+T(bx+bw+8,ly+9,'ax','自提贏'));
+  o.push('<line class="tk" x1="'+cx+'" x2="'+cx+'" y1="'+(ly-3)+'" y2="'+(ly+13)+'"/>'+T(bx,ly+25,'ax',MINUS+'75%','middle')+T(cx,ly+25,'ax','0（打平）','middle')+T(bx+bw,ly+25,'ax','+75%','middle'));
+  o.push('</svg>');return o.join('');}
+/* ---------- line ---------- */
+var YMIN=-0.8,YMAX=0.7;
+function lineSVG(G,kind){
+  var d=kind==='d',W=d?640:360,H=d?340:300,l=d?46:40,r=d?70:50,t=14,b=40,pw=W-l-r,ph=H-t-b;
+  function X(n){return l+(n-1)/34*pw;}function Y(v){return t+(YMAX-v)/(YMAX-YMIN)*ph;}
+  var y0=Y(0),o=['<svg class="'+kind+' line" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" role="img" aria-label="折線：五個級距自提多拿或少拿的百分比隨存的年數變化">'];
+  o.push('<rect class="wwin" x="'+l+'" y="'+t+'" width="'+pw+'" height="'+(y0-t).toFixed(1)+'"/><rect class="wlose" x="'+l+'" y="'+y0.toFixed(1)+'" width="'+pw+'" height="'+(t+ph-y0).toFixed(1)+'"/>');
+  [-0.6,-0.4,-0.2,0.2,0.4,0.6].forEach(function(v){o.push('<line class="grid" x1="'+l+'" x2="'+(l+pw)+'" y1="'+Y(v).toFixed(1)+'" y2="'+Y(v).toFixed(1)+'"/>'+T(l-6,Y(v)+4,'ax',pct(v),'end'));});
+  o.push(T(l-6,y0+4,'ax','0','end')+T(l+pw-6,t+14,'rg','↑ 自提多拿','end')+T(l+6,t+ph-7,'rg','↓ 自提少拿'));
+  [1,5,10,15,20,25,30,35].forEach(function(n){o.push('<line class="tk" x1="'+X(n).toFixed(1)+'" x2="'+X(n).toFixed(1)+'" y1="'+(t+ph)+'" y2="'+(t+ph+4)+'"/>'+T(X(n),t+ph+17,'ax',n,'middle'));});
+  o.push(T(l+pw,t+ph+33,'ax','存了幾年 →','end')+'<line class="base" x1="'+l+'" x2="'+(l+pw)+'" y1="'+(t+ph)+'" y2="'+(t+ph)+'"/>');
+  o.push('<line class="zero" x1="'+l+'" x2="'+(l+pw)+'" y1="'+y0.toFixed(1)+'" y2="'+y0.toFixed(1)+'"/>');
+  KS.forEach(function(k,i){var pts=G[k].map(function(c,j){return X(j+1).toFixed(1)+','+Y(c.v).toFixed(1);}).join(' ');
+    o.push('<polyline class="case" points="'+pts+'"/><polyline class="s c'+i+'" points="'+pts+'"/>');});
+  // crossings, staggered labels
+  var cr=[];KS.forEach(function(k,i){var v=G[k];for(var n=2;n<=35;n++){var a=v[n-2].v,c=v[n-1].v;if((a>=0)!==(c>=0)){cr.push({x:X(n-1+a/(a-c)),n:n,i:i,up:c>=0,k:k});}}});
+  cr.sort(function(p,q){return p.x-q.x;});
+  var rows=[y0+16,y0-8,y0+29],last=[-1e9,-1e9,-1e9];
+  cr.forEach(function(c){var txt=c.n+'年',w=txt.length*7+4,ri=0;
+    for(;ri<rows.length;ri++){if(c.x-w/2>last[ri]+3)break;}if(ri===rows.length)ri=0;last[ri]=c.x+w/2;
+    o.push('<circle class="c'+c.i+'" cx="'+c.x.toFixed(1)+'" cy="'+y0.toFixed(1)+'" r="4"><title>級距 '+c.k+'%：第 '+c.n+' 年起'+(c.up?'自提轉贏':'自提轉輸')+'</title></circle>'+T(c.x,rows[ri],'cx',txt,'middle'));});
+  // end labels with leaders
+  var lab=KS.map(function(k,i){return {y:Y(G[k][34].v),y0:Y(G[k][34].v),i:i};}).sort(function(p,q){return p.y-q.y;}),gap=14;
+  for(var it=0;it<60;it++){for(var a=0;a<lab.length-1;a++){if(lab[a+1].y-lab[a].y<gap){var mid=(lab[a+1].y+lab[a].y)/2;lab[a].y=mid-gap/2;lab[a+1].y=mid+gap/2;}}}
+  var lo=t+ph-2-lab[lab.length-1].y;if(lo<0)lab.forEach(function(L){L.y+=lo;});var up=t+6-lab[0].y;if(up>0)lab.forEach(function(L){L.y+=up;});
+  var xe=X(35);lab.forEach(function(L){o.push('<path class="ld" d="M'+(xe+4).toFixed(1)+','+L.y0.toFixed(1)+' L'+(xe+12).toFixed(1)+','+L.y.toFixed(1)+' L'+(xe+16).toFixed(1)+','+L.y.toFixed(1)+'"/>'+T(xe+19,L.y+4,'el',KS[L.i]+'%'));});
+  o.push('<line class="guide" x1="0" x2="0" y1="'+t+'" y2="'+(t+ph)+'" visibility="hidden"/><g class="hl"></g>');
+  for(var n=1;n<=35;n++){var x1=n>1?X(n-0.5):l,x2=n<35?X(n+0.5):l+pw;o.push('<rect class="hit" tabindex="0" data-n="'+n+'" data-x="'+X(n).toFixed(1)+'" x="'+x1.toFixed(1)+'" y="'+t+'" width="'+(x2-x1).toFixed(1)+'" height="'+ph+'"/>');}
+  o.push('</svg>');return {html:o.join(''),Y:Y};}
+/* ---------- band：補繳的稅讓熱圖上的數字最多往上、往下動多少（百分點），跟著目前設定 ---------- */
+var BK=[40,30,20,12],PMIN=-30,PMAX=10;/* 由寬到窄畫；5% 恆為零不畫；y 範圍固定 */
+function bandData(s){var o={};BK.forEach(function(k){var a=[],b=[];for(var n=1;n<=35;n++){var v=cell(s,k,n).v;a.push(cell(s,k,n,'none').v-v);b.push(v-cell(s,k,n,'frozen').v);}o[k]={a:a,b:b};});return o;}
+function bandSVG(D,kind){
+  var d=kind==='d',W=d?640:360,H=d?300:280,l=d?46:40,r=d?70:50,t=14,b=40,pw=W-l-r,ph=H-t-b;
+  function X(n){return l+(n-1)/34*pw;}function Y(p){return t+(PMAX-p)/(PMAX-PMIN)*ph;}
+  var y0=Y(0),o=['<svg class="'+kind+' bandc" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" role="img" aria-label="帶狀圖：12% 到 40% 四個級距，熱圖數字因為補繳的稅最多往上或往下動多少百分點，隨存的年數變化">'];
+  [-30,-20,-10,10].forEach(function(p){o.push('<line class="grid" x1="'+l+'" x2="'+(l+pw)+'" y1="'+Y(p).toFixed(1)+'" y2="'+Y(p).toFixed(1)+'"/>'+T(l-6,Y(p)+4,'ax',(p>0?'+':MINUS)+Math.abs(p),'end'));});
+  [1,5,10,15,20,25,30,35].forEach(function(n){o.push('<line class="tk" x1="'+X(n).toFixed(1)+'" x2="'+X(n).toFixed(1)+'" y1="'+(t+ph)+'" y2="'+(t+ph+4)+'"/>'+T(X(n),t+ph+17,'ax',n,'middle'));});
+  o.push(T(l+pw,t+ph+33,'ax','存了幾年 →','end')+'<line class="base" x1="'+l+'" x2="'+(l+pw)+'" y1="'+(t+ph)+'" y2="'+(t+ph)+'"/>');
+  var EG=[];/* 先畫完四條帶的填色，邊線最後一起畫，邊線不被別的帶的半透明填色蓋到 */
+  BK.forEach(function(k){var i=KS.indexOf(k),A=D[k].a,B=D[k].b,up=[],dn=[];
+    for(var n=1;n<=35;n++){up.push(X(n).toFixed(1)+','+Y(A[n-1]*100).toFixed(1));dn.push(X(n).toFixed(1)+','+Y(-B[n-1]*100).toFixed(1));}
+    o.push('<polygon class="band c'+i+'" data-k="'+k+'" points="'+up.concat(dn.slice().reverse()).join(' ')+'"/>');
+    EG.push('<polyline class="be c'+i+'" points="'+up.join(' ')+'"/><polyline class="be c'+i+'" points="'+dn.join(' ')+'"/>');});
+  o.push(EG.join(''));
+  // 零線標籤放在零線正上方、不壓線（壓線時左邊露出的線頭看起來像「−0」；12% 帶的上緣也在零上，所以不能只截短零線）
+  o.push('<line class="zero" x1="'+l+'" x2="'+(l+pw)+'" y1="'+y0.toFixed(1)+'" y2="'+y0.toFixed(1)+'"/>');
+  o.push(T(l+6,y0-5,'bz','0＝熱圖上的數字'));
+  // 兩行註解放右側、帶子外面。↑：靠右、基線 +7；字底下那段年數裡上緣若超過 +6，改放左上角（+9）。
+  // ↓：靠右，字頂在最寬那條帶 n=35 下緣之下 2 個百分點，基線不低於 −29。
+  var UP='↑ 完全不用補的人，最多再加這麼多',DN='↓ 免稅額和級距若都不調，最多再減這麼多',xr=X(35)-6,n0=Math.max(1,Math.floor(1+(xr-UP.length*11-l)/pw*34)),amax=0;
+  for(var n=n0;n<=35;n++)BK.forEach(function(k){amax=Math.max(amax,D[k].a[n-1]*100);});
+  o.push(amax>6?T(X(1)+6,Y(9),'bn',UP):T(xr,Y(7),'bn',UP,'end'));
+  var bw=Math.max.apply(null,BK.map(function(k){return D[k].b[34]*100;}));
+  o.push(T(xr,Math.min(Y(-bw-2)+9,Y(-29)),'bn',DN,'end'));
+  // end labels with leaders（折線圖那套排開法）
+  var lab=BK.map(function(k){var yy=Y(-D[k].b[34]*100);return {y:yy,y0:yy,k:k};}).sort(function(p,q){return p.y-q.y;}),gap=14;
+  for(var it=0;it<60;it++){for(var a=0;a<lab.length-1;a++){if(lab[a+1].y-lab[a].y<gap){var mid=(lab[a+1].y+lab[a].y)/2;lab[a].y=mid-gap/2;lab[a+1].y=mid+gap/2;}}}
+  var lo=t+ph-2-lab[lab.length-1].y;if(lo<0)lab.forEach(function(L){L.y+=lo;});var up=t+6-lab[0].y;if(up>0)lab.forEach(function(L){L.y+=up;});
+  var xe=X(35);lab.forEach(function(L){o.push('<path class="ld" d="M'+(xe+4).toFixed(1)+','+L.y0.toFixed(1)+' L'+(xe+12).toFixed(1)+','+L.y.toFixed(1)+' L'+(xe+16).toFixed(1)+','+L.y.toFixed(1)+'"/>'+T(xe+19,L.y+4,'el',L.k+'%'));});
+  o.push('<line class="guide" x1="0" x2="0" y1="'+t+'" y2="'+(t+ph)+'" visibility="hidden"/>');
+  for(var n=1;n<=35;n++){var x1=n>1?X(n-0.5):l,x2=n<35?X(n+0.5):l+pw;o.push('<rect class="hit" tabindex="0" data-n="'+n+'" data-x="'+X(n).toFixed(1)+'" x="'+x1.toFixed(1)+'" y="'+t+'" width="'+(x2-x1).toFixed(1)+'" height="'+ph+'"/>');}
+  o.push('</svg>');return o.join('');}
+/* 百分點一位小數；|x|<0.05 寫 0.0，避免出現「−0.0」 */
+function pp1(x){var v=x*100;return (Math.abs(v)<0.05?0:v).toFixed(1);}
+/* 會因補繳的稅改變輸贏的熱圖格子（5×7）：基準 v 與「完全不用補」或「不調」任一個正負不同 */
+function flipNote(s){var parts=[];KS.forEach(function(k){var ys=[];YRS.forEach(function(n){var v=cell(s,k,n).v,vn=cell(s,k,n,'none').v,vf=cell(s,k,n,'frozen').v;
+    if((v<0)!==(vn<0)||(v<0)!==(vf<0))ys.push(n);});if(ys.length)parts.push('級距 '+k+'% 第 '+ys.join('、')+' 年');});
+  return parts.length?'目前設定下，會因此從贏變輸或從輸變贏的格子：'+parts.join('、')+'。':'目前設定下，沒有任何一格會因此改變輸贏。';}
+/* ---------- table ---------- */
+function tableHTML(G){var h='<table><caption>60 歲一次領：自提比不自提多拿（+）或少拿（'+MINUS+'），目前設定</caption><thead><tr><th scope="col">存幾年</th>'+KS.map(function(k){return'<th scope="col">級距 '+k+'%</th>';}).join('')+'</tr></thead><tbody>';
+  for(var n=1;n<=35;n++)h+='<tr><th scope="row">'+n+'</th>'+KS.map(function(k){return'<td>'+pct(G[k][n-1].v,1)+'</td>';}).join('')+'</tr>';return h+'</tbody></table>';}
+/* ---------- tooltip ---------- */
+var tip=document.getElementById('tip');
+function show(html,ev,el){tip.innerHTML=html;tip.style.display='block';var r=el.getBoundingClientRect(),x,y;
+  if(ev&&ev.clientX!=null&&ev.type!=='focus'){x=ev.clientX;y=ev.clientY;}else{x=r.left+r.width/2;y=r.top;}
+  var tw=tip.offsetWidth,th=tip.offsetHeight,L=Math.min(Math.max(8,x+12),window.innerWidth-tw-8),Tp=y-th-12;if(Tp<8)Tp=y+16;tip.style.left=L+'px';tip.style.top=Tp+'px';}
+function hide(){tip.style.display='none';}
+/* ---------- 補繳的稅差多少：M 系列固定掃六組；X、Y、b12 在 render() 跟著目前設定 ---------- */
+function gaps(s){var bn=[0,0,0],bf=[0,0,0];KS.forEach(function(k){for(var n=1;n<=35;n++){var i=cell(s,k,n).v,a=cell(s,k,n,'none').v-i,b=i-cell(s,k,n,'frozen').v;
+  if(a>bn[0]+1e-12)bn=[a,k,n];if(b>bf[0]+1e-12)bf=[b,k,n];}});return {n:bn,f:bf};}
+function setG(V){document.querySelectorAll('[data-g]').forEach(function(e){if(Object.prototype.hasOwnProperty.call(V,e.dataset.g))e.textContent=V[e.dataset.g];});}
+function fillGaps(){var M=[0],RN={0.017:'1.7%',0.021:'2.1%',0.0465:'4.65%'},GN={0.06:'6%',0.075:'7.5%'};
+  [0.017,0.021,0.0465].forEach(function(rl){[0.06,0.075].forEach(function(gi){var g=gaps({rl:rl,gi:gi});
+    if(g.n[1]&&g.n[0]>M[0])M=[g.n[0],'完全不用補',rl,gi,g.n[1],g.n[2]];if(g.f[1]&&g.f[0]>M[0])M=[g.f[0],'免稅額和級距不調',rl,gi,g.f[1],g.f[2]];});});
+  var pp=function(x){return (x*100).toFixed(1);},V={ex1:(206000*CAREER/1e4).toLocaleString('en-US'),ex2:(414000*CAREER/1e4).toLocaleString('en-US'),
+    M:pp(M[0]),Mside:M[1],Mrl:RN[M[2]],Mgi:GN[M[3]],Mk:M[4],Mn:M[5]};
+  var base=flip(grid1(12,6000)),first=0,lo=99,hi=0;for(var sal=100000;sal<=153000;sal+=1000){var f=flip(grid1(12,Math.min(sal,150000)*0.06));if(!first&&f&&f<base)first=sal;if(first&&f){lo=Math.min(lo,f);hi=Math.max(hi,f);}}
+  V.s12=Math.round(first/1e4);V.s12a=lo;V.s12b=hi;
+  setG(V);return V;}
+/* 12% 級距用指定的每月提繳重算一列（預設報酬） */
+function grid1(k,p){var keep=PK[k],o=[];PK[k]=p;for(var n=1;n<=35;n++)o.push(cell({rl:0.0465,gi:0.075},k,n));PK[k]=keep;return o;}
+/* ---------- render ---------- */
+var G;
+function render(){
+  G=grid(S);
+  document.getElementById('heat').innerHTML=heatSVG(G,'d')+heatSVG(G,'m');
+  var ld=lineSVG(G,'d'),lm=lineSVG(G,'m');document.getElementById('line').innerHTML=ld.html+lm.html;
+  document.getElementById('tbl').innerHTML=tableHTML(G);
+  var D=bandData(S),mx=function(arr){return Math.max.apply(null,arr.concat([0]));};
+  document.getElementById('band').innerHTML=bandSVG(D,'d')+bandSVG(D,'m');
+  document.getElementById('flipnote').textContent=flipNote(S);
+  setG({X:pp1(Math.max(mx(D[20].a),mx(D[30].a),mx(D[40].a))),Y:pp1(Math.max(mx(D[20].b),mx(D[30].b),mx(D[40].b))),b12:pp1(mx(D[12].b))});
+  document.querySelectorAll('#band svg').forEach(function(svg){var guide=svg.querySelector('.guide');
+    function off(){guide.setAttribute('visibility','hidden');hide();}
+    svg.querySelectorAll('.hit').forEach(function(h){function on(ev){var n=+h.dataset.n,x=+h.dataset.x;guide.setAttribute('x1',x);guide.setAttribute('x2',x);guide.setAttribute('visibility','visible');
+      var lines=['<b>自提 '+n+' 年</b>'];BK.forEach(function(k){lines.push('級距 '+k+'%　不用補 +'+pp1(D[k].a[n-1])+'／不調 '+(pp1(D[k].b[n-1])==='0.0'?'':MINUS)+pp1(D[k].b[n-1]));});
+      show(lines.join('\n'),ev,h);}
+      h.addEventListener('pointerenter',on);h.addEventListener('pointermove',on);h.addEventListener('focus',on);h.addEventListener('blur',off);});
+    svg.addEventListener('pointerleave',off);});
+  document.getElementById('now').textContent='目前設定：'+LBL.rl[S.rl]+'；'+LBL.gi[S.gi]+'。';
+  document.querySelectorAll('#ctl button').forEach(function(b){b.setAttribute('aria-pressed',String(S[b.dataset.k])===b.dataset.v?'true':'false');});
+  document.querySelectorAll('#heat .cell').forEach(function(c){
+    function on(ev){var k=+c.dataset.k,n=+c.dataset.n,x=G[k][n-1];
+      show('<b>級距 '+k+'%，自提 '+n+' 年（年資 '+x.Y+' 年），60 歲一次領</b>\n自提：'+yen(x.A-x.tx)+' 元（已扣因為自提多繳的稅 '+yen(x.tx)+' 元）\n不自提、自己投：'+yen(x.B)+' 元\n自提'+(x.v>=0?'多拿 ':'少拿 ')+Math.abs(x.v*100).toFixed(1)+'%',ev,c);}
+    c.addEventListener('pointerenter',on);c.addEventListener('pointermove',on);c.addEventListener('focus',on);c.addEventListener('pointerleave',hide);c.addEventListener('blur',hide);});
+  [[document.querySelector('#line svg.d'),ld.Y],[document.querySelector('#line svg.m'),lm.Y]].forEach(function(pr){var svg=pr[0],Y=pr[1],guide=svg.querySelector('.guide'),hl=svg.querySelector('.hl');
+    function off(){guide.setAttribute('visibility','hidden');hl.innerHTML='';hide();}
+    svg.querySelectorAll('.hit').forEach(function(h){function on(ev){var n=+h.dataset.n,x=+h.dataset.x;guide.setAttribute('x1',x);guide.setAttribute('x2',x);guide.setAttribute('visibility','visible');hl.innerHTML='';
+      var lines=['<b>自提 '+n+' 年（年資 '+CAREER+' 年），60 歲一次領</b>'];for(var i=KS.length-1;i>=0;i--){var v=G[KS[i]][n-1].v,cc=document.createElementNS(NS,'circle');cc.setAttribute('cx',x);cc.setAttribute('cy',Y(v));cc.setAttribute('r',4);cc.setAttribute('class','c'+i);hl.appendChild(cc);lines.push('級距 '+KS[i]+'%　'+pct(v,1));}
+      show(lines.join('\n'),ev,h);}
+      h.addEventListener('pointerenter',on);h.addEventListener('pointermove',on);h.addEventListener('focus',on);h.addEventListener('blur',off);});
+    svg.addEventListener('pointerleave',off);});}
+document.querySelectorAll('#ctl button').forEach(function(b){b.addEventListener('click',function(){var k=b.dataset.k,v=b.dataset.v;S[k]=+v;hide();render();});});
+fillGaps();
+render();
+if(/[?&]open=band(&|$)/.test(location.search))document.getElementById('gapd').open=true;/* 只給截圖用 */
+})();
+</script>
+</body>
+</html>

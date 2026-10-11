@@ -1012,6 +1012,13 @@ def first_route():
     return _g12.chart_route()
 
 
+# v7 批 DJ 的 G13：要不要自提的熱圖（只在指南第 24 節新卡「要不要自提，先看你是哪種人」），
+# compute()／chart() 寫在 tools/v7_g13_laotui.py；圖說預設用它的 CAPTION（指南已有 figcaption 時保留指南那份）。
+def laotui_heatmap():
+    import v7_g13_laotui as _g13
+    return _g13.chart(_g13.compute())
+
+
 CHARTS = [
     ("three-circles", "01-where-return-comes-from.html", "順便講「又穩又高」", "aside", three_circles),
     ("four-people", "02-time.html", "手冊算過四個人", "aside", four_people),
@@ -1105,6 +1112,7 @@ def do_guide():
     funcs["money-age"] = money_age                    # 只在指南
     funcs["panic-map"] = panic_map                    # 只在指南
     funcs["first-route"] = first_route                # 只在指南
+    funcs["laotui-heatmap"] = laotui_heatmap          # 只在指南
     n = 0
     diffs = []
     def repl(m):
