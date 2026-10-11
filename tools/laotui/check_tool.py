@@ -11,20 +11,21 @@
      從熱圖（#heat 的桌機版）翻盤年欄抓五個翻盤年，和 tools/v7_g13_laotui.py 比：
      35 年逐格比 vdef()（compute() 用的同一個式子），5、10、…、35 年那七欄另外比 compute()['grid']，
      翻盤年比 compute()['flip']；允許 0.05 個百分點（表格只印一位小數）。
-     M 系列六個 span（M、Mside、Mrl、Mgi、Mk、Mn）比 calc.py 掃六組的最大值（calc.py main() 的 six_combos_max 同一個算法）。
+     M 系列六個 span（M、Mside、Mrl、Mgi、Mk、Mn）比 calc.py 掃九組的最大值（calc.py main() 的 nine_combos_max 同一個算法）。
   2. 版面結構：#band 內兩個 svg、每個 svg 4 條 polygon.band；#flipnote 非空；
      最上層（三個 <details> 以外）不再出現「參數：」「20% 級距、自提 15 年」；「怎麼算」內有「參數：」；
      「回到書」那行在最上層（details 外），href、target="_blank"、rel="noopener" 都對；全頁不再出現「20% 級距、自提 15 年」與 data-g="Za"／"Zb"；每個 data-g 的 span 都有字、不是 undefined／NaN。
-  3. 用 iframe 包起來在 1024 與 375 寬量：六種報酬組合逐一點按鈕，
+  3. 用 iframe 包起來在 1024 與 375 寬量：九種報酬組合逐一點按鈕，
      X、Y、b12 與 #flipnote 要等於 tools/laotui/calc.py 算的值（跟著目前設定變）；
      帶狀圖右端四個級距標籤（text.el）兩兩不重疊；兩行註解（text.bn）的字框不和任何 polygon.band 相交
      （每 2px 取樣，用 polygon 在該 x 的上下緣內插，粗略）；四條帶的 polygon 每條 70 點逐點反推回百分點，
      和 calc.py 的 a、b 比（容差 0.05 個百分點），x 也要對上 X(n)；「0＝熱圖上的數字」不壓零線（在零線上方，或零線從字尾之後才開始），
      且字框左邊、字框高度內沒有零線或帶子邊線的線頭（看起來像「−0」）；帶狀圖裡所有字都在 svg 的寬度內；375 寬整頁不橫向溢出。
   4. （同 3，375 寬用手機版 svg 再做一次。）
-  5. 截圖到 wip/v63-review/：laotui-tool7-1024.png、laotui-tool7-375.png、
-     laotui-tool7-band-1024.png（?open=band，「補繳的稅差多少」展開）、
-     laotui-tool7-band-375.png、laotui-tool7-band-1024-dark.png（--force-dark-mode）。截圖要人看，這支不判讀圖。
+  5. 截圖到 wip/v63-review/：laotui-tool71-1024.png、laotui-tool71-375.png、
+     laotui-tool71-band-1024.png（?open=band，「補繳的稅差多少」展開）、
+     laotui-tool71-band-375.png、laotui-tool71-band-1024-dark.png（--force-dark-mode）、
+     laotui-tool71-9pct-1024.png（iframe 包起來點「自己投 9%」，補繳展開，含熱圖與帶狀圖）。截圖要人看，這支不判讀圖。
 """
 import importlib.util
 import itertools
@@ -59,7 +60,7 @@ SPEC_A = ('要補繳的只有同時符合這幾點的人：60 歲一次領、年
 SPEC_B = ('圖上已經把補繳算進去，而且假設免稅額和級距每年隨物價調 1.5%。下面這張圖是：熱圖每一格的數字，往上最多再加多少（完全不用補的人），'
           '往下最多再減多少（免稅額和級距一直不調）。5% 級距是零；12% 級距最多差 <span data-g="b12"></span> 個百分點；'
           '20% 以上的人，不用補最多再加 <span data-g="X"></span> 個百分點，免稅額和級距若都不調，存越久差越多，最多再減 <span data-g="Y"></span> 個百分點。')
-SPEC_E = ('以上百分點是目前設定的數字；六種報酬組合裡差最多的是 <span data-g="M"></span> 個百分點（<span data-g="Mside"></span>，'
+SPEC_E = ('以上百分點是目前設定的數字；九種報酬組合裡差最多的是 <span data-g="M"></span> 個百分點（<span data-g="Mside"></span>，'
           '勞退 <span data-g="Mrl"></span>、自己投 <span data-g="Mgi"></span>，<span data-g="Mk"></span>% 級距、自提 <span data-g="Mn"></span> 年）。')
 SPEC_GAPD = ('<details class="tv pad" id="gapd"><summary>補繳的稅差多少</summary>\n<p>' + SPEC_A + '</p>\n<p>' + SPEC_B + '</p>\n'
              '<div class="box" id="band"></div>\n<p id="flipnote"></p>\n<p class="small">' + SPEC_E + '</p>\n</details>')
@@ -87,7 +88,7 @@ def check_source(problems, lines):
 
 
 def expect_m():
-    """calc.py main() 的 six_combos_max：六組 gaps() 的兩種差裡最大的那個。"""
+    """calc.py main() 的 nine_combos_max：九組 gaps() 的兩種差裡最大的那個。"""
     allg = []
     for rl, gi in itertools.product(C.RLS, C.GS):
         n_, f_, _ = C.gaps(rl, gi)
@@ -97,11 +98,11 @@ def expect_m():
             allg.append((f_[0], '免稅額和級距不調', rl, gi) + f_[1])
     M = max(allg)
     RN = {0.017: '1.7%', 0.021: '2.1%', 0.0465: '4.65%'}
-    GN = {0.06: '6%', 0.075: '7.5%'}
+    GN = {0.06: '6%', 0.075: '7.5%', 0.09: '9%'}
     return {'M': '%.1f' % (M[0] * 100), 'Mside': '完全不用補' if M[1] == '不用補' else M[1],
             'Mrl': RN[M[2]], 'Mgi': GN[M[3]], 'Mk': str(M[4]), 'Mn': str(M[5])}
 MINUS = '−'
-COMBOS = [(rl, gi) for rl, gi in itertools.product(['0.017', '0.021', '0.0465'], ['0.06', '0.075'])]
+COMBOS = [(rl, gi) for rl, gi in itertools.product(['0.017', '0.021', '0.0465'], ['0.06', '0.075', '0.09'])]
 
 
 def chrome_run(chrome, args, timeout=180):
@@ -202,7 +203,7 @@ def check_dom(chrome, problems, lines):
         problems.append('data-g 沒填好：%s' % empty)
     got_m = {k: unesc(v) for k, v in spans if k.startswith('M')}
     exp_m = expect_m()
-    lines.append('M 系列 頁面 %s；calc.py six_combos_max %s' % (got_m, exp_m))
+    lines.append('M 系列 頁面 %s；calc.py nine_combos_max %s' % (got_m, exp_m))
     if got_m != exp_m:
         problems.append('M 系列不同：頁面 %r，calc.py %r' % (got_m, exp_m))
     bl = re.search(r'<p class="small pad" id="backlink">(.*?)</p>', dom, flags=re.S)
@@ -215,7 +216,7 @@ def check_dom(chrome, problems, lines):
 
 
 # ---------------------------------------------------------------------------
-# 3：iframe 量測（六組報酬逐一點）
+# 3：iframe 量測（九組報酬逐一點）
 MEASURE_JS = r"""
 function go(){var out=document.getElementById('out'),res={};
  try{var w=document.getElementById('f').contentWindow,doc=w.document;res.innerWidth=w.innerWidth;
@@ -385,7 +386,7 @@ def check_measure(chrome, problems, lines):
                     lines.append('  %s：X %s、Y %s、b12 %s；標籤 y %s；註解 [箭頭, x, y] %s；%s'
                                  % (tag.split('：')[0][7:], c['g']['X'], c['g']['Y'], c['g']['b12'],
                                     [round(e[2], 1) for e in el], c['ann'], c['flipnote']))
-            lines.append('%dpx：六組 X／Y／b12／flipnote 對 calc.py、標籤重疊、字超出 svg、註解與帶子相交、零線標籤與線頭都查過；'
+            lines.append('%dpx：九組 X／Y／b12／flipnote 對 calc.py、標籤重疊、字超出 svg、註解與帶子相交、零線標籤與線頭都查過；'
                          'polygon 4×70 點對模型最大差 %.4f 個百分點' % (width, max(c.get('polyWorst', 0) for c in r['combos'])))
     return heights
 
@@ -404,12 +405,24 @@ def shots(chrome, heights, lines, problems):
                 fh.write('<!doctype html><meta charset="utf-8"><style>html,body{margin:0}iframe{border:0;display:block}</style>'
                          '<iframe src="%s%s" width="375" height="%d"></iframe>' % (url, q, h375o + 40))
             return 'file://' + pth
+
+        def wrap9(name):
+            # 工具本身沒有用網址切報酬的參數，iframe 載入後點「自己投 9%」再截
+            pth = os.path.join(td, name)
+            with open(pth, 'w', encoding='utf-8') as fh:
+                fh.write('<!doctype html><meta charset="utf-8"><style>html,body{margin:0}iframe{border:0;display:block}</style>'
+                         '<iframe id="f" src="%s?open=band" width="1024" height="%d"></iframe>'
+                         '<script>document.getElementById("f").addEventListener("load",function(){'
+                         'this.contentWindow.document.querySelector(\'#ctl button[data-k="gi"][data-v="0.09"]\').click();});</script>'
+                         % (url, h1024o + 40))
+            return 'file://' + pth
         jobs = [
-            ('laotui-tool7-1024.png', 1024, h1024c + 20, url, []),
-            ('laotui-tool7-375.png', 375, h375c + 20, wrap375('w1.html', ''), []),
-            ('laotui-tool7-band-1024.png', 1024, h1024o + 20, url + '?open=band', []),
-            ('laotui-tool7-band-375.png', 375, h375o + 20, wrap375('w2.html', '?open=band'), []),
-            ('laotui-tool7-band-1024-dark.png', 1024, h1024o + 20, url + '?open=band', ['--force-dark-mode']),
+            ('laotui-tool71-1024.png', 1024, h1024c + 20, url, []),
+            ('laotui-tool71-375.png', 375, h375c + 20, wrap375('w1.html', ''), []),
+            ('laotui-tool71-band-1024.png', 1024, h1024o + 20, url + '?open=band', []),
+            ('laotui-tool71-band-375.png', 375, h375o + 20, wrap375('w2.html', '?open=band'), []),
+            ('laotui-tool71-band-1024-dark.png', 1024, h1024o + 20, url + '?open=band', ['--force-dark-mode']),
+            ('laotui-tool71-9pct-1024.png', 1024, h1024o + 20, wrap9('w3.html'), []),
         ]
         for name, w, h, u, extra in jobs:
             out = os.path.join(SHOTS, name)

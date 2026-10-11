@@ -87,7 +87,7 @@ thead th{font-weight:700}tbody th{text-align:left;font-weight:400;color:var(--mu
 <p class="chart-sub">60 歲那天一次領，兩條路各剩多少稅後的錢</p>
 <div class="ctl" id="ctl">
 <div class="grp" role="group" aria-label="勞退報酬"><span class="gl">勞退報酬</span><button type="button" data-k="rl" data-v="0.017">1.7%（115 年 10 月保證收益率）</button><button type="button" data-k="rl" data-v="0.021">2.1% 最差十年</button><button type="button" data-k="rl" data-v="0.0465">4.65% 2006–2025</button></div>
-<div class="grp" role="group" aria-label="自己投的報酬"><span class="gl">自己投的報酬</span><button type="button" data-k="gi" data-v="0.06">6%</button><button type="button" data-k="gi" data-v="0.075">7.5%</button></div>
+<div class="grp" role="group" aria-label="自己投的報酬"><span class="gl">自己投的報酬</span><button type="button" data-k="gi" data-v="0.06">6%</button><button type="button" data-k="gi" data-v="0.075">7.5%</button><button type="button" data-k="gi" data-v="0.09">9%</button></div>
 </div>
 <p class="read">每個數字＝自提那條路 60 歲一次領、繳完稅剩下的錢 ÷ 不自提、把稅後的錢自己投的那條路 − 1。<b>正的是自提多拿，負的是自提少拿。</b></p>
 </div>
@@ -107,7 +107,7 @@ thead th{font-weight:700}tbody th{text-align:left;font-weight:400;color:var(--mu
 <p>圖上已經把補繳算進去，而且假設免稅額和級距每年隨物價調 1.5%。下面這張圖是：熱圖每一格的數字，往上最多再加多少（完全不用補的人），往下最多再減多少（免稅額和級距一直不調）。5% 級距是零；12% 級距最多差 <span data-g="b12"></span> 個百分點；20% 以上的人，不用補最多再加 <span data-g="X"></span> 個百分點，免稅額和級距若都不調，存越久差越多，最多再減 <span data-g="Y"></span> 個百分點。</p>
 <div class="box" id="band"></div>
 <p id="flipnote"></p>
-<p class="small">以上百分點是目前設定的數字；六種報酬組合裡差最多的是 <span data-g="M"></span> 個百分點（<span data-g="Mside"></span>，勞退 <span data-g="Mrl"></span>、自己投 <span data-g="Mgi"></span>，<span data-g="Mk"></span>% 級距、自提 <span data-g="Mn"></span> 年）。</p>
+<p class="small">以上百分點是目前設定的數字；九種報酬組合裡差最多的是 <span data-g="M"></span> 個百分點（<span data-g="Mside"></span>，勞退 <span data-g="Mrl"></span>、自己投 <span data-g="Mgi"></span>，<span data-g="Mk"></span>% 級距、自提 <span data-g="Mn"></span> 年）。</p>
 </details>
 <details class="tv pad"><summary>怎麼算</summary>
 <h4>兩條路</h4>
@@ -144,7 +144,7 @@ thead th{font-weight:700}tbody th{text-align:left;font-weight:400;color:var(--mu
 <li><a href="https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=34b463dc8f1b49f29d440d92a6fd5139">財政部：115 年度綜合所得稅課稅級距與累進差額、退職所得定額免稅金額公告</a></li>
 <li><a href="https://www.blf.gov.tw/media/ch3lc5dv/2-%E6%96%B0%E5%88%B6%E5%8B%9E%E5%B7%A5%E9%80%80%E4%BC%91%E5%9F%BA%E9%87%91%E7%B6%93%E7%87%9F%E6%A6%82%E6%B3%81.pdf">勞動部勞動基金運用局：新制勞工退休基金經營概況（表 2 歷年收益率）</a></li>
 </ul>
-<p class="small">參數：勞退報酬 4.65%＝新制勞退基金 2006–2025 年化（可切 2.1%＝2006–2015 最差的十年、1.7%＝115 年 10 月保證收益率）；自己投的報酬是扣配息稅前的年化報酬（可切 6%、7.5%），其中台股 ETF 殖利率 3%，配息稅與補充保費 2.11% 已在圖裡扣掉；一次領的免稅額以 115 年度為準：免稅線 206,000 元、半數課稅到 414,000 元（每年資）。</p>
+<p class="small">參數：勞退報酬 4.65%＝新制勞退基金 2006–2025 年化（可切 2.1%＝2006–2015 最差的十年、1.7%＝115 年 10 月保證收益率）；自己投的報酬是扣配息稅前的年化報酬（可切 6%、7.5%、9%），其中台股 ETF 殖利率 3%，配息稅與補充保費 2.11% 已在圖裡扣掉；一次領的免稅額以 115 年度為準：免稅線 206,000 元、半數課稅到 414,000 元（每年資）。</p>
 </details>
 <details class="tv" id="yby"><summary class="pad">逐年細看：折線與表格</summary>
 <p class="sec pad">隨年數怎麼變<span>線尾數字是現在的所得稅級距；圓點是翻盤的那一年</span></p>
@@ -161,7 +161,7 @@ thead th{font-weight:700}tbody th{text-align:left;font-weight:400;color:var(--mu
 var KS=[5,12,20,30,40],YRS=[5,10,15,20,25,30,35],MINUS='−',NS='http://www.w3.org/2000/svg';
 var S={rl:0.0465,gi:0.075};
 var PK={5:2700,12:6000,20:9000,30:9000,40:9000},CAREER=35;/* 固定：每月提繳＝各級距代表月薪的 6%（5%→45,000、12%→100,000、20% 以上→150,000 上限），雇主同額、25 歲開始工作 60 歲一次領（年資 35 年，已工作年數＝35−n）、退休那年沒有薪水、台股 ETF 配息課稅 */
-var LBL={rl:{0.017:'勞退報酬 1.7%（115 年 10 月保證收益率）',0.021:'勞退報酬 2.1%（最差十年）',0.0465:'勞退報酬 4.65%（2006–2025）'},gi:{0.06:'自己投的報酬 6%（配息稅另扣）',0.075:'自己投的報酬 7.5%（配息稅另扣）'}};
+var LBL={rl:{0.017:'勞退報酬 1.7%（115 年 10 月保證收益率）',0.021:'勞退報酬 2.1%（最差十年）',0.0465:'勞退報酬 4.65%（2006–2025）'},gi:{0.06:'自己投的報酬 6%（配息稅另扣）',0.075:'自己投的報酬 7.5%（配息稅另扣）',0.09:'自己投的報酬 9%（配息稅另扣）'}};
 /* ---------- model ---------- */
 function fv(p,r,n){if(n<=0)return 0;var m=Math.pow(1+r,1/12)-1;return p*(Math.pow(1+m,12*n)-1)/m;}
 function tau(t){return t>=0.40?0.28:t-0.085;}/* M2：抵減超過退稅，允許負值 */
@@ -288,12 +288,12 @@ function show(html,ev,el){tip.innerHTML=html;tip.style.display='block';var r=el.
   if(ev&&ev.clientX!=null&&ev.type!=='focus'){x=ev.clientX;y=ev.clientY;}else{x=r.left+r.width/2;y=r.top;}
   var tw=tip.offsetWidth,th=tip.offsetHeight,L=Math.min(Math.max(8,x+12),window.innerWidth-tw-8),Tp=y-th-12;if(Tp<8)Tp=y+16;tip.style.left=L+'px';tip.style.top=Tp+'px';}
 function hide(){tip.style.display='none';}
-/* ---------- 補繳的稅差多少：M 系列固定掃六組；X、Y、b12 在 render() 跟著目前設定 ---------- */
+/* ---------- 補繳的稅差多少：M 系列固定掃九組；X、Y、b12 在 render() 跟著目前設定 ---------- */
 function gaps(s){var bn=[0,0,0],bf=[0,0,0];KS.forEach(function(k){for(var n=1;n<=35;n++){var i=cell(s,k,n).v,a=cell(s,k,n,'none').v-i,b=i-cell(s,k,n,'frozen').v;
   if(a>bn[0]+1e-12)bn=[a,k,n];if(b>bf[0]+1e-12)bf=[b,k,n];}});return {n:bn,f:bf};}
 function setG(V){document.querySelectorAll('[data-g]').forEach(function(e){if(Object.prototype.hasOwnProperty.call(V,e.dataset.g))e.textContent=V[e.dataset.g];});}
-function fillGaps(){var M=[0],RN={0.017:'1.7%',0.021:'2.1%',0.0465:'4.65%'},GN={0.06:'6%',0.075:'7.5%'};
-  [0.017,0.021,0.0465].forEach(function(rl){[0.06,0.075].forEach(function(gi){var g=gaps({rl:rl,gi:gi});
+function fillGaps(){var M=[0],RN={0.017:'1.7%',0.021:'2.1%',0.0465:'4.65%'},GN={0.06:'6%',0.075:'7.5%',0.09:'9%'};
+  [0.017,0.021,0.0465].forEach(function(rl){[0.06,0.075,0.09].forEach(function(gi){var g=gaps({rl:rl,gi:gi});
     if(g.n[1]&&g.n[0]>M[0])M=[g.n[0],'完全不用補',rl,gi,g.n[1],g.n[2]];if(g.f[1]&&g.f[0]>M[0])M=[g.f[0],'免稅額和級距不調',rl,gi,g.f[1],g.f[2]];});});
   var pp=function(x){return (x*100).toFixed(1);},V={ex1:(206000*CAREER/1e4).toLocaleString('en-US'),ex2:(414000*CAREER/1e4).toLocaleString('en-US'),
     M:pp(M[0]),Mside:M[1],Mrl:RN[M[2]],Mgi:GN[M[3]],Mk:M[4],Mn:M[5]};

@@ -32,4 +32,4 @@ https://www.blf.gov.tw/media/ch3lc5dv/2-%E6%96%B0%E5%88%B6%E5%8B%9E%E5%B7%A5%E9%
 
 ## 附註
 
-`research/tw-social-insurance.md` §2.5 寫「近 10 年（105–114）平均收益率 8.58%」，與表 2 算出的 7.24／7.48 都不符，來源待查；該檔本批不動。
+`research/tw-social-insurance.md` §2.5 寫「近 10 年（105–114）平均收益率 8.58%」，是整體勞動基金近 10 年平均（見 tw-social-insurance.md §補 84），不是新制勞退基金，不矛盾。
