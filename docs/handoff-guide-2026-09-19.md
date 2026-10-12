@@ -2443,3 +2443,5 @@ note 句尾加：「「每一筆錢都有自己的三十年」這個看法來自
 6. budget：lifecycle 6317→6352、lifecycle 小字 1115→1146、看得見總計 71896→71920（_comment_dk 補註）。哨兵最後一輪：numbers 兩基準 LOST 0、BUDGET OK、ANCHORS／XREFS／PLANSTEP OK、CHECK OK、calc_core 引用缺漏 []、g12 exit 0、build_lite 與 lite_sentinels SENTINELS OK（工作表 6 頁、附錄 6 頁、完整版 200 頁、v7.1）、LAYOUT OK。
 7. **沒做的**：裁判後修正沒有再派第二輪裁判（代理連不上 API），由主線自己 grep 逐條核對前後字串；三張新卡與勞保句、稅段仍待作者逐字核。
 
+**批 DK commit 60eabb9（2026-10-12）。發布與送檔都卡在網路**：發布時機器連不上 api.anthropic.com 與 claudeusercontent（DNS 失敗），指南 Artifact 仍是 Version 70（v7.0／批 DJ）、工作表仍 46；SendUserFile 三個檔只在桌面 app 看得到。網路恢復後要做：Artifact read 9WawELoGewi9ecKK32YcfU 再 publish（v7.1）、read SyGNXbzfPAXVeundB33Wb4 再 publish 工作表（v7.1，含「一次只降一級」）、重送 output/guide.html＋export/…v7.1.pdf＋output/lite.html；作者推 origin。
+
