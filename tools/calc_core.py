@@ -271,6 +271,12 @@ v72b = fv(1_200_000, lookup[60]['low'], 72, 25000)
 dp['counter_example_month72_25k_60pct'] = {'ym': ym(72), 'rate': lookup[60]['low'], 'amount_wan1': wan1(v72b), 'amount_wan': wan(v72b),
                                            'loss_drop50_wan1': wan1(v72b * 0.6 * 0.5), 'loss_drop50_wan': wan(v72b * 0.6 * 0.5),
                                            'note': '照地板規則本來就不能這樣放，只示範會少多少'}
+# 批 DK（通讀評價次要 6）：書上其他三個人的試算都扣了示範費率，反面例子也扣：股票六成 × 0.5% ＝ 0.3 個百分點，3.2% → 2.9%。
+_v72f = fv(1_200_000, round(lookup[60]['low'] - 0.6 * 0.5, 6), 72, 25000)
+dp['counter_example_month72_25k_60pct'].update({
+    'rate_after_fee': round(lookup[60]['low'] - 0.6 * 0.5, 6),
+    'amount_after_fee_wan1': wan1(_v72f), 'amount_after_fee_wan': wan(_v72f),
+    'loss_drop50_after_fee_wan1': wan1(_v72f * 0.6 * 0.5), 'loss_drop50_after_fee_wan': wan(_v72f * 0.6 * 0.5)})
 dp['floor_5y_from'] = ym(84 - 60)  # 2033-09 往前 5 年＝2028-09（提案寫法）
 xy['long_term'] = lt = {'rates': lookup[80], 'target_wan': 700, 'target_ym': ym(360),
                         'target_today_wan': {'cpi_30y': cpi(30), 'value': r0(700 / cpi(30)), 'exact': round(700 / cpi(30), 1), 'proposal': 387}}
@@ -439,7 +445,10 @@ ch['labor_pension_two_stage'] = {
 FEE_DEMO = 0.5
 T2_ROWS = [r1(2.0 + 0.2 * i) for i in range(11)]     # 表二印出來的列：2.0%–4.0%，每 0.2 個百分點
 def after_fee(rate, stock_share, fee_stock=FEE_DEMO, fee_defense=0.0):
-    return r1(rate - stock_share * fee_stock - (1 - stock_share) * fee_defense)
+    # 批 DK（通讀評價次要 5、8）：不再四捨五入到一位。七成（3.4 − 0.35 ＝ 3.05）、五成（3.0 − 0.25 ＝ 2.75）、
+    # 費率 0.6%（3.6 − 0.48 ＝ 3.12）原本被往上取成 3.1／2.8／3.1，和書自己「用試算表的精確值、取小不取大」相反。
+    # 八成、六成、四成、兩成、零本來就是整一位，數字不變。round(…, 6) 只為了去掉浮點尾數。
+    return round(rate - stock_share * fee_stock - (1 - stock_share) * fee_defense, 6)
 def t2_row(rate):
     xs = [x for x in T2_ROWS if x <= rate + 1e-9]
     return max(xs) if xs else None
@@ -530,6 +539,14 @@ _df06.update({'ym': ym(_df06['month']), 'extra_months': _df06['month'] - 240,
               'fee_stock_pct': 0.6, 'rate_after_fee': after_fee(rt80['low'], 0.8, 0.6),
               'within_max': _df06['month'] - 240 <= 60})
 _xf['delay_rescaled_fee06'] = _df06
+# 批 DK（通讀評價次要 8）：改用精確的 3.12% 以後，費率 0.6% 剛好延滿 5 年（60 個月，還在最多能延的 5 年以內）；
+# 要到約 0.63%（扣費後低於 3.10%）才跳到 6.8 年。書上改寫成「費用若到 0.65%，…延約 6.8 年、走不通」。
+_df065 = months_to_rescaled(0, after_fee(rt80['low'], 0.8, 0.65), base, 134, 241)
+_df065.update({'ym': ym(_df065['month']), 'extra_months': _df065['month'] - 240,
+               'extra_years': round((_df065['month'] - 240) / 12, 1),
+               'fee_stock_pct': 0.65, 'rate_after_fee': after_fee(rt80['low'], 0.8, 0.65),
+               'within_max': _df065['month'] - 240 <= 60})
+_xf['delay_rescaled_fee065'] = _df065
 _xf['delay_margin_months'] = 60 - _df['extra_months']
 _xf['section5_2_example'] = {'now_3wan_80pct_loss50_wan': r1(3 * 0.8 * 0.5),
                              'y2046_loss50_wan': _xf['stress']['y2046']['loss_wan']['50']}
@@ -637,8 +654,12 @@ assert (_xf['delay_rescaled']['ym'], _xf['delay_rescaled']['target_wan'],
 assert _xf['delay_margin_months'] == 2, _xf['delay_rescaled']          # 批 BO：書上寫「只差 2 個月」
 assert (_xf['delay_rescaled_fee06']['rate_after_fee'], _xf['delay_rescaled_fee06']['ym'],
         _xf['delay_rescaled_fee06']['extra_years'],
-        _xf['delay_rescaled_fee06']['within_max']) == (3.1, '2053-06', 6.8, False), _xf['delay_rescaled_fee06']
-#   ↑ 批 BO：書上寫「費用只要比 0.5% 高一點，這條就變成延 6.8 年、走不通」的敏感度來源（股票那一檔 0.6%）
+        _xf['delay_rescaled_fee06']['within_max']) == (3.12, '2051-09', 5.0, True), _xf['delay_rescaled_fee06']
+#   ↑ 批 BO 原是 (3.1, '2053-06', 6.8, False)：3.12 被往下取成 3.1 才得到 6.8 年。批 DK 改精確值後，0.6% 剛好延滿 5 年。
+assert (_xf['delay_rescaled_fee065']['rate_after_fee'], _xf['delay_rescaled_fee065']['ym'],
+        _xf['delay_rescaled_fee065']['extra_years'],
+        _xf['delay_rescaled_fee065']['within_max']) == (3.08, '2053-07', 6.8, False), _xf['delay_rescaled_fee065']
+#   ↑ 批 DK：書上「費用若到 0.65%，這條就變成延約 6.8 年、走不通」的來源
 # 阿凱：六四，扣 0.6 × 0.5% ＝ 0.3 個百分點
 assert _akf['pct20_10k']['exact']['wan'] == 378 and _akf['pct20_10k']['short_wan'] == 72, _akf['pct20_10k']   # 舊 369／差 81
 assert _akf['min_integer_pct'] == 25 and _akf['min_enough_step500'] == 12500, _akf['min_integer_pct']          # 舊 26%／13,000
@@ -650,7 +671,7 @@ assert _akf['table_2046']['64']['low']['pct20_10k'] == 378 and _akf['table_2046'
 #   ↑ 舊 369／388（388 ＝「八二、投收入 20%、月投 1 萬」那一格，不是六四那一格）
 assert _akf['table_2046']['64']['mid']['pct20_10k'] == 439 and _akf['table_2046']['64']['high']['pct20_10k'] == 474, _akf['table_2046']  # 舊 428／462
 assert _akf['table_2046']['82']['mid']['pct20_10k'] == 480 and _akf['table_2046']['82']['high']['pct20_10k'] == 532, _akf['table_2046']  # 舊 474／526
-assert {k: v['amount_wan'] for k, v in _akf['drill_2046_low'].items()} == {'80': 476, '70': 471, '60': 459}, _akf['drill_2046_low']      # 舊 487／476／465
+assert {k: v['amount_wan'] for k, v in _akf['drill_2046_low'].items()} == {'80': 476, '70': 468, '60': 459}, _akf['drill_2046_low']      # 舊 487／476／465；七成批 DK 前 471（3.05 往上取成 3.1）
 assert _akf['drill_2046_low']['60']['loss_wan']['50'] == 138 and _akf['drill_2046_low']['60']['loss50_today_wan'] == 93, _akf['drill_2046_low']['60']
 assert _akf['lower_target_wan'] == 370, _akf['lower_target_wan']                                               # 舊 360
 assert (_akf['delay_pct20_rescaled']['ym'], _akf['delay_pct20_rescaled']['target_wan'],
@@ -667,19 +688,23 @@ assert _xyf['long_term']['stress_2056_low']['loss_wan']['50'] == 283, _xyf['long
 assert _xyf['long_term']['save10k']['no_fee_wan'] == 764, _xyf['long_term']['save10k']                          # 不扣費用的對照沒變
 # 陳大哥：防守全是定存，扣的就是股票比例 × 0.5%
 assert _chf['rates_after_fee']['46'] == {'low': 2.6, 'mid': 3.4, 'high': 3.8}, _chf['rates_after_fee']          # 舊 2.3／3.1／3.5
-assert _chf['rates_after_fee']['73'] == {'low': 3.1, 'mid': 4.5, 'high': 5.2}, _chf['rates_after_fee']          # 舊 2.9／4.3／5.0
+assert _chf['rates_after_fee']['73'] == {'low': 3.05, 'mid': 4.45, 'high': 5.15}, _chf['rates_after_fee']       # 舊 2.9／4.3／5.0；批 DK 前 3.1／4.5／5.2（往上取整）
+assert _chf['rates_after_fee']['55']['low'] == 2.75, _chf['rates_after_fee']                                    # 批 DK 前 2.8
 assert _chf['fv_2031_wan']['46'] == {'low': 1103, 'mid': 1144, 'high': 1165}, _chf['fv_2031_wan']               # 舊 1,088／1,128／1,149
-assert _chf['fv_2031_wan']['73'] == {'low': 1128, 'mid': 1203, 'high': 1242}, _chf['fv_2031_wan']               # 舊 1,118／1,192／1,231
-assert {k: v['amount_wan'] for k, v in _chf['drill_2031_low'].items()} == {'70': 1128, '60': 1118, '50': 1113, '40': 1103}, _chf['drill_2031_low']
+assert _chf['fv_2031_wan']['73'] == {'low': 1126, 'mid': 1200, 'high': 1239}, _chf['fv_2031_wan']               # 舊 1,118／1,192／1,231；批 DK 前 1,128／1,203／1,242
+assert {k: v['amount_wan'] for k, v in _chf['drill_2031_low'].items()} == {'70': 1126, '60': 1118, '50': 1111, '40': 1103}, _chf['drill_2031_low']
+#   ↑ 批 DK 前 1,128／1,118／1,113／1,103
 #   ↑ 舊 1,118／1,108／1,098／1,088
-assert [_chf['drill_2031_low'][k]['loss_wan']['50'] for k in ('70', '60', '50', '40')] == [395, 335, 278, 221], _chf['drill_2031_low']
-assert [_chf['drill_2031_low'][k]['loss50_years_of_gap'] for k in ('70', '60', '50', '40')] == [15.7, 13.3, 11.0, 8.8], _chf['drill_2031_low']
+assert [_chf['drill_2031_low'][k]['loss_wan']['50'] for k in ('70', '60', '50', '40')] == [394, 335, 278, 221], _chf['drill_2031_low']   # 批 DK 前 395／335／278／221
+assert _chf['drill_2031_low']['70']['loss_wan'] == {'40': 315, '50': 394, '60': 473}, _chf['drill_2031_low']['70']        # 批 DK 前 316／395／474
+assert _chf['drill_2031_low']['50']['loss_wan'] == {'40': 222, '50': 278, '60': 333}, _chf['drill_2031_low']['50']        # 批 DK 前 223／278／334
+assert [_chf['drill_2031_low'][k]['loss50_years_of_gap'] for k in ('70', '60', '50', '40')] == [15.6, 13.3, 11.0, 8.8], _chf['drill_2031_low']   # 批 DK 前 15.7
 assert _chf['vs_two_stage_targets']['46_low_over_33x_two_stage_wan'] == 187, _chf['vs_two_stage_targets']        # 舊 172
 assert _chf['vs_two_stage_targets']['46_low_reaches_40x_two_stage'] is True, _chf['vs_two_stage_targets']
 assert _chf['vs_two_stage_targets']['46_low_vs_40x_two_stage_wan'] == 11, _chf['vs_two_stage_targets']
 #   ↑ 舊：到不了 40 倍、差約 4 萬；新算法下多約 11 萬（用未取整缺口的 1,102 萬算只多 1 萬，書上照實寫）
-assert _chf['vs_two_stage_targets']['73_minus_46_low_wan'] == 25, _chf['vs_two_stage_targets']                   # 舊 30
-assert _chf['vs_two_stage_targets']['extra_loss50_73_vs_46_wan'] == 174, _chf['vs_two_stage_targets']            # 舊 173
+assert _chf['vs_two_stage_targets']['73_minus_46_low_wan'] == 23, _chf['vs_two_stage_targets']                   # 舊 30；批 DK 前 25
+assert _chf['vs_two_stage_targets']['extra_loss50_73_vs_46_wan'] == 173, _chf['vs_two_stage_targets']            # 舊 173；批 DK 前 174
 assert _chf['first_year_withdrawal']['pct_of_46_low'] == 2.3, _chf['first_year_withdrawal']                      # 沒變
 
 # ---------- v6.3 批 3（拍板 D02 選 C）：只有「全放定存的桶子」改用當下的一年期定存牌告利率 ----------
@@ -735,7 +760,7 @@ assert r0(_xf['stress']['y2046']['loss50_today_money']['today_wan'] * 10000 / 38
     _xf['stress']['y2046']['loss50_today_money']
 # 阿凱 大跌演練三級（第 14 節）：八成少 190 萬、七成少 165 萬、六成 138 萬≈93 萬≈19 個月
 assert _akf['drill_2046_low']['80']['loss_wan']['50'] == 190, _akf['drill_2046_low']['80']
-assert _akf['drill_2046_low']['70']['loss_wan']['50'] == 165, _akf['drill_2046_low']['70']
+assert _akf['drill_2046_low']['70']['loss_wan'] == {'40': 131, '50': 164, '60': 197}, _akf['drill_2046_low']['70']   # 批 DK 前 132／165／198
 assert r0(_akf['drill_2046_low']['60']['loss50_today_wan'] * 10000 / 50000) == 19, _akf['drill_2046_low']['60']
 # 小芸與阿哲 頭期款桶（股票 0%、全放定存 1.7%）：書上①②三個數字與小字的 2% 對照
 assert (_dp17['fv_25k_wan'], _dp17['gap_wan']) == (358, 42), _dp17
@@ -748,6 +773,11 @@ assert _dp17['vs_2pct']['fv_30k_wan'] - _dp17['save_more']['30000']['fv_wan'] ==
 assert (dp['counter_example_month72_25k_60pct']['ym'],
         dp['counter_example_month72_25k_60pct']['amount_wan'],
         dp['counter_example_month72_25k_60pct']['loss_drop50_wan']) == ('2032-09', 344, 103), \
+    dp['counter_example_month72_25k_60pct']
+# 批 DK（通讀評價次要 6）：書上改用扣完示範費率的 2.9%：約 339 萬、少約 102 萬（批 DK 前書上印的是上面未扣費的 344／103）
+assert (dp['counter_example_month72_25k_60pct']['rate_after_fee'],
+        dp['counter_example_month72_25k_60pct']['amount_after_fee_wan'],
+        dp['counter_example_month72_25k_60pct']['loss_drop50_after_fee_wan']) == (2.9, 339, 102), \
     dp['counter_example_month72_25k_60pct']
 # 陳大哥「全放定存」那一列：1,059 萬，到得了 916 萬（33 倍＋第二段）、到不了 1,092 萬（40 倍＋第二段）
 assert _d02['chen_all_deposit']['amount_wan'] == 1059, _d02['chen_all_deposit']
@@ -2214,7 +2244,14 @@ quotes += ['這個 2.31% 有一個前提：那份研究算的是只買自己國�
 quotes += ['1929 年初投進去的 1 元，含息到 2026 年變成大約 9,899 元；中間最深的一次，帳面少掉 82%']
 # v7 批 W：第 8 節台股長線圖的圖說（串接後回到 1990 年高點的那一週）
 # 批 AG：圖說改寫成「算進股利，2013 年 12 月就回到了」，同一個數字、換一句話
-quotes += ['算進 2003 年起的股利，2013 年 12 月就回到了']
+# 批 DK（通讀評價次要 9）：第 7、8 節口徑統一成逐日收盤：2013-10-30 第一次收盤超過 12,495.34（週收盤是上面的
+#   2013-12-27 那一週）；之後又收在那個高度以下過（最後一次是 2016-01），圖說寫「之後又跌回去過」。
+_trd = [(r['date'], float(r['taiex_tr_index'])) for r in _csv.DictReader(open(os.path.join(ROOT, 'research', 'data', 'taiex_tr_monthly_raw.csv'), encoding='utf-8'))]
+_tr_first = next(i for i, (_d, _v) in enumerate(_trd) if _v >= 12495.34)
+assert _trd[_tr_first][0] == '2013-10-30', _trd[_tr_first]
+assert any(_v < 12495.34 for _d, _v in _trd[_tr_first + 1:]), '之後又跌回去過'
+R['long_run']['taiex_spliced']['back_to_high_day_total'] = _trd[_tr_first][0]
+quotes += ['算進 2003 年起的股利，2013 年 10 月 30 日收盤就第一次回到了（之後又跌回去過）']
 # v7 批 Z：同一張圖的圖說，1990–2002 那一段股利的估算（數字來自 taiex_pre2003_dividend_estimate）
 quotes += ['一年大約多 2 個百分點：價格指數平均一年是 −0.1%，算進股利大約 +2%，還是接近打平']
 # v7 批 X：第 8 節滾動報酬圖的圖說三句，與滾動圖「想深入」的 Cowles 揭露
@@ -2254,8 +2291,13 @@ quotes += ['| 第 5 年約 34 萬 | 少 11 萬 | 少 14 萬 | 少 16 萬',
            '第 5 年少 14 萬 ÷ 1.10 ≈ 13 萬，約 3.4 個月；2046 年少 82 萬 ÷ 1.49 ≈ 55 萬，約 14 個月',
            '138 萬 ÷ 1.49 ≈ 93 萬，約 19 個月的平均收入',
            '八成約 476 萬，跌 50% 少 190 萬',
-           '七成約 471 萬，少 165 萬',
-           '這一桶約 344 萬，股票跌 50% 就少約 103 萬',
+           '七成約 468 萬，少 164 萬',                  # 批 DK：舊 471／165（3.05% 往上取成 3.1%）
+           '這一桶約 339 萬，股票跌 50% 就少約 102 萬',   # 批 DK：舊 344／103（沒扣示範費率）
+           # 批 DK：第 15 節陳大哥七成、五成改精確報酬率；第 14 節小安延後的費率敏感度
+           '股票七成約 1,126 萬，跌 50% 少 394 萬，等於 15.6 年要自己補的生活費',
+           '股票七成約 1,126 萬，只比四成多 23 萬；同樣跌 50%，七成少 394 萬、四成少 221 萬，七成多少約 173 萬',
+           '費用若到 0.65%，這條就變成延約 6.8 年、走不通',
+           '第 14 節用完整試算、同樣每月 5,000 元，會得到 168 萬、少 67 萬',
            '要到 2034 年 11 月左右（多 14 個月）',
            '同一桶用查表的 2% 算是 363 萬、多存到 3 萬是 408 萬；差的這 5 萬']
 

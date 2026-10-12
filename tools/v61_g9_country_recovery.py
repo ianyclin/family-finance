@@ -205,10 +205,14 @@ def chart(res):
         "日期都是收盤日。長條畫到第一次收盤超過舊高點；之後還是可能再跌回舊高點以下。",
     ]
     if jp.get("total_return_first_year"):   # 常數寫死，不會是 None；保險起見缺了就整句不寫
-        parts.append("含息版會比較早回到高點：日本含息版 %d 年就先過了高點（價格版是 %s 年）；美國、台灣本文沒有含息版的日期。"
+        # 批 DK（通讀評價次要 9）：台灣含息版的日期改統一用逐日收盤（含息逐日資料第一次收盤超過 12,495.34
+        # 是 2013-10-30，calc_core 有 assert），並指路第 8 節長線圖；這一句帶 xref，所以整條 note 用 raw。
+        parts.append("含息版會比較早回到高點：日本含息版 %d 年就先過了高點（價格版是 %s 年）；"
+                     "美國本文沒有含息版的日期；台灣算進 2003 年起的股利，逐日收盤第一次超過 1990 年高點是 2013 年 10 月 30 日"
+                     "（第 <a class=\"xref\" href=\"#s5-longrun\">8</a> 節）。"
                      % (jp["total_return_first_year"], jp["recover"][:4]))
     parts.append("三個指數、幣別不同，不能直接比快慢。")
-    nt = E.note("".join(parts))
+    nt = E.note("".join(parts), raw=True)
     return dict(
         title="單押一個市場，回到高點等了多久：三個著名例子",
         sub="美國、日本、台灣的價格指數（不含股利），從歷史高點到第一次收盤再創新高",

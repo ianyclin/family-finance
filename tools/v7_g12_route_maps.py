@@ -52,7 +52,10 @@ PANIC_BRANCHES = [
 ]
 PANIC_MAIN = '照這本書做長期、分散投資的'
 PANIC_MAIN_D = ['照這本書做長期、', '分散投資的']        # 桌機欄窄，拆兩行（兩行各自也是原句的子字串）
-PANIC_THREE = '今天先做三件事：不賣、不加碼、關掉 app 的漲跌推播'
+PANIC_THREE = '今天先做三件事：不賣、計畫沒寫加碼的人不加碼、關掉 app 的漲跌推播'
+# 批 DK（通讀評價實質 2）：急救卡改成「計畫沒寫加碼的人不加碼」，一行放不下（桌機約 361px 對 328px、手機 328 對 282），
+# 圖上拆兩行；兩行各自也是急救卡原句的子字串（和 PANIC_MAIN_D 同一個做法）。aria 與 compute() 仍用整句。
+PANIC_THREE_LINES = ['今天先做三件事：不賣、計畫沒寫加碼的人不加碼、', '關掉 app 的漲跌推播']
 # (開頭, 內文行, 錨點)
 PANIC_SUBS = [
     ('已經寫好計畫的人：', ['把那張紙拿出來，照「市場下跌時」那一行做'], None),
@@ -97,7 +100,7 @@ def panic_labels():
         out += [(s, 'card') for s in dd + dm]
     out.append((PANIC_MAIN, 'card'))
     out += [(s, 'card') for s in PANIC_MAIN_D]
-    out.append((PANIC_THREE, 'card'))
+    out += [(s, 'card') for s in PANIC_THREE_LINES]
     for head, body, _a in PANIC_SUBS:
         out.append((head, 'card'))
         out += [(s, 'card') for s in body]
@@ -397,7 +400,7 @@ def chart_panic():
                 rows.append((y + (hh - ch) / 2, ch, y + (hh - dh) / 2, dh))
                 y += hh + gap
             mh = _box_h([(s, f, None, None) for s in PANIC_MAIN_D])
-            th = _box_h([(PANIC_THREE, fs, None, None)])
+            th = _box_h([(s, fs, None, None) for s in PANIC_THREE_LINES])
             hh = max(mh, th)
             rows.append((y + (hh - mh) / 2, mh, y + (hh - th) / 2, th))
             y += hh + gap
@@ -428,7 +431,7 @@ def chart_panic():
                 out += _lines_in_box(E, cx0, cy_, chh, [(s, f, E.INK, '800') for s in clines])
                 out.append(_arrow(E, cx0 + cw + 1, c, dx0 - 1, c, E.MUTED))
                 out.append(_box(dx0, dy_, dw, dhh, col, None))
-                dlines = [PANIC_THREE] if main else PANIC_BRANCHES[k][1]
+                dlines = PANIC_THREE_LINES if main else PANIC_BRANCHES[k][1]
                 out += _lines_in_box(E, dx0, dy_, dhh, [(s, fs, E.INK, '700' if main else None) for s in dlines])
             # 主路再分兩格
             ty0 = rows[-1][2] + rows[-1][3]
@@ -454,7 +457,7 @@ def chart_panic():
             items = []   # 依序：('root'|'cond'|'dest'|'three'|'sub', y, h, 資料)
             items.append(('root', y, rh, None))
             y += rh + gap_out
-            for k, (cond, _dd, dm, _a) in enumerate(PANIC_BRANCHES + [(PANIC_MAIN, None, [PANIC_THREE], None)]):
+            for k, (cond, _dd, dm, _a) in enumerate(PANIC_BRANCHES + [(PANIC_MAIN, None, PANIC_THREE_LINES, None)]):
                 ch = _box_h([(cond, f, None, None)])
                 items.append(('cond', y, ch, k))
                 y += ch + gap_in
@@ -487,7 +490,7 @@ def chart_panic():
                 elif kind == 'dest':
                     main = k == nb
                     col = E.TEAL if main else E.AMBER
-                    lines = [PANIC_THREE] if main else PANIC_BRANCHES[k][2]
+                    lines = PANIC_THREE_LINES if main else PANIC_BRANCHES[k][2]
                     out.append(_seg(lane2, cond_bottom, lane2, iy + ih / 2, E.MUTED))
                     out.append(_arrow(E, lane2, iy + ih / 2, dx0 - 1, iy + ih / 2, E.MUTED))
                     out.append(_box(dx0, iy, lay.W - pad - dx0, ih, col, None))

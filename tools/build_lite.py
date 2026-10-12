@@ -574,12 +574,13 @@ table.lite-annual td:nth-child(2){font-size:.84rem}table.lite-annual th:nth-chil
   .lite-ch h3,.lite-ch h4,.lite-ch>.lede{break-after:avoid}
   .lite-ch>h2{break-inside:avoid}
   .lite-ch .data-card{break-inside:avoid}
-  table.lite-plan{font-size:10.5pt;line-height:1.52}   /* v6.1：頁首多了窄橫幅，行距從 2.05 收到 1.9，讓整張計畫表（含 H 區）留在第一頁；v6.3 批 2a 再收到 1.75，吸收 E 區第三格、C 區路徑名稱與 F 區加高的手寫線；v7 批 4b 再收到 1.62，吸收 D 區白話欄名、E 區壓力測試拆三步與三問拆三行 */
+  table.lite-plan{font-size:10.5pt;line-height:1.45}   /* v6.1：頁首多了窄橫幅，行距從 2.05 收到 1.9，讓整張計畫表（含 H 區）留在第一頁；v6.3 批 2a 再收到 1.75，吸收 E 區第三格、C 區路徑名稱與 F 區加高的手寫線；v7 批 4b 再收到 1.62，吸收 D 區白話欄名、E 區壓力測試拆三步與三問拆三行；批 DK：F 區補「睡不著一次只降一級」多一行、H 區掉到第 2 頁（書末附錄那一份節號是「第 13 節」連結、字更長，那一行折兩行），1.52→1.45 收回來 */
   /* 起步版六行是「一眼看得完」那一頁：字比其他頁大、留白多、手寫線高 */
   /* v7 第三輪 B：第 4 題多一格「其餘放＿」、卡底那句改成兩階段的新說法、急救卡多一行適用條件，這一頁掉到第 2 頁。字級維持 11.5pt（這一頁要「一眼看得完」），改收行距與列距把三行吸收回來 */
-  table.lite-starter{font-size:11.5pt;line-height:1.38}table.lite-starter td{padding:4px 8px}
+  /* 批 DK：急救卡「不加碼」改成「計畫沒寫加碼的人不加碼」多一行，急救卡掉到第 2 頁；字級不動，行距 1.38→1.34、列距 4→3px 收回來 */
+  table.lite-starter{font-size:11.5pt;line-height:1.34}table.lite-starter td{padding:3px 8px}
   table.lite-starter td>p.small{font-size:9.5pt}
-  table.lite-annual{font-size:10pt}table.lite-annual td{padding:9px 5px}
+  table.lite-annual{font-size:10pt}table.lite-annual td{padding:8px 5px}   /* 批 DK：股債比例那一格補「從大跌那年到新錢補回門檻以前」多一行，列距 9→8px 收回來 */
   table.lite-plan-stress{font-size:10pt;line-height:1.5}table.lite-plan-stress th,table.lite-plan-stress td{padding:1px 4px}
   table.lite-lookup th,table.lite-lookup td{padding:0 5px;line-height:1.08}
   /* v7 批 4b：查表頁多了「怎麼用，三步」與算好的例子，表以外的文字收小一點，整頁仍留在一頁 */
@@ -733,7 +734,8 @@ APPENDIX_REWRITES = [
     ('在完整指南「用錢前的準備與家庭交接」那一節。', '在本書「%s」那一節。' % _x('withdraw', '用錢前的準備與家庭交接')),
     # 批 DF：計畫表 F 區的節號在附錄裡改成書內連結（獨立工作表仍是國字「第十三節」）
     # 批 DF-2：連到 #s10-cooling（四題所在），和完整版一頁空白版同一句同一個 href；節號仍讀 s10
-    ('（先答第十三節四題）', '（先答第 %s 節四題）' % _xn('s10', href='s10-cooling')),
+    # 批 DK：工作表 F 區同句補「；睡不著一次只降一級」（和完整版一頁空白版同一句），舊字串改成新字串
+    ('（先答第十三節四題；睡不著一次只降一級）', '（先答第 %s 節四題；睡不著一次只降一級）' % _xn('s10', href='s10-cooling')),
 ]
 
 
